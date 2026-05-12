@@ -9,9 +9,12 @@
     "topology_type",
     "image_path",
     "prompt",
+    "motion_type",
     "vfa_target",
-    "questions",
-    "constraint_annotations"
+    "difficulty_profile",
+    "constraint_annotations",
+    "ika_questions",
+    "sensitivity_variants"
   ],
   "properties": {
     "task_id": {
@@ -41,26 +44,35 @@
         "kinematic"
       ]
     },
-    "failure_target": {
-      "type": "string",
-      "minLength": 10
-    },
-    "text": {
-      "type": "string",
-      "minLength": 20
-    },
     "image_path": {
       "type": "string",
       "pattern": "^dataset/images/"
-    },
-    "vfa_target": {
-      "type": "number"
     },
     "prompt": {
       "type": "string",
       "minLength": 50
     },
-    "questions": {
+    "motion_type": {
+      "type": "string",
+      "enum": ["orbit", "pan", "crane", "dolly", "tilt", "static"]
+    },
+    "vfa_target": {
+      "type": "number"
+    },
+    "difficulty_profile": {
+      "type": "object",
+      "description": "Per-axis difficulty classification for adversarial calibration.",
+      "additionalProperties": {
+        "type": "string",
+        "enum": ["easy", "medium", "hard", "adversarial"]
+      }
+    },
+    "constraint_annotations": {
+      "type": "object",
+      "required": ["topology_type"],
+      "additionalProperties": true
+    },
+    "ika_questions": {
       "type": "array",
       "minItems": 3,
       "items": {
@@ -85,25 +97,20 @@
         "additionalProperties": false
       }
     },
-    "constraint_annotations": {
-      "type": "object",
-      "required": ["topology_type"],
-      "additionalProperties": true
-    },
-    "reverse": {
-      "type": "boolean"
-    },
-    "extra_frame": {
-      "type": "integer"
-    },
-    "difficulty_profile": {
-      "type": "object",
-      "description": "Per-axis difficulty classification for adversarial calibration.",
-      "additionalProperties": {
-        "type": "string",
-        "enum": ["easy", "medium", "hard", "adversarial"]
+    "sensitivity_variants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "difficulty", "prompt_delta", "vfa_target_delta"],
+        "properties": {
+          "id": { "type": "string" },
+          "difficulty": { "type": "string" },
+          "prompt_delta": { "type": "string" },
+          "vfa_target_delta": { "type": "number" }
+        },
+        "additionalProperties": false
       }
     }
   },
-  "additionalProperties": true
+  "additionalProperties": false
 }
