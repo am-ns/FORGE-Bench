@@ -17,7 +17,9 @@
             "Pratt & Whitney PW4000",
             "All of the above"
           ],
-          "correct": 3
+          "correct": 3,
+          "q": "What type of engines does the Boeing 747-400 typically use?",
+          "answer": "All of the above"
         },
         {
           "id": "q2",
@@ -28,9 +30,14 @@
             "45,000 ft",
             "50,000 ft"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What is the typical cruise altitude for a Boeing 747-400?",
+          "answer": "31,000-41,000 ft"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "static"
+      }
     },
     {
       "task_id": "aero_002",
@@ -49,7 +56,9 @@
             "20",
             "22"
           ],
-          "correct": 3
+          "correct": 3,
+          "q": "How many wheels does the Airbus A380 landing gear have?",
+          "answer": "22"
         },
         {
           "id": "q2",
@@ -60,9 +69,14 @@
             "84.2 m",
             "89.5 m"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What is the wingspan of the Airbus A380?",
+          "answer": "79.8 m"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "static"
+      }
     },
     {
       "task_id": "aero_003",
@@ -81,7 +95,9 @@
             "Titanium alloy",
             "Ceramic composite"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What material were the Space Shuttle's thermal protection tiles made of?",
+          "answer": "Silica fiber"
         },
         {
           "id": "q2",
@@ -92,9 +108,14 @@
             "155",
             "175"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "How many Space Shuttle missions were flown in total?",
+          "answer": "135"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "static"
+      }
     },
     {
       "task_id": "aero_004",
@@ -113,7 +134,9 @@
             "Greater lifting capacity",
             "Lower fuel consumption"
           ],
-          "correct": 2
+          "correct": 2,
+          "q": "What is the main advantage of tandem rotor configuration?",
+          "answer": "Greater lifting capacity"
         },
         {
           "id": "q2",
@@ -124,9 +147,14 @@
             "15,000 kg",
             "20,000 kg"
           ],
-          "correct": 2
+          "correct": 2,
+          "q": "What is the maximum payload capacity of the CH-47 Chinook?",
+          "answer": "15,000 kg"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "static"
+      }
     },
     {
       "task_id": "aero_005",
@@ -145,7 +173,9 @@
             "Mach 0.925",
             "Mach 1.0"
           ],
-          "correct": 2
+          "correct": 2,
+          "q": "What is the maximum cruise speed of the Gulfstream G650?",
+          "answer": "Mach 0.925"
         },
         {
           "id": "q2",
@@ -156,9 +186,14 @@
             "General Electric CF34",
             "Honeywell HTF7000"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What engines power the Gulfstream G650?",
+          "answer": "Rolls-Royce BR725"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "static"
+      }
     },
     {
       "task_id": "veh_001",
@@ -177,7 +212,9 @@
             "Transport Efficiency Unit",
             "Terminal Entry Unit"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What does TEU stand for in container shipping?",
+          "answer": "Twenty-foot Equivalent Unit"
         },
         {
           "id": "q2",
@@ -188,9 +225,14 @@
             "Increased cargo space",
             "Structural support"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What is the purpose of a bulbous bow on cargo ships?",
+          "answer": "Reduced wave resistance"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "static"
+      }
     },
     {
       "task_id": "veh_002",
@@ -209,7 +251,9 @@
             "400 tons",
             "500 tons"
           ],
-          "correct": 2
+          "correct": 2,
+          "q": "What is the payload capacity of the Caterpillar 797F?",
+          "answer": "400 tons"
         },
         {
           "id": "q2",
@@ -220,9 +264,14 @@
             "Electric only",
             "Hybrid diesel"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What type of powertrain does the 797F use?",
+          "answer": "Diesel-electric"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "static"
+      }
     },
     {
       "task_id": "veh_003",
@@ -241,7 +290,9 @@
             "Foundation bolts",
             "All of the above"
           ],
-          "correct": 3
+          "correct": 3,
+          "q": "What provides stability for a tower crane?",
+          "answer": "All of the above"
         },
         {
           "id": "q2",
@@ -252,9 +303,14 @@
             "Slew motor",
             "Luffing jib"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What mechanism moves loads horizontally on a tower crane?",
+          "answer": "Trolley mechanism"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "static"
+      }
     },
     {
       "task_id": "veh_004",
@@ -273,7 +329,9 @@
             "Pneumatic actuators",
             "Mechanical gears"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What provides the digging force in a hydraulic excavator?",
+          "answer": "Hydraulic cylinders"
         },
         {
           "id": "q2",
@@ -284,9 +342,14 @@
             "100-200 tons",
             "300-800 tons"
           ],
-          "correct": 3
+          "correct": 3,
+          "q": "What is the typical operating weight of a large mining excavator?",
+          "answer": "300-800 tons"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "static"
+      }
     },
     {
       "task_id": "veh_005",
@@ -305,7 +368,9 @@
             "Weight distribution",
             "Improved handling"
           ],
-          "correct": 2
+          "correct": 2,
+          "q": "Why do heavy haul trucks have multiple axles?",
+          "answer": "Weight distribution"
         },
         {
           "id": "q2",
@@ -316,9 +381,14 @@
             "Liquid fuels",
             "Agricultural products"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What type of loads do heavy haul trucks typically transport?",
+          "answer": "Oversized industrial equipment"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "static"
+      }
     },
     {
       "task_id": "rob_001",
@@ -337,7 +407,9 @@
             "6",
             "8"
           ],
-          "correct": 2
+          "correct": 2,
+          "q": "How many degrees of freedom does a typical industrial robot arm have?",
+          "answer": "6"
         },
         {
           "id": "q2",
@@ -348,9 +420,14 @@
             "Microphones",
             "Pressure sensors"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What sensors provide position feedback in robot arms?",
+          "answer": "Encoders"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "static"
+      }
     },
     {
       "task_id": "rob_002",
@@ -369,7 +446,9 @@
             "Systematic Layout And Movement",
             "Synchronized Laser And Motion"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What does SLAM stand for in robotics?",
+          "answer": "Simultaneous Localization And Mapping"
         },
         {
           "id": "q2",
@@ -380,9 +459,14 @@
             "Radar",
             "Sonar"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What primary sensor do autonomous robots use for obstacle detection?",
+          "answer": "LiDAR"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "static"
+      }
     },
     {
       "task_id": "rob_003",
@@ -401,7 +485,9 @@
             "Emergency stops",
             "Speed reduction"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What is the main safety feature of collaborative robots?",
+          "answer": "Force-limited joints"
         },
         {
           "id": "q2",
@@ -412,16 +498,21 @@
             "Safe human interaction",
             "Lower cost"
           ],
-          "correct": 2
+          "correct": 2,
+          "q": "What distinguishes cobots from traditional industrial robots?",
+          "answer": "Safe human interaction"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "static"
+      }
     },
     {
       "task_id": "mfg_001",
       "domain": "manufacturing",
       "image_path": "manufacturing/cnc_machine.jpg",
       "prompt": "Analyze this CNC machining center. Describe its tool changer system, spindle configuration, and how computer numerical control achieves precise material removal in manufacturing.",
-      "text": "CNC machining centers feature automatic tool changers, high-speed spindles, and computer-controlled axes. They read G-code instructions to precisely remove material from workpieces, achieving tolerances of \u00b10.001 inches.",
+      "text": "CNC machining centers feature automatic tool changers, high-speed spindles, and computer-controlled axes. They read G-code instructions to precisely remove material from workpieces, achieving tolerances of ±0.001 inches.",
       "vfa_target": "Precision manufacturing and CNC technology",
       "questions": [
         {
@@ -433,20 +524,27 @@
             "Java",
             "C++"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What language do CNC machines use for programming?",
+          "answer": "G-code"
         },
         {
           "id": "q2",
           "text": "What is the typical tolerance achievable with CNC machining?",
           "options": [
-            "\u00b10.01 inches",
-            "\u00b10.001 inches",
-            "\u00b10.1 inches",
-            "\u00b10.0001 inches"
+            "±0.01 inches",
+            "±0.001 inches",
+            "±0.1 inches",
+            "±0.0001 inches"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What is the typical tolerance achievable with CNC machining?",
+          "answer": "±0.001 inches"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "static"
+      }
     },
     {
       "task_id": "mfg_002",
@@ -465,7 +563,9 @@
             "Injection molding",
             "Casting"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What is the fundamental principle of 3D printing?",
+          "answer": "Additive manufacturing"
         },
         {
           "id": "q2",
@@ -476,9 +576,14 @@
             "Metals, plastics, and ceramics",
             "Only ceramics"
           ],
-          "correct": 2
+          "correct": 2,
+          "q": "Which material can industrial 3D printers process?",
+          "answer": "Metals, plastics, and ceramics"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "static"
+      }
     },
     {
       "task_id": "mfg_003",
@@ -497,7 +602,9 @@
             "Better quality",
             "All of the above"
           ],
-          "correct": 3
+          "correct": 3,
+          "q": "What is the primary benefit of assembly line production?",
+          "answer": "All of the above"
         },
         {
           "id": "q2",
@@ -508,9 +615,14 @@
             "Andrew Carnegie",
             "John D. Rockefeller"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "Who pioneered the moving assembly line?",
+          "answer": "Henry Ford"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "static"
+      }
     },
     {
       "task_id": "eng_001",
@@ -529,7 +641,9 @@
             "Spar buoy",
             "Tension leg platform"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What type of structure is commonly used for offshore platforms in shallow water?",
+          "answer": "Jacket structure"
         },
         {
           "id": "q2",
@@ -540,9 +654,14 @@
             "500 meters",
             "1000 meters"
           ],
-          "correct": 2
+          "correct": 2,
+          "q": "What is the maximum depth for fixed offshore platforms?",
+          "answer": "500 meters"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "static"
+      }
     },
     {
       "task_id": "eng_002",
@@ -561,7 +680,9 @@
             "3",
             "5"
           ],
-          "correct": 2
+          "correct": 2,
+          "q": "How many blades do modern wind turbines typically have?",
+          "answer": "3"
         },
         {
           "id": "q2",
@@ -572,9 +693,14 @@
             "Generates electricity",
             "Stores energy"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What does the gearbox do in a wind turbine?",
+          "answer": "Increases rotation speed"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "static"
+      }
     },
     {
       "task_id": "eng_003",
@@ -593,7 +719,9 @@
             "Convert DC to AC",
             "Clean panels"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What do solar tracking systems do?",
+          "answer": "Follow the sun's movement"
         },
         {
           "id": "q2",
@@ -604,9 +732,14 @@
             "25-30%",
             "40-50%"
           ],
-          "correct": 2
+          "correct": 2,
+          "q": "How much more energy do tracking systems produce vs fixed panels?",
+          "answer": "25-30%"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "static"
+      }
     },
     {
       "task_id": "micro_001",
@@ -625,7 +758,9 @@
             "System Module Testing",
             "Solder Mask Treatment"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What does SMT stand for in electronics manufacturing?",
+          "answer": "Surface Mount Technology"
         },
         {
           "id": "q2",
@@ -636,9 +771,14 @@
             "Signal filtering",
             "Power regulation"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What is the purpose of vias in a PCB?",
+          "answer": "Connect layers"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "static"
+      }
     },
     {
       "task_id": "micro_002",
@@ -657,7 +797,9 @@
             "Chemical vapor deposition",
             "Sputtering"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What process patterns transistors on silicon wafers?",
+          "answer": "Photolithography"
         },
         {
           "id": "q2",
@@ -668,9 +810,14 @@
             "700nm",
             "0.7nm"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What is the smallest feature size in modern chip fabrication?",
+          "answer": "7nm"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "static"
+      }
     },
     {
       "task_id": "micro_003",
@@ -689,7 +836,9 @@
             "Copper traces",
             "Conductive adhesive"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What connects the die to the lead frame in wire bonding?",
+          "answer": "Gold or aluminum wires"
         },
         {
           "id": "q2",
@@ -700,9 +849,14 @@
             "Power regulation",
             "Data storage"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What is the main purpose of semiconductor packaging?",
+          "answer": "Protection and connection"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "static"
+      }
     },
     {
       "task_id": "aero_006",
@@ -725,7 +879,9 @@
             "12-15 degrees",
             "20-25 degrees"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What is the typical climb angle for a Boeing 747 after takeoff?",
+          "answer": "5-8 degrees"
         },
         {
           "id": "q2",
@@ -736,7 +892,9 @@
             "Increases",
             "Becomes zero"
           ],
-          "correct": 2
+          "correct": 2,
+          "q": "What happens to induced drag during a steep climb?",
+          "answer": "Increases"
         },
         {
           "id": "q3",
@@ -747,7 +905,9 @@
             "Elevators",
             "Spoilers"
           ],
-          "correct": 2
+          "correct": 2,
+          "q": "Which control surface primarily controls pitch attitude?",
+          "answer": "Elevators"
         },
         {
           "id": "q4",
@@ -758,9 +918,14 @@
             "Directly proportional",
             "Exponentially proportional"
           ],
-          "correct": 2
+          "correct": 2,
+          "q": "What is the relationship between angle of attack and lift in the linear range?",
+          "answer": "Directly proportional"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "tilt"
+      }
     },
     {
       "task_id": "eng_004",
@@ -783,7 +948,9 @@
             "15-20 rotor diameters",
             "25-30 rotor diameters"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What is the typical spacing between offshore wind turbines?",
+          "answer": "5-9 rotor diameters"
         },
         {
           "id": "q2",
@@ -794,7 +961,9 @@
             "Deep water anchoring",
             "Cable routing"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What is a monopile foundation used for in offshore wind?",
+          "answer": "Shallow water turbine support"
         },
         {
           "id": "q3",
@@ -805,9 +974,14 @@
             "Grid connection issues",
             "Foundation erosion"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What is wake interference in a wind farm?",
+          "answer": "Reduced wind speed behind turbines"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "rise"
+      }
     },
     {
       "task_id": "mfg_004",
@@ -830,7 +1004,9 @@
             "Hydraulic cylinders",
             "Pneumatic actuators"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What maintains tension in a conveyor belt system?",
+          "answer": "Gravity take-up mechanism"
         },
         {
           "id": "q2",
@@ -841,7 +1017,9 @@
             "Manual clutch",
             "Pneumatic valve"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What device controls conveyor belt speed?",
+          "answer": "Variable frequency drive (VFD)"
         },
         {
           "id": "q3",
@@ -852,7 +1030,9 @@
             "Magnetic force",
             "Mechanical fasteners"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What provides traction between the drive pulley and belt?",
+          "answer": "Friction"
         },
         {
           "id": "q4",
@@ -863,9 +1043,14 @@
             "2.0-3.0 m",
             "5.0-6.0 m"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What is the typical spacing of idler rollers on a conveyor?",
+          "answer": "1.0-1.5 m"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "kinematic"
+      }
     },
     {
       "task_id": "mfg_005",
@@ -888,7 +1073,9 @@
             "Motor torque",
             "Gear ratios"
           ],
-          "correct": 0
+          "correct": 0,
+          "q": "What does inverse kinematics compute in robotics?",
+          "answer": "Joint angles from end-effector position"
         },
         {
           "id": "q2",
@@ -899,7 +1086,9 @@
             "Accelerometer",
             "Gyroscope"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What sensor provides force feedback at a robot wrist?",
+          "answer": "Force-torque sensor"
         },
         {
           "id": "q3",
@@ -910,9 +1099,14 @@
             "Manual adjustment",
             "Fixed delay"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "How do robots track parts on a moving conveyor?",
+          "answer": "Synchronized motion control"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "kinematic"
+      }
     },
     {
       "task_id": "micro_004",
@@ -935,7 +1129,9 @@
             "Decreases",
             "Becomes infinite"
           ],
-          "correct": 2
+          "correct": 2,
+          "q": "What happens to depth of field during a dolly-in zoom?",
+          "answer": "Decreases"
         },
         {
           "id": "q2",
@@ -946,7 +1142,9 @@
             "01005",
             "1206"
           ],
-          "correct": 2
+          "correct": 2,
+          "q": "What is the smallest common SMD package size?",
+          "answer": "01005"
         },
         {
           "id": "q3",
@@ -957,7 +1155,9 @@
             "Capacitors",
             "Inductors"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What connects traces between PCB layers?",
+          "answer": "Vias"
         },
         {
           "id": "q4",
@@ -968,9 +1168,14 @@
             "A PCB trace",
             "A component package"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What is a solder fillet?",
+          "answer": "The curved solder joint shape"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "dolly"
+      }
     },
     {
       "task_id": "veh_006",
@@ -993,7 +1198,9 @@
             "Condense fuel",
             "Cool exhaust gas"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What is the purpose of a charge air cooler in a diesel engine?",
+          "answer": "Cool compressed intake air"
         },
         {
           "id": "q2",
@@ -1004,7 +1211,9 @@
             "Timing belt",
             "Hydraulic pump"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What drives the turbocharger in a diesel engine?",
+          "answer": "Exhaust gas"
         },
         {
           "id": "q3",
@@ -1015,9 +1224,14 @@
             "V12",
             "Flat 4"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What is the typical configuration of heavy truck diesel engines?",
+          "answer": "Inline 6"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "dolly"
+      }
     },
     {
       "task_id": "eng_005",
@@ -1040,7 +1254,9 @@
             "100-200 RPM",
             "1500-1800 RPM"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What is the typical rotational speed of a wind turbine rotor?",
+          "answer": "10-20 RPM"
         },
         {
           "id": "q2",
@@ -1051,7 +1267,9 @@
             "Yaw motor",
             "Brake system"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What controls blade angle on a wind turbine?",
+          "answer": "Pitch actuators"
         },
         {
           "id": "q3",
@@ -1062,7 +1280,9 @@
             "Belt drive",
             "Chain drive"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What converts low-speed rotation to high-speed rotation in a turbine?",
+          "answer": "Planetary gearbox"
         },
         {
           "id": "q4",
@@ -1073,9 +1293,14 @@
             "Wind vane only",
             "Fixed position"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What orients the turbine nacelle into the wind?",
+          "answer": "Yaw motor and bearing"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "kinematic"
+      }
     },
     {
       "task_id": "rob_004",
@@ -1098,7 +1323,9 @@
             "6",
             "8"
           ],
-          "correct": 2
+          "correct": 2,
+          "q": "How many axes does a typical FANUC industrial robot have?",
+          "answer": "6"
         },
         {
           "id": "q2",
@@ -1109,7 +1336,9 @@
             "The robot's speed range",
             "The control software"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What is the workspace envelope of a robot arm?",
+          "answer": "The volume the end-effector can reach"
         },
         {
           "id": "q3",
@@ -1120,9 +1349,192 @@
             "Spherical joint",
             "Linear joint"
           ],
-          "correct": 1
+          "correct": 1,
+          "q": "What type of joint provides base rotation on a FANUC robot?",
+          "answer": "Revolute joint"
         }
-      ]
+      ],
+      "constraint_annotations": {
+        "topology_type": "orbit"
+      }
+    },
+    {
+      "task_id": "micro_lat_001",
+      "domain": "microelectronics",
+      "topology_type": "kinematic",
+      "image_path": "microelectronics/micro_lat_001.jpg",
+      "prompt": "Analyze this PCB during a lateral translation. Describe the copper trace routing, component placement, and how the camera motion reveals the continuity of trace paths across the board surface.",
+      "text": "During a lateral translation across a PCB, the copper trace routes maintain their routing paths as the camera pans. Surface mount components remain fixed to their pads while traces extend continuously between via junctions and component pads. The lateral motion reveals the systematic routing patterns used in multi-layer board design, with power and signal traces following distinct path conventions.",
+      "vfa_target": "PCB trace continuity and lateral motion fidelity",
+      "failure_target": "I2V model fails to maintain consistent trace routing during lateral camera movement, traces appear to shift or disconnect mid-generation",
+      "reverse": false,
+      "extra_frame": 1,
+      "questions": [
+        {
+          "id": "q1",
+          "text": "What routing patterns are typical in multi-layer PCB design?",
+          "options": [
+            "Random placement only",
+            "Power and signal traces follow distinct path conventions",
+            "All traces run in one direction",
+            "No specific patterns"
+          ],
+          "correct": 1,
+          "q": "What routing patterns are typical in multi-layer PCB design?",
+          "answer": "Power and signal traces follow distinct path conventions"
+        },
+        {
+          "id": "q2",
+          "text": "During successful lateral camera translation on a PCB, do copper trace routes maintain their routing paths?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During successful lateral camera translation on a PCB, do copper trace routes maintain their routing paths?",
+          "answer": "yes"
+        }
+      ],
+      "constraint_annotations": {
+        "topology_type": "kinematic",
+        "camera_motion": "lateral",
+        "failure_mode": "trace_discontinuity"
+      }
+    },
+    {
+      "task_id": "SA01",
+      "domain": "aerospace",
+      "topology_type": "kinematic",
+      "image_path": "aerospace/SA01.jpg",
+      "prompt": "Analyze the sensitivity of this aircraft's lift characteristics to angle of attack changes. Describe how small variations in pitch attitude affect the lift coefficient and overall aerodynamic performance.",
+      "text": "Aircraft lift sensitivity to angle of attack is a fundamental aerodynamic characteristic. The lift curve slope determines how responsive the aircraft is to pitch changes, with linear behavior in the normal operating range and a sharp loss at the critical angle of attack leading to stall.",
+      "vfa_target": "Aerodynamic sensitivity analysis and lift curve characterization",
+      "failure_target": "I2V model fails to accurately represent subtle angle of attack changes and their effect on aircraft attitude",
+      "reverse": false,
+      "extra_frame": 1,
+      "questions": [
+        {
+          "id": "q1",
+          "text": "What happens to lift when angle of attack increases in the linear range?",
+          "options": [
+            "Lift decreases",
+            "Lift increases linearly",
+            "Lift remains constant",
+            "Lift increases exponentially"
+          ],
+          "correct": 1,
+          "q": "What happens to lift when angle of attack increases in the linear range?",
+          "answer": "Lift increases linearly"
+        },
+        {
+          "id": "q2",
+          "text": "What occurs at the critical angle of attack?",
+          "options": [
+            "Maximum speed",
+            "Aerodynamic stall",
+            "Minimum drag",
+            "Maximum range"
+          ],
+          "correct": 1,
+          "q": "What occurs at the critical angle of attack?",
+          "answer": "Aerodynamic stall"
+        }
+      ],
+      "constraint_annotations": {
+        "topology_type": "kinematic",
+        "sensitivity_type": "aerodynamic",
+        "failure_mode": "attitude_inconsistency"
+      }
+    },
+    {
+      "task_id": "SA02",
+      "domain": "aerospace",
+      "topology_type": "tilt",
+      "image_path": "aerospace/SA02.jpg",
+      "prompt": "Analyze the sensitivity of this spacecraft's thermal protection system to reentry heating rates. Describe how variations in reentry angle affect heat flux distribution on the vehicle surface.",
+      "text": "Spacecraft reentry thermal sensitivity depends on the entry angle and velocity. Steeper entries produce higher peak heating rates but shorter duration, while shallower entries spread the heat load over longer time periods. The thermal protection system must be designed to handle the worst-case heating scenario.",
+      "vfa_target": "Reentry thermal sensitivity and heat flux distribution analysis",
+      "failure_target": "I2V model fails to represent thermal gradient changes across the vehicle surface during reentry angle variations",
+      "reverse": false,
+      "extra_frame": 1,
+      "questions": [
+        {
+          "id": "q1",
+          "text": "What produces higher peak heating during reentry?",
+          "options": [
+            "Shallower entry angle",
+            "Steeper entry angle",
+            "Lower velocity",
+            "Higher altitude"
+          ],
+          "correct": 1,
+          "q": "What produces higher peak heating during reentry?",
+          "answer": "Steeper entry angle"
+        },
+        {
+          "id": "q2",
+          "text": "How does a shallower reentry angle affect heat distribution?",
+          "options": [
+            "Concentrates heat",
+            "Spreads heat over longer duration",
+            "Eliminates heating",
+            "No effect"
+          ],
+          "correct": 1,
+          "q": "How does a shallower reentry angle affect heat distribution?",
+          "answer": "Spreads heat over longer duration"
+        }
+      ],
+      "constraint_annotations": {
+        "topology_type": "tilt",
+        "sensitivity_type": "thermal",
+        "failure_mode": "thermal_gradient_error"
+      }
+    },
+    {
+      "task_id": "SA03",
+      "domain": "aerospace",
+      "topology_type": "orbit",
+      "image_path": "aerospace/SA03.jpg",
+      "prompt": "Analyze the sensitivity of this satellite's orbital parameters to perturbation forces. Describe how small thrust variations affect the orbital elements and long-term trajectory.",
+      "text": "Satellite orbital sensitivity to thrust perturbations is characterized by the variational equations of orbital mechanics. Small continuous thrust forces produce gradual changes in semi-major axis, eccentricity, and inclination over multiple orbits, with sensitivity depending on the thrust direction relative to the orbital velocity vector.",
+      "vfa_target": "Orbital mechanics sensitivity and perturbation analysis",
+      "failure_target": "I2V model fails to maintain consistent orbital trajectory when representing small perturbation effects",
+      "reverse": false,
+      "extra_frame": 1,
+      "questions": [
+        {
+          "id": "q1",
+          "text": "What orbital element is most affected by along-track thrust?",
+          "options": [
+            "Inclination",
+            "Semi-major axis",
+            "Right ascension of ascending node",
+            "Argument of perigee"
+          ],
+          "correct": 1,
+          "q": "What orbital element is most affected by along-track thrust?",
+          "answer": "Semi-major axis"
+        },
+        {
+          "id": "q2",
+          "text": "How do small perturbation forces affect satellite orbits?",
+          "options": [
+            "Immediate large changes",
+            "Gradual changes over multiple orbits",
+            "No effect",
+            "Instantaneous orbit change"
+          ],
+          "correct": 1,
+          "q": "How do small perturbation forces affect satellite orbits?",
+          "answer": "Gradual changes over multiple orbits"
+        }
+      ],
+      "constraint_annotations": {
+        "topology_type": "orbit",
+        "sensitivity_type": "orbital_mechanics",
+        "failure_mode": "trajectory_inconsistency"
+      }
     }
   ]
 }
