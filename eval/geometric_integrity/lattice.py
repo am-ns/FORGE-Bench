@@ -25,9 +25,15 @@ def detect_sift_keypoints(gray: np.ndarray) -> tuple:
         Tuple of (keypoints, descriptors). keypoints is a list of cv2.KeyPoint,
         descriptors is an ndarray or None if no keypoints found.
     """
-    sift = cv2.SIFT_create()
-    keypoints, descriptors = sift.detectAndCompute(gray, None)
-    return keypoints, descriptors
+    try:
+        sift = cv2.SIFT_create()
+        keypoints, descriptors = sift.detectAndCompute(gray, None)
+        return keypoints, descriptors
+    except (AttributeError, cv2.error):
+        print('WARNING: SIFT unavailable, falling back to ORB', file=sys.stderr)
+        orb = cv2.ORB_create(nfeatures=500)
+        keypoints, descriptors = orb.detectAndCompute(gray, None)
+        return keypoints, descriptors
 
 
 def match_keypoints(descriptors_a: np.ndarray, descriptors_b: np.ndarray) -> list:
