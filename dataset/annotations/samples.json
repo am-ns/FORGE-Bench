@@ -525,7 +525,7 @@
       "domain": "manufacturing",
       "image_path": "dataset/images/manufacturing/cnc_machine.jpg",
       "prompt": "Analyze this CNC machining center. Describe its tool changer system, spindle configuration, and how computer numerical control achieves precise material removal in manufacturing.",
-      "text": "CNC machining centers feature automatic tool changers, high-speed spindles, and computer-controlled axes. They read G-code instructions to precisely remove material from workpieces, achieving tolerances of \u00b10.001 inches.",
+      "text": "CNC machining centers feature automatic tool changers, high-speed spindles, and computer-controlled axes. They read G-code instructions to precisely remove material from workpieces, achieving tolerances of ±0.001 inches.",
       "vfa_target": "Precision manufacturing and CNC technology",
       "questions": [
         {
@@ -545,14 +545,14 @@
           "id": "q2",
           "text": "What is the typical tolerance achievable with CNC machining?",
           "options": [
-            "\u00b10.01 inches",
-            "\u00b10.001 inches",
-            "\u00b10.1 inches",
-            "\u00b10.0001 inches"
+            "±0.01 inches",
+            "±0.001 inches",
+            "±0.1 inches",
+            "±0.0001 inches"
           ],
           "correct": 1,
           "q": "What is the typical tolerance achievable with CNC machining?",
-          "answer": "\u00b10.001 inches"
+          "answer": "±0.001 inches"
         }
       ],
       "constraint_annotations": {
@@ -888,7 +888,7 @@
       "prompt": "Analyze this Boeing 747 during a nose-up climb. Describe the aircraft's pitch angle, wing loading during climb, and how the high-lift devices (flaps and slats) are configured for this climb attitude.",
       "text": "During a nose-up climb, the Boeing 747 increases its angle of attack, generating additional lift from the wing's camber. The leading-edge slats and trailing-edge flaps may be partially deployed at lower altitudes. The four turbofan engines provide excess thrust to maintain the climb rate while the fuselage attitude tilts upward relative to the horizon.",
       "vfa_target": "Aircraft climb dynamics and high-lift aerodynamics",
-      "failure_target": "I2V model fails to maintain consistent upward pitch angle, fuselage oscillates or drifts level mid-generation",
+      "failure_target": "I2V model fails to maintain the Boeing 747 nose-up pitch attitude (typical 10-15 degrees during initial climb), causing fuselage longitudinal axis to oscillate or drift to level flight mid-generation, disconnecting angle-of-attack from climb trajectory",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -957,7 +957,7 @@
       "prompt": "Analyze this offshore wind farm from a vertical rise perspective. Describe the turbine spacing, foundation types, and how the array layout optimizes energy capture while minimizing wake interference between turbines.",
       "text": "Offshore wind farms use monopile or jacket foundations anchored to the seabed. Turbines are spaced 5-9 rotor diameters apart to minimize wake losses. The vertical rise viewpoint reveals the staggered array layout designed to maximize energy capture from prevailing wind directions while reducing turbulence from upstream turbines.",
       "vfa_target": "Offshore wind farm layout and wake interaction dynamics",
-      "failure_target": "I2V model distorts turbine vertical proportions during upward camera rise, towers appear to stretch or compress unevenly",
+      "failure_target": "I2V model changes wind turbine tower height-to-rotor-diameter ratio (typically 0.8-1.2) or monopile foundation diameter (typically 4-8m for offshore) during upward camera rise, causing towers to appear to stretch or compress non-uniformly across the array",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -1013,7 +1013,7 @@
       "prompt": "Analyze this conveyor belt system from a side view. Describe the belt material, roller configuration, drive mechanism, and how the system maintains consistent tension and speed for material transport.",
       "text": "Industrial conveyor belts use vulcanized rubber or PVC belts supported by idler rollers spaced at regular intervals. The drive pulley at the head provides traction through friction, while gravity take-up mechanisms maintain belt tension. Speed is controlled by variable frequency drives (VFDs) connected to the motor and gearbox assembly.",
       "vfa_target": "Conveyor kinematics and material handling dynamics",
-      "failure_target": "I2V model fails to render consistent belt motion, rollers appear to rotate out of sync or belt surface texture shifts during translation",
+      "failure_target": "I2V model desynchronizes conveyor belt roller angular velocity from belt surface linear speed during lateral translation, causing rollers to appear to rotate out of phase with belt texture movement and violating the no-slip roller-to-belt constraint",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -1082,7 +1082,7 @@
       "prompt": "Analyze this assembly line with a robotic arm performing kinematic operations. Describe the robot's joint movements, end-effector configuration, and how the arm coordinates with the moving assembly line to perform tasks on parts in motion.",
       "text": "Assembly line robotic arms use synchronized motion control to track parts on a moving conveyor. The robot's trajectory planner computes inverse kinematics solutions in real-time, adjusting joint angles to maintain the end-effector position relative to the moving workpiece. Force-torque sensors at the wrist provide feedback for precise assembly operations.",
       "vfa_target": "Robotic kinematics and synchronized assembly automation",
-      "failure_target": "I2V model desynchronizes robot arm motion from conveyor speed, end-effector drifts away from workpiece during generation",
+      "failure_target": "I2V model desynchronizes robot arm joint trajectories from conveyor workpiece position during generation, causing the end-effector TCP to drift away from the workpiece and violating the synchronized pick-and-place timing constraint",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -1138,7 +1138,7 @@
       "prompt": "Analyze this PCB during a dolly-in zoom toward a specific component cluster. Describe the surface mount components, solder joint geometry, trace routing, and how the zoom reveals progressively finer details of the circuit board construction.",
       "text": "A dolly-in zoom on a PCB reveals layers of detail: from the macro layout of component placement and trace routing, through individual SMD packages with their pad geometries, down to solder fillet profiles and via structures. The depth of field narrows as the camera approaches, isolating the target components from the surrounding board.",
       "vfa_target": "PCB macro-to-micro structural detail and component inspection",
-      "failure_target": "I2V model loses fine detail during dolly-in zoom, solder joints blur or trace patterns become inconsistent at closer viewpoints",
+      "failure_target": "I2V model loses sub-100-micrometer SMD component detail during dolly-in zoom, causing solder joints to blur below the minimum fillet visibility threshold and trace patterns to lose Manhattan routing geometry at closer viewpoints",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -1207,7 +1207,7 @@
       "prompt": "Analyze this heavy truck engine bay during a dolly-in zoom. Describe the diesel engine components, cooling system layout, turbocharger placement, and how the progressive zoom reveals the mechanical complexity of the powertrain.",
       "text": "A dolly-in zoom on a heavy truck engine bay reveals the turbocharged diesel engine with its inline configuration, charge air cooler, and serpentine belt system. The progressive approach exposes details from the overall engine layout to individual fuel injector lines, wiring harnesses, and the turbocharger compressor housing.",
       "vfa_target": "Heavy vehicle powertrain architecture and engine component detail",
-      "failure_target": "I2V model introduces spatial distortion during dolly-in, engine components shift relative positions or turbocharger geometry distorts",
+      "failure_target": "I2V model shifts turbocharger compressor-to-turbine housing spatial relationship (should maintain fixed V-band flange connection) during dolly-in, and distorts the inline-6 cylinder block deck surface geometry relative to the charge air cooler ducting",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -1263,7 +1263,7 @@
       "prompt": "Analyze this wind turbine with spinning blades. Describe the blade pitch control, rotational dynamics, and how the generator converts the mechanical rotation into electrical power through the gearbox and generator assembly.",
       "text": "Wind turbine blades rotate at 10-20 RPM, with pitch actuators adjusting blade angle to optimize energy capture. The low-speed shaft drives through a planetary gearbox to the high-speed generator shaft. Yaw motors orient the nacelle into the wind, while blade pitch and generator torque are continuously adjusted by the turbine controller.",
       "vfa_target": "Wind turbine rotational dynamics and power generation kinematics",
-      "failure_target": "I2V model fails to maintain consistent blade rotation speed, blades appear to stutter or change angular velocity mid-spin",
+      "failure_target": "I2V model fails to maintain uniform angular velocity (typically 10-20 RPM) for each wind turbine blade during rotation, causing blades to appear to stutter, change pitch angle inconsistently, or violate the 3-blade 120-degree equal-spacing invariant",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -1332,7 +1332,7 @@
       "prompt": "Analyze this FANUC robotic arm from a 45-degree orbital camera path. Describe the robot's mechanical structure, joint configuration, and how the orbital viewpoint reveals the workspace envelope and reach capabilities of the industrial manipulator.",
       "text": "A FANUC industrial robot arm viewed from a 45-degree orbital path reveals its six-axis articulated structure: base rotation, shoulder and elbow pitch, and three wrist axes (roll, pitch, yaw). The orbital camera path exposes the full workspace envelope, showing how the arm can reach positions above, below, and around the work cell from its fixed base.",
       "vfa_target": "Industrial robot spatial geometry and workspace kinematics",
-      "failure_target": "I2V model distorts robot link proportions during orbit, joint positions shift inconsistently or arm geometry warps at oblique angles",
+      "failure_target": "I2V model distorts FANUC robot link length proportions (should maintain rigid DH-parameter chain) during orbit, causing joint positions to shift inconsistently at oblique viewing angles and violating the 6-DOF forward kinematics rigid-body constraint",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -1388,7 +1388,7 @@
       "prompt": "Analyze this PCB during a lateral translation. Describe the copper trace routing, component placement, and how the camera motion reveals the continuity of trace paths across the board surface.",
       "text": "During a lateral translation across a PCB, the copper trace routes maintain their routing paths as the camera pans. Surface mount components remain fixed to their pads while traces extend continuously between via junctions and component pads. The lateral motion reveals the systematic routing patterns used in multi-layer board design, with power and signal traces following distinct path conventions.",
       "vfa_target": "PCB trace continuity and lateral motion fidelity",
-      "failure_target": "I2V model fails to maintain consistent trace routing during lateral camera movement, traces appear to shift or disconnect mid-generation",
+      "failure_target": "I2V model causes copper traces to merge or neck below minimum trace/space rules (0.1mm/0.1mm for 1oz copper) during lateral camera translation, violating DFM annular ring constraints",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -1407,13 +1407,13 @@
         },
         {
           "id": "q2",
-          "text": "During successful lateral camera translation on a PCB, do copper trace routes maintain their routing paths?",
+          "text": "During lateral camera translation on a PCB, do copper traces maintain constant centerline-to-centerline spacing (typical 0.1-0.25mm trace/space for 1oz copper) without merging or necking down below minimum annular ring width?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During successful lateral camera translation on a PCB, do copper trace routes maintain their routing paths?",
+          "q": "During lateral camera translation on a PCB, do copper traces maintain constant centerline-to-centerline spacing (typical 0.1-0.25mm trace/space for 1oz copper) without merging or necking down below minimum annular ring width?",
           "answer": "yes"
         }
       ],
@@ -1431,7 +1431,7 @@
       "prompt": "Analyze the sensitivity of this aircraft's lift characteristics to angle of attack changes. Describe how small variations in pitch attitude affect the lift coefficient and overall aerodynamic performance.",
       "text": "Aircraft lift sensitivity to angle of attack is a fundamental aerodynamic characteristic. The lift curve slope determines how responsive the aircraft is to pitch changes, with linear behavior in the normal operating range and a sharp loss at the critical angle of attack leading to stall.",
       "vfa_target": "Aerodynamic sensitivity analysis and lift curve characterization",
-      "failure_target": "I2V model fails to accurately represent subtle angle of attack changes and their effect on aircraft attitude",
+      "failure_target": "I2V model fails to maintain consistent lift coefficient vs angle-of-attack slope (should be linear through 0-10 degrees AoA) and misrepresents stall behavior at the critical angle (typically 15-18 degrees for transport aircraft)",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -1476,7 +1476,7 @@
       "prompt": "Analyze the sensitivity of this spacecraft's thermal protection system to reentry heating rates. Describe how variations in reentry angle affect heat flux distribution on the vehicle surface.",
       "text": "Spacecraft reentry thermal sensitivity depends on the entry angle and velocity. Steeper entries produce higher peak heating rates but shorter duration, while shallower entries spread the heat load over longer time periods. The thermal protection system must be designed to handle the worst-case heating scenario.",
       "vfa_target": "Reentry thermal sensitivity and heat flux distribution analysis",
-      "failure_target": "I2V model fails to represent thermal gradient changes across the vehicle surface during reentry angle variations",
+      "failure_target": "I2V model fails to represent the thermal gradient distribution across the reentry vehicle surface, producing non-physical heat flux patterns that violate the stagnation-point-to-windward-wall heating ratio for the given entry angle",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -1521,7 +1521,7 @@
       "prompt": "Analyze the sensitivity of this satellite's orbital parameters to perturbation forces. Describe how small thrust variations affect the orbital elements and long-term trajectory.",
       "text": "Satellite orbital sensitivity to thrust perturbations is characterized by the variational equations of orbital mechanics. Small continuous thrust forces produce gradual changes in semi-major axis, eccentricity, and inclination over multiple orbits, with sensitivity depending on the thrust direction relative to the orbital velocity vector.",
       "vfa_target": "Orbital mechanics sensitivity and perturbation analysis",
-      "failure_target": "I2V model fails to maintain consistent orbital trajectory when representing small perturbation effects",
+      "failure_target": "I2V model fails to maintain a consistent Keplerian orbital trajectory when representing small perturbation effects (J2, drag, third-body), producing non-physical orbital element drift rates that violate Gauss variational equations",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -1566,7 +1566,7 @@
       "prompt": "Analyze the landing gear retraction mechanism of this aircraft. Describe the kinematic linkage, hydraulic actuators, and how the gear transitions from extended to stowed position during the retraction sequence.",
       "text": "Aircraft landing gear retraction involves a multi-link kinematic mechanism driven by hydraulic actuators. The main gear rotates upward and inward into the wheel well, while the nose gear retracts forward. The mechanism includes drag braces, side stays, and locking links that ensure the gear is fully extended and locked before landing. During retraction, the wheel assembly must clear the door opening while maintaining structural alignment throughout the arc of motion.",
       "vfa_target": "Landing gear kinematic linkage and retraction sequence",
-      "failure_target": "I2V model distorts landing gear linkage geometry during retraction orbit, pivot points shift inconsistently or linkage proportions warp mid-animation",
+      "failure_target": "I2V model displaces landing gear drag brace and side stay pivot bolt-hole centers during orbit, causing non-physical joint dislocation and linkage geometry that violates rigid-body pin constraints",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -1598,13 +1598,13 @@
         },
         {
           "id": "q3",
-          "text": "During an orbital camera view of landing gear retraction, do the pivot points maintain consistent spatial positions relative to the airframe?",
+          "text": "During an orbital view of landing gear retraction, do the drag brace and side stay pivot points maintain rigid-body spatial relationships (fixed bolt-hole centers) without relative translation that would indicate non-physical joint dislocation?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During an orbital camera view of landing gear retraction, do the pivot points maintain consistent spatial positions relative to the airframe?",
+          "q": "During an orbital view of landing gear retraction, do the drag brace and side stay pivot points maintain rigid-body spatial relationships (fixed bolt-hole centers) without relative translation that would indicate non-physical joint dislocation?",
           "answer": "yes"
         }
       ],
@@ -1622,7 +1622,7 @@
       "prompt": "Analyze the internal compressor stages of this jet engine from an orbital camera path. Describe the blade geometry, stator-rotor arrangement, and how the multi-stage compression system achieves pressure rise.",
       "text": "A jet engine axial compressor consists of alternating rows of rotating blades and stationary stators arranged along the engine axis. Each stage progressively compresses the incoming air, with blade angles and chord lengths varying along the compressor to manage the decreasing flow volume. The orbital camera path reveals how the blade rows are nested concentrically, with each rotor-stator pair designed to add a specific pressure ratio to the overall compression cycle.",
       "vfa_target": "Jet engine compressor stage geometry and flow path",
-      "failure_target": "I2V model fails to maintain consistent blade-to-blade spacing and stator-rotor alignment during orbital pan through the compressor section",
+      "failure_target": "I2V model compresses or expands axial compressor rotor-stator axial gaps (should be 20-40% of blade chord) during orbit, and may hallucinate or remove blade rows, violating the stage-count invariant",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -1654,13 +1654,13 @@
         },
         {
           "id": "q3",
-          "text": "During an orbital view of the compressor section, does the spacing between adjacent blade rows remain consistent?",
+          "text": "During an orbital view of the axial compressor, do adjacent rotor-stator blade rows maintain consistent axial gap spacing (typically 20-40% of blade chord) without vanishing or merging rows?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During an orbital view of the compressor section, does the spacing between adjacent blade rows remain consistent?",
+          "q": "During an orbital view of the axial compressor, do adjacent rotor-stator blade rows maintain consistent axial gap spacing (typically 20-40% of blade chord) without vanishing or merging rows?",
           "answer": "yes"
         }
       ],
@@ -1678,7 +1678,7 @@
       "prompt": "Analyze this commercial airliner during a nose-up pitch rotation. Describe how the aircraft's pitch attitude changes, the wing angle of attack variation, and the aerodynamic forces during the tilt maneuver.",
       "text": "During a nose-up tilt, the commercial airliner rotates about its lateral axis, increasing the angle of attack of the wings. The main gear remains in contact with the runway while the nose lifts, transitioning the aircraft from ground roll to climb attitude. The wing generates increasing lift as the angle of attack rises, with the horizontal stabilizer providing a nose-down pitching moment to maintain pitch control authority throughout the rotation.",
       "vfa_target": "Aircraft pitch rotation and lift generation dynamics",
-      "failure_target": "I2V model fails to maintain consistent fuselage-wing geometry during nose-up tilt, angle of attack changes appear disconnected from pitch attitude",
+      "failure_target": "I2V model decouples wing dihedral angle (3-7 degrees) from fuselage pitch attitude during tilt, causing the wing-fuselage junction fairing to gap or overlap in a way that violates rigid-body attachment",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -1710,13 +1710,13 @@
         },
         {
           "id": "q3",
-          "text": "During a tilt animation, does the fuselage-wing geometric relationship remain rigid and consistent?",
+          "text": "During a nose-up pitch rotation, does the wing dihedral angle (typically 3-7 degrees for transport aircraft measured from the horizontal plane) and the wing-to-fuselage junction fairing maintain rigid-body attachment without visible gapping or overlap?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During a tilt animation, does the fuselage-wing geometric relationship remain rigid and consistent?",
+          "q": "During a nose-up pitch rotation, does the wing dihedral angle (typically 3-7 degrees for transport aircraft measured from the horizontal plane) and the wing-to-fuselage junction fairing maintain rigid-body attachment without visible gapping or overlap?",
           "answer": "yes"
         }
       ],
@@ -1734,7 +1734,7 @@
       "prompt": "Analyze this cargo aircraft during a vertical rise. Describe how the aircraft's massive fuselage and high-wing configuration appear as the camera rises from ground level, revealing the landing gear, cargo doors, and wing structure.",
       "text": "During a vertical camera rise along a cargo aircraft, the view transitions from the landing gear and lower fuselage to the high-wing configuration and engine nacelles. Cargo aircraft like the C-17 or An-124 feature a high-wing design that allows the fuselage to sit low for easy cargo loading. The vertical rise reveals the T-tail configuration, rear cargo ramp, and the relationship between wing dihedral and engine placement on the wing pylons.",
       "vfa_target": "Cargo aircraft structural geometry and vertical perspective transition",
-      "failure_target": "I2V model distorts cargo aircraft proportions during vertical rise, wing-fuselage junction or landing gear geometry warps as camera elevation changes",
+      "failure_target": "I2V model distorts the high-wing dihedral and T-tail stabilizer span-to-fuselage-diameter ratio during vertical rise, producing asymmetric warping that violates bilateral structural symmetry",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -1766,13 +1766,13 @@
         },
         {
           "id": "q3",
-          "text": "During a vertical camera rise, do the wing-fuselage proportions remain geometrically consistent?",
+          "text": "During a vertical camera rise, does the high-wing junction maintain its anhedral/dihedral angle and the T-tail horizontal stabilizer span remain proportional to fuselage diameter without asymmetric warping?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During a vertical camera rise, do the wing-fuselage proportions remain geometrically consistent?",
+          "q": "During a vertical camera rise, does the high-wing junction maintain its anhedral/dihedral angle and the T-tail horizontal stabilizer span remain proportional to fuselage diameter without asymmetric warping?",
           "answer": "yes"
         }
       ],
@@ -1790,7 +1790,7 @@
       "prompt": "Analyze this Boeing 747 engine nacelle during a dolly-in approach. Describe the nacelle's external geometry, inlet lip, fan cowl, and thrust reverser components as the camera moves closer.",
       "text": "During a dolly-in toward a Boeing 747 engine nacelle, the camera reveals progressive detail of the high-bypass turbofan housing. The nacelle consists of an aerodynamic inlet lip that smooths airflow into the fan, a fan cowl that houses the large front fan, and a thrust reverser section at the rear. As the camera approaches, the panel lines, acoustic liner perforations, and the pylon mounting structure become visible, showing how the nacelle is engineered for both aerodynamic efficiency and maintenance access.",
       "vfa_target": "Engine nacelle geometry and component detail during proximity approach",
-      "failure_target": "I2V model loses nacelle cylindrical geometry during dolly-in, panel lines and inlet lip shape distort as camera approaches",
+      "failure_target": "I2V model causes the engine nacelle cross-section to become elliptical (non-circular) during dolly-in, distorting the NACA 1-series inlet lip profile and diverging panel line spacing",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -1822,13 +1822,13 @@
         },
         {
           "id": "q3",
-          "text": "During a dolly-in approach, does the nacelle maintain its cylindrical cross-section geometry?",
+          "text": "During a dolly-in approach, does the engine nacelle maintain circular cross-section geometry (fan cowl diameter-to-inlet lip ratio consistent with NACA 1-series inlet profile) without elliptical distortion or panel line divergence?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During a dolly-in approach, does the nacelle maintain its cylindrical cross-section geometry?",
+          "q": "During a dolly-in approach, does the engine nacelle maintain circular cross-section geometry (fan cowl diameter-to-inlet lip ratio consistent with NACA 1-series inlet profile) without elliptical distortion or panel line divergence?",
           "answer": "yes"
         }
       ],
@@ -1846,7 +1846,7 @@
       "prompt": "Analyze this aircraft cockpit windshield during a dolly-in approach. Describe the multi-panel glass construction, frame geometry, and how the curved panels maintain optical clarity while meeting bird-strike resistance requirements.",
       "text": "During a dolly-in toward an aircraft cockpit windshield, the camera reveals the multi-panel construction of the flight deck glazing. The windshield consists of multiple layers of stretched acrylic or chemically strengthened glass with interlayers for bird-strike resistance. The frame structure divides the windshield into distinct panels with heated elements to prevent ice formation. As the camera approaches, the curvature of each panel, the sealing gaskets, and the fastener pattern along the aluminum frame become progressively visible.",
       "vfa_target": "Cockpit windshield multi-panel construction and frame geometry",
-      "failure_target": "I2V model distorts windshield panel curvature and frame linearity during dolly-in, panel edges curve or warp unnaturally at close range",
+      "failure_target": "I2V model curves or warps the multi-panel windshield frame dividers during dolly-in, compromising the bird-strike load-path straightness and heated-panel gasket parallelism",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -1878,13 +1878,13 @@
         },
         {
           "id": "q3",
-          "text": "During a dolly-in to the cockpit windshield, do the panel frame lines remain straight and properly aligned?",
+          "text": "During a dolly-in to the cockpit windshield, do the multi-panel frame dividers maintain straight-line geometry (critical for bird-strike load path integrity) and the heated-panel boundary gaskets remain parallel without curvature deviation?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During a dolly-in to the cockpit windshield, do the panel frame lines remain straight and properly aligned?",
+          "q": "During a dolly-in to the cockpit windshield, do the multi-panel frame dividers maintain straight-line geometry (critical for bird-strike load path integrity) and the heated-panel boundary gaskets remain parallel without curvature deviation?",
           "answer": "yes"
         }
       ],
@@ -1902,7 +1902,7 @@
       "prompt": "Analyze this jet engine turbine blade array from an orbital camera path. Describe the blade geometry, cooling holes, and how the repeating lattice structure of blades creates a uniform flow path through the turbine section.",
       "text": "A jet engine turbine section contains multiple rows of airfoil-shaped blades arranged in a regular circumferential pattern around the rotor disk. Each blade features internal cooling passages and surface film-cooling holes that prevent thermal damage from the hot gas path. The orbital camera view reveals how the blade array forms a repeating lattice structure, with consistent blade spacing, uniform pitch angles, and aligned trailing edges that collectively create an efficient energy extraction surface from the combustion gases.",
       "vfa_target": "Turbine blade array lattice geometry and cooling feature consistency",
-      "failure_target": "I2V model fails to maintain uniform blade-to-blade spacing and pitch angle consistency across the turbine blade lattice during orbital view",
+      "failure_target": "I2V model merges adjacent turbine blades or inserts phantom blades during orbit, violating the fixed blade-count invariant (60-120 per row) and disrupting uniform circumferential pitch; trailing edge rake angle drifts beyond designed aerodynamic washout",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -1934,24 +1934,24 @@
         },
         {
           "id": "q3",
-          "text": "During an orbital view of the turbine blade array, is the blade-to-blade spacing uniform across the entire row?",
+          "text": "During an orbital view of the turbine blade array, do adjacent blades maintain uniform circumferential pitch (360 degrees divided by blade count, typically 60-120 blades per row) without merging or gaps that would indicate a missing blade?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During an orbital view of the turbine blade array, is the blade-to-blade spacing uniform across the entire row?",
+          "q": "During an orbital view of the turbine blade array, do adjacent blades maintain uniform circumferential pitch (360 degrees divided by blade count, typically 60-120 blades per row) without merging or gaps that would indicate a missing blade?",
           "answer": "yes"
         },
         {
           "id": "q4",
-          "text": "Do the trailing edges of all blades in a row align consistently?",
+          "text": "Do the trailing edges of all blades in a row maintain a consistent radial alignment (trailing edge rake angle constant across the row) without individual blade twist deviation beyond the designed aerodynamic washout?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "Do the trailing edges of all blades in a row align consistently?",
+          "q": "Do the trailing edges of all blades in a row maintain a consistent radial alignment (trailing edge rake angle constant across the row) without individual blade twist deviation beyond the designed aerodynamic washout?",
           "answer": "yes"
         }
       ],
@@ -1969,7 +1969,7 @@
       "prompt": "Analyze this Airbus A380 wing during an orbital camera path. Describe the wing's flexible structure, winglet design, and how the wing surface deforms under aerodynamic load as the camera orbits around it.",
       "text": "The Airbus A380 wing is a large, flexible structure designed to bend upward under aerodynamic load. The wing features a high aspect ratio with raked winglets at the tips, multiple control surfaces including ailerons and flaps, and a smooth composite skin surface. During an orbital camera path, the wing's swept planform, the gradual twist from root to tip, and the surface curvature are revealed. The wing flex under load means the dihedral angle changes dynamically, creating a complex surface geometry that the camera must track consistently.",
       "vfa_target": "Wing surface geometry and flex characteristics during orbital tracking",
-      "failure_target": "I2V model fails to maintain consistent wing surface curvature and sweep during orbit, wing flex appears discontinuous or surface topology shifts between frames",
+      "failure_target": "I2V model changes wing quarter-chord sweep angle (25-35 degrees) or winglet rake angle during orbit, and introduces surface discontinuities at flap-track fairings or spoiler panel boundaries",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -2001,13 +2001,13 @@
         },
         {
           "id": "q3",
-          "text": "During an orbital view, does the wing surface maintain continuous curvature without topological discontinuities?",
+          "text": "During an orbital view, does the wing maintain its quarter-chord sweep angle (typically 25-35 degrees for long-range transports) and the winglet rake angle remain fixed, without surface discontinuities at the flap-track fairings or spoiler panel boundaries?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During an orbital view, does the wing surface maintain continuous curvature without topological discontinuities?",
+          "q": "During an orbital view, does the wing maintain its quarter-chord sweep angle (typically 25-35 degrees for long-range transports) and the winglet rake angle remain fixed, without surface discontinuities at the flap-track fairings or spoiler panel boundaries?",
           "answer": "yes"
         }
       ],
@@ -2025,7 +2025,7 @@
       "prompt": "Analyze this crane boom extension mechanism. Describe the telescoping sections, hydraulic cylinders, and how the boom extends kinematically while maintaining structural alignment.",
       "text": "A mobile crane boom extension system consists of multiple telescoping sections that slide within each other, driven by hydraulic extension cylinders. The base section is the largest, with each successive section nesting inside the previous one. The kinematic extension sequence is controlled by synchronized hydraulic cylinders and guided by wear pads that maintain alignment between sections. As the boom extends, the moment arm increases, requiring the counterweight and outrigger system to provide stability against tipping.",
       "vfa_target": "Telescoping boom kinematics and hydraulic extension sequence",
-      "failure_target": "I2V model fails to maintain proper nesting alignment between telescoping sections during extension, section proportions warp or overlap incorrectly",
+      "failure_target": "I2V model violates telescoping section nesting ratio (each stage should be 0.85-0.90x the previous) during extension, causing wall thickness overlap or hydraulic cylinder pin joint displacement",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -2057,13 +2057,13 @@
         },
         {
           "id": "q3",
-          "text": "During boom extension, do the telescoping sections maintain proper nesting geometry without overlap errors?",
+          "text": "During boom extension, do the telescoping box sections maintain consistent wall thickness ratios between nested stages (each stage typically 0.85-0.90x the previous) and the hydraulic cylinder pin joints remain at fixed positions without section-to-section overlap violations?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During boom extension, do the telescoping sections maintain proper nesting geometry without overlap errors?",
+          "q": "During boom extension, do the telescoping box sections maintain consistent wall thickness ratios between nested stages (each stage typically 0.85-0.90x the previous) and the hydraulic cylinder pin joints remain at fixed positions without section-to-section overlap violations?",
           "answer": "yes"
         }
       ],
@@ -2081,7 +2081,7 @@
       "prompt": "Analyze this excavator arm hydraulic kinematics. Describe the boom, stick, and bucket linkage geometry, and how the hydraulic cylinders control the multi-joint articulated arm movement.",
       "text": "An excavator arm consists of three main articulated segments: the boom, stick (arm), and bucket, each controlled by hydraulic cylinders. The boom cylinder raises and lowers the entire arm assembly, the stick cylinder controls the angle between boom and stick, and the bucket cylinder actuates the bucket through a linkage system that multiplies the curl force. The kinematic chain creates a planar mechanism where the bucket tip position is determined by the combined extension of all three cylinder positions, allowing the operator to trace complex digging profiles.",
       "vfa_target": "Excavator arm multi-joint kinematics and hydraulic control",
-      "failure_target": "I2V model distorts excavator arm linkage geometry during movement, joint angles and cylinder positions become inconsistent with bucket trajectory",
+      "failure_target": "I2V model produces excavator arm configurations that violate the three-cylinder kinematic constraint, allowing ghost linkages or geometrically impossible boom-stick-bucket angle combinations",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -2113,13 +2113,13 @@
         },
         {
           "id": "q3",
-          "text": "During excavator arm movement, do the joint angles remain consistent with the hydraulic cylinder positions?",
+          "text": "During excavator arm movement, do the boom-stick-bucket joint angles follow the kinematic constraint that bucket tip position is uniquely determined by the three hydraulic cylinder lengths, without ghost linkages or impossible configurations?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During excavator arm movement, do the joint angles remain consistent with the hydraulic cylinder positions?",
+          "q": "During excavator arm movement, do the boom-stick-bucket joint angles follow the kinematic constraint that bucket tip position is uniquely determined by the three hydraulic cylinder lengths, without ghost linkages or impossible configurations?",
           "answer": "yes"
         }
       ],
@@ -2137,7 +2137,7 @@
       "prompt": "Analyze this container ship deck from an orbital camera path. Describe the container grid arrangement, cell guides, and how the repeating lattice of standardized containers creates a uniform deck surface.",
       "text": "A container ship deck displays a regular lattice of ISO shipping containers arranged in bays, rows, and tiers. Containers are 20 or 40 feet long, stacked in vertical columns guided by cell guides that ensure alignment. The orbital camera view reveals the grid pattern formed by container corners, twist-lock positions, and the systematic color coding used for destination identification. The lattice structure extends across the entire deck width, with lashing bridges and securing rods maintaining the grid integrity during sea transport.",
       "vfa_target": "Container ship deck lattice geometry and stacking consistency",
-      "failure_target": "I2V model fails to maintain uniform container grid spacing and vertical alignment during orbital view, containers appear to shift or tilt inconsistently",
+      "failure_target": "I2V model changes ISO container width (2.438m) or cell guide bay spacing (2.5m) during orbit, and may merge or split containers, violating the fixed twist-lock position constraint at 20ft/40ft intervals",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -2169,13 +2169,13 @@
         },
         {
           "id": "q3",
-          "text": "During an orbital view of the container deck, is the grid spacing between containers uniform across the entire array?",
+          "text": "During an orbital view of the container deck, do ISO containers maintain their standard 2.438m width and the cell guide spacing (typically 2.5m bay-to-bay) remain uniform, with twist-lock positions at consistent 40ft or 20ft intervals without merging?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During an orbital view of the container deck, is the grid spacing between containers uniform across the entire array?",
+          "q": "During an orbital view of the container deck, do ISO containers maintain their standard 2.438m width and the cell guide spacing (typically 2.5m bay-to-bay) remain uniform, with twist-lock positions at consistent 40ft or 20ft intervals without merging?",
           "answer": "yes"
         }
       ],
@@ -2193,7 +2193,7 @@
       "prompt": "Analyze the suspension bridge cable array from a panning camera. Describe the main cables, suspender cables, and how the repeating pattern of vertical hangers creates a regular lattice structure supporting the deck.",
       "text": "A suspension bridge cable array consists of two main catenary cables running between towers, with vertical suspender cables hanging at regular intervals to support the bridge deck. The suspender cables form a repeating lattice pattern along the bridge length, each attached to the main cable via a cable band and to the deck via a socket assembly. The panning camera reveals how the suspender spacing is uniform, the cable diameters are consistent, and the vertical alignment creates a regular rhythm that distributes the deck load evenly to the main cables.",
       "vfa_target": "Bridge cable lattice geometry and suspender spacing consistency",
-      "failure_target": "I2V model fails to maintain uniform suspender cable spacing and vertical alignment during pan, cable positions drift or spacing becomes irregular",
+      "failure_target": "I2V model displaces turbocharger, charge air cooler, or serpentine belt routing beyond designed clearances (15-30mm minimum) during dolly-in, causing component overlap or drift",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -2225,13 +2225,13 @@
         },
         {
           "id": "q3",
-          "text": "During a camera pan along the bridge, is the suspender cable spacing uniform and consistent?",
+          "text": "During a camera pan along the suspension bridge, do the vertical suspender cables maintain uniform center-to-center spacing (typically 10-20m for main span) and consistent sag catenary geometry without cables appearing to lean or merge?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During a camera pan along the bridge, is the suspender cable spacing uniform and consistent?",
+          "q": "During a camera pan along the suspension bridge, do the vertical suspender cables maintain uniform center-to-center spacing (typically 10-20m for main span) and consistent sag catenary geometry without cables appearing to lean or merge?",
           "answer": "yes"
         }
       ],
@@ -2249,7 +2249,7 @@
       "prompt": "Analyze this cargo ship hull from an orbital camera path. Describe the hull surface geometry, bow shape, and how the smooth curved surface transitions from the waterline to the deck edge.",
       "text": "A cargo ship hull is a complex curved surface designed for hydrodynamic efficiency. The bow flares outward to deflect waves, the midship section has a flat bottom with bilge curves transitioning to vertical sides, and the stern narrows to accommodate the propeller and rudder. The orbital camera path reveals how the hull surface maintains continuous curvature across these transitions, with plate seams and weld lines following the surface contour. The anti-fouling paint line at the waterline marks the boundary between the underwater hull and the topside surfaces.",
       "vfa_target": "Ship hull surface geometry and hydrodynamic contour",
-      "failure_target": "I2V model fails to maintain smooth hull surface curvature during orbit, plate edges or surface transitions become discontinuous or faceted",
+      "failure_target": "I2V model facets the hull bilge turn radius (should be second-derivative smooth) during orbit, and shifts longitudinal plate butt weld seam positions between frames",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -2281,13 +2281,13 @@
         },
         {
           "id": "q3",
-          "text": "During an orbital view of the hull, does the surface maintain smooth continuous curvature without faceting?",
+          "text": "During an orbital view of the ship hull, does the bilge turn radius (the curved transition from flat bottom to side shell) maintain smooth second-derivative continuity without polygonal faceting, and do the plate butt weld seams remain at consistent longitudinal positions?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During an orbital view of the hull, does the surface maintain smooth continuous curvature without faceting?",
+          "q": "During an orbital view of the ship hull, does the bilge turn radius (the curved transition from flat bottom to side shell) maintain smooth second-derivative continuity without polygonal faceting, and do the plate butt weld seams remain at consistent longitudinal positions?",
           "answer": "yes"
         }
       ],
@@ -2305,7 +2305,7 @@
       "prompt": "Analyze this mining truck from an orbital camera path. Describe the massive body geometry, tire surface, and how the vehicle's proportions appear from different orbital angles.",
       "text": "A mining haul truck is one of the largest land vehicles, featuring a massive dump body, enormous tires up to 4 meters in diameter, and a diesel-electric powertrain. The orbital camera path reveals the vehicle's extreme proportions: the towering body height, the wide stance from dual rear tires, and the articulation point between the cab and dump body. The tire tread pattern, the body surface panels, and the frame structure create a complex surface geometry that must maintain consistent proportions as the camera orbits around the vehicle.",
       "vfa_target": "Mining truck surface geometry and proportional consistency during orbit",
-      "failure_target": "I2V model distorts mining truck proportions during orbit, tire diameter or body height appears inconsistent across orbital angles",
+      "failure_target": "I2V model changes mining truck tire outer diameter (3.5-4.0m) or cab-to-bed height ratio during orbit, producing perspective-dependent scaling errors that violate rigid-body proportions",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -2337,13 +2337,13 @@
         },
         {
           "id": "q3",
-          "text": "During an orbital view, do the vehicle's proportions remain consistent across all viewing angles?",
+          "text": "During an orbital view of the mining haul truck, do the tire outer diameter (typically 3.5-4.0m for 400-ton class) and the ratio of cab height to bed height remain consistent across all azimuth angles without perspective-induced scaling errors?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During an orbital view, do the vehicle's proportions remain consistent across all viewing angles?",
+          "q": "During an orbital view of the mining haul truck, do the tire outer diameter (typically 3.5-4.0m for 400-ton class) and the ratio of cab height to bed height remain consistent across all azimuth angles without perspective-induced scaling errors?",
           "answer": "yes"
         }
       ],
@@ -2393,13 +2393,13 @@
         },
         {
           "id": "q3",
-          "text": "During a dolly-in to the engine bay, do the component spatial relationships remain consistent?",
+          "text": "During a dolly-in to the truck engine bay, do the turbocharger compressor housing, charge air cooler ducting, and serpentine belt routing maintain their designed spatial clearances (typically 15-30mm minimum between adjacent components) without component drift or overlap?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During a dolly-in to the engine bay, do the component spatial relationships remain consistent?",
+          "q": "During a dolly-in to the truck engine bay, do the turbocharger compressor housing, charge air cooler ducting, and serpentine belt routing maintain their designed spatial clearances (typically 15-30mm minimum between adjacent components) without component drift or overlap?",
           "answer": "yes"
         }
       ],
@@ -2417,7 +2417,7 @@
       "prompt": "Analyze this tower crane during a vertical camera rise. Describe the tower sections, jib, and counter-jib geometry as the camera ascends from the base to the top of the crane structure.",
       "text": "During a vertical camera rise along a tower crane, the view transitions from the concrete foundation and base section through the lattice tower sections to the top-slewing unit. The tower consists of standardized lattice sections connected by high-strength bolts, creating a rigid vertical structure. At the top, the slewing unit connects the rotating jib (long arm for load lifting) to the counter-jib (short arm with concrete counterweights). The vertical rise reveals how the tower maintains consistent cross-section dimensions while the jib and counter-jib extend horizontally from the apex.",
       "vfa_target": "Tower crane vertical structure geometry and proportional relationships",
-      "failure_target": "I2V model distorts tower crane proportions during vertical rise, tower cross-section or jib-counter-jib geometry warps as camera ascends",
+      "failure_target": "I2V model tapers or warps the tower crane lattice mast cross-section width (should be constant 1.6-2.0m) during vertical rise, and changes lacing bar angles (should be 45-60 degrees consistently)",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -2449,13 +2449,13 @@
         },
         {
           "id": "q3",
-          "text": "During a vertical camera rise, does the tower maintain consistent cross-section proportions throughout its height?",
+          "text": "During a vertical camera rise, does the tower crane lattice mast maintain its constant cross-section width (typically 1.6-2.0m for mid-size cranes) and the pin-connected lacing bar angles (typically 45-60 degrees) remain uniform from base to top without taper?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During a vertical camera rise, does the tower maintain consistent cross-section proportions throughout its height?",
+          "q": "During a vertical camera rise, does the tower crane lattice mast maintain its constant cross-section width (typically 1.6-2.0m for mid-size cranes) and the pin-connected lacing bar angles (typically 45-60 degrees) remain uniform from base to top without taper?",
           "answer": "yes"
         }
       ],
@@ -2473,7 +2473,7 @@
       "prompt": "Analyze this wind turbine during blade rotation. Describe the blade pitch mechanism, hub geometry, and how the three blades maintain aerodynamic balance as they rotate through the wind.",
       "text": "A wind turbine's three blades rotate about a horizontal axis, with each blade connected to the hub through a pitch bearing that allows angle adjustment. The blade rotation creates a swept area that captures wind energy, with the pitch mechanism optimizing the angle of attack for different wind speeds. During rotation, the blades must maintain aerodynamic balance, with each blade having identical mass distribution and aerodynamic profiles. The hub houses the pitch actuators and rotates at 10-20 RPM, transferring torque through the main shaft to the gearbox and generator.",
       "vfa_target": "Wind turbine blade rotation kinematics and aerodynamic balance",
-      "failure_target": "I2V model fails to maintain consistent blade pitch angle and aerodynamic profile during rotation, blades appear to warp or pitch inconsistently",
+      "failure_target": "I2V model changes blade twist distribution (10-15 degrees root-to-tip) or chord taper ratio (4m root to 1m tip) during rotation, producing blades that appear to warp or lose their designed aerodynamic profile at different azimuth positions",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -2505,13 +2505,13 @@
         },
         {
           "id": "q3",
-          "text": "During blade rotation, does each blade maintain an identical aerodynamic profile throughout the rotation cycle?",
+          "text": "During rotor rotation, does each blade maintain its designed twist distribution (root-to-tip twist of 10-15 degrees) and chord length ratio (blade chord typically tapering from 4m at root to 1m at tip) consistently through the full 360-degree azimuth cycle?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During blade rotation, does each blade maintain an identical aerodynamic profile throughout the rotation cycle?",
+          "q": "During rotor rotation, does each blade maintain its designed twist distribution (root-to-tip twist of 10-15 degrees) and chord length ratio (blade chord typically tapering from 4m at root to 1m at tip) consistently through the full 360-degree azimuth cycle?",
           "answer": "yes"
         }
       ],
@@ -2529,7 +2529,7 @@
       "prompt": "Analyze this pump jack during its oscillating stroke. Describe the walking beam pivot, sucker rod string, and how the counterweight balances the upstroke and downstroke loads.",
       "text": "A pump jack (nodding donkey) converts rotary motion from the prime mover into reciprocating linear motion through a walking beam that pivots on a central Sampson post. The horsehead at one end of the walking beam guides the polished rod and sucker rod string downhole, while the counterweight on the opposite end balances the rod weight during the stroke cycle. The oscillating motion follows a sinusoidal pattern, with the upstroke lifting the rod string and fluid column, and the downstroke allowing the traveling valve to open as fluid fills the pump barrel.",
       "vfa_target": "Pump jack oscillating mechanism and counterbalance dynamics",
-      "failure_target": "I2V model fails to maintain consistent pivot geometry and counterweight balance during oscillation, walking beam angle or rod position becomes inconsistent",
+      "failure_target": "I2V model displaces the walking beam pivot bearing vertical position relative to the Sampson post during oscillation, and changes the crank moment arm (should maintain 30-54 inch stroke length), violating the four-bar linkage rigid-body constraint",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -2561,13 +2561,13 @@
         },
         {
           "id": "q3",
-          "text": "During the oscillating stroke, does the walking beam pivot maintain a consistent geometric relationship with the Sampson post?",
+          "text": "During the pump jack stroke cycle, does the walking beam pivot bearing maintain a fixed vertical position relative to the Sampson post crown, and does the crank-counterweight assembly preserve its designed moment arm (typically 30-54 inch stroke length) without geometric drift?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During the oscillating stroke, does the walking beam pivot maintain a consistent geometric relationship with the Sampson post?",
+          "q": "During the pump jack stroke cycle, does the walking beam pivot bearing maintain a fixed vertical position relative to the Sampson post crown, and does the crank-counterweight assembly preserve its designed moment arm (typically 30-54 inch stroke length) without geometric drift?",
           "answer": "yes"
         }
       ],
@@ -2585,7 +2585,7 @@
       "prompt": "Analyze this offshore platform during a vertical camera rise. Describe the platform structure, deck levels, and how the camera transition reveals the relationship between the jacket structure and the topsides facilities.",
       "text": "During a vertical camera rise from the sea surface to the top of an offshore platform, the view transitions from the splash zone of the jacket structure through multiple deck levels to the flare boom and helideck. The jacket is a lattice of tubular steel members anchored to the seabed, supporting the topsides decks that house drilling equipment, processing facilities, and living quarters. The vertical rise reveals how each deck level serves a specific function, with the lower decks handling utilities and the upper decks containing the main process equipment and helicopter landing area.",
       "vfa_target": "Offshore platform vertical structure and deck level relationships",
-      "failure_target": "I2V model distorts platform jacket lattice structure or deck spacing during vertical rise, tubular member proportions shift as camera ascends",
+      "failure_target": "I2V model changes jacket diagonal brace angles (should be 30-60 degrees from vertical) or tubular chord diameters (0.6-1.8m OD) during vertical rise, causing members to appear/disappear or proportions to shift between bays",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -2617,13 +2617,13 @@
         },
         {
           "id": "q3",
-          "text": "During a vertical camera rise, does the jacket lattice structure maintain consistent member proportions and spacing?",
+          "text": "During a vertical camera rise, does the offshore platform jacket maintain its X-brace or K-brace diagonal member angles (typically 30-60 degrees from vertical) and the tubular chord member diameters (typically 0.6-1.8m OD) remain proportional through each bay without members appearing or disappearing?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During a vertical camera rise, does the jacket lattice structure maintain consistent member proportions and spacing?",
+          "q": "During a vertical camera rise, does the offshore platform jacket maintain its X-brace or K-brace diagonal member angles (typically 30-60 degrees from vertical) and the tubular chord member diameters (typically 0.6-1.8m OD) remain proportional through each bay without members appearing or disappearing?",
           "answer": "yes"
         }
       ],
@@ -2641,7 +2641,7 @@
       "prompt": "Analyze this solar panel during a dolly-in approach. Describe the cell grid pattern, bus bars, and anti-reflective coating as the camera moves closer to the panel surface.",
       "text": "During a dolly-in toward a solar panel, the camera reveals the regular grid of photovoltaic cells connected by silver bus bars and finger gridlines. Each cell is a silicon wafer with an anti-reflective coating that gives the panel its characteristic blue-black color. The cells are arranged in a rectangular grid, with each cell approximately 156mm square, connected in series by soldered ribbons. As the camera approaches, the individual cell boundaries, the bus bar pattern running between cell rows, and the textured surface of the anti-reflective coating become progressively visible.",
       "vfa_target": "Solar panel cell grid pattern and bus bar connectivity during approach",
-      "failure_target": "I2V model fails to maintain consistent cell grid spacing and bus bar linearity during dolly-in, cell boundaries or connecting ribbons distort at close range",
+      "failure_target": "I2V model changes monocrystalline cell pitch (156mm or 166mm) or bus bar ribbon spacing during dolly-in, and may merge cells or distort the 1-2mm inter-cell gap below minimum clearance",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -2673,13 +2673,13 @@
         },
         {
           "id": "q3",
-          "text": "During a dolly-in, does the cell grid maintain uniform spacing and bus bar linearity?",
+          "text": "During a dolly-in to the solar panel, do the monocrystalline cells maintain their standard 156mm or 166mm square pitch, the bus bar ribbons (typically 3-5 per cell) remain parallel and equidistant, and the cell-to-cell gap (typically 1-2mm) stay uniform without merging?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During a dolly-in, does the cell grid maintain uniform spacing and bus bar linearity?",
+          "q": "During a dolly-in to the solar panel, do the monocrystalline cells maintain their standard 156mm or 166mm square pitch, the bus bar ribbons (typically 3-5 per cell) remain parallel and equidistant, and the cell-to-cell gap (typically 1-2mm) stay uniform without merging?",
           "answer": "yes"
         }
       ],
@@ -2697,7 +2697,7 @@
       "prompt": "Analyze this wind farm from an orbital camera path. Describe the turbine array layout, spacing between turbines, and how the repeating pattern of turbine nacelles and towers creates a surface across the landscape.",
       "text": "A wind farm consists of multiple wind turbines arranged in a regular array pattern across the landscape. The turbines are spaced 3-5 rotor diameters apart to minimize wake interference, creating a grid-like surface distribution. The orbital camera path reveals how the turbine nacelles sit atop tubular steel towers at consistent hub heights, with the blade swept areas creating overlapping zones when viewed from certain angles. The farm layout follows terrain contours and wind direction patterns, with access roads and underground cables connecting each turbine to the substation.",
       "vfa_target": "Wind farm array layout and turbine spacing consistency during orbit",
-      "failure_target": "I2V model fails to maintain consistent turbine spacing and tower height proportions during orbital view, array pattern appears irregular or turbine sizes vary",
+      "failure_target": "I2V model compresses or expands wind farm downwind spacing (should be 5-9 rotor diameters = 400-900m) and crosswind spacing (3-5 rotor diameters) during orbit, producing an irregular array that violates the designed wake-interference spacing",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -2729,13 +2729,13 @@
         },
         {
           "id": "q3",
-          "text": "During an orbital view of the wind farm, is the turbine array spacing uniform and consistent?",
+          "text": "During an orbital view of the offshore wind farm, do adjacent turbines maintain consistent downwind spacing (typically 5-9 rotor diameters, i.e. 400-900m for 100m rotor) and crosswind spacing (typically 3-5 rotor diameters) without array compression or expansion?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During an orbital view of the wind farm, is the turbine array spacing uniform and consistent?",
+          "q": "During an orbital view of the offshore wind farm, do adjacent turbines maintain consistent downwind spacing (typically 5-9 rotor diameters, i.e. 400-900m for 100m rotor) and crosswind spacing (typically 3-5 rotor diameters) without array compression or expansion?",
           "answer": "yes"
         }
       ],
@@ -2753,7 +2753,7 @@
       "prompt": "Analyze this conveyor belt system during a lateral camera pan. Describe the belt surface, roller mechanism, and how the continuous belt movement creates a lateral translation of materials across the production floor.",
       "text": "A manufacturing conveyor belt system consists of a continuous belt supported by rollers, driven by a motorized pulley at one end and tensioned by a tail pulley at the other. During a lateral camera pan, the belt surface carries workpieces in a steady linear translation, with the belt's cleats or friction surface preventing slippage. The lateral view reveals the roller spacing, belt tracking mechanism, and how the support frame maintains belt alignment. Materials enter at one end, travel through processing stations positioned along the belt, and exit at the discharge end.",
       "vfa_target": "Conveyor belt lateral motion and material transport continuity",
-      "failure_target": "I2V model fails to maintain consistent belt surface motion and roller spacing during lateral pan, belt tracking or material positions shift unnaturally",
+      "failure_target": "I2V model misaligns conveyor belt idler roller spacing (should be 1.0-1.5m uniformly) or causes belt edge to drift laterally from frame centerline during pan, indicating troughing idler misalignment",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -2785,13 +2785,13 @@
         },
         {
           "id": "q3",
-          "text": "During a lateral camera pan, does the belt surface maintain consistent motion without tracking drift?",
+          "text": "During a lateral camera pan, do the conveyor belt idler rollers maintain uniform spacing (typically 1.0-1.5m for carry side) and the belt edge remain parallel to the frame centerline without lateral tracking drift that would indicate misaligned troughing idlers?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During a lateral camera pan, does the belt surface maintain consistent motion without tracking drift?",
+          "q": "During a lateral camera pan, do the conveyor belt idler rollers maintain uniform spacing (typically 1.0-1.5m for carry side) and the belt edge remain parallel to the frame centerline without lateral tracking drift that would indicate misaligned troughing idlers?",
           "answer": "yes"
         }
       ],
@@ -2809,7 +2809,7 @@
       "prompt": "Analyze this delta-arm robot during a pick-and-place operation. Describe the parallel kinematic structure, three arm linkages, and how the end effector maintains orientation while the arms move in coordinated trajectories.",
       "text": "A delta robot consists of three parallelogram arms connected to a common base platform, with all three arms jointly controlling the position of a central end-effector platform. Each arm is driven by a rotary actuator at the base, with the parallelogram structure ensuring the end-effector remains horizontal throughout the workspace. During pick-and-place operations, the three arms move in coordinated trajectories to achieve high-speed positioning, with the kinematic structure providing high stiffness and low moving mass. The camera reveals how arm positions change simultaneously to trace complex paths.",
       "vfa_target": "Delta robot parallel kinematics and coordinated arm trajectories",
-      "failure_target": "I2V model fails to maintain end-effector horizontal orientation during arm movement, arm linkages appear to decouple or lose parallel constraint",
+      "failure_target": "I2V model changes delta robot parallelogram arm lengths (rigid-body constraint) or tilts the end effector platform away from horizontal during pick-and-place, causing arm decoupling that violates the parallel-kinematic constraint",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -2841,13 +2841,13 @@
         },
         {
           "id": "q3",
-          "text": "During pick-and-place motion, do all three arms maintain coordinated trajectories without decoupling?",
+          "text": "During delta robot pick-and-place motion, do the three parallelogram arm linkages maintain equal effective arm lengths (rigid-body constraint) and the end effector platform remain horizontal (parallel to the base plane) throughout the trajectory without any arm decoupling?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During pick-and-place motion, do all three arms maintain coordinated trajectories without decoupling?",
+          "q": "During delta robot pick-and-place motion, do the three parallelogram arm linkages maintain equal effective arm lengths (rigid-body constraint) and the end effector platform remain horizontal (parallel to the base plane) throughout the trajectory without any arm decoupling?",
           "answer": "yes"
         }
       ],
@@ -2865,7 +2865,7 @@
       "prompt": "Analyze this CNC machine bed from an orbital camera path. Describe the machine table surface, T-slots, and how the precision-ground cast iron surface provides a reference for workholding and machining accuracy.",
       "text": "A CNC machine bed is a precision-ground cast iron surface that serves as the geometric reference for all machining operations. The bed features T-slots for workholding fixtures, alignment keys, and coolant channels machined into the surface. The orbital camera path reveals the flat surface topography, the regular pattern of T-slot channels, and the dovetail or linear guide rails that constrain the movement of machine axes. The surface finish and flatness specifications are critical for maintaining machining accuracy, with typical flatness tolerances measured in micrometers across the full table length.",
       "vfa_target": "CNC machine bed surface geometry and precision reference characteristics",
-      "failure_target": "I2V model fails to maintain flat surface geometry and T-slot pattern consistency during orbital view, surface appears warped or slot spacing varies",
+      "failure_target": "I2V model introduces surface warpage on the CNC machine bed (should be flat within 0.02mm/300mm) during orbit, and changes T-slot pitch (should be 125-150mm uniformly) or slot width (14-18mm), violating precision reference geometry",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -2897,13 +2897,13 @@
         },
         {
           "id": "q3",
-          "text": "During an orbital view of the machine bed, does the surface maintain flat geometry with uniform T-slot spacing?",
+          "text": "During an orbital view of the CNC machine bed, does the hardened ground surface maintain flatness (typically within 0.02mm over 300mm) and the T-slot channels maintain uniform pitch (typically 125-150mm center-to-center) with consistent slot width (typically 14-18mm) without warping or distortion?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During an orbital view of the machine bed, does the surface maintain flat geometry with uniform T-slot spacing?",
+          "q": "During an orbital view of the CNC machine bed, does the hardened ground surface maintain flatness (typically within 0.02mm over 300mm) and the T-slot channels maintain uniform pitch (typically 125-150mm center-to-center) with consistent slot width (typically 14-18mm) without warping or distortion?",
           "answer": "yes"
         }
       ],
@@ -2921,7 +2921,7 @@
       "prompt": "Analyze this assembly line during a vertical camera rise. Describe the conveyor levels, robotic workstations, and how the multi-level production system is organized vertically for space efficiency.",
       "text": "During a vertical camera rise through a multi-level assembly line, the view transitions from the ground-floor material handling and logistics area through intermediate production levels to the upper-level quality inspection and packaging stations. Each level serves a specific function in the production flow, with vertical conveyors and lifts transferring workpieces between levels. The rise reveals how robotic workstations are arranged at each level, with safety enclosures, tool racks, and workstation lighting creating a structured production environment. The vertical organization maximizes floor space utilization in manufacturing facilities.",
       "vfa_target": "Multi-level assembly line vertical structure and production flow",
-      "failure_target": "I2V model distorts assembly line level spacing and workstation layout during vertical rise, floor-to-floor dimensions appear inconsistent",
+      "failure_target": "I2V model changes floor-to-floor heights (should be 4.5-6.0m consistently) or column grid bay spacing (6-9m) during vertical rise, producing inconsistent structural rhythm across mezzanine levels",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -2953,13 +2953,13 @@
         },
         {
           "id": "q3",
-          "text": "During a vertical camera rise, do the floor-to-floor heights remain consistent across all levels?",
+          "text": "During a vertical camera rise through the multi-level assembly line, do the floor-to-floor heights maintain consistent vertical spacing (typically 4.5-6.0m for industrial mezzanines) and the structural column grid (typically 6-9m bay spacing) remain aligned across all tiers?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During a vertical camera rise, do the floor-to-floor heights remain consistent across all levels?",
+          "q": "During a vertical camera rise through the multi-level assembly line, do the floor-to-floor heights maintain consistent vertical spacing (typically 4.5-6.0m for industrial mezzanines) and the structural column grid (typically 6-9m bay spacing) remain aligned across all tiers?",
           "answer": "yes"
         }
       ],
@@ -2977,7 +2977,7 @@
       "prompt": "Analyze this 3D printer nozzle during a dolly-in approach. Describe the nozzle tip, heating block, and how the precise extrusion mechanism deposits material layer by layer.",
       "text": "During a dolly-in toward a 3D printer nozzle assembly, the camera reveals the brass nozzle tip with its precision-drilled orifice, the aluminum heating block with cartridge heater and thermistor, and the heat break that separates the hot zone from the cold zone. The nozzle deposits molten filament through a 0.4mm orifice, building objects layer by layer with each layer typically 0.1-0.3mm thick. As the camera approaches, the nozzle tip geometry, the filament feed path, and the part cooling fan duct become visible, showing how the extrusion system maintains precise material deposition.",
       "vfa_target": "3D printer nozzle extrusion mechanism and precision deposition detail",
-      "failure_target": "I2V model loses nozzle tip geometry precision during dolly-in, orifice size or heating block proportions distort at close range",
+      "failure_target": "I2V model distorts the FDM nozzle orifice (should be 0.4-0.8mm circular) or heater block cross-section (20x16mm rectangular) during dolly-in, losing the precision circular geometry at close range",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -3009,13 +3009,13 @@
         },
         {
           "id": "q3",
-          "text": "During a dolly-in, does the nozzle tip maintain its precise circular orifice geometry?",
+          "text": "During a dolly-in to the FDM 3D printer extruder, does the brass nozzle tip maintain its circular orifice (typically 0.4-0.8mm diameter) and the heater block rectangular cross-section (typically 20x16mm) remain proportional without distortion at close range?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During a dolly-in, does the nozzle tip maintain its precise circular orifice geometry?",
+          "q": "During a dolly-in to the FDM 3D printer extruder, does the brass nozzle tip maintain its circular orifice (typically 0.4-0.8mm diameter) and the heater block rectangular cross-section (typically 20x16mm) remain proportional without distortion at close range?",
           "answer": "yes"
         }
       ],
@@ -3033,7 +3033,7 @@
       "prompt": "Analyze this quadruped robot during a walking gait cycle. Describe the leg linkages, hip-knee joint angles, and how the four legs coordinate in a trot gait pattern to maintain stable locomotion.",
       "text": "A quadruped robot walks using coordinated leg movements that follow a trot gait pattern, where diagonal leg pairs move in synchrony. Each leg consists of three segments: hip mount, upper leg, and lower leg, connected by hip and knee revolute joints. The gait cycle involves stance phase (foot on ground, bearing load) and swing phase (foot lifted, advancing forward). The camera reveals how the four legs maintain a stable support polygon throughout the gait, with joint angles adjusting in real-time to keep the body level and maintain forward momentum.",
       "vfa_target": "Quadruped robot gait kinematics and leg coordination",
-      "failure_target": "I2V model fails to maintain consistent leg linkage proportions and joint angle relationships during gait cycle, legs appear to lengthen or shorten inconsistently",
+      "failure_target": "I2V model changes quadruped femur-to-tibia length ratio (rigid-body constraint) during gait, causing legs to appear to elongate or shorten between stance and swing phases; hip/knee joint housings lose circular cross-section",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -3065,13 +3065,13 @@
         },
         {
           "id": "q3",
-          "text": "During the walking gait, do the leg linkage proportions remain consistent throughout the stance and swing phases?",
+          "text": "During the quadruped walking gait, do the upper leg (femur) and lower leg (tibia) segment length ratio remain constant (rigid-body constraint) and the hip/knee joint housings maintain circular cross-section geometry without link elongation or shortening across stance and swing phases?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During the walking gait, do the leg linkage proportions remain consistent throughout the stance and swing phases?",
+          "q": "During the quadruped walking gait, do the upper leg (femur) and lower leg (tibia) segment length ratio remain constant (rigid-body constraint) and the hip/knee joint housings maintain circular cross-section geometry without link elongation or shortening across stance and swing phases?",
           "answer": "yes"
         }
       ],
@@ -3089,7 +3089,7 @@
       "prompt": "Analyze this robotic arm during a welding operation. Describe the torch trajectory, joint coordination, and how the six-axis arm maintains a consistent welding angle along a complex seam path.",
       "text": "A robotic welding arm follows a programmed seam path while maintaining a consistent torch angle, travel speed, and contact-tip-to-work distance. The six-axis articulated arm coordinates all joints simultaneously to trace complex 3D seam geometries, with the wrist axes providing the fine angular adjustments needed for proper weld puddle orientation. The camera reveals how the arm smoothly transitions between seam segments, with each joint rotating at calculated speeds to maintain the TCP (tool center point) velocity along the programmed path.",
       "vfa_target": "Robotic welding arm trajectory tracking and joint coordination",
-      "failure_target": "I2V model fails to maintain consistent torch trajectory and joint angle relationships during welding path, arm geometry becomes inconsistent with TCP position",
+      "failure_target": "I2V model produces welding arm joint angles inconsistent with TCP position (violates 6-DOF inverse kinematics), causing wrist-to-TCP offset (50-150mm torch stickout) to change or ghost joints to appear during path tracking",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -3121,13 +3121,13 @@
         },
         {
           "id": "q3",
-          "text": "During welding path tracking, do the arm joint angles remain consistent with the TCP position?",
+          "text": "During welding path tracking, do the 6-DOF arm joint angles maintain inverse-kinematics consistency with the tool center point (TCP) position, such that the wrist-to-TCP offset (typically 50-150mm for welding torch stickout) remains rigid without ghost joints or link overlap?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During welding path tracking, do the arm joint angles remain consistent with the TCP position?",
+          "q": "During welding path tracking, do the 6-DOF arm joint angles maintain inverse-kinematics consistency with the tool center point (TCP) position, such that the wrist-to-TCP offset (typically 50-150mm for welding torch stickout) remains rigid without ghost joints or link overlap?",
           "answer": "yes"
         }
       ],
@@ -3145,7 +3145,7 @@
       "prompt": "Analyze this FANUC robot arm from an orbital camera path. Describe the arm's cylindrical and spherical joint housings, cable routing, and how the smooth industrial surfaces maintain consistent geometry around the arm.",
       "text": "A FANUC industrial robot arm features cylindrical joint housings at each axis, with smooth painted surfaces that enclose the motors, gearboxes, and encoders. The orbital camera path reveals how the arm segments transition between joint housings through tapered link sections, with external cable dress packs routing along the arm exterior. The surface geometry includes mounting flanges, status indicator covers, and model identification plates integrated into the smooth housing surfaces. As the camera orbits, the consistent cylindrical geometry of each joint housing and the linear geometry of the link sections must maintain their manufactured precision.",
       "vfa_target": "Robot arm surface geometry and joint housing consistency during orbit",
-      "failure_target": "I2V model fails to maintain cylindrical joint housing geometry during orbit, housing surfaces appear faceted or link sections distort between joints",
+      "failure_target": "I2V model facets the cylindrical joint housing surfaces (should be smooth, constant 80-150mm OD) during orbit, and creates visible seam discontinuities where link cross-sections transition at joints",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -3177,13 +3177,13 @@
         },
         {
           "id": "q3",
-          "text": "During an orbital view, do the cylindrical joint housings maintain smooth, consistent geometry without faceting?",
+          "text": "During an orbital view, do the robot arm cylindrical joint housings maintain constant outer diameter (typically 80-150mm for industrial arms) with smooth surface curvature (no polygonal faceting), and do the link cross-sections transition smoothly at each joint without visible seam discontinuities?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During an orbital view, do the cylindrical joint housings maintain smooth, consistent geometry without faceting?",
+          "q": "During an orbital view, do the robot arm cylindrical joint housings maintain constant outer diameter (typically 80-150mm for industrial arms) with smooth surface curvature (no polygonal faceting), and do the link cross-sections transition smoothly at each joint without visible seam discontinuities?",
           "answer": "yes"
         }
       ],
@@ -3201,7 +3201,7 @@
       "prompt": "Analyze this robotic end effector during a dolly-in approach. Describe the gripper fingers, pneumatic actuators, and sensor integration as the camera moves closer to the tooling.",
       "text": "During a dolly-in toward a robotic end effector, the camera reveals the parallel gripper mechanism with its two opposing fingers driven by a pneumatic rotary actuator. The fingers feature replaceable rubber pads for grip compliance, with embedded force sensors providing feedback for delicate part handling. The effector body houses the pneumatic valves, tubing connections, and signal cables that interface with the robot controller. As the camera approaches, the precision machined finger guides, the actuator mounting bolts, and the sensor wiring become progressively visible, showing the compact integration of mechanical, pneumatic, and sensing components.",
       "vfa_target": "End effector mechanical detail and component integration during approach",
-      "failure_target": "I2V model loses end effector mechanical precision during dolly-in, finger alignment or actuator geometry distorts at close range",
+      "failure_target": "I2V model loses parallel-jaw gripper finger symmetry (equal stroke, 20-40mm total) during dolly-in, misaligns linear guide rails, or distorts pneumatic actuator bore diameter, violating mechanical precision",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -3233,13 +3233,13 @@
         },
         {
           "id": "q3",
-          "text": "During a dolly-in, does the end effector maintain precise finger alignment and actuator geometry?",
+          "text": "During a dolly-in to the parallel-jaw gripper, do the fingers maintain symmetric travel (equal stroke on each jaw, typically 20-40mm total), the linear guide rails remain parallel, and the pneumatic actuator cylinder maintain its bore diameter without geometric distortion at close range?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During a dolly-in, does the end effector maintain precise finger alignment and actuator geometry?",
+          "q": "During a dolly-in to the parallel-jaw gripper, do the fingers maintain symmetric travel (equal stroke on each jaw, typically 20-40mm total), the linear guide rails remain parallel, and the pneumatic actuator cylinder maintain its bore diameter without geometric distortion at close range?",
           "answer": "yes"
         }
       ],
@@ -3257,7 +3257,7 @@
       "prompt": "Analyze this humanoid robot arm-to-body connection from an orbital camera path. Describe the shoulder joint kinematics, torso surface geometry, and how the arm's kinematic chain integrates with the body's surface topology.",
       "text": "A humanoid robot's shoulder joint connects the arm kinematic chain to the torso surface through a multi-degree-of-freedom joint that mimics human shoulder anatomy. The orbital camera path reveals how the upper arm segment emerges from the spherical shoulder housing, with the torso surface providing a smooth contour that encloses the battery, computing hardware, and structural frame. The arm-to-body interface involves three rotational axes (pitch, roll, yaw) that allow the arm to reach positions above, beside, and in front of the body. The surface topology of the torso transitions from flat chest panels to curved shoulder housings, creating a complex surface that the arm kinematic chain must interface with cleanly.",
       "vfa_target": "Humanoid robot arm-body interface and surface-kinematic integration",
-      "failure_target": "I2V model fails to maintain consistent arm-body geometric relationship during orbit, shoulder joint appears to detach from torso or surface transitions become discontinuous",
+      "failure_target": "I2V model detaches the humanoid shoulder joint from the torso surface during orbit, creating a gap or overlap at the arm-body interface that violates the designed flush-mount constraint within the 180-degree flexion / 90-degree abduction envelope",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -3289,13 +3289,13 @@
         },
         {
           "id": "q3",
-          "text": "During an orbital view, does the arm-to-body interface maintain a clean geometric connection without gaps or overlaps?",
+          "text": "During an orbital view of the humanoid upper body, does the shoulder joint (ball-and-socket) maintain its designed range envelope (typically 180 degrees flexion, 90 degrees abduction) and the arm-to-torso interface surface remain flush without gap or overlap that would indicate non-physical detachment?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During an orbital view, does the arm-to-body interface maintain a clean geometric connection without gaps or overlaps?",
+          "q": "During an orbital view of the humanoid upper body, does the shoulder joint (ball-and-socket) maintain its designed range envelope (typically 180 degrees flexion, 90 degrees abduction) and the arm-to-torso interface surface remain flush without gap or overlap that would indicate non-physical detachment?",
           "answer": "yes"
         }
       ],
@@ -3313,7 +3313,7 @@
       "prompt": "Analyze this BGA (Ball Grid Array) solder ball array from an orbital camera path. Describe the regular ball pitch, ball diameter consistency, and how the grid pattern provides electrical connections between the IC package and PCB.",
       "text": "A BGA solder ball array consists of hundreds or thousands of solder spheres arranged in a regular grid pattern on the underside of an IC package. Each ball is typically 0.3-0.6mm in diameter with a pitch of 0.4-1.0mm, providing both electrical connection and mechanical attachment to the PCB. The orbital camera view reveals the regular lattice structure formed by the ball array, with consistent ball diameter, uniform pitch in both X and Y directions, and perfect spherical geometry of each ball. The grid pattern ensures reliable solder joints when the package is reflow-soldered to the PCB pads.",
       "vfa_target": "BGA solder ball array lattice consistency and geometric uniformity",
-      "failure_target": "I2V model fails to maintain uniform ball spacing and spherical geometry across the BGA array during orbital view, balls appear to shift or deform inconsistently",
+      "failure_target": "I2V model changes BGA solder ball pitch (should be 0.4-1.0mm uniform square array) during orbit, causing balls to merge, bridge, or disappear; ball hemispherical geometry (height-to-diameter ~0.5 post-reflow) collapses or coalesces",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -3345,24 +3345,24 @@
         },
         {
           "id": "q3",
-          "text": "During an orbital view of the BGA array, is the ball-to-ball spacing uniform in both X and Y directions?",
+          "text": "During an orbital view of the BGA package, do the solder ball pads maintain their characteristic square-array pitch (typically 0.4-1.0mm for standard BGA, visible as a regular dot matrix) in both X and Y without merging, bridging, or missing balls?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During an orbital view of the BGA array, is the ball-to-ball spacing uniform in both X and Y directions?",
+          "q": "During an orbital view of the BGA package, do the solder ball pads maintain their characteristic square-array pitch (typically 0.4-1.0mm for standard BGA, visible as a regular dot matrix) in both X and Y without merging, bridging, or missing balls?",
           "answer": "yes"
         },
         {
           "id": "q4",
-          "text": "Does each solder ball maintain perfect spherical geometry across the array?",
+          "text": "Does each solder ball maintain consistent hemispherical geometry (ball diameter typically 0.25-0.6mm, height-to-diameter ratio approximately 0.5 post-reflow) without coalescing with neighbors or collapsing into irregular shapes?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "Does each solder ball maintain perfect spherical geometry across the array?",
+          "q": "Does each solder ball maintain consistent hemispherical geometry (ball diameter typically 0.25-0.6mm, height-to-diameter ratio approximately 0.5 post-reflow) without coalescing with neighbors or collapsing into irregular shapes?",
           "answer": "yes"
         }
       ],
@@ -3380,7 +3380,7 @@
       "prompt": "Analyze this via hole grid in a multi-layer PCB from an orbital camera path. Describe the via hole diameter, pitch, and how the regular array of plated-through holes provides vertical interconnection between PCB layers.",
       "text": "A via hole grid in a multi-layer PCB consists of an array of small plated-through holes that provide electrical connections between different copper layers. Each via hole is drilled mechanically or with a laser, then electroplated with copper to create a conductive barrel. The orbital camera view reveals the regular lattice pattern of via holes, with consistent diameter (typically 0.2-0.3mm for microvias), uniform pitch, and circular cross-section. The grid pattern follows the PCB design rules for minimum spacing, with the via array serving as the vertical interconnection backbone of the multi-layer board.",
       "vfa_target": "Via hole grid lattice geometry and plating consistency",
-      "failure_target": "I2V model fails to maintain uniform via hole diameter and circular cross-section across the grid during orbital view, holes appear to distort or spacing varies",
+      "failure_target": "I2V model changes via hole finished diameter (0.2-0.8mm depending on via class) or elongates circular cross-section during orbit, and varies annular ring width (should be 0.15-0.25mm uniformly), causing breakout or overlap",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -3412,13 +3412,13 @@
         },
         {
           "id": "q3",
-          "text": "During an orbital view of the via grid, is the hole diameter uniform and circular across the entire array?",
+          "text": "During an orbital view of the via grid, do the plated through-holes maintain uniform finished diameter (typically 0.2-0.3mm for micro-vias, 0.3-0.8mm for standard vias) and circular cross-section, with consistent annular ring width (typically 0.15-0.25mm) without elongation or breakout?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During an orbital view of the via grid, is the hole diameter uniform and circular across the entire array?",
+          "q": "During an orbital view of the via grid, do the plated through-holes maintain uniform finished diameter (typically 0.2-0.3mm for micro-vias, 0.3-0.8mm for standard vias) and circular cross-section, with consistent annular ring width (typically 0.15-0.25mm) without elongation or breakout?",
           "answer": "yes"
         }
       ],
@@ -3436,7 +3436,7 @@
       "prompt": "Analyze this wire bonding process during oscillation. Describe the gold wire arc, capillary tool, and how the ball-stitch bonding creates interconnections between the IC die and lead frame.",
       "text": "During wire bonding oscillation, a gold or aluminum wire is fed through a capillary tool that creates ball bonds on the IC die bond pads and stitch bonds on the lead frame. The wire forms a characteristic arc (loop) between the two bond points, with the loop height and shape controlled by the capillary trajectory. The oscillating motion involves the capillary descending to create a ball bond on the die pad, rising to form the wire loop, traveling to the lead frame position, and descending to create a stitch bond. Each bond cycle takes approximately 15-50 milliseconds.",
       "vfa_target": "Wire bonding oscillation kinematics and loop formation",
-      "failure_target": "I2V model fails to maintain consistent wire loop geometry during oscillation, loop height or wire path appears discontinuous between bond points",
+      "failure_target": "I2V model introduces kinks or sag in the wire bond loop (should be smooth catenary, 25-50 micrometer diameter wire, 100-200 micrometer loop height) during oscillation, or changes loop height inconsistently between first and second bond",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -3468,13 +3468,13 @@
         },
         {
           "id": "q3",
-          "text": "During wire bonding oscillation, does the wire loop maintain a smooth, continuous arc between bond points?",
+          "text": "During wire bonding oscillation, does the gold or aluminum wire loop maintain a smooth catenary arc (loop height typically 100-200 micrometers above the bond pad) with consistent wire diameter (typically 25-50 micrometers) between the first bond (on die) and second bond (on lead frame) without kinks or sagging?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During wire bonding oscillation, does the wire loop maintain a smooth, continuous arc between bond points?",
+          "q": "During wire bonding oscillation, does the gold or aluminum wire loop maintain a smooth catenary arc (loop height typically 100-200 micrometers above the bond pad) with consistent wire diameter (typically 25-50 micrometers) between the first bond (on die) and second bond (on lead frame) without kinks or sagging?",
           "answer": "yes"
         }
       ],
@@ -3492,7 +3492,7 @@
       "prompt": "Analyze this IC die surface during a dolly-in approach. Describe the active circuit regions, bond pad array, and passivation layer as the camera moves closer to the silicon die.",
       "text": "During a dolly-in toward an IC die surface, the camera reveals the microscopic landscape of the integrated circuit. The die surface features a glassivation (passivation) layer that protects the underlying circuitry, with bond pad openings at the periphery for wire bonding connections. The active circuit regions show patterns of metal interconnect layers, with different colors indicating different metal layers (typically aluminum or copper). As the camera approaches, the regular grid of standard cells in the digital logic area, the analog circuit blocks, and the ESD protection structures around the bond pads become progressively visible.",
       "vfa_target": "IC die surface circuit layout and passivation detail during approach",
-      "failure_target": "I2V model fails to maintain circuit pattern consistency during dolly-in, metal interconnect patterns or bond pad geometry distorts at close range",
+      "failure_target": "I2V model violates Manhattan routing geometry (90/45-degree bends only) on IC die metal layers during dolly-in, and changes bond pad pitch (should be 50-100 micrometers uniformly) or misaligns passivation windows",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -3524,13 +3524,13 @@
         },
         {
           "id": "q3",
-          "text": "During a dolly-in, does the die surface maintain consistent circuit pattern geometry without visual artifacts?",
+          "text": "During a dolly-in to the IC die, do the top metal interconnect layers maintain Manhattan-geometry routing (90-degree or 45-degree bends only), the bond pad pitch (typically 50-100 micrometers) remain uniform, and the passivation window openings stay properly aligned without pattern drift or stitching artifacts?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During a dolly-in, does the die surface maintain consistent circuit pattern geometry without visual artifacts?",
+          "q": "During a dolly-in to the IC die, do the top metal interconnect layers maintain Manhattan-geometry routing (90-degree or 45-degree bends only), the bond pad pitch (typically 50-100 micrometers) remain uniform, and the passivation window openings stay properly aligned without pattern drift or stitching artifacts?",
           "answer": "yes"
         }
       ],
@@ -3548,7 +3548,7 @@
       "prompt": "Analyze this silicon wafer surface from an orbital camera path. Describe the die layout pattern, scribe lines, and how the regular grid of individual die sites covers the circular wafer surface.",
       "text": "A silicon wafer surface contains a regular grid of identical die sites separated by scribe lines (streets) where the wafer will be diced into individual chips. The orbital camera path reveals how the rectangular die pattern fills the circular wafer, with partial die sites at the wafer edge. Each die site contains the complete IC circuit pattern, with test structures placed in the scribe lines for process monitoring. The wafer surface has a characteristic specular finish from the CMP (chemical-mechanical planarization) process, with the die grid creating a repeating pattern that covers the entire wafer area.",
       "vfa_target": "Wafer surface die grid pattern and scribe line consistency during orbit",
-      "failure_target": "I2V model fails to maintain uniform die grid spacing and scribe line consistency during orbital view, die boundaries shift or grid alignment drifts across the wafer",
+      "failure_target": "I2V model changes die grid scribe line width (50-100 micrometers) or die pitch during orbit, and causes alignment vernier patterns at grid intersections to drift or lose registration toward the wafer edge",
       "reverse": false,
       "extra_frame": 1,
       "questions": [
@@ -3580,13 +3580,13 @@
         },
         {
           "id": "q3",
-          "text": "During an orbital view of the wafer, is the die grid spacing uniform and aligned consistently across the entire surface?",
+          "text": "During an orbital view of the silicon wafer, do the individual die maintain their rectangular grid layout with uniform scribe line (street) width (typically 50-100 micrometers), consistent die pitch in both X and Y, and the alignment vernier patterns at grid intersections remain properly registered without drift toward the wafer edge?",
           "options": [
             "yes",
             "no"
           ],
           "correct": 0,
-          "q": "During an orbital view of the wafer, is the die grid spacing uniform and aligned consistently across the entire surface?",
+          "q": "During an orbital view of the silicon wafer, do the individual die maintain their rectangular grid layout with uniform scribe line (street) width (typically 50-100 micrometers), consistent die pitch in both X and Y, and the alignment vernier patterns at grid intersections remain properly registered without drift toward the wafer edge?",
           "answer": "yes"
         }
       ],
