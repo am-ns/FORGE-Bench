@@ -9,6 +9,7 @@ import numpy as np
 # -- Tunable thresholds -------------------------------------------------------
 CONFIG = {
     "min_keypoints": 10,              # Minimum SIFT keypoints required for reliable scoring
+    "min_matches": 20,                # Minimum good matches for reliable scoring
     "fallback_score": 0.30,           # Score returned when too few keypoints are detected
     "match_ratio_threshold": 0.75,    # Lowe's ratio test threshold for good matches
     "score_floor": 0.10,              # Minimum result_score to prevent degenerate near-zero values
@@ -80,14 +81,40 @@ def evaluate_lattice(image_a: np.ndarray, image_b: np.ndarray) -> dict:
         }
 
     good_matches = match_keypoints(desc_a, desc_b)
+    n_matches = len(good_matches)
+
+    if n_matches < 5:
+        return {
+            "num_keypoints_a": n_kp_a,
+            "num_keypoints_b": n_kp_b,
+            "num_matches": n_matches,
+            "match_ratio": 0.0,
+            "result_score": None,
+            "method": "sift_homography",
+            "note": "fewer than 5 matches, score unreliable",
+        }
+
+    if n_matches < CONFIG["min_matches"]:
+        return {
+            "num_keypoints_a": n_kp_a,
+            "num_keypoints_b": n_kp_b,
+            "num_matches": n_matches,
+            "match_ratio": 0.0,
+            "result_score": 0.25,
+            "insufficient_keypoints": True,
+            "n_matches": n_matches,
+            "method": "sift_homography",
+            "note": "below recommended 20 matches, score unreliable",
+        }
+
     max_possible = min(n_kp_a, n_kp_b)
-    match_ratio = len(good_matches) / max_possible if max_possible > 0 else 0.0
+    match_ratio = n_matches / max_possible if max_possible > 0 else 0.0
     result_score = max(CONFIG["score_floor"], match_ratio)
 
     return {
         "num_keypoints_a": n_kp_a,
         "num_keypoints_b": n_kp_b,
-        "num_matches": len(good_matches),
+        "num_matches": n_matches,
         "match_ratio": match_ratio,
         "result_score": result_score,
     }
