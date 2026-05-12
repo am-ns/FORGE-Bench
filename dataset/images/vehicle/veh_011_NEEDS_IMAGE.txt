@@ -1,0 +1,15 @@
+IMAGE SPECIFICATION
+===================
+Task ID: veh_011
+Domain: vehicle
+Topology: surface
+Required Image: dataset/images/vehicle/veh_011.jpg
+
+Description:
+Analyze this cargo ship hull from an orbital camera path. Describe the hull surface geometry, bow shape, and how the smooth curved surface transitions from the waterline to the deck edge.
+
+Technical Context:
+A cargo ship hull is a complex curved surface designed for hydrodynamic efficiency. The bow flares outward to deflect waves, the midship section has a flat bottom with bilge curves transitioning to ve
+
+VFA Target: Ship hull surface geometry and hydrodynamic contour
+Failure Target: I2V model fails to maintain smooth hull surface curvature during orbit, plate edges or surface transitions become discontinuous or faceted

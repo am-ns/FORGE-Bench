@@ -1,0 +1,15 @@
+IMAGE SPECIFICATION
+===================
+Task ID: eng_009
+Domain: energy
+Topology: kinematic
+Required Image: dataset/images/energy/eng_009.jpg
+
+Description:
+Analyze this solar panel during a dolly-in approach. Describe the cell grid pattern, bus bars, and anti-reflective coating as the camera moves closer to the panel surface.
+
+Technical Context:
+During a dolly-in toward a solar panel, the camera reveals the regular grid of photovoltaic cells connected by silver bus bars and finger gridlines. Each cell is a silicon wafer with an anti-reflectiv
+
+VFA Target: Solar panel cell grid pattern and bus bar connectivity during approach
+Failure Target: I2V model fails to maintain consistent cell grid spacing and bus bar linearity during dolly-in, cell boundaries or connecting ribbons distort at close range

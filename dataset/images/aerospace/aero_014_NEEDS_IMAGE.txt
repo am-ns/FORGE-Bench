@@ -1,0 +1,15 @@
+IMAGE SPECIFICATION
+===================
+Task ID: aero_014
+Domain: aerospace
+Topology: kinematic
+Required Image: dataset/images/aerospace/aero_014.jpg
+
+Description:
+Analyze this Boeing 747 engine nacelle during a dolly-in approach. Describe the nacelle's external geometry, inlet lip, fan cowl, and thrust reverser components as the camera moves closer.
+
+Technical Context:
+During a dolly-in toward a Boeing 747 engine nacelle, the camera reveals progressive detail of the high-bypass turbofan housing. The nacelle consists of an aerodynamic inlet lip that smooths airflow i
+
+VFA Target: Engine nacelle geometry and component detail during proximity approach
+Failure Target: I2V model loses nacelle cylindrical geometry during dolly-in, panel lines and inlet lip shape distort as camera approaches

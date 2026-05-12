@@ -1,0 +1,15 @@
+IMAGE SPECIFICATION
+===================
+Task ID: veh_008
+Domain: vehicle
+Topology: kinematic
+Required Image: dataset/images/vehicle/veh_008.jpg
+
+Description:
+Analyze this excavator arm hydraulic kinematics. Describe the boom, stick, and bucket linkage geometry, and how the hydraulic cylinders control the multi-joint articulated arm movement.
+
+Technical Context:
+An excavator arm consists of three main articulated segments: the boom, stick (arm), and bucket, each controlled by hydraulic cylinders. The boom cylinder raises and lowers the entire arm assembly, th
+
+VFA Target: Excavator arm multi-joint kinematics and hydraulic control
+Failure Target: I2V model distorts excavator arm linkage geometry during movement, joint angles and cylinder positions become inconsistent with bucket trajectory

@@ -1,0 +1,15 @@
+IMAGE SPECIFICATION
+===================
+Task ID: veh_010
+Domain: vehicle
+Topology: lattice
+Required Image: dataset/images/vehicle/veh_010.jpg
+
+Description:
+Analyze the suspension bridge cable array from a panning camera. Describe the main cables, suspender cables, and how the repeating pattern of vertical hangers creates a regular lattice structure supporting the deck.
+
+Technical Context:
+A suspension bridge cable array consists of two main catenary cables running between towers, with vertical suspender cables hanging at regular intervals to support the bridge deck. The suspender cable
+
+VFA Target: Bridge cable lattice geometry and suspender spacing consistency
+Failure Target: I2V model fails to maintain uniform suspender cable spacing and vertical alignment during pan, cable positions drift or spacing becomes irregular

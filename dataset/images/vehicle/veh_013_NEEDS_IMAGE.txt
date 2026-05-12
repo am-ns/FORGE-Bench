@@ -1,0 +1,15 @@
+IMAGE SPECIFICATION
+===================
+Task ID: veh_013
+Domain: vehicle
+Topology: kinematic
+Required Image: dataset/images/vehicle/veh_013.jpg
+
+Description:
+Analyze this truck engine bay during a dolly-in approach. Describe the engine block, wiring harnesses, and cooling system components as the camera moves closer into the engine compartment.
+
+Technical Context:
+During a dolly-in toward a truck engine bay, the camera reveals the diesel engine block with its cast-iron construction, the turbocharger assembly, and the charge air cooler mounted on top. Wiring har
+
+VFA Target: Truck engine bay component detail and spatial packaging during approach
+Failure Target: I2V model loses component detail and spatial relationships during dolly-in, wiring paths or component positions shift unnaturally at close range

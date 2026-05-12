@@ -1,0 +1,15 @@
+IMAGE SPECIFICATION
+===================
+Task ID: veh_007
+Domain: vehicle
+Topology: kinematic
+Required Image: dataset/images/vehicle/veh_007.jpg
+
+Description:
+Analyze this crane boom extension mechanism. Describe the telescoping sections, hydraulic cylinders, and how the boom extends kinematically while maintaining structural alignment.
+
+Technical Context:
+A mobile crane boom extension system consists of multiple telescoping sections that slide within each other, driven by hydraulic extension cylinders. The base section is the largest, with each success
+
+VFA Target: Telescoping boom kinematics and hydraulic extension sequence
+Failure Target: I2V model fails to maintain proper nesting alignment between telescoping sections during extension, section proportions warp or overlap incorrectly

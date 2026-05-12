@@ -1,0 +1,15 @@
+IMAGE SPECIFICATION
+===================
+Task ID: mfg_009
+Domain: manufacturing
+Topology: kinematic
+Required Image: dataset/images/manufacturing/mfg_009.jpg
+
+Description:
+Analyze this assembly line during a vertical camera rise. Describe the conveyor levels, robotic workstations, and how the multi-level production system is organized vertically for space efficiency.
+
+Technical Context:
+During a vertical camera rise through a multi-level assembly line, the view transitions from the ground-floor material handling and logistics area through intermediate production levels to the upper-l
+
+VFA Target: Multi-level assembly line vertical structure and production flow
+Failure Target: I2V model distorts assembly line level spacing and workstation layout during vertical rise, floor-to-floor dimensions appear inconsistent

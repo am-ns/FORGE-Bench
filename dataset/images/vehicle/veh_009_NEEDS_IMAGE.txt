@@ -1,0 +1,15 @@
+IMAGE SPECIFICATION
+===================
+Task ID: veh_009
+Domain: vehicle
+Topology: lattice
+Required Image: dataset/images/vehicle/veh_009.jpg
+
+Description:
+Analyze this container ship deck from an orbital camera path. Describe the container grid arrangement, cell guides, and how the repeating lattice of standardized containers creates a uniform deck surface.
+
+Technical Context:
+A container ship deck displays a regular lattice of ISO shipping containers arranged in bays, rows, and tiers. Containers are 20 or 40 feet long, stacked in vertical columns guided by cell guides that
+
+VFA Target: Container ship deck lattice geometry and stacking consistency
+Failure Target: I2V model fails to maintain uniform container grid spacing and vertical alignment during orbital view, containers appear to shift or tilt inconsistently

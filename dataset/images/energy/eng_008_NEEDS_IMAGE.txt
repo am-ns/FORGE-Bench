@@ -1,0 +1,15 @@
+IMAGE SPECIFICATION
+===================
+Task ID: eng_008
+Domain: energy
+Topology: kinematic
+Required Image: dataset/images/energy/eng_008.jpg
+
+Description:
+Analyze this offshore platform during a vertical camera rise. Describe the platform structure, deck levels, and how the camera transition reveals the relationship between the jacket structure and the topsides facilities.
+
+Technical Context:
+During a vertical camera rise from the sea surface to the top of an offshore platform, the view transitions from the splash zone of the jacket structure through multiple deck levels to the flare boom 
+
+VFA Target: Offshore platform vertical structure and deck level relationships
+Failure Target: I2V model distorts platform jacket lattice structure or deck spacing during vertical rise, tubular member proportions shift as camera ascends

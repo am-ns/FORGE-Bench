@@ -1,0 +1,15 @@
+IMAGE SPECIFICATION
+===================
+Task ID: mfg_006
+Domain: manufacturing
+Topology: kinematic
+Required Image: dataset/images/manufacturing/mfg_006.jpg
+
+Description:
+Analyze this conveyor belt system during a lateral camera pan. Describe the belt surface, roller mechanism, and how the continuous belt movement creates a lateral translation of materials across the production floor.
+
+Technical Context:
+A manufacturing conveyor belt system consists of a continuous belt supported by rollers, driven by a motorized pulley at one end and tensioned by a tail pulley at the other. During a lateral camera pa
+
+VFA Target: Conveyor belt lateral motion and material transport continuity
+Failure Target: I2V model fails to maintain consistent belt surface motion and roller spacing during lateral pan, belt tracking or material positions shift unnaturally

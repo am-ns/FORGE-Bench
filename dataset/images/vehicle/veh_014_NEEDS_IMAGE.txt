@@ -1,0 +1,15 @@
+IMAGE SPECIFICATION
+===================
+Task ID: veh_014
+Domain: vehicle
+Topology: kinematic
+Required Image: dataset/images/vehicle/veh_014.jpg
+
+Description:
+Analyze this tower crane during a vertical camera rise. Describe the tower sections, jib, and counter-jib geometry as the camera ascends from the base to the top of the crane structure.
+
+Technical Context:
+During a vertical camera rise along a tower crane, the view transitions from the concrete foundation and base section through the lattice tower sections to the top-slewing unit. The tower consists of 
+
+VFA Target: Tower crane vertical structure geometry and proportional relationships
+Failure Target: I2V model distorts tower crane proportions during vertical rise, tower cross-section or jib-counter-jib geometry warps as camera ascends

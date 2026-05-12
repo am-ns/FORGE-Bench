@@ -1,0 +1,15 @@
+IMAGE SPECIFICATION
+===================
+Task ID: rob_008
+Domain: robotics
+Topology: kinematic
+Required Image: dataset/images/robotics/rob_008.jpg
+
+Description:
+Analyze this robotic end effector during a dolly-in approach. Describe the gripper fingers, pneumatic actuators, and sensor integration as the camera moves closer to the tooling.
+
+Technical Context:
+During a dolly-in toward a robotic end effector, the camera reveals the parallel gripper mechanism with its two opposing fingers driven by a pneumatic rotary actuator. The fingers feature replaceable 
+
+VFA Target: End effector mechanical detail and component integration during approach
+Failure Target: I2V model loses end effector mechanical precision during dolly-in, finger alignment or actuator geometry distorts at close range

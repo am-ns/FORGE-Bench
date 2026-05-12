@@ -1,0 +1,15 @@
+IMAGE SPECIFICATION
+===================
+Task ID: mfg_010
+Domain: manufacturing
+Topology: kinematic
+Required Image: dataset/images/manufacturing/mfg_010.jpg
+
+Description:
+Analyze this 3D printer nozzle during a dolly-in approach. Describe the nozzle tip, heating block, and how the precise extrusion mechanism deposits material layer by layer.
+
+Technical Context:
+During a dolly-in toward a 3D printer nozzle assembly, the camera reveals the brass nozzle tip with its precision-drilled orifice, the aluminum heating block with cartridge heater and thermistor, and 
+
+VFA Target: 3D printer nozzle extrusion mechanism and precision deposition detail
+Failure Target: I2V model loses nozzle tip geometry precision during dolly-in, orifice size or heating block proportions distort at close range

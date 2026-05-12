@@ -1,0 +1,15 @@
+IMAGE SPECIFICATION
+===================
+Task ID: eng_010
+Domain: energy
+Topology: surface
+Required Image: dataset/images/energy/eng_010.jpg
+
+Description:
+Analyze this wind farm from an orbital camera path. Describe the turbine array layout, spacing between turbines, and how the repeating pattern of turbine nacelles and towers creates a surface across the landscape.
+
+Technical Context:
+A wind farm consists of multiple wind turbines arranged in a regular array pattern across the landscape. The turbines are spaced 3-5 rotor diameters apart to minimize wake interference, creating a gri
+
+VFA Target: Wind farm array layout and turbine spacing consistency during orbit
+Failure Target: I2V model fails to maintain consistent turbine spacing and tower height proportions during orbital view, array pattern appears irregular or turbine sizes vary
