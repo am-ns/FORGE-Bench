@@ -8,7 +8,7 @@
     "domain",
     "topology_type",
     "image_path",
-    "text",
+    "prompt",
     "vfa_target",
     "questions",
     "constraint_annotations"
@@ -54,7 +54,11 @@
       "pattern": "^dataset/images/"
     },
     "vfa_target": {
-      "type": "string"
+      "type": "number"
+    },
+    "prompt": {
+      "type": "string",
+      "minLength": 50
     },
     "questions": {
       "type": "array",
