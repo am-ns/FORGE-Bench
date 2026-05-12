@@ -16,10 +16,111 @@ from eval.industrial_constraints.topology_merge_detector import check_topology_m
 # Dispatch table: (domain, topology_type) -> list of checker callables
 # Each checker is a callable(frames, **kwargs) -> dict
 _DISPATCH_TABLE: dict[tuple[str, str], list[dict]] = {
+    # --- aerospace ---
     ("aerospace", "surface"): [
         {"fn": check_count_invariant, "kwargs": {"element_type": "fuselage_protrusions"}},
         {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
     ],
+    ("aerospace", "kinematic"): [
+        {"fn": check_count_invariant, "kwargs": {"element_type": "turbine_blades"}},
+    ],
+    ("aerospace", "lattice"): [
+        {"fn": check_periodic_structure, "kwargs": {"structure_type": "lattice_jacket"}},
+    ],
+    # --- construction ---
+    ("construction", "kinematic"): [
+        {"fn": check_kinematic_coupling, "kwargs": {"mechanism_type": "conveyor"}},
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 3}},
+    ],
+    ("construction", "surface"): [
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+    ],
+    ("construction", "lattice"): [
+        {"fn": check_periodic_structure, "kwargs": {"structure_type": "lattice_jacket"}},
+    ],
+    # --- maritime ---
+    ("maritime", "surface"): [
+        {"fn": check_count_invariant, "kwargs": {"element_type": "fuselage_protrusions"}},
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+    ],
+    ("maritime", "kinematic"): [
+        {"fn": check_kinematic_coupling, "kwargs": {"mechanism_type": "conveyor"}},
+    ],
+    ("maritime", "lattice"): [
+        {"fn": check_periodic_structure, "kwargs": {"structure_type": "lattice_jacket"}},
+    ],
+    # --- chemical ---
+    ("chemical", "lattice"): [
+        {"fn": check_periodic_structure, "kwargs": {"structure_type": "lattice_jacket"}},
+        {"fn": check_count_invariant, "kwargs": {"element_type": "via_holes"}},
+    ],
+    ("chemical", "surface"): [
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+    ],
+    ("chemical", "kinematic"): [
+        {"fn": check_kinematic_coupling, "kwargs": {"mechanism_type": "conveyor"}},
+    ],
+    # --- mining ---
+    ("mining", "kinematic"): [
+        {"fn": check_kinematic_coupling, "kwargs": {"mechanism_type": "conveyor"}},
+        {"fn": check_count_invariant, "kwargs": {"element_type": "track_links"}},
+    ],
+    ("mining", "surface"): [
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+    ],
+    ("mining", "lattice"): [
+        {"fn": check_periodic_structure, "kwargs": {"structure_type": "lattice_jacket"}},
+    ],
+    # --- energy_power ---
+    ("energy_power", "kinematic"): [
+        {"fn": check_count_invariant, "kwargs": {"element_type": "turbine_blades"}},
+    ],
+    ("energy_power", "surface"): [
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+    ],
+    # --- energy_renewable ---
+    ("energy_renewable", "kinematic"): [
+        {"fn": check_count_invariant, "kwargs": {"element_type": "turbine_blades"}},
+        {"fn": check_periodic_structure, "kwargs": {"structure_type": "turbine_array"}},
+    ],
+    ("energy_renewable", "lattice"): [
+        {"fn": check_periodic_structure, "kwargs": {"structure_type": "lattice_jacket"}},
+    ],
+    ("energy_renewable", "surface"): [
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+    ],
+    # --- oil_gas ---
+    ("oil_gas", "surface"): [
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 3}},
+    ],
+    ("oil_gas", "lattice"): [
+        {"fn": check_periodic_structure, "kwargs": {"structure_type": "lattice_jacket"}},
+    ],
+    ("oil_gas", "kinematic"): [
+        {"fn": check_kinematic_coupling, "kwargs": {"mechanism_type": "conveyor"}},
+    ],
+    # --- electronics ---
+    ("electronics", "lattice"): [
+        {"fn": check_periodic_structure, "kwargs": {"structure_type": "pcb_trace"}},
+        {"fn": check_count_invariant, "kwargs": {"element_type": "via_holes"}},
+    ],
+    ("electronics", "surface"): [
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+    ],
+    ("electronics", "kinematic"): [
+        {"fn": check_kinematic_coupling, "kwargs": {"mechanism_type": "conveyor"}},
+    ],
+    # --- manufacturing ---
+    ("manufacturing", "kinematic"): [
+        {"fn": check_kinematic_coupling, "kwargs": {"mechanism_type": "scissor_lift"}},
+    ],
+    ("manufacturing", "lattice"): [
+        {"fn": check_periodic_structure, "kwargs": {"structure_type": "lattice_jacket"}},
+    ],
+    ("manufacturing", "surface"): [
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+    ],
+    # --- legacy aliases (samples.json uses these domain names) ---
     ("microelectronics", "lattice"): [
         {"fn": check_periodic_structure, "kwargs": {"structure_type": "pcb_trace"}},
         {"fn": check_count_invariant, "kwargs": {"element_type": "via_holes"}},
@@ -38,9 +139,6 @@ _DISPATCH_TABLE: dict[tuple[str, str], list[dict]] = {
     ("vehicle", "surface"): [
         {"fn": check_count_invariant, "kwargs": {"element_type": "track_links"}},
         {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
-    ],
-    ("manufacturing", "kinematic"): [
-        {"fn": check_kinematic_coupling, "kwargs": {"mechanism_type": "scissor_lift"}},
     ],
 }
 
