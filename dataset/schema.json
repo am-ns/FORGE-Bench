@@ -62,19 +62,27 @@
     },
     "questions": {
       "type": "array",
-      "minItems": 2,
+      "minItems": 3,
       "items": {
         "type": "object",
-        "required": ["q", "answer"],
+        "required": ["id", "text", "answer", "weakness_target"],
         "properties": {
-          "q": {
+          "id": {
+            "type": "string"
+          },
+          "text": {
             "type": "string"
           },
           "answer": {
-            "type": "string"
+            "type": "string",
+            "enum": ["yes", "no"]
+          },
+          "weakness_target": {
+            "type": "string",
+            "pattern": "^W[2-7]$"
           }
         },
-        "additionalProperties": true
+        "additionalProperties": false
       }
     },
     "constraint_annotations": {
