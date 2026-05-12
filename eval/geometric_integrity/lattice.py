@@ -93,7 +93,8 @@ def evaluate_lattice(image_a: np.ndarray, image_b: np.ndarray) -> dict:
             "num_keypoints_b": n_kp_b,
             "num_matches": n_matches,
             "match_ratio": 0.0,
-            "result_score": None,
+            "result_score": CONFIG["score_floor"],
+            "fewer_than_5_matches": True,
             "method": "sift_homography",
             "note": "fewer than 5 matches, score unreliable",
         }
