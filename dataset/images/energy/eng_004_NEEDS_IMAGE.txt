@@ -1,0 +1,10 @@
+IMAGE SPEC: eng_004
+==================================================
+Subject: Offshore wind farm vertical rise
+Topology: rise (camera rises vertically revealing turbine array layout)
+Target path: dataset/images/energy/eng_004.jpg
+
+Search terms: offshore wind farm aerial view turbines North Sea
+Wikimedia category: https://commons.wikimedia.org/wiki/Category:Offshore_wind_farms
+
+Requirements: Need top-down or near-vertical view of multiple offshore turbines. Should show array spacing pattern. 1920x1080 minimum.

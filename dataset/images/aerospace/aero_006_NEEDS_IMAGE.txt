@@ -1,0 +1,10 @@
+IMAGE SPEC: aero_006
+==================================================
+Subject: Boeing 747 nose-up climb tilt shot
+Topology: tilt (camera tilts upward tracking aircraft climb angle)
+Target path: dataset/images/aerospace/aero_006.jpg
+
+Search terms: Boeing 747 climbing takeoff nose up angle
+Wikimedia category: https://commons.wikimedia.org/wiki/Category:Boeing_747_in_flight
+
+Requirements: Need side-profile or 3/4 view of 747 at ~5-10 degree nose-up pitch. 1920x1080 minimum. Commercial livery preferred.

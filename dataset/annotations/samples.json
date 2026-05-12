@@ -11,13 +11,23 @@
         {
           "id": "q1",
           "text": "What type of engines does the Boeing 747-400 typically use?",
-          "options": ["CF6-80C2", "Rolls-Royce Trent 800", "Pratt & Whitney PW4000", "All of the above"],
+          "options": [
+            "CF6-80C2",
+            "Rolls-Royce Trent 800",
+            "Pratt & Whitney PW4000",
+            "All of the above"
+          ],
           "correct": 3
         },
         {
           "id": "q2",
           "text": "What is the typical cruise altitude for a Boeing 747-400?",
-          "options": ["25,000 ft", "31,000-41,000 ft", "45,000 ft", "50,000 ft"],
+          "options": [
+            "25,000 ft",
+            "31,000-41,000 ft",
+            "45,000 ft",
+            "50,000 ft"
+          ],
           "correct": 1
         }
       ]
@@ -33,13 +43,23 @@
         {
           "id": "q1",
           "text": "How many wheels does the Airbus A380 landing gear have?",
-          "options": ["16", "18", "20", "22"],
+          "options": [
+            "16",
+            "18",
+            "20",
+            "22"
+          ],
           "correct": 3
         },
         {
           "id": "q2",
           "text": "What is the wingspan of the Airbus A380?",
-          "options": ["73.8 m", "79.8 m", "84.2 m", "89.5 m"],
+          "options": [
+            "73.8 m",
+            "79.8 m",
+            "84.2 m",
+            "89.5 m"
+          ],
           "correct": 1
         }
       ]
@@ -55,13 +75,23 @@
         {
           "id": "q1",
           "text": "What material were the Space Shuttle's thermal protection tiles made of?",
-          "options": ["Carbon fiber", "Silica fiber", "Titanium alloy", "Ceramic composite"],
+          "options": [
+            "Carbon fiber",
+            "Silica fiber",
+            "Titanium alloy",
+            "Ceramic composite"
+          ],
           "correct": 1
         },
         {
           "id": "q2",
           "text": "How many Space Shuttle missions were flown in total?",
-          "options": ["115", "135", "155", "175"],
+          "options": [
+            "115",
+            "135",
+            "155",
+            "175"
+          ],
           "correct": 1
         }
       ]
@@ -77,13 +107,23 @@
         {
           "id": "q1",
           "text": "What is the main advantage of tandem rotor configuration?",
-          "options": ["Faster speed", "Higher altitude", "Greater lifting capacity", "Lower fuel consumption"],
+          "options": [
+            "Faster speed",
+            "Higher altitude",
+            "Greater lifting capacity",
+            "Lower fuel consumption"
+          ],
           "correct": 2
         },
         {
           "id": "q2",
           "text": "What is the maximum payload capacity of the CH-47 Chinook?",
-          "options": ["5,000 kg", "10,000 kg", "15,000 kg", "20,000 kg"],
+          "options": [
+            "5,000 kg",
+            "10,000 kg",
+            "15,000 kg",
+            "20,000 kg"
+          ],
           "correct": 2
         }
       ]
@@ -99,13 +139,23 @@
         {
           "id": "q1",
           "text": "What is the maximum cruise speed of the Gulfstream G650?",
-          "options": ["Mach 0.80", "Mach 0.85", "Mach 0.925", "Mach 1.0"],
+          "options": [
+            "Mach 0.80",
+            "Mach 0.85",
+            "Mach 0.925",
+            "Mach 1.0"
+          ],
           "correct": 2
         },
         {
           "id": "q2",
           "text": "What engines power the Gulfstream G650?",
-          "options": ["Pratt & Whitney PW800", "Rolls-Royce BR725", "General Electric CF34", "Honeywell HTF7000"],
+          "options": [
+            "Pratt & Whitney PW800",
+            "Rolls-Royce BR725",
+            "General Electric CF34",
+            "Honeywell HTF7000"
+          ],
           "correct": 1
         }
       ]
@@ -121,13 +171,23 @@
         {
           "id": "q1",
           "text": "What does TEU stand for in container shipping?",
-          "options": ["Total Equivalent Units", "Twenty-foot Equivalent Unit", "Transport Efficiency Unit", "Terminal Entry Unit"],
+          "options": [
+            "Total Equivalent Units",
+            "Twenty-foot Equivalent Unit",
+            "Transport Efficiency Unit",
+            "Terminal Entry Unit"
+          ],
           "correct": 1
         },
         {
           "id": "q2",
           "text": "What is the purpose of a bulbous bow on cargo ships?",
-          "options": ["Aesthetic design", "Reduced wave resistance", "Increased cargo space", "Structural support"],
+          "options": [
+            "Aesthetic design",
+            "Reduced wave resistance",
+            "Increased cargo space",
+            "Structural support"
+          ],
           "correct": 1
         }
       ]
@@ -143,13 +203,23 @@
         {
           "id": "q1",
           "text": "What is the payload capacity of the Caterpillar 797F?",
-          "options": ["200 tons", "300 tons", "400 tons", "500 tons"],
+          "options": [
+            "200 tons",
+            "300 tons",
+            "400 tons",
+            "500 tons"
+          ],
           "correct": 2
         },
         {
           "id": "q2",
           "text": "What type of powertrain does the 797F use?",
-          "options": ["Diesel-hydraulic", "Diesel-electric", "Electric only", "Hybrid diesel"],
+          "options": [
+            "Diesel-hydraulic",
+            "Diesel-electric",
+            "Electric only",
+            "Hybrid diesel"
+          ],
           "correct": 1
         }
       ]
@@ -165,13 +235,23 @@
         {
           "id": "q1",
           "text": "What provides stability for a tower crane?",
-          "options": ["Guy wires", "Counterweights", "Foundation bolts", "All of the above"],
+          "options": [
+            "Guy wires",
+            "Counterweights",
+            "Foundation bolts",
+            "All of the above"
+          ],
           "correct": 3
         },
         {
           "id": "q2",
           "text": "What mechanism moves loads horizontally on a tower crane?",
-          "options": ["Hoist winch", "Trolley mechanism", "Slew motor", "Luffing jib"],
+          "options": [
+            "Hoist winch",
+            "Trolley mechanism",
+            "Slew motor",
+            "Luffing jib"
+          ],
           "correct": 1
         }
       ]
@@ -187,13 +267,23 @@
         {
           "id": "q1",
           "text": "What provides the digging force in a hydraulic excavator?",
-          "options": ["Electric motors", "Hydraulic cylinders", "Pneumatic actuators", "Mechanical gears"],
+          "options": [
+            "Electric motors",
+            "Hydraulic cylinders",
+            "Pneumatic actuators",
+            "Mechanical gears"
+          ],
           "correct": 1
         },
         {
           "id": "q2",
           "text": "What is the typical operating weight of a large mining excavator?",
-          "options": ["20-30 tons", "50-80 tons", "100-200 tons", "300-800 tons"],
+          "options": [
+            "20-30 tons",
+            "50-80 tons",
+            "100-200 tons",
+            "300-800 tons"
+          ],
           "correct": 3
         }
       ]
@@ -209,13 +299,23 @@
         {
           "id": "q1",
           "text": "Why do heavy haul trucks have multiple axles?",
-          "options": ["Faster acceleration", "Better fuel efficiency", "Weight distribution", "Improved handling"],
+          "options": [
+            "Faster acceleration",
+            "Better fuel efficiency",
+            "Weight distribution",
+            "Improved handling"
+          ],
           "correct": 2
         },
         {
           "id": "q2",
           "text": "What type of loads do heavy haul trucks typically transport?",
-          "options": ["Consumer goods", "Oversized industrial equipment", "Liquid fuels", "Agricultural products"],
+          "options": [
+            "Consumer goods",
+            "Oversized industrial equipment",
+            "Liquid fuels",
+            "Agricultural products"
+          ],
           "correct": 1
         }
       ]
@@ -231,13 +331,23 @@
         {
           "id": "q1",
           "text": "How many degrees of freedom does a typical industrial robot arm have?",
-          "options": ["3", "4", "6", "8"],
+          "options": [
+            "3",
+            "4",
+            "6",
+            "8"
+          ],
           "correct": 2
         },
         {
           "id": "q2",
           "text": "What sensors provide position feedback in robot arms?",
-          "options": ["Cameras", "Encoders", "Microphones", "Pressure sensors"],
+          "options": [
+            "Cameras",
+            "Encoders",
+            "Microphones",
+            "Pressure sensors"
+          ],
           "correct": 1
         }
       ]
@@ -253,13 +363,23 @@
         {
           "id": "q1",
           "text": "What does SLAM stand for in robotics?",
-          "options": ["Single Location And Mapping", "Simultaneous Localization And Mapping", "Systematic Layout And Movement", "Synchronized Laser And Motion"],
+          "options": [
+            "Single Location And Mapping",
+            "Simultaneous Localization And Mapping",
+            "Systematic Layout And Movement",
+            "Synchronized Laser And Motion"
+          ],
           "correct": 1
         },
         {
           "id": "q2",
           "text": "What primary sensor do autonomous robots use for obstacle detection?",
-          "options": ["GPS", "LiDAR", "Radar", "Sonar"],
+          "options": [
+            "GPS",
+            "LiDAR",
+            "Radar",
+            "Sonar"
+          ],
           "correct": 1
         }
       ]
@@ -275,13 +395,23 @@
         {
           "id": "q1",
           "text": "What is the main safety feature of collaborative robots?",
-          "options": ["Safety cages", "Force-limited joints", "Emergency stops", "Speed reduction"],
+          "options": [
+            "Safety cages",
+            "Force-limited joints",
+            "Emergency stops",
+            "Speed reduction"
+          ],
           "correct": 1
         },
         {
           "id": "q2",
           "text": "What distinguishes cobots from traditional industrial robots?",
-          "options": ["Faster speed", "Higher payload", "Safe human interaction", "Lower cost"],
+          "options": [
+            "Faster speed",
+            "Higher payload",
+            "Safe human interaction",
+            "Lower cost"
+          ],
           "correct": 2
         }
       ]
@@ -291,19 +421,29 @@
       "domain": "manufacturing",
       "image_path": "manufacturing/cnc_machine.jpg",
       "prompt": "Analyze this CNC machining center. Describe its tool changer system, spindle configuration, and how computer numerical control achieves precise material removal in manufacturing.",
-      "text": "CNC machining centers feature automatic tool changers, high-speed spindles, and computer-controlled axes. They read G-code instructions to precisely remove material from workpieces, achieving tolerances of ±0.001 inches.",
+      "text": "CNC machining centers feature automatic tool changers, high-speed spindles, and computer-controlled axes. They read G-code instructions to precisely remove material from workpieces, achieving tolerances of \u00b10.001 inches.",
       "vfa_target": "Precision manufacturing and CNC technology",
       "questions": [
         {
           "id": "q1",
           "text": "What language do CNC machines use for programming?",
-          "options": ["Python", "G-code", "Java", "C++"],
+          "options": [
+            "Python",
+            "G-code",
+            "Java",
+            "C++"
+          ],
           "correct": 1
         },
         {
           "id": "q2",
           "text": "What is the typical tolerance achievable with CNC machining?",
-          "options": ["±0.01 inches", "±0.001 inches", "±0.1 inches", "±0.0001 inches"],
+          "options": [
+            "\u00b10.01 inches",
+            "\u00b10.001 inches",
+            "\u00b10.1 inches",
+            "\u00b10.0001 inches"
+          ],
           "correct": 1
         }
       ]
@@ -319,13 +459,23 @@
         {
           "id": "q1",
           "text": "What is the fundamental principle of 3D printing?",
-          "options": ["Subtractive manufacturing", "Additive manufacturing", "Injection molding", "Casting"],
+          "options": [
+            "Subtractive manufacturing",
+            "Additive manufacturing",
+            "Injection molding",
+            "Casting"
+          ],
           "correct": 1
         },
         {
           "id": "q2",
           "text": "Which material can industrial 3D printers process?",
-          "options": ["Only plastics", "Only metals", "Metals, plastics, and ceramics", "Only ceramics"],
+          "options": [
+            "Only plastics",
+            "Only metals",
+            "Metals, plastics, and ceramics",
+            "Only ceramics"
+          ],
           "correct": 2
         }
       ]
@@ -341,13 +491,23 @@
         {
           "id": "q1",
           "text": "What is the primary benefit of assembly line production?",
-          "options": ["Lower labor costs", "Higher throughput", "Better quality", "All of the above"],
+          "options": [
+            "Lower labor costs",
+            "Higher throughput",
+            "Better quality",
+            "All of the above"
+          ],
           "correct": 3
         },
         {
           "id": "q2",
           "text": "Who pioneered the moving assembly line?",
-          "options": ["Thomas Edison", "Henry Ford", "Andrew Carnegie", "John D. Rockefeller"],
+          "options": [
+            "Thomas Edison",
+            "Henry Ford",
+            "Andrew Carnegie",
+            "John D. Rockefeller"
+          ],
           "correct": 1
         }
       ]
@@ -363,13 +523,23 @@
         {
           "id": "q1",
           "text": "What type of structure is commonly used for offshore platforms in shallow water?",
-          "options": ["Floating platform", "Jacket structure", "Spar buoy", "Tension leg platform"],
+          "options": [
+            "Floating platform",
+            "Jacket structure",
+            "Spar buoy",
+            "Tension leg platform"
+          ],
           "correct": 1
         },
         {
           "id": "q2",
           "text": "What is the maximum depth for fixed offshore platforms?",
-          "options": ["100 meters", "300 meters", "500 meters", "1000 meters"],
+          "options": [
+            "100 meters",
+            "300 meters",
+            "500 meters",
+            "1000 meters"
+          ],
           "correct": 2
         }
       ]
@@ -385,13 +555,23 @@
         {
           "id": "q1",
           "text": "How many blades do modern wind turbines typically have?",
-          "options": ["1", "2", "3", "5"],
+          "options": [
+            "1",
+            "2",
+            "3",
+            "5"
+          ],
           "correct": 2
         },
         {
           "id": "q2",
           "text": "What does the gearbox do in a wind turbine?",
-          "options": ["Controls blade pitch", "Increases rotation speed", "Generates electricity", "Stores energy"],
+          "options": [
+            "Controls blade pitch",
+            "Increases rotation speed",
+            "Generates electricity",
+            "Stores energy"
+          ],
           "correct": 1
         }
       ]
@@ -407,13 +587,23 @@
         {
           "id": "q1",
           "text": "What do solar tracking systems do?",
-          "options": ["Store energy", "Follow the sun's movement", "Convert DC to AC", "Clean panels"],
+          "options": [
+            "Store energy",
+            "Follow the sun's movement",
+            "Convert DC to AC",
+            "Clean panels"
+          ],
           "correct": 1
         },
         {
           "id": "q2",
           "text": "How much more energy do tracking systems produce vs fixed panels?",
-          "options": ["5-10%", "15-20%", "25-30%", "40-50%"],
+          "options": [
+            "5-10%",
+            "15-20%",
+            "25-30%",
+            "40-50%"
+          ],
           "correct": 2
         }
       ]
@@ -429,13 +619,23 @@
         {
           "id": "q1",
           "text": "What does SMT stand for in electronics manufacturing?",
-          "options": ["Signal Management Technology", "Surface Mount Technology", "System Module Testing", "Solder Mask Treatment"],
+          "options": [
+            "Signal Management Technology",
+            "Surface Mount Technology",
+            "System Module Testing",
+            "Solder Mask Treatment"
+          ],
           "correct": 1
         },
         {
           "id": "q2",
           "text": "What is the purpose of vias in a PCB?",
-          "options": ["Heat dissipation", "Connect layers", "Signal filtering", "Power regulation"],
+          "options": [
+            "Heat dissipation",
+            "Connect layers",
+            "Signal filtering",
+            "Power regulation"
+          ],
           "correct": 1
         }
       ]
@@ -451,13 +651,23 @@
         {
           "id": "q1",
           "text": "What process patterns transistors on silicon wafers?",
-          "options": ["Electroplating", "Photolithography", "Chemical vapor deposition", "Sputtering"],
+          "options": [
+            "Electroplating",
+            "Photolithography",
+            "Chemical vapor deposition",
+            "Sputtering"
+          ],
           "correct": 1
         },
         {
           "id": "q2",
           "text": "What is the smallest feature size in modern chip fabrication?",
-          "options": ["70nm", "7nm", "700nm", "0.7nm"],
+          "options": [
+            "70nm",
+            "7nm",
+            "700nm",
+            "0.7nm"
+          ],
           "correct": 1
         }
       ]
@@ -473,13 +683,443 @@
         {
           "id": "q1",
           "text": "What connects the die to the lead frame in wire bonding?",
-          "options": ["Solder paste", "Gold or aluminum wires", "Copper traces", "Conductive adhesive"],
+          "options": [
+            "Solder paste",
+            "Gold or aluminum wires",
+            "Copper traces",
+            "Conductive adhesive"
+          ],
           "correct": 1
         },
         {
           "id": "q2",
           "text": "What is the main purpose of semiconductor packaging?",
-          "options": ["Signal amplification", "Protection and connection", "Power regulation", "Data storage"],
+          "options": [
+            "Signal amplification",
+            "Protection and connection",
+            "Power regulation",
+            "Data storage"
+          ],
+          "correct": 1
+        }
+      ]
+    },
+    {
+      "task_id": "aero_006",
+      "domain": "aerospace",
+      "topology_type": "tilt",
+      "image_path": "aerospace/aero_006.jpg",
+      "prompt": "Analyze this Boeing 747 during a nose-up climb. Describe the aircraft's pitch angle, wing loading during climb, and how the high-lift devices (flaps and slats) are configured for this climb attitude.",
+      "text": "During a nose-up climb, the Boeing 747 increases its angle of attack, generating additional lift from the wing's camber. The leading-edge slats and trailing-edge flaps may be partially deployed at lower altitudes. The four turbofan engines provide excess thrust to maintain the climb rate while the fuselage attitude tilts upward relative to the horizon.",
+      "vfa_target": "Aircraft climb dynamics and high-lift aerodynamics",
+      "failure_target": "I2V model fails to maintain consistent upward pitch angle, fuselage oscillates or drifts level mid-generation",
+      "reverse": false,
+      "extra_frame": 1,
+      "questions": [
+        {
+          "id": "q1",
+          "text": "What is the typical climb angle for a Boeing 747 after takeoff?",
+          "options": [
+            "2-3 degrees",
+            "5-8 degrees",
+            "12-15 degrees",
+            "20-25 degrees"
+          ],
+          "correct": 1
+        },
+        {
+          "id": "q2",
+          "text": "What happens to induced drag during a steep climb?",
+          "options": [
+            "Decreases",
+            "Stays the same",
+            "Increases",
+            "Becomes zero"
+          ],
+          "correct": 2
+        },
+        {
+          "id": "q3",
+          "text": "Which control surface primarily controls pitch attitude?",
+          "options": [
+            "Ailerons",
+            "Rudder",
+            "Elevators",
+            "Spoilers"
+          ],
+          "correct": 2
+        },
+        {
+          "id": "q4",
+          "text": "What is the relationship between angle of attack and lift in the linear range?",
+          "options": [
+            "Inversely proportional",
+            "No relationship",
+            "Directly proportional",
+            "Exponentially proportional"
+          ],
+          "correct": 2
+        }
+      ]
+    },
+    {
+      "task_id": "eng_004",
+      "domain": "energy",
+      "topology_type": "rise",
+      "image_path": "energy/eng_004.jpg",
+      "prompt": "Analyze this offshore wind farm from a vertical rise perspective. Describe the turbine spacing, foundation types, and how the array layout optimizes energy capture while minimizing wake interference between turbines.",
+      "text": "Offshore wind farms use monopile or jacket foundations anchored to the seabed. Turbines are spaced 5-9 rotor diameters apart to minimize wake losses. The vertical rise viewpoint reveals the staggered array layout designed to maximize energy capture from prevailing wind directions while reducing turbulence from upstream turbines.",
+      "vfa_target": "Offshore wind farm layout and wake interaction dynamics",
+      "failure_target": "I2V model distorts turbine vertical proportions during upward camera rise, towers appear to stretch or compress unevenly",
+      "reverse": false,
+      "extra_frame": 1,
+      "questions": [
+        {
+          "id": "q1",
+          "text": "What is the typical spacing between offshore wind turbines?",
+          "options": [
+            "1-2 rotor diameters",
+            "5-9 rotor diameters",
+            "15-20 rotor diameters",
+            "25-30 rotor diameters"
+          ],
+          "correct": 1
+        },
+        {
+          "id": "q2",
+          "text": "What is a monopile foundation used for in offshore wind?",
+          "options": [
+            "Floating turbines only",
+            "Shallow water turbine support",
+            "Deep water anchoring",
+            "Cable routing"
+          ],
+          "correct": 1
+        },
+        {
+          "id": "q3",
+          "text": "What is wake interference in a wind farm?",
+          "options": [
+            "Turbine shutdown",
+            "Reduced wind speed behind turbines",
+            "Grid connection issues",
+            "Foundation erosion"
+          ],
+          "correct": 1
+        }
+      ]
+    },
+    {
+      "task_id": "mfg_004",
+      "domain": "manufacturing",
+      "topology_type": "kinematic",
+      "image_path": "manufacturing/mfg_004.jpg",
+      "prompt": "Analyze this conveyor belt system from a side view. Describe the belt material, roller configuration, drive mechanism, and how the system maintains consistent tension and speed for material transport.",
+      "text": "Industrial conveyor belts use vulcanized rubber or PVC belts supported by idler rollers spaced at regular intervals. The drive pulley at the head provides traction through friction, while gravity take-up mechanisms maintain belt tension. Speed is controlled by variable frequency drives (VFDs) connected to the motor and gearbox assembly.",
+      "vfa_target": "Conveyor kinematics and material handling dynamics",
+      "failure_target": "I2V model fails to render consistent belt motion, rollers appear to rotate out of sync or belt surface texture shifts during translation",
+      "reverse": false,
+      "extra_frame": 1,
+      "questions": [
+        {
+          "id": "q1",
+          "text": "What maintains tension in a conveyor belt system?",
+          "options": [
+            "Spring tensioners",
+            "Gravity take-up mechanism",
+            "Hydraulic cylinders",
+            "Pneumatic actuators"
+          ],
+          "correct": 1
+        },
+        {
+          "id": "q2",
+          "text": "What device controls conveyor belt speed?",
+          "options": [
+            "Mechanical gearbox only",
+            "Variable frequency drive (VFD)",
+            "Manual clutch",
+            "Pneumatic valve"
+          ],
+          "correct": 1
+        },
+        {
+          "id": "q3",
+          "text": "What provides traction between the drive pulley and belt?",
+          "options": [
+            "Adhesive",
+            "Friction",
+            "Magnetic force",
+            "Mechanical fasteners"
+          ],
+          "correct": 1
+        },
+        {
+          "id": "q4",
+          "text": "What is the typical spacing of idler rollers on a conveyor?",
+          "options": [
+            "0.5-1.0 m",
+            "1.0-1.5 m",
+            "2.0-3.0 m",
+            "5.0-6.0 m"
+          ],
+          "correct": 1
+        }
+      ]
+    },
+    {
+      "task_id": "mfg_005",
+      "domain": "manufacturing",
+      "topology_type": "kinematic",
+      "image_path": "manufacturing/mfg_005.jpg",
+      "prompt": "Analyze this assembly line with a robotic arm performing kinematic operations. Describe the robot's joint movements, end-effector configuration, and how the arm coordinates with the moving assembly line to perform tasks on parts in motion.",
+      "text": "Assembly line robotic arms use synchronized motion control to track parts on a moving conveyor. The robot's trajectory planner computes inverse kinematics solutions in real-time, adjusting joint angles to maintain the end-effector position relative to the moving workpiece. Force-torque sensors at the wrist provide feedback for precise assembly operations.",
+      "vfa_target": "Robotic kinematics and synchronized assembly automation",
+      "failure_target": "I2V model desynchronizes robot arm motion from conveyor speed, end-effector drifts away from workpiece during generation",
+      "reverse": false,
+      "extra_frame": 1,
+      "questions": [
+        {
+          "id": "q1",
+          "text": "What does inverse kinematics compute in robotics?",
+          "options": [
+            "Joint angles from end-effector position",
+            "End-effector position from joint angles",
+            "Motor torque",
+            "Gear ratios"
+          ],
+          "correct": 0
+        },
+        {
+          "id": "q2",
+          "text": "What sensor provides force feedback at a robot wrist?",
+          "options": [
+            "Encoder",
+            "Force-torque sensor",
+            "Accelerometer",
+            "Gyroscope"
+          ],
+          "correct": 1
+        },
+        {
+          "id": "q3",
+          "text": "How do robots track parts on a moving conveyor?",
+          "options": [
+            "Random timing",
+            "Synchronized motion control",
+            "Manual adjustment",
+            "Fixed delay"
+          ],
+          "correct": 1
+        }
+      ]
+    },
+    {
+      "task_id": "micro_004",
+      "domain": "microelectronics",
+      "topology_type": "dolly",
+      "image_path": "microelectronics/micro_004.jpg",
+      "prompt": "Analyze this PCB during a dolly-in zoom toward a specific component cluster. Describe the surface mount components, solder joint geometry, trace routing, and how the zoom reveals progressively finer details of the circuit board construction.",
+      "text": "A dolly-in zoom on a PCB reveals layers of detail: from the macro layout of component placement and trace routing, through individual SMD packages with their pad geometries, down to solder fillet profiles and via structures. The depth of field narrows as the camera approaches, isolating the target components from the surrounding board.",
+      "vfa_target": "PCB macro-to-micro structural detail and component inspection",
+      "failure_target": "I2V model loses fine detail during dolly-in zoom, solder joints blur or trace patterns become inconsistent at closer viewpoints",
+      "reverse": false,
+      "extra_frame": 1,
+      "questions": [
+        {
+          "id": "q1",
+          "text": "What happens to depth of field during a dolly-in zoom?",
+          "options": [
+            "Increases",
+            "Stays the same",
+            "Decreases",
+            "Becomes infinite"
+          ],
+          "correct": 2
+        },
+        {
+          "id": "q2",
+          "text": "What is the smallest common SMD package size?",
+          "options": [
+            "0402",
+            "0201",
+            "01005",
+            "1206"
+          ],
+          "correct": 2
+        },
+        {
+          "id": "q3",
+          "text": "What connects traces between PCB layers?",
+          "options": [
+            "Resistors",
+            "Vias",
+            "Capacitors",
+            "Inductors"
+          ],
+          "correct": 1
+        },
+        {
+          "id": "q4",
+          "text": "What is a solder fillet?",
+          "options": [
+            "A type of capacitor",
+            "The curved solder joint shape",
+            "A PCB trace",
+            "A component package"
+          ],
+          "correct": 1
+        }
+      ]
+    },
+    {
+      "task_id": "veh_006",
+      "domain": "vehicles",
+      "topology_type": "dolly",
+      "image_path": "vehicles/veh_006.jpg",
+      "prompt": "Analyze this heavy truck engine bay during a dolly-in zoom. Describe the diesel engine components, cooling system layout, turbocharger placement, and how the progressive zoom reveals the mechanical complexity of the powertrain.",
+      "text": "A dolly-in zoom on a heavy truck engine bay reveals the turbocharged diesel engine with its inline configuration, charge air cooler, and serpentine belt system. The progressive approach exposes details from the overall engine layout to individual fuel injector lines, wiring harnesses, and the turbocharger compressor housing.",
+      "vfa_target": "Heavy vehicle powertrain architecture and engine component detail",
+      "failure_target": "I2V model introduces spatial distortion during dolly-in, engine components shift relative positions or turbocharger geometry distorts",
+      "reverse": false,
+      "extra_frame": 1,
+      "questions": [
+        {
+          "id": "q1",
+          "text": "What is the purpose of a charge air cooler in a diesel engine?",
+          "options": [
+            "Reduce oil temperature",
+            "Cool compressed intake air",
+            "Condense fuel",
+            "Cool exhaust gas"
+          ],
+          "correct": 1
+        },
+        {
+          "id": "q2",
+          "text": "What drives the turbocharger in a diesel engine?",
+          "options": [
+            "Electric motor",
+            "Exhaust gas",
+            "Timing belt",
+            "Hydraulic pump"
+          ],
+          "correct": 1
+        },
+        {
+          "id": "q3",
+          "text": "What is the typical configuration of heavy truck diesel engines?",
+          "options": [
+            "V4",
+            "Inline 6",
+            "V12",
+            "Flat 4"
+          ],
+          "correct": 1
+        }
+      ]
+    },
+    {
+      "task_id": "eng_005",
+      "domain": "energy",
+      "topology_type": "kinematic",
+      "image_path": "energy/eng_005.jpg",
+      "prompt": "Analyze this wind turbine with spinning blades. Describe the blade pitch control, rotational dynamics, and how the generator converts the mechanical rotation into electrical power through the gearbox and generator assembly.",
+      "text": "Wind turbine blades rotate at 10-20 RPM, with pitch actuators adjusting blade angle to optimize energy capture. The low-speed shaft drives through a planetary gearbox to the high-speed generator shaft. Yaw motors orient the nacelle into the wind, while blade pitch and generator torque are continuously adjusted by the turbine controller.",
+      "vfa_target": "Wind turbine rotational dynamics and power generation kinematics",
+      "failure_target": "I2V model fails to maintain consistent blade rotation speed, blades appear to stutter or change angular velocity mid-spin",
+      "reverse": false,
+      "extra_frame": 1,
+      "questions": [
+        {
+          "id": "q1",
+          "text": "What is the typical rotational speed of a wind turbine rotor?",
+          "options": [
+            "1-5 RPM",
+            "10-20 RPM",
+            "100-200 RPM",
+            "1500-1800 RPM"
+          ],
+          "correct": 1
+        },
+        {
+          "id": "q2",
+          "text": "What controls blade angle on a wind turbine?",
+          "options": [
+            "Fixed pitch",
+            "Pitch actuators",
+            "Yaw motor",
+            "Brake system"
+          ],
+          "correct": 1
+        },
+        {
+          "id": "q3",
+          "text": "What converts low-speed rotation to high-speed rotation in a turbine?",
+          "options": [
+            "Direct drive only",
+            "Planetary gearbox",
+            "Belt drive",
+            "Chain drive"
+          ],
+          "correct": 1
+        },
+        {
+          "id": "q4",
+          "text": "What orients the turbine nacelle into the wind?",
+          "options": [
+            "Tail vane",
+            "Yaw motor and bearing",
+            "Wind vane only",
+            "Fixed position"
+          ],
+          "correct": 1
+        }
+      ]
+    },
+    {
+      "task_id": "rob_004",
+      "domain": "robotics",
+      "topology_type": "orbit",
+      "image_path": "robotics/rob_004.jpg",
+      "prompt": "Analyze this FANUC robotic arm from a 45-degree orbital camera path. Describe the robot's mechanical structure, joint configuration, and how the orbital viewpoint reveals the workspace envelope and reach capabilities of the industrial manipulator.",
+      "text": "A FANUC industrial robot arm viewed from a 45-degree orbital path reveals its six-axis articulated structure: base rotation, shoulder and elbow pitch, and three wrist axes (roll, pitch, yaw). The orbital camera path exposes the full workspace envelope, showing how the arm can reach positions above, below, and around the work cell from its fixed base.",
+      "vfa_target": "Industrial robot spatial geometry and workspace kinematics",
+      "failure_target": "I2V model distorts robot link proportions during orbit, joint positions shift inconsistently or arm geometry warps at oblique angles",
+      "reverse": false,
+      "extra_frame": 1,
+      "questions": [
+        {
+          "id": "q1",
+          "text": "How many axes does a typical FANUC industrial robot have?",
+          "options": [
+            "3",
+            "4",
+            "6",
+            "8"
+          ],
+          "correct": 2
+        },
+        {
+          "id": "q2",
+          "text": "What is the workspace envelope of a robot arm?",
+          "options": [
+            "The robot's weight capacity",
+            "The volume the end-effector can reach",
+            "The robot's speed range",
+            "The control software"
+          ],
+          "correct": 1
+        },
+        {
+          "id": "q3",
+          "text": "What type of joint provides base rotation on a FANUC robot?",
+          "options": [
+            "Prismatic joint",
+            "Revolute joint",
+            "Spherical joint",
+            "Linear joint"
+          ],
           "correct": 1
         }
       ]

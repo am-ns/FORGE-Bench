@@ -1,0 +1,10 @@
+IMAGE SPEC: rob_004
+==================================================
+Subject: FANUC robotic arm 45-degree orbit
+Topology: orbit (camera orbits around robot at 45-degree elevation angle)
+Target path: dataset/images/robotics/rob_004.jpg
+
+Search terms: FANUC robot arm industrial 45 degree view
+Wikimedia category: https://commons.wikimedia.org/wiki/Category:FANUC
+
+Requirements: FANUC industrial robot from 45-degree oblique angle showing full arm structure and workspace. 1920x1080 minimum.

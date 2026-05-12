@@ -1,0 +1,10 @@
+IMAGE SPEC: veh_006
+==================================================
+Subject: Heavy truck engine bay dolly-in
+Topology: dolly (camera dollies into engine bay revealing mechanical detail)
+Target path: dataset/images/vehicles/veh_006.jpg
+
+Search terms: diesel engine bay truck engine compartment
+Wikimedia category: https://commons.wikimedia.org/wiki/Category:Diesel_engines
+
+Requirements: Engine bay view of heavy truck diesel engine showing turbo, cooling system, and ancillaries. 1280x720 minimum.
