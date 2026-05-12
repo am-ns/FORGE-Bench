@@ -15,6 +15,7 @@ CONFIG = {
     "top_k_peaks": 3,
     "period_tolerance_pct": 15.0,
     "center_fraction": 0.5,
+    "n_fold_scale_factor": 5.0,
 }
 
 
@@ -284,7 +285,8 @@ def _check_turbine_array(grays: list[np.ndarray]) -> dict:
                 n_score = n_energy / total
                 best_n_score = max(best_n_score, float(n_score))
 
-        symmetry_scores.append(min(1.0, best_n_score * 5.0))  # Scale up
+        # n-th harmonic energy fraction ~0.15-0.20 for ideal N-fold arrays; scale x5 maps to 0.75-1.0
+        symmetry_scores.append(min(1.0, best_n_score * CONFIG["n_fold_scale_factor"]))
 
     if not symmetry_scores:
         return {
