@@ -95,6 +95,32 @@ def compute_mean_optical_flow(
     return float(np.mean(magnitude))
 
 
+def compute_kinematic_score(flow_values: list[float]) -> dict:
+    """Compute adaptive kinematic score from per-frame optical-flow magnitudes.
+
+    Uses the 80th percentile of flow values as the reference scale instead of
+    a hardcoded threshold, making the score robust to varying scene dynamics.
+
+    Args:
+        flow_values: Per-frame mean optical-flow magnitudes.
+
+    Returns:
+        dict with keys: kinematic_score, ref_scale, mean_flow.
+    """
+    if not flow_values:
+        return {"kinematic_score": 1.0, "ref_scale": 0.0, "mean_flow": 0.0}
+
+    arr = np.array(flow_values)
+    ref_scale = float(np.percentile(arr, 80))
+    mean_flow = float(np.mean(arr))
+
+    if ref_scale <= 0:
+        return {"kinematic_score": 1.0, "ref_scale": 0.0, "mean_flow": mean_flow}
+
+    score = max(0.10, 1.0 - min(mean_flow / (ref_scale * 5.0), 1.0))
+    return {"kinematic_score": score, "ref_scale": ref_scale, "mean_flow": mean_flow}
+
+
 def detect_static_camera(
     frames: list[np.ndarray],
     static_threshold: float | None = None,
@@ -115,7 +141,8 @@ def detect_static_camera(
         dark_ratio: Fraction of dark pixels triggering the dark-bg path.
 
     Returns:
-        dict with keys: is_static, mean_flow, dark_background, threshold_used.
+        dict with keys: is_static, mean_flow, dark_background,
+        dark_background_detected, threshold_used, kinematic_score.
     """
     if static_threshold is None:
         static_threshold = CONFIG["static_flow_threshold"]
@@ -126,21 +153,26 @@ def detect_static_camera(
 
     if len(frames) < 2:
         return {"is_static": True, "mean_flow": 0.0,
-                "dark_background": False, "threshold_used": static_threshold}
+                "dark_background": False, "dark_background_detected": False,
+                "threshold_used": static_threshold, "kinematic_score": 1.0}
 
     dark_bg = is_dark_background(frames[0], threshold=dark_threshold, ratio=dark_ratio)
 
+    # Dark-background handling: crop to centre 60% ROI and lower static threshold
+    work_frames = frames
     roi_mask = None
     threshold = static_threshold
     if dark_bg:
         h, w = frames[0].shape[:2]
-        roi_mask = _optical_flow_roi_mask((h, w))
+        h1, h2 = int(h * 0.2), int(h * 0.8)
+        w1, w2 = int(w * 0.2), int(w * 0.8)
+        work_frames = [f[h1:h2, w1:w2] for f in frames]
         threshold = CONFIG["dark_static_flow_threshold"]
 
     flows = []
-    for i in range(len(frames) - 1):
-        prev_gray = cv2.cvtColor(frames[i], cv2.COLOR_BGR2GRAY)
-        curr_gray = cv2.cvtColor(frames[i + 1], cv2.COLOR_BGR2GRAY)
+    for i in range(len(work_frames) - 1):
+        prev_gray = cv2.cvtColor(work_frames[i], cv2.COLOR_BGR2GRAY)
+        curr_gray = cv2.cvtColor(work_frames[i + 1], cv2.COLOR_BGR2GRAY)
         try:
             flows.append(compute_mean_optical_flow(prev_gray, curr_gray, roi_mask=roi_mask))
         except cv2.error as exc:
@@ -148,9 +180,14 @@ def detect_static_camera(
 
     mean_flow = float(np.mean(flows)) if flows else 0.0
 
+    # Adaptive kinematic score via percentile-based reference scale
+    km = compute_kinematic_score(flows)
+
     return {
         "is_static": mean_flow < threshold,
         "mean_flow": mean_flow,
         "dark_background": dark_bg,
+        "dark_background_detected": dark_bg,
         "threshold_used": threshold,
+        "kinematic_score": km["kinematic_score"],
     }

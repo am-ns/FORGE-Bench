@@ -43,6 +43,7 @@ def evaluate_surface(
     target_points: np.ndarray,
     max_dist: float | None = None,
     vfa: float | None = None,
+    frames: list[np.ndarray] | None = None,
 ) -> dict:
     """Evaluate surface geometric integrity between source and target point clouds.
 
@@ -52,9 +53,12 @@ def evaluate_surface(
         max_dist: Normalisation distance for score mapping.
         vfa: View-point Fidelity Angle (degrees). When large, perspective
              changes inflate Chamfer Distance legitimately.
+        frames: Optional list of per-frame point clouds for delta-CD scoring.
 
     Returns:
-        dict with keys: chamfer_distance, raw_score, result_score, gi_orbit_angle_caution.
+        dict with keys: chamfer_distance, raw_score, result_score,
+        gi_orbit_angle_caution, gi_orbit_conditioning,
+        perspective_correction_applied.
     """
     chamfer_dist = compute_chamfer_distance(source_points, target_points)
     raw_score = chamfer_distance_to_score(chamfer_dist, max_dist=max_dist)
@@ -65,9 +69,24 @@ def evaluate_surface(
         "chamfer_distance": chamfer_dist,
         "raw_score": raw_score,
         "result_score": result_score,
+        "perspective_correction_applied": False,
     }
 
     if vfa is not None and vfa > CONFIG["vfa_orbit_caution_deg"]:
         result["gi_orbit_angle_caution"] = True
+
+    # Perspective-conditioned CD: use per-frame delta when orbit angle is large
+    if vfa is not None and vfa > 0.30 and frames is not None and len(frames) >= 2:
+        per_frame_cd = [compute_chamfer_distance(frames[i], frames[i + 1])
+                        for i in range(len(frames) - 1)]
+        conditioned_cd = float(np.mean(np.abs(np.diff(per_frame_cd))))
+        threshold = max_dist if max_dist is not None else CONFIG["max_dist_default"]
+        conditioned_raw = 1.0 - min(conditioned_cd / (threshold * 0.3), 1.0)
+        conditioned_score = max(CONFIG["score_floor"], conditioned_raw)
+        result["gi_orbit_conditioning"] = True
+        result["conditioned_cd"] = conditioned_cd
+        result["conditioned_score"] = conditioned_score
+        result["result_score"] = conditioned_score
+        result["perspective_correction_applied"] = True
 
     return result
