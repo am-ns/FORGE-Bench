@@ -20,7 +20,9 @@ from eval.geometric_integrity.lattice import evaluate_lattice
 from eval.geometric_integrity.surface import evaluate_surface
 from eval.industrial_constraints import evaluate_industrial_constraints
 from eval.preflight import validate_frame_count
+from eval.temporal_coherence.eval import evaluate_tc
 from eval.vfa.eval import compute_vfa
+from eval.visual_fidelity.eval import evaluate_vf
 from scoring.aggregate import aggregate_scores
 from scoring.per_sample import score_sample
 from scoring.report import generate_report
@@ -157,6 +159,30 @@ def evaluate_sample(
     motion_type = sample.get("constraint_annotations", {}).get("motion_type")
     vfa_result = compute_vfa(frames, vfa_target=vfa_target, motion_type=motion_type)
 
+    # -- TC evaluation --
+    tc_result = evaluate_tc(
+        frames, model_name=model_name, sample_id=task_id, llm_fn=None,
+    )
+
+    # -- VF evaluation --
+    reference_image = None
+    image_path = sample.get("image_path")
+    if image_path:
+        # image_path is relative to the repository root
+        repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        abs_image_path = image_path if os.path.isabs(image_path) else os.path.join(repo_root, image_path)
+        if os.path.exists(abs_image_path):
+            reference_image = cv2.imread(abs_image_path)
+        else:
+            logger.warning("Reference image not found for %s: %s", task_id, image_path)
+
+    vf_result = evaluate_vf(
+        frames, reference_image, sample_id=task_id, model_name=model_name, llm_fn=None,
+    ) if reference_image is not None else {
+        "vf_score": None, "cv_ssim": None, "cv_hist_corr": None,
+        "llm_score": None, "method": "vf_hybrid",
+    }
+
     # -- IKA evaluation --
     ika_score = None
     ika_details = None
@@ -179,6 +205,10 @@ def evaluate_sample(
     if ika_score is not None:
         axis_scores["ika"] = ika_score * 100.0
     axis_scores["gi"] = gi_result["result_score"] * 100.0
+    if tc_result.get("tc_score") is not None:
+        axis_scores["tc"] = tc_result["tc_score"]
+    if vf_result.get("vf_score") is not None:
+        axis_scores["vf"] = vf_result["vf_score"]
 
     vfa_val = vfa_result.get("vfa")
     ic_val = gi_result.get("ic_score")
@@ -205,6 +235,10 @@ def evaluate_sample(
         "ic_details": gi_result.get("ic_details"),
         "vfa": vfa_val,
         "vfa_details": {k: v for k, v in vfa_result.items() if k != "vfa_detail"},
+        "tc_score": tc_result.get("tc_score"),
+        "tc_details": tc_result,
+        "vf_score": vf_result.get("vf_score"),
+        "vf_details": vf_result,
         "ika_score": ika_score,
         "ika_details": ika_details,
         "scored": scored,
