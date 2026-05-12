@@ -42,10 +42,10 @@
       },
       "topology_type": "surface",
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "easy",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
+        "pp": "medium",
+        "vf": "medium",
         "gi": "medium",
         "vfa": "easy"
       }
@@ -92,10 +92,10 @@
       },
       "topology_type": "surface",
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "easy",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
+        "pp": "medium",
+        "vf": "medium",
         "gi": "medium",
         "vfa": "easy"
       }
@@ -142,12 +142,12 @@
       },
       "topology_type": "surface",
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "easy",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
+        "pp": "medium",
+        "vf": "medium",
         "gi": "medium",
-        "vfa": "easy"
+        "vfa": "adversarial"
       }
     },
     {
@@ -192,10 +192,10 @@
       },
       "topology_type": "surface",
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "easy",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
+        "pp": "medium",
+        "vf": "medium",
         "gi": "medium",
         "vfa": "easy"
       }
@@ -242,10 +242,10 @@
       },
       "topology_type": "surface",
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "easy",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
+        "pp": "medium",
+        "vf": "medium",
         "gi": "medium",
         "vfa": "easy"
       }
@@ -294,9 +294,9 @@
       "difficulty_profile": {
         "ika": "medium",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
-        "gi": "medium",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "hard",
         "vfa": "easy"
       }
     },
@@ -344,9 +344,9 @@
       "difficulty_profile": {
         "ika": "medium",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
-        "gi": "medium",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "hard",
         "vfa": "easy"
       }
     },
@@ -394,9 +394,9 @@
       "difficulty_profile": {
         "ika": "medium",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
-        "gi": "medium",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "hard",
         "vfa": "easy"
       }
     },
@@ -444,9 +444,9 @@
       "difficulty_profile": {
         "ika": "medium",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
-        "gi": "medium",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "hard",
         "vfa": "easy"
       }
     },
@@ -494,9 +494,9 @@
       "difficulty_profile": {
         "ika": "medium",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
-        "gi": "medium",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "hard",
         "vfa": "easy"
       }
     },
@@ -544,8 +544,8 @@
       "difficulty_profile": {
         "ika": "medium",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
+        "pp": "medium",
+        "vf": "medium",
         "gi": "medium",
         "vfa": "easy"
       }
@@ -594,8 +594,8 @@
       "difficulty_profile": {
         "ika": "medium",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
+        "pp": "medium",
+        "vf": "medium",
         "gi": "medium",
         "vfa": "easy"
       }
@@ -644,8 +644,8 @@
       "difficulty_profile": {
         "ika": "medium",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
+        "pp": "medium",
+        "vf": "medium",
         "gi": "medium",
         "vfa": "easy"
       }
@@ -694,8 +694,8 @@
       "difficulty_profile": {
         "ika": "medium",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
+        "pp": "medium",
+        "vf": "medium",
         "gi": "medium",
         "vfa": "easy"
       }
@@ -744,8 +744,8 @@
       "difficulty_profile": {
         "ika": "medium",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
+        "pp": "medium",
+        "vf": "medium",
         "gi": "medium",
         "vfa": "easy"
       }
@@ -794,8 +794,8 @@
       "difficulty_profile": {
         "ika": "medium",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
+        "pp": "medium",
+        "vf": "medium",
         "gi": "medium",
         "vfa": "easy"
       }
@@ -844,8 +844,8 @@
       "difficulty_profile": {
         "ika": "medium",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
+        "pp": "medium",
+        "vf": "medium",
         "gi": "medium",
         "vfa": "easy"
       }
@@ -894,8 +894,8 @@
       "difficulty_profile": {
         "ika": "medium",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
+        "pp": "medium",
+        "vf": "medium",
         "gi": "medium",
         "vfa": "easy"
       }
@@ -944,8 +944,8 @@
       "difficulty_profile": {
         "ika": "medium",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
+        "pp": "medium",
+        "vf": "medium",
         "gi": "medium",
         "vfa": "easy"
       }
@@ -992,11 +992,11 @@
       },
       "topology_type": "surface",
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "hard",
         "tc": "medium",
-        "pp": "easy",
+        "pp": "medium",
         "vf": "easy",
-        "gi": "medium",
+        "gi": "hard",
         "vfa": "easy"
       }
     },
@@ -1042,11 +1042,11 @@
       },
       "topology_type": "surface",
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "hard",
         "tc": "medium",
-        "pp": "easy",
+        "pp": "medium",
         "vf": "easy",
-        "gi": "medium",
+        "gi": "hard",
         "vfa": "easy"
       }
     },
@@ -1092,11 +1092,11 @@
       },
       "topology_type": "surface",
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "hard",
         "tc": "medium",
-        "pp": "easy",
+        "pp": "medium",
         "vf": "easy",
-        "gi": "medium",
+        "gi": "hard",
         "vfa": "easy"
       }
     },
@@ -1142,41 +1142,43 @@
         },
         {
           "id": "q3",
-          "text": "What is the typical climb angle for a Boeing 747 after takeoff?",
+          "text": "Between the first and final frame, has the number of engine nacelles remained constant (no nacelles appeared or disappeared)?",
           "options": [
-            "2-3 degrees",
-            "5-8 degrees",
-            "12-15 degrees",
-            "20-25 degrees"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What is the typical climb angle for a Boeing 747 after takeoff?",
-          "answer": "5-8 degrees"
+          "correct": 0,
+          "q": "Between the first and final frame, has the number of engine nacelles remained constant (no nacelles appeared or disappeared)?",
+          "answer": "yes",
+          "weakness_target": "W3"
         },
         {
           "id": "q4",
-          "text": "Which control surface primarily controls pitch attitude?",
+          "text": "Throughout the video, has the spacing between rivet rows on the fuselage skin remained within 15% of its initial pitch?",
           "options": [
-            "Ailerons",
-            "Rudder",
-            "Elevators",
-            "Spoilers"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 2,
-          "q": "Which control surface primarily controls pitch attitude?",
-          "answer": "Elevators"
+          "correct": 0,
+          "q": "Throughout the video, has the spacing between rivet rows on the fuselage skin remained within 15% of its initial pitch?",
+          "answer": "yes",
+          "weakness_target": "W2"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic"
       },
       "difficulty_profile": {
-        "ika": "medium",
-        "tc": "hard",
+        "ika": "hard",
+        "tc": "medium",
         "pp": "medium",
         "vf": "medium",
-        "gi": "medium",
-        "vfa": "medium"
+        "gi": "hard",
+        "vfa": "hard"
       }
     },
     {
@@ -1221,16 +1223,17 @@
         },
         {
           "id": "q3",
-          "text": "What is the typical spacing between offshore wind turbines?",
+          "text": "Between the first and final frame, has the turbine blade pitch angle remained within 5 degrees of its initial value?",
           "options": [
-            "1-2 rotor diameters",
-            "5-9 rotor diameters",
-            "15-20 rotor diameters",
-            "25-30 rotor diameters"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What is the typical spacing between offshore wind turbines?",
-          "answer": "5-9 rotor diameters"
+          "correct": 0,
+          "q": "Between the first and final frame, has the turbine blade pitch angle remained within 5 degrees of its initial value?",
+          "answer": "yes",
+          "weakness_target": "W5"
         }
       ],
       "constraint_annotations": {
@@ -1240,8 +1243,8 @@
         "ika": "hard",
         "tc": "hard",
         "pp": "medium",
-        "vf": "medium",
-        "gi": "hard",
+        "vf": "easy",
+        "gi": "medium",
         "vfa": "hard"
       }
     },
@@ -1301,28 +1304,29 @@
         },
         {
           "id": "q4",
-          "text": "What device controls conveyor belt speed?",
+          "text": "Throughout the video, has the scissor lift maintained the kinematic constraint h = 2L*sin(θ/2) within 15% deviation?",
           "options": [
-            "Mechanical gearbox only",
-            "Variable frequency drive (VFD)",
-            "Manual clutch",
-            "Pneumatic valve"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What device controls conveyor belt speed?",
-          "answer": "Variable frequency drive (VFD)"
+          "correct": 0,
+          "q": "Throughout the video, has the scissor lift maintained the kinematic constraint h = 2L*sin(θ/2) within 15% deviation?",
+          "answer": "yes",
+          "weakness_target": "W5"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic"
       },
       "difficulty_profile": {
-        "ika": "medium",
-        "tc": "medium",
+        "ika": "hard",
+        "tc": "hard",
         "pp": "medium",
         "vf": "medium",
         "gi": "medium",
-        "vfa": "hard"
+        "vfa": "medium"
       }
     },
     {
@@ -1367,16 +1371,17 @@
         },
         {
           "id": "q3",
-          "text": "What does inverse kinematics compute in robotics?",
+          "text": "Between the first and final frame, has the CNC tool holder maintained consistent geometry (no merge or split of cutting edges)?",
           "options": [
-            "Joint angles from end-effector position",
-            "End-effector position from joint angles",
-            "Motor torque",
-            "Gear ratios"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
           "correct": 0,
-          "q": "What does inverse kinematics compute in robotics?",
-          "answer": "Joint angles from end-effector position"
+          "q": "Between the first and final frame, has the CNC tool holder maintained consistent geometry (no merge or split of cutting edges)?",
+          "answer": "yes",
+          "weakness_target": "W6"
         }
       ],
       "constraint_annotations": {
@@ -1384,7 +1389,7 @@
       },
       "difficulty_profile": {
         "ika": "medium",
-        "tc": "medium",
+        "tc": "hard",
         "pp": "medium",
         "vf": "medium",
         "gi": "medium",
@@ -1433,41 +1438,43 @@
         },
         {
           "id": "q3",
-          "text": "What is the smallest common SMD package size?",
+          "text": "Between the first and final frame, has the BGA ball pitch (center-to-center spacing) remained within 10% of its initial value?",
           "options": [
-            "0402",
-            "0201",
-            "01005",
-            "1206"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 2,
-          "q": "What is the smallest common SMD package size?",
-          "answer": "01005"
+          "correct": 0,
+          "q": "Between the first and final frame, has the BGA ball pitch (center-to-center spacing) remained within 10% of its initial value?",
+          "answer": "yes",
+          "weakness_target": "W2"
         },
         {
           "id": "q4",
-          "text": "What connects traces between PCB layers?",
+          "text": "Throughout the video, have PCB trace centerline-to-centerline spacings remained within 15% of their initial values?",
           "options": [
-            "Resistors",
-            "Vias",
-            "Capacitors",
-            "Inductors"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What connects traces between PCB layers?",
-          "answer": "Vias"
+          "correct": 0,
+          "q": "Throughout the video, have PCB trace centerline-to-centerline spacings remained within 15% of their initial values?",
+          "answer": "yes",
+          "weakness_target": "W2"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic"
       },
       "difficulty_profile": {
-        "ika": "medium",
-        "tc": "hard",
-        "pp": "medium",
+        "ika": "hard",
+        "tc": "medium",
+        "pp": "easy",
         "vf": "medium",
-        "gi": "medium",
-        "vfa": "hard"
+        "gi": "hard",
+        "vfa": "medium"
       }
     },
     {
@@ -1512,27 +1519,28 @@
         },
         {
           "id": "q3",
-          "text": "What is the purpose of a charge air cooler in a diesel engine?",
+          "text": "Between the first and final frame, has the track pitch (center-to-center link spacing) remained within 10% of its initial value?",
           "options": [
-            "Reduce oil temperature",
-            "Cool compressed intake air",
-            "Condense fuel",
-            "Cool exhaust gas"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What is the purpose of a charge air cooler in a diesel engine?",
-          "answer": "Cool compressed intake air"
+          "correct": 0,
+          "q": "Between the first and final frame, has the track pitch (center-to-center link spacing) remained within 10% of its initial value?",
+          "answer": "yes",
+          "weakness_target": "W2"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic"
       },
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "hard",
         "tc": "hard",
         "pp": "medium",
         "vf": "medium",
-        "gi": "medium",
+        "gi": "hard",
         "vfa": "hard"
       }
     },
@@ -1578,29 +1586,31 @@
         },
         {
           "id": "q3",
-          "text": "What is the typical rotational speed of a wind turbine rotor?",
+          "text": "Throughout the video, has the spacing between adjacent solar panels remained within 10% of its initial pitch?",
           "options": [
-            "1-5 RPM",
-            "10-20 RPM",
-            "100-200 RPM",
-            "1500-1800 RPM"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What is the typical rotational speed of a wind turbine rotor?",
-          "answer": "10-20 RPM"
+          "correct": 0,
+          "q": "Throughout the video, has the spacing between adjacent solar panels remained within 10% of its initial pitch?",
+          "answer": "yes",
+          "weakness_target": "W2"
         },
         {
           "id": "q4",
-          "text": "What controls blade angle on a wind turbine?",
+          "text": "Between the first and final frame, has the number of wind turbine blades remained exactly 3 (no blades appeared or disappeared)?",
           "options": [
-            "Fixed pitch",
-            "Pitch actuators",
-            "Yaw motor",
-            "Brake system"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What controls blade angle on a wind turbine?",
-          "answer": "Pitch actuators"
+          "correct": 0,
+          "q": "Between the first and final frame, has the number of wind turbine blades remained exactly 3 (no blades appeared or disappeared)?",
+          "answer": "yes",
+          "weakness_target": "W3"
         }
       ],
       "constraint_annotations": {
@@ -1608,9 +1618,9 @@
       },
       "difficulty_profile": {
         "ika": "hard",
-        "tc": "hard",
+        "tc": "medium",
         "pp": "medium",
-        "vf": "medium",
+        "vf": "easy",
         "gi": "hard",
         "vfa": "hard"
       }
@@ -1657,24 +1667,25 @@
         },
         {
           "id": "q3",
-          "text": "How many axes does a typical FANUC industrial robot have?",
+          "text": "Between the first and final frame, has the number of visible joint actuators on the robot arm remained constant?",
           "options": [
-            "3",
-            "4",
-            "6",
-            "8"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 2,
-          "q": "How many axes does a typical FANUC industrial robot have?",
-          "answer": "6"
+          "correct": 0,
+          "q": "Between the first and final frame, has the number of visible joint actuators on the robot arm remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic"
       },
       "difficulty_profile": {
-        "ika": "medium",
-        "tc": "medium",
+        "ika": "hard",
+        "tc": "hard",
         "pp": "medium",
         "vf": "medium",
         "gi": "medium",
@@ -1726,12 +1737,12 @@
         "failure_mode": "trace_discontinuity"
       },
       "difficulty_profile": {
-        "ika": "medium",
-        "tc": "hard",
-        "pp": "medium",
-        "vf": "medium",
-        "gi": "medium",
-        "vfa": "hard"
+        "ika": "hard",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "hard",
+        "vfa": "medium"
       }
     },
     {
@@ -1786,7 +1797,7 @@
         "pp": "medium",
         "vf": "medium",
         "gi": "medium",
-        "vfa": "medium"
+        "vfa": "hard"
       }
     },
     {
@@ -1841,7 +1852,7 @@
         "pp": "medium",
         "vf": "medium",
         "gi": "medium",
-        "vfa": "medium"
+        "vfa": "hard"
       }
     },
     {
@@ -1939,16 +1950,17 @@
         },
         {
           "id": "q3",
-          "text": "What drives the landing gear retraction mechanism?",
+          "text": "Between the first and final frame, do left and right aileron deflection angles match within 3 degrees?",
           "options": [
-            "Electric motors",
-            "Hydraulic actuators",
-            "Pneumatic cylinders",
-            "Manual cranks"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What drives the landing gear retraction mechanism?",
-          "answer": "Hydraulic actuators"
+          "correct": 0,
+          "q": "Between the first and final frame, do left and right aileron deflection angles match within 3 degrees?",
+          "answer": "yes",
+          "weakness_target": "W4"
         }
       ],
       "constraint_annotations": {
@@ -2005,16 +2017,17 @@
         },
         {
           "id": "q3",
-          "text": "What is the arrangement of components in an axial compressor?",
+          "text": "Throughout the video, have wing panel seam lines maintained consistent spacing (no merging or splitting of panel boundaries)?",
           "options": [
-            "Blades only",
-            "Alternating rotors and stators",
-            "Single impeller",
-            "Radial vanes only"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What is the arrangement of components in an axial compressor?",
-          "answer": "Alternating rotors and stators"
+          "correct": 0,
+          "q": "Throughout the video, have wing panel seam lines maintained consistent spacing (no merging or splitting of panel boundaries)?",
+          "answer": "yes",
+          "weakness_target": "W2"
         }
       ],
       "constraint_annotations": {
@@ -2023,11 +2036,11 @@
         "failure_mode": "blade_spacing_inconsistency"
       },
       "difficulty_profile": {
-        "ika": "medium",
-        "tc": "hard",
+        "ika": "hard",
+        "tc": "medium",
         "pp": "medium",
         "vf": "medium",
-        "gi": "medium",
+        "gi": "hard",
         "vfa": "adversarial"
       }
     },
@@ -2059,16 +2072,17 @@
         },
         {
           "id": "q2",
-          "text": "What happens to wing lift as angle of attack increases in the normal range?",
+          "text": "Between the first and final frame, has the vertical stabilizer maintained its aspect ratio (height-to-chord) within 10%?",
           "options": [
-            "Lift decreases",
-            "Lift increases",
-            "Lift stays constant",
-            "Lift becomes zero"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What happens to wing lift as angle of attack increases in the normal range?",
-          "answer": "Lift increases"
+          "correct": 0,
+          "q": "Between the first and final frame, has the vertical stabilizer maintained its aspect ratio (height-to-chord) within 10%?",
+          "answer": "yes",
+          "weakness_target": "W6"
         },
         {
           "id": "q3",
@@ -2089,12 +2103,12 @@
         "failure_mode": "pitch_geometry_disconnection"
       },
       "difficulty_profile": {
-        "ika": "medium",
-        "tc": "hard",
-        "pp": "medium",
+        "ika": "hard",
+        "tc": "medium",
+        "pp": "easy",
         "vf": "medium",
-        "gi": "medium",
-        "vfa": "medium"
+        "gi": "hard",
+        "vfa": "hard"
       }
     },
     {
@@ -2137,16 +2151,17 @@
         },
         {
           "id": "q3",
-          "text": "Why do cargo aircraft typically use a high-wing configuration?",
+          "text": "Throughout the video, has the number of visible cockpit windshield panels remained constant?",
           "options": [
-            "Better aerodynamics",
-            "Allows fuselage to sit low for cargo loading",
-            "Reduces weight",
-            "Improves visibility"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "Why do cargo aircraft typically use a high-wing configuration?",
-          "answer": "Allows fuselage to sit low for cargo loading"
+          "correct": 0,
+          "q": "Throughout the video, has the number of visible cockpit windshield panels remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
         }
       ],
       "constraint_annotations": {
@@ -2156,10 +2171,10 @@
       },
       "difficulty_profile": {
         "ika": "medium",
-        "tc": "hard",
+        "tc": "medium",
         "pp": "medium",
         "vf": "medium",
-        "gi": "hard",
+        "gi": "medium",
         "vfa": "hard"
       }
     },
@@ -2203,16 +2218,17 @@
         },
         {
           "id": "q3",
-          "text": "What is the purpose of the nacelle inlet lip?",
+          "text": "Between the first and final frame, has the landing gear strut length remained within 8% of its initial value?",
           "options": [
-            "Structural support",
-            "Smooths airflow into the fan",
-            "Houses fuel lines",
-            "Reduces weight"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What is the purpose of the nacelle inlet lip?",
-          "answer": "Smooths airflow into the fan"
+          "correct": 0,
+          "q": "Between the first and final frame, has the landing gear strut length remained within 8% of its initial value?",
+          "answer": "yes",
+          "weakness_target": "W5"
         }
       ],
       "constraint_annotations": {
@@ -2269,16 +2285,17 @@
         },
         {
           "id": "q3",
-          "text": "What material is commonly used for cockpit windshield outer layers?",
+          "text": "Throughout the video, have the window row spacing and count on the fuselage remained consistent with the reference frame?",
           "options": [
-            "Standard glass",
-            "Stretched acrylic or chemically strengthened glass",
-            "Polycarbonate only",
-            "Aluminum"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What material is commonly used for cockpit windshield outer layers?",
-          "answer": "Stretched acrylic or chemically strengthened glass"
+          "correct": 0,
+          "q": "Throughout the video, have the window row spacing and count on the fuselage remained consistent with the reference frame?",
+          "answer": "yes",
+          "weakness_target": "W2"
         }
       ],
       "constraint_annotations": {
@@ -2288,10 +2305,10 @@
       },
       "difficulty_profile": {
         "ika": "medium",
-        "tc": "hard",
+        "tc": "medium",
         "pp": "medium",
         "vf": "medium",
-        "gi": "medium",
+        "gi": "hard",
         "vfa": "hard"
       }
     },
@@ -2309,16 +2326,17 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What prevents turbine blades from melting in the hot gas path?",
+          "text": "Between the first and final frame, has the number of engine nacelles remained constant (no nacelles appeared or disappeared)?",
           "options": [
-            "Thicker material",
-            "Internal cooling passages and film-cooling holes",
-            "Ceramic coating only",
-            "Lower operating temperatures"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What prevents turbine blades from melting in the hot gas path?",
-          "answer": "Internal cooling passages and film-cooling holes"
+          "correct": 0,
+          "q": "Between the first and final frame, has the number of engine nacelles remained constant (no nacelles appeared or disappeared)?",
+          "answer": "yes",
+          "weakness_target": "W3"
         },
         {
           "id": "q2",
@@ -2331,7 +2349,8 @@
           ],
           "correct": 1,
           "q": "How are turbine blades arranged around the rotor disk?",
-          "answer": "In a regular circumferential pattern"
+          "answer": "In a regular circumferential pattern",
+          "weakness_target": "W4"
         },
         {
           "id": "q3",
@@ -2364,9 +2383,9 @@
         "failure_mode": "blade_spacing_inconsistency"
       },
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "hard",
         "tc": "hard",
-        "pp": "easy",
+        "pp": "medium",
         "vf": "medium",
         "gi": "hard",
         "vfa": "adversarial"
@@ -2412,17 +2431,17 @@
         },
         {
           "id": "q3",
-          "text": "What causes the A380 wing to bend upward during flight?",
+          "text": "Between the first and final frame, has the number of visible control surfaces (ailerons, flaps, slats) remained constant?",
           "options": [
-            "Engine thrust",
-            "Aerodynamic lift load",
-            "Thermal expansion",
-            "Fuel weight"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What causes the A380 wing to bend upward during flight?",
-          "answer": "Aerodynamic lift load",
-          "weakness_target": "W6"
+          "correct": 0,
+          "q": "Between the first and final frame, has the number of visible control surfaces (ailerons, flaps, slats) remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
         }
       ],
       "constraint_annotations": {
@@ -2431,11 +2450,11 @@
         "failure_mode": "surface_discontinuity"
       },
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "hard",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
-        "gi": "medium",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "hard",
         "vfa": "adversarial"
       }
     },
@@ -2479,16 +2498,17 @@
         },
         {
           "id": "q3",
-          "text": "What drives the telescoping boom extension?",
+          "text": "Throughout the video, do left and right track assemblies maintain bilateral symmetry (link counts match within 1)?",
           "options": [
-            "Cable winch",
-            "Hydraulic extension cylinders",
-            "Electric motors",
-            "Manual pin insertion"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What drives the telescoping boom extension?",
-          "answer": "Hydraulic extension cylinders"
+          "correct": 0,
+          "q": "Throughout the video, do left and right track assemblies maintain bilateral symmetry (link counts match within 1)?",
+          "answer": "yes",
+          "weakness_target": "W4"
         }
       ],
       "constraint_annotations": {
@@ -2502,7 +2522,7 @@
         "pp": "medium",
         "vf": "medium",
         "gi": "medium",
-        "vfa": "medium"
+        "vfa": "hard"
       }
     },
     {
@@ -2547,16 +2567,17 @@
         },
         {
           "id": "q3",
-          "text": "How many main articulated segments does an excavator arm have?",
+          "text": "Between the first and final frame, has the number of visible wheels or track links remained constant?",
           "options": [
-            "2",
-            "3",
-            "4",
-            "5"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "How many main articulated segments does an excavator arm have?",
-          "answer": "3"
+          "correct": 0,
+          "q": "Between the first and final frame, has the number of visible wheels or track links remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
         }
       ],
       "constraint_annotations": {
@@ -2565,12 +2586,12 @@
         "failure_mode": "linkage_geometry_error"
       },
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "hard",
         "tc": "hard",
         "pp": "medium",
         "vf": "medium",
         "gi": "medium",
-        "vfa": "medium"
+        "vfa": "hard"
       }
     },
     {
@@ -2622,7 +2643,8 @@
           ],
           "correct": 1,
           "q": "What ensures vertical alignment of stacked containers?",
-          "answer": "Cell guides and twist-locks"
+          "answer": "Cell guides and twist-locks",
+          "weakness_target": "W4"
         }
       ],
       "constraint_annotations": {
@@ -2631,9 +2653,9 @@
         "failure_mode": "grid_spacing_inconsistency"
       },
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "hard",
         "tc": "hard",
-        "pp": "easy",
+        "pp": "medium",
         "vf": "medium",
         "gi": "hard",
         "vfa": "adversarial"
@@ -2698,12 +2720,12 @@
         "failure_mode": "cable_spacing_drift"
       },
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "hard",
         "tc": "hard",
         "pp": "easy",
         "vf": "medium",
         "gi": "hard",
-        "vfa": "hard"
+        "vfa": "medium"
       }
     },
     {
@@ -2746,16 +2768,17 @@
         },
         {
           "id": "q3",
-          "text": "What is the purpose of the bow flare on a cargo ship?",
+          "text": "Throughout the video, has the excavator boom maintained rigid-body geometry (boom segment lengths within 5% of initial)?",
           "options": [
-            "Decoration",
-            "Deflects waves away from the deck",
-            "Reduces weight",
-            "Improves speed"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What is the purpose of the bow flare on a cargo ship?",
-          "answer": "Deflects waves away from the deck"
+          "correct": 0,
+          "q": "Throughout the video, has the excavator boom maintained rigid-body geometry (boom segment lengths within 5% of initial)?",
+          "answer": "yes",
+          "weakness_target": "W5"
         }
       ],
       "constraint_annotations": {
@@ -2764,11 +2787,11 @@
         "failure_mode": "surface_faceting"
       },
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "hard",
         "tc": "medium",
-        "pp": "easy",
+        "pp": "medium",
         "vf": "easy",
-        "gi": "medium",
+        "gi": "hard",
         "vfa": "adversarial"
       }
     },
@@ -2812,16 +2835,17 @@
         },
         {
           "id": "q3",
-          "text": "What type of powertrain do large mining haul trucks typically use?",
+          "text": "Between the first and final frame, has the truck chassis maintained bilateral symmetry (left-right component layout matches)?",
           "options": [
-            "Pure diesel mechanical",
-            "Diesel-electric",
-            "Pure electric battery",
-            "Hydraulic drive"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What type of powertrain do large mining haul trucks typically use?",
-          "answer": "Diesel-electric"
+          "correct": 0,
+          "q": "Between the first and final frame, has the truck chassis maintained bilateral symmetry (left-right component layout matches)?",
+          "answer": "yes",
+          "weakness_target": "W4"
         }
       ],
       "constraint_annotations": {
@@ -2832,9 +2856,9 @@
       "difficulty_profile": {
         "ika": "medium",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
-        "gi": "medium",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "hard",
         "vfa": "adversarial"
       }
     },
@@ -2878,16 +2902,17 @@
         },
         {
           "id": "q3",
-          "text": "What material is a truck engine block typically made from?",
+          "text": "Throughout the video, has the crane tower maintained its lattice pattern spacing (no merging of diagonal members)?",
           "options": [
-            "Aluminum only",
-            "Cast iron",
-            "Steel plate",
-            "Composite"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What material is a truck engine block typically made from?",
-          "answer": "Cast iron"
+          "correct": 0,
+          "q": "Throughout the video, has the crane tower maintained its lattice pattern spacing (no merging of diagonal members)?",
+          "answer": "yes",
+          "weakness_target": "W2"
         }
       ],
       "constraint_annotations": {
@@ -2896,11 +2921,11 @@
         "failure_mode": "spatial_relationship_shift"
       },
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "hard",
         "tc": "hard",
         "pp": "medium",
         "vf": "medium",
-        "gi": "medium",
+        "gi": "hard",
         "vfa": "hard"
       }
     },
@@ -2944,16 +2969,17 @@
         },
         {
           "id": "q3",
-          "text": "What connects the tower sections of a tower crane?",
+          "text": "Throughout the video, do left and right track assemblies maintain bilateral symmetry (link counts match within 1)?",
           "options": [
-            "Welds",
-            "High-strength bolts",
-            "Rivets",
-            "Clamps"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What connects the tower sections of a tower crane?",
-          "answer": "High-strength bolts"
+          "correct": 0,
+          "q": "Throughout the video, do left and right track assemblies maintain bilateral symmetry (link counts match within 1)?",
+          "answer": "yes",
+          "weakness_target": "W4"
         }
       ],
       "constraint_annotations": {
@@ -2962,12 +2988,12 @@
         "failure_mode": "cross_section_distortion"
       },
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "hard",
         "tc": "hard",
         "pp": "medium",
         "vf": "medium",
         "gi": "medium",
-        "vfa": "medium"
+        "vfa": "hard"
       }
     },
     {
@@ -3010,16 +3036,17 @@
         },
         {
           "id": "q3",
-          "text": "What allows the angle of each wind turbine blade to be adjusted?",
+          "text": "Between the first and final frame, has the number of wind turbine blades remained exactly 3 (no blades appeared or disappeared)?",
           "options": [
-            "Fixed mounting",
-            "Pitch bearing and actuators",
-            "Flexible blade material",
-            "Gear mechanism"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What allows the angle of each wind turbine blade to be adjusted?",
-          "answer": "Pitch bearing and actuators"
+          "correct": 0,
+          "q": "Between the first and final frame, has the number of wind turbine blades remained exactly 3 (no blades appeared or disappeared)?",
+          "answer": "yes",
+          "weakness_target": "W3"
         }
       ],
       "constraint_annotations": {
@@ -3028,12 +3055,12 @@
         "failure_mode": "blade_pitch_inconsistency"
       },
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "hard",
         "tc": "hard",
         "pp": "medium",
         "vf": "medium",
-        "gi": "medium",
-        "vfa": "medium"
+        "gi": "hard",
+        "vfa": "adversarial"
       }
     },
     {
@@ -3076,16 +3103,17 @@
         },
         {
           "id": "q3",
-          "text": "What converts rotary motion to reciprocating motion in a pump jack?",
+          "text": "Between the first and final frame, has the pump jack walking beam maintained rigid-body geometry (beam length unchanged within 3%)?",
           "options": [
-            "Crankshaft",
-            "Walking beam with pivot",
-            "Hydraulic cylinder",
-            "Cam mechanism"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What converts rotary motion to reciprocating motion in a pump jack?",
-          "answer": "Walking beam with pivot"
+          "correct": 0,
+          "q": "Between the first and final frame, has the pump jack walking beam maintained rigid-body geometry (beam length unchanged within 3%)?",
+          "answer": "yes",
+          "weakness_target": "W5"
         }
       ],
       "constraint_annotations": {
@@ -3094,12 +3122,12 @@
         "failure_mode": "pivot_geometry_inconsistency"
       },
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "hard",
         "tc": "hard",
         "pp": "medium",
-        "vf": "medium",
+        "vf": "easy",
         "gi": "medium",
-        "vfa": "medium"
+        "vfa": "hard"
       }
     },
     {
@@ -3142,16 +3170,17 @@
         },
         {
           "id": "q3",
-          "text": "What is the purpose of the jacket structure on an offshore platform?",
+          "text": "Throughout the video, have the solar cell grid lines maintained uniform spacing (no merging or disappearance of grid lines)?",
           "options": [
-            "Houses workers",
-            "Anchors platform to seabed and supports topsides",
-            "Stores oil",
-            "Generates power"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What is the purpose of the jacket structure on an offshore platform?",
-          "answer": "Anchors platform to seabed and supports topsides"
+          "correct": 0,
+          "q": "Throughout the video, have the solar cell grid lines maintained uniform spacing (no merging or disappearance of grid lines)?",
+          "answer": "yes",
+          "weakness_target": "W2"
         }
       ],
       "constraint_annotations": {
@@ -3160,12 +3189,12 @@
         "failure_mode": "lattice_member_distortion"
       },
       "difficulty_profile": {
-        "ika": "medium",
-        "tc": "hard",
+        "ika": "hard",
+        "tc": "medium",
         "pp": "medium",
-        "vf": "medium",
-        "gi": "medium",
-        "vfa": "medium"
+        "vf": "easy",
+        "gi": "hard",
+        "vfa": "hard"
       }
     },
     {
@@ -3208,16 +3237,17 @@
         },
         {
           "id": "q3",
-          "text": "What gives solar panels their characteristic blue-black color?",
+          "text": "Between the first and final frame, has the number of offshore platform legs remained constant?",
           "options": [
-            "Silicon material",
-            "Anti-reflective coating",
-            "Glass cover",
-            "Backsheet material"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What gives solar panels their characteristic blue-black color?",
-          "answer": "Anti-reflective coating"
+          "correct": 0,
+          "q": "Between the first and final frame, has the number of offshore platform legs remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
         }
       ],
       "constraint_annotations": {
@@ -3226,11 +3256,11 @@
         "failure_mode": "grid_distortion"
       },
       "difficulty_profile": {
-        "ika": "medium",
-        "tc": "hard",
+        "ika": "hard",
+        "tc": "medium",
         "pp": "medium",
-        "vf": "medium",
-        "gi": "medium",
+        "vf": "easy",
+        "gi": "hard",
         "vfa": "hard"
       }
     },
@@ -3274,16 +3304,17 @@
         },
         {
           "id": "q3",
-          "text": "Why are wind turbines spaced 3-5 rotor diameters apart?",
+          "text": "Between the first and final frame, has the turbine blade pitch angle remained within 5 degrees of its initial value?",
           "options": [
-            "Land cost",
-            "Minimize wake interference",
-            "Safety regulations",
-            "Visual aesthetics"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "Why are wind turbines spaced 3-5 rotor diameters apart?",
-          "answer": "Minimize wake interference"
+          "correct": 0,
+          "q": "Between the first and final frame, has the turbine blade pitch angle remained within 5 degrees of its initial value?",
+          "answer": "yes",
+          "weakness_target": "W5"
         }
       ],
       "constraint_annotations": {
@@ -3292,11 +3323,11 @@
         "failure_mode": "array_spacing_inconsistency"
       },
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "hard",
         "tc": "medium",
-        "pp": "easy",
+        "pp": "medium",
         "vf": "easy",
-        "gi": "medium",
+        "gi": "hard",
         "vfa": "adversarial"
       }
     },
@@ -3340,16 +3371,17 @@
         },
         {
           "id": "q3",
-          "text": "What drives the conveyor belt movement?",
+          "text": "Throughout the video, has the number of fixture clamps or mounting bolts remained constant?",
           "options": [
-            "Manual push",
-            "Motorized head pulley",
-            "Gravity",
-            "Pneumatic pressure"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What drives the conveyor belt movement?",
-          "answer": "Motorized head pulley"
+          "correct": 0,
+          "q": "Throughout the video, has the number of fixture clamps or mounting bolts remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
         }
       ],
       "constraint_annotations": {
@@ -3358,12 +3390,12 @@
         "failure_mode": "belt_tracking_drift"
       },
       "difficulty_profile": {
-        "ika": "medium",
-        "tc": "medium",
+        "ika": "hard",
+        "tc": "hard",
         "pp": "medium",
-        "vf": "medium",
-        "gi": "medium",
-        "vfa": "hard"
+        "vf": "easy",
+        "gi": "hard",
+        "vfa": "medium"
       }
     },
     {
@@ -3406,16 +3438,17 @@
         },
         {
           "id": "q3",
-          "text": "How many arms does a delta robot have?",
+          "text": "Between the first and final frame, has the 3D printer extruder nozzle maintained circular cross-section geometry within 10%?",
           "options": [
-            "2",
-            "3",
-            "4",
-            "6"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "How many arms does a delta robot have?",
-          "answer": "3"
+          "correct": 0,
+          "q": "Between the first and final frame, has the 3D printer extruder nozzle maintained circular cross-section geometry within 10%?",
+          "answer": "yes",
+          "weakness_target": "W6"
         }
       ],
       "constraint_annotations": {
@@ -3424,11 +3457,11 @@
         "failure_mode": "arm_decoupling"
       },
       "difficulty_profile": {
-        "ika": "medium",
-        "tc": "medium",
+        "ika": "hard",
+        "tc": "hard",
         "pp": "medium",
         "vf": "medium",
-        "gi": "medium",
+        "gi": "hard",
         "vfa": "medium"
       }
     },
@@ -3472,16 +3505,17 @@
         },
         {
           "id": "q3",
-          "text": "What material is a CNC machine bed typically made from?",
+          "text": "Throughout the video, has the conveyor belt maintained consistent horizontal flow direction without reversal?",
           "options": [
-            "Steel plate",
-            "Precision-ground cast iron",
-            "Aluminum",
-            "Granite"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What material is a CNC machine bed typically made from?",
-          "answer": "Precision-ground cast iron"
+          "correct": 0,
+          "q": "Throughout the video, has the conveyor belt maintained consistent horizontal flow direction without reversal?",
+          "answer": "yes",
+          "weakness_target": "W5"
         }
       ],
       "constraint_annotations": {
@@ -3490,11 +3524,11 @@
         "failure_mode": "surface_warpage"
       },
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "hard",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
-        "gi": "medium",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "hard",
         "vfa": "adversarial"
       }
     },
@@ -3538,16 +3572,17 @@
         },
         {
           "id": "q3",
-          "text": "Why are assembly lines sometimes organized in multiple vertical levels?",
+          "text": "Between the first and final frame, have the assembly line floor markings maintained consistent spacing?",
           "options": [
-            "Aesthetic reasons",
-            "Maximizes floor space utilization",
-            "Regulatory requirement",
-            "Reduces noise"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "Why are assembly lines sometimes organized in multiple vertical levels?",
-          "answer": "Maximizes floor space utilization"
+          "correct": 0,
+          "q": "Between the first and final frame, have the assembly line floor markings maintained consistent spacing?",
+          "answer": "yes",
+          "weakness_target": "W2"
         }
       ],
       "constraint_annotations": {
@@ -3556,11 +3591,11 @@
         "failure_mode": "level_spacing_inconsistency"
       },
       "difficulty_profile": {
-        "ika": "medium",
-        "tc": "medium",
+        "ika": "hard",
+        "tc": "hard",
         "pp": "medium",
-        "vf": "medium",
-        "gi": "medium",
+        "vf": "easy",
+        "gi": "hard",
         "vfa": "medium"
       }
     },
@@ -3604,16 +3639,17 @@
         },
         {
           "id": "q3",
-          "text": "What is the typical nozzle orifice diameter for FDM 3D printing?",
+          "text": "Between the first and final frame, has the number of visible fixture clamps or mounting bolts remained constant?",
           "options": [
-            "0.1mm",
-            "0.4mm",
-            "1.0mm",
-            "2.0mm"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What is the typical nozzle orifice diameter for FDM 3D printing?",
-          "answer": "0.4mm"
+          "correct": 0,
+          "q": "Between the first and final frame, has the number of visible fixture clamps or mounting bolts remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
         }
       ],
       "constraint_annotations": {
@@ -3622,12 +3658,12 @@
         "failure_mode": "nozzle_geometry_loss"
       },
       "difficulty_profile": {
-        "ika": "medium",
-        "tc": "medium",
+        "ika": "hard",
+        "tc": "hard",
         "pp": "medium",
         "vf": "medium",
         "gi": "medium",
-        "vfa": "hard"
+        "vfa": "medium"
       }
     },
     {
@@ -3644,16 +3680,17 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What gait pattern do quadruped robots commonly use for stable walking?",
+          "text": "Throughout the video, have rigid link lengths in the robot arm remained constant within 5% (no link stretching or compression)?",
           "options": [
-            "Gallop",
-            "Trot (diagonal pairs synchronized)",
-            "Crawl",
-            "Bound"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What gait pattern do quadruped robots commonly use for stable walking?",
-          "answer": "Trot (diagonal pairs synchronized)"
+          "correct": 0,
+          "q": "Throughout the video, have rigid link lengths in the robot arm remained constant within 5% (no link stretching or compression)?",
+          "answer": "yes",
+          "weakness_target": "W5"
         },
         {
           "id": "q2",
@@ -3688,11 +3725,11 @@
         "failure_mode": "linkage_proportion_drift"
       },
       "difficulty_profile": {
-        "ika": "medium",
-        "tc": "medium",
+        "ika": "hard",
+        "tc": "hard",
         "pp": "medium",
         "vf": "medium",
-        "gi": "medium",
+        "gi": "hard",
         "vfa": "medium"
       }
     },
@@ -3736,16 +3773,17 @@
         },
         {
           "id": "q3",
-          "text": "What does TCP stand for in robotic welding?",
+          "text": "Between the first and final frame, has the quadruped robot maintained bilateral symmetry (left-right leg geometry matches within 5%)?",
           "options": [
-            "Thermal Control Point",
-            "Tool Center Point",
-            "Torch Contact Position",
-            "Trajectory Control Path"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What does TCP stand for in robotic welding?",
-          "answer": "Tool Center Point"
+          "correct": 0,
+          "q": "Between the first and final frame, has the quadruped robot maintained bilateral symmetry (left-right leg geometry matches within 5%)?",
+          "answer": "yes",
+          "weakness_target": "W4"
         }
       ],
       "constraint_annotations": {
@@ -3754,11 +3792,11 @@
         "failure_mode": "tcp_joint_inconsistency"
       },
       "difficulty_profile": {
-        "ika": "medium",
-        "tc": "medium",
+        "ika": "hard",
+        "tc": "hard",
         "pp": "medium",
         "vf": "medium",
-        "gi": "medium",
+        "gi": "hard",
         "vfa": "medium"
       }
     },
@@ -3802,16 +3840,17 @@
         },
         {
           "id": "q3",
-          "text": "What shape are the joint housings on a FANUC robot arm?",
+          "text": "Throughout the video, has the robot end-effector maintained consistent opening width (gripper gap within 10% of initial)?",
           "options": [
-            "Square",
-            "Cylindrical",
-            "Triangular",
-            "Irregular"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What shape are the joint housings on a FANUC robot arm?",
-          "answer": "Cylindrical"
+          "correct": 0,
+          "q": "Throughout the video, has the robot end-effector maintained consistent opening width (gripper gap within 10% of initial)?",
+          "answer": "yes",
+          "weakness_target": "W6"
         }
       ],
       "constraint_annotations": {
@@ -3822,9 +3861,9 @@
       "difficulty_profile": {
         "ika": "medium",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
-        "gi": "medium",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "hard",
         "vfa": "adversarial"
       }
     },
@@ -3877,7 +3916,8 @@
           ],
           "correct": 1,
           "q": "What typically drives a parallel gripper end effector?",
-          "answer": "Pneumatic rotary actuator"
+          "answer": "Pneumatic rotary actuator",
+          "weakness_target": "W4"
         }
       ],
       "constraint_annotations": {
@@ -3886,12 +3926,12 @@
         "failure_mode": "mechanical_precision_loss"
       },
       "difficulty_profile": {
-        "ika": "medium",
-        "tc": "medium",
+        "ika": "hard",
+        "tc": "hard",
         "pp": "medium",
         "vf": "medium",
         "gi": "hard",
-        "vfa": "hard"
+        "vfa": "medium"
       }
     },
     {
@@ -3934,16 +3974,17 @@
         },
         {
           "id": "q3",
-          "text": "How many rotational degrees of freedom does a humanoid shoulder typically have?",
+          "text": "Between the first and final frame, has the number of visible sensors or sensor housings on the robot chassis remained constant?",
           "options": [
-            "1",
-            "2",
-            "3",
-            "4"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 2,
-          "q": "How many rotational degrees of freedom does a humanoid shoulder typically have?",
-          "answer": "3"
+          "correct": 0,
+          "q": "Between the first and final frame, has the number of visible sensors or sensor housings on the robot chassis remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
         }
       ],
       "constraint_annotations": {
@@ -3952,11 +3993,11 @@
         "failure_mode": "interface_discontinuity"
       },
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "hard",
         "tc": "medium",
-        "pp": "easy",
-        "vf": "easy",
-        "gi": "medium",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "hard",
         "vfa": "adversarial"
       }
     },
@@ -3974,29 +4015,31 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What is the typical diameter range of BGA solder balls?",
+          "text": "Between the first and final frame, has the number of visible solder balls in the BGA array remained constant?",
           "options": [
-            "0.01-0.05mm",
-            "0.3-0.6mm",
-            "1.0-2.0mm",
-            "3.0-5.0mm"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What is the typical diameter range of BGA solder balls?",
-          "answer": "0.3-0.6mm"
+          "correct": 0,
+          "q": "Between the first and final frame, has the number of visible solder balls in the BGA array remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
         },
         {
           "id": "q2",
-          "text": "What does BGA stand for?",
+          "text": "Throughout the video, has each solder ball maintained consistent hemispherical geometry (ball diameter variation < 15%)?",
           "options": [
-            "Bond Grid Assembly",
-            "Ball Grid Array",
-            "Board Grade Attachment",
-            "Bump Grid Alignment"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What does BGA stand for?",
-          "answer": "Ball Grid Array"
+          "correct": 0,
+          "q": "Throughout the video, has each solder ball maintained consistent hemispherical geometry (ball diameter variation < 15%)?",
+          "answer": "yes",
+          "weakness_target": "W2"
         },
         {
           "id": "q3",
@@ -4029,10 +4072,10 @@
         "failure_mode": "ball_spacing_inconsistency"
       },
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "hard",
         "tc": "hard",
-        "pp": "easy",
-        "vf": "medium",
+        "pp": "medium",
+        "vf": "easy",
         "gi": "hard",
         "vfa": "adversarial"
       }
@@ -4077,16 +4120,17 @@
         },
         {
           "id": "q3",
-          "text": "What is the typical diameter of microvias in a PCB?",
+          "text": "Between the first and final frame, has the IC die maintained its rectangular geometry (corner angles within 5 degrees of 90)?",
           "options": [
-            "0.01-0.05mm",
-            "0.2-0.3mm",
-            "1.0-2.0mm",
-            "5.0-10.0mm"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What is the typical diameter of microvias in a PCB?",
-          "answer": "0.2-0.3mm"
+          "correct": 0,
+          "q": "Between the first and final frame, has the IC die maintained its rectangular geometry (corner angles within 5 degrees of 90)?",
+          "answer": "yes",
+          "weakness_target": "W6"
         }
       ],
       "constraint_annotations": {
@@ -4095,7 +4139,7 @@
         "failure_mode": "via_distortion"
       },
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "hard",
         "tc": "hard",
         "pp": "easy",
         "vf": "medium",
@@ -4143,16 +4187,17 @@
         },
         {
           "id": "q3",
-          "text": "What material is commonly used for wire bonding?",
+          "text": "Throughout the video, has the via hole grid maintained uniform spacing in both x and y directions?",
           "options": [
-            "Copper",
-            "Gold or aluminum",
-            "Silver",
-            "Steel"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What material is commonly used for wire bonding?",
-          "answer": "Gold or aluminum"
+          "correct": 0,
+          "q": "Throughout the video, has the via hole grid maintained uniform spacing in both x and y directions?",
+          "answer": "yes",
+          "weakness_target": "W2"
         }
       ],
       "constraint_annotations": {
@@ -4161,11 +4206,11 @@
         "failure_mode": "loop_discontinuity"
       },
       "difficulty_profile": {
-        "ika": "medium",
-        "tc": "hard",
-        "pp": "medium",
-        "vf": "medium",
-        "gi": "medium",
+        "ika": "hard",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "hard",
         "vfa": "medium"
       }
     },
@@ -4209,16 +4254,17 @@
         },
         {
           "id": "q3",
-          "text": "What protects the IC circuitry on the die surface?",
+          "text": "Between the first and final frame, has the number of visible bond pads on the IC die remained constant?",
           "options": [
-            "Plastic package",
-            "Glassivation (passivation) layer",
-            "Metal shield",
-            "Epoxy coating"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What protects the IC circuitry on the die surface?",
-          "answer": "Glassivation (passivation) layer"
+          "correct": 0,
+          "q": "Between the first and final frame, has the number of visible bond pads on the IC die remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
         }
       ],
       "constraint_annotations": {
@@ -4227,12 +4273,12 @@
         "failure_mode": "circuit_pattern_distortion"
       },
       "difficulty_profile": {
-        "ika": "medium",
-        "tc": "hard",
+        "ika": "hard",
+        "tc": "medium",
         "pp": "medium",
-        "vf": "medium",
-        "gi": "medium",
-        "vfa": "hard"
+        "vf": "easy",
+        "gi": "hard",
+        "vfa": "medium"
       }
     },
     {
@@ -4275,16 +4321,17 @@
         },
         {
           "id": "q3",
-          "text": "What separates individual die sites on a wafer?",
+          "text": "Between the first and final frame, has the BGA ball pitch (center-to-center spacing) remained within 10% of its initial value?",
           "options": [
-            "Copper traces",
-            "Scribe lines (streets)",
-            "Protective coating",
-            "Nothing"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What separates individual die sites on a wafer?",
-          "answer": "Scribe lines (streets)"
+          "correct": 0,
+          "q": "Between the first and final frame, has the BGA ball pitch (center-to-center spacing) remained within 10% of its initial value?",
+          "answer": "yes",
+          "weakness_target": "W2"
         }
       ],
       "constraint_annotations": {
@@ -4293,11 +4340,11 @@
         "failure_mode": "grid_alignment_drift"
       },
       "difficulty_profile": {
-        "ika": "medium",
+        "ika": "hard",
         "tc": "medium",
         "pp": "easy",
         "vf": "easy",
-        "gi": "medium",
+        "gi": "hard",
         "vfa": "adversarial"
       }
     }
