@@ -3,7 +3,7 @@
     {
       "task_id": "aero_001",
       "domain": "aerospace",
-      "image_path": "images/aerospace/boeing_747_400.jpg",
+      "image_path": "aerospace/boeing_747_400.jpg",
       "prompt": "Analyze this Boeing 747-400 commercial airliner. Describe the aircraft's wing configuration, engine placement, and identify the specific variant features visible in this image.",
       "text": "The Boeing 747-400 is a wide-body, four-engine jet airliner. It features a distinctive upper deck hump, high-bypass turbofan engines mounted on pylons under swept wings, and a conventional tail configuration with a single vertical stabilizer.",
       "vfa_target": "Aircraft aerodynamics and commercial aviation engineering",
@@ -25,7 +25,7 @@
     {
       "task_id": "aero_002",
       "domain": "aerospace",
-      "image_path": "images/aerospace/airbus_a380.jpg",
+      "image_path": "aerospace/airbus_a380.jpg",
       "prompt": "Examine this Airbus A380. What aerodynamic features are visible? Describe the wing design, engine configuration, and how this double-decker aircraft achieves its lift characteristics.",
       "text": "The Airbus A380 is a full-length double-deck, wide-body, four-engine jet. It features swept wings with a high aspect ratio, winglets for fuel efficiency, and four large turbofan engines. The aircraft's massive size requires reinforced landing gear with 22 wheels.",
       "vfa_target": "Large aircraft aerodynamics and structural engineering",
@@ -47,7 +47,7 @@
     {
       "task_id": "aero_003",
       "domain": "aerospace",
-      "image_path": "images/aerospace/space_shuttle.jpg",
+      "image_path": "aerospace/space_shuttle.jpg",
       "prompt": "Analyze this Space Shuttle. Describe the thermal protection system, solid rocket boosters, and how the vehicle transitions from launch to orbital flight to reentry.",
       "text": "The Space Shuttle was a partially reusable low Earth orbital spacecraft system. It featured thermal protection tiles, two solid rocket boosters, an external tank, and three main engines. The vehicle launched vertically and landed horizontally as a glider.",
       "vfa_target": "Spacecraft engineering and orbital mechanics",
@@ -69,7 +69,7 @@
     {
       "task_id": "aero_004",
       "domain": "aerospace",
-      "image_path": "images/aerospace/boeing_chinook.jpg",
+      "image_path": "aerospace/boeing_chinook.jpg",
       "prompt": "Examine this Boeing CH-47 Chinook helicopter. Describe its tandem rotor configuration, the advantages of this design, and how it achieves vertical lift and directional control.",
       "text": "The Boeing CH-47 Chinook is a tandem-rotor, heavy-lift helicopter. Its dual rotor configuration eliminates the need for a tail rotor, providing superior lifting capacity and stability. The counter-rotating rotors cancel out torque effects.",
       "vfa_target": "Helicopter aerodynamics and rotorcraft engineering",
@@ -91,7 +91,7 @@
     {
       "task_id": "aero_005",
       "domain": "aerospace",
-      "image_path": "images/aerospace/gulfstream_g650.jpg",
+      "image_path": "aerospace/gulfstream_g650.jpg",
       "prompt": "Analyze this Gulfstream G650 business jet. Describe its swept wing design, engine configuration, and how the aircraft achieves its long-range cruise efficiency at high altitude.",
       "text": "The Gulfstream G650 is a large-cabin, ultra-long-range business jet. It features swept wings with winglets, two Rolls-Royce BR725 turbofan engines, and a fly-by-wire flight control system. The aircraft cruises at Mach 0.85-0.90 at altitudes up to 51,000 feet.",
       "vfa_target": "Business aviation and long-range aircraft design",
@@ -113,7 +113,7 @@
     {
       "task_id": "veh_001",
       "domain": "vehicles",
-      "image_path": "images/vehicles/cargo_ship.jpg",
+      "image_path": "vehicles/cargo_ship.jpg",
       "prompt": "Analyze this container cargo ship. Describe its hull design, propulsion system, and how modern container ships achieve fuel efficiency while carrying thousands of TEU containers.",
       "text": "Modern container cargo ships feature bulbous bows for reduced hydrodynamic resistance, large diesel engines for propulsion, and stacked container arrangements above and below deck. These vessels can carry 20,000+ TEU containers across oceans.",
       "vfa_target": "Marine engineering and naval architecture",
@@ -135,7 +135,7 @@
     {
       "task_id": "veh_002",
       "domain": "vehicles",
-      "image_path": "images/vehicles/mining_truck.jpg",
+      "image_path": "vehicles/mining_truck.jpg",
       "prompt": "Examine this Caterpillar 797F mining haul truck. Describe its massive size, suspension system, and how it operates in open-pit mining environments to transport ore and overburden.",
       "text": "The Caterpillar 797F is one of the world's largest mining haul trucks. It features a payload capacity of 400 tons, hydraulic suspension, and a diesel-electric powertrain. The truck operates in extreme conditions in open-pit mines worldwide.",
       "vfa_target": "Heavy equipment engineering and mining operations",
@@ -157,7 +157,7 @@
     {
       "task_id": "veh_003",
       "domain": "vehicles",
-      "image_path": "images/vehicles/construction_crane.jpg",
+      "image_path": "vehicles/construction_crane.jpg",
       "prompt": "Analyze this tower crane at a construction site. Describe its jib configuration, counterweight system, and how it lifts heavy loads to significant heights while maintaining stability.",
       "text": "Tower cranes feature a horizontal jib, counter-jib with counterweights, and a vertical tower structure. They use a trolley mechanism to move loads along the jib and can lift loads of 20+ tons to heights exceeding 200 meters.",
       "vfa_target": "Structural engineering and construction equipment",
@@ -179,7 +179,7 @@
     {
       "task_id": "veh_004",
       "domain": "vehicles",
-      "image_path": "images/vehicles/excavator.jpg",
+      "image_path": "vehicles/excavator.jpg",
       "prompt": "Examine this hydraulic excavator. Describe its boom, arm, and bucket configuration, hydraulic system, and how it achieves precise digging and material handling in construction and mining applications.",
       "text": "Hydraulic excavators feature a boom, arm, and bucket connected by hydraulic cylinders. The hydraulic system provides the force needed for digging, while the operator controls precise movements through joysticks and pedals.",
       "vfa_target": "Hydraulic systems and construction equipment engineering",
@@ -201,7 +201,7 @@
     {
       "task_id": "veh_005",
       "domain": "vehicles",
-      "image_path": "images/vehicles/heavy_haul_truck.jpg",
+      "image_path": "vehicles/heavy_haul_truck.jpg",
       "prompt": "Analyze this heavy haul truck used for oversized cargo transport. Describe its multi-axle configuration, steering system, and how it manages weight distribution for transporting extremely heavy loads.",
       "text": "Heavy haul trucks feature multiple axles for weight distribution, hydraulic steering systems, and powerful diesel engines. These vehicles transport oversized cargo like transformers, generators, and industrial equipment.",
       "vfa_target": "Transportation engineering and load management",
@@ -223,7 +223,7 @@
     {
       "task_id": "rob_001",
       "domain": "robotics",
-      "image_path": "images/robotics/industrial_robot_arm.jpg",
+      "image_path": "robotics/industrial_robot_arm.jpg",
       "prompt": "Analyze this industrial robot arm in a manufacturing setting. Describe its joint configuration, degrees of freedom, and how it achieves precise positioning for assembly tasks.",
       "text": "Industrial robot arms typically feature 6 degrees of freedom, allowing them to reach any position and orientation in their workspace. They use servo motors and encoders for precise positioning and can perform tasks like welding, painting, and assembly.",
       "vfa_target": "Robotics engineering and automation systems",
@@ -245,7 +245,7 @@
     {
       "task_id": "rob_002",
       "domain": "robotics",
-      "image_path": "images/robotics/autonomous_mobile_robot.jpg",
+      "image_path": "robotics/autonomous_mobile_robot.jpg",
       "prompt": "Examine this autonomous mobile robot in a warehouse setting. Describe its navigation system, sensor suite, and how it navigates dynamic environments while avoiding obstacles.",
       "text": "Autonomous mobile robots use LiDAR, cameras, and ultrasonic sensors for navigation. They employ simultaneous localization and mapping (SLAM) algorithms to build maps and track their position in real-time.",
       "vfa_target": "Mobile robotics and autonomous navigation",
@@ -267,7 +267,7 @@
     {
       "task_id": "rob_003",
       "domain": "robotics",
-      "image_path": "images/robotics/collaborative_robot.jpg",
+      "image_path": "robotics/collaborative_robot.jpg",
       "prompt": "Analyze this collaborative robot (cobot) working alongside human operators. Describe its safety features, force-limited joints, and how it achieves safe human-robot interaction.",
       "text": "Collaborative robots feature force-limited joints, rounded edges, and proximity sensors to ensure safe human-robot interaction. They can stop or yield when detecting contact, making them suitable for shared workspaces.",
       "vfa_target": "Human-robot interaction and collaborative automation",
@@ -289,7 +289,7 @@
     {
       "task_id": "mfg_001",
       "domain": "manufacturing",
-      "image_path": "images/manufacturing/cnc_machine.jpg",
+      "image_path": "manufacturing/cnc_machine.jpg",
       "prompt": "Analyze this CNC machining center. Describe its tool changer system, spindle configuration, and how computer numerical control achieves precise material removal in manufacturing.",
       "text": "CNC machining centers feature automatic tool changers, high-speed spindles, and computer-controlled axes. They read G-code instructions to precisely remove material from workpieces, achieving tolerances of ±0.001 inches.",
       "vfa_target": "Precision manufacturing and CNC technology",
@@ -311,7 +311,7 @@
     {
       "task_id": "mfg_002",
       "domain": "manufacturing",
-      "image_path": "images/manufacturing/3d_printer.jpg",
+      "image_path": "manufacturing/3d_printer.jpg",
       "prompt": "Examine this industrial 3D printer. Describe its additive manufacturing process, build chamber, and how it creates complex geometries layer by layer using various materials.",
       "text": "Industrial 3D printers use additive manufacturing to build objects layer by layer. They can process metals, plastics, and ceramics, creating complex geometries impossible with traditional manufacturing methods.",
       "vfa_target": "Additive manufacturing and rapid prototyping",
@@ -333,7 +333,7 @@
     {
       "task_id": "mfg_003",
       "domain": "manufacturing",
-      "image_path": "images/manufacturing/assembly_line.jpg",
+      "image_path": "manufacturing/assembly_line.jpg",
       "prompt": "Analyze this automated assembly line in an automotive factory. Describe the conveyor system, robotic workstations, and how the line achieves high throughput with consistent quality.",
       "text": "Automated assembly lines use conveyors to move products through sequential workstations. Robots perform repetitive tasks like welding and fastening, while quality control stations ensure consistency.",
       "vfa_target": "Production engineering and automation",
@@ -355,7 +355,7 @@
     {
       "task_id": "eng_001",
       "domain": "energy",
-      "image_path": "images/energy/offshore_oil_platform.jpg",
+      "image_path": "energy/offshore_oil_platform.jpg",
       "prompt": "Analyze this offshore oil platform in the North Sea. Describe its structural design, drilling equipment, and how it withstands harsh marine conditions while extracting hydrocarbons.",
       "text": "Offshore oil platforms feature jacket structures anchored to the seabed, drilling derricks, and processing facilities. They withstand extreme waves, winds, and currents while extracting oil and gas from subsea reservoirs.",
       "vfa_target": "Offshore engineering and petroleum extraction",
@@ -377,7 +377,7 @@
     {
       "task_id": "eng_002",
       "domain": "energy",
-      "image_path": "images/energy/wind_turbine.jpg",
+      "image_path": "energy/wind_turbine.jpg",
       "prompt": "Examine this modern wind turbine. Describe its rotor design, gearbox system, and how it converts wind energy into electrical power through electromagnetic induction.",
       "text": "Modern wind turbines feature three-blade rotors connected to gearboxes and generators. The gearbox increases rotational speed from 10-20 RPM to 1,500-1,800 RPM for the generator.",
       "vfa_target": "Renewable energy engineering and wind power",
@@ -399,7 +399,7 @@
     {
       "task_id": "eng_003",
       "domain": "energy",
-      "image_path": "images/energy/solar_farm.jpg",
+      "image_path": "energy/solar_farm.jpg",
       "prompt": "Analyze this utility-scale solar photovoltaic farm. Describe the panel configuration, tracking systems, and how it converts sunlight into grid-compatible electrical power.",
       "text": "Utility-scale solar farms use thousands of photovoltaic panels mounted on tracking systems. Single-axis trackers follow the sun's east-west movement, increasing energy yield by 25-30% compared to fixed installations.",
       "vfa_target": "Solar energy engineering and grid integration",
@@ -421,7 +421,7 @@
     {
       "task_id": "micro_001",
       "domain": "microelectronics",
-      "image_path": "images/microelectronics/pcb_circuit_board.jpg",
+      "image_path": "microelectronics/pcb_circuit_board.jpg",
       "prompt": "Analyze this printed circuit board (PCB). Describe its layer stackup, component placement, and how surface mount technology enables high-density electronic assembly.",
       "text": "Modern PCBs feature multiple layers of copper traces, surface mount components, and via connections between layers. SMT allows components as small as 0201 packages (0.6mm x 0.3mm) to be placed automatically.",
       "vfa_target": "Electronic packaging and PCB design",
@@ -443,7 +443,7 @@
     {
       "task_id": "micro_002",
       "domain": "microelectronics",
-      "image_path": "images/microelectronics/semiconductor_wafer.jpg",
+      "image_path": "microelectronics/semiconductor_wafer.jpg",
       "prompt": "Examine this semiconductor silicon wafer. Describe the photolithography process, transistor structures, and how billions of transistors are fabricated on a single chip.",
       "text": "Semiconductor fabrication uses photolithography to pattern transistors on silicon wafers. Modern processes achieve feature sizes below 7nm, allowing billions of transistors on a single chip.",
       "vfa_target": "Semiconductor fabrication and nanotechnology",
@@ -465,7 +465,7 @@
     {
       "task_id": "micro_003",
       "domain": "microelectronics",
-      "image_path": "images/microelectronics/chip_packaging.jpg",
+      "image_path": "microelectronics/chip_packaging.jpg",
       "prompt": "Analyze this advanced semiconductor package. Describe the lead frame, wire bonding, and how the package provides electrical connections and thermal management for the die.",
       "text": "Semiconductor packages protect the die and provide electrical connections to the PCB. Wire bonds or flip-chip bumps connect the die to the lead frame, while thermal pads dissipate heat.",
       "vfa_target": "Electronic packaging and thermal management",
