@@ -6,6 +6,8 @@ import sys
 import cv2
 import numpy as np
 
+from eval.geometric_integrity import normalize_frame
+
 # -- Tunable thresholds -------------------------------------------------------
 CONFIG = {
     "min_frames": 2,                  # Minimum frames needed for any flow computation
@@ -59,8 +61,11 @@ def _estimate_affine_rotation_angle(prev_gray: np.ndarray, curr_gray: np.ndarray
     if pts_prev is None or len(pts_prev) < CONFIG["ransac_min_inliers"]:
         return None, 0
 
-    # Track features to next frame
-    pts_curr, status, _ = cv2.calcOpticalFlowPyrLK(prev_gray, curr_gray, pts_prev, None)
+    # Track features to next frame (auto-scaled window)
+    H, W = prev_gray.shape[:2]
+    win = max(11, int(min(H, W) / 40))
+    pts_curr, status, _ = cv2.calcOpticalFlowPyrLK(prev_gray, curr_gray, pts_prev, None,
+                                                    winSize=(win, win))
     if pts_curr is None:
         return None, 0
 
@@ -140,8 +145,8 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | None = None,
         )
         print(f"WARNING: {result['warning']}", file=sys.stderr)
 
-    # Convert all frames to BGR (handles grayscale input)
-    bgr_frames = [_ensure_bgr(f) for f in frames]
+    # Convert all frames to BGR (handles grayscale input) and normalize resolution
+    bgr_frames = [normalize_frame(_ensure_bgr(f)) for f in frames]
 
     # -- Dark background detection --
     dark_bg = float(np.mean(cv2.cvtColor(bgr_frames[0], cv2.COLOR_BGR2GRAY))) < 40

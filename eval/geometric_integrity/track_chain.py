@@ -4,6 +4,8 @@
 import cv2
 import numpy as np
 
+from eval.geometric_integrity import normalize_frame
+
 DEFAULT_ROI = (0.55, 0.88, 0.05, 0.95)  # (y_frac_start, y_frac_end, x_frac_start, x_frac_end)
 
 ALTERNATIVE_ROI_BANDS = {
@@ -53,6 +55,7 @@ def evaluate_track_chain(frames: list[np.ndarray]) -> dict:
     if len(frames) < 2:
         return {'score': None, 'error': 'insufficient_frames', 'method': 'track_chain'}
 
+    frames = [normalize_frame(f) for f in frames]
     grays = [cv2.cvtColor(f, cv2.COLOR_BGR2GRAY) if f.ndim == 3 else f for f in frames]
 
     def _score_for_roi(roi: tuple) -> float:

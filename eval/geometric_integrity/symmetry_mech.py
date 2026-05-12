@@ -4,6 +4,8 @@
 import cv2
 import numpy as np
 
+from eval.geometric_integrity import normalize_frame
+
 
 def evaluate_bilateral_symmetry(gray: np.ndarray) -> dict:
     """Evaluate bilateral symmetry by testing multiple axis orientations.
@@ -16,6 +18,7 @@ def evaluate_bilateral_symmetry(gray: np.ndarray) -> dict:
         no bilateral symmetry is detected (score < 0.25), which is more
         honest than returning 0.0 for intentionally asymmetric structures.
     """
+    gray = normalize_frame(gray)
     if gray.ndim == 3:
         gray = cv2.cvtColor(gray, cv2.COLOR_BGR2GRAY)
 

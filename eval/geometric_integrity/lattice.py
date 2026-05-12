@@ -6,6 +6,8 @@ import sys
 import cv2
 import numpy as np
 
+from eval.geometric_integrity import normalize_frame
+
 # -- Tunable thresholds -------------------------------------------------------
 CONFIG = {
     "min_keypoints": 10,              # Minimum SIFT keypoints required for reliable scoring
@@ -56,6 +58,8 @@ def evaluate_lattice(image_a: np.ndarray, image_b: np.ndarray) -> dict:
         dict with keys: num_keypoints_a, num_keypoints_b, num_matches,
         match_ratio, result_score, and optionally 'insufficient_keypoints'.
     """
+    image_a = normalize_frame(image_a)
+    image_b = normalize_frame(image_b)
     gray_a = cv2.cvtColor(image_a, cv2.COLOR_BGR2GRAY) if image_a.ndim == 3 else image_a
     gray_b = cv2.cvtColor(image_b, cv2.COLOR_BGR2GRAY) if image_b.ndim == 3 else image_b
 

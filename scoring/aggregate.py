@@ -56,6 +56,21 @@ def enforce_floor(axis: str, score: float) -> float:
     return max(floor, score)
 
 
+def compute_rif(axis_scores: dict[str, float]) -> float | None:
+    """Compute Rotational Integrity Factor from axis scores.
+
+    RIF is the geometric-mean of rotation-sensitive axes (ika, gi, vf).
+    Returns None if fewer than 2 of those axes are present.
+    """
+    rot_axes = [axis_scores[a] for a in ("ika", "gi", "vf") if a in axis_scores]
+    if len(rot_axes) < 2:
+        return None
+    product = 1.0
+    for v in rot_axes:
+        product *= max(v, 0.0)
+    return float(product ** (1.0 / len(rot_axes)))
+
+
 def aggregate_scores(axis_scores: dict[str, float], vfa: float | None = None) -> dict:
     """Aggregate axis-level scores into a final benchmark result.
 
@@ -66,7 +81,8 @@ def aggregate_scores(axis_scores: dict[str, float], vfa: float | None = None) ->
              classification is included in the output.
 
     Returns:
-        dict with per-axis floored scores, overall mean, and optional vfa_tier.
+        dict with per-axis floored scores, overall mean, optional vfa_tier,
+        and RIF with VFA-gating.
     """
     if not isinstance(axis_scores, dict):
         print(f"WARNING: axis_scores is {type(axis_scores).__name__}, expected dict", file=sys.stderr)
@@ -83,5 +99,14 @@ def aggregate_scores(axis_scores: dict[str, float], vfa: float | None = None) ->
 
     if vfa is not None:
         result["vfa_tier"] = vfa_tier(vfa)
+
+    # RIF (Rotational Integrity Factor) with VFA-gating
+    rif = compute_rif(floored)
+    result["rif"] = rif
+    if vfa is not None and vfa < 0.05:
+        result["rif_gated"] = None
+        result["rif_note"] = "rif_excluded_static_video"
+    else:
+        result["rif_gated"] = rif
 
     return result

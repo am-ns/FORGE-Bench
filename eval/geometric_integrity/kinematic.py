@@ -10,6 +10,8 @@ import sys
 import cv2
 import numpy as np
 
+from eval.geometric_integrity import normalize_frame
+
 # -- Tunable thresholds -------------------------------------------------------
 CONFIG = {
     "dark_pixel_threshold": 30,       # Pixel intensity (0-255) below which a pixel is "dark"
@@ -156,6 +158,7 @@ def detect_static_camera(
                 "dark_background": False, "dark_background_detected": False,
                 "threshold_used": static_threshold, "kinematic_score": 1.0}
 
+    frames = [normalize_frame(f) for f in frames]
     dark_bg = is_dark_background(frames[0], threshold=dark_threshold, ratio=dark_ratio)
 
     # Dark-background handling: crop to centre 60% ROI and lower static threshold

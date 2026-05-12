@@ -4,6 +4,8 @@
 import cv2
 import numpy as np
 
+from eval.geometric_integrity import normalize_frame
+
 CONFIG = {
     "hough_dp": 1.2,
     "hough_min_dist": 50,
@@ -25,6 +27,7 @@ def evaluate_rotational_symmetry(gray: np.ndarray) -> dict:
     Returns:
         dict with score, method, and diagnostic fields.
     """
+    gray = normalize_frame(gray)
     if gray.ndim == 3:
         gray = cv2.cvtColor(gray, cv2.COLOR_BGR2GRAY)
 
