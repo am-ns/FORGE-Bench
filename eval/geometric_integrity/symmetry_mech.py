@@ -54,15 +54,12 @@ def evaluate_bilateral_symmetry(gray: np.ndarray) -> dict:
     size = min(h, w)
     if size > 10:
         sq = cv2.resize(float_img, (size, size))
-        flipped = np.flip(sq, axis=0)
-        flipped = np.flip(flipped, axis=1)
-        diag_diff = np.abs(np.triu(sq) - np.triu(flipped))
-        nz = diag_diff[diag_diff > 0]
-        if nz.size > 0:
-            d_score = 1.0 - float(np.mean(nz)) / 255.0
-            if d_score > best_score:
-                best_score = d_score
-                best_axis = 'diagonal_tl_br'
+        transposed = sq.T
+        diff = np.abs(sq - transposed)
+        d_score = 1.0 - float(np.mean(diff)) / 255.0
+        if d_score > best_score:
+            best_score = d_score
+            best_axis = 'diagonal_tl_br'
 
     if best_score < 0.25:
         return {
