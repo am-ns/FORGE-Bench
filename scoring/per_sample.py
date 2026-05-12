@@ -19,7 +19,9 @@ AXIS_WEIGHTS: dict[str, float] = {
 }
 
 
-def score_sample(axis_scores: dict[str, float], vfa: float | None = None) -> dict:
+def score_sample(axis_scores: dict[str, float], vfa: float | None = None,
+                 vfa_orbit_component: float | None = None,
+                 vfa_crane_component: float | None = None) -> dict:
     """Compute a weighted per-sample score from individual axis scores.
 
     Args:
@@ -27,9 +29,14 @@ def score_sample(axis_scores: dict[str, float], vfa: float | None = None) -> dic
                      {"ika": 85.0, "tc": 72.5, "pp": 90.0, "gi": 60.0, "vf": 88.0}.
         vfa: Optional View-point Fidelity Angle. When < 0.05 (essentially
              static video), RIF is excluded from the output.
+        vfa_orbit_component: Optional orbit sub-component of VFA (passed
+             through into per-sample result JSON).
+        vfa_crane_component: Optional crane sub-component of VFA (passed
+             through into per-sample result JSON).
 
     Returns:
-        dict with keys: weighted_score, per_axis_weighted, num_axes, rif, rif_gated.
+        dict with keys: weighted_score, per_axis_weighted, num_axes, rif, rif_gated,
+        and optionally vfa_orbit_component, vfa_crane_component.
     """
     if not isinstance(axis_scores, dict):
         print(f"WARNING: axis_scores is {type(axis_scores).__name__}, expected dict", file=sys.stderr)
@@ -64,10 +71,15 @@ def score_sample(axis_scores: dict[str, float], vfa: float | None = None) -> dic
     else:
         rif_gated = rif
 
-    return {
+    out = {
         "weighted_score": final_score,
         "per_axis_weighted": per_axis_weighted,
         "num_axes": len(axis_scores),
         "rif": rif,
         "rif_gated": rif_gated,
     }
+    if vfa_orbit_component is not None:
+        out["vfa_orbit_component"] = vfa_orbit_component
+    if vfa_crane_component is not None:
+        out["vfa_crane_component"] = vfa_crane_component
+    return out

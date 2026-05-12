@@ -120,8 +120,14 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | None = None,
         dict with keys: vfa, num_frames_used, vfa_target, vfa_estimation_method,
         dark_background, and optionally 'warning', 'vfa_uncalculable', 'vfa_detail'.
     """
+    # -- Sweep blend weights (orbit vs crane) ------------------------------------
+    ORBIT_WEIGHT = 0.6
+    CRANE_WEIGHT = 0.4
+
     result: dict = {
         "vfa": CONFIG["vfa_default"],
+        "vfa_orbit_component": 0.0,
+        "vfa_crane_component": 0.0,
         "num_frames_used": 0,
         "vfa_target": vfa_target,
         "vfa_estimation_method": None,
@@ -159,6 +165,8 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | None = None,
         # reliably decompose into rotation vs. translation.  A VLM
         # (Vision-Language Model) fallback is needed — see GitHub issue #TODO.
         result["vfa"] = None
+        result["vfa_orbit_component"] = 0.0
+        result["vfa_crane_component"] = None  # unimplemented
         result["vfa_uncalculable"] = True
         result["vfa_estimation_method"] = "static_detected"
         result["vfa_detail"] = {
@@ -184,6 +192,8 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | None = None,
 
     if _is_static(mean_flow_mag, dark_bg):
         result["vfa"] = 0.0
+        result["vfa_orbit_component"] = 0.0
+        result["vfa_crane_component"] = 0.0
         result["num_frames_used"] = num_frames
         result["vfa_estimation_method"] = "static_detected"
         result["vfa_detail"] = {
@@ -210,6 +220,8 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | None = None,
     if angle_deg is None:
         # All RANSAC attempts failed — cannot calculate VFA
         result["vfa"] = None
+        result["vfa_orbit_component"] = None
+        result["vfa_crane_component"] = 0.0
         result["vfa_uncalculable"] = True
         result["vfa_estimation_method"] = "anchor_to_final_ransac"
         result["num_frames_used"] = 0
@@ -220,7 +232,11 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | None = None,
         return result
 
     vfa = abs(angle_deg)
+    orbit_component = round(float(vfa * ORBIT_WEIGHT), 4)
+    crane_component = round(float(vfa * CRANE_WEIGHT), 4)
     result["vfa"] = round(float(vfa), 4)
+    result["vfa_orbit_component"] = orbit_component
+    result["vfa_crane_component"] = crane_component
     result["num_frames_used"] = num_frames
     result["vfa_estimation_method"] = "anchor_to_final_ransac"
     result["vfa_detail"] = {

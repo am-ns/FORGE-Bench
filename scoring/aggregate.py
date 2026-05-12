@@ -23,6 +23,10 @@ CONFIG = {
     "vfa_tier_moderate": 60,      # VFA below this => 'moderate' tier; above => 'full'
 }
 
+# RIF component weights — unvalidated defaults, intended for tuning.
+RIF_WEIGHT_SSIM = 0.5           # Weight for structural similarity in RIF blend
+RIF_WEIGHT_HIST = 0.5           # Weight for histogram correlation in RIF blend
+
 AXIS_FLOORS = {
     "ika": CONFIG["axis_floor_default"],
     "tc": CONFIG["axis_floor_default"],

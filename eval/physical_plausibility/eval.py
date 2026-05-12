@@ -35,9 +35,46 @@ PP_PROMPT_TEMPLATE = (
     "Respond with a single integer score ({score_min}-{score_max}) followed by a brief justification."
 )
 
+PP_CONSTRAINED_PROMPT_TEMPLATE = (
+    "Evaluate the physical plausibility of the following content on a scale "
+    "of {score_min} to {score_max}.\n\n"
+    "Content: {content}\n\n"
+    "For this specific sample, check these observable physical constraints:\n"
+    "{constraints_list}\n\n"
+    "Each constraint either holds or is violated — score accordingly.\n\n"
+    "CALIBRATION: Apply strict scientific standards. "
+    "Score {score_max} = zero physically impossible elements. "
+    "Score 4 = minor physically plausible approximations only. "
+    "Score 3 = one noticeable but not severe physics issue. "
+    "Score 2 = clear violation of known physical laws. "
+    "Score {score_min} = multiple severe violations. "
+    "When uncertain between scores, choose the lower one. "
+    "Industrial accuracy is paramount.\n\n"
+    "Respond with a single integer score ({score_min}-{score_max}) followed by a brief justification."
+)
 
-def build_pp_prompt(content: str) -> str:
-    """Build the physical-plausibility LMM prompt for *content*."""
+
+def build_pp_prompt(content: str, constraint_annotations: dict | None = None) -> str:
+    """Build the physical-plausibility LMM prompt for *content*.
+
+    When *constraint_annotations* contains a non-empty ``hard_constraints``
+    list, the prompt is augmented with sample-specific failure-mode checklists
+    so the LLM evaluates concrete observable constraints rather than generic
+    physics principles.
+    """
+    hard = []
+    if constraint_annotations:
+        hard = constraint_annotations.get("hard_constraints", [])
+
+    if hard:
+        constraints_list = "\n".join(f"- {c}" for c in hard)
+        return PP_CONSTRAINED_PROMPT_TEMPLATE.format(
+            content=content,
+            constraints_list=constraints_list,
+            score_min=CONFIG["score_min"],
+            score_max=CONFIG["score_max"],
+        )
+
     return PP_PROMPT_TEMPLATE.format(
         content=content,
         score_min=CONFIG["score_min"],
@@ -57,17 +94,22 @@ def parse_pp_score(response: str) -> int:
     return CONFIG["fallback_score"]
 
 
-def evaluate_physical_plausibility(content: str, llm_fn) -> dict:
+def evaluate_physical_plausibility(content: str, llm_fn,
+                                   constraint_annotations: dict | None = None) -> dict:
     """Run the PP evaluation pipeline.
 
     Args:
         content: Text or description of the reconstruction / visual content.
         llm_fn: Callable(prompt: str) -> str that returns the LMM response.
+        constraint_annotations: Optional dict from samples.json
+            ``constraint_annotations``.  When it contains a non-empty
+            ``hard_constraints`` list, sample-specific failure-mode checklists
+            are injected into the LLM prompt.
 
     Returns:
         dict with keys: score, justification, raw_response.
     """
-    prompt = build_pp_prompt(content)
+    prompt = build_pp_prompt(content, constraint_annotations)
     try:
         raw_response = llm_fn(prompt)
     except (RuntimeError, OSError, ValueError) as exc:
