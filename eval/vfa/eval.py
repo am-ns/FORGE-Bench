@@ -11,6 +11,9 @@ CONFIG = {
     "min_frames": 2,                  # Minimum frames needed for any flow computation
     "ideal_frames": 8,                # Ideal number of frames for stable VFA estimation
     "vfa_default": 0.0,               # Default VFA when computation is not possible
+    "static_threshold": 0.8,          # px/frame — below this, motion is considered static
+    "static_threshold_dark_bg": 0.5,  # px/frame — lower threshold for dark backgrounds
+    "ransac_min_inliers": 4,          # Minimum inlier count for a valid RANSAC estimate
 }
 
 
@@ -30,25 +33,94 @@ def _ensure_bgr(frame: np.ndarray) -> np.ndarray:
     return frame
 
 
-def compute_vfa(frames: list[np.ndarray], vfa_target: float | None = None) -> dict:
+def _roi_center_crop(gray: np.ndarray, fraction: float = 0.6) -> np.ndarray:
+    """Crop the center fraction of a grayscale image."""
+    h, w = gray.shape[:2]
+    y0 = int(h * (1 - fraction) / 2)
+    y1 = h - y0
+    x0 = int(w * (1 - fraction) / 2)
+    x1 = w - x0
+    return gray[y0:y1, x0:x1]
+
+
+def _estimate_affine_rotation_angle(prev_gray: np.ndarray, curr_gray: np.ndarray,
+                                     roi_center: bool = False) -> tuple[float | None, int]:
+    """Estimate rotation angle between two frames via RANSAC affine transform.
+
+    Returns (angle_degrees, num_inliers).  Returns (None, 0) on failure.
+    """
+    if roi_center:
+        prev_gray = _roi_center_crop(prev_gray)
+        curr_gray = _roi_center_crop(curr_gray)
+
+    # Detect features
+    pts_prev = cv2.goodFeaturesToTrack(prev_gray, maxCorners=500, qualityLevel=0.01,
+                                        minDistance=10, blockSize=7)
+    if pts_prev is None or len(pts_prev) < CONFIG["ransac_min_inliers"]:
+        return None, 0
+
+    # Track features to next frame
+    pts_curr, status, _ = cv2.calcOpticalFlowPyrLK(prev_gray, curr_gray, pts_prev, None)
+    if pts_curr is None:
+        return None, 0
+
+    good = status.flatten() == 1
+    pts_prev_good = pts_prev[good]
+    pts_curr_good = pts_curr[good]
+
+    if len(pts_prev_good) < CONFIG["ransac_min_inliers"]:
+        return None, 0
+
+    # RANSAC affine estimate
+    M, inliers = cv2.estimateAffinePartial2D(pts_prev_good, pts_curr_good, method=cv2.RANSAC)
+    if M is None or inliers is None:
+        return None, 0
+
+    num_inliers = int(inliers.sum())
+    if num_inliers < CONFIG["ransac_min_inliers"]:
+        return None, 0
+
+    # Extract rotation from the 2x3 affine matrix: [cosθ  -sinθ; sinθ  cosθ]
+    angle_rad = np.arctan2(float(M[1, 0]), float(M[0, 0]))
+    angle_deg = np.degrees(angle_rad)
+    return angle_deg, num_inliers
+
+
+def _is_static(mean_flow_mag: float, dark_bg: bool) -> bool:
+    """Check if motion magnitude is below the static threshold."""
+    thresh = CONFIG["static_threshold_dark_bg"] if dark_bg else CONFIG["static_threshold"]
+    return mean_flow_mag < thresh
+
+
+def compute_vfa(frames: list[np.ndarray], vfa_target: float | None = None,
+                motion_type: str | None = None) -> dict:
     """Compute View-point Fidelity Angle from a sequence of video frames.
+
+    Uses anchor-to-final RANSAC affine estimation (first frame to last frame)
+    instead of pairwise accumulation to avoid error amplification.
 
     Handles edge cases:
     - Missing vfa_target: defaults to None (no target comparison).
     - Video shorter than 8 frames: computes on available frames with a warning.
     - Grayscale video: converts to BGR before optical flow computation.
+    - Dark background: applies center-ROI crop and lower static threshold.
+    - Crane motion: raises NotImplementedError requiring VLM fallback.
 
     Args:
         frames: List of video frames (BGR or grayscale).
         vfa_target: Optional target VFA for comparison. Defaults to None.
+        motion_type: Optional motion classification ('orbit', 'crane', etc.).
 
     Returns:
-        dict with keys: vfa, num_frames_used, vfa_target, and optionally 'warning'.
+        dict with keys: vfa, num_frames_used, vfa_target, vfa_estimation_method,
+        dark_background, and optionally 'warning', 'vfa_uncalculable', 'vfa_detail'.
     """
     result: dict = {
         "vfa": CONFIG["vfa_default"],
         "num_frames_used": 0,
         "vfa_target": vfa_target,
+        "vfa_estimation_method": None,
+        "dark_background": False,
     }
 
     if vfa_target is None:
@@ -56,6 +128,7 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | None = None) -> di
 
     if not frames or len(frames) < CONFIG["min_frames"]:
         result["warning"] = f"too few frames ({len(frames) if frames else 0}), need at least {CONFIG['min_frames']}"
+        result["vfa_estimation_method"] = "static_detected"
         print(f"WARNING: {result['warning']}", file=sys.stderr)
         return result
 
@@ -70,35 +143,85 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | None = None) -> di
     # Convert all frames to BGR (handles grayscale input)
     bgr_frames = [_ensure_bgr(f) for f in frames]
 
-    # Compute cumulative rotation via optical flow
-    cumulative_angle = 0.0
-    frames_used = 0
+    # -- Dark background detection --
+    dark_bg = float(np.mean(cv2.cvtColor(bgr_frames[0], cv2.COLOR_BGR2GRAY))) < 40
+    result["dark_background"] = dark_bg
+    use_roi = dark_bg  # use center 60% ROI for dark backgrounds
 
-    for i in range(len(bgr_frames) - 1):
-        prev_gray = cv2.cvtColor(bgr_frames[i], cv2.COLOR_BGR2GRAY)
-        curr_gray = cv2.cvtColor(bgr_frames[i + 1], cv2.COLOR_BGR2GRAY)
+    # -- Crane motion type: VLM fallback not yet implemented --
+    if motion_type == "crane":
+        # Crane shots involve boom/arm extension which optical flow cannot
+        # reliably decompose into rotation vs. translation.  A VLM
+        # (Vision-Language Model) fallback is needed — see GitHub issue #TODO.
+        result["vfa"] = None
+        result["vfa_uncalculable"] = True
+        result["vfa_estimation_method"] = "static_detected"
+        result["vfa_detail"] = {
+            "dark_background": dark_bg,
+            "note": "crane_vlm_fallback_not_implemented",
+        }
+        return result
 
-        try:
-            flow = cv2.calcOpticalFlowFarneback(
-                prev_gray, curr_gray,
-                None, pyr_scale=0.5, levels=3, winsize=15,
-                iterations=3, poly_n=5, poly_sigma=1.2, flags=0,
-            )
-            # Estimate rotation angle from flow field divergence
-            h, w = flow.shape[:2]
-            cx, cy = w / 2.0, h / 2.0
-            y_coords, x_coords = np.mgrid[0:h, 0:w].astype(np.float32)
-            dx = x_coords - cx + flow[..., 0]
-            dy = y_coords - cy + flow[..., 1]
-            angles = np.arctan2(dy, dx)
-            mean_angle = float(np.mean(np.abs(angles)))
-            cumulative_angle += mean_angle
-            frames_used += 1
-        except cv2.error as exc:
-            print(f"WARNING: optical flow failed at frame pair {i}-{i+1}: {exc}", file=sys.stderr)
+    # -- Check for static video (no meaningful motion) --
+    mean_flow_mag = 0.0
+    try:
+        g0 = cv2.cvtColor(bgr_frames[0], cv2.COLOR_BGR2GRAY)
+        g1 = cv2.cvtColor(bgr_frames[1], cv2.COLOR_BGR2GRAY)
+        roi0 = _roi_center_crop(g0) if use_roi else g0
+        roi1 = _roi_center_crop(g1) if use_roi else g1
+        flow01 = cv2.calcOpticalFlowFarneback(
+            roi0, roi1, None, pyr_scale=0.5, levels=3, winsize=15,
+            iterations=3, poly_n=5, poly_sigma=1.2, flags=0,
+        )
+        mean_flow_mag = float(np.mean(np.sqrt(flow01[..., 0] ** 2 + flow01[..., 1] ** 2)))
+    except cv2.error:
+        pass
 
-    vfa = np.degrees(cumulative_angle / frames_used) if frames_used > 0 else CONFIG["vfa_default"]
+    if _is_static(mean_flow_mag, dark_bg):
+        result["vfa"] = 0.0
+        result["num_frames_used"] = num_frames
+        result["vfa_estimation_method"] = "static_detected"
+        result["vfa_detail"] = {
+            "mean_flow_magnitude_px_per_frame": round(mean_flow_mag, 4),
+            "dark_background": dark_bg,
+        }
+        return result
 
-    result["vfa"] = float(vfa)
-    result["num_frames_used"] = frames_used
+    # -- Anchor-to-final RANSAC orbit estimation --
+    # Estimate rotation from FIRST frame to LAST frame in a single RANSAC pass.
+    # This avoids error amplification from pairwise accumulation.
+    first_gray = cv2.cvtColor(bgr_frames[0], cv2.COLOR_BGR2GRAY)
+    last_gray = cv2.cvtColor(bgr_frames[-1], cv2.COLOR_BGR2GRAY)
+
+    angle_deg, n_inliers = _estimate_affine_rotation_angle(first_gray, last_gray,
+                                                            roi_center=use_roi)
+
+    # Fallback: if first-to-last fails, try first-to-second-to-last
+    if angle_deg is None and num_frames >= 3:
+        fallback_gray = cv2.cvtColor(bgr_frames[-2], cv2.COLOR_BGR2GRAY)
+        angle_deg, n_inliers = _estimate_affine_rotation_angle(first_gray, fallback_gray,
+                                                                roi_center=use_roi)
+
+    if angle_deg is None:
+        # All RANSAC attempts failed — cannot calculate VFA
+        result["vfa"] = None
+        result["vfa_uncalculable"] = True
+        result["vfa_estimation_method"] = "anchor_to_final_ransac"
+        result["num_frames_used"] = 0
+        result["vfa_detail"] = {
+            "dark_background": dark_bg,
+            "note": "ransac_affine_failed_insufficient_inliers",
+        }
+        return result
+
+    vfa = abs(angle_deg)
+    result["vfa"] = round(float(vfa), 4)
+    result["num_frames_used"] = num_frames
+    result["vfa_estimation_method"] = "anchor_to_final_ransac"
+    result["vfa_detail"] = {
+        "anchor_to_final_angle_deg": round(float(angle_deg), 4),
+        "ransac_inliers": n_inliers,
+        "mean_flow_magnitude_px_per_frame": round(mean_flow_mag, 4),
+        "dark_background": dark_bg,
+    }
     return result
