@@ -178,11 +178,14 @@ def _check_scissor_lift(grays: list[np.ndarray]) -> dict:
     diffs = np.diff(valid_angles)
     monotonic = bool(np.all(diffs >= 0) or np.all(diffs <= 0))
 
-    # Compute sin(theta/2) ratios
-    sin_half = np.sin(np.array(valid_angles) / 2.0)
-    ratios = sin_half[1:] / (sin_half[:-1] + 1e-8)
-    ideal_ratio = np.mean(ratios)
-    deviation_pct = float(np.std(ratios) / (abs(ideal_ratio) + 1e-8) * 100.0)
+    angle_arr = np.array(valid_angles)
+    angle_changes = np.abs(np.diff(angle_arr))
+    if len(angle_changes) == 0:
+        deviation_pct = 100.0
+    else:
+        mean_change = float(np.mean(angle_changes))
+        std_change = float(np.std(angle_changes))
+        deviation_pct = float(std_change / (mean_change + 1e-8) * 100.0) if mean_change > 1e-3 else 0.0
 
     # Graduated scoring with floor 0.10.
     # Arms present but coupling violated => partial credit: 0.10 + 0.40 * (1 - dev/max)
