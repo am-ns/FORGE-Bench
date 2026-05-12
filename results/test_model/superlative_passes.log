@@ -1,0 +1,7 @@
+--- superlative_pass ---
+sample: test_001
+question_id: q1
+question: Is the structure at risk of collapse or merging?
+expected_answer: no
+model_answer: yes, the structure remains intact with no merging or collapse detected
+

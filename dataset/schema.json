@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FORGE-Bench Sample",
+  "description": "Schema for each entry in dataset/annotations/samples.json",
+  "type": "object",
+  "required": [
+    "task_id",
+    "domain",
+    "topology_type",
+    "image_path",
+    "text",
+    "vfa_target",
+    "questions",
+    "constraint_annotations"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "pattern": "^[a-z]{2,8}(_[a-z]+)?_[0-9]{3}$|^S[A-Z][0-9]{2}$"
+    },
+    "domain": {
+      "type": "string",
+      "enum": [
+        "aerospace",
+        "microelectronics",
+        "robotics",
+        "energy",
+        "vehicle",
+        "manufacturing"
+      ]
+    },
+    "topology_type": {
+      "type": "string",
+      "enum": [
+        "surface",
+        "lattice",
+        "kinematic"
+      ]
+    },
+    "failure_target": {
+      "type": "string",
+      "minLength": 10
+    },
+    "text": {
+      "type": "string",
+      "minLength": 20
+    },
+    "image_path": {
+      "type": "string",
+      "pattern": "^dataset/images/"
+    },
+    "vfa_target": {
+      "type": "string"
+    },
+    "questions": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["q", "answer"],
+        "properties": {
+          "q": {
+            "type": "string"
+          },
+          "answer": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "constraint_annotations": {
+      "type": "object",
+      "required": ["topology_type"],
+      "additionalProperties": true
+    },
+    "reverse": {
+      "type": "boolean"
+    },
+    "extra_frame": {
+      "type": "integer"
+    }
+  },
+  "additionalProperties": true
+}

@@ -3,7 +3,7 @@
     {
       "task_id": "aero_001",
       "domain": "aerospace",
-      "image_path": "aerospace/boeing_747_400.jpg",
+      "image_path": "dataset/images/aerospace/boeing_747_400.jpg",
       "prompt": "Analyze this Boeing 747-400 commercial airliner. Describe the aircraft's wing configuration, engine placement, and identify the specific variant features visible in this image.",
       "text": "The Boeing 747-400 is a wide-body, four-engine jet airliner. It features a distinctive upper deck hump, high-bypass turbofan engines mounted on pylons under swept wings, and a conventional tail configuration with a single vertical stabilizer.",
       "vfa_target": "Aircraft aerodynamics and commercial aviation engineering",
@@ -36,13 +36,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "static"
-      }
+        "topology_type": "surface"
+      },
+      "topology_type": "surface"
     },
     {
       "task_id": "aero_002",
       "domain": "aerospace",
-      "image_path": "aerospace/airbus_a380.jpg",
+      "image_path": "dataset/images/aerospace/airbus_a380.jpg",
       "prompt": "Examine this Airbus A380. What aerodynamic features are visible? Describe the wing design, engine configuration, and how this double-decker aircraft achieves its lift characteristics.",
       "text": "The Airbus A380 is a full-length double-deck, wide-body, four-engine jet. It features swept wings with a high aspect ratio, winglets for fuel efficiency, and four large turbofan engines. The aircraft's massive size requires reinforced landing gear with 22 wheels.",
       "vfa_target": "Large aircraft aerodynamics and structural engineering",
@@ -75,13 +76,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "static"
-      }
+        "topology_type": "surface"
+      },
+      "topology_type": "surface"
     },
     {
       "task_id": "aero_003",
       "domain": "aerospace",
-      "image_path": "aerospace/space_shuttle.jpg",
+      "image_path": "dataset/images/aerospace/space_shuttle.jpg",
       "prompt": "Analyze this Space Shuttle. Describe the thermal protection system, solid rocket boosters, and how the vehicle transitions from launch to orbital flight to reentry.",
       "text": "The Space Shuttle was a partially reusable low Earth orbital spacecraft system. It featured thermal protection tiles, two solid rocket boosters, an external tank, and three main engines. The vehicle launched vertically and landed horizontally as a glider.",
       "vfa_target": "Spacecraft engineering and orbital mechanics",
@@ -114,13 +116,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "static"
-      }
+        "topology_type": "surface"
+      },
+      "topology_type": "surface"
     },
     {
       "task_id": "aero_004",
       "domain": "aerospace",
-      "image_path": "aerospace/boeing_chinook.jpg",
+      "image_path": "dataset/images/aerospace/boeing_chinook.jpg",
       "prompt": "Examine this Boeing CH-47 Chinook helicopter. Describe its tandem rotor configuration, the advantages of this design, and how it achieves vertical lift and directional control.",
       "text": "The Boeing CH-47 Chinook is a tandem-rotor, heavy-lift helicopter. Its dual rotor configuration eliminates the need for a tail rotor, providing superior lifting capacity and stability. The counter-rotating rotors cancel out torque effects.",
       "vfa_target": "Helicopter aerodynamics and rotorcraft engineering",
@@ -153,13 +156,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "static"
-      }
+        "topology_type": "surface"
+      },
+      "topology_type": "surface"
     },
     {
       "task_id": "aero_005",
       "domain": "aerospace",
-      "image_path": "aerospace/gulfstream_g650.jpg",
+      "image_path": "dataset/images/aerospace/gulfstream_g650.jpg",
       "prompt": "Analyze this Gulfstream G650 business jet. Describe its swept wing design, engine configuration, and how the aircraft achieves its long-range cruise efficiency at high altitude.",
       "text": "The Gulfstream G650 is a large-cabin, ultra-long-range business jet. It features swept wings with winglets, two Rolls-Royce BR725 turbofan engines, and a fly-by-wire flight control system. The aircraft cruises at Mach 0.85-0.90 at altitudes up to 51,000 feet.",
       "vfa_target": "Business aviation and long-range aircraft design",
@@ -192,13 +196,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "static"
-      }
+        "topology_type": "surface"
+      },
+      "topology_type": "surface"
     },
     {
       "task_id": "veh_001",
-      "domain": "vehicles",
-      "image_path": "vehicles/cargo_ship.jpg",
+      "domain": "vehicle",
+      "image_path": "dataset/images/vehicles/cargo_ship.jpg",
       "prompt": "Analyze this container cargo ship. Describe its hull design, propulsion system, and how modern container ships achieve fuel efficiency while carrying thousands of TEU containers.",
       "text": "Modern container cargo ships feature bulbous bows for reduced hydrodynamic resistance, large diesel engines for propulsion, and stacked container arrangements above and below deck. These vessels can carry 20,000+ TEU containers across oceans.",
       "vfa_target": "Marine engineering and naval architecture",
@@ -231,13 +236,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "static"
-      }
+        "topology_type": "surface"
+      },
+      "topology_type": "surface"
     },
     {
       "task_id": "veh_002",
-      "domain": "vehicles",
-      "image_path": "vehicles/mining_truck.jpg",
+      "domain": "vehicle",
+      "image_path": "dataset/images/vehicles/mining_truck.jpg",
       "prompt": "Examine this Caterpillar 797F mining haul truck. Describe its massive size, suspension system, and how it operates in open-pit mining environments to transport ore and overburden.",
       "text": "The Caterpillar 797F is one of the world's largest mining haul trucks. It features a payload capacity of 400 tons, hydraulic suspension, and a diesel-electric powertrain. The truck operates in extreme conditions in open-pit mines worldwide.",
       "vfa_target": "Heavy equipment engineering and mining operations",
@@ -270,13 +276,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "static"
-      }
+        "topology_type": "surface"
+      },
+      "topology_type": "surface"
     },
     {
       "task_id": "veh_003",
-      "domain": "vehicles",
-      "image_path": "vehicles/construction_crane.jpg",
+      "domain": "vehicle",
+      "image_path": "dataset/images/vehicles/construction_crane.jpg",
       "prompt": "Analyze this tower crane at a construction site. Describe its jib configuration, counterweight system, and how it lifts heavy loads to significant heights while maintaining stability.",
       "text": "Tower cranes feature a horizontal jib, counter-jib with counterweights, and a vertical tower structure. They use a trolley mechanism to move loads along the jib and can lift loads of 20+ tons to heights exceeding 200 meters.",
       "vfa_target": "Structural engineering and construction equipment",
@@ -309,13 +316,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "static"
-      }
+        "topology_type": "surface"
+      },
+      "topology_type": "surface"
     },
     {
       "task_id": "veh_004",
-      "domain": "vehicles",
-      "image_path": "vehicles/excavator.jpg",
+      "domain": "vehicle",
+      "image_path": "dataset/images/vehicles/excavator.jpg",
       "prompt": "Examine this hydraulic excavator. Describe its boom, arm, and bucket configuration, hydraulic system, and how it achieves precise digging and material handling in construction and mining applications.",
       "text": "Hydraulic excavators feature a boom, arm, and bucket connected by hydraulic cylinders. The hydraulic system provides the force needed for digging, while the operator controls precise movements through joysticks and pedals.",
       "vfa_target": "Hydraulic systems and construction equipment engineering",
@@ -348,13 +356,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "static"
-      }
+        "topology_type": "surface"
+      },
+      "topology_type": "surface"
     },
     {
       "task_id": "veh_005",
-      "domain": "vehicles",
-      "image_path": "vehicles/heavy_haul_truck.jpg",
+      "domain": "vehicle",
+      "image_path": "dataset/images/vehicles/heavy_haul_truck.jpg",
       "prompt": "Analyze this heavy haul truck used for oversized cargo transport. Describe its multi-axle configuration, steering system, and how it manages weight distribution for transporting extremely heavy loads.",
       "text": "Heavy haul trucks feature multiple axles for weight distribution, hydraulic steering systems, and powerful diesel engines. These vehicles transport oversized cargo like transformers, generators, and industrial equipment.",
       "vfa_target": "Transportation engineering and load management",
@@ -387,13 +396,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "static"
-      }
+        "topology_type": "surface"
+      },
+      "topology_type": "surface"
     },
     {
       "task_id": "rob_001",
       "domain": "robotics",
-      "image_path": "robotics/industrial_robot_arm.jpg",
+      "image_path": "dataset/images/robotics/industrial_robot_arm.jpg",
       "prompt": "Analyze this industrial robot arm in a manufacturing setting. Describe its joint configuration, degrees of freedom, and how it achieves precise positioning for assembly tasks.",
       "text": "Industrial robot arms typically feature 6 degrees of freedom, allowing them to reach any position and orientation in their workspace. They use servo motors and encoders for precise positioning and can perform tasks like welding, painting, and assembly.",
       "vfa_target": "Robotics engineering and automation systems",
@@ -426,13 +436,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "static"
-      }
+        "topology_type": "surface"
+      },
+      "topology_type": "surface"
     },
     {
       "task_id": "rob_002",
       "domain": "robotics",
-      "image_path": "robotics/autonomous_mobile_robot.jpg",
+      "image_path": "dataset/images/robotics/autonomous_mobile_robot.jpg",
       "prompt": "Examine this autonomous mobile robot in a warehouse setting. Describe its navigation system, sensor suite, and how it navigates dynamic environments while avoiding obstacles.",
       "text": "Autonomous mobile robots use LiDAR, cameras, and ultrasonic sensors for navigation. They employ simultaneous localization and mapping (SLAM) algorithms to build maps and track their position in real-time.",
       "vfa_target": "Mobile robotics and autonomous navigation",
@@ -465,13 +476,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "static"
-      }
+        "topology_type": "surface"
+      },
+      "topology_type": "surface"
     },
     {
       "task_id": "rob_003",
       "domain": "robotics",
-      "image_path": "robotics/collaborative_robot.jpg",
+      "image_path": "dataset/images/robotics/collaborative_robot.jpg",
       "prompt": "Analyze this collaborative robot (cobot) working alongside human operators. Describe its safety features, force-limited joints, and how it achieves safe human-robot interaction.",
       "text": "Collaborative robots feature force-limited joints, rounded edges, and proximity sensors to ensure safe human-robot interaction. They can stop or yield when detecting contact, making them suitable for shared workspaces.",
       "vfa_target": "Human-robot interaction and collaborative automation",
@@ -504,15 +516,16 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "static"
-      }
+        "topology_type": "surface"
+      },
+      "topology_type": "surface"
     },
     {
       "task_id": "mfg_001",
       "domain": "manufacturing",
-      "image_path": "manufacturing/cnc_machine.jpg",
+      "image_path": "dataset/images/manufacturing/cnc_machine.jpg",
       "prompt": "Analyze this CNC machining center. Describe its tool changer system, spindle configuration, and how computer numerical control achieves precise material removal in manufacturing.",
-      "text": "CNC machining centers feature automatic tool changers, high-speed spindles, and computer-controlled axes. They read G-code instructions to precisely remove material from workpieces, achieving tolerances of ±0.001 inches.",
+      "text": "CNC machining centers feature automatic tool changers, high-speed spindles, and computer-controlled axes. They read G-code instructions to precisely remove material from workpieces, achieving tolerances of \u00b10.001 inches.",
       "vfa_target": "Precision manufacturing and CNC technology",
       "questions": [
         {
@@ -532,24 +545,25 @@
           "id": "q2",
           "text": "What is the typical tolerance achievable with CNC machining?",
           "options": [
-            "±0.01 inches",
-            "±0.001 inches",
-            "±0.1 inches",
-            "±0.0001 inches"
+            "\u00b10.01 inches",
+            "\u00b10.001 inches",
+            "\u00b10.1 inches",
+            "\u00b10.0001 inches"
           ],
           "correct": 1,
           "q": "What is the typical tolerance achievable with CNC machining?",
-          "answer": "±0.001 inches"
+          "answer": "\u00b10.001 inches"
         }
       ],
       "constraint_annotations": {
-        "topology_type": "static"
-      }
+        "topology_type": "surface"
+      },
+      "topology_type": "surface"
     },
     {
       "task_id": "mfg_002",
       "domain": "manufacturing",
-      "image_path": "manufacturing/3d_printer.jpg",
+      "image_path": "dataset/images/manufacturing/3d_printer.jpg",
       "prompt": "Examine this industrial 3D printer. Describe its additive manufacturing process, build chamber, and how it creates complex geometries layer by layer using various materials.",
       "text": "Industrial 3D printers use additive manufacturing to build objects layer by layer. They can process metals, plastics, and ceramics, creating complex geometries impossible with traditional manufacturing methods.",
       "vfa_target": "Additive manufacturing and rapid prototyping",
@@ -582,13 +596,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "static"
-      }
+        "topology_type": "surface"
+      },
+      "topology_type": "surface"
     },
     {
       "task_id": "mfg_003",
       "domain": "manufacturing",
-      "image_path": "manufacturing/assembly_line.jpg",
+      "image_path": "dataset/images/manufacturing/assembly_line.jpg",
       "prompt": "Analyze this automated assembly line in an automotive factory. Describe the conveyor system, robotic workstations, and how the line achieves high throughput with consistent quality.",
       "text": "Automated assembly lines use conveyors to move products through sequential workstations. Robots perform repetitive tasks like welding and fastening, while quality control stations ensure consistency.",
       "vfa_target": "Production engineering and automation",
@@ -621,13 +636,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "static"
-      }
+        "topology_type": "surface"
+      },
+      "topology_type": "surface"
     },
     {
       "task_id": "eng_001",
       "domain": "energy",
-      "image_path": "energy/offshore_oil_platform.jpg",
+      "image_path": "dataset/images/energy/offshore_oil_platform.jpg",
       "prompt": "Analyze this offshore oil platform in the North Sea. Describe its structural design, drilling equipment, and how it withstands harsh marine conditions while extracting hydrocarbons.",
       "text": "Offshore oil platforms feature jacket structures anchored to the seabed, drilling derricks, and processing facilities. They withstand extreme waves, winds, and currents while extracting oil and gas from subsea reservoirs.",
       "vfa_target": "Offshore engineering and petroleum extraction",
@@ -660,13 +676,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "static"
-      }
+        "topology_type": "surface"
+      },
+      "topology_type": "surface"
     },
     {
       "task_id": "eng_002",
       "domain": "energy",
-      "image_path": "energy/wind_turbine.jpg",
+      "image_path": "dataset/images/energy/wind_turbine.jpg",
       "prompt": "Examine this modern wind turbine. Describe its rotor design, gearbox system, and how it converts wind energy into electrical power through electromagnetic induction.",
       "text": "Modern wind turbines feature three-blade rotors connected to gearboxes and generators. The gearbox increases rotational speed from 10-20 RPM to 1,500-1,800 RPM for the generator.",
       "vfa_target": "Renewable energy engineering and wind power",
@@ -699,13 +716,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "static"
-      }
+        "topology_type": "surface"
+      },
+      "topology_type": "surface"
     },
     {
       "task_id": "eng_003",
       "domain": "energy",
-      "image_path": "energy/solar_farm.jpg",
+      "image_path": "dataset/images/energy/solar_farm.jpg",
       "prompt": "Analyze this utility-scale solar photovoltaic farm. Describe the panel configuration, tracking systems, and how it converts sunlight into grid-compatible electrical power.",
       "text": "Utility-scale solar farms use thousands of photovoltaic panels mounted on tracking systems. Single-axis trackers follow the sun's east-west movement, increasing energy yield by 25-30% compared to fixed installations.",
       "vfa_target": "Solar energy engineering and grid integration",
@@ -738,13 +756,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "static"
-      }
+        "topology_type": "surface"
+      },
+      "topology_type": "surface"
     },
     {
       "task_id": "micro_001",
       "domain": "microelectronics",
-      "image_path": "microelectronics/pcb_circuit_board.jpg",
+      "image_path": "dataset/images/microelectronics/pcb_circuit_board.jpg",
       "prompt": "Analyze this printed circuit board (PCB). Describe its layer stackup, component placement, and how surface mount technology enables high-density electronic assembly.",
       "text": "Modern PCBs feature multiple layers of copper traces, surface mount components, and via connections between layers. SMT allows components as small as 0201 packages (0.6mm x 0.3mm) to be placed automatically.",
       "vfa_target": "Electronic packaging and PCB design",
@@ -777,13 +796,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "static"
-      }
+        "topology_type": "surface"
+      },
+      "topology_type": "surface"
     },
     {
       "task_id": "micro_002",
       "domain": "microelectronics",
-      "image_path": "microelectronics/semiconductor_wafer.jpg",
+      "image_path": "dataset/images/microelectronics/semiconductor_wafer.jpg",
       "prompt": "Examine this semiconductor silicon wafer. Describe the photolithography process, transistor structures, and how billions of transistors are fabricated on a single chip.",
       "text": "Semiconductor fabrication uses photolithography to pattern transistors on silicon wafers. Modern processes achieve feature sizes below 7nm, allowing billions of transistors on a single chip.",
       "vfa_target": "Semiconductor fabrication and nanotechnology",
@@ -816,13 +836,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "static"
-      }
+        "topology_type": "surface"
+      },
+      "topology_type": "surface"
     },
     {
       "task_id": "micro_003",
       "domain": "microelectronics",
-      "image_path": "microelectronics/chip_packaging.jpg",
+      "image_path": "dataset/images/microelectronics/chip_packaging.jpg",
       "prompt": "Analyze this advanced semiconductor package. Describe the lead frame, wire bonding, and how the package provides electrical connections and thermal management for the die.",
       "text": "Semiconductor packages protect the die and provide electrical connections to the PCB. Wire bonds or flip-chip bumps connect the die to the lead frame, while thermal pads dissipate heat.",
       "vfa_target": "Electronic packaging and thermal management",
@@ -855,14 +876,15 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "static"
-      }
+        "topology_type": "surface"
+      },
+      "topology_type": "surface"
     },
     {
       "task_id": "aero_006",
       "domain": "aerospace",
-      "topology_type": "tilt",
-      "image_path": "aerospace/aero_006.jpg",
+      "topology_type": "kinematic",
+      "image_path": "dataset/images/aerospace/aero_006.jpg",
       "prompt": "Analyze this Boeing 747 during a nose-up climb. Describe the aircraft's pitch angle, wing loading during climb, and how the high-lift devices (flaps and slats) are configured for this climb attitude.",
       "text": "During a nose-up climb, the Boeing 747 increases its angle of attack, generating additional lift from the wing's camber. The leading-edge slats and trailing-edge flaps may be partially deployed at lower altitudes. The four turbofan engines provide excess thrust to maintain the climb rate while the fuselage attitude tilts upward relative to the horizon.",
       "vfa_target": "Aircraft climb dynamics and high-lift aerodynamics",
@@ -924,14 +946,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "tilt"
+        "topology_type": "kinematic"
       }
     },
     {
       "task_id": "eng_004",
       "domain": "energy",
-      "topology_type": "rise",
-      "image_path": "energy/eng_004.jpg",
+      "topology_type": "kinematic",
+      "image_path": "dataset/images/energy/eng_004.jpg",
       "prompt": "Analyze this offshore wind farm from a vertical rise perspective. Describe the turbine spacing, foundation types, and how the array layout optimizes energy capture while minimizing wake interference between turbines.",
       "text": "Offshore wind farms use monopile or jacket foundations anchored to the seabed. Turbines are spaced 5-9 rotor diameters apart to minimize wake losses. The vertical rise viewpoint reveals the staggered array layout designed to maximize energy capture from prevailing wind directions while reducing turbulence from upstream turbines.",
       "vfa_target": "Offshore wind farm layout and wake interaction dynamics",
@@ -980,14 +1002,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "rise"
+        "topology_type": "kinematic"
       }
     },
     {
       "task_id": "mfg_004",
       "domain": "manufacturing",
       "topology_type": "kinematic",
-      "image_path": "manufacturing/mfg_004.jpg",
+      "image_path": "dataset/images/manufacturing/mfg_004.jpg",
       "prompt": "Analyze this conveyor belt system from a side view. Describe the belt material, roller configuration, drive mechanism, and how the system maintains consistent tension and speed for material transport.",
       "text": "Industrial conveyor belts use vulcanized rubber or PVC belts supported by idler rollers spaced at regular intervals. The drive pulley at the head provides traction through friction, while gravity take-up mechanisms maintain belt tension. Speed is controlled by variable frequency drives (VFDs) connected to the motor and gearbox assembly.",
       "vfa_target": "Conveyor kinematics and material handling dynamics",
@@ -1056,7 +1078,7 @@
       "task_id": "mfg_005",
       "domain": "manufacturing",
       "topology_type": "kinematic",
-      "image_path": "manufacturing/mfg_005.jpg",
+      "image_path": "dataset/images/manufacturing/mfg_005.jpg",
       "prompt": "Analyze this assembly line with a robotic arm performing kinematic operations. Describe the robot's joint movements, end-effector configuration, and how the arm coordinates with the moving assembly line to perform tasks on parts in motion.",
       "text": "Assembly line robotic arms use synchronized motion control to track parts on a moving conveyor. The robot's trajectory planner computes inverse kinematics solutions in real-time, adjusting joint angles to maintain the end-effector position relative to the moving workpiece. Force-torque sensors at the wrist provide feedback for precise assembly operations.",
       "vfa_target": "Robotic kinematics and synchronized assembly automation",
@@ -1111,8 +1133,8 @@
     {
       "task_id": "micro_004",
       "domain": "microelectronics",
-      "topology_type": "dolly",
-      "image_path": "microelectronics/micro_004.jpg",
+      "topology_type": "kinematic",
+      "image_path": "dataset/images/microelectronics/micro_004.jpg",
       "prompt": "Analyze this PCB during a dolly-in zoom toward a specific component cluster. Describe the surface mount components, solder joint geometry, trace routing, and how the zoom reveals progressively finer details of the circuit board construction.",
       "text": "A dolly-in zoom on a PCB reveals layers of detail: from the macro layout of component placement and trace routing, through individual SMD packages with their pad geometries, down to solder fillet profiles and via structures. The depth of field narrows as the camera approaches, isolating the target components from the surrounding board.",
       "vfa_target": "PCB macro-to-micro structural detail and component inspection",
@@ -1174,14 +1196,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "dolly"
+        "topology_type": "kinematic"
       }
     },
     {
       "task_id": "veh_006",
-      "domain": "vehicles",
-      "topology_type": "dolly",
-      "image_path": "vehicles/veh_006.jpg",
+      "domain": "vehicle",
+      "topology_type": "kinematic",
+      "image_path": "dataset/images/vehicles/veh_006.jpg",
       "prompt": "Analyze this heavy truck engine bay during a dolly-in zoom. Describe the diesel engine components, cooling system layout, turbocharger placement, and how the progressive zoom reveals the mechanical complexity of the powertrain.",
       "text": "A dolly-in zoom on a heavy truck engine bay reveals the turbocharged diesel engine with its inline configuration, charge air cooler, and serpentine belt system. The progressive approach exposes details from the overall engine layout to individual fuel injector lines, wiring harnesses, and the turbocharger compressor housing.",
       "vfa_target": "Heavy vehicle powertrain architecture and engine component detail",
@@ -1230,14 +1252,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "dolly"
+        "topology_type": "kinematic"
       }
     },
     {
       "task_id": "eng_005",
       "domain": "energy",
       "topology_type": "kinematic",
-      "image_path": "energy/eng_005.jpg",
+      "image_path": "dataset/images/energy/eng_005.jpg",
       "prompt": "Analyze this wind turbine with spinning blades. Describe the blade pitch control, rotational dynamics, and how the generator converts the mechanical rotation into electrical power through the gearbox and generator assembly.",
       "text": "Wind turbine blades rotate at 10-20 RPM, with pitch actuators adjusting blade angle to optimize energy capture. The low-speed shaft drives through a planetary gearbox to the high-speed generator shaft. Yaw motors orient the nacelle into the wind, while blade pitch and generator torque are continuously adjusted by the turbine controller.",
       "vfa_target": "Wind turbine rotational dynamics and power generation kinematics",
@@ -1305,8 +1327,8 @@
     {
       "task_id": "rob_004",
       "domain": "robotics",
-      "topology_type": "orbit",
-      "image_path": "robotics/rob_004.jpg",
+      "topology_type": "kinematic",
+      "image_path": "dataset/images/robotics/rob_004.jpg",
       "prompt": "Analyze this FANUC robotic arm from a 45-degree orbital camera path. Describe the robot's mechanical structure, joint configuration, and how the orbital viewpoint reveals the workspace envelope and reach capabilities of the industrial manipulator.",
       "text": "A FANUC industrial robot arm viewed from a 45-degree orbital path reveals its six-axis articulated structure: base rotation, shoulder and elbow pitch, and three wrist axes (roll, pitch, yaw). The orbital camera path exposes the full workspace envelope, showing how the arm can reach positions above, below, and around the work cell from its fixed base.",
       "vfa_target": "Industrial robot spatial geometry and workspace kinematics",
@@ -1355,14 +1377,14 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "orbit"
+        "topology_type": "kinematic"
       }
     },
     {
       "task_id": "micro_lat_001",
       "domain": "microelectronics",
       "topology_type": "kinematic",
-      "image_path": "microelectronics/micro_lat_001.jpg",
+      "image_path": "dataset/images/microelectronics/micro_lat_001.jpg",
       "prompt": "Analyze this PCB during a lateral translation. Describe the copper trace routing, component placement, and how the camera motion reveals the continuity of trace paths across the board surface.",
       "text": "During a lateral translation across a PCB, the copper trace routes maintain their routing paths as the camera pans. Surface mount components remain fixed to their pads while traces extend continuously between via junctions and component pads. The lateral motion reveals the systematic routing patterns used in multi-layer board design, with power and signal traces following distinct path conventions.",
       "vfa_target": "PCB trace continuity and lateral motion fidelity",
@@ -1405,7 +1427,7 @@
       "task_id": "SA01",
       "domain": "aerospace",
       "topology_type": "kinematic",
-      "image_path": "aerospace/SA01.jpg",
+      "image_path": "dataset/images/aerospace/SA01.jpg",
       "prompt": "Analyze the sensitivity of this aircraft's lift characteristics to angle of attack changes. Describe how small variations in pitch attitude affect the lift coefficient and overall aerodynamic performance.",
       "text": "Aircraft lift sensitivity to angle of attack is a fundamental aerodynamic characteristic. The lift curve slope determines how responsive the aircraft is to pitch changes, with linear behavior in the normal operating range and a sharp loss at the critical angle of attack leading to stall.",
       "vfa_target": "Aerodynamic sensitivity analysis and lift curve characterization",
@@ -1449,8 +1471,8 @@
     {
       "task_id": "SA02",
       "domain": "aerospace",
-      "topology_type": "tilt",
-      "image_path": "aerospace/SA02.jpg",
+      "topology_type": "kinematic",
+      "image_path": "dataset/images/aerospace/SA02.jpg",
       "prompt": "Analyze the sensitivity of this spacecraft's thermal protection system to reentry heating rates. Describe how variations in reentry angle affect heat flux distribution on the vehicle surface.",
       "text": "Spacecraft reentry thermal sensitivity depends on the entry angle and velocity. Steeper entries produce higher peak heating rates but shorter duration, while shallower entries spread the heat load over longer time periods. The thermal protection system must be designed to handle the worst-case heating scenario.",
       "vfa_target": "Reentry thermal sensitivity and heat flux distribution analysis",
@@ -1486,7 +1508,7 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "tilt",
+        "topology_type": "kinematic",
         "sensitivity_type": "thermal",
         "failure_mode": "thermal_gradient_error"
       }
@@ -1494,8 +1516,8 @@
     {
       "task_id": "SA03",
       "domain": "aerospace",
-      "topology_type": "orbit",
-      "image_path": "aerospace/SA03.jpg",
+      "topology_type": "kinematic",
+      "image_path": "dataset/images/aerospace/SA03.jpg",
       "prompt": "Analyze the sensitivity of this satellite's orbital parameters to perturbation forces. Describe how small thrust variations affect the orbital elements and long-term trajectory.",
       "text": "Satellite orbital sensitivity to thrust perturbations is characterized by the variational equations of orbital mechanics. Small continuous thrust forces produce gradual changes in semi-major axis, eccentricity, and inclination over multiple orbits, with sensitivity depending on the thrust direction relative to the orbital velocity vector.",
       "vfa_target": "Orbital mechanics sensitivity and perturbation analysis",
@@ -1531,7 +1553,7 @@
         }
       ],
       "constraint_annotations": {
-        "topology_type": "orbit",
+        "topology_type": "kinematic",
         "sensitivity_type": "orbital_mechanics",
         "failure_mode": "trajectory_inconsistency"
       }
