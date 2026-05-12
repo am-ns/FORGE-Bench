@@ -91,22 +91,22 @@
     {
       "task_id": "aero_005",
       "domain": "aerospace",
-      "image_path": "images/aerospace/f16_fighting_falcon.jpg",
-      "prompt": "Analyze this General Dynamics F-16 Fighting Falcon. Describe its fly-by-wire control system, wing design, and how the bubble canopy enhances pilot situational awareness.",
-      "text": "The F-16 Fighting Falcon is a single-engine, multi-role fighter aircraft. It features a blended wing-body design, fly-by-wire control system, and a frameless bubble canopy providing 360-degree visibility. The aircraft's relaxed static stability enhances maneuverability.",
-      "vfa_target": "Fighter aircraft design and flight control systems",
+      "image_path": "images/aerospace/gulfstream_g650.jpg",
+      "prompt": "Analyze this Gulfstream G650 business jet. Describe its swept wing design, engine configuration, and how the aircraft achieves its long-range cruise efficiency at high altitude.",
+      "text": "The Gulfstream G650 is a large-cabin, ultra-long-range business jet. It features swept wings with winglets, two Rolls-Royce BR725 turbofan engines, and a fly-by-wire flight control system. The aircraft cruises at Mach 0.85-0.90 at altitudes up to 51,000 feet.",
+      "vfa_target": "Business aviation and long-range aircraft design",
       "questions": [
         {
           "id": "q1",
-          "text": "What is the primary advantage of fly-by-wire control systems?",
-          "options": ["Reduced weight", "Enhanced maneuverability", "Lower cost", "Easier maintenance"],
-          "correct": 1
+          "text": "What is the maximum cruise speed of the Gulfstream G650?",
+          "options": ["Mach 0.80", "Mach 0.85", "Mach 0.925", "Mach 1.0"],
+          "correct": 2
         },
         {
           "id": "q2",
-          "text": "What type of engine does the F-16 use?",
-          "options": ["Turbofan", "Turbojet", "Turboprop", "Pulsejet"],
-          "correct": 0
+          "text": "What engines power the Gulfstream G650?",
+          "options": ["Pratt & Whitney PW800", "Rolls-Royce BR725", "General Electric CF34", "Honeywell HTF7000"],
+          "correct": 1
         }
       ]
     },
