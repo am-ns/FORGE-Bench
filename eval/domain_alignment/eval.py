@@ -71,6 +71,16 @@ def _log_superlative_pass(model_name: str, sample_id: str, question_id: str,
         fh.write(entry)
 
 
+def _extract_verdict(s: str):
+    """Extract a yes/no verdict from the start of a string."""
+    tokens = s.strip().lower().split()
+    if tokens and tokens[0].startswith('y'):
+        return 'yes'
+    if tokens and tokens[0].startswith('n'):
+        return 'no'
+    return None
+
+
 def evaluate_answer(expected_answer: str, model_answer: str,
                     question_text: str = "",
                     sample_id: str = "", question_id: str = "",
@@ -93,7 +103,10 @@ def evaluate_answer(expected_answer: str, model_answer: str,
     model_norm = _normalize_answer(model_answer)
 
     # Standard match
-    if expected_norm == model_norm:
+    ev = _extract_verdict(expected_norm)
+    mv = _extract_verdict(model_norm)
+    correct = ev is not None and ev == mv
+    if correct:
         return {
             "correct": True,
             "superlative_pass": False,
@@ -102,7 +115,7 @@ def evaluate_answer(expected_answer: str, model_answer: str,
         }
 
     # Superlative-pass: expected 'no', model says 'yes'
-    if expected_norm == "no" and model_norm.startswith("yes"):
+    if ev == "no" and _extract_verdict(model_norm) == "yes":
         if (_contains_failure_predictive_language(question_text) and
                 _confirms_structural_correctness(model_answer)):
             _log_superlative_pass(
