@@ -21,7 +21,8 @@ AXIS_WEIGHTS: dict[str, float] = {
 
 def score_sample(axis_scores: dict[str, float], vfa: float | None = None,
                  vfa_orbit_component: float | None = None,
-                 vfa_crane_component: float | None = None) -> dict:
+                 vfa_crane_component: float | None = None,
+                 ic_score: float | None = None) -> dict:
     """Compute a weighted per-sample score from individual axis scores.
 
     Args:
@@ -33,10 +34,12 @@ def score_sample(axis_scores: dict[str, float], vfa: float | None = None,
              through into per-sample result JSON).
         vfa_crane_component: Optional crane sub-component of VFA (passed
              through into per-sample result JSON).
+        ic_score: Optional industrial constraint score (0.0-1.0) from the
+                  industrial constraint checkers.
 
     Returns:
         dict with keys: weighted_score, per_axis_weighted, num_axes, rif, rif_gated,
-        and optionally vfa_orbit_component, vfa_crane_component.
+        and optionally vfa_orbit_component, vfa_crane_component, ic_score.
     """
     if not isinstance(axis_scores, dict):
         print(f"WARNING: axis_scores is {type(axis_scores).__name__}, expected dict", file=sys.stderr)
@@ -82,4 +85,6 @@ def score_sample(axis_scores: dict[str, float], vfa: float | None = None,
         out["vfa_orbit_component"] = vfa_orbit_component
     if vfa_crane_component is not None:
         out["vfa_crane_component"] = vfa_crane_component
+    if ic_score is not None:
+        out["ic_score"] = ic_score
     return out
