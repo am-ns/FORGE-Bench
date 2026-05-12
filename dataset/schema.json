@@ -79,6 +79,14 @@
     },
     "extra_frame": {
       "type": "integer"
+    },
+    "difficulty_profile": {
+      "type": "object",
+      "description": "Per-axis difficulty classification for adversarial calibration.",
+      "additionalProperties": {
+        "type": "string",
+        "enum": ["easy", "medium", "hard", "adversarial"]
+      }
     }
   },
   "additionalProperties": true

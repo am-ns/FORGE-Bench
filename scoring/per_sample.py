@@ -3,6 +3,8 @@
 
 import sys
 
+from eval.calibration.floor_enforcer import enforce_score_floors
+
 # -- Tunable thresholds -------------------------------------------------------
 CONFIG = {
     "default_axis_weight": 1.0,       # Default weight for axes not in AXIS_WEIGHTS
@@ -45,6 +47,20 @@ def score_sample(axis_scores: dict[str, float], vfa: float | None = None,
         print(f"WARNING: axis_scores is {type(axis_scores).__name__}, expected dict", file=sys.stderr)
         return {"weighted_score": 0.0, "per_axis_weighted": {}, "num_axes": 0,
                 "rif": None, "rif_gated": None}
+
+    # Apply domain-specific score floors (never-zero enforcement).
+    # Include optional vfa and ic_score in the floor enforcement pass.
+    _floor_input = dict(axis_scores)
+    if vfa is not None:
+        _floor_input["vfa"] = vfa
+    if ic_score is not None:
+        _floor_input["ic_score"] = ic_score
+    _floored = enforce_score_floors(_floor_input)
+    axis_scores = {k: _floored[k] for k in axis_scores}
+    if vfa is not None:
+        vfa = _floored["vfa"]
+    if ic_score is not None:
+        ic_score = _floored["ic_score"]
 
     per_axis_weighted: dict[str, float] = {}
     total_weight = 0.0

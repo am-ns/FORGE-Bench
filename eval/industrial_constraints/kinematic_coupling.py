@@ -115,7 +115,7 @@ def check_kinematic_coupling(
     if mechanism_type not in ("scissor_lift", "robotic_arm", "conveyor"):
         return {
             "mechanism_type": mechanism_type,
-            "coupling_score": 0.0,
+            "coupling_score": 0.10,
             "coupling_deviation_pct": 100.0,
             "rigid_body_satisfied": False,
             "error": f"unknown mechanism_type '{mechanism_type}'",
@@ -137,7 +137,7 @@ def _check_scissor_lift(grays: list[np.ndarray]) -> dict:
     if len(grays) < 2:
         return {
             "mechanism_type": "scissor_lift",
-            "coupling_score": 0.0,
+            "coupling_score": 0.10,
             "coupling_deviation_pct": 100.0,
             "rigid_body_satisfied": False,
             "error": "insufficient_frames",
@@ -168,7 +168,7 @@ def _check_scissor_lift(grays: list[np.ndarray]) -> dict:
     if len(valid_angles) < 2:
         return {
             "mechanism_type": "scissor_lift",
-            "coupling_score": 0.0,
+            "coupling_score": 0.10,
             "coupling_deviation_pct": 100.0,
             "rigid_body_satisfied": False,
             "error": "insufficient_corner_detections",
@@ -184,16 +184,21 @@ def _check_scissor_lift(grays: list[np.ndarray]) -> dict:
     ideal_ratio = np.mean(ratios)
     deviation_pct = float(np.std(ratios) / (abs(ideal_ratio) + 1e-8) * 100.0)
 
+    # Graduated scoring with floor 0.10.
+    # Arms present but coupling violated => partial credit: 0.10 + 0.40 * (1 - dev/max)
+    max_deviation_pct = 100.0  # reference maximum for normalization
     if monotonic and deviation_pct < 10:
         score = 1.0
     elif monotonic and deviation_pct < 25:
-        score = 0.5
+        # Partial credit between 0.50 and 0.90
+        score = 0.50 + 0.40 * (1.0 - (deviation_pct - 10.0) / 15.0)
     else:
-        score = 0.0
+        # Arms detected but coupling violated => floor 0.10
+        score = 0.10 + 0.40 * max(0.0, 1.0 - deviation_pct / max_deviation_pct)
 
     return {
         "mechanism_type": "scissor_lift",
-        "coupling_score": max(0.0, min(1.0, score)),
+        "coupling_score": max(0.10, min(1.0, score)),
         "coupling_deviation_pct": round(deviation_pct, 2),
         "rigid_body_satisfied": monotonic and deviation_pct < 25,
     }
@@ -204,7 +209,7 @@ def _check_robotic_arm(grays: list[np.ndarray]) -> dict:
     if len(grays) < 2:
         return {
             "mechanism_type": "robotic_arm",
-            "coupling_score": 0.0,
+            "coupling_score": 0.10,
             "coupling_deviation_pct": 100.0,
             "rigid_body_satisfied": False,
             "error": "insufficient_frames",
@@ -215,7 +220,7 @@ def _check_robotic_arm(grays: list[np.ndarray]) -> dict:
     if len(initial_pts) < 3:
         return {
             "mechanism_type": "robotic_arm",
-            "coupling_score": 0.0,
+            "coupling_score": 0.10,
             "coupling_deviation_pct": 100.0,
             "rigid_body_satisfied": False,
             "error": "insufficient_initial_keypoints",
@@ -234,7 +239,7 @@ def _check_robotic_arm(grays: list[np.ndarray]) -> dict:
     if len(all_dists) < 2:
         return {
             "mechanism_type": "robotic_arm",
-            "coupling_score": 0.0,
+            "coupling_score": 0.10,
             "coupling_deviation_pct": 100.0,
             "rigid_body_satisfied": False,
             "error": "insufficient_tracked_frames",
@@ -247,18 +252,19 @@ def _check_robotic_arm(grays: list[np.ndarray]) -> dict:
     means = np.mean(dist_matrix, axis=0)
     stds = np.std(dist_matrix, axis=0)
 
-    # Per-link relative deviation
+    # Per-link relative deviation (coefficient of variation)
     rel_devs = stds / (means + 1e-8)
     mean_rel_dev = float(np.mean(rel_devs))
     deviation_pct = mean_rel_dev * 100.0
 
-    # Score: 1.0 - mean relative deviation, clamped
-    score = max(0.0, 1.0 - mean_rel_dev * 20.0)  # 5% deviation -> score 0
+    # Graduated scoring with floor 0.10.
+    # score = max(0.10, 1.0 - cv * 5.0)  so 20% cv => 0.0 floored to 0.10
+    score = max(0.10, 1.0 - mean_rel_dev * 5.0)
     rigid_satisfied = bool(deviation_pct < 5.0)
 
     return {
         "mechanism_type": "robotic_arm",
-        "coupling_score": round(max(0.0, min(1.0, score)), 4),
+        "coupling_score": round(max(0.10, min(1.0, score)), 4),
         "coupling_deviation_pct": round(deviation_pct, 2),
         "rigid_body_satisfied": rigid_satisfied,
     }
@@ -269,7 +275,7 @@ def _check_conveyor(grays: list[np.ndarray]) -> dict:
     if len(grays) < 2:
         return {
             "mechanism_type": "conveyor",
-            "coupling_score": 0.0,
+            "coupling_score": 0.10,
             "coupling_deviation_pct": 100.0,
             "rigid_body_satisfied": False,
             "error": "insufficient_frames",
@@ -297,7 +303,7 @@ def _check_conveyor(grays: list[np.ndarray]) -> dict:
     if not h_flows:
         return {
             "mechanism_type": "conveyor",
-            "coupling_score": 0.0,
+            "coupling_score": 0.10,
             "coupling_deviation_pct": 100.0,
             "rigid_body_satisfied": False,
         }
@@ -321,13 +327,13 @@ def _check_conveyor(grays: list[np.ndarray]) -> dict:
     if direction_consistent and deviation_pct < 20:
         score = 1.0
     elif direction_consistent and deviation_pct < 50:
-        score = 0.5
+        score = 0.50 + 0.40 * (1.0 - (deviation_pct - 20.0) / 30.0)
     else:
-        score = 0.0
+        score = 0.10 + 0.30 * max(0.0, 1.0 - deviation_pct / 100.0)
 
     return {
         "mechanism_type": "conveyor",
-        "coupling_score": round(max(0.0, min(1.0, score)), 4),
+        "coupling_score": round(max(0.10, min(1.0, score)), 4),
         "coupling_deviation_pct": round(deviation_pct, 2),
         "rigid_body_satisfied": direction_consistent and deviation_pct < 50,
     }

@@ -10,35 +10,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What type of engines does the Boeing 747-400 typically use?",
+          "text": "Between the first and final frame, has the fuselage maintained consistent cross-sectional geometry (fuselage width-to-height ratio within 10% of initial)?",
           "options": [
-            "CF6-80C2",
-            "Rolls-Royce Trent 800",
-            "Pratt & Whitney PW4000",
-            "All of the above"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 3,
-          "q": "What type of engines does the Boeing 747-400 typically use?",
-          "answer": "All of the above"
+          "correct": 0,
+          "q": "Between the first and final frame, has the fuselage maintained consistent cross-sectional geometry (fuselage width-to-height ratio within 10% of initial)?",
+          "answer": "yes",
+          "weakness_target": "W6"
         },
         {
           "id": "q2",
-          "text": "What is the typical cruise altitude for a Boeing 747-400?",
+          "text": "Throughout the video, do both wings maintain bilateral dihedral symmetry (left and right wing angles match within 2 degrees)?",
           "options": [
-            "25,000 ft",
-            "31,000-41,000 ft",
-            "45,000 ft",
-            "50,000 ft"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What is the typical cruise altitude for a Boeing 747-400?",
-          "answer": "31,000-41,000 ft"
+          "correct": 0,
+          "q": "Throughout the video, do both wings maintain bilateral dihedral symmetry (left and right wing angles match within 2 degrees)?",
+          "answer": "yes",
+          "weakness_target": "W4"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface"
       },
-      "topology_type": "surface"
+      "topology_type": "surface",
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "easy"
+      }
     },
     {
       "task_id": "aero_002",
@@ -50,35 +60,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "How many wheels does the Airbus A380 landing gear have?",
+          "text": "Between the first and final frame, has the fuselage maintained consistent cross-sectional geometry (fuselage width-to-height ratio within 10% of initial)?",
           "options": [
-            "16",
-            "18",
-            "20",
-            "22"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 3,
-          "q": "How many wheels does the Airbus A380 landing gear have?",
-          "answer": "22"
+          "correct": 0,
+          "q": "Between the first and final frame, has the fuselage maintained consistent cross-sectional geometry (fuselage width-to-height ratio within 10% of initial)?",
+          "answer": "yes",
+          "weakness_target": "W6"
         },
         {
           "id": "q2",
-          "text": "What is the wingspan of the Airbus A380?",
+          "text": "Throughout the video, do both wings maintain bilateral dihedral symmetry (left and right wing angles match within 2 degrees)?",
           "options": [
-            "73.8 m",
-            "79.8 m",
-            "84.2 m",
-            "89.5 m"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What is the wingspan of the Airbus A380?",
-          "answer": "79.8 m"
+          "correct": 0,
+          "q": "Throughout the video, do both wings maintain bilateral dihedral symmetry (left and right wing angles match within 2 degrees)?",
+          "answer": "yes",
+          "weakness_target": "W4"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface"
       },
-      "topology_type": "surface"
+      "topology_type": "surface",
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "easy"
+      }
     },
     {
       "task_id": "aero_003",
@@ -90,35 +110,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What material were the Space Shuttle's thermal protection tiles made of?",
+          "text": "Between the first and final frame, has the fuselage maintained consistent cross-sectional geometry (fuselage width-to-height ratio within 10% of initial)?",
           "options": [
-            "Carbon fiber",
-            "Silica fiber",
-            "Titanium alloy",
-            "Ceramic composite"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What material were the Space Shuttle's thermal protection tiles made of?",
-          "answer": "Silica fiber"
+          "correct": 0,
+          "q": "Between the first and final frame, has the fuselage maintained consistent cross-sectional geometry (fuselage width-to-height ratio within 10% of initial)?",
+          "answer": "yes",
+          "weakness_target": "W6"
         },
         {
           "id": "q2",
-          "text": "How many Space Shuttle missions were flown in total?",
+          "text": "Throughout the video, do both wings maintain bilateral dihedral symmetry (left and right wing angles match within 2 degrees)?",
           "options": [
-            "115",
-            "135",
-            "155",
-            "175"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "How many Space Shuttle missions were flown in total?",
-          "answer": "135"
+          "correct": 0,
+          "q": "Throughout the video, do both wings maintain bilateral dihedral symmetry (left and right wing angles match within 2 degrees)?",
+          "answer": "yes",
+          "weakness_target": "W4"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface"
       },
-      "topology_type": "surface"
+      "topology_type": "surface",
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "easy"
+      }
     },
     {
       "task_id": "aero_004",
@@ -130,35 +160,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What is the main advantage of tandem rotor configuration?",
+          "text": "Between the first and final frame, has the fuselage maintained consistent cross-sectional geometry (fuselage width-to-height ratio within 10% of initial)?",
           "options": [
-            "Faster speed",
-            "Higher altitude",
-            "Greater lifting capacity",
-            "Lower fuel consumption"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 2,
-          "q": "What is the main advantage of tandem rotor configuration?",
-          "answer": "Greater lifting capacity"
+          "correct": 0,
+          "q": "Between the first and final frame, has the fuselage maintained consistent cross-sectional geometry (fuselage width-to-height ratio within 10% of initial)?",
+          "answer": "yes",
+          "weakness_target": "W6"
         },
         {
           "id": "q2",
-          "text": "What is the maximum payload capacity of the CH-47 Chinook?",
+          "text": "Throughout the video, do both wings maintain bilateral dihedral symmetry (left and right wing angles match within 2 degrees)?",
           "options": [
-            "5,000 kg",
-            "10,000 kg",
-            "15,000 kg",
-            "20,000 kg"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 2,
-          "q": "What is the maximum payload capacity of the CH-47 Chinook?",
-          "answer": "15,000 kg"
+          "correct": 0,
+          "q": "Throughout the video, do both wings maintain bilateral dihedral symmetry (left and right wing angles match within 2 degrees)?",
+          "answer": "yes",
+          "weakness_target": "W4"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface"
       },
-      "topology_type": "surface"
+      "topology_type": "surface",
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "easy"
+      }
     },
     {
       "task_id": "aero_005",
@@ -170,35 +210,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What is the maximum cruise speed of the Gulfstream G650?",
+          "text": "Between the first and final frame, has the fuselage maintained consistent cross-sectional geometry (fuselage width-to-height ratio within 10% of initial)?",
           "options": [
-            "Mach 0.80",
-            "Mach 0.85",
-            "Mach 0.925",
-            "Mach 1.0"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 2,
-          "q": "What is the maximum cruise speed of the Gulfstream G650?",
-          "answer": "Mach 0.925"
+          "correct": 0,
+          "q": "Between the first and final frame, has the fuselage maintained consistent cross-sectional geometry (fuselage width-to-height ratio within 10% of initial)?",
+          "answer": "yes",
+          "weakness_target": "W6"
         },
         {
           "id": "q2",
-          "text": "What engines power the Gulfstream G650?",
+          "text": "Throughout the video, do both wings maintain bilateral dihedral symmetry (left and right wing angles match within 2 degrees)?",
           "options": [
-            "Pratt & Whitney PW800",
-            "Rolls-Royce BR725",
-            "General Electric CF34",
-            "Honeywell HTF7000"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What engines power the Gulfstream G650?",
-          "answer": "Rolls-Royce BR725"
+          "correct": 0,
+          "q": "Throughout the video, do both wings maintain bilateral dihedral symmetry (left and right wing angles match within 2 degrees)?",
+          "answer": "yes",
+          "weakness_target": "W4"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface"
       },
-      "topology_type": "surface"
+      "topology_type": "surface",
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "easy"
+      }
     },
     {
       "task_id": "veh_001",
@@ -210,35 +260,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What does TEU stand for in container shipping?",
+          "text": "Between the first and final frame, has the track pitch (center-to-center link spacing) remained within 10% of its initial value?",
           "options": [
-            "Total Equivalent Units",
-            "Twenty-foot Equivalent Unit",
-            "Transport Efficiency Unit",
-            "Terminal Entry Unit"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What does TEU stand for in container shipping?",
-          "answer": "Twenty-foot Equivalent Unit"
+          "correct": 0,
+          "q": "Between the first and final frame, has the track pitch (center-to-center link spacing) remained within 10% of its initial value?",
+          "answer": "yes",
+          "weakness_target": "W2"
         },
         {
           "id": "q2",
-          "text": "What is the purpose of a bulbous bow on cargo ships?",
+          "text": "Throughout the video, do left and right track assemblies maintain bilateral symmetry (link counts match within 1)?",
           "options": [
-            "Aesthetic design",
-            "Reduced wave resistance",
-            "Increased cargo space",
-            "Structural support"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What is the purpose of a bulbous bow on cargo ships?",
-          "answer": "Reduced wave resistance"
+          "correct": 0,
+          "q": "Throughout the video, do left and right track assemblies maintain bilateral symmetry (link counts match within 1)?",
+          "answer": "yes",
+          "weakness_target": "W4"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface"
       },
-      "topology_type": "surface"
+      "topology_type": "surface",
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "easy"
+      }
     },
     {
       "task_id": "veh_002",
@@ -250,35 +310,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What is the payload capacity of the Caterpillar 797F?",
+          "text": "Between the first and final frame, has the track pitch (center-to-center link spacing) remained within 10% of its initial value?",
           "options": [
-            "200 tons",
-            "300 tons",
-            "400 tons",
-            "500 tons"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 2,
-          "q": "What is the payload capacity of the Caterpillar 797F?",
-          "answer": "400 tons"
+          "correct": 0,
+          "q": "Between the first and final frame, has the track pitch (center-to-center link spacing) remained within 10% of its initial value?",
+          "answer": "yes",
+          "weakness_target": "W2"
         },
         {
           "id": "q2",
-          "text": "What type of powertrain does the 797F use?",
+          "text": "Throughout the video, do left and right track assemblies maintain bilateral symmetry (link counts match within 1)?",
           "options": [
-            "Diesel-hydraulic",
-            "Diesel-electric",
-            "Electric only",
-            "Hybrid diesel"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What type of powertrain does the 797F use?",
-          "answer": "Diesel-electric"
+          "correct": 0,
+          "q": "Throughout the video, do left and right track assemblies maintain bilateral symmetry (link counts match within 1)?",
+          "answer": "yes",
+          "weakness_target": "W4"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface"
       },
-      "topology_type": "surface"
+      "topology_type": "surface",
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "easy"
+      }
     },
     {
       "task_id": "veh_003",
@@ -290,35 +360,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What provides stability for a tower crane?",
+          "text": "Between the first and final frame, has the track pitch (center-to-center link spacing) remained within 10% of its initial value?",
           "options": [
-            "Guy wires",
-            "Counterweights",
-            "Foundation bolts",
-            "All of the above"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 3,
-          "q": "What provides stability for a tower crane?",
-          "answer": "All of the above"
+          "correct": 0,
+          "q": "Between the first and final frame, has the track pitch (center-to-center link spacing) remained within 10% of its initial value?",
+          "answer": "yes",
+          "weakness_target": "W2"
         },
         {
           "id": "q2",
-          "text": "What mechanism moves loads horizontally on a tower crane?",
+          "text": "Throughout the video, do left and right track assemblies maintain bilateral symmetry (link counts match within 1)?",
           "options": [
-            "Hoist winch",
-            "Trolley mechanism",
-            "Slew motor",
-            "Luffing jib"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What mechanism moves loads horizontally on a tower crane?",
-          "answer": "Trolley mechanism"
+          "correct": 0,
+          "q": "Throughout the video, do left and right track assemblies maintain bilateral symmetry (link counts match within 1)?",
+          "answer": "yes",
+          "weakness_target": "W4"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface"
       },
-      "topology_type": "surface"
+      "topology_type": "surface",
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "easy"
+      }
     },
     {
       "task_id": "veh_004",
@@ -330,35 +410,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What provides the digging force in a hydraulic excavator?",
+          "text": "Between the first and final frame, has the track pitch (center-to-center link spacing) remained within 10% of its initial value?",
           "options": [
-            "Electric motors",
-            "Hydraulic cylinders",
-            "Pneumatic actuators",
-            "Mechanical gears"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What provides the digging force in a hydraulic excavator?",
-          "answer": "Hydraulic cylinders"
+          "correct": 0,
+          "q": "Between the first and final frame, has the track pitch (center-to-center link spacing) remained within 10% of its initial value?",
+          "answer": "yes",
+          "weakness_target": "W2"
         },
         {
           "id": "q2",
-          "text": "What is the typical operating weight of a large mining excavator?",
+          "text": "Throughout the video, do left and right track assemblies maintain bilateral symmetry (link counts match within 1)?",
           "options": [
-            "20-30 tons",
-            "50-80 tons",
-            "100-200 tons",
-            "300-800 tons"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 3,
-          "q": "What is the typical operating weight of a large mining excavator?",
-          "answer": "300-800 tons"
+          "correct": 0,
+          "q": "Throughout the video, do left and right track assemblies maintain bilateral symmetry (link counts match within 1)?",
+          "answer": "yes",
+          "weakness_target": "W4"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface"
       },
-      "topology_type": "surface"
+      "topology_type": "surface",
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "easy"
+      }
     },
     {
       "task_id": "veh_005",
@@ -370,35 +460,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "Why do heavy haul trucks have multiple axles?",
+          "text": "Between the first and final frame, has the track pitch (center-to-center link spacing) remained within 10% of its initial value?",
           "options": [
-            "Faster acceleration",
-            "Better fuel efficiency",
-            "Weight distribution",
-            "Improved handling"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 2,
-          "q": "Why do heavy haul trucks have multiple axles?",
-          "answer": "Weight distribution"
+          "correct": 0,
+          "q": "Between the first and final frame, has the track pitch (center-to-center link spacing) remained within 10% of its initial value?",
+          "answer": "yes",
+          "weakness_target": "W2"
         },
         {
           "id": "q2",
-          "text": "What type of loads do heavy haul trucks typically transport?",
+          "text": "Throughout the video, do left and right track assemblies maintain bilateral symmetry (link counts match within 1)?",
           "options": [
-            "Consumer goods",
-            "Oversized industrial equipment",
-            "Liquid fuels",
-            "Agricultural products"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What type of loads do heavy haul trucks typically transport?",
-          "answer": "Oversized industrial equipment"
+          "correct": 0,
+          "q": "Throughout the video, do left and right track assemblies maintain bilateral symmetry (link counts match within 1)?",
+          "answer": "yes",
+          "weakness_target": "W4"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface"
       },
-      "topology_type": "surface"
+      "topology_type": "surface",
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "easy"
+      }
     },
     {
       "task_id": "rob_001",
@@ -410,35 +510,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "How many degrees of freedom does a typical industrial robot arm have?",
+          "text": "Between the first and final frame, has the robot chassis maintained bilateral symmetry (left-right component layout matches)?",
           "options": [
-            "3",
-            "4",
-            "6",
-            "8"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 2,
-          "q": "How many degrees of freedom does a typical industrial robot arm have?",
-          "answer": "6"
+          "correct": 0,
+          "q": "Between the first and final frame, has the robot chassis maintained bilateral symmetry (left-right component layout matches)?",
+          "answer": "yes",
+          "weakness_target": "W4"
         },
         {
           "id": "q2",
-          "text": "What sensors provide position feedback in robot arms?",
+          "text": "Throughout the video, has the number of visible actuator housings or joint covers remained constant?",
           "options": [
-            "Cameras",
-            "Encoders",
-            "Microphones",
-            "Pressure sensors"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What sensors provide position feedback in robot arms?",
-          "answer": "Encoders"
+          "correct": 0,
+          "q": "Throughout the video, has the number of visible actuator housings or joint covers remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface"
       },
-      "topology_type": "surface"
+      "topology_type": "surface",
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "easy"
+      }
     },
     {
       "task_id": "rob_002",
@@ -450,35 +560,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What does SLAM stand for in robotics?",
+          "text": "Between the first and final frame, has the robot chassis maintained bilateral symmetry (left-right component layout matches)?",
           "options": [
-            "Single Location And Mapping",
-            "Simultaneous Localization And Mapping",
-            "Systematic Layout And Movement",
-            "Synchronized Laser And Motion"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What does SLAM stand for in robotics?",
-          "answer": "Simultaneous Localization And Mapping"
+          "correct": 0,
+          "q": "Between the first and final frame, has the robot chassis maintained bilateral symmetry (left-right component layout matches)?",
+          "answer": "yes",
+          "weakness_target": "W4"
         },
         {
           "id": "q2",
-          "text": "What primary sensor do autonomous robots use for obstacle detection?",
+          "text": "Throughout the video, has the number of visible actuator housings or joint covers remained constant?",
           "options": [
-            "GPS",
-            "LiDAR",
-            "Radar",
-            "Sonar"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What primary sensor do autonomous robots use for obstacle detection?",
-          "answer": "LiDAR"
+          "correct": 0,
+          "q": "Throughout the video, has the number of visible actuator housings or joint covers remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface"
       },
-      "topology_type": "surface"
+      "topology_type": "surface",
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "easy"
+      }
     },
     {
       "task_id": "rob_003",
@@ -490,35 +610,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What is the main safety feature of collaborative robots?",
+          "text": "Between the first and final frame, has the robot chassis maintained bilateral symmetry (left-right component layout matches)?",
           "options": [
-            "Safety cages",
-            "Force-limited joints",
-            "Emergency stops",
-            "Speed reduction"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What is the main safety feature of collaborative robots?",
-          "answer": "Force-limited joints"
+          "correct": 0,
+          "q": "Between the first and final frame, has the robot chassis maintained bilateral symmetry (left-right component layout matches)?",
+          "answer": "yes",
+          "weakness_target": "W4"
         },
         {
           "id": "q2",
-          "text": "What distinguishes cobots from traditional industrial robots?",
+          "text": "Throughout the video, has the number of visible actuator housings or joint covers remained constant?",
           "options": [
-            "Faster speed",
-            "Higher payload",
-            "Safe human interaction",
-            "Lower cost"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 2,
-          "q": "What distinguishes cobots from traditional industrial robots?",
-          "answer": "Safe human interaction"
+          "correct": 0,
+          "q": "Throughout the video, has the number of visible actuator housings or joint covers remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface"
       },
-      "topology_type": "surface"
+      "topology_type": "surface",
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "easy"
+      }
     },
     {
       "task_id": "mfg_001",
@@ -530,35 +660,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What language do CNC machines use for programming?",
+          "text": "Between the first and final frame, has the tool holder maintained consistent geometry (no merge or split of cutting edges)?",
           "options": [
-            "Python",
-            "G-code",
-            "Java",
-            "C++"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What language do CNC machines use for programming?",
-          "answer": "G-code"
+          "correct": 0,
+          "q": "Between the first and final frame, has the tool holder maintained consistent geometry (no merge or split of cutting edges)?",
+          "answer": "yes",
+          "weakness_target": "W6"
         },
         {
           "id": "q2",
-          "text": "What is the typical tolerance achievable with CNC machining?",
+          "text": "Throughout the video, has the number of fixture clamps or mounting bolts remained constant?",
           "options": [
-            "±0.01 inches",
-            "±0.001 inches",
-            "±0.1 inches",
-            "±0.0001 inches"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What is the typical tolerance achievable with CNC machining?",
-          "answer": "±0.001 inches"
+          "correct": 0,
+          "q": "Throughout the video, has the number of fixture clamps or mounting bolts remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface"
       },
-      "topology_type": "surface"
+      "topology_type": "surface",
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "easy"
+      }
     },
     {
       "task_id": "mfg_002",
@@ -570,35 +710,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What is the fundamental principle of 3D printing?",
+          "text": "Between the first and final frame, has the tool holder maintained consistent geometry (no merge or split of cutting edges)?",
           "options": [
-            "Subtractive manufacturing",
-            "Additive manufacturing",
-            "Injection molding",
-            "Casting"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What is the fundamental principle of 3D printing?",
-          "answer": "Additive manufacturing"
+          "correct": 0,
+          "q": "Between the first and final frame, has the tool holder maintained consistent geometry (no merge or split of cutting edges)?",
+          "answer": "yes",
+          "weakness_target": "W6"
         },
         {
           "id": "q2",
-          "text": "Which material can industrial 3D printers process?",
+          "text": "Throughout the video, has the number of fixture clamps or mounting bolts remained constant?",
           "options": [
-            "Only plastics",
-            "Only metals",
-            "Metals, plastics, and ceramics",
-            "Only ceramics"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 2,
-          "q": "Which material can industrial 3D printers process?",
-          "answer": "Metals, plastics, and ceramics"
+          "correct": 0,
+          "q": "Throughout the video, has the number of fixture clamps or mounting bolts remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface"
       },
-      "topology_type": "surface"
+      "topology_type": "surface",
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "easy"
+      }
     },
     {
       "task_id": "mfg_003",
@@ -610,35 +760,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What is the primary benefit of assembly line production?",
+          "text": "Between the first and final frame, has the tool holder maintained consistent geometry (no merge or split of cutting edges)?",
           "options": [
-            "Lower labor costs",
-            "Higher throughput",
-            "Better quality",
-            "All of the above"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 3,
-          "q": "What is the primary benefit of assembly line production?",
-          "answer": "All of the above"
+          "correct": 0,
+          "q": "Between the first and final frame, has the tool holder maintained consistent geometry (no merge or split of cutting edges)?",
+          "answer": "yes",
+          "weakness_target": "W6"
         },
         {
           "id": "q2",
-          "text": "Who pioneered the moving assembly line?",
+          "text": "Throughout the video, has the number of fixture clamps or mounting bolts remained constant?",
           "options": [
-            "Thomas Edison",
-            "Henry Ford",
-            "Andrew Carnegie",
-            "John D. Rockefeller"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "Who pioneered the moving assembly line?",
-          "answer": "Henry Ford"
+          "correct": 0,
+          "q": "Throughout the video, has the number of fixture clamps or mounting bolts remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface"
       },
-      "topology_type": "surface"
+      "topology_type": "surface",
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "easy"
+      }
     },
     {
       "task_id": "eng_001",
@@ -650,35 +810,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What type of structure is commonly used for offshore platforms in shallow water?",
+          "text": "Between the first and final frame, has the number of solar panels (or heat exchanger fins) remained constant?",
           "options": [
-            "Floating platform",
-            "Jacket structure",
-            "Spar buoy",
-            "Tension leg platform"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What type of structure is commonly used for offshore platforms in shallow water?",
-          "answer": "Jacket structure"
+          "correct": 0,
+          "q": "Between the first and final frame, has the number of solar panels (or heat exchanger fins) remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
         },
         {
           "id": "q2",
-          "text": "What is the maximum depth for fixed offshore platforms?",
+          "text": "Throughout the video, has the structural frame maintained bilateral symmetry (left-right member angles match)?",
           "options": [
-            "100 meters",
-            "300 meters",
-            "500 meters",
-            "1000 meters"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 2,
-          "q": "What is the maximum depth for fixed offshore platforms?",
-          "answer": "500 meters"
+          "correct": 0,
+          "q": "Throughout the video, has the structural frame maintained bilateral symmetry (left-right member angles match)?",
+          "answer": "yes",
+          "weakness_target": "W4"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface"
       },
-      "topology_type": "surface"
+      "topology_type": "surface",
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "easy"
+      }
     },
     {
       "task_id": "eng_002",
@@ -690,35 +860,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "How many blades do modern wind turbines typically have?",
+          "text": "Between the first and final frame, has the number of solar panels (or heat exchanger fins) remained constant?",
           "options": [
-            "1",
-            "2",
-            "3",
-            "5"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 2,
-          "q": "How many blades do modern wind turbines typically have?",
-          "answer": "3"
+          "correct": 0,
+          "q": "Between the first and final frame, has the number of solar panels (or heat exchanger fins) remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
         },
         {
           "id": "q2",
-          "text": "What does the gearbox do in a wind turbine?",
+          "text": "Throughout the video, has the structural frame maintained bilateral symmetry (left-right member angles match)?",
           "options": [
-            "Controls blade pitch",
-            "Increases rotation speed",
-            "Generates electricity",
-            "Stores energy"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What does the gearbox do in a wind turbine?",
-          "answer": "Increases rotation speed"
+          "correct": 0,
+          "q": "Throughout the video, has the structural frame maintained bilateral symmetry (left-right member angles match)?",
+          "answer": "yes",
+          "weakness_target": "W4"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface"
       },
-      "topology_type": "surface"
+      "topology_type": "surface",
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "easy"
+      }
     },
     {
       "task_id": "eng_003",
@@ -730,35 +910,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What do solar tracking systems do?",
+          "text": "Between the first and final frame, has the number of solar panels (or heat exchanger fins) remained constant?",
           "options": [
-            "Store energy",
-            "Follow the sun's movement",
-            "Convert DC to AC",
-            "Clean panels"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What do solar tracking systems do?",
-          "answer": "Follow the sun's movement"
+          "correct": 0,
+          "q": "Between the first and final frame, has the number of solar panels (or heat exchanger fins) remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
         },
         {
           "id": "q2",
-          "text": "How much more energy do tracking systems produce vs fixed panels?",
+          "text": "Throughout the video, has the structural frame maintained bilateral symmetry (left-right member angles match)?",
           "options": [
-            "5-10%",
-            "15-20%",
-            "25-30%",
-            "40-50%"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 2,
-          "q": "How much more energy do tracking systems produce vs fixed panels?",
-          "answer": "25-30%"
+          "correct": 0,
+          "q": "Throughout the video, has the structural frame maintained bilateral symmetry (left-right member angles match)?",
+          "answer": "yes",
+          "weakness_target": "W4"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface"
       },
-      "topology_type": "surface"
+      "topology_type": "surface",
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "easy"
+      }
     },
     {
       "task_id": "micro_001",
@@ -770,35 +960,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What does SMT stand for in electronics manufacturing?",
+          "text": "Between the first and final frame, has the BGA solder ball pitch (center-to-center spacing) remained within 10% of its initial value?",
           "options": [
-            "Signal Management Technology",
-            "Surface Mount Technology",
-            "System Module Testing",
-            "Solder Mask Treatment"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What does SMT stand for in electronics manufacturing?",
-          "answer": "Surface Mount Technology"
+          "correct": 0,
+          "q": "Between the first and final frame, has the BGA solder ball pitch (center-to-center spacing) remained within 10% of its initial value?",
+          "answer": "yes",
+          "weakness_target": "W2"
         },
         {
           "id": "q2",
-          "text": "What is the purpose of vias in a PCB?",
+          "text": "Throughout the video, has the number of visible SMD pads on the PCB surface remained constant?",
           "options": [
-            "Heat dissipation",
-            "Connect layers",
-            "Signal filtering",
-            "Power regulation"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What is the purpose of vias in a PCB?",
-          "answer": "Connect layers"
+          "correct": 0,
+          "q": "Throughout the video, has the number of visible SMD pads on the PCB surface remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface"
       },
-      "topology_type": "surface"
+      "topology_type": "surface",
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "easy"
+      }
     },
     {
       "task_id": "micro_002",
@@ -810,35 +1010,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What process patterns transistors on silicon wafers?",
+          "text": "Between the first and final frame, has the BGA solder ball pitch (center-to-center spacing) remained within 10% of its initial value?",
           "options": [
-            "Electroplating",
-            "Photolithography",
-            "Chemical vapor deposition",
-            "Sputtering"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What process patterns transistors on silicon wafers?",
-          "answer": "Photolithography"
+          "correct": 0,
+          "q": "Between the first and final frame, has the BGA solder ball pitch (center-to-center spacing) remained within 10% of its initial value?",
+          "answer": "yes",
+          "weakness_target": "W2"
         },
         {
           "id": "q2",
-          "text": "What is the smallest feature size in modern chip fabrication?",
+          "text": "Throughout the video, has the number of visible SMD pads on the PCB surface remained constant?",
           "options": [
-            "70nm",
-            "7nm",
-            "700nm",
-            "0.7nm"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What is the smallest feature size in modern chip fabrication?",
-          "answer": "7nm"
+          "correct": 0,
+          "q": "Throughout the video, has the number of visible SMD pads on the PCB surface remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface"
       },
-      "topology_type": "surface"
+      "topology_type": "surface",
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "easy"
+      }
     },
     {
       "task_id": "micro_003",
@@ -850,35 +1060,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What connects the die to the lead frame in wire bonding?",
+          "text": "Between the first and final frame, has the BGA solder ball pitch (center-to-center spacing) remained within 10% of its initial value?",
           "options": [
-            "Solder paste",
-            "Gold or aluminum wires",
-            "Copper traces",
-            "Conductive adhesive"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What connects the die to the lead frame in wire bonding?",
-          "answer": "Gold or aluminum wires"
+          "correct": 0,
+          "q": "Between the first and final frame, has the BGA solder ball pitch (center-to-center spacing) remained within 10% of its initial value?",
+          "answer": "yes",
+          "weakness_target": "W2"
         },
         {
           "id": "q2",
-          "text": "What is the main purpose of semiconductor packaging?",
+          "text": "Throughout the video, has the number of visible SMD pads on the PCB surface remained constant?",
           "options": [
-            "Signal amplification",
-            "Protection and connection",
-            "Power regulation",
-            "Data storage"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What is the main purpose of semiconductor packaging?",
-          "answer": "Protection and connection"
+          "correct": 0,
+          "q": "Throughout the video, has the number of visible SMD pads on the PCB surface remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface"
       },
-      "topology_type": "surface"
+      "topology_type": "surface",
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "easy"
+      }
     },
     {
       "task_id": "aero_006",
@@ -894,6 +1114,34 @@
       "questions": [
         {
           "id": "q1",
+          "text": "What happens to induced drag during a steep climb?",
+          "options": [
+            "Decreases",
+            "Stays the same",
+            "Increases",
+            "Becomes zero"
+          ],
+          "correct": 2,
+          "q": "What happens to induced drag during a steep climb?",
+          "answer": "Increases",
+          "weakness_target": "W6"
+        },
+        {
+          "id": "q2",
+          "text": "Throughout the video, do bilateral control surfaces (ailerons, flaps) maintain symmetric deflection angles within 5 degrees?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, do bilateral control surfaces (ailerons, flaps) maintain symmetric deflection angles within 5 degrees?",
+          "answer": "yes",
+          "weakness_target": "W4"
+        },
+        {
+          "id": "q3",
           "text": "What is the typical climb angle for a Boeing 747 after takeoff?",
           "options": [
             "2-3 degrees",
@@ -906,20 +1154,7 @@
           "answer": "5-8 degrees"
         },
         {
-          "id": "q2",
-          "text": "What happens to induced drag during a steep climb?",
-          "options": [
-            "Decreases",
-            "Stays the same",
-            "Increases",
-            "Becomes zero"
-          ],
-          "correct": 2,
-          "q": "What happens to induced drag during a steep climb?",
-          "answer": "Increases"
-        },
-        {
-          "id": "q3",
+          "id": "q4",
           "text": "Which control surface primarily controls pitch attitude?",
           "options": [
             "Ailerons",
@@ -930,23 +1165,18 @@
           "correct": 2,
           "q": "Which control surface primarily controls pitch attitude?",
           "answer": "Elevators"
-        },
-        {
-          "id": "q4",
-          "text": "What is the relationship between angle of attack and lift in the linear range?",
-          "options": [
-            "Inversely proportional",
-            "No relationship",
-            "Directly proportional",
-            "Exponentially proportional"
-          ],
-          "correct": 2,
-          "q": "What is the relationship between angle of attack and lift in the linear range?",
-          "answer": "Directly proportional"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "medium"
       }
     },
     {
@@ -963,6 +1193,34 @@
       "questions": [
         {
           "id": "q1",
+          "text": "Throughout the video, has each turbine blade maintained constant angular velocity (no acceleration/deceleration artifacts)?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, has each turbine blade maintained constant angular velocity (no acceleration/deceleration artifacts)?",
+          "answer": "yes",
+          "weakness_target": "W7"
+        },
+        {
+          "id": "q2",
+          "text": "Between the first and final frame, has the number of turbine blades remained constant without phantom or missing blades?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Between the first and final frame, has the number of turbine blades remained constant without phantom or missing blades?",
+          "answer": "yes",
+          "weakness_target": "W3"
+        },
+        {
+          "id": "q3",
           "text": "What is the typical spacing between offshore wind turbines?",
           "options": [
             "1-2 rotor diameters",
@@ -973,36 +1231,18 @@
           "correct": 1,
           "q": "What is the typical spacing between offshore wind turbines?",
           "answer": "5-9 rotor diameters"
-        },
-        {
-          "id": "q2",
-          "text": "What is a monopile foundation used for in offshore wind?",
-          "options": [
-            "Floating turbines only",
-            "Shallow water turbine support",
-            "Deep water anchoring",
-            "Cable routing"
-          ],
-          "correct": 1,
-          "q": "What is a monopile foundation used for in offshore wind?",
-          "answer": "Shallow water turbine support"
-        },
-        {
-          "id": "q3",
-          "text": "What is wake interference in a wind farm?",
-          "options": [
-            "Turbine shutdown",
-            "Reduced wind speed behind turbines",
-            "Grid connection issues",
-            "Foundation erosion"
-          ],
-          "correct": 1,
-          "q": "What is wake interference in a wind farm?",
-          "answer": "Reduced wind speed behind turbines"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic"
+      },
+      "difficulty_profile": {
+        "ika": "hard",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "hard",
+        "vfa": "hard"
       }
     },
     {
@@ -1019,6 +1259,34 @@
       "questions": [
         {
           "id": "q1",
+          "text": "Throughout the video, does the scissor lift maintain the kinematic constraint h = 2L*sin(θ/2) — arm angles and platform height consistent within 15%?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, does the scissor lift maintain the kinematic constraint h = 2L*sin(θ/2) — arm angles and platform height consistent within 15%?",
+          "answer": "yes",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q2",
+          "text": "Between the first and final frame, have the left and right scissor arms maintained bilateral symmetry (matching angles within 5 degrees)?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Between the first and final frame, have the left and right scissor arms maintained bilateral symmetry (matching angles within 5 degrees)?",
+          "answer": "yes",
+          "weakness_target": "W4"
+        },
+        {
+          "id": "q3",
           "text": "What maintains tension in a conveyor belt system?",
           "options": [
             "Spring tensioners",
@@ -1028,10 +1296,11 @@
           ],
           "correct": 1,
           "q": "What maintains tension in a conveyor belt system?",
-          "answer": "Gravity take-up mechanism"
+          "answer": "Gravity take-up mechanism",
+          "weakness_target": "W6"
         },
         {
-          "id": "q2",
+          "id": "q4",
           "text": "What device controls conveyor belt speed?",
           "options": [
             "Mechanical gearbox only",
@@ -1042,36 +1311,18 @@
           "correct": 1,
           "q": "What device controls conveyor belt speed?",
           "answer": "Variable frequency drive (VFD)"
-        },
-        {
-          "id": "q3",
-          "text": "What provides traction between the drive pulley and belt?",
-          "options": [
-            "Adhesive",
-            "Friction",
-            "Magnetic force",
-            "Mechanical fasteners"
-          ],
-          "correct": 1,
-          "q": "What provides traction between the drive pulley and belt?",
-          "answer": "Friction"
-        },
-        {
-          "id": "q4",
-          "text": "What is the typical spacing of idler rollers on a conveyor?",
-          "options": [
-            "0.5-1.0 m",
-            "1.0-1.5 m",
-            "2.0-3.0 m",
-            "5.0-6.0 m"
-          ],
-          "correct": 1,
-          "q": "What is the typical spacing of idler rollers on a conveyor?",
-          "answer": "1.0-1.5 m"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "hard"
       }
     },
     {
@@ -1088,6 +1339,34 @@
       "questions": [
         {
           "id": "q1",
+          "text": "Throughout the video, does the scissor lift maintain the kinematic constraint h = 2L*sin(θ/2) — arm angles and platform height consistent within 15%?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, does the scissor lift maintain the kinematic constraint h = 2L*sin(θ/2) — arm angles and platform height consistent within 15%?",
+          "answer": "yes",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q2",
+          "text": "Between the first and final frame, have the left and right scissor arms maintained bilateral symmetry (matching angles within 5 degrees)?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Between the first and final frame, have the left and right scissor arms maintained bilateral symmetry (matching angles within 5 degrees)?",
+          "answer": "yes",
+          "weakness_target": "W4"
+        },
+        {
+          "id": "q3",
           "text": "What does inverse kinematics compute in robotics?",
           "options": [
             "Joint angles from end-effector position",
@@ -1098,36 +1377,18 @@
           "correct": 0,
           "q": "What does inverse kinematics compute in robotics?",
           "answer": "Joint angles from end-effector position"
-        },
-        {
-          "id": "q2",
-          "text": "What sensor provides force feedback at a robot wrist?",
-          "options": [
-            "Encoder",
-            "Force-torque sensor",
-            "Accelerometer",
-            "Gyroscope"
-          ],
-          "correct": 1,
-          "q": "What sensor provides force feedback at a robot wrist?",
-          "answer": "Force-torque sensor"
-        },
-        {
-          "id": "q3",
-          "text": "How do robots track parts on a moving conveyor?",
-          "options": [
-            "Random timing",
-            "Synchronized motion control",
-            "Manual adjustment",
-            "Fixed delay"
-          ],
-          "correct": 1,
-          "q": "How do robots track parts on a moving conveyor?",
-          "answer": "Synchronized motion control"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "medium"
       }
     },
     {
@@ -1153,10 +1414,25 @@
           ],
           "correct": 2,
           "q": "What happens to depth of field during a dolly-in zoom?",
-          "answer": "Decreases"
+          "answer": "Decreases",
+          "weakness_target": "W6"
         },
         {
           "id": "q2",
+          "text": "Throughout the video, have PCB trace centerline-to-centerline spacings remained within 10% of initial values?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, have PCB trace centerline-to-centerline spacings remained within 10% of initial values?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q3",
           "text": "What is the smallest common SMD package size?",
           "options": [
             "0402",
@@ -1169,7 +1445,7 @@
           "answer": "01005"
         },
         {
-          "id": "q3",
+          "id": "q4",
           "text": "What connects traces between PCB layers?",
           "options": [
             "Resistors",
@@ -1180,23 +1456,18 @@
           "correct": 1,
           "q": "What connects traces between PCB layers?",
           "answer": "Vias"
-        },
-        {
-          "id": "q4",
-          "text": "What is a solder fillet?",
-          "options": [
-            "A type of capacitor",
-            "The curved solder joint shape",
-            "A PCB trace",
-            "A component package"
-          ],
-          "correct": 1,
-          "q": "What is a solder fillet?",
-          "answer": "The curved solder joint shape"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "hard"
       }
     },
     {
@@ -1213,6 +1484,34 @@
       "questions": [
         {
           "id": "q1",
+          "text": "Throughout the video, has the suspension linkage maintained constant rigid-link lengths (no stretching or compression of non-spring members)?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, has the suspension linkage maintained constant rigid-link lengths (no stretching or compression of non-spring members)?",
+          "answer": "yes",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q2",
+          "text": "Between the first and final frame, have left and right suspension arms maintained bilateral symmetry (matching angles within 5 degrees)?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Between the first and final frame, have left and right suspension arms maintained bilateral symmetry (matching angles within 5 degrees)?",
+          "answer": "yes",
+          "weakness_target": "W4"
+        },
+        {
+          "id": "q3",
           "text": "What is the purpose of a charge air cooler in a diesel engine?",
           "options": [
             "Reduce oil temperature",
@@ -1223,36 +1522,18 @@
           "correct": 1,
           "q": "What is the purpose of a charge air cooler in a diesel engine?",
           "answer": "Cool compressed intake air"
-        },
-        {
-          "id": "q2",
-          "text": "What drives the turbocharger in a diesel engine?",
-          "options": [
-            "Electric motor",
-            "Exhaust gas",
-            "Timing belt",
-            "Hydraulic pump"
-          ],
-          "correct": 1,
-          "q": "What drives the turbocharger in a diesel engine?",
-          "answer": "Exhaust gas"
-        },
-        {
-          "id": "q3",
-          "text": "What is the typical configuration of heavy truck diesel engines?",
-          "options": [
-            "V4",
-            "Inline 6",
-            "V12",
-            "Flat 4"
-          ],
-          "correct": 1,
-          "q": "What is the typical configuration of heavy truck diesel engines?",
-          "answer": "Inline 6"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "hard"
       }
     },
     {
@@ -1269,6 +1550,34 @@
       "questions": [
         {
           "id": "q1",
+          "text": "Throughout the video, has each turbine blade maintained constant angular velocity (no acceleration/deceleration artifacts)?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, has each turbine blade maintained constant angular velocity (no acceleration/deceleration artifacts)?",
+          "answer": "yes",
+          "weakness_target": "W7"
+        },
+        {
+          "id": "q2",
+          "text": "Between the first and final frame, has the number of turbine blades remained constant without phantom or missing blades?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Between the first and final frame, has the number of turbine blades remained constant without phantom or missing blades?",
+          "answer": "yes",
+          "weakness_target": "W3"
+        },
+        {
+          "id": "q3",
           "text": "What is the typical rotational speed of a wind turbine rotor?",
           "options": [
             "1-5 RPM",
@@ -1281,7 +1590,7 @@
           "answer": "10-20 RPM"
         },
         {
-          "id": "q2",
+          "id": "q4",
           "text": "What controls blade angle on a wind turbine?",
           "options": [
             "Fixed pitch",
@@ -1292,36 +1601,18 @@
           "correct": 1,
           "q": "What controls blade angle on a wind turbine?",
           "answer": "Pitch actuators"
-        },
-        {
-          "id": "q3",
-          "text": "What converts low-speed rotation to high-speed rotation in a turbine?",
-          "options": [
-            "Direct drive only",
-            "Planetary gearbox",
-            "Belt drive",
-            "Chain drive"
-          ],
-          "correct": 1,
-          "q": "What converts low-speed rotation to high-speed rotation in a turbine?",
-          "answer": "Planetary gearbox"
-        },
-        {
-          "id": "q4",
-          "text": "What orients the turbine nacelle into the wind?",
-          "options": [
-            "Tail vane",
-            "Yaw motor and bearing",
-            "Wind vane only",
-            "Fixed position"
-          ],
-          "correct": 1,
-          "q": "What orients the turbine nacelle into the wind?",
-          "answer": "Yaw motor and bearing"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic"
+      },
+      "difficulty_profile": {
+        "ika": "hard",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "hard",
+        "vfa": "hard"
       }
     },
     {
@@ -1338,6 +1629,34 @@
       "questions": [
         {
           "id": "q1",
+          "text": "Throughout the video, have rigid link lengths in the robot arm remained constant (pairwise joint distances within 5% of initial)?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, have rigid link lengths in the robot arm remained constant (pairwise joint distances within 5% of initial)?",
+          "answer": "yes",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q2",
+          "text": "Between the first and final frame, do bilateral arm segments (left vs right) maintain symmetric joint angles within 5 degrees?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Between the first and final frame, do bilateral arm segments (left vs right) maintain symmetric joint angles within 5 degrees?",
+          "answer": "yes",
+          "weakness_target": "W4"
+        },
+        {
+          "id": "q3",
           "text": "How many axes does a typical FANUC industrial robot have?",
           "options": [
             "3",
@@ -1348,36 +1667,18 @@
           "correct": 2,
           "q": "How many axes does a typical FANUC industrial robot have?",
           "answer": "6"
-        },
-        {
-          "id": "q2",
-          "text": "What is the workspace envelope of a robot arm?",
-          "options": [
-            "The robot's weight capacity",
-            "The volume the end-effector can reach",
-            "The robot's speed range",
-            "The control software"
-          ],
-          "correct": 1,
-          "q": "What is the workspace envelope of a robot arm?",
-          "answer": "The volume the end-effector can reach"
-        },
-        {
-          "id": "q3",
-          "text": "What type of joint provides base rotation on a FANUC robot?",
-          "options": [
-            "Prismatic joint",
-            "Revolute joint",
-            "Spherical joint",
-            "Linear joint"
-          ],
-          "correct": 1,
-          "q": "What type of joint provides base rotation on a FANUC robot?",
-          "answer": "Revolute joint"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "adversarial"
       }
     },
     {
@@ -1394,19 +1695,6 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What routing patterns are typical in multi-layer PCB design?",
-          "options": [
-            "Random placement only",
-            "Power and signal traces follow distinct path conventions",
-            "All traces run in one direction",
-            "No specific patterns"
-          ],
-          "correct": 1,
-          "q": "What routing patterns are typical in multi-layer PCB design?",
-          "answer": "Power and signal traces follow distinct path conventions"
-        },
-        {
-          "id": "q2",
           "text": "During lateral camera translation on a PCB, do copper traces maintain constant centerline-to-centerline spacing (typical 0.1-0.25mm trace/space for 1oz copper) without merging or necking down below minimum annular ring width?",
           "options": [
             "yes",
@@ -1414,13 +1702,36 @@
           ],
           "correct": 0,
           "q": "During lateral camera translation on a PCB, do copper traces maintain constant centerline-to-centerline spacing (typical 0.1-0.25mm trace/space for 1oz copper) without merging or necking down below minimum annular ring width?",
-          "answer": "yes"
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q2",
+          "text": "Throughout the video, have PCB trace centerline-to-centerline spacings remained within 10% of initial values?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, have PCB trace centerline-to-centerline spacings remained within 10% of initial values?",
+          "answer": "yes",
+          "weakness_target": "W2"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "lateral",
         "failure_mode": "trace_discontinuity"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "hard"
       }
     },
     {
@@ -1437,35 +1748,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What happens to lift when angle of attack increases in the linear range?",
+          "text": "Throughout the video, do bilateral control surfaces (ailerons, flaps) maintain symmetric deflection angles within 5 degrees?",
           "options": [
-            "Lift decreases",
-            "Lift increases linearly",
-            "Lift remains constant",
-            "Lift increases exponentially"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What happens to lift when angle of attack increases in the linear range?",
-          "answer": "Lift increases linearly"
+          "correct": 0,
+          "q": "Throughout the video, do bilateral control surfaces (ailerons, flaps) maintain symmetric deflection angles within 5 degrees?",
+          "answer": "yes",
+          "weakness_target": "W4"
         },
         {
           "id": "q2",
-          "text": "What occurs at the critical angle of attack?",
+          "text": "Across all frames, has the gear linkage maintained rigid-body link length ratios (no telescoping or stretching of hinged members)?",
           "options": [
-            "Maximum speed",
-            "Aerodynamic stall",
-            "Minimum drag",
-            "Maximum range"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What occurs at the critical angle of attack?",
-          "answer": "Aerodynamic stall"
+          "correct": 0,
+          "q": "Across all frames, has the gear linkage maintained rigid-body link length ratios (no telescoping or stretching of hinged members)?",
+          "answer": "yes",
+          "weakness_target": "W5"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "sensitivity_type": "aerodynamic",
         "failure_mode": "attitude_inconsistency"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "medium"
       }
     },
     {
@@ -1482,35 +1803,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What produces higher peak heating during reentry?",
+          "text": "Throughout the video, do bilateral control surfaces (ailerons, flaps) maintain symmetric deflection angles within 5 degrees?",
           "options": [
-            "Shallower entry angle",
-            "Steeper entry angle",
-            "Lower velocity",
-            "Higher altitude"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What produces higher peak heating during reentry?",
-          "answer": "Steeper entry angle"
+          "correct": 0,
+          "q": "Throughout the video, do bilateral control surfaces (ailerons, flaps) maintain symmetric deflection angles within 5 degrees?",
+          "answer": "yes",
+          "weakness_target": "W4"
         },
         {
           "id": "q2",
-          "text": "How does a shallower reentry angle affect heat distribution?",
+          "text": "Across all frames, has the gear linkage maintained rigid-body link length ratios (no telescoping or stretching of hinged members)?",
           "options": [
-            "Concentrates heat",
-            "Spreads heat over longer duration",
-            "Eliminates heating",
-            "No effect"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "How does a shallower reentry angle affect heat distribution?",
-          "answer": "Spreads heat over longer duration"
+          "correct": 0,
+          "q": "Across all frames, has the gear linkage maintained rigid-body link length ratios (no telescoping or stretching of hinged members)?",
+          "answer": "yes",
+          "weakness_target": "W5"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "sensitivity_type": "thermal",
         "failure_mode": "thermal_gradient_error"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "medium"
       }
     },
     {
@@ -1527,35 +1858,45 @@
       "questions": [
         {
           "id": "q1",
-          "text": "What orbital element is most affected by along-track thrust?",
+          "text": "Throughout the video, do bilateral control surfaces (ailerons, flaps) maintain symmetric deflection angles within 5 degrees?",
           "options": [
-            "Inclination",
-            "Semi-major axis",
-            "Right ascension of ascending node",
-            "Argument of perigee"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "What orbital element is most affected by along-track thrust?",
-          "answer": "Semi-major axis"
+          "correct": 0,
+          "q": "Throughout the video, do bilateral control surfaces (ailerons, flaps) maintain symmetric deflection angles within 5 degrees?",
+          "answer": "yes",
+          "weakness_target": "W4"
         },
         {
           "id": "q2",
-          "text": "How do small perturbation forces affect satellite orbits?",
+          "text": "Across all frames, has the gear linkage maintained rigid-body link length ratios (no telescoping or stretching of hinged members)?",
           "options": [
-            "Immediate large changes",
-            "Gradual changes over multiple orbits",
-            "No effect",
-            "Instantaneous orbit change"
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
           ],
-          "correct": 1,
-          "q": "How do small perturbation forces affect satellite orbits?",
-          "answer": "Gradual changes over multiple orbits"
+          "correct": 0,
+          "q": "Across all frames, has the gear linkage maintained rigid-body link length ratios (no telescoping or stretching of hinged members)?",
+          "answer": "yes",
+          "weakness_target": "W5"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "sensitivity_type": "orbital_mechanics",
         "failure_mode": "trajectory_inconsistency"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "adversarial"
       }
     },
     {
@@ -1572,6 +1913,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During an orbital view of landing gear retraction, do the drag brace and side stay pivot points maintain rigid-body spatial relationships (fixed bolt-hole centers) without relative translation that would indicate non-physical joint dislocation?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During an orbital view of landing gear retraction, do the drag brace and side stay pivot points maintain rigid-body spatial relationships (fixed bolt-hole centers) without relative translation that would indicate non-physical joint dislocation?",
+          "answer": "yes",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q2",
+          "text": "Throughout the video, do bilateral control surfaces (ailerons, flaps) maintain symmetric deflection angles within 5 degrees?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, do bilateral control surfaces (ailerons, flaps) maintain symmetric deflection angles within 5 degrees?",
+          "answer": "yes",
+          "weakness_target": "W4"
+        },
+        {
+          "id": "q3",
           "text": "What drives the landing gear retraction mechanism?",
           "options": [
             "Electric motors",
@@ -1582,36 +1949,20 @@
           "correct": 1,
           "q": "What drives the landing gear retraction mechanism?",
           "answer": "Hydraulic actuators"
-        },
-        {
-          "id": "q2",
-          "text": "What structural members ensure the gear is locked in the extended position?",
-          "options": [
-            "Spring clips",
-            "Drag braces and side stays",
-            "Welded brackets",
-            "Magnetic locks"
-          ],
-          "correct": 1,
-          "q": "What structural members ensure the gear is locked in the extended position?",
-          "answer": "Drag braces and side stays"
-        },
-        {
-          "id": "q3",
-          "text": "During an orbital view of landing gear retraction, do the drag brace and side stay pivot points maintain rigid-body spatial relationships (fixed bolt-hole centers) without relative translation that would indicate non-physical joint dislocation?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During an orbital view of landing gear retraction, do the drag brace and side stay pivot points maintain rigid-body spatial relationships (fixed bolt-hole centers) without relative translation that would indicate non-physical joint dislocation?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "orbit",
         "failure_mode": "linkage_distortion"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "adversarial"
       }
     },
     {
@@ -1628,6 +1979,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During an orbital view of the axial compressor, do adjacent rotor-stator blade rows maintain consistent axial gap spacing (typically 20-40% of blade chord) without vanishing or merging rows?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During an orbital view of the axial compressor, do adjacent rotor-stator blade rows maintain consistent axial gap spacing (typically 20-40% of blade chord) without vanishing or merging rows?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q2",
+          "text": "Throughout the video, do bilateral control surfaces (ailerons, flaps) maintain symmetric deflection angles within 5 degrees?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, do bilateral control surfaces (ailerons, flaps) maintain symmetric deflection angles within 5 degrees?",
+          "answer": "yes",
+          "weakness_target": "W4"
+        },
+        {
+          "id": "q3",
           "text": "What is the arrangement of components in an axial compressor?",
           "options": [
             "Blades only",
@@ -1638,36 +2015,20 @@
           "correct": 1,
           "q": "What is the arrangement of components in an axial compressor?",
           "answer": "Alternating rotors and stators"
-        },
-        {
-          "id": "q2",
-          "text": "How does blade geometry change along the compressor length?",
-          "options": [
-            "Blades are identical throughout",
-            "Angles and chords vary to manage decreasing flow volume",
-            "Blades get larger toward the rear",
-            "No systematic variation"
-          ],
-          "correct": 1,
-          "q": "How does blade geometry change along the compressor length?",
-          "answer": "Angles and chords vary to manage decreasing flow volume"
-        },
-        {
-          "id": "q3",
-          "text": "During an orbital view of the axial compressor, do adjacent rotor-stator blade rows maintain consistent axial gap spacing (typically 20-40% of blade chord) without vanishing or merging rows?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During an orbital view of the axial compressor, do adjacent rotor-stator blade rows maintain consistent axial gap spacing (typically 20-40% of blade chord) without vanishing or merging rows?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "orbit",
         "failure_mode": "blade_spacing_inconsistency"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "adversarial"
       }
     },
     {
@@ -1693,7 +2054,8 @@
           ],
           "correct": 1,
           "q": "What axis does the aircraft rotate about during a nose-up pitch?",
-          "answer": "Lateral axis"
+          "answer": "Lateral axis",
+          "weakness_target": "W2"
         },
         {
           "id": "q2",
@@ -1717,13 +2079,22 @@
           ],
           "correct": 0,
           "q": "During a nose-up pitch rotation, does the wing dihedral angle (typically 3-7 degrees for transport aircraft measured from the horizontal plane) and the wing-to-fuselage junction fairing maintain rigid-body attachment without visible gapping or overlap?",
-          "answer": "yes"
+          "answer": "yes",
+          "weakness_target": "W2"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "tilt",
         "failure_mode": "pitch_geometry_disconnection"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "medium"
       }
     },
     {
@@ -1740,6 +2111,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During a vertical camera rise, does the high-wing junction maintain its anhedral/dihedral angle and the T-tail horizontal stabilizer span remain proportional to fuselage diameter without asymmetric warping?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During a vertical camera rise, does the high-wing junction maintain its anhedral/dihedral angle and the T-tail horizontal stabilizer span remain proportional to fuselage diameter without asymmetric warping?",
+          "answer": "yes",
+          "weakness_target": "W4"
+        },
+        {
+          "id": "q2",
+          "text": "Throughout the video, do bilateral control surfaces (ailerons, flaps) maintain symmetric deflection angles within 5 degrees?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, do bilateral control surfaces (ailerons, flaps) maintain symmetric deflection angles within 5 degrees?",
+          "answer": "yes",
+          "weakness_target": "W4"
+        },
+        {
+          "id": "q3",
           "text": "Why do cargo aircraft typically use a high-wing configuration?",
           "options": [
             "Better aerodynamics",
@@ -1750,36 +2147,20 @@
           "correct": 1,
           "q": "Why do cargo aircraft typically use a high-wing configuration?",
           "answer": "Allows fuselage to sit low for cargo loading"
-        },
-        {
-          "id": "q2",
-          "text": "What tail configuration is common on large cargo aircraft?",
-          "options": [
-            "Conventional tail",
-            "T-tail",
-            "V-tail",
-            "Cruciform tail"
-          ],
-          "correct": 1,
-          "q": "What tail configuration is common on large cargo aircraft?",
-          "answer": "T-tail"
-        },
-        {
-          "id": "q3",
-          "text": "During a vertical camera rise, does the high-wing junction maintain its anhedral/dihedral angle and the T-tail horizontal stabilizer span remain proportional to fuselage diameter without asymmetric warping?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During a vertical camera rise, does the high-wing junction maintain its anhedral/dihedral angle and the T-tail horizontal stabilizer span remain proportional to fuselage diameter without asymmetric warping?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "vertical_rise",
         "failure_mode": "proportion_distortion"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "hard",
+        "vfa": "hard"
       }
     },
     {
@@ -1796,6 +2177,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During a dolly-in approach, does the engine nacelle maintain circular cross-section geometry (fan cowl diameter-to-inlet lip ratio consistent with NACA 1-series inlet profile) without elliptical distortion or panel line divergence?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During a dolly-in approach, does the engine nacelle maintain circular cross-section geometry (fan cowl diameter-to-inlet lip ratio consistent with NACA 1-series inlet profile) without elliptical distortion or panel line divergence?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        },
+        {
+          "id": "q2",
+          "text": "Throughout the video, do bilateral control surfaces (ailerons, flaps) maintain symmetric deflection angles within 5 degrees?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, do bilateral control surfaces (ailerons, flaps) maintain symmetric deflection angles within 5 degrees?",
+          "answer": "yes",
+          "weakness_target": "W4"
+        },
+        {
+          "id": "q3",
           "text": "What is the purpose of the nacelle inlet lip?",
           "options": [
             "Structural support",
@@ -1806,36 +2213,20 @@
           "correct": 1,
           "q": "What is the purpose of the nacelle inlet lip?",
           "answer": "Smooths airflow into the fan"
-        },
-        {
-          "id": "q2",
-          "text": "What component at the rear of the nacelle assists in deceleration?",
-          "options": [
-            "Afterburner",
-            "Thrust reverser",
-            "Exhaust nozzle",
-            "Tail cone"
-          ],
-          "correct": 1,
-          "q": "What component at the rear of the nacelle assists in deceleration?",
-          "answer": "Thrust reverser"
-        },
-        {
-          "id": "q3",
-          "text": "During a dolly-in approach, does the engine nacelle maintain circular cross-section geometry (fan cowl diameter-to-inlet lip ratio consistent with NACA 1-series inlet profile) without elliptical distortion or panel line divergence?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During a dolly-in approach, does the engine nacelle maintain circular cross-section geometry (fan cowl diameter-to-inlet lip ratio consistent with NACA 1-series inlet profile) without elliptical distortion or panel line divergence?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "dolly",
         "failure_mode": "cylindrical_geometry_loss"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "hard"
       }
     },
     {
@@ -1852,6 +2243,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During a dolly-in to the cockpit windshield, do the multi-panel frame dividers maintain straight-line geometry (critical for bird-strike load path integrity) and the heated-panel boundary gaskets remain parallel without curvature deviation?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During a dolly-in to the cockpit windshield, do the multi-panel frame dividers maintain straight-line geometry (critical for bird-strike load path integrity) and the heated-panel boundary gaskets remain parallel without curvature deviation?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        },
+        {
+          "id": "q2",
+          "text": "Throughout the video, do bilateral control surfaces (ailerons, flaps) maintain symmetric deflection angles within 5 degrees?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, do bilateral control surfaces (ailerons, flaps) maintain symmetric deflection angles within 5 degrees?",
+          "answer": "yes",
+          "weakness_target": "W4"
+        },
+        {
+          "id": "q3",
           "text": "What material is commonly used for cockpit windshield outer layers?",
           "options": [
             "Standard glass",
@@ -1862,36 +2279,20 @@
           "correct": 1,
           "q": "What material is commonly used for cockpit windshield outer layers?",
           "answer": "Stretched acrylic or chemically strengthened glass"
-        },
-        {
-          "id": "q2",
-          "text": "Why are heating elements embedded in cockpit windshields?",
-          "options": [
-            "Pilot comfort",
-            "Prevent ice formation",
-            "Improve visibility at night",
-            "Reduce drag"
-          ],
-          "correct": 1,
-          "q": "Why are heating elements embedded in cockpit windshields?",
-          "answer": "Prevent ice formation"
-        },
-        {
-          "id": "q3",
-          "text": "During a dolly-in to the cockpit windshield, do the multi-panel frame dividers maintain straight-line geometry (critical for bird-strike load path integrity) and the heated-panel boundary gaskets remain parallel without curvature deviation?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During a dolly-in to the cockpit windshield, do the multi-panel frame dividers maintain straight-line geometry (critical for bird-strike load path integrity) and the heated-panel boundary gaskets remain parallel without curvature deviation?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "dolly",
         "failure_mode": "frame_linearity_loss"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "hard"
       }
     },
     {
@@ -1941,7 +2342,8 @@
           ],
           "correct": 0,
           "q": "During an orbital view of the turbine blade array, do adjacent blades maintain uniform circumferential pitch (360 degrees divided by blade count, typically 60-120 blades per row) without merging or gaps that would indicate a missing blade?",
-          "answer": "yes"
+          "answer": "yes",
+          "weakness_target": "W2"
         },
         {
           "id": "q4",
@@ -1952,13 +2354,22 @@
           ],
           "correct": 0,
           "q": "Do the trailing edges of all blades in a row maintain a consistent radial alignment (trailing edge rake angle constant across the row) without individual blade twist deviation beyond the designed aerodynamic washout?",
-          "answer": "yes"
+          "answer": "yes",
+          "weakness_target": "W6"
         }
       ],
       "constraint_annotations": {
         "topology_type": "lattice",
         "camera_motion": "orbit",
         "failure_mode": "blade_spacing_inconsistency"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "easy",
+        "vf": "medium",
+        "gi": "hard",
+        "vfa": "adversarial"
       }
     },
     {
@@ -1975,6 +2386,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During an orbital view, does the wing maintain its quarter-chord sweep angle (typically 25-35 degrees for long-range transports) and the winglet rake angle remain fixed, without surface discontinuities at the flap-track fairings or spoiler panel boundaries?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During an orbital view, does the wing maintain its quarter-chord sweep angle (typically 25-35 degrees for long-range transports) and the winglet rake angle remain fixed, without surface discontinuities at the flap-track fairings or spoiler panel boundaries?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        },
+        {
+          "id": "q2",
+          "text": "Between the first and final frame, has the fuselage maintained consistent cross-sectional geometry (fuselage width-to-height ratio within 10% of initial)?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Between the first and final frame, has the fuselage maintained consistent cross-sectional geometry (fuselage width-to-height ratio within 10% of initial)?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        },
+        {
+          "id": "q3",
           "text": "What causes the A380 wing to bend upward during flight?",
           "options": [
             "Engine thrust",
@@ -1984,37 +2421,22 @@
           ],
           "correct": 1,
           "q": "What causes the A380 wing to bend upward during flight?",
-          "answer": "Aerodynamic lift load"
-        },
-        {
-          "id": "q2",
-          "text": "What device at the wing tip reduces induced drag?",
-          "options": [
-            "Spoiler",
-            "Raked winglet",
-            "Antenna",
-            "Navigation light"
-          ],
-          "correct": 1,
-          "q": "What device at the wing tip reduces induced drag?",
-          "answer": "Raked winglet"
-        },
-        {
-          "id": "q3",
-          "text": "During an orbital view, does the wing maintain its quarter-chord sweep angle (typically 25-35 degrees for long-range transports) and the winglet rake angle remain fixed, without surface discontinuities at the flap-track fairings or spoiler panel boundaries?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During an orbital view, does the wing maintain its quarter-chord sweep angle (typically 25-35 degrees for long-range transports) and the winglet rake angle remain fixed, without surface discontinuities at the flap-track fairings or spoiler panel boundaries?",
-          "answer": "yes"
+          "answer": "Aerodynamic lift load",
+          "weakness_target": "W6"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface",
         "camera_motion": "orbit",
         "failure_mode": "surface_discontinuity"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "adversarial"
       }
     },
     {
@@ -2031,6 +2453,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During boom extension, do the telescoping box sections maintain consistent wall thickness ratios between nested stages (each stage typically 0.85-0.90x the previous) and the hydraulic cylinder pin joints remain at fixed positions without section-to-section overlap violations?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During boom extension, do the telescoping box sections maintain consistent wall thickness ratios between nested stages (each stage typically 0.85-0.90x the previous) and the hydraulic cylinder pin joints remain at fixed positions without section-to-section overlap violations?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        },
+        {
+          "id": "q2",
+          "text": "Throughout the video, has the suspension linkage maintained constant rigid-link lengths (no stretching or compression of non-spring members)?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, has the suspension linkage maintained constant rigid-link lengths (no stretching or compression of non-spring members)?",
+          "answer": "yes",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
           "text": "What drives the telescoping boom extension?",
           "options": [
             "Cable winch",
@@ -2041,36 +2489,20 @@
           "correct": 1,
           "q": "What drives the telescoping boom extension?",
           "answer": "Hydraulic extension cylinders"
-        },
-        {
-          "id": "q2",
-          "text": "What maintains alignment between telescoping sections?",
-          "options": [
-            "Ball bearings",
-            "Wear pads and guide rails",
-            "Welded joints",
-            "Magnetic alignment"
-          ],
-          "correct": 1,
-          "q": "What maintains alignment between telescoping sections?",
-          "answer": "Wear pads and guide rails"
-        },
-        {
-          "id": "q3",
-          "text": "During boom extension, do the telescoping box sections maintain consistent wall thickness ratios between nested stages (each stage typically 0.85-0.90x the previous) and the hydraulic cylinder pin joints remain at fixed positions without section-to-section overlap violations?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During boom extension, do the telescoping box sections maintain consistent wall thickness ratios between nested stages (each stage typically 0.85-0.90x the previous) and the hydraulic cylinder pin joints remain at fixed positions without section-to-section overlap violations?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "lateral",
         "failure_mode": "telescoping_alignment_error"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "medium"
       }
     },
     {
@@ -2087,6 +2519,34 @@
       "questions": [
         {
           "id": "q1",
+          "text": "Throughout the video, has the suspension linkage maintained constant rigid-link lengths (no stretching or compression of non-spring members)?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, has the suspension linkage maintained constant rigid-link lengths (no stretching or compression of non-spring members)?",
+          "answer": "yes",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q2",
+          "text": "Between the first and final frame, have left and right suspension arms maintained bilateral symmetry (matching angles within 5 degrees)?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Between the first and final frame, have left and right suspension arms maintained bilateral symmetry (matching angles within 5 degrees)?",
+          "answer": "yes",
+          "weakness_target": "W4"
+        },
+        {
+          "id": "q3",
           "text": "How many main articulated segments does an excavator arm have?",
           "options": [
             "2",
@@ -2097,36 +2557,20 @@
           "correct": 1,
           "q": "How many main articulated segments does an excavator arm have?",
           "answer": "3"
-        },
-        {
-          "id": "q2",
-          "text": "What does the bucket cylinder actuate?",
-          "options": [
-            "Boom rotation",
-            "Stick extension",
-            "Bucket curl through a linkage system",
-            "Track movement"
-          ],
-          "correct": 2,
-          "q": "What does the bucket cylinder actuate?",
-          "answer": "Bucket curl through a linkage system"
-        },
-        {
-          "id": "q3",
-          "text": "During excavator arm movement, do the boom-stick-bucket joint angles follow the kinematic constraint that bucket tip position is uniquely determined by the three hydraulic cylinder lengths, without ghost linkages or impossible configurations?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During excavator arm movement, do the boom-stick-bucket joint angles follow the kinematic constraint that bucket tip position is uniquely determined by the three hydraulic cylinder lengths, without ghost linkages or impossible configurations?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "orbit",
         "failure_mode": "linkage_geometry_error"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "medium"
       }
     },
     {
@@ -2143,6 +2587,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During an orbital view of the container deck, do ISO containers maintain their standard 2.438m width and the cell guide spacing (typically 2.5m bay-to-bay) remain uniform, with twist-lock positions at consistent 40ft or 20ft intervals without merging?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During an orbital view of the container deck, do ISO containers maintain their standard 2.438m width and the cell guide spacing (typically 2.5m bay-to-bay) remain uniform, with twist-lock positions at consistent 40ft or 20ft intervals without merging?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q2",
+          "text": "Between the first and final frame, has the track link pitch (center-to-center spacing) remained within 10% of its initial value?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Between the first and final frame, has the track link pitch (center-to-center spacing) remained within 10% of its initial value?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q3",
           "text": "What ensures vertical alignment of stacked containers?",
           "options": [
             "Gravity alone",
@@ -2153,36 +2623,20 @@
           "correct": 1,
           "q": "What ensures vertical alignment of stacked containers?",
           "answer": "Cell guides and twist-locks"
-        },
-        {
-          "id": "q2",
-          "text": "What standard lengths are ISO shipping containers?",
-          "options": [
-            "10 and 20 feet",
-            "20 and 40 feet",
-            "30 and 50 feet",
-            "40 and 60 feet"
-          ],
-          "correct": 1,
-          "q": "What standard lengths are ISO shipping containers?",
-          "answer": "20 and 40 feet"
-        },
-        {
-          "id": "q3",
-          "text": "During an orbital view of the container deck, do ISO containers maintain their standard 2.438m width and the cell guide spacing (typically 2.5m bay-to-bay) remain uniform, with twist-lock positions at consistent 40ft or 20ft intervals without merging?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During an orbital view of the container deck, do ISO containers maintain their standard 2.438m width and the cell guide spacing (typically 2.5m bay-to-bay) remain uniform, with twist-lock positions at consistent 40ft or 20ft intervals without merging?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "lattice",
         "camera_motion": "orbit",
         "failure_mode": "grid_spacing_inconsistency"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "easy",
+        "vf": "medium",
+        "gi": "hard",
+        "vfa": "adversarial"
       }
     },
     {
@@ -2199,6 +2653,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During a camera pan along the suspension bridge, do the vertical suspender cables maintain uniform center-to-center spacing (typically 10-20m for main span) and consistent sag catenary geometry without cables appearing to lean or merge?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During a camera pan along the suspension bridge, do the vertical suspender cables maintain uniform center-to-center spacing (typically 10-20m for main span) and consistent sag catenary geometry without cables appearing to lean or merge?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q2",
+          "text": "Between the first and final frame, has the track link pitch (center-to-center spacing) remained within 10% of its initial value?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Between the first and final frame, has the track link pitch (center-to-center spacing) remained within 10% of its initial value?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q3",
           "text": "What shape do the main cables of a suspension bridge follow?",
           "options": [
             "Straight line",
@@ -2208,37 +2688,22 @@
           ],
           "correct": 1,
           "q": "What shape do the main cables of a suspension bridge follow?",
-          "answer": "Parabola (catenary)"
-        },
-        {
-          "id": "q2",
-          "text": "How are suspender cables attached to the main cable?",
-          "options": [
-            "Welded",
-            "Via cable bands and clamps",
-            "Tied with wire",
-            "Glued"
-          ],
-          "correct": 1,
-          "q": "How are suspender cables attached to the main cable?",
-          "answer": "Via cable bands and clamps"
-        },
-        {
-          "id": "q3",
-          "text": "During a camera pan along the suspension bridge, do the vertical suspender cables maintain uniform center-to-center spacing (typically 10-20m for main span) and consistent sag catenary geometry without cables appearing to lean or merge?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During a camera pan along the suspension bridge, do the vertical suspender cables maintain uniform center-to-center spacing (typically 10-20m for main span) and consistent sag catenary geometry without cables appearing to lean or merge?",
-          "answer": "yes"
+          "answer": "Parabola (catenary)",
+          "weakness_target": "W6"
         }
       ],
       "constraint_annotations": {
         "topology_type": "lattice",
         "camera_motion": "lateral",
         "failure_mode": "cable_spacing_drift"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "easy",
+        "vf": "medium",
+        "gi": "hard",
+        "vfa": "hard"
       }
     },
     {
@@ -2255,6 +2720,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During an orbital view of the ship hull, does the bilge turn radius (the curved transition from flat bottom to side shell) maintain smooth second-derivative continuity without polygonal faceting, and do the plate butt weld seams remain at consistent longitudinal positions?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During an orbital view of the ship hull, does the bilge turn radius (the curved transition from flat bottom to side shell) maintain smooth second-derivative continuity without polygonal faceting, and do the plate butt weld seams remain at consistent longitudinal positions?",
+          "answer": "yes",
+          "weakness_target": "W7"
+        },
+        {
+          "id": "q2",
+          "text": "Between the first and final frame, has the track pitch (center-to-center link spacing) remained within 10% of its initial value?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Between the first and final frame, has the track pitch (center-to-center link spacing) remained within 10% of its initial value?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q3",
           "text": "What is the purpose of the bow flare on a cargo ship?",
           "options": [
             "Decoration",
@@ -2265,36 +2756,20 @@
           "correct": 1,
           "q": "What is the purpose of the bow flare on a cargo ship?",
           "answer": "Deflects waves away from the deck"
-        },
-        {
-          "id": "q2",
-          "text": "What marks the boundary between underwater and topside hull surfaces?",
-          "options": [
-            "Rivets",
-            "Anti-fouling paint line",
-            "Weld seam",
-            "Draft marks"
-          ],
-          "correct": 1,
-          "q": "What marks the boundary between underwater and topside hull surfaces?",
-          "answer": "Anti-fouling paint line"
-        },
-        {
-          "id": "q3",
-          "text": "During an orbital view of the ship hull, does the bilge turn radius (the curved transition from flat bottom to side shell) maintain smooth second-derivative continuity without polygonal faceting, and do the plate butt weld seams remain at consistent longitudinal positions?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During an orbital view of the ship hull, does the bilge turn radius (the curved transition from flat bottom to side shell) maintain smooth second-derivative continuity without polygonal faceting, and do the plate butt weld seams remain at consistent longitudinal positions?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface",
         "camera_motion": "orbit",
         "failure_mode": "surface_faceting"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "adversarial"
       }
     },
     {
@@ -2311,6 +2786,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During an orbital view of the mining haul truck, do the tire outer diameter (typically 3.5-4.0m for 400-ton class) and the ratio of cab height to bed height remain consistent across all azimuth angles without perspective-induced scaling errors?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During an orbital view of the mining haul truck, do the tire outer diameter (typically 3.5-4.0m for 400-ton class) and the ratio of cab height to bed height remain consistent across all azimuth angles without perspective-induced scaling errors?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        },
+        {
+          "id": "q2",
+          "text": "Between the first and final frame, has the track pitch (center-to-center link spacing) remained within 10% of its initial value?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Between the first and final frame, has the track pitch (center-to-center link spacing) remained within 10% of its initial value?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q3",
           "text": "What type of powertrain do large mining haul trucks typically use?",
           "options": [
             "Pure diesel mechanical",
@@ -2321,36 +2822,20 @@
           "correct": 1,
           "q": "What type of powertrain do large mining haul trucks typically use?",
           "answer": "Diesel-electric"
-        },
-        {
-          "id": "q2",
-          "text": "How large can mining truck tires be in diameter?",
-          "options": [
-            "1 meter",
-            "2 meters",
-            "4 meters",
-            "6 meters"
-          ],
-          "correct": 2,
-          "q": "How large can mining truck tires be in diameter?",
-          "answer": "4 meters"
-        },
-        {
-          "id": "q3",
-          "text": "During an orbital view of the mining haul truck, do the tire outer diameter (typically 3.5-4.0m for 400-ton class) and the ratio of cab height to bed height remain consistent across all azimuth angles without perspective-induced scaling errors?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During an orbital view of the mining haul truck, do the tire outer diameter (typically 3.5-4.0m for 400-ton class) and the ratio of cab height to bed height remain consistent across all azimuth angles without perspective-induced scaling errors?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface",
         "camera_motion": "orbit",
         "failure_mode": "proportional_inconsistency"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "adversarial"
       }
     },
     {
@@ -2367,6 +2852,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During a dolly-in to the truck engine bay, do the turbocharger compressor housing, charge air cooler ducting, and serpentine belt routing maintain their designed spatial clearances (typically 15-30mm minimum between adjacent components) without component drift or overlap?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During a dolly-in to the truck engine bay, do the turbocharger compressor housing, charge air cooler ducting, and serpentine belt routing maintain their designed spatial clearances (typically 15-30mm minimum between adjacent components) without component drift or overlap?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        },
+        {
+          "id": "q2",
+          "text": "Throughout the video, has the suspension linkage maintained constant rigid-link lengths (no stretching or compression of non-spring members)?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, has the suspension linkage maintained constant rigid-link lengths (no stretching or compression of non-spring members)?",
+          "answer": "yes",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
           "text": "What material is a truck engine block typically made from?",
           "options": [
             "Aluminum only",
@@ -2377,36 +2888,20 @@
           "correct": 1,
           "q": "What material is a truck engine block typically made from?",
           "answer": "Cast iron"
-        },
-        {
-          "id": "q2",
-          "text": "What component compresses intake air for better combustion?",
-          "options": [
-            "Supercharger",
-            "Turbocharger",
-            "Carburetor",
-            "Air filter"
-          ],
-          "correct": 1,
-          "q": "What component compresses intake air for better combustion?",
-          "answer": "Turbocharger"
-        },
-        {
-          "id": "q3",
-          "text": "During a dolly-in to the truck engine bay, do the turbocharger compressor housing, charge air cooler ducting, and serpentine belt routing maintain their designed spatial clearances (typically 15-30mm minimum between adjacent components) without component drift or overlap?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During a dolly-in to the truck engine bay, do the turbocharger compressor housing, charge air cooler ducting, and serpentine belt routing maintain their designed spatial clearances (typically 15-30mm minimum between adjacent components) without component drift or overlap?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "dolly",
         "failure_mode": "spatial_relationship_shift"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "hard"
       }
     },
     {
@@ -2423,6 +2918,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During a vertical camera rise, does the tower crane lattice mast maintain its constant cross-section width (typically 1.6-2.0m for mid-size cranes) and the pin-connected lacing bar angles (typically 45-60 degrees) remain uniform from base to top without taper?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During a vertical camera rise, does the tower crane lattice mast maintain its constant cross-section width (typically 1.6-2.0m for mid-size cranes) and the pin-connected lacing bar angles (typically 45-60 degrees) remain uniform from base to top without taper?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        },
+        {
+          "id": "q2",
+          "text": "Throughout the video, has the suspension linkage maintained constant rigid-link lengths (no stretching or compression of non-spring members)?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, has the suspension linkage maintained constant rigid-link lengths (no stretching or compression of non-spring members)?",
+          "answer": "yes",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
           "text": "What connects the tower sections of a tower crane?",
           "options": [
             "Welds",
@@ -2433,36 +2954,20 @@
           "correct": 1,
           "q": "What connects the tower sections of a tower crane?",
           "answer": "High-strength bolts"
-        },
-        {
-          "id": "q2",
-          "text": "What is on the counter-jib of a tower crane?",
-          "options": [
-            "Operator cab",
-            "Concrete counterweights",
-            "Lifting hook",
-            "Generator"
-          ],
-          "correct": 1,
-          "q": "What is on the counter-jib of a tower crane?",
-          "answer": "Concrete counterweights"
-        },
-        {
-          "id": "q3",
-          "text": "During a vertical camera rise, does the tower crane lattice mast maintain its constant cross-section width (typically 1.6-2.0m for mid-size cranes) and the pin-connected lacing bar angles (typically 45-60 degrees) remain uniform from base to top without taper?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During a vertical camera rise, does the tower crane lattice mast maintain its constant cross-section width (typically 1.6-2.0m for mid-size cranes) and the pin-connected lacing bar angles (typically 45-60 degrees) remain uniform from base to top without taper?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "vertical_rise",
         "failure_mode": "cross_section_distortion"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "medium"
       }
     },
     {
@@ -2479,6 +2984,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During rotor rotation, does each blade maintain its designed twist distribution (root-to-tip twist of 10-15 degrees) and chord length ratio (blade chord typically tapering from 4m at root to 1m at tip) consistently through the full 360-degree azimuth cycle?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During rotor rotation, does each blade maintain its designed twist distribution (root-to-tip twist of 10-15 degrees) and chord length ratio (blade chord typically tapering from 4m at root to 1m at tip) consistently through the full 360-degree azimuth cycle?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        },
+        {
+          "id": "q2",
+          "text": "Throughout the video, has each turbine blade maintained constant angular velocity (no acceleration/deceleration artifacts)?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, has each turbine blade maintained constant angular velocity (no acceleration/deceleration artifacts)?",
+          "answer": "yes",
+          "weakness_target": "W7"
+        },
+        {
+          "id": "q3",
           "text": "What allows the angle of each wind turbine blade to be adjusted?",
           "options": [
             "Fixed mounting",
@@ -2489,36 +3020,20 @@
           "correct": 1,
           "q": "What allows the angle of each wind turbine blade to be adjusted?",
           "answer": "Pitch bearing and actuators"
-        },
-        {
-          "id": "q2",
-          "text": "How many blades does a typical modern wind turbine have?",
-          "options": [
-            "2",
-            "3",
-            "4",
-            "5"
-          ],
-          "correct": 1,
-          "q": "How many blades does a typical modern wind turbine have?",
-          "answer": "3"
-        },
-        {
-          "id": "q3",
-          "text": "During rotor rotation, does each blade maintain its designed twist distribution (root-to-tip twist of 10-15 degrees) and chord length ratio (blade chord typically tapering from 4m at root to 1m at tip) consistently through the full 360-degree azimuth cycle?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During rotor rotation, does each blade maintain its designed twist distribution (root-to-tip twist of 10-15 degrees) and chord length ratio (blade chord typically tapering from 4m at root to 1m at tip) consistently through the full 360-degree azimuth cycle?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "orbit",
         "failure_mode": "blade_pitch_inconsistency"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "medium"
       }
     },
     {
@@ -2535,6 +3050,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During the pump jack stroke cycle, does the walking beam pivot bearing maintain a fixed vertical position relative to the Sampson post crown, and does the crank-counterweight assembly preserve its designed moment arm (typically 30-54 inch stroke length) without geometric drift?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During the pump jack stroke cycle, does the walking beam pivot bearing maintain a fixed vertical position relative to the Sampson post crown, and does the crank-counterweight assembly preserve its designed moment arm (typically 30-54 inch stroke length) without geometric drift?",
+          "answer": "yes",
+          "weakness_target": "W3"
+        },
+        {
+          "id": "q2",
+          "text": "Throughout the video, has each turbine blade maintained constant angular velocity (no acceleration/deceleration artifacts)?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, has each turbine blade maintained constant angular velocity (no acceleration/deceleration artifacts)?",
+          "answer": "yes",
+          "weakness_target": "W7"
+        },
+        {
+          "id": "q3",
           "text": "What converts rotary motion to reciprocating motion in a pump jack?",
           "options": [
             "Crankshaft",
@@ -2545,36 +3086,20 @@
           "correct": 1,
           "q": "What converts rotary motion to reciprocating motion in a pump jack?",
           "answer": "Walking beam with pivot"
-        },
-        {
-          "id": "q2",
-          "text": "What is the purpose of the counterweight on the pump jack?",
-          "options": [
-            "Prevents overstroke",
-            "Balances rod weight during stroke cycle",
-            "Increases speed",
-            "Reduces noise"
-          ],
-          "correct": 1,
-          "q": "What is the purpose of the counterweight on the pump jack?",
-          "answer": "Balances rod weight during stroke cycle"
-        },
-        {
-          "id": "q3",
-          "text": "During the pump jack stroke cycle, does the walking beam pivot bearing maintain a fixed vertical position relative to the Sampson post crown, and does the crank-counterweight assembly preserve its designed moment arm (typically 30-54 inch stroke length) without geometric drift?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During the pump jack stroke cycle, does the walking beam pivot bearing maintain a fixed vertical position relative to the Sampson post crown, and does the crank-counterweight assembly preserve its designed moment arm (typically 30-54 inch stroke length) without geometric drift?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "orbit",
         "failure_mode": "pivot_geometry_inconsistency"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "medium"
       }
     },
     {
@@ -2591,6 +3116,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During a vertical camera rise, does the offshore platform jacket maintain its X-brace or K-brace diagonal member angles (typically 30-60 degrees from vertical) and the tubular chord member diameters (typically 0.6-1.8m OD) remain proportional through each bay without members appearing or disappearing?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During a vertical camera rise, does the offshore platform jacket maintain its X-brace or K-brace diagonal member angles (typically 30-60 degrees from vertical) and the tubular chord member diameters (typically 0.6-1.8m OD) remain proportional through each bay without members appearing or disappearing?",
+          "answer": "yes",
+          "weakness_target": "W3"
+        },
+        {
+          "id": "q2",
+          "text": "Throughout the video, has each turbine blade maintained constant angular velocity (no acceleration/deceleration artifacts)?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, has each turbine blade maintained constant angular velocity (no acceleration/deceleration artifacts)?",
+          "answer": "yes",
+          "weakness_target": "W7"
+        },
+        {
+          "id": "q3",
           "text": "What is the purpose of the jacket structure on an offshore platform?",
           "options": [
             "Houses workers",
@@ -2601,36 +3152,20 @@
           "correct": 1,
           "q": "What is the purpose of the jacket structure on an offshore platform?",
           "answer": "Anchors platform to seabed and supports topsides"
-        },
-        {
-          "id": "q2",
-          "text": "What is typically located on the uppermost deck of an offshore platform?",
-          "options": [
-            "Drilling equipment",
-            "Helideck and flare boom",
-            "Oil storage tanks",
-            "Seawater pumps"
-          ],
-          "correct": 1,
-          "q": "What is typically located on the uppermost deck of an offshore platform?",
-          "answer": "Helideck and flare boom"
-        },
-        {
-          "id": "q3",
-          "text": "During a vertical camera rise, does the offshore platform jacket maintain its X-brace or K-brace diagonal member angles (typically 30-60 degrees from vertical) and the tubular chord member diameters (typically 0.6-1.8m OD) remain proportional through each bay without members appearing or disappearing?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During a vertical camera rise, does the offshore platform jacket maintain its X-brace or K-brace diagonal member angles (typically 30-60 degrees from vertical) and the tubular chord member diameters (typically 0.6-1.8m OD) remain proportional through each bay without members appearing or disappearing?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "vertical_rise",
         "failure_mode": "lattice_member_distortion"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "medium"
       }
     },
     {
@@ -2647,6 +3182,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During a dolly-in to the solar panel, do the monocrystalline cells maintain their standard 156mm or 166mm square pitch, the bus bar ribbons (typically 3-5 per cell) remain parallel and equidistant, and the cell-to-cell gap (typically 1-2mm) stay uniform without merging?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During a dolly-in to the solar panel, do the monocrystalline cells maintain their standard 156mm or 166mm square pitch, the bus bar ribbons (typically 3-5 per cell) remain parallel and equidistant, and the cell-to-cell gap (typically 1-2mm) stay uniform without merging?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q2",
+          "text": "Throughout the video, has each turbine blade maintained constant angular velocity (no acceleration/deceleration artifacts)?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, has each turbine blade maintained constant angular velocity (no acceleration/deceleration artifacts)?",
+          "answer": "yes",
+          "weakness_target": "W7"
+        },
+        {
+          "id": "q3",
           "text": "What gives solar panels their characteristic blue-black color?",
           "options": [
             "Silicon material",
@@ -2657,36 +3218,20 @@
           "correct": 1,
           "q": "What gives solar panels their characteristic blue-black color?",
           "answer": "Anti-reflective coating"
-        },
-        {
-          "id": "q2",
-          "text": "How are individual solar cells connected within a panel?",
-          "options": [
-            "Parallel wires",
-            "Soldered ribbons connecting bus bars",
-            "Welded joints",
-            "Conductive adhesive"
-          ],
-          "correct": 1,
-          "q": "How are individual solar cells connected within a panel?",
-          "answer": "Soldered ribbons connecting bus bars"
-        },
-        {
-          "id": "q3",
-          "text": "During a dolly-in to the solar panel, do the monocrystalline cells maintain their standard 156mm or 166mm square pitch, the bus bar ribbons (typically 3-5 per cell) remain parallel and equidistant, and the cell-to-cell gap (typically 1-2mm) stay uniform without merging?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During a dolly-in to the solar panel, do the monocrystalline cells maintain their standard 156mm or 166mm square pitch, the bus bar ribbons (typically 3-5 per cell) remain parallel and equidistant, and the cell-to-cell gap (typically 1-2mm) stay uniform without merging?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "dolly",
         "failure_mode": "grid_distortion"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "hard"
       }
     },
     {
@@ -2703,6 +3248,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During an orbital view of the offshore wind farm, do adjacent turbines maintain consistent downwind spacing (typically 5-9 rotor diameters, i.e. 400-900m for 100m rotor) and crosswind spacing (typically 3-5 rotor diameters) without array compression or expansion?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During an orbital view of the offshore wind farm, do adjacent turbines maintain consistent downwind spacing (typically 5-9 rotor diameters, i.e. 400-900m for 100m rotor) and crosswind spacing (typically 3-5 rotor diameters) without array compression or expansion?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q2",
+          "text": "Between the first and final frame, has the number of solar panels (or heat exchanger fins) remained constant?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Between the first and final frame, has the number of solar panels (or heat exchanger fins) remained constant?",
+          "answer": "yes",
+          "weakness_target": "W3"
+        },
+        {
+          "id": "q3",
           "text": "Why are wind turbines spaced 3-5 rotor diameters apart?",
           "options": [
             "Land cost",
@@ -2713,36 +3284,20 @@
           "correct": 1,
           "q": "Why are wind turbines spaced 3-5 rotor diameters apart?",
           "answer": "Minimize wake interference"
-        },
-        {
-          "id": "q2",
-          "text": "What connects individual turbines to the electrical grid?",
-          "options": [
-            "Overhead lines only",
-            "Underground cables and substation",
-            "Direct connection",
-            "Battery storage"
-          ],
-          "correct": 1,
-          "q": "What connects individual turbines to the electrical grid?",
-          "answer": "Underground cables and substation"
-        },
-        {
-          "id": "q3",
-          "text": "During an orbital view of the offshore wind farm, do adjacent turbines maintain consistent downwind spacing (typically 5-9 rotor diameters, i.e. 400-900m for 100m rotor) and crosswind spacing (typically 3-5 rotor diameters) without array compression or expansion?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During an orbital view of the offshore wind farm, do adjacent turbines maintain consistent downwind spacing (typically 5-9 rotor diameters, i.e. 400-900m for 100m rotor) and crosswind spacing (typically 3-5 rotor diameters) without array compression or expansion?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface",
         "camera_motion": "orbit",
         "failure_mode": "array_spacing_inconsistency"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "adversarial"
       }
     },
     {
@@ -2759,6 +3314,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During a lateral camera pan, do the conveyor belt idler rollers maintain uniform spacing (typically 1.0-1.5m for carry side) and the belt edge remain parallel to the frame centerline without lateral tracking drift that would indicate misaligned troughing idlers?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During a lateral camera pan, do the conveyor belt idler rollers maintain uniform spacing (typically 1.0-1.5m for carry side) and the belt edge remain parallel to the frame centerline without lateral tracking drift that would indicate misaligned troughing idlers?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q2",
+          "text": "Throughout the video, does the scissor lift maintain the kinematic constraint h = 2L*sin(θ/2) — arm angles and platform height consistent within 15%?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, does the scissor lift maintain the kinematic constraint h = 2L*sin(θ/2) — arm angles and platform height consistent within 15%?",
+          "answer": "yes",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
           "text": "What drives the conveyor belt movement?",
           "options": [
             "Manual push",
@@ -2769,36 +3350,20 @@
           "correct": 1,
           "q": "What drives the conveyor belt movement?",
           "answer": "Motorized head pulley"
-        },
-        {
-          "id": "q2",
-          "text": "What prevents workpieces from slipping on the belt surface?",
-          "options": [
-            "Adhesive",
-            "Cleats or friction surface",
-            "Magnetic hold-downs",
-            "Clamps"
-          ],
-          "correct": 1,
-          "q": "What prevents workpieces from slipping on the belt surface?",
-          "answer": "Cleats or friction surface"
-        },
-        {
-          "id": "q3",
-          "text": "During a lateral camera pan, do the conveyor belt idler rollers maintain uniform spacing (typically 1.0-1.5m for carry side) and the belt edge remain parallel to the frame centerline without lateral tracking drift that would indicate misaligned troughing idlers?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During a lateral camera pan, do the conveyor belt idler rollers maintain uniform spacing (typically 1.0-1.5m for carry side) and the belt edge remain parallel to the frame centerline without lateral tracking drift that would indicate misaligned troughing idlers?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "lateral",
         "failure_mode": "belt_tracking_drift"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "hard"
       }
     },
     {
@@ -2815,6 +3380,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During delta robot pick-and-place motion, do the three parallelogram arm linkages maintain equal effective arm lengths (rigid-body constraint) and the end effector platform remain horizontal (parallel to the base plane) throughout the trajectory without any arm decoupling?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During delta robot pick-and-place motion, do the three parallelogram arm linkages maintain equal effective arm lengths (rigid-body constraint) and the end effector platform remain horizontal (parallel to the base plane) throughout the trajectory without any arm decoupling?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q2",
+          "text": "Throughout the video, does the scissor lift maintain the kinematic constraint h = 2L*sin(θ/2) — arm angles and platform height consistent within 15%?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, does the scissor lift maintain the kinematic constraint h = 2L*sin(θ/2) — arm angles and platform height consistent within 15%?",
+          "answer": "yes",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
           "text": "How many arms does a delta robot have?",
           "options": [
             "2",
@@ -2825,36 +3416,20 @@
           "correct": 1,
           "q": "How many arms does a delta robot have?",
           "answer": "3"
-        },
-        {
-          "id": "q2",
-          "text": "What ensures the end-effector remains horizontal during movement?",
-          "options": [
-            "Gyroscope",
-            "Parallelogram arm structure",
-            "Active leveling system",
-            "Gravity alone"
-          ],
-          "correct": 1,
-          "q": "What ensures the end-effector remains horizontal during movement?",
-          "answer": "Parallelogram arm structure"
-        },
-        {
-          "id": "q3",
-          "text": "During delta robot pick-and-place motion, do the three parallelogram arm linkages maintain equal effective arm lengths (rigid-body constraint) and the end effector platform remain horizontal (parallel to the base plane) throughout the trajectory without any arm decoupling?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During delta robot pick-and-place motion, do the three parallelogram arm linkages maintain equal effective arm lengths (rigid-body constraint) and the end effector platform remain horizontal (parallel to the base plane) throughout the trajectory without any arm decoupling?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "orbit",
         "failure_mode": "arm_decoupling"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "medium"
       }
     },
     {
@@ -2871,6 +3446,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During an orbital view of the CNC machine bed, does the hardened ground surface maintain flatness (typically within 0.02mm over 300mm) and the T-slot channels maintain uniform pitch (typically 125-150mm center-to-center) with consistent slot width (typically 14-18mm) without warping or distortion?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During an orbital view of the CNC machine bed, does the hardened ground surface maintain flatness (typically within 0.02mm over 300mm) and the T-slot channels maintain uniform pitch (typically 125-150mm center-to-center) with consistent slot width (typically 14-18mm) without warping or distortion?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q2",
+          "text": "Between the first and final frame, has the tool holder maintained consistent geometry (no merge or split of cutting edges)?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Between the first and final frame, has the tool holder maintained consistent geometry (no merge or split of cutting edges)?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        },
+        {
+          "id": "q3",
           "text": "What material is a CNC machine bed typically made from?",
           "options": [
             "Steel plate",
@@ -2881,36 +3482,20 @@
           "correct": 1,
           "q": "What material is a CNC machine bed typically made from?",
           "answer": "Precision-ground cast iron"
-        },
-        {
-          "id": "q2",
-          "text": "What are the T-slots used for on a machine bed?",
-          "options": [
-            "Coolant flow",
-            "Workholding fixtures",
-            "Chip evacuation",
-            "Lubrication"
-          ],
-          "correct": 1,
-          "q": "What are the T-slots used for on a machine bed?",
-          "answer": "Workholding fixtures"
-        },
-        {
-          "id": "q3",
-          "text": "During an orbital view of the CNC machine bed, does the hardened ground surface maintain flatness (typically within 0.02mm over 300mm) and the T-slot channels maintain uniform pitch (typically 125-150mm center-to-center) with consistent slot width (typically 14-18mm) without warping or distortion?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During an orbital view of the CNC machine bed, does the hardened ground surface maintain flatness (typically within 0.02mm over 300mm) and the T-slot channels maintain uniform pitch (typically 125-150mm center-to-center) with consistent slot width (typically 14-18mm) without warping or distortion?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface",
         "camera_motion": "orbit",
         "failure_mode": "surface_warpage"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "adversarial"
       }
     },
     {
@@ -2927,6 +3512,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During a vertical camera rise through the multi-level assembly line, do the floor-to-floor heights maintain consistent vertical spacing (typically 4.5-6.0m for industrial mezzanines) and the structural column grid (typically 6-9m bay spacing) remain aligned across all tiers?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During a vertical camera rise through the multi-level assembly line, do the floor-to-floor heights maintain consistent vertical spacing (typically 4.5-6.0m for industrial mezzanines) and the structural column grid (typically 6-9m bay spacing) remain aligned across all tiers?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q2",
+          "text": "Throughout the video, does the scissor lift maintain the kinematic constraint h = 2L*sin(θ/2) — arm angles and platform height consistent within 15%?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, does the scissor lift maintain the kinematic constraint h = 2L*sin(θ/2) — arm angles and platform height consistent within 15%?",
+          "answer": "yes",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
           "text": "Why are assembly lines sometimes organized in multiple vertical levels?",
           "options": [
             "Aesthetic reasons",
@@ -2937,36 +3548,20 @@
           "correct": 1,
           "q": "Why are assembly lines sometimes organized in multiple vertical levels?",
           "answer": "Maximizes floor space utilization"
-        },
-        {
-          "id": "q2",
-          "text": "What transfers workpieces between different levels of the assembly line?",
-          "options": [
-            "Manual labor",
-            "Vertical conveyors and lifts",
-            "Gravity chutes",
-            "Robots only"
-          ],
-          "correct": 1,
-          "q": "What transfers workpieces between different levels of the assembly line?",
-          "answer": "Vertical conveyors and lifts"
-        },
-        {
-          "id": "q3",
-          "text": "During a vertical camera rise through the multi-level assembly line, do the floor-to-floor heights maintain consistent vertical spacing (typically 4.5-6.0m for industrial mezzanines) and the structural column grid (typically 6-9m bay spacing) remain aligned across all tiers?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During a vertical camera rise through the multi-level assembly line, do the floor-to-floor heights maintain consistent vertical spacing (typically 4.5-6.0m for industrial mezzanines) and the structural column grid (typically 6-9m bay spacing) remain aligned across all tiers?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "vertical_rise",
         "failure_mode": "level_spacing_inconsistency"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "medium"
       }
     },
     {
@@ -2983,6 +3578,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During a dolly-in to the FDM 3D printer extruder, does the brass nozzle tip maintain its circular orifice (typically 0.4-0.8mm diameter) and the heater block rectangular cross-section (typically 20x16mm) remain proportional without distortion at close range?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During a dolly-in to the FDM 3D printer extruder, does the brass nozzle tip maintain its circular orifice (typically 0.4-0.8mm diameter) and the heater block rectangular cross-section (typically 20x16mm) remain proportional without distortion at close range?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        },
+        {
+          "id": "q2",
+          "text": "Throughout the video, does the scissor lift maintain the kinematic constraint h = 2L*sin(θ/2) — arm angles and platform height consistent within 15%?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, does the scissor lift maintain the kinematic constraint h = 2L*sin(θ/2) — arm angles and platform height consistent within 15%?",
+          "answer": "yes",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
           "text": "What is the typical nozzle orifice diameter for FDM 3D printing?",
           "options": [
             "0.1mm",
@@ -2993,36 +3614,20 @@
           "correct": 1,
           "q": "What is the typical nozzle orifice diameter for FDM 3D printing?",
           "answer": "0.4mm"
-        },
-        {
-          "id": "q2",
-          "text": "What separates the hot zone from the cold zone in the extruder?",
-          "options": [
-            "Insulation",
-            "Heat break",
-            "Fan",
-            "Thermal paste"
-          ],
-          "correct": 1,
-          "q": "What separates the hot zone from the cold zone in the extruder?",
-          "answer": "Heat break"
-        },
-        {
-          "id": "q3",
-          "text": "During a dolly-in to the FDM 3D printer extruder, does the brass nozzle tip maintain its circular orifice (typically 0.4-0.8mm diameter) and the heater block rectangular cross-section (typically 20x16mm) remain proportional without distortion at close range?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During a dolly-in to the FDM 3D printer extruder, does the brass nozzle tip maintain its circular orifice (typically 0.4-0.8mm diameter) and the heater block rectangular cross-section (typically 20x16mm) remain proportional without distortion at close range?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "dolly",
         "failure_mode": "nozzle_geometry_loss"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "hard"
       }
     },
     {
@@ -3061,7 +3666,8 @@
           ],
           "correct": 1,
           "q": "How many segments does each leg of a typical quadruped robot have?",
-          "answer": "3"
+          "answer": "3",
+          "weakness_target": "W6"
         },
         {
           "id": "q3",
@@ -3072,13 +3678,22 @@
           ],
           "correct": 0,
           "q": "During the quadruped walking gait, do the upper leg (femur) and lower leg (tibia) segment length ratio remain constant (rigid-body constraint) and the hip/knee joint housings maintain circular cross-section geometry without link elongation or shortening across stance and swing phases?",
-          "answer": "yes"
+          "answer": "yes",
+          "weakness_target": "W2"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "orbit",
         "failure_mode": "linkage_proportion_drift"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "medium"
       }
     },
     {
@@ -3095,6 +3710,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During welding path tracking, do the 6-DOF arm joint angles maintain inverse-kinematics consistency with the tool center point (TCP) position, such that the wrist-to-TCP offset (typically 50-150mm for welding torch stickout) remains rigid without ghost joints or link overlap?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During welding path tracking, do the 6-DOF arm joint angles maintain inverse-kinematics consistency with the tool center point (TCP) position, such that the wrist-to-TCP offset (typically 50-150mm for welding torch stickout) remains rigid without ghost joints or link overlap?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q2",
+          "text": "Throughout the video, have rigid link lengths in the robot arm remained constant (pairwise joint distances within 5% of initial)?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, have rigid link lengths in the robot arm remained constant (pairwise joint distances within 5% of initial)?",
+          "answer": "yes",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
           "text": "What does TCP stand for in robotic welding?",
           "options": [
             "Thermal Control Point",
@@ -3105,36 +3746,20 @@
           "correct": 1,
           "q": "What does TCP stand for in robotic welding?",
           "answer": "Tool Center Point"
-        },
-        {
-          "id": "q2",
-          "text": "What wrist axes provide for proper weld puddle orientation?",
-          "options": [
-            "Linear axes",
-            "Roll, pitch, and yaw",
-            "X, Y, Z translation",
-            "No wrist axes"
-          ],
-          "correct": 1,
-          "q": "What wrist axes provide for proper weld puddle orientation?",
-          "answer": "Roll, pitch, and yaw"
-        },
-        {
-          "id": "q3",
-          "text": "During welding path tracking, do the 6-DOF arm joint angles maintain inverse-kinematics consistency with the tool center point (TCP) position, such that the wrist-to-TCP offset (typically 50-150mm for welding torch stickout) remains rigid without ghost joints or link overlap?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During welding path tracking, do the 6-DOF arm joint angles maintain inverse-kinematics consistency with the tool center point (TCP) position, such that the wrist-to-TCP offset (typically 50-150mm for welding torch stickout) remains rigid without ghost joints or link overlap?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "orbit",
         "failure_mode": "tcp_joint_inconsistency"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "medium"
       }
     },
     {
@@ -3151,6 +3776,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During an orbital view, do the robot arm cylindrical joint housings maintain constant outer diameter (typically 80-150mm for industrial arms) with smooth surface curvature (no polygonal faceting), and do the link cross-sections transition smoothly at each joint without visible seam discontinuities?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During an orbital view, do the robot arm cylindrical joint housings maintain constant outer diameter (typically 80-150mm for industrial arms) with smooth surface curvature (no polygonal faceting), and do the link cross-sections transition smoothly at each joint without visible seam discontinuities?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q2",
+          "text": "Between the first and final frame, has the robot chassis maintained bilateral symmetry (left-right component layout matches)?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Between the first and final frame, has the robot chassis maintained bilateral symmetry (left-right component layout matches)?",
+          "answer": "yes",
+          "weakness_target": "W4"
+        },
+        {
+          "id": "q3",
           "text": "What shape are the joint housings on a FANUC robot arm?",
           "options": [
             "Square",
@@ -3161,36 +3812,20 @@
           "correct": 1,
           "q": "What shape are the joint housings on a FANUC robot arm?",
           "answer": "Cylindrical"
-        },
-        {
-          "id": "q2",
-          "text": "What runs along the exterior of the robot arm?",
-          "options": [
-            "Hydraulic lines",
-            "Cable dress packs",
-            "Coolant tubes",
-            "Nothing"
-          ],
-          "correct": 1,
-          "q": "What runs along the exterior of the robot arm?",
-          "answer": "Cable dress packs"
-        },
-        {
-          "id": "q3",
-          "text": "During an orbital view, do the robot arm cylindrical joint housings maintain constant outer diameter (typically 80-150mm for industrial arms) with smooth surface curvature (no polygonal faceting), and do the link cross-sections transition smoothly at each joint without visible seam discontinuities?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During an orbital view, do the robot arm cylindrical joint housings maintain constant outer diameter (typically 80-150mm for industrial arms) with smooth surface curvature (no polygonal faceting), and do the link cross-sections transition smoothly at each joint without visible seam discontinuities?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface",
         "camera_motion": "orbit",
         "failure_mode": "cylindrical_faceting"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "adversarial"
       }
     },
     {
@@ -3207,6 +3842,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During a dolly-in to the parallel-jaw gripper, do the fingers maintain symmetric travel (equal stroke on each jaw, typically 20-40mm total), the linear guide rails remain parallel, and the pneumatic actuator cylinder maintain its bore diameter without geometric distortion at close range?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During a dolly-in to the parallel-jaw gripper, do the fingers maintain symmetric travel (equal stroke on each jaw, typically 20-40mm total), the linear guide rails remain parallel, and the pneumatic actuator cylinder maintain its bore diameter without geometric distortion at close range?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q2",
+          "text": "Throughout the video, have rigid link lengths in the robot arm remained constant (pairwise joint distances within 5% of initial)?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, have rigid link lengths in the robot arm remained constant (pairwise joint distances within 5% of initial)?",
+          "answer": "yes",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
           "text": "What typically drives a parallel gripper end effector?",
           "options": [
             "Electric motor",
@@ -3217,36 +3878,20 @@
           "correct": 1,
           "q": "What typically drives a parallel gripper end effector?",
           "answer": "Pneumatic rotary actuator"
-        },
-        {
-          "id": "q2",
-          "text": "Why do gripper fingers have replaceable rubber pads?",
-          "options": [
-            "Decoration",
-            "Grip compliance for delicate parts",
-            "Heat insulation",
-            "Weight reduction"
-          ],
-          "correct": 1,
-          "q": "Why do gripper fingers have replaceable rubber pads?",
-          "answer": "Grip compliance for delicate parts"
-        },
-        {
-          "id": "q3",
-          "text": "During a dolly-in to the parallel-jaw gripper, do the fingers maintain symmetric travel (equal stroke on each jaw, typically 20-40mm total), the linear guide rails remain parallel, and the pneumatic actuator cylinder maintain its bore diameter without geometric distortion at close range?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During a dolly-in to the parallel-jaw gripper, do the fingers maintain symmetric travel (equal stroke on each jaw, typically 20-40mm total), the linear guide rails remain parallel, and the pneumatic actuator cylinder maintain its bore diameter without geometric distortion at close range?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "dolly",
         "failure_mode": "mechanical_precision_loss"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "hard",
+        "vfa": "hard"
       }
     },
     {
@@ -3263,6 +3908,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During an orbital view of the humanoid upper body, does the shoulder joint (ball-and-socket) maintain its designed range envelope (typically 180 degrees flexion, 90 degrees abduction) and the arm-to-torso interface surface remain flush without gap or overlap that would indicate non-physical detachment?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During an orbital view of the humanoid upper body, does the shoulder joint (ball-and-socket) maintain its designed range envelope (typically 180 degrees flexion, 90 degrees abduction) and the arm-to-torso interface surface remain flush without gap or overlap that would indicate non-physical detachment?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q2",
+          "text": "Between the first and final frame, has the robot chassis maintained bilateral symmetry (left-right component layout matches)?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Between the first and final frame, has the robot chassis maintained bilateral symmetry (left-right component layout matches)?",
+          "answer": "yes",
+          "weakness_target": "W4"
+        },
+        {
+          "id": "q3",
           "text": "How many rotational degrees of freedom does a humanoid shoulder typically have?",
           "options": [
             "1",
@@ -3273,36 +3944,20 @@
           "correct": 2,
           "q": "How many rotational degrees of freedom does a humanoid shoulder typically have?",
           "answer": "3"
-        },
-        {
-          "id": "q2",
-          "text": "What components are enclosed within the humanoid robot's torso?",
-          "options": [
-            "Only motors",
-            "Battery, computing hardware, and structural frame",
-            "Only sensors",
-            "Only wiring"
-          ],
-          "correct": 1,
-          "q": "What components are enclosed within the humanoid robot's torso?",
-          "answer": "Battery, computing hardware, and structural frame"
-        },
-        {
-          "id": "q3",
-          "text": "During an orbital view of the humanoid upper body, does the shoulder joint (ball-and-socket) maintain its designed range envelope (typically 180 degrees flexion, 90 degrees abduction) and the arm-to-torso interface surface remain flush without gap or overlap that would indicate non-physical detachment?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During an orbital view of the humanoid upper body, does the shoulder joint (ball-and-socket) maintain its designed range envelope (typically 180 degrees flexion, 90 degrees abduction) and the arm-to-torso interface surface remain flush without gap or overlap that would indicate non-physical detachment?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface",
         "camera_motion": "orbit",
         "failure_mode": "interface_discontinuity"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "adversarial"
       }
     },
     {
@@ -3352,7 +4007,8 @@
           ],
           "correct": 0,
           "q": "During an orbital view of the BGA package, do the solder ball pads maintain their characteristic square-array pitch (typically 0.4-1.0mm for standard BGA, visible as a regular dot matrix) in both X and Y without merging, bridging, or missing balls?",
-          "answer": "yes"
+          "answer": "yes",
+          "weakness_target": "W2"
         },
         {
           "id": "q4",
@@ -3363,13 +4019,22 @@
           ],
           "correct": 0,
           "q": "Does each solder ball maintain consistent hemispherical geometry (ball diameter typically 0.25-0.6mm, height-to-diameter ratio approximately 0.5 post-reflow) without coalescing with neighbors or collapsing into irregular shapes?",
-          "answer": "yes"
+          "answer": "yes",
+          "weakness_target": "W2"
         }
       ],
       "constraint_annotations": {
         "topology_type": "lattice",
         "camera_motion": "orbit",
         "failure_mode": "ball_spacing_inconsistency"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "easy",
+        "vf": "medium",
+        "gi": "hard",
+        "vfa": "adversarial"
       }
     },
     {
@@ -3386,6 +4051,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During an orbital view of the via grid, do the plated through-holes maintain uniform finished diameter (typically 0.2-0.3mm for micro-vias, 0.3-0.8mm for standard vias) and circular cross-section, with consistent annular ring width (typically 0.15-0.25mm) without elongation or breakout?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During an orbital view of the via grid, do the plated through-holes maintain uniform finished diameter (typically 0.2-0.3mm for micro-vias, 0.3-0.8mm for standard vias) and circular cross-section, with consistent annular ring width (typically 0.15-0.25mm) without elongation or breakout?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q2",
+          "text": "Between the first and final frame, has the BGA ball pitch (center-to-center spacing) remained within 10% of its initial value?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Between the first and final frame, has the BGA ball pitch (center-to-center spacing) remained within 10% of its initial value?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q3",
           "text": "What is the typical diameter of microvias in a PCB?",
           "options": [
             "0.01-0.05mm",
@@ -3396,36 +4087,20 @@
           "correct": 1,
           "q": "What is the typical diameter of microvias in a PCB?",
           "answer": "0.2-0.3mm"
-        },
-        {
-          "id": "q2",
-          "text": "What process creates the conductive path inside a via hole?",
-          "options": [
-            "Silver filling",
-            "Copper electroplating",
-            "Solder injection",
-            "Conductive paste"
-          ],
-          "correct": 1,
-          "q": "What process creates the conductive path inside a via hole?",
-          "answer": "Copper electroplating"
-        },
-        {
-          "id": "q3",
-          "text": "During an orbital view of the via grid, do the plated through-holes maintain uniform finished diameter (typically 0.2-0.3mm for micro-vias, 0.3-0.8mm for standard vias) and circular cross-section, with consistent annular ring width (typically 0.15-0.25mm) without elongation or breakout?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During an orbital view of the via grid, do the plated through-holes maintain uniform finished diameter (typically 0.2-0.3mm for micro-vias, 0.3-0.8mm for standard vias) and circular cross-section, with consistent annular ring width (typically 0.15-0.25mm) without elongation or breakout?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "lattice",
         "camera_motion": "orbit",
         "failure_mode": "via_distortion"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "easy",
+        "vf": "medium",
+        "gi": "hard",
+        "vfa": "adversarial"
       }
     },
     {
@@ -3442,6 +4117,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During wire bonding oscillation, does the gold or aluminum wire loop maintain a smooth catenary arc (loop height typically 100-200 micrometers above the bond pad) with consistent wire diameter (typically 25-50 micrometers) between the first bond (on die) and second bond (on lead frame) without kinks or sagging?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During wire bonding oscillation, does the gold or aluminum wire loop maintain a smooth catenary arc (loop height typically 100-200 micrometers above the bond pad) with consistent wire diameter (typically 25-50 micrometers) between the first bond (on die) and second bond (on lead frame) without kinks or sagging?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q2",
+          "text": "Throughout the video, have PCB trace centerline-to-centerline spacings remained within 10% of initial values?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, have PCB trace centerline-to-centerline spacings remained within 10% of initial values?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q3",
           "text": "What material is commonly used for wire bonding?",
           "options": [
             "Copper",
@@ -3452,36 +4153,20 @@
           "correct": 1,
           "q": "What material is commonly used for wire bonding?",
           "answer": "Gold or aluminum"
-        },
-        {
-          "id": "q2",
-          "text": "What creates the wire loop shape during bonding?",
-          "options": [
-            "Pre-formed wire",
-            "Capillary tool trajectory",
-            "Magnetic field",
-            "Laser shaping"
-          ],
-          "correct": 1,
-          "q": "What creates the wire loop shape during bonding?",
-          "answer": "Capillary tool trajectory"
-        },
-        {
-          "id": "q3",
-          "text": "During wire bonding oscillation, does the gold or aluminum wire loop maintain a smooth catenary arc (loop height typically 100-200 micrometers above the bond pad) with consistent wire diameter (typically 25-50 micrometers) between the first bond (on die) and second bond (on lead frame) without kinks or sagging?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During wire bonding oscillation, does the gold or aluminum wire loop maintain a smooth catenary arc (loop height typically 100-200 micrometers above the bond pad) with consistent wire diameter (typically 25-50 micrometers) between the first bond (on die) and second bond (on lead frame) without kinks or sagging?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "orbit",
         "failure_mode": "loop_discontinuity"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "medium"
       }
     },
     {
@@ -3498,6 +4183,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During a dolly-in to the IC die, do the top metal interconnect layers maintain Manhattan-geometry routing (90-degree or 45-degree bends only), the bond pad pitch (typically 50-100 micrometers) remain uniform, and the passivation window openings stay properly aligned without pattern drift or stitching artifacts?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During a dolly-in to the IC die, do the top metal interconnect layers maintain Manhattan-geometry routing (90-degree or 45-degree bends only), the bond pad pitch (typically 50-100 micrometers) remain uniform, and the passivation window openings stay properly aligned without pattern drift or stitching artifacts?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q2",
+          "text": "Throughout the video, have PCB trace centerline-to-centerline spacings remained within 10% of initial values?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Throughout the video, have PCB trace centerline-to-centerline spacings remained within 10% of initial values?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q3",
           "text": "What protects the IC circuitry on the die surface?",
           "options": [
             "Plastic package",
@@ -3508,36 +4219,20 @@
           "correct": 1,
           "q": "What protects the IC circuitry on the die surface?",
           "answer": "Glassivation (passivation) layer"
-        },
-        {
-          "id": "q2",
-          "text": "What is located at the periphery of the IC die?",
-          "options": [
-            "Power rails",
-            "Bond pad openings",
-            "Testing probes",
-            "Heat sinks"
-          ],
-          "correct": 1,
-          "q": "What is located at the periphery of the IC die?",
-          "answer": "Bond pad openings"
-        },
-        {
-          "id": "q3",
-          "text": "During a dolly-in to the IC die, do the top metal interconnect layers maintain Manhattan-geometry routing (90-degree or 45-degree bends only), the bond pad pitch (typically 50-100 micrometers) remain uniform, and the passivation window openings stay properly aligned without pattern drift or stitching artifacts?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During a dolly-in to the IC die, do the top metal interconnect layers maintain Manhattan-geometry routing (90-degree or 45-degree bends only), the bond pad pitch (typically 50-100 micrometers) remain uniform, and the passivation window openings stay properly aligned without pattern drift or stitching artifacts?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "kinematic",
         "camera_motion": "dolly",
         "failure_mode": "circuit_pattern_distortion"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "hard",
+        "pp": "medium",
+        "vf": "medium",
+        "gi": "medium",
+        "vfa": "hard"
       }
     },
     {
@@ -3554,6 +4249,32 @@
       "questions": [
         {
           "id": "q1",
+          "text": "During an orbital view of the silicon wafer, do the individual die maintain their rectangular grid layout with uniform scribe line (street) width (typically 50-100 micrometers), consistent die pitch in both X and Y, and the alignment vernier patterns at grid intersections remain properly registered without drift toward the wafer edge?",
+          "options": [
+            "yes",
+            "no"
+          ],
+          "correct": 0,
+          "q": "During an orbital view of the silicon wafer, do the individual die maintain their rectangular grid layout with uniform scribe line (street) width (typically 50-100 micrometers), consistent die pitch in both X and Y, and the alignment vernier patterns at grid intersections remain properly registered without drift toward the wafer edge?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q2",
+          "text": "Between the first and final frame, has the BGA solder ball pitch (center-to-center spacing) remained within 10% of its initial value?",
+          "options": [
+            "yes",
+            "no",
+            "cannot determine",
+            "not applicable"
+          ],
+          "correct": 0,
+          "q": "Between the first and final frame, has the BGA solder ball pitch (center-to-center spacing) remained within 10% of its initial value?",
+          "answer": "yes",
+          "weakness_target": "W2"
+        },
+        {
+          "id": "q3",
           "text": "What separates individual die sites on a wafer?",
           "options": [
             "Copper traces",
@@ -3564,36 +4285,20 @@
           "correct": 1,
           "q": "What separates individual die sites on a wafer?",
           "answer": "Scribe lines (streets)"
-        },
-        {
-          "id": "q2",
-          "text": "What gives the wafer surface its characteristic specular finish?",
-          "options": [
-            "Polishing compound",
-            "Chemical-mechanical planarization (CMP)",
-            "Metal coating",
-            "Glass layer"
-          ],
-          "correct": 1,
-          "q": "What gives the wafer surface its characteristic specular finish?",
-          "answer": "Chemical-mechanical planarization (CMP)"
-        },
-        {
-          "id": "q3",
-          "text": "During an orbital view of the silicon wafer, do the individual die maintain their rectangular grid layout with uniform scribe line (street) width (typically 50-100 micrometers), consistent die pitch in both X and Y, and the alignment vernier patterns at grid intersections remain properly registered without drift toward the wafer edge?",
-          "options": [
-            "yes",
-            "no"
-          ],
-          "correct": 0,
-          "q": "During an orbital view of the silicon wafer, do the individual die maintain their rectangular grid layout with uniform scribe line (street) width (typically 50-100 micrometers), consistent die pitch in both X and Y, and the alignment vernier patterns at grid intersections remain properly registered without drift toward the wafer edge?",
-          "answer": "yes"
         }
       ],
       "constraint_annotations": {
         "topology_type": "surface",
         "camera_motion": "orbit",
         "failure_mode": "grid_alignment_drift"
+      },
+      "difficulty_profile": {
+        "ika": "medium",
+        "tc": "medium",
+        "pp": "easy",
+        "vf": "easy",
+        "gi": "medium",
+        "vfa": "adversarial"
       }
     }
   ]

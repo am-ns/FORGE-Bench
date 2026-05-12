@@ -32,6 +32,15 @@ PP_PROMPT_TEMPLATE = (
     "Score {score_min} = multiple severe violations. "
     "When uncertain between scores, choose the lower one. "
     "Industrial accuracy is paramount.\n\n"
+    "MODEL-WEAKNESS SCORING: For industrial I2V video evaluation, current "
+    "generation models have known systematic failures: they frequently blur "
+    "fine periodic structures (PCB traces, gear teeth, track links), violate "
+    "bilateral symmetry in mechanisms after extended motion, and drift "
+    "sub-component geometry during orbits. When you see any of these failure "
+    "modes even mildly, score them strictly. A score of 3 or above should "
+    "ONLY be given if the physical plausibility is genuinely maintained "
+    "throughout the ENTIRE video, not just the first few frames. Examine the "
+    "final frame carefully for accumulated drift.\n\n"
     "Respond with a single integer score ({score_min}-{score_max}) followed by a brief justification."
 )
 
@@ -50,6 +59,15 @@ PP_CONSTRAINED_PROMPT_TEMPLATE = (
     "Score {score_min} = multiple severe violations. "
     "When uncertain between scores, choose the lower one. "
     "Industrial accuracy is paramount.\n\n"
+    "MODEL-WEAKNESS SCORING: For industrial I2V video evaluation, current "
+    "generation models have known systematic failures: they frequently blur "
+    "fine periodic structures (PCB traces, gear teeth, track links), violate "
+    "bilateral symmetry in mechanisms after extended motion, and drift "
+    "sub-component geometry during orbits. When you see any of these failure "
+    "modes even mildly, score them strictly. A score of 3 or above should "
+    "ONLY be given if the physical plausibility is genuinely maintained "
+    "throughout the ENTIRE video, not just the first few frames. Examine the "
+    "final frame carefully for accumulated drift.\n\n"
     "Respond with a single integer score ({score_min}-{score_max}) followed by a brief justification."
 )
 

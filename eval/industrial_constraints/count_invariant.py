@@ -143,12 +143,14 @@ def _count_via_holes(gray: np.ndarray, roi: tuple | None = None) -> int:
     return count
 
 
-# Registry of element type -> (count_fn, default_roi)
+# Registry of element type -> (count_fn, default_roi, difficulty_weight)
+# difficulty_weight: 0.0 = trivial for current models, 1.0 = adversarial.
+# Twin-tail checks are easier (0.6), blade counts and track periodicity are hard.
 _ELEMENT_REGISTRY = {
-    "fuselage_protrusions": (_count_edge_components, (0.2, 0.8, 0.1, 0.9)),
-    "turbine_blades":       (_count_polar_peaks, None),
-    "track_links":          (_count_track_links, (0.55, 0.88, 0.05, 0.95)),
-    "via_holes":            (_count_via_holes, (0.1, 0.9, 0.1, 0.9)),
+    "fuselage_protrusions": (_count_edge_components, (0.2, 0.8, 0.1, 0.9), 0.6),
+    "turbine_blades":       (_count_polar_peaks, None, 0.9),
+    "track_links":          (_count_track_links, (0.55, 0.88, 0.05, 0.95), 0.95),
+    "via_holes":            (_count_via_holes, (0.1, 0.9, 0.1, 0.9), 0.7),
 }
 
 
@@ -159,6 +161,9 @@ def check_count_invariant(
 ) -> dict:
     """Check that the count of a discrete structural element is stable across frames.
 
+    Graduated scoring with a floor of 0.10 so no frame ever scores exactly 0.0.
+    score_per_frame = max(0.10, 1.0 - (abs(count - nominal) / nominal) * 2.0)
+
     Args:
         frames: List of BGR frames.
         element_type: One of 'fuselage_protrusions', 'turbine_blades',
@@ -167,18 +172,20 @@ def check_count_invariant(
                         penalised more heavily.
 
     Returns:
-        dict with keys: element_type, counts_per_frame, count_stable, score.
+        dict with keys: element_type, counts_per_frame, count_stable, score,
+        difficulty_weight.
     """
     if element_type not in _ELEMENT_REGISTRY:
         return {
             "element_type": element_type,
             "counts_per_frame": [],
             "count_stable": False,
-            "score": 0.0,
+            "score": 0.10,
+            "difficulty_weight": 0.5,
             "error": f"unknown element_type '{element_type}'",
         }
 
-    count_fn, default_roi = _ELEMENT_REGISTRY[element_type]
+    count_fn, default_roi, difficulty_weight = _ELEMENT_REGISTRY[element_type]
     frames = [normalize_frame(f) for f in frames]
     grays = [cv2.cvtColor(f, cv2.COLOR_BGR2GRAY) if f.ndim == 3 else f for f in frames]
 
@@ -195,35 +202,57 @@ def check_count_invariant(
             "element_type": element_type,
             "counts_per_frame": [],
             "count_stable": False,
-            "score": 0.0,
+            "score": 0.10,
+            "difficulty_weight": difficulty_weight,
         }
 
+    # Determine the nominal count: use expected_count if given, else median
+    if expected_count is not None and expected_count > 0:
+        nominal = expected_count
+    else:
+        nominal = max(1, int(round(float(np.median(counts)))))
+
+    # Graduated per-frame scoring: score_per_frame = max(0.10, 1.0 - |Δ|/nominal * 2)
+    frame_scores = []
+    for c in counts:
+        deviation_ratio = abs(c - nominal) / max(nominal, 1)
+        frame_score = max(0.10, 1.0 - deviation_ratio * 2.0)
+        frame_scores.append(frame_score)
+
+    score = float(np.mean(frame_scores))
+
+    # Stability classification for metadata
     max_count = max(counts)
     min_count = min(counts)
     variation = max_count - min_count
-
-    if variation == 0:
-        score = 1.0
-        stable = True
-    elif variation == 1:
-        score = 0.5
-        stable = False
-    else:
-        score = 0.0
-        stable = False
-
-    # If expected_count is given, penalise deviation from it
-    if expected_count is not None and expected_count > 0:
-        mean_count = float(np.mean(counts))
-        deviation = abs(mean_count - expected_count) / expected_count
-        if deviation > 0.5:
-            score = min(score, 0.0)
-        elif deviation > 0.2:
-            score = min(score, 0.25)
+    stable = (variation == 0)
 
     return {
         "element_type": element_type,
         "counts_per_frame": counts,
         "count_stable": stable,
-        "score": max(0.0, min(1.0, score)),
+        "score": round(max(0.10, min(1.0, score)), 4),
+        "difficulty_weight": difficulty_weight,
     }
+
+
+def aggregate_count_scores(invariant_results: list[dict]) -> float:
+    """Compute difficulty-weighted average across multiple count-invariant checks.
+
+    Args:
+        invariant_results: List of check_count_invariant() result dicts.
+
+    Returns:
+        Weighted mean score, floored at 0.10.
+    """
+    if not invariant_results:
+        return 0.10
+    total_weight = 0.0
+    weighted_sum = 0.0
+    for r in invariant_results:
+        w = r.get("difficulty_weight", 0.5)
+        weighted_sum += r["score"] * w
+        total_weight += w
+    if total_weight <= 0:
+        return 0.10
+    return max(0.10, min(1.0, weighted_sum / total_weight))
