@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Aggregate per-axis benchmark scores with floor enforcement and VFA tiering."""
 
+import sys
+
 try:
     import numpy as np
 except ImportError:  # pragma: no cover
@@ -12,12 +14,21 @@ except ImportError:  # pragma: no cover
             return sum(vals) / len(vals) if vals else 0.0
     np = _NumpyShim()
 
+# -- Tunable thresholds -------------------------------------------------------
+CONFIG = {
+    "axis_floor_default": 5.0,    # Default minimum score floor for any axis
+    "axis_floor_gi": 10.0,        # Minimum score floor for the GI axis
+    "vfa_tier_none": 5,           # VFA below this => 'none' tier
+    "vfa_tier_weak": 20,          # VFA below this => 'weak' tier
+    "vfa_tier_moderate": 60,      # VFA below this => 'moderate' tier; above => 'full'
+}
+
 AXIS_FLOORS = {
-    "ika": 5.0,
-    "tc": 5.0,
-    "pp": 5.0,
-    "vf": 5.0,
-    "gi": 10.0,
+    "ika": CONFIG["axis_floor_default"],
+    "tc": CONFIG["axis_floor_default"],
+    "pp": CONFIG["axis_floor_default"],
+    "vf": CONFIG["axis_floor_default"],
+    "gi": CONFIG["axis_floor_gi"],
 }
 
 
@@ -30,11 +41,11 @@ def vfa_tier(vfa: float) -> str:
         'moderate' if 20 <= vfa < 60
         'full'     if vfa >= 60
     """
-    if vfa < 5:
+    if vfa < CONFIG["vfa_tier_none"]:
         return "none"
-    if vfa < 20:
+    if vfa < CONFIG["vfa_tier_weak"]:
         return "weak"
-    if vfa < 60:
+    if vfa < CONFIG["vfa_tier_moderate"]:
         return "moderate"
     return "full"
 
@@ -57,6 +68,10 @@ def aggregate_scores(axis_scores: dict[str, float], vfa: float | None = None) ->
     Returns:
         dict with per-axis floored scores, overall mean, and optional vfa_tier.
     """
+    if not isinstance(axis_scores, dict):
+        print(f"WARNING: axis_scores is {type(axis_scores).__name__}, expected dict", file=sys.stderr)
+        axis_scores = {}
+
     floored: dict[str, float] = {}
     for axis, score in axis_scores.items():
         floored[axis] = enforce_floor(axis, score)

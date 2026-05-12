@@ -5,14 +5,25 @@ Detects static vs. dynamic camera motion from frame sequences, with
 handling for dark-background false-positive suppression.
 """
 
+import sys
+
 import cv2
 import numpy as np
+
+# -- Tunable thresholds -------------------------------------------------------
+CONFIG = {
+    "dark_pixel_threshold": 30,       # Pixel intensity (0-255) below which a pixel is "dark"
+    "dark_ratio_threshold": 0.40,     # Fraction of dark pixels to classify frame as dark-bg
+    "centre_fraction": 0.60,          # Fraction of frame dimensions used for centre-ROI flow
+    "static_flow_threshold": 0.8,     # Mean-flow (px/frame) below which camera is static
+    "dark_static_flow_threshold": 0.5,# Lower static threshold used under dark backgrounds
+}
 
 
 def is_dark_background(
     frame: np.ndarray,
-    threshold: int = 30,
-    ratio: float = 0.40,
+    threshold: int | None = None,
+    ratio: float | None = None,
 ) -> bool:
     """Check whether a frame has a predominantly dark background.
 
@@ -21,11 +32,15 @@ def is_dark_background(
         threshold: Pixel intensity threshold (0-255). Pixels below this
                    are considered "dark".
         ratio: Fraction of dark pixels required to classify as dark
-               background (default 0.40 = 40 %).
+               background.
 
     Returns:
         True if more than *ratio* of pixels are below *threshold*.
     """
+    if threshold is None:
+        threshold = CONFIG["dark_pixel_threshold"]
+    if ratio is None:
+        ratio = CONFIG["dark_ratio_threshold"]
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) if frame.ndim == 3 else frame
     dark_fraction = np.mean(gray < threshold)
     return bool(dark_fraction > ratio)
@@ -33,17 +48,19 @@ def is_dark_background(
 
 def _optical_flow_roi_mask(
     shape: tuple[int, int],
-    centre_fraction: float = 0.60,
+    centre_fraction: float | None = None,
 ) -> np.ndarray:
     """Return a boolean mask covering the central *centre_fraction* of a frame.
 
     Args:
         shape: (height, width) of the frame.
-        centre_fraction: Fraction of each dimension to include (default 0.60).
+        centre_fraction: Fraction of each dimension to include.
 
     Returns:
         Boolean mask of shape (height, width), True inside the ROI.
     """
+    if centre_fraction is None:
+        centre_fraction = CONFIG["centre_fraction"]
     h, w = shape
     ch, cw = int(h * centre_fraction), int(w * centre_fraction)
     y0, x0 = (h - ch) // 2, (w - cw) // 2
@@ -80,16 +97,15 @@ def compute_mean_optical_flow(
 
 def detect_static_camera(
     frames: list[np.ndarray],
-    static_threshold: float = 0.8,
-    dark_threshold: int = 30,
-    dark_ratio: float = 0.40,
+    static_threshold: float | None = None,
+    dark_threshold: int | None = None,
+    dark_ratio: float | None = None,
 ) -> dict:
     """Detect whether a sequence of frames was captured with a static camera.
 
     When a dark background is detected the function switches to centre-ROI
-    flow computation and lowers the static threshold to 0.5 px/frame to
-    suppress false-positive "dynamic" classifications caused by noise in
-    dark regions.
+    flow computation and lowers the static threshold to suppress
+    false-positive "dynamic" classifications caused by noise in dark regions.
 
     Args:
         frames: List of BGR frames.
@@ -101,6 +117,13 @@ def detect_static_camera(
     Returns:
         dict with keys: is_static, mean_flow, dark_background, threshold_used.
     """
+    if static_threshold is None:
+        static_threshold = CONFIG["static_flow_threshold"]
+    if dark_threshold is None:
+        dark_threshold = CONFIG["dark_pixel_threshold"]
+    if dark_ratio is None:
+        dark_ratio = CONFIG["dark_ratio_threshold"]
+
     if len(frames) < 2:
         return {"is_static": True, "mean_flow": 0.0,
                 "dark_background": False, "threshold_used": static_threshold}
@@ -111,14 +134,17 @@ def detect_static_camera(
     threshold = static_threshold
     if dark_bg:
         h, w = frames[0].shape[:2]
-        roi_mask = _optical_flow_roi_mask((h, w), centre_fraction=0.60)
-        threshold = 0.5
+        roi_mask = _optical_flow_roi_mask((h, w))
+        threshold = CONFIG["dark_static_flow_threshold"]
 
     flows = []
     for i in range(len(frames) - 1):
         prev_gray = cv2.cvtColor(frames[i], cv2.COLOR_BGR2GRAY)
         curr_gray = cv2.cvtColor(frames[i + 1], cv2.COLOR_BGR2GRAY)
-        flows.append(compute_mean_optical_flow(prev_gray, curr_gray, roi_mask=roi_mask))
+        try:
+            flows.append(compute_mean_optical_flow(prev_gray, curr_gray, roi_mask=roi_mask))
+        except cv2.error as exc:
+            print(f"WARNING: optical flow failed at frame {i}: {exc}", file=sys.stderr)
 
     mean_flow = float(np.mean(flows)) if flows else 0.0
 

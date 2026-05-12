@@ -1,12 +1,25 @@
 #!/usr/bin/env python3
 """Surface-level geometric integrity evaluation via Chamfer Distance scoring."""
 
+import sys
+
 import numpy as np
+
+# -- Tunable thresholds -------------------------------------------------------
+CONFIG = {
+    "score_floor": 0.10,          # Minimum result_score to prevent degenerate near-zero values
+    "max_dist_default": 1.0,      # Default normalisation distance for score mapping
+    "vfa_orbit_caution_deg": 0.25,# VFA threshold above which perspective inflation is flagged
+}
 
 
 def compute_chamfer_distance(source_points: np.ndarray, target_points: np.ndarray) -> float:
     """Compute symmetric Chamfer Distance between two point clouds."""
     from scipy.spatial import cKDTree
+
+    if source_points.size == 0 or target_points.size == 0:
+        print("WARNING: empty point cloud passed to compute_chamfer_distance", file=sys.stderr)
+        return float("inf")
 
     tree_a = cKDTree(source_points)
     tree_b = cKDTree(target_points)
@@ -17,8 +30,10 @@ def compute_chamfer_distance(source_points: np.ndarray, target_points: np.ndarra
     return float(np.mean(dist_a) + np.mean(dist_b)) / 2.0
 
 
-def chamfer_distance_to_score(chamfer_dist: float, max_dist: float = 1.0) -> float:
+def chamfer_distance_to_score(chamfer_dist: float, max_dist: float | None = None) -> float:
     """Convert Chamfer Distance to a 0-1 similarity score."""
+    if max_dist is None:
+        max_dist = CONFIG["max_dist_default"]
     raw_score = max(0.0, 1.0 - chamfer_dist / max_dist)
     return raw_score
 
@@ -26,7 +41,7 @@ def chamfer_distance_to_score(chamfer_dist: float, max_dist: float = 1.0) -> flo
 def evaluate_surface(
     source_points: np.ndarray,
     target_points: np.ndarray,
-    max_dist: float = 1.0,
+    max_dist: float | None = None,
     vfa: float | None = None,
 ) -> dict:
     """Evaluate surface geometric integrity between source and target point clouds.
@@ -44,9 +59,7 @@ def evaluate_surface(
     chamfer_dist = compute_chamfer_distance(source_points, target_points)
     raw_score = chamfer_distance_to_score(chamfer_dist, max_dist=max_dist)
 
-    # Apply floor to prevent unrealistically near-zero scores from
-    # numerical edge-cases or degenerate correspondences.
-    result_score = max(0.10, raw_score)
+    result_score = max(CONFIG["score_floor"], raw_score)
 
     result = {
         "chamfer_distance": chamfer_dist,
@@ -54,9 +67,7 @@ def evaluate_surface(
         "result_score": result_score,
     }
 
-    # Large orbit angles cause legitimate perspective changes that inflate
-    # Chamfer Distance -- flag so downstream scorers can discount.
-    if vfa is not None and vfa > 0.25:
+    if vfa is not None and vfa > CONFIG["vfa_orbit_caution_deg"]:
         result["gi_orbit_angle_caution"] = True
 
     return result
