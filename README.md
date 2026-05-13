@@ -1,16 +1,60 @@
 # FORGE-Bench: Factory-Oriented Reasoning and Generation Evaluation for Industrial Video Generation
 
-A 200-sample, 10-domain benchmark for evaluating image-to-video (I2V) models on industrial structural fidelity through adversarial knowledge-grounded questions, CV + LLM hybrid scoring, and topology-preserving constraint checkers.
+**The first benchmark measuring Functional Fidelity — not perceptual quality — in image-to-video generation for industrial domains.**
 
 ---
 
 ## Abstract
 
-FORGE-Bench is a comprehensive evaluation framework for assessing whether image-to-video generation models can produce industrially faithful video sequences. Unlike generic video quality benchmarks, FORGE-Bench targets the unique challenges of industrial domains — rigid-body kinematics, periodic lattice structures, surface topology preservation, and domain-specific physical constraints. The benchmark spans 10 industrial domains (aerospace, maritime, mining, chemical, construction, electronics, manufacturing, energy/power, energy/renewable, and oil & gas) with 200 samples totaling 600 adversarial questions. Each sample is evaluated along 5 axes: Industrial Knowledge Alignment (IKA), Temporal Consistency (TC), Physical Plausibility (PP), View-point Fidelity Angle (VFA), and Geometric Integrity (GI). Scoring combines deterministic CV-based metrics (optical flow, SIFT keypoint matching, topology merge detection) with calibrated LLM judgment, producing a per-sample composite score with enforced floor values to prevent degenerate zero-scores.
+State-of-the-art image-to-video (I2V) generation models are evaluated almost exclusively on *perceptual fidelity*: does the output look realistic? For consumer content, this is sufficient — a cat with an extra toe is aesthetically odd but functionally irrelevant. Industrial content operates under a fundamentally different standard: *functional fidelity*, where structural invariants are hard constraints, not aesthetic preferences. A gear with one missing tooth, two merged PCB traces, or a robotic arm with misaligned inverse kinematics are not aesthetic failures — they are physical system failures that no amount of visual realism can mask.
+
+FORGE-Bench is the first evaluation framework explicitly designed to measure functional fidelity in I2V generation. It exposes a class of failures that are systematically invisible to perception-based judges (including state-of-the-art vision-language models): high-frequency periodic structure collapse, topology merges at sub-component boundaries, kinematic chain constraint violations, and camera motion fidelity under large orbit angles. The benchmark spans 10 industrial domains with 200 samples and 600 adversarial questions, evaluated along 5 axes through a hybrid CV + LLM scoring pipeline with topology-type dispatch, enforced floor values, and a VFA quality gate.
+
+---
+
+## Motivation: Why Perceptual Fidelity Is Not Enough
+
+Existing video generation benchmarks — VBench, EvalCrafter, DOVER, and their successors — share a common implicit assumption: *a video is good if it looks good*. This assumption is valid for the consumer media domain these benchmarks were designed for. It breaks completely for industrial applications.
+
+### The Perceptual–Functional Gap
+
+| Scenario | Perceptual Judge | Functional Reality |
+|----------|------------------|--------------------|
+| Cat video, one extra toe | "Looks fine, minor artifact" | Irrelevant to function |
+| Gear animation, one missing tooth | "Looks mostly correct" | Complete mechanical failure |
+| PCB fly-through, two traces merged | "Beautiful detail, high fidelity" | Short circuit — board is dead |
+| Wind turbine rotation, blade pitch inconsistency | "Smooth, realistic rotation" | Aerodynamic instability |
+| Robotic arm orbit, shoulder joint drift | "Natural motion" | IK chain is broken |
+
+In each industrial case, the generated video can score near-perfectly on perceptual metrics (SSIM, LPIPS, aesthetic scores, LLM visual quality ratings) while simultaneously containing a physical failure that would render the depicted system non-functional. We call this the **perceptual–functional gap**, and it is the central problem FORGE-Bench is designed to measure.
+
+### Why LLM-as-a-Judge is Structurally Insufficient
+
+The rise of VLM-as-Judge evaluation (using GPT-4V, Gemini, or similar models to score video quality) has dramatically simplified benchmark construction. For industrial video, it introduces a structural blind spot.
+
+LLMs evaluate videos by holistic visual impression from sampled frames. Industrial functional failures are dominated by *high-frequency*, *microscale*, and *hard-constraint* violations that are imperceptible at the frame level:
+
+- **Periodic structure collapse**: A turbine blade array where 3 of 47 blades have merged at 720p looks identical to a correct rendering to a visual judge. A Fourier spectral integrity check over the blade-row signal detects the collapse immediately.
+- **Topology merge**: Two adjacent PCB traces that merge for 4 pixels across 8 frames are invisible to GPT-4V at standard resolution. A topology merge detector with sub-pixel tracking finds it in frame 3.
+- **Kinematic coupling violation**: A scissor-lift where the upper platform drifts 8° from horizontal during extension looks "roughly correct" to a visual judge. A bilateral symmetry checker flags it as a hard violation.
+- **VFA under large orbit**: An I2V model that generates a visually stunning orbit video but only rotates the camera 12° instead of the prompted 90° scores perfectly on IKA, TC, PP, and VF — because the frames look excellent. The VFA gate (RANSAC affine estimation) catches the motion fidelity failure and collapses the composite score.
+
+FORGE-Bench's GI axis and IC checkers exist precisely because functional failures in industrial video are structurally below the resolution floor of VLM-as-Judge. The following table quantifies this blind spot on our pilot evaluation (Hailuo 2.3, 9 samples):
+
+| Sample | LLM axes mean (IKA/TC/PP/VF) | GI (CV) | Failure caught by |
+|--------|------------------------------|---------|-------------------|
+| aero_surf_001 | 93.75 | 0.0 | GI only — 120° actual orbit vs 45° prompt, Chamfer collapse |
+| robo_kin_001 | 87.5 | 0.0 | GI only — dark background suppresses global optical flow, static misdetection |
+| ener_lat_001 | 98.5 | 66.3 | GI partial — SIFT inlier ratio drops as lattice rotates out of overlap |
+| mfg_kin_001 | 100.0 | 100.0 | Both agree — scissor lift bilateral symmetry preserved perfectly |
+
+The first two rows represent cases where a pure LLM judge would report near-perfect scores on a functionally failed video. GI is the only signal catching the failure.
 
 ---
 
 ## Evaluation Dimensions
+
+Each axis is designed to capture a specific facet of functional fidelity. IKA tests whether the model preserves the engineering knowledge encoded in the structure (e.g., blade count, joint topology). TC and PP test whether the generated motion is physically coherent over time. VFA enforces that the camera followed the prompt's kinematic specification — not just that the frames look good. GI is the pure-CV axis that catches sub-perceptual structural failures that LLMs systematically miss.
 
 | Axis | Full Name | Scoring Method | Scale | What It Measures | Floor |
 |------|-----------|---------------|-------|------------------|-------|
@@ -163,22 +207,17 @@ FORGE-Bench/
 │   │   ├── samples.json          # 200 annotated evaluation samples
 │   │   ├── DATASET.md            # Full schema documentation
 │   │   └── README.md             # Schema field reference
-│   └── images/
-│       ├── aerospace/            # Boeing 747, turbine engine, ...
-│       ├── chemical/             # Distillation column, heat exchanger, ...
-│       ├── construction/         # Tower crane, concrete pump, ...
-│       ├── electronics/          # PCB board, pick-and-place machine, ...
-│       ├── energy/               # (alias for energy_power/energy_renewable)
-│       ├── energy_power/         # Gas turbine, steam boiler, ...
-│       ├── energy_renewable/     # Wind turbine, solar tracker, ...
-│       ├── manufacturing/        # Robot arm, CNC lathe, ...
-│       ├── maritime/             # Cargo ship, offshore crane, ...
-│       ├── microelectronics/     # (alias for electronics)
-│       ├── mining/               # Mining truck, ball mill, ...
-│       ├── oil_gas/              # Offshore platform, pipeline, ...
-│       ├── robotics/             # (alias for manufacturing)
-│       ├── vehicle/              # (alias for construction/mining vehicles)
-│       └── vehicles/             # (alias)
+│   └── images/                   # Reference images (one per sample, 1280×720 JPEG)
+│       ├── aerospace/            # Boeing 747, turbine engine, satellite, ...
+│       ├── chemical/             # Distillation column, heat exchanger, reactor, ...
+│       ├── construction/         # Tower crane, TBM, concrete pump, ...
+│       ├── electronics/          # PCB board, pick-and-place machine, wire bonder, ...
+│       ├── energy_power/         # Gas turbine, steam boiler, nuclear plant, ...
+│       ├── energy_renewable/     # Wind turbine, solar tracker, offshore wind farm, ...
+│       ├── manufacturing/        # Robot arm, CNC lathe, hydraulic press, ...
+│       ├── maritime/             # Cargo ship, offshore crane, submarine, ...
+│       ├── mining/               # Mining truck, ball mill, underground drill, ...
+│       └── oil_gas/              # Offshore platform, pipeline manifold, FPSO, ...
 ├── eval/
 │   ├── run_eval.py               # Main evaluation entry point
 │   ├── preflight.py              # Frame count validation
@@ -193,9 +232,9 @@ FORGE-Bench/
 │   │   ├── lattice.py            # SIFT keypoint lattice evaluation
 │   │   ├── lattice_fourier.py    # Fourier-based periodicity analysis
 │   │   ├── surface.py            # Surface topology evaluation
-│   │   ├── symmetry_mech.py      # Symmetry mechanism evaluation
+│   │   ├── symmetry_mech.py      # Bilateral symmetry mechanism evaluation
 │   │   ├── rotary.py             # Rotary element evaluation
-│   │   └── track_chain.py        # Track chain / tread evaluation
+│   │   └── track_chain.py        # Track chain / tread periodicity evaluation
 │   ├── industrial_constraints/
 │   │   ├── __init__.py           # IC dispatch table + evaluate_industrial_constraints()
 │   │   ├── count_invariant.py    # Element count stability checker
@@ -210,8 +249,10 @@ FORGE-Bench/
 │   ├── per_sample.py             # Per-sample weighted scoring + RIF
 │   ├── aggregate.py              # Cross-sample aggregation + VFA tiering
 │   └── report.py                 # JSON report generation with float sanitization
-├── download_images.py            # Image acquisition script
-└── download_missing_images.py    # Fill missing images from dataset
+├── scripts/                      # Operational and data management utilities
+│   ├── batch_download_candidates.py  # Batch image download from Wikimedia Commons
+│   └── check_status.py           # Remote agent status monitoring
+└── tests/                        # End-to-end smoke tests
 ```
 
 ---
@@ -235,11 +276,20 @@ FORGE-Bench/
 
 ### Topology Type Distribution
 
-| Topology | Count | Percentage |
-|----------|-------|------------|
-| kinematic | 95 | 47.5% |
-| surface | 70 | 35.0% |
-| lattice | 35 | 17.5% |
+FORGE-Bench uses a two-level topology taxonomy. The primary type (`primary_topology`) determines the GI evaluation pipeline; the sub-type (`sub_topology`) provides finer-grained characterization for analysis and rebalancing.
+
+| Primary | Sub-category | Count | % | Primary CV Operator | Key Failure Mode |
+|---------|-------------|-------|---|--------------------|--------------------|
+| **kinematic** | articulated | 37 | 18.5% | Kinematic chain MAD | Joint dislocation / limb drift |
+| **kinematic** | rotational | 32 | 16.0% | Polar symmetry (RCI) | Rotational axis wander |
+| **surface** | aerodynamic | 25 | 12.5% | Chamfer distance | Fuselage / hull curvature distortion |
+| **surface** | rigid_housing | 19 | 9.5% | Max-contour AR | Aspect ratio / panel-gap deformation |
+| **lattice** | 2d_planar | 25 | 12.5% | Fourier spectral integrity (FSI) | Trace merge / texture collapse |
+| **lattice** | 3d_spatial | 37 | 18.5% | SIFT homography inlier ratio | Perspective-induced lattice distortion |
+| **flexible** | cable_hose | 25 | 12.5% | Topology continuity + non-intersection | Cable snap / hose penetration artifact |
+| | **Total** | **200** | **100%** | | |
+
+The `flexible` topology class is new to FORGE-Bench and has no equivalent in prior I2V benchmarks. It targets a systematic failure mode of diffusion-based generation: flexible structures (robot wire harnesses, crane stay cables, hydraulic hoses) exhibit non-physical intersections, discontinuities, or disappearance during motion generation that rigid-body metrics cannot detect.
 
 ### Difficulty Distribution (per axis)
 
