@@ -316,6 +316,53 @@ Every sample includes 2 sensitivity variants (easy + hard), yielding 400 additio
 
 ---
 
+## Root Cause Taxonomy: Why SOTA I2V Models Fail on Industrial Content
+
+FORGE-Bench is designed to expose a specific set of failure modes that are **structurally impossible to detect with perceptual metrics**. The following taxonomy classifies these failures by their technical root cause — the precise point in the generation pipeline where a statistical prior conflicts with a physical invariant. Each pathology maps to one or more FORGE-Bench evaluation axes and adversarial weakness targets (W2–W7).
+
+### I. Representation Layer Deficits
+
+| # | Pathology | Root Mechanism | FORGE Topology | Primary Axis | W-Tag | Key FORGE Operator |
+|---|-----------|---------------|----------------|-------------|-------|-------------------|
+| 1 | **VAE Nyquist Failure** — Spatial downsampling (8×8 or higher) in the latent space aliases high-frequency industrial lattice structures into low-frequency noise. Safe for natural textures; fatal for PCB differential traces, heat-exchanger tube banks, and turbine blade rows. | High-frequency signal aliasing in VAE compression | lattice / 2d_planar | GI | W4, W6 | Fourier Spectral Integrity (FSI) |
+| 2 | **Non-homeomorphic Latent Mapping** — The latent space is not homeomorphic to ℝ³. A rigid-body orbit in 3D Euclidean space corresponds to a nonlinear trajectory through latent channels, causing smooth surfaces to exhibit wave-like deformation artifacts as the camera rotates. | Latent-to-physical space topology mismatch | surface / aerodynamic | GI, TC | W2, W7 | SIFT homography inlier ratio, Chamfer distance |
+
+### II. Architecture Inductive Bias Deficits
+
+| # | Pathology | Root Mechanism | FORGE Topology | Primary Axis | W-Tag | Key FORGE Operator |
+|---|-----------|---------------|----------------|-------------|-------|-------------------|
+| 3 | **Graph-Structure Blindness** — Self-attention computes dense O(N²) pairwise similarities over flattened tokens. Industrial kinematic chains (robot arms, scissor lifts, excavator linkages) are sparse tree/graph structures with hard Jacobian constraints. DiT has no concept of joint coupling — it cannot enforce that elbow position is a deterministic function of shoulder angle. | No inductive bias for sparse kinematic graph topology | kinematic / articulated | IKA, GI | W5 | Bilateral symmetry (MBS), kinematic chain MAD, adjacency-matrix variance |
+| 4 | **SE(3) Equivariance Failure** — Large-angle orbit shots require the model to apply an SE(3) group transformation to the scene. Decoupled 3D RoPE positional encodings approximate, but do not guarantee, rotational equivariance. The model interpolates from its 2D viewpoint distribution rather than computing the correct 3D perspective transform, producing aspect-ratio distortions and sub-component drift at orbit angles >45°. | Lack of SE(3) equivariance in positional encoding | surface / aerodynamic, kinematic / articulated | VFA, GI | W2, W7 | VFA (RANSAC affine angle estimation) |
+
+### III. Optimization vs. Physical Dynamics Conflicts
+
+| # | Pathology | Root Mechanism | FORGE Topology | Primary Axis | W-Tag | Key FORGE Operator |
+|---|-----------|---------------|----------------|-------------|-------|-------------------|
+| 5 | **Score Matching vs. Hamiltonian Systems** — Diffusion/flow-matching loss minimizes pixel-space MSE or vector-field matching error — a purely statistical objective. Industrial dynamics obey Euler-Lagrange equations: energy conservation, momentum conservation, and topological invariants (elements cannot spontaneously appear or disappear). Generating one extra turbine blade or chain link costs nearly zero in MSE; it costs infinity in physical consistency. | Statistical loss function incompatible with conservation laws | kinematic / rotational, lattice / 3d_spatial | IKA, GI | W3 | count_invariant checker, periodic_structure checker, track-chain periodicity (TCP) |
+| 6 | **Temporal Context Disconnection & Phase Amnesia** — Long video generation relies on sliding-window or autoregressive temporal attention. Once the window slides past the anchor frame, the model loses its absolute phase reference and extrapolates using only local Markov state. Bilateral symmetry and periodic motion phase drift gradually rather than catastrophically — undetectable per-frame, measurable over 8-frame windows. | Finite temporal receptive field causes phase reference loss | kinematic / articulated | TC, GI | W5 | Bilateral symmetry (MBS), temporal coherence LLM scoring |
+
+### IV. Modality Alignment Deficits
+
+| # | Pathology | Root Mechanism | FORGE Topology | Primary Axis | W-Tag | Key FORGE Operator |
+|---|-----------|---------------|----------------|-------------|-------|-------------------|
+| 7 | **Semantic Collapse of Continuous Parameters** — T5/CLIP tokenization maps continuous geometric parameters ("orbit clockwise 60 degrees at constant radius") to discrete high-dimensional semantic tokens. The text latent space cannot faithfully represent SE(3) numerical integrals — quantitative motion specifications collapse into qualitative semantic intentions. The model "understands orbit" but cannot control the angle. | Continuous kinematic parameters lost in discrete tokenization | all topologies (camera motion) | VFA | — | VFA score (actual vs. target angle delta) |
+
+### Pathology–Benchmark Coverage Matrix
+
+| Pathology | FORGE Detects? | Perceptual Metric Detects? | Why Perception Fails |
+|-----------|---------------|--------------------------|----------------------|
+| VAE lattice aliasing (P1) | **Yes** — FSI drops when blade/trace frequencies merge | No | SSIM, LPIPS average over spatial regions; merged traces look "smooth" |
+| Latent surface deformation (P2) | **Yes** — GI Chamfer distance rises under large orbit | No | Perceptual similarity remains high if texture is preserved |
+| Kinematic chain violation (P3) | **Yes** — IKA Q&A + kinematic chain MAD | Partial | LLM-as-judge misses subtle joint drift; hard-constraint test does not |
+| SE(3) orbit distortion (P4) | **Yes** — VFA gate collapses composite score | No | A visually beautiful orbit video with wrong angle scores perfectly on aesthetics |
+| Count drift (P5) | **Yes** — count_invariant checker | No | An extra blade is imperceptible at 720p to both humans and LLMs |
+| Phase amnesia (P6) | **Yes** — TC + bilateral symmetry | Partial | LLM-as-judge may notice, but cannot quantify drift magnitude |
+| Continuous parameter collapse (P7) | **Yes** — VFA numerical gate | No | Models that "look like orbiting" but rotate 8° instead of 60° pass all perceptual tests |
+
+> **Design principle**: every axis and IC checker in FORGE-Bench was designed to target at least one of these pathologies. The GI axis + IC checkers form the CV layer that catches P1–P3 and P5–P6. The VFA quality gate addresses P4 and P7. IKA adversarial questions probe P3 and P5 with domain-specific structural knowledge that LLMs cannot hallucinate past.
+
+---
+
 ## Citation
 
 ```bibtex
