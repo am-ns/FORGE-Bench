@@ -72,7 +72,8 @@ Floor values: LLM-scored axes (IKA, TC, PP, VF) are floored at 5.0; CV-scored ax
 
 | Domain | Chinese Name | Samples | Dominant Sub-topology | Example Equipment |
 |--------|-------------|---------|----------------------|-------------------|
-| manufacturing | 制造业 | 40 | articulated, flexible | Industrial robot arm, CNC lathe, hydraulic press, AGV |
+| robotics | 机器人 | 28 | articulated, cable_hose | KUKA arm, NAO biped, PR2, Spot, PackBot EOD, surgical robot |
+| manufacturing | 制造业 | 20 | rotational, rigid_housing | CNC lathe, conveyor belt, 3D printer, hydraulic press |
 | construction | 建筑工程 | 30 | articulated, 3d_spatial | Tower crane, TBM, concrete pump truck, lattice boom crane |
 | mining | 矿业 | 27 | rotational, 3d_spatial | Mining haul truck, ball mill, underground drill jumbo |
 | maritime | 船舶海工 | 23 | aerodynamic, 3d_spatial | Cargo ship, offshore crane, jack-up rig, drydock propeller |
@@ -83,7 +84,7 @@ Floor values: LLM-scored axes (IKA, TC, PP, VF) are floored at 5.0; CV-scored ax
 | energy_power | 传统能源 | 7 | rigid_housing, rotational | Gas turbine, nuclear plant, hydroelectric penstock |
 | oil_gas | 油气 | 5 | 3d_spatial, aerodynamic | Offshore oil platform, pipeline manifold, FPSO vessel |
 
-**Total: 200 samples, 4 topology types, 7 sub-categories, 600 adversarial questions.**
+**Total: 208 samples, 11 domains, 4 topology types, 7 sub-categories, 624 adversarial questions.**
 
 ---
 

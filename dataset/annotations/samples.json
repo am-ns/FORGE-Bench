@@ -652,8 +652,8 @@
     },
     {
       "task_id": "rob_001",
-      "domain": "manufacturing",
-      "image_path": "dataset/images/manufacturing/industrial_robot_arm.jpg",
+      "domain": "robotics",
+      "image_path": "dataset\\images\\robotics\\industrial_robot_arm.jpg",
       "prompt": "Industrial robot arm in manufacturing cell with 6-axis articulated joints and end effector. Camera orbits 43° counter-clockwise around the subject at constant radius, medium smooth arc. Do not add or remove robot links, conveyor segments, or tool holders. No joint limit violations. Conveyor roller spacing and belt segment geometry must be preserved.",
       "vfa_target": 75.0,
       "constraint_annotations": {
@@ -717,8 +717,8 @@
     },
     {
       "task_id": "rob_002",
-      "domain": "manufacturing",
-      "image_path": "dataset/images/manufacturing/autonomous_mobile_robot.jpg",
+      "domain": "robotics",
+      "image_path": "dataset\\images\\robotics\\autonomous_mobile_robot.jpg",
       "prompt": "Autonomous mobile robot in warehouse with differential drive wheels and sensor mast. Camera pans horizontally 35° right along the rear of the subject, constant height. Do not add or remove robot links, conveyor segments, or tool holders. No joint limit violations. Robot arm link count and joint angle sequence must remain anatomically correct.",
       "vfa_target": 75.0,
       "constraint_annotations": {
@@ -782,8 +782,8 @@
     },
     {
       "task_id": "rob_003",
-      "domain": "manufacturing",
-      "image_path": "dataset/images/manufacturing/collaborative_robot.jpg",
+      "domain": "robotics",
+      "image_path": "dataset\\images\\robotics\\collaborative_robot.jpg",
       "prompt": "Collaborative robot (cobot) working alongside human operator with force-limiting joints. Camera pans horizontally 32° right along the side of the subject, constant height. Do not add or remove robot links, conveyor segments, or tool holders. No joint limit violations. Conveyor roller spacing and belt segment geometry must be preserved.",
       "vfa_target": 75.0,
       "constraint_annotations": {
@@ -1887,9 +1887,9 @@
     },
     {
       "task_id": "rob_004",
-      "domain": "manufacturing",
+      "domain": "robotics",
       "topology_type": "kinematic",
-      "image_path": "dataset/images/manufacturing/rob_004.jpg",
+      "image_path": "dataset\\images\\robotics\\rob_004.jpg",
       "prompt": "FANUC robotic arm performing pick-and-place with 6-DOF articulated wrist and gripper. observation point orbits 167° clockwise around the subject at constant radius, medium smooth arc. Do not add or remove robot links, conveyor segments, or tool holders. No joint limit violations. Joint articulation sequence and link count needs to follow correct kinematic chain. Tool changer magazine slot count and spindle structure needs to not change.",
       "vfa_target": 75.0,
       "constraint_annotations": {
@@ -3872,9 +3872,9 @@
     },
     {
       "task_id": "rob_005",
-      "domain": "manufacturing",
+      "domain": "robotics",
       "topology_type": "kinematic",
-      "image_path": "dataset/images/manufacturing/rob_005.jpg",
+      "image_path": "dataset\\images\\robotics\\rob_005.jpg",
       "prompt": "Quadruped walking robot with hip-knee-ankle leg linkages and body stabilization system. Camera orbits 87° clockwise around the subject at constant radius, medium smooth arc. Do not add or remove robot links, conveyor segments, or tool holders. No joint limit violations. Joint articulation sequence and link count must follow correct kinematic chain. Tool changer magazine slot count and spindle geometry must not change.",
       "vfa_target": 87.0,
       "constraint_annotations": {
@@ -3936,9 +3936,9 @@
     },
     {
       "task_id": "rob_006",
-      "domain": "manufacturing",
+      "domain": "robotics",
       "topology_type": "kinematic",
-      "image_path": "dataset/images/manufacturing/rob_006.jpg",
+      "image_path": "dataset\\images\\robotics\\rob_006.jpg",
       "prompt": "Robotic arm performing MIG welding with wire feeder, torch, and weld pool monitoring. Camera orbits 67° counter-clockwise around the subject at constant radius, medium smooth arc. Do not add or remove robot links, conveyor segments, or tool holders. No joint limit violations. Joint articulation sequence and link count must follow correct kinematic chain. Robot arm link count and joint angle sequence must remain anatomically correct.",
       "vfa_target": 67.0,
       "constraint_annotations": {
@@ -4000,9 +4000,9 @@
     },
     {
       "task_id": "rob_007",
-      "domain": "manufacturing",
+      "domain": "robotics",
       "topology_type": "surface",
-      "image_path": "dataset/images/manufacturing/rob_007.jpg",
+      "image_path": "dataset\\images\\robotics\\rob_007.jpg",
       "prompt": "FANUC robot arm orbital view showing full arm envelope and joint range limits. Camera orbits 161° clockwise around the subject at constant radius, medium smooth arc. Do not add or remove robot links, conveyor segments, or tool holders. No joint limit violations. Tool changer magazine slot count and spindle geometry must not change.",
       "vfa_target": 75.0,
       "constraint_annotations": {
@@ -4064,9 +4064,9 @@
     },
     {
       "task_id": "rob_008",
-      "domain": "manufacturing",
+      "domain": "robotics",
       "topology_type": "kinematic",
-      "image_path": "dataset/images/manufacturing/rob_008.jpg",
+      "image_path": "dataset\\images\\robotics\\rob_008.jpg",
       "prompt": "Robotic end effector with multi-finger adaptive gripper and tool changer interface. Pay attention to the tool path marks on machined surfaces and the chamfer dimensions at edges. Pay attention to the tool path marks on machined surfaces and the chamfer dimensions at edges. Camera orbits 77° counter-clockwise around the subject at constant radius, medium smooth arc. Do not add or remove robot links, conveyor segments, or tool holders. No joint limit violations. Joint articulation sequence and link count must follow correct kinematic chain. Robot arm link count and joint angle sequence must remain anatomically correct.",
       "vfa_target": 77.0,
       "constraint_annotations": {
@@ -4128,9 +4128,9 @@
     },
     {
       "task_id": "rob_009",
-      "domain": "manufacturing",
+      "domain": "robotics",
       "topology_type": "surface",
-      "image_path": "dataset/images/manufacturing/rob_009.jpg",
+      "image_path": "dataset\\images\\robotics\\rob_009.jpg",
       "prompt": "Humanoid robot arm-to-body shoulder joint with multi-DOF actuator and link structure. Camera orbits 179° counter-clockwise around the subject at constant radius, slow smooth arc. Do not add or remove robot links, conveyor segments, or tool holders. No joint limit violations. Conveyor roller spacing and belt segment geometry must be preserved.",
       "vfa_target": 75.0,
       "constraint_annotations": {
@@ -11774,9 +11774,9 @@
     },
     {
       "task_id": "rob_010",
-      "domain": "manufacturing",
+      "domain": "robotics",
       "topology_type": "kinematic",
-      "image_path": "dataset/images/manufacturing/autonomous_mobile_robot_chassis.jpg",
+      "image_path": "dataset\\images\\robotics\\autonomous_mobile_robot_chassis.jpg",
       "prompt": "Autonomous mobile robot chassis with mecanum wheels and sensor integration platform. Camera orbits 180° clockwise around the subject at constant radius, medium smooth arc. Do not add or remove robot links, conveyor segments, or tool holders. No joint limit violations. Joint articulation sequence and link count must follow correct kinematic chain. Robot arm link count and joint angle sequence must remain anatomically correct.",
       "vfa_target": 135.0,
       "motion_type": "orbit",
@@ -11839,9 +11839,9 @@
     },
     {
       "task_id": "rob_011",
-      "domain": "manufacturing",
+      "domain": "robotics",
       "topology_type": "kinematic",
-      "image_path": "dataset/images/manufacturing/snake_robot_inspection_unit.jpg",
+      "image_path": "dataset\\images\\robotics\\snake_robot_inspection_unit.jpg",
       "prompt": "Snake robot inspection unit with serially connected body segments and undulatory gait. Camera orbits 169° clockwise around the subject at constant radius, medium smooth arc. Do not add or remove robot links, conveyor segments, or tool holders. No joint limit violations. Joint articulation sequence and link count must follow correct kinematic chain. Robot arm link count and joint angle sequence must remain anatomically correct.",
       "vfa_target": 75.0,
       "motion_type": "orbit",
@@ -11904,9 +11904,9 @@
     },
     {
       "task_id": "rob_012",
-      "domain": "manufacturing",
+      "domain": "robotics",
       "topology_type": "kinematic",
-      "image_path": "dataset/images/manufacturing/parallel_kinematic_hexapod.jpg",
+      "image_path": "dataset\\images\\robotics\\parallel_kinematic_hexapod.jpg",
       "prompt": "Parallel kinematic hexapod platform with six linear actuators and Stewart-Gough linkage. Camera pans horizontally 172° right along the rear of the subject, constant height. Do not add or remove robot links, conveyor segments, or tool holders. No joint limit violations. Joint articulation sequence and link count must follow correct kinematic chain. Robot arm link count and joint angle sequence must remain anatomically correct.",
       "vfa_target": 135.0,
       "motion_type": "pan",
@@ -11969,9 +11969,9 @@
     },
     {
       "task_id": "rob_013",
-      "domain": "manufacturing",
+      "domain": "robotics",
       "topology_type": "kinematic",
-      "image_path": "dataset/images/manufacturing/surgical_robot_instrument_arm.jpg",
+      "image_path": "dataset\\images\\robotics\\surgical_robot_instrument_arm.jpg",
       "prompt": "Surgical robot instrument arm with wristed end effector and tremor-filtering actuators. Camera orbits 179° counter-clockwise around the subject at constant radius, slow smooth arc. Do not add or remove robot links, conveyor segments, or tool holders. No joint limit violations. Joint articulation sequence and link count must follow correct kinematic chain. Robot arm link count and joint angle sequence must remain anatomically correct.",
       "vfa_target": 135.0,
       "motion_type": "crane",
@@ -12034,9 +12034,9 @@
     },
     {
       "task_id": "rob_014",
-      "domain": "manufacturing",
+      "domain": "robotics",
       "topology_type": "kinematic",
-      "image_path": "dataset/images/manufacturing/agv_fleet_navigation_unit.jpg",
+      "image_path": "dataset\\images\\robotics\\agv_fleet_navigation_unit.jpg",
       "prompt": "AGV fleet navigation unit with LiDAR, wheel encoders, and path-planning controller. Camera orbits 168° clockwise around the subject at constant radius, slow smooth arc. Do not add or remove robot links, conveyor segments, or tool holders. No joint limit violations. Joint articulation sequence and link count must follow correct kinematic chain. Tool changer magazine slot count and spindle geometry must not change.",
       "vfa_target": 135.0,
       "motion_type": "orbit",
@@ -12099,9 +12099,9 @@
     },
     {
       "task_id": "rob_015",
-      "domain": "manufacturing",
+      "domain": "robotics",
       "topology_type": "surface",
-      "image_path": "dataset/images/manufacturing/exoskeleton_joint_assembly.jpg",
+      "image_path": "dataset\\images\\robotics\\exoskeleton_joint_assembly.jpg",
       "prompt": "Exoskeleton joint assembly with electric actuators, force sensors, and linkage structure. Camera orbits 167° clockwise around the subject at constant radius, medium smooth arc. Do not add or remove robot links, conveyor segments, or tool holders. No joint limit violations. Conveyor roller spacing and belt segment geometry must be preserved.",
       "vfa_target": 135.0,
       "motion_type": "orbit",
@@ -12164,9 +12164,9 @@
     },
     {
       "task_id": "rob_016",
-      "domain": "manufacturing",
+      "domain": "robotics",
       "topology_type": "surface",
-      "image_path": "dataset/images/manufacturing/swarm_robotics_coordination_platform.jpg",
+      "image_path": "dataset\\images\\robotics\\swarm_robotics_coordination_platform.jpg",
       "prompt": "Swarm robotics coordination platform with multiple small agents and communication array. Camera orbits 178° counter-clockwise around the subject at constant radius, slow smooth arc. Do not add or remove robot links, conveyor segments, or tool holders. No joint limit violations. Robot arm link count and joint angle sequence must remain anatomically correct.",
       "vfa_target": 135.0,
       "motion_type": "crane",
@@ -12229,9 +12229,9 @@
     },
     {
       "task_id": "rob_017",
-      "domain": "manufacturing",
+      "domain": "robotics",
       "topology_type": "surface",
-      "image_path": "dataset/images/manufacturing/robotic_pipe_crawler.jpg",
+      "image_path": "dataset\\images\\robotics\\robotic_pipe_crawler.jpg",
       "prompt": "Robotic pipe crawler with wheeled locomotion modules and in-pipe inspection payload. Camera orbits 178° counter-clockwise around the subject at constant radius, slow smooth arc. Do not add or remove robot links, conveyor segments, or tool holders. No joint limit violations. Tool changer magazine slot count and spindle geometry must not change.",
       "vfa_target": 75.0,
       "motion_type": "crane",
@@ -12294,9 +12294,9 @@
     },
     {
       "task_id": "rob_018",
-      "domain": "manufacturing",
+      "domain": "robotics",
       "topology_type": "surface",
-      "image_path": "dataset/images/manufacturing/underwater_rov_manipulator_arm.jpg",
+      "image_path": "dataset\\images\\robotics\\underwater_rov_manipulator_arm.jpg",
       "prompt": "Underwater ROV manipulator arm with hydraulic actuators and dexterous end effector. Camera orbits 161° clockwise around the subject at constant radius, slow smooth arc. Do not add or remove robot links, conveyor segments, or tool holders. No joint limit violations. Conveyor roller spacing and belt segment geometry must be preserved.",
       "vfa_target": 75.0,
       "motion_type": "dolly",
@@ -12359,9 +12359,9 @@
     },
     {
       "task_id": "rob_019",
-      "domain": "manufacturing",
+      "domain": "robotics",
       "topology_type": "lattice",
-      "image_path": "dataset/images/manufacturing/space_station_robotic_arm.jpg",
+      "image_path": "dataset\\images\\robotics\\space_station_robotic_arm.jpg",
       "prompt": "Space station robotic arm (Canadarm) with shoulder-elbow-wrist joints and end effector. Camera orbits 176° counter-clockwise around the subject at constant radius, slow smooth arc. Do not add or remove robot links, conveyor segments, or tool holders. No joint limit violations. Lattice node connectivity and member count must be preserved. Robot arm link count and joint angle sequence must remain anatomically correct.",
       "vfa_target": 135.0,
       "motion_type": "orbit",
@@ -12424,9 +12424,9 @@
     },
     {
       "task_id": "rob_020",
-      "domain": "manufacturing",
+      "domain": "robotics",
       "topology_type": "lattice",
-      "image_path": "dataset/images/manufacturing/agricultural_harvesting_robot.jpg",
+      "image_path": "dataset\\images\\robotics\\agricultural_harvesting_robot.jpg",
       "prompt": "Agricultural harvesting robot with multi-axis picking arms and crop identification sensors. Camera orbits 177° counter-clockwise around the subject at constant radius, medium smooth arc. Do not add or remove robot links, conveyor segments, or tool holders. No joint limit violations. Lattice node connectivity and member count must be preserved. Tool changer magazine slot count and spindle geometry must not change.",
       "vfa_target": 135.0,
       "motion_type": "orbit",
@@ -12917,6 +12917,366 @@
         {
           "id": "q3",
           "text": "Do the concrete anchor saddles maintain geometrically consistent proportions without non-physical deformation during the orbit?",
+          "answer": "yes"
+        }
+      ],
+      "sensitivity_variants": []
+    },
+    {
+      "task_id": "rob_021",
+      "domain": "robotics",
+      "image_path": "dataset/images/robotics/rob_021.jpg",
+      "prompt": "Camera performs a slow dolly-in approach toward a NAO humanoid robot in a laboratory, revealing the multi-segment neck joint, spherical shoulder actuators, ear speaker grilles, and chest panel geometry. Camera at robot eye level, smooth approach. No rotation. No zoom.",
+      "vfa_target": "dolly_in_2x",
+      "motion_type": "dolly",
+      "topology_type": "kinematic",
+      "primary_topology": "kinematic",
+      "sub_topology": "articulated",
+      "failure_target": "kinematic_chain_integrity",
+      "difficulty_profile": {
+        "IKA": "medium",
+        "TC": "medium",
+        "PP": "medium",
+        "VF": "medium",
+        "GI": "medium"
+      },
+      "constraint_annotations": {
+        "topology_class": "articulated",
+        "key_invariants": [
+          "shoulder_joint_hemispherical_geometry",
+          "neck_joint_alignment",
+          "chest_panel_proportions"
+        ]
+      },
+      "ika_questions": [
+        {
+          "id": "q1",
+          "text": "Do the spherical shoulder joint housings maintain their correct hemispherical geometry without non-physical flattening during the dolly approach?",
+          "answer": "yes"
+        },
+        {
+          "id": "q2",
+          "text": "Does the multi-DOF neck joint linkage maintain correct concentric ring alignment throughout the motion?",
+          "answer": "yes"
+        },
+        {
+          "id": "q3",
+          "text": "Does the chest panel geometry remain dimensionally consistent with correct proportions from first to last frame?",
+          "answer": "yes"
+        }
+      ],
+      "sensitivity_variants": []
+    },
+    {
+      "task_id": "rob_022",
+      "domain": "robotics",
+      "image_path": "dataset/images/robotics/rob_022.jpg",
+      "prompt": "Camera orbits clockwise 45 degrees around a KUKA IR161 6-axis industrial robot arm in a factory cell, showing the shoulder joint housing, upper arm link, elbow joint, forearm, and cable harness routing. Slow, constant-radius orbit at arm mid-height. No zoom.",
+      "vfa_target": "orbit_cw_45deg",
+      "motion_type": "orbit",
+      "topology_type": "kinematic",
+      "primary_topology": "kinematic",
+      "sub_topology": "articulated",
+      "failure_target": "kinematic_chain_integrity",
+      "difficulty_profile": {
+        "IKA": "hard",
+        "TC": "medium",
+        "PP": "medium",
+        "VF": "medium",
+        "GI": "hard"
+      },
+      "constraint_annotations": {
+        "topology_class": "articulated",
+        "key_invariants": [
+          "joint_housing_count",
+          "cable_harness_routing",
+          "base_rotation_axis"
+        ]
+      },
+      "ika_questions": [
+        {
+          "id": "q1",
+          "text": "Do the six rotary joint housings maintain their correct circular cross-section geometry without deformation from first to last frame?",
+          "answer": "yes"
+        },
+        {
+          "id": "q2",
+          "text": "Is the cable harness routing preserved along the arm without non-physical intersection or disappearance during the orbit?",
+          "answer": "yes"
+        },
+        {
+          "id": "q3",
+          "text": "Does the base rotation-axis housing maintain geometrically consistent proportions throughout the orbit?",
+          "answer": "yes"
+        }
+      ],
+      "sensitivity_variants": []
+    },
+    {
+      "task_id": "rob_023",
+      "domain": "robotics",
+      "image_path": "dataset/images/robotics/rob_023.jpg",
+      "prompt": "Camera orbits clockwise 45 degrees around a PR2 mobile manipulation robot showing the dual 7-DOF arm configuration with both arms extended, sensor head with stereo cameras, and mobile base platform. Static scene, even orbit at torso height. No zoom.",
+      "vfa_target": "orbit_cw_45deg",
+      "motion_type": "orbit",
+      "topology_type": "kinematic",
+      "primary_topology": "kinematic",
+      "sub_topology": "articulated",
+      "failure_target": "bilateral_symmetry",
+      "difficulty_profile": {
+        "IKA": "hard",
+        "TC": "medium",
+        "PP": "medium",
+        "VF": "medium",
+        "GI": "hard"
+      },
+      "constraint_annotations": {
+        "topology_class": "articulated",
+        "key_invariants": [
+          "dual_arm_bilateral_symmetry",
+          "sensor_head_mounting",
+          "forearm_link_proportions"
+        ]
+      },
+      "ika_questions": [
+        {
+          "id": "q1",
+          "text": "Do both wrist roll joint housings maintain bilateral geometric symmetry without one arm drifting relative to the other throughout the orbit?",
+          "answer": "yes"
+        },
+        {
+          "id": "q2",
+          "text": "Does the sensor head mounting geometry remain consistent without lateral drift or non-physical rotation?",
+          "answer": "yes"
+        },
+        {
+          "id": "q3",
+          "text": "Do the forearm link proportions maintain bilateral consistency from the first to last frame?",
+          "answer": "yes"
+        }
+      ],
+      "sensitivity_variants": []
+    },
+    {
+      "task_id": "rob_024",
+      "domain": "robotics",
+      "image_path": "dataset/images/robotics/rob_024.jpg",
+      "prompt": "Camera pans laterally left-to-right past a KUKA industrial robot arm performing a writing-demonstration task, showing the tool-center-point, wrist joint articulation geometry, link proportions, and servo housing details. Camera at tool level. Smooth horizontal pan. No zoom.",
+      "vfa_target": "horizontal_pan_lr",
+      "motion_type": "pan",
+      "topology_type": "kinematic",
+      "primary_topology": "kinematic",
+      "sub_topology": "articulated",
+      "failure_target": "kinematic_chain_integrity",
+      "difficulty_profile": {
+        "IKA": "medium",
+        "TC": "medium",
+        "PP": "medium",
+        "VF": "medium",
+        "GI": "medium"
+      },
+      "constraint_annotations": {
+        "topology_class": "articulated",
+        "key_invariants": [
+          "end_effector_geometry",
+          "wrist_joint_cross_section",
+          "link_bending_constraint"
+        ]
+      },
+      "ika_questions": [
+        {
+          "id": "q1",
+          "text": "Does the end-effector tool geometry maintain consistent proportions without non-physical distortion throughout the pan?",
+          "answer": "yes"
+        },
+        {
+          "id": "q2",
+          "text": "Do the wrist joint servo housings maintain their correct circular cross-section without deformation?",
+          "answer": "yes"
+        },
+        {
+          "id": "q3",
+          "text": "Is the link-to-joint connection geometry preserved throughout the pan without non-physical bending along link mid-sections?",
+          "answer": "yes"
+        }
+      ],
+      "sensitivity_variants": []
+    },
+    {
+      "task_id": "rob_025",
+      "domain": "robotics",
+      "image_path": "dataset/images/robotics/rob_025.jpg",
+      "prompt": "Camera pans slowly left-to-right past an Ekso NR lower-limb exoskeleton, revealing the hip joint actuator housing, knee actuator assembly with servo motor, cabling harness routing along the structural frame, and foot platform interface geometry. Camera at knee height. No zoom.",
+      "vfa_target": "horizontal_pan_lr",
+      "motion_type": "pan",
+      "topology_type": "flexible",
+      "primary_topology": "flexible",
+      "sub_topology": "cable_hose",
+      "failure_target": "cable_continuity",
+      "difficulty_profile": {
+        "IKA": "hard",
+        "TC": "medium",
+        "PP": "medium",
+        "VF": "medium",
+        "GI": "hard"
+      },
+      "constraint_annotations": {
+        "topology_class": "cable_hose",
+        "key_invariants": [
+          "knee_actuator_housing_geometry",
+          "cable_harness_continuity",
+          "frame_parallelism"
+        ]
+      },
+      "ika_questions": [
+        {
+          "id": "q1",
+          "text": "Does the knee joint actuator housing maintain its correct geometry without non-physical flattening throughout the pan?",
+          "answer": "yes"
+        },
+        {
+          "id": "q2",
+          "text": "Is the cable harness routing preserved along the structural frame without topology merge or disappearance during the pan?",
+          "answer": "yes"
+        },
+        {
+          "id": "q3",
+          "text": "Do the structural frame guide rails maintain consistent parallelism without non-physical convergence or crossing?",
+          "answer": "yes"
+        }
+      ],
+      "sensitivity_variants": []
+    },
+    {
+      "task_id": "rob_026",
+      "domain": "robotics",
+      "image_path": "dataset/images/robotics/rob_026.jpg",
+      "prompt": "Camera orbits clockwise 45 degrees around a Boston Dynamics Spot quadruped robot in static standing pose, showing the hip abduction joints, upper leg actuators, knee joints, lower leg links, and foot pads. Slow, constant-radius orbit at chassis height. No zoom.",
+      "vfa_target": "orbit_cw_45deg",
+      "motion_type": "orbit",
+      "topology_type": "kinematic",
+      "primary_topology": "kinematic",
+      "sub_topology": "articulated",
+      "failure_target": "kinematic_chain_integrity",
+      "difficulty_profile": {
+        "IKA": "hard",
+        "TC": "medium",
+        "PP": "medium",
+        "VF": "medium",
+        "GI": "hard"
+      },
+      "constraint_annotations": {
+        "topology_class": "articulated",
+        "key_invariants": [
+          "quadruped_leg_count",
+          "hip_joint_geometry",
+          "bilateral_leg_symmetry"
+        ]
+      },
+      "ika_questions": [
+        {
+          "id": "q1",
+          "text": "Do all four leg assemblies maintain geometrically consistent joint housing proportions from first to last frame?",
+          "answer": "yes"
+        },
+        {
+          "id": "q2",
+          "text": "Does the hip abduction joint housing maintain its correct circular cross-section geometry throughout the orbit?",
+          "answer": "yes"
+        },
+        {
+          "id": "q3",
+          "text": "Is bilateral symmetry between the left and right leg pairs preserved in the final frame without one side drifting?",
+          "answer": "yes"
+        }
+      ],
+      "sensitivity_variants": []
+    },
+    {
+      "task_id": "rob_027",
+      "domain": "robotics",
+      "image_path": "dataset/images/robotics/rob_027.jpg",
+      "prompt": "Camera performs a slow crane rise from table level to overhead revealing a laparoscopic surgical robot showing the multi-arm instrument mounting, cable routing along each arm, wrist mechanism geometry, and sterile interface. Smooth, even rise. No rotation.",
+      "vfa_target": "crane_up_30deg",
+      "motion_type": "crane",
+      "topology_type": "flexible",
+      "primary_topology": "flexible",
+      "sub_topology": "cable_hose",
+      "failure_target": "cable_continuity",
+      "difficulty_profile": {
+        "IKA": "hard",
+        "TC": "medium",
+        "PP": "medium",
+        "VF": "medium",
+        "GI": "hard"
+      },
+      "constraint_annotations": {
+        "topology_class": "cable_hose",
+        "key_invariants": [
+          "instrument_arm_count",
+          "cable_routing_continuity",
+          "wrist_mechanism_geometry"
+        ]
+      },
+      "ika_questions": [
+        {
+          "id": "q1",
+          "text": "Do the cable bundles at each arm-to-instrument junction maintain their routing without intersection or topology merge?",
+          "answer": "yes"
+        },
+        {
+          "id": "q2",
+          "text": "Are the instrument arm mounting brackets consistent in both count and relative positioning throughout the crane rise?",
+          "answer": "yes"
+        },
+        {
+          "id": "q3",
+          "text": "Does the wrist mechanism linkage geometry maintain correct proportional preservation without non-physical deformation?",
+          "answer": "yes"
+        }
+      ],
+      "sensitivity_variants": []
+    },
+    {
+      "task_id": "rob_028",
+      "domain": "robotics",
+      "image_path": "dataset/images/robotics/rob_028.jpg",
+      "prompt": "Camera orbits counterclockwise 45 degrees around a PackBot EOD robot showing the 4-DOF manipulator arm joints, tracked chassis geometry, gripper mechanism, and cable conduit routing along the arm. Slow orbit at arm mid-height on flat terrain. No zoom.",
+      "vfa_target": "orbit_ccw_45deg",
+      "motion_type": "orbit",
+      "topology_type": "kinematic",
+      "primary_topology": "kinematic",
+      "sub_topology": "articulated",
+      "failure_target": "kinematic_chain_integrity",
+      "difficulty_profile": {
+        "IKA": "hard",
+        "TC": "medium",
+        "PP": "medium",
+        "VF": "medium",
+        "GI": "hard"
+      },
+      "constraint_annotations": {
+        "topology_class": "articulated",
+        "key_invariants": [
+          "manipulator_arm_link_proportions",
+          "track_tread_periodicity",
+          "gripper_jaw_geometry"
+        ]
+      },
+      "ika_questions": [
+        {
+          "id": "q1",
+          "text": "Does the manipulator arm maintain correct proportional link lengths throughout the orbit without non-physical elongation?",
+          "answer": "yes"
+        },
+        {
+          "id": "q2",
+          "text": "Do the track tread segments maintain their correct pitch periodicity without topology merge during the orbit?",
+          "answer": "yes"
+        },
+        {
+          "id": "q3",
+          "text": "Is the gripper jaw geometry preserved without non-physical deformation or asymmetry in the final frame?",
           "answer": "yes"
         }
       ],
