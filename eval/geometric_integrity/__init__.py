@@ -3,20 +3,48 @@
 import cv2
 import numpy as np
 
-EVAL_RESOLUTION = (720, 1280)  # (height, width) — standard evaluation resolution
+# Legacy constant kept for backward compatibility.
+# The active resolution is now set per-evaluation via set_eval_resolution().
+EVAL_RESOLUTION = (720, 1280)  # (height, width) — fallback default
+
+# Module-level current resolution; None = use each frame's native size.
+_current_hw: tuple[int, int] | None = None
 
 
-def normalize_frame(frame: np.ndarray) -> np.ndarray:
-    """Resize *frame* to ``EVAL_RESOLUTION`` if it differs.
+def set_eval_resolution(hw: tuple[int, int] | None) -> None:
+    """Set the evaluation resolution for the current sample.
 
-    Uses ``INTER_AREA`` for downscaling (good anti-aliasing) and
-    ``INTER_LINEAR`` for upscaling.
+    Call this once per sample with the video's native (height, width).
+    All subsequent normalize_frame() calls will resize to this target.
+    Pass None to disable normalization (keep native resolution).
     """
-    target_h, target_w = EVAL_RESOLUTION
+    global _current_hw
+    _current_hw = hw
+
+
+def get_eval_resolution() -> tuple[int, int] | None:
+    """Return the currently active evaluation resolution, or None."""
+    return _current_hw
+
+
+def normalize_frame(frame: np.ndarray,
+                    target_hw: tuple[int, int] | None = None) -> np.ndarray:
+    """Resize *frame* to the target resolution if it differs.
+
+    Resolution priority:
+      1. ``target_hw`` argument (explicit override)
+      2. Module-level ``_current_hw`` set by set_eval_resolution()
+      3. Legacy ``EVAL_RESOLUTION`` constant (720p fallback)
+
+    Uses INTER_AREA for downscaling (good anti-aliasing) and
+    INTER_LINEAR for upscaling.
+    """
+    target = target_hw or _current_hw or EVAL_RESOLUTION
+    target_h, target_w = target
     h, w = frame.shape[:2]
     if (h, w) == (target_h, target_w):
         return frame
-    interp = cv2.INTER_AREA if h > target_h or w > target_w else cv2.INTER_LINEAR
+    interp = cv2.INTER_AREA if (h > target_h or w > target_w) else cv2.INTER_LINEAR
     return cv2.resize(frame, (target_w, target_h), interpolation=interp)
 
 
