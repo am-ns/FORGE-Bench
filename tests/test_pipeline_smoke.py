@@ -19,7 +19,7 @@ from eval.calibration.floor_enforcer import enforce_score_floors
 from eval.geometric_integrity.lattice import evaluate_lattice
 from eval.geometric_integrity.surface import evaluate_surface
 from eval.industrial_constraints.count_invariant import check_count_invariant
-from eval.preflight import validate_frame_count
+from eval.preflight import check_dataset_integrity, validate_frame_count
 from eval.vfa.eval import compute_vfa
 from scoring.aggregate import aggregate_sample_results, aggregate_scores
 from scoring.per_sample import score_sample
@@ -119,6 +119,20 @@ class TestPreflight:
         result = validate_frame_count(video_path)
         assert result["actual_count"] == 8
 
+    def test_dataset_integrity_accepts_wrapped_samples(self, tmp_path):
+        """check_dataset_integrity should accept {'samples': [...]} JSON files."""
+        samples_path = tmp_path / "samples.json"
+        video_path = tmp_path / "sample.mp4"
+        video_path.write_bytes(b"placeholder")
+        samples_path.write_text(
+            json.dumps({"samples": [{"task_id": "sample", "video_path": "sample.mp4"}]}),
+            encoding="utf-8",
+        )
+
+        result = check_dataset_integrity(str(samples_path), video_root=str(tmp_path))
+        assert result["total"] == 1
+        assert result["found"] == 1
+
 
 class TestVFA:
     def test_vfa_static_video(self):
@@ -159,6 +173,17 @@ class TestGeometricIntegrity:
         score = result["result_score"]
         assert isinstance(score, float)
         assert 0 <= score <= 1
+
+    def test_gi_surface_accepts_image_frames(self):
+        """evaluate_surface should compare frame contours for aerodynamic routing."""
+        img_a = np.zeros((240, 320, 3), dtype=np.uint8)
+        img_b = np.zeros((240, 320, 3), dtype=np.uint8)
+        cv2.rectangle(img_a, (80, 80), (220, 160), (255, 255, 255), -1)
+        cv2.rectangle(img_b, (90, 80), (230, 160), (255, 255, 255), -1)
+
+        result = evaluate_surface(img_a, img_b)
+        assert result["chamfer_distance"] != float("inf")
+        assert 0 <= result["result_score"] <= 1
 
     def test_gi_lattice(self):
         """evaluate_lattice on two similar textured images should score >= 0.10."""
@@ -313,3 +338,63 @@ class TestDatasetValidation:
         assert result.returncode == 0, (
             f"validate.py failed (exit {result.returncode}):\n{result.stderr}"
         )
+
+
+class TestRunEvalCLI:
+    def test_run_eval_cli_writes_pipeline_outputs(self, tmp_path):
+        """README run_eval.py command should produce all public output files."""
+        video_dir = tmp_path / "videos"
+        out_dir = tmp_path / "results"
+        video_dir.mkdir()
+        out_dir.mkdir()
+
+        frames = generate_synthetic_frames(n=8, h=360, w=640)
+        video_path = str(video_dir / "smoke_001.mp4")
+        writer = cv2.VideoWriter(
+            video_path, cv2.VideoWriter_fourcc(*"mp4v"), 12.0, (640, 360)
+        )
+        for frame in frames:
+            writer.write(frame)
+        writer.release()
+
+        sample = {
+            "task_id": "smoke_001",
+            "domain": "aerospace",
+            "topology_type": "surface",
+            "primary_topology": "surface",
+            "sub_topology": "aerodynamic",
+            "motion_type": "orbit",
+            "vfa_target": 45.0,
+            "difficulty_profile": {"gi": "medium", "vfa": "hard"},
+            "constraint_annotations": {"topology_type": "surface"},
+            "ika_questions": [],
+        }
+        samples_path = tmp_path / "samples.json"
+        samples_path.write_text(json.dumps({"samples": [sample]}), encoding="utf-8")
+
+        result = subprocess.run(
+            [
+                sys.executable,
+                "eval/run_eval.py",
+                "--model", "smoke_model",
+                "--video_dir", str(video_dir),
+                "--samples_json", str(samples_path),
+                "--output_dir", str(out_dir),
+                "--no_llm",
+            ],
+            capture_output=True, text=True,
+            cwd=Path(__file__).resolve().parent.parent,
+        )
+        assert result.returncode == 0, result.stderr
+
+        model_dir = out_dir / "smoke_model"
+        for name in ("smoke_001.json", "per_sample.json", "aggregate.json", "report.json"):
+            assert (model_dir / name).exists()
+
+        aggregate = json.loads((model_dir / "aggregate.json").read_text())
+        report = json.loads((model_dir / "report.json").read_text())
+        assert "relax_score" in aggregate
+        assert "strict_pass_rate" in aggregate
+        assert "gated_score" in aggregate
+        assert report["summary"]["num_samples_completed"] == 1
+        assert "vfa_diagnostics" in report

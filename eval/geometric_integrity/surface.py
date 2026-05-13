@@ -3,6 +3,7 @@
 
 import sys
 
+import cv2
 import numpy as np
 
 # -- Tunable thresholds -------------------------------------------------------
@@ -10,12 +11,46 @@ CONFIG = {
     "score_floor": 0.10,          # Minimum result_score to prevent degenerate near-zero values
     "max_dist_default": 1.0,      # Default normalisation distance for score mapping
     "vfa_orbit_caution_deg": 0.25,# VFA threshold above which perspective inflation is flagged
+    "max_contour_points": 2000,
 }
+
+
+def _image_to_contour_points(image: np.ndarray) -> np.ndarray:
+    """Extract normalized contour points from a grayscale or BGR image."""
+    if image.ndim == 3:
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    else:
+        gray = image
+    gray = cv2.GaussianBlur(gray, (5, 5), 0)
+    edges = cv2.Canny(gray, 50, 150)
+    ys, xs = np.where(edges > 0)
+    if len(xs) == 0:
+        return np.empty((0, 2), dtype=np.float32)
+
+    points = np.column_stack((xs / max(gray.shape[1] - 1, 1),
+                              ys / max(gray.shape[0] - 1, 1))).astype(np.float32)
+    if len(points) > CONFIG["max_contour_points"]:
+        idx = np.linspace(0, len(points) - 1, CONFIG["max_contour_points"]).astype(int)
+        points = points[idx]
+    return points
+
+
+def _coerce_surface_points(data: np.ndarray) -> np.ndarray:
+    """Accept either point clouds or image frames for surface scoring."""
+    arr = np.asarray(data)
+    if arr.ndim == 2 and arr.shape[1] in (2, 3):
+        return arr.astype(np.float32)
+    if arr.ndim in (2, 3):
+        return _image_to_contour_points(arr)
+    return arr.reshape(-1, arr.shape[-1]).astype(np.float32)
 
 
 def compute_chamfer_distance(source_points: np.ndarray, target_points: np.ndarray) -> float:
     """Compute symmetric Chamfer Distance between two point clouds."""
     from scipy.spatial import cKDTree
+
+    source_points = _coerce_surface_points(source_points)
+    target_points = _coerce_surface_points(target_points)
 
     if source_points.size == 0 or target_points.size == 0:
         print("WARNING: empty point cloud passed to compute_chamfer_distance", file=sys.stderr)

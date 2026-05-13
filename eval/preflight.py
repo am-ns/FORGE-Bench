@@ -22,7 +22,8 @@ def check_dataset_integrity(samples_json_path: str, video_root: str = "") -> dic
         dict with keys: total, found, missing_task_ids, all_found.
     """
     with open(samples_json_path) as f:
-        samples = json.load(f)
+        data = json.load(f)
+    samples = data.get("samples", data) if isinstance(data, dict) else data
 
     total = 0
     found = 0
