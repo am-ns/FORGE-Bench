@@ -75,9 +75,9 @@ Motion distribution:
 | Axis | Meaning | Main implementation | Scale | Floor |
 |------|---------|---------------------|------:|------:|
 | IKA | Industrial Knowledge Alignment | yes/no industrial questions, exact match plus superlative pass | 0-100 | 5 |
-| TC | Temporal Consistency | LLM or fallback temporal coherence scoring | 0-100 | 5 |
-| PP | Physical Plausibility | LLM 1-5 score converted to 0-100 | 0-100 | 5 |
-| VF | Visual Fidelity | reference-image structural fidelity, SSIM/histogram plus optional LLM | 0-100 | 5 |
+| TC | Temporal Consistency | VLM frame judging, with CV fallback when disabled | 0-100 | 5 |
+| PP | Physical Plausibility | VLM frame judging on a native 0-100 industrial physics rubric | 0-100 | 5 |
+| VF | Visual Fidelity | VLM reference-vs-video judging, with SSIM/histogram fallback | 0-100 | 5 |
 | GI | Geometric Integrity | topology-dispatched CV metrics | 0-100 | 8 |
 | IC | Industrial Constraints | hard invariant checkers mixed into GI and included as an axis | 0-100 | 8 |
 | VFA | View-point Fidelity Angle | RANSAC affine angle estimate scored against target | 0-100 fidelity; raw angle retained | 0 |
@@ -288,9 +288,10 @@ tests/
 - Crane-specific VFA is an image-translation estimate, not a calibrated camera
   reconstruction. It is deterministic and useful for gating, but exact crane
   kinematics still depend on unknown focal length and scene depth.
-- TC, PP, and VF have fallback scorers when the LLM track is disabled or an LLM
-  call fails. These fallback values are useful for smoke testing but should not
-  be treated as final benchmark-quality judgments.
+- TC, PP, and VF use the VLM judge in `eval/llm_judge.py` when
+  `ANTHROPIC_API_KEY` is set. CV/text fallback outputs are useful for smoke
+  testing and debugging, but final benchmark-quality judgments should use the
+  VLM path.
 - Some legacy samples use symbolic VFA targets such as `orbit_cw_45deg` or
   `horizontal_pan_lr`. Numeric targets are preferred for strict VFA scoring.
 - The benchmark is intentionally strict. High visual quality alone should not

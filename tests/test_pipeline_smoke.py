@@ -16,7 +16,8 @@ import numpy as np
 import pytest
 
 from eval.calibration.floor_enforcer import enforce_score_floors
-from eval.run_eval import evaluate_gi
+from eval.physical_plausibility.eval import parse_pp_score
+from eval.run_eval import evaluate_gi, evaluate_sample
 from eval.geometric_integrity.lattice import evaluate_lattice
 from eval.geometric_integrity.surface import evaluate_surface
 from eval.industrial_constraints.count_invariant import check_count_invariant
@@ -322,6 +323,11 @@ class TestScoring:
         assert result["gated_score"] == 40.0
         assert result["overall"] == result["gated_score"]
 
+    def test_pp_parser_uses_native_0_100_scale(self):
+        """PP parser should no longer use the legacy 1-5 scale."""
+        assert parse_pp_score("82\nminor localized issue") == 82
+        assert parse_pp_score("5 severe issues") == 5
+
 
 class TestReport:
     def test_report_sanitize(self):
@@ -383,6 +389,45 @@ class TestDatasetValidation:
 
 
 class TestRunEvalCLI:
+    def test_evaluate_sample_uses_vlm_pp_0_100_without_remap(self, tmp_path):
+        """VLM PP scores are already 0-100 and must not be remapped as 1-5."""
+        video_dir = tmp_path / "videos"
+        video_dir.mkdir()
+        frames = generate_synthetic_frames(n=8, h=360, w=640)
+        video_path = str(video_dir / "smoke_002.mp4")
+        writer = cv2.VideoWriter(
+            video_path, cv2.VideoWriter_fourcc(*"mp4v"), 12.0, (640, 360)
+        )
+        for frame in frames:
+            writer.write(frame)
+        writer.release()
+
+        sample = {
+            "task_id": "smoke_002",
+            "domain": "aerospace",
+            "topology_type": "surface",
+            "primary_topology": "surface",
+            "sub_topology": "aerodynamic",
+            "motion_type": "orbit",
+            "vfa_target": 45.0,
+            "constraint_annotations": {"topology_type": "surface"},
+            "ika_questions": [],
+        }
+
+        def judge_tc(frames, sample_meta=None):
+            return {"score": 70, "reasoning": "mock tc", "raw_response": "70"}
+
+        def judge_pp(frames, prompt="", sample_meta=None):
+            return {"score": 80, "justification": "mock pp", "raw_response": "80"}
+
+        result = evaluate_sample(
+            sample, str(video_dir), "mock_model", None,
+            None, judge_tc, judge_pp, None,
+        )
+        assert result["pp_score"] == 80
+        assert result["scored"]["axis_scores"]["pp"] == 80.0
+        assert result["tc_details"]["method"] == "vlm_direct"
+
     def test_run_eval_cli_writes_pipeline_outputs(self, tmp_path):
         """README run_eval.py command should produce all public output files."""
         video_dir = tmp_path / "videos"

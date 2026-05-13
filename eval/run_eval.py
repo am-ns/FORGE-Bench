@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """FORGE-Bench evaluation runner.
 
-Full pipeline: GI (sub-topology dispatch) → IC → VFA → IKA → TC → PP → VF
-→ per-sample score → aggregate → report.
+Full pipeline: GI (sub-topology dispatch) -> IC -> VFA -> IKA -> TC -> PP -> VF
+-> per-sample score -> aggregate -> report.
 
 LLM evaluation (IKA/TC/PP/VF) is enabled by default when ANTHROPIC_API_KEY
 is set. Pass --no_llm for CV-only mode.
@@ -41,7 +41,7 @@ from scoring.report import generate_diagnostic_report, generate_report
 logger = logging.getLogger("forge_eval")
 
 
-# ── Frame extraction ──────────────────────────────────────────────────────────
+# Frame extraction
 
 def extract_frames(video_path: str) -> list[np.ndarray]:
     cap = cv2.VideoCapture(video_path)
@@ -58,7 +58,7 @@ def extract_frames(video_path: str) -> list[np.ndarray]:
     return frames
 
 
-# ── GI routing by sub_topology ────────────────────────────────────────────────
+# GI routing by sub_topology
 
 def evaluate_gi(
     primary_topology: str,
@@ -69,13 +69,13 @@ def evaluate_gi(
     """Route to the correct GI sub-evaluator based on (primary, sub) topology.
 
     Sub-topology dispatch:
-      kinematic/articulated  → kinematic chain + bilateral symmetry
-      kinematic/rotational   → rotational symmetry (RCI)
-      surface/aerodynamic    → Chamfer distance on contours
-      surface/rigid_housing  → SIFT keypoint proxy (first↔last frame)
-      lattice/2d_planar      → Fourier spectral integrity (FSI)
-      lattice/3d_spatial     → SIFT homography inlier ratio
-      flexible/cable_hose    → optical flow continuity (kinematic proxy)
+      kinematic/articulated  -> kinematic chain + bilateral symmetry
+      kinematic/rotational   -> rotational symmetry (RCI)
+      surface/aerodynamic    -> Chamfer distance on contours
+      surface/rigid_housing  -> SIFT keypoint proxy (first-to-last frame)
+      lattice/2d_planar      -> Fourier spectral integrity (FSI)
+      lattice/3d_spatial     -> SIFT homography inlier ratio
+      flexible/cable_hose    -> optical flow continuity (kinematic proxy)
     """
     if not frames:
         return {"result_score": 0.0, "error": "no_frames"}
@@ -132,7 +132,7 @@ def evaluate_gi(
             return {"result_score": float(score), "rotary_details": result,
                     "method": "rotational_symmetry"}
 
-        # Flexible – optical flow continuity is the primary GI signal
+        # Flexible: optical flow continuity is the primary GI signal.
         if sub == "cable_hose":
             kin = detect_static_camera(frames)
             return {"result_score": kin.get("kinematic_score", 0.0),
@@ -156,7 +156,7 @@ def evaluate_gi(
     return {"result_score": 0.0, "error": f"unknown_topology_{primary}/{sub}"}
 
 
-# ── LLM judge factory ─────────────────────────────────────────────────────────
+# LLM judge factory
 
 def _make_llm_judges(use_llm: bool):
     """Return (judge_ika, judge_tc, judge_pp, judge_vf) or None for each."""
@@ -168,11 +168,11 @@ def _make_llm_judges(use_llm: bool):
         )
         return judge_sample_ika, judge_sample_tc, judge_sample_pp, judge_sample_vf
     except Exception as exc:
-        logger.warning("Could not load LLM judges: %s — running CV-only", exc)
+        logger.warning("Could not load LLM judges: %s - running CV-only", exc)
         return None, None, None, None
 
 
-# ── Single-sample evaluation ──────────────────────────────────────────────────
+# Single-sample evaluation
 
 def evaluate_sample(
     sample: dict,
@@ -216,7 +216,7 @@ def evaluate_sample(
         motion_type=sample.get("motion_type") or sample.get("constraint_annotations", {}).get("motion_type"),
     )
 
-    # Load reference image — prefer HQ PNG (dataset/images_hq/), fall back to 720p JPEG.
+    # Load reference image: prefer HQ PNG (dataset/images_hq/), fall back to 720p JPEG.
     # normalize_frame() will resize to EVAL_RESOLUTION (1080p) before metric computation.
     reference_image = None
     image_path = sample.get("image_path")
@@ -229,12 +229,12 @@ def evaluate_sample(
             if os.path.exists(candidate):
                 ref = cv2.imread(candidate)
                 if ref is not None:
-                    reference_image = normalize_frame(ref)  # → 1080p
+                    reference_image = normalize_frame(ref)  # to 1080p
                     break
         if reference_image is None:
             logger.warning("Reference image missing: %s", abs_path)
 
-    # IKA — LLM-based if judge available, else use pre-computed answers
+    # IKA: LLM-based if judge available, else use pre-computed answers.
     ika_score = None
     ika_details = None
     cot_map: dict[str, str] = {}
@@ -267,9 +267,11 @@ def evaluate_sample(
     tc_result: dict = {}
     if judge_tc is not None:
         try:
-            r = judge_tc(frames)
+            r = judge_tc(frames, sample_meta=sample)
             tc_result = {"tc_score": r.get("score"), "reasoning": r.get("reasoning", ""),
-                         "method": "llm_direct"}
+                         "raw_response": r.get("raw_response", ""),
+                         "tokens_used": r.get("tokens_used"),
+                         "method": "vlm_direct"}
         except Exception as exc:
             logger.warning("TC LLM failed for %s: %s", task_id, exc)
     if not tc_result:
@@ -290,9 +292,11 @@ def evaluate_sample(
     vf_result: dict = {}
     if judge_vf is not None and reference_image is not None:
         try:
-            r = judge_vf(frames, reference_image=reference_image)
+            r = judge_vf(frames, reference_image=reference_image, sample_meta=sample)
             vf_result = {"vf_score": r.get("score"), "reasoning": r.get("reasoning", ""),
-                         "method": "llm_direct"}
+                         "raw_response": r.get("raw_response", ""),
+                         "tokens_used": r.get("tokens_used"),
+                         "method": "vlm_direct"}
         except Exception as exc:
             logger.warning("VF LLM failed for %s: %s", task_id, exc)
     if not vf_result and reference_image is not None:
@@ -307,8 +311,7 @@ def evaluate_sample(
     if tc_result.get("tc_score") is not None:
         axis_scores["tc"] = float(tc_result["tc_score"])
     if pp_score is not None:
-        # PP is 1-5 → 0-100
-        axis_scores["pp"] = (float(pp_score) - 1) / 4 * 100.0
+        axis_scores["pp"] = float(pp_score)
     if vf_result.get("vf_score") is not None:
         axis_scores["vf"] = float(vf_result["vf_score"])
     if vfa_result.get("vfa_score") is not None:
@@ -356,7 +359,7 @@ def evaluate_sample(
     }
 
 
-# ── CLI ───────────────────────────────────────────────────────────────────────
+# CLI
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="FORGE-Bench evaluation runner")
@@ -385,7 +388,7 @@ def main() -> None:
 
     use_llm = not args.no_llm and bool(os.environ.get("ANTHROPIC_API_KEY"))
     if not use_llm and not args.no_llm:
-        logger.warning("ANTHROPIC_API_KEY not set — running CV-only (use --no_llm to silence)")
+        logger.warning("ANTHROPIC_API_KEY not set - running CV-only (use --no_llm to silence)")
     judge_ika, judge_tc, judge_pp, judge_vf = _make_llm_judges(use_llm)
 
     out_dir = os.path.join(args.output_dir, args.model)

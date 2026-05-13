@@ -5,9 +5,9 @@ import sys
 
 # -- Tunable thresholds -------------------------------------------------------
 CONFIG = {
-    "score_min": 1,               # Minimum valid PP score
-    "score_max": 5,               # Maximum valid PP score
-    "fallback_score": 3,          # Conservative fallback when parsing fails
+    "score_min": 0,               # Minimum valid PP score
+    "score_max": 100,             # Maximum valid PP score
+    "fallback_score": 50,         # Conservative fallback when parsing fails
 }
 
 PP_SYSTEM_PROMPT = (
@@ -25,11 +25,11 @@ PP_PROMPT_TEMPLATE = (
     "realistic, motion paths are physically possible, and material properties "
     "are consistent.\n\n"
     "CALIBRATION: Apply strict scientific standards. "
-    "Score {score_max} = zero physically impossible elements. "
-    "Score 4 = minor physically plausible approximations only. "
-    "Score 3 = one noticeable but not severe physics issue. "
-    "Score 2 = clear violation of known physical laws. "
-    "Score {score_min} = multiple severe violations. "
+    "Score 90-100 = zero physically impossible elements. "
+    "Score 70-89 = minor physically plausible approximations only. "
+    "Score 50-69 = noticeable but localized physics issue. "
+    "Score 25-49 = clear violation of known physical laws. "
+    "Score 0-24 = multiple severe violations. "
     "When uncertain between scores, choose the lower one. "
     "Industrial accuracy is paramount.\n\n"
     "MODEL-WEAKNESS SCORING: For industrial I2V video evaluation, current "
@@ -52,11 +52,11 @@ PP_CONSTRAINED_PROMPT_TEMPLATE = (
     "{constraints_list}\n\n"
     "Each constraint either holds or is violated — score accordingly.\n\n"
     "CALIBRATION: Apply strict scientific standards. "
-    "Score {score_max} = zero physically impossible elements. "
-    "Score 4 = minor physically plausible approximations only. "
-    "Score 3 = one noticeable but not severe physics issue. "
-    "Score 2 = clear violation of known physical laws. "
-    "Score {score_min} = multiple severe violations. "
+    "Score 90-100 = zero physically impossible elements. "
+    "Score 70-89 = minor physically plausible approximations only. "
+    "Score 50-69 = noticeable but localized physics issue. "
+    "Score 25-49 = clear violation of known physical laws. "
+    "Score 0-24 = multiple severe violations. "
     "When uncertain between scores, choose the lower one. "
     "Industrial accuracy is paramount.\n\n"
     "MODEL-WEAKNESS SCORING: For industrial I2V video evaluation, current "
@@ -101,7 +101,7 @@ def build_pp_prompt(content: str, constraint_annotations: dict | None = None) ->
 
 
 def parse_pp_score(response: str) -> int:
-    """Extract a 1-5 integer score from an LMM response string."""
+    """Extract a 0-100 integer score from an LMM response string."""
     if not response:
         print("WARNING: empty LLM response in parse_pp_score, using fallback", file=sys.stderr)
         return CONFIG["fallback_score"]

@@ -96,6 +96,28 @@ def _count_tokens(response) -> int:
     return getattr(usage, "input_tokens", 0) + getattr(usage, "output_tokens", 0)
 
 
+def _format_sample_context(sample_meta: dict | None) -> str:
+    """Format sample metadata into compact judge context."""
+    if not sample_meta:
+        return "Sample context: none provided."
+    fields = {
+        "task_id": sample_meta.get("task_id"),
+        "domain": sample_meta.get("domain"),
+        "primary_topology": sample_meta.get("primary_topology") or sample_meta.get("topology_type"),
+        "sub_topology": sample_meta.get("sub_topology"),
+        "motion_type": sample_meta.get("motion_type"),
+        "vfa_target": sample_meta.get("vfa_target"),
+    }
+    lines = ["Sample context:"]
+    for key, value in fields.items():
+        if value is not None:
+            lines.append(f"- {key}: {value}")
+    constraints = (sample_meta.get("constraint_annotations") or {}).get("hard_constraints", [])
+    if constraints:
+        lines.append("- hard_constraints: " + "; ".join(str(c) for c in constraints[:8]))
+    return "\n".join(lines)
+
+
 # ---------------------------------------------------------------------------
 # IKA judge
 # ---------------------------------------------------------------------------
@@ -296,6 +318,7 @@ def judge_sample_ika(
 
 def judge_sample_tc(
     frames: list[np.ndarray],
+    sample_meta: dict | None = None,
     model: str = CONFIG["default_model"],
 ) -> dict:
     """Use an LLM to rate temporal coherence on a 0-100 scale.
@@ -314,21 +337,23 @@ def judge_sample_tc(
     indices = _sample_indices(len(frames), CONFIG["tc_max_frames"])
 
     system_text = (
-        "You are an expert in industrial video quality assessment.  "
-        "Evaluate temporal coherence on a scale of 0-100.  "
-        "Consider: (1) smooth motion without abrupt jumps, "
-        "(2) consistent lighting, (3) plausible motion speed, "
-        "(4) no element disappearance, (5) consistent camera arc.  "
-        "Reply with a score (0-100) on the first line, then a brief justification."
+        "You are an industrial video evaluation judge. Score temporal "
+        "coherence on a strict 0-100 scale. Penalize frame-to-frame drift, "
+        "flicker, morphing, disappearing components, topology merges, phase "
+        "jumps, and inconsistent camera motion. A visually smooth video with "
+        "structural drift must score low. Reply with a single integer score "
+        "on the first line, then concise evidence."
     )
 
     image_blocks = [_make_image_content(frames[i]) for i in indices]
 
     n = len(frames)
     frame_desc = ", ".join(f"frame {i}/{n}" for i in indices)
+    meta_text = _format_sample_context(sample_meta)
     prompt_text = (
         f"Rate the temporal coherence of this video (0-100).\n"
         f"Shown frames: {frame_desc}\n\n"
+        f"{meta_text}\n\n"
         "Reply with a single integer 0-100 on the first line, then brief reasoning."
     )
 
@@ -371,11 +396,7 @@ def judge_sample_pp(
     sample_meta: dict,
     model: str = CONFIG["default_model"],
 ) -> dict:
-    """Use an LLM to rate physical plausibility on a 0-100 scale.
-
-    Uses the existing PP prompt templates from physical_plausibility/eval.py
-    but operates on frames rather than text content.  The 1-5 score from the
-    template is mapped to 0-100 for consistency with other axes.
+    """Use a VLM to rate physical plausibility on a native 0-100 scale.
 
     Args:
         frames: BGR numpy arrays from the video.
@@ -387,28 +408,43 @@ def judge_sample_pp(
         dict with keys: score (int 0-100), justification, raw_response,
         model, tokens_used.
     """
-    from eval.physical_plausibility.eval import build_pp_prompt
-
     client = _get_client()
     indices = _sample_indices(len(frames), CONFIG["pp_max_frames"])
 
     system_text = (
-        "You are an expert in physics and engineering.  "
-        "Evaluate the physical plausibility of the generated video content.  "
-        "Consider gravity, material rigidity, structural integrity, and "
-        "realistic motion trajectories.  "
-        "Reply with a score (0-100) on the first line, then a brief justification."
+        "You are a strict industrial physics and engineering judge. Score "
+        "physical plausibility on a 0-100 scale from the actual video frames. "
+        "Penalize impossible load paths, broken kinematic chains, non-rigid "
+        "deformation of rigid parts, gravity violations, implausible support, "
+        "component count changes, and physically impossible camera/motion "
+        "trajectories. A photorealistic but mechanically impossible video must "
+        "score low. Reply with a single integer score on the first line, then "
+        "concise evidence."
     )
 
     image_blocks = [_make_image_content(frames[i]) for i in indices]
 
     constraint_annotations = sample_meta.get("constraint_annotations")
-    pp_text = build_pp_prompt(prompt, constraint_annotations)
-
-    # Remap the 1-5 rubric language to 0-100 for frame-based judging
-    pp_text = pp_text.replace(
-        "Respond with a single integer score (1-5) followed by a brief justification.",
-        "Reply with a single integer 0-100 on the first line, then brief justification.",
+    hard_constraints = constraint_annotations.get("hard_constraints", []) if constraint_annotations else []
+    failure_modes = constraint_annotations.get("failure_modes", []) if constraint_annotations else []
+    context = _format_sample_context(sample_meta)
+    constraints_text = "\n".join(f"- {c}" for c in hard_constraints) or "- none listed"
+    failures_text = "\n".join(f"- {c}" for c in failure_modes) or "- none listed"
+    pp_text = (
+        "Evaluate physical plausibility of the generated industrial video.\n\n"
+        f"Generation prompt:\n{prompt}\n\n"
+        f"{context}\n\n"
+        "Hard constraints to verify:\n"
+        f"{constraints_text}\n\n"
+        "Known failure modes to watch for:\n"
+        f"{failures_text}\n\n"
+        "Scoring rubric:\n"
+        "90-100: all visible physics and mechanical constraints preserved.\n"
+        "70-89: minor artifacts, no functional physics failure.\n"
+        "50-69: noticeable but localized physical inconsistency.\n"
+        "25-49: clear mechanical/physical violation affecting function.\n"
+        "0-24: severe impossible motion, broken structure, or repeated violations.\n\n"
+        "Reply with a single integer 0-100 on the first line, then brief evidence."
     )
 
     message_content = image_blocks + [{"type": "text", "text": pp_text}]
@@ -447,6 +483,7 @@ def judge_sample_pp(
 def judge_sample_vf(
     frames: list[np.ndarray],
     reference_image: np.ndarray,
+    sample_meta: dict | None = None,
     model: str = CONFIG["default_model"],
 ) -> dict:
     """Use an LLM to rate visual fidelity against a reference image.
@@ -467,13 +504,13 @@ def judge_sample_vf(
     indices = _sample_indices(len(frames), CONFIG["vf_max_frames"])
 
     system_text = (
-        "You are an expert in visual quality assessment.  Compare the reference "
-        "image to frames from a generated video.  Rate visual fidelity 0-100 "
-        "based on: (1) preservation of subject identity and structure, "
-        "(2) consistency of color palette and lighting, "
-        "(3) no hallucinated elements, "
-        "(4) proportions and scale maintained.  "
-        "Reply with a score (0-100) on the first line, then a brief justification."
+        "You are a strict industrial visual-fidelity judge. Compare the "
+        "reference image against generated video frames on a 0-100 scale. "
+        "Prioritize preservation of the actual machine/object identity, "
+        "geometry, component count, proportions, material boundaries, labels, "
+        "surface continuity, and absence of hallucinated industrial parts. "
+        "Photorealism without structural fidelity must score low. Reply with "
+        "a single integer score on the first line, then concise evidence."
     )
 
     ref_block = _make_image_content(reference_image)
@@ -489,6 +526,7 @@ def judge_sample_vf(
     prompt_text = (
         "Compare the reference image to the video frames above.  "
         "Rate visual fidelity 0-100.\n\n"
+        f"{_format_sample_context(sample_meta)}\n\n"
         "Reply with a single integer 0-100 on the first line, then brief justification."
     )
 
