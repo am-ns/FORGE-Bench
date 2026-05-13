@@ -12876,6 +12876,51 @@
       ],
       "primary_topology": "lattice",
       "sub_topology": "3d_spatial"
+    },
+    {
+      "task_id": "eng_021",
+      "domain": "energy_power",
+      "image_path": "dataset\\images\\energy_power\\hydroelectric_penstock_exterior.jpg",
+      "prompt": "Camera orbits slowly around a large steel hydroelectric penstock pipe showing the cylindrical shell, expansion joints, concrete anchor blocks, and flanged connections on a forested hillside. Constant-radius orbit at mid-height. No zoom.",
+      "vfa_target": "orbit_cw_45deg",
+      "motion_type": "orbit",
+      "topology_type": "surface",
+      "primary_topology": "surface",
+      "sub_topology": "rigid_housing",
+      "failure_target": "surface_topology_preservation",
+      "difficulty_profile": {
+        "IKA": "medium",
+        "TC": "medium",
+        "PP": "medium",
+        "VF": "medium",
+        "GI": "medium"
+      },
+      "constraint_annotations": {
+        "topology_class": "rigid_housing",
+        "key_invariants": [
+          "pipe_cylindrical_geometry",
+          "expansion_joint_count",
+          "anchor_block_positions"
+        ]
+      },
+      "ika_questions": [
+        {
+          "id": "q1",
+          "text": "Does the cylindrical penstock pipe maintain a consistent circular cross-section without non-physical ovalization throughout the orbit?",
+          "answer": "yes"
+        },
+        {
+          "id": "q2",
+          "text": "Do the expansion joint flanges maintain their correct count and flange geometry from first to last frame?",
+          "answer": "yes"
+        },
+        {
+          "id": "q3",
+          "text": "Do the concrete anchor saddles maintain geometrically consistent proportions without non-physical deformation during the orbit?",
+          "answer": "yes"
+        }
+      ],
+      "sensitivity_variants": []
     }
   ]
 }
