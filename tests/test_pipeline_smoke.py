@@ -21,9 +21,9 @@ from eval.geometric_integrity.surface import evaluate_surface
 from eval.industrial_constraints.count_invariant import check_count_invariant
 from eval.preflight import validate_frame_count
 from eval.vfa.eval import compute_vfa
-from scoring.aggregate import aggregate_scores
+from scoring.aggregate import aggregate_sample_results, aggregate_scores
 from scoring.per_sample import score_sample
-from scoring.report import generate_report
+from scoring.report import generate_diagnostic_report, generate_report
 
 
 # ---------------------------------------------------------------------------
@@ -210,6 +210,16 @@ class TestScoring:
         assert result["axis_scores"]["vfa"] == 0.0
         assert result["weighted_score"] < 80.0
 
+    def test_per_sample_score_mixes_ic_into_gi(self):
+        """Industrial constraints should lower GI and participate as an axis."""
+        result = score_sample(
+            {"ika": 80, "tc": 70, "pp": 75, "vf": 85, "gi": 90},
+            ic_score=0.20,
+        )
+        assert result["axis_scores"]["ic"] == 20.0
+        assert result["axis_scores"]["gi"] == 69.0
+        assert result["weighted_score"] < 80.0
+
     def test_aggregate(self):
         """aggregate_scores should classify VFA tier and produce overall > 0."""
         result = aggregate_scores(
@@ -217,6 +227,33 @@ class TestScoring:
         )
         assert result["vfa_tier"] == "weak"
         assert result["overall"] > 0
+
+    def test_aggregate_sample_results_outputs_public_metrics(self):
+        """Aggregate engine should expose relax, strict-pass, and gated scores."""
+        result = aggregate_sample_results([
+            {
+                "task_id": "ok",
+                "skipped": False,
+                "vfa": 60.0,
+                "scored": {
+                    "weighted_score": 80.0,
+                    "axis_scores": {"ika": 80, "tc": 80, "pp": 80, "vf": 80, "gi": 80, "vfa": 100},
+                },
+            },
+            {
+                "task_id": "bad_vfa",
+                "skipped": False,
+                "vfa": 0.0,
+                "scored": {
+                    "weighted_score": 70.0,
+                    "axis_scores": {"ika": 80, "tc": 80, "pp": 80, "vf": 80, "gi": 80, "vfa": 0},
+                },
+            },
+        ])
+        assert result["relax_score"] == 75.0
+        assert result["strict_pass_rate"] == 0.5
+        assert result["gated_score"] == 40.0
+        assert result["overall"] == result["gated_score"]
 
 
 class TestReport:
@@ -227,6 +264,43 @@ class TestReport:
         parsed = json.loads(result_json)
         assert parsed["score"] is None
         assert parsed["val"] is None
+
+    def test_diagnostic_report_summarizes_failures(self):
+        """Diagnostic report should expose axis, VFA, IC, and weakness failures."""
+        samples = [
+            {
+                "task_id": "bad",
+                "domain": "robotics",
+                "primary_topology": "kinematic",
+                "sub_topology": "articulated",
+                "motion_type": "orbit",
+                "skipped": False,
+                "vfa": 0.0,
+                "vfa_score": 0.0,
+                "vfa_target_degrees": 90.0,
+                "vfa_details": {},
+                "ic_details": {
+                    "violations": ["check_count_invariant: element count varied"],
+                    "invariants_checked": ["check_count_invariant"],
+                },
+                "ika_details": {
+                    "per_question": [
+                        {"weakness_target": "W3", "correct": False},
+                        {"weakness_target": "W5", "correct": True},
+                    ]
+                },
+                "scored": {
+                    "weighted_score": 30.0,
+                    "axis_scores": {"ika": 50, "gi": 30, "ic": 20, "vfa": 0},
+                },
+            }
+        ]
+        report = generate_diagnostic_report("model", {"overall": 0.0}, samples)
+        assert report["summary"]["weakest_axes"][0]["axis"] == "vfa"
+        assert report["vfa_diagnostics"]["static_or_near_static_count"] == 1
+        assert report["ic_diagnostics"]["violation_counts"]["check_count_invariant"] == 1
+        assert report["ika_weakness_diagnostics"]["W3"]["accuracy"] == 0.0
+        assert report["worst_samples"][0]["task_id"] == "bad"
 
 
 class TestDatasetValidation:

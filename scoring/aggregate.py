@@ -22,6 +22,8 @@ CONFIG = {
     "vfa_tier_none": 5,           # VFA below this => 'none' tier
     "vfa_tier_weak": 20,          # VFA below this => 'weak' tier
     "vfa_tier_moderate": 60,      # VFA below this => 'moderate' tier; above => 'full'
+    "strict_axis_threshold": 60.0,
+    "strict_vfa_threshold": 50.0,
 }
 
 # RIF component weights — unvalidated defaults, intended for tuning.
@@ -34,7 +36,18 @@ AXIS_FLOORS = {
     "pp": CONFIG["axis_floor_default"],
     "vf": CONFIG["axis_floor_default"],
     "gi": CONFIG["axis_floor_gi"],
+    "ic": CONFIG["axis_floor_gi"],
     "vfa": CONFIG["axis_floor_vfa"],
+}
+
+STRICT_AXIS_THRESHOLDS = {
+    "ika": CONFIG["strict_axis_threshold"],
+    "tc": CONFIG["strict_axis_threshold"],
+    "pp": CONFIG["strict_axis_threshold"],
+    "vf": CONFIG["strict_axis_threshold"],
+    "gi": CONFIG["strict_axis_threshold"],
+    "ic": CONFIG["strict_axis_threshold"],
+    "vfa": CONFIG["strict_vfa_threshold"],
 }
 
 
@@ -116,3 +129,87 @@ def aggregate_scores(axis_scores: dict[str, float], vfa: float | None = None) ->
         result["rif_gated"] = rif
 
     return result
+
+
+def _sample_passes_strict(axis_scores: dict[str, float]) -> bool:
+    """Return True only when every present benchmark axis clears its threshold."""
+    if not axis_scores:
+        return False
+    for axis, score in axis_scores.items():
+        threshold = STRICT_AXIS_THRESHOLDS.get(axis, CONFIG["strict_axis_threshold"])
+        if float(score) < threshold:
+            return False
+    return True
+
+
+def _vfa_gate_multiplier(axis_scores: dict[str, float]) -> float:
+    """Convert VFA target fidelity to a soft gate multiplier in [0, 1]."""
+    if "vfa" not in axis_scores:
+        return 1.0
+    return max(0.0, min(1.0, float(axis_scores["vfa"]) / 100.0))
+
+
+def aggregate_sample_results(sample_results: list[dict]) -> dict:
+    """Aggregate completed per-sample results into benchmark-level metrics.
+
+    Produces the three public metrics described in the README:
+    - relax_score: mean per-sample weighted score.
+    - strict_pass_rate: fraction of samples where every present axis passes.
+    - gated_score: mean per-sample score after applying the VFA fidelity gate.
+    """
+    completed = [r for r in sample_results if not r.get("skipped") and r.get("scored")]
+    if not completed:
+        return {
+            "axis_scores": {},
+            "overall": 0.0,
+            "relax_score": 0.0,
+            "strict_pass_rate": 0.0,
+            "gated_score": 0.0,
+            "num_samples_total": len(sample_results),
+            "num_samples_completed": 0,
+            "num_samples_skipped": len(sample_results),
+            "note": "no_completed_samples",
+        }
+
+    axis_keys: set[str] = set()
+    for result in completed:
+        axis_keys.update(result["scored"].get("axis_scores", {}).keys())
+
+    mean_axes = {
+        axis: float(np.mean([
+            result["scored"]["axis_scores"][axis]
+            for result in completed
+            if axis in result["scored"].get("axis_scores", {})
+        ]))
+        for axis in axis_keys
+    }
+
+    vfa_vals = [r["vfa"] for r in completed if r.get("vfa") is not None]
+    aggregate = aggregate_scores(
+        mean_axes,
+        vfa=float(np.mean(vfa_vals)) if vfa_vals else None,
+    )
+
+    weighted_scores = [
+        float(r["scored"].get("weighted_score", 0.0))
+        for r in completed
+    ]
+    strict_flags = [
+        _sample_passes_strict(r["scored"].get("axis_scores", {}))
+        for r in completed
+    ]
+    gated_scores = [
+        float(r["scored"].get("weighted_score", 0.0))
+        * _vfa_gate_multiplier(r["scored"].get("axis_scores", {}))
+        for r in completed
+    ]
+
+    aggregate["relax_score"] = float(np.mean(weighted_scores))
+    aggregate["strict_pass_rate"] = float(np.mean(strict_flags))
+    aggregate["gated_score"] = float(np.mean(gated_scores))
+    aggregate["num_samples_total"] = len(sample_results)
+    aggregate["num_samples_completed"] = len(completed)
+    aggregate["num_samples_skipped"] = len(sample_results) - len(completed)
+    # Keep overall as the leaderboard-compatible headline score.
+    aggregate["overall"] = aggregate["gated_score"]
+    return aggregate

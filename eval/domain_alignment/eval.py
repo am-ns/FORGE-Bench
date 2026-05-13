@@ -196,7 +196,11 @@ def evaluate_ika(sample_questions: list[dict], model_answers: dict[str, str],
             correct_count += 1
         if result["superlative_pass"]:
             superlative_count += 1
-        per_question.append({**result, "question_id": qid})
+        per_question.append({
+            **result,
+            "question_id": qid,
+            "weakness_target": q.get("weakness_target"),
+        })
 
     return {
         "score": correct_count / total,

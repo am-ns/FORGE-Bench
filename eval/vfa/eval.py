@@ -142,7 +142,7 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | str | None = None,
     - Video shorter than 8 frames: computes on available frames with a warning.
     - Grayscale video: converts to BGR before optical flow computation.
     - Dark background: applies center-ROI crop and lower static threshold.
-    - Crane motion: raises NotImplementedError requiring VLM fallback.
+    - Crane motion: reports vfa_uncalculable until a validated estimator exists.
 
     Args:
         frames: List of video frames (BGR or grayscale).
@@ -196,11 +196,11 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | str | None = None,
     result["dark_background"] = dark_bg
     use_roi = dark_bg  # use center 60% ROI for dark backgrounds
 
-    # -- Crane motion type: VLM fallback not yet implemented --
+    # -- Crane motion type: estimator not yet implemented --
     if motion_type == "crane":
         # Crane shots involve boom/arm extension which optical flow cannot
-        # reliably decompose into rotation vs. translation.  A VLM
-        # (Vision-Language Model) fallback is needed — see GitHub issue #TODO.
+        # reliably decompose into rotation vs. translation.  Report this
+        # explicitly rather than treating the sample as correctly scored.
         result["vfa"] = None
         result["vfa_score"] = None
         result["vfa_orbit_component"] = 0.0

@@ -16,7 +16,7 @@ _FLOOR_CV_SCORED = 8.0    # gi, ic_score
 _FLOOR_VFA = 0.0          # vfa is a gate
 
 _LLM_AXES = {"ika", "tc", "pp", "vf"}
-_CV_AXES = {"gi", "ic_score"}
+_CV_AXES = {"gi", "ic", "ic_score"}
 
 
 def enforce_score_floors(scores_dict: dict[str, float]) -> dict[str, float]:

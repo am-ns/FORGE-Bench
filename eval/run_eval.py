@@ -31,8 +31,8 @@ from eval.temporal_coherence.eval import evaluate_tc
 from eval.visual_fidelity.eval import evaluate_vf
 from eval.vfa.eval import compute_vfa
 from scoring.per_sample import score_sample
-from scoring.aggregate import aggregate_scores
-from scoring.report import generate_report
+from scoring.aggregate import aggregate_sample_results
+from scoring.report import generate_diagnostic_report, generate_report
 
 logger = logging.getLogger("forge_eval")
 
@@ -314,6 +314,11 @@ def evaluate_sample(
         "domain": domain,
         "primary_topology": primary_topology,
         "sub_topology": sub_topology,
+        "motion_type": sample.get("motion_type"),
+        "difficulty_profile": sample.get("difficulty_profile", {}),
+        "weakness_targets": [
+            q.get("weakness_target") for q in questions if q.get("weakness_target")
+        ],
         "skipped": False,
         "frame_count_reported": fc.get("reported_count"),
         "frame_count_actual": fc.get("actual_count"),
@@ -395,35 +400,20 @@ def main() -> None:
             json.dump(result, f, indent=2, default=str)
         all_results.append(result)
 
-    completed = [r for r in all_results if not r.get("skipped")]
-    if not completed:
-        aggregate = {"overall": 0.0, "note": "no_completed_samples"}
-    else:
-        axis_keys: set[str] = set()
-        for r in completed:
-            axis_keys.update(r.get("scored", {}).get("axis_scores", {}).keys())
-        mean_axes = {
-            ax: float(np.mean([r["scored"]["axis_scores"].get(ax, 0.0)
-                               for r in completed if "scored" in r]))
-            for ax in axis_keys
-        }
-        vfa_vals = [r["vfa"] for r in completed if r.get("vfa") is not None]
-        aggregate = aggregate_scores(mean_axes, vfa=float(np.mean(vfa_vals)) if vfa_vals else None)
-        aggregate["num_samples_total"] = len(all_results)
-        aggregate["num_samples_completed"] = len(completed)
-        aggregate["num_samples_skipped"] = len(all_results) - len(completed)
+    aggregate = aggregate_sample_results(all_results)
+
+    with open(os.path.join(out_dir, "per_sample.json"), "w") as f:
+        json.dump(all_results, f, indent=2, default=str)
 
     with open(os.path.join(out_dir, "aggregate.json"), "w") as f:
         json.dump(aggregate, f, indent=2, default=str)
 
-    report = generate_report(
-        {"model": args.model, "aggregate": aggregate, "per_sample_count": len(all_results)},
-    )
+    report = generate_report(generate_diagnostic_report(args.model, aggregate, all_results))
     with open(os.path.join(out_dir, "report.json"), "w") as f:
         f.write(report)
 
     logger.info("Done. Completed=%d  Skipped=%d",
-                len(completed), len(all_results) - len(completed))
+                aggregate["num_samples_completed"], aggregate["num_samples_skipped"])
 
 
 if __name__ == "__main__":
