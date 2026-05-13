@@ -7180,9 +7180,9 @@
       "domain": "chemical",
       "topology_type": "surface",
       "image_path": "dataset/images/chemical/spray_dryer_tower.jpg",
-      "prompt": "Spray dryer tower with atomizer, drying chamber, and cyclone collector geometry. Camera orbits 176° clockwise around the subject at constant radius, slow smooth arc. Do not add or remove columns, vessels, or pipe runs. No distortion of tube bundle geometry. Column pitch spacing and tube bundle end-face pattern must remain undistorted.",
-      "vfa_target": 135.0,
-      "motion_type": "crane",
+      "prompt": "Camera orbits slowly around an industrial autoclave pressure vessel showing the pressure gauge assembly, brass valve manifold, and pipe connections on the vessel head. Static camera at close range, constant orbit. No zoom.",
+      "vfa_target": "orbit_cw_45deg",
+      "motion_type": "orbit",
       "difficulty_profile": {
         "ika": "hard",
         "tc": "medium",
@@ -7192,35 +7192,28 @@
         "vfa": "adversarial"
       },
       "constraint_annotations": {
-        "topology_type": "surface",
-        "hard_constraints": [
-          "surface_curvature_invariant",
-          "panel_alignment_consistency"
-        ],
-        "failure_modes": [
-          "vessel_wall_deformation",
-          "nozzle_count_drift"
-        ],
-        "element_count": null
+        "topology_class": "rigid_housing",
+        "key_invariants": [
+          "gauge_needle_position",
+          "valve_count",
+          "pipe_thread_geometry"
+        ]
       },
       "ika_questions": [
         {
-          "id": "ika1",
-          "text": "Between the first and final frame, has the column diameter remained within 2% of its initial measurement?",
-          "answer": "yes",
-          "weakness_target": "W6"
+          "id": "q1",
+          "text": "Does the pressure gauge needle maintain its position without non-physical drift throughout the orbit?",
+          "answer": "yes"
         },
         {
-          "id": "ika2",
-          "text": "Throughout the video, do the tray spacing maintain consistent angular alignment without drift?",
-          "answer": "no",
-          "weakness_target": "W2"
+          "id": "q2",
+          "text": "Do the pipe thread connections maintain their correct count and geometry from the first to last frame?",
+          "answer": "yes"
         },
         {
-          "id": "ika3",
-          "text": "Between the first and final frame, has the nozzle angle remained within 5% of its initial value?",
-          "answer": "yes",
-          "weakness_target": "W4"
+          "id": "q3",
+          "text": "Is the valve handle geometry preserved without distortion throughout the camera orbit?",
+          "answer": "yes"
         }
       ],
       "sensitivity_variants": [
@@ -7238,7 +7231,8 @@
         }
       ],
       "primary_topology": "surface",
-      "sub_topology": "rigid_housing"
+      "sub_topology": "rigid_housing",
+      "failure_target": "surface_topology_preservation"
     },
     {
       "task_id": "chem_surf_005",
@@ -10753,11 +10747,11 @@
     {
       "task_id": "micro_016",
       "domain": "electronics",
-      "topology_type": "kinematic",
+      "topology_type": "lattice",
       "image_path": "dataset/images/electronics/plasma_etcher_chamber.jpg",
-      "prompt": "Plasma etcher chamber with electrode plates, gas injection showerhead, and view port. Camera orbits 165° counter-clockwise around the subject at constant radius, medium smooth arc. Do not add or remove components, vias, or solder balls. No alteration of pad or trace geometry. Joint articulation sequence and link count must follow correct kinematic chain. Wire bond loop profile and lead frame geometry must be preserved in every frame.",
-      "vfa_target": 75.0,
-      "motion_type": "orbit",
+      "prompt": "Camera performs a slow dolly-in approach toward a CCD sensor wafer showing the die array grid, optical interference patterns, and die street boundaries. Static camera axis, smooth approach. No rotation.",
+      "vfa_target": "dolly_in_2x",
+      "motion_type": "dolly",
       "difficulty_profile": {
         "ika": "hard",
         "tc": "hard",
@@ -10767,35 +10761,28 @@
         "vfa": "adversarial"
       },
       "constraint_annotations": {
-        "topology_type": "kinematic",
-        "hard_constraints": [
-          "joint_count_invariant",
-          "link_length_consistency"
-        ],
-        "failure_modes": [
-          "bond_wire_loop_collapse",
-          "component_count_drift"
-        ],
-        "element_count": null
+        "topology_class": "2d_planar",
+        "key_invariants": [
+          "die_street_linearity",
+          "array_periodicity",
+          "die_pad_separation"
+        ]
       },
       "ika_questions": [
         {
-          "id": "ika1",
-          "text": "Between the first and final frame, has the die width remained within 2% of its initial measurement?",
-          "answer": "yes",
-          "weakness_target": "W6"
+          "id": "q1",
+          "text": "Do the die street boundary lines maintain straight, parallel geometry without merging or blurring during the dolly approach?",
+          "answer": "yes"
         },
         {
-          "id": "ika2",
-          "text": "Throughout the video, do the pad pitch maintain consistent angular alignment without drift?",
-          "answer": "no",
-          "weakness_target": "W2"
+          "id": "q2",
+          "text": "Does the regular die array grid maintain its geometric periodicity without distortion?",
+          "answer": "yes"
         },
         {
-          "id": "ika3",
-          "text": "Between the first and final frame, has the lead length remained within 5% of its initial value?",
-          "answer": "yes",
-          "weakness_target": "W4"
+          "id": "q3",
+          "text": "Do individual die pads remain geometrically distinct without adjacent pads merging?",
+          "answer": "yes"
         }
       ],
       "sensitivity_variants": [
@@ -10813,7 +10800,8 @@
         }
       ],
       "primary_topology": "lattice",
-      "sub_topology": "2d_planar"
+      "sub_topology": "2d_planar",
+      "failure_target": "lattice_topology_preservation"
     },
     {
       "task_id": "micro_017",
@@ -10950,8 +10938,8 @@
       "domain": "electronics",
       "topology_type": "lattice",
       "image_path": "dataset/images/electronics/chemical_mechanical_polisher.jpg",
-      "prompt": "Chemical mechanical polisher with rotating platen, carrier head, and slurry delivery. Camera orbits 166° counter-clockwise around the subject at constant radius, medium smooth arc. Do not add or remove components, vias, or solder balls. No alteration of pad or trace geometry. Lattice node connectivity and member count must be preserved. PCB via hole grid pitch and component count must be stable across all frames.",
-      "vfa_target": 135.0,
+      "prompt": "Camera pans laterally across a CCD image sensor pixel array showing the densely packed photosite grid, inter-pixel gap structure, and micro-lens array rows. Camera is 2 mm above the surface at 45-degree angle. Slow, steady lateral pan.",
+      "vfa_target": "horizontal_pan_lr",
       "motion_type": "pan",
       "difficulty_profile": {
         "ika": "medium",
@@ -10962,35 +10950,28 @@
         "vfa": "adversarial"
       },
       "constraint_annotations": {
-        "topology_type": "lattice",
-        "hard_constraints": [
-          "unit_cell_pitch_invariant",
-          "lattice_node_alignment"
-        ],
-        "failure_modes": [
-          "ball_grid_merging",
-          "via_hole_collapse"
-        ],
-        "element_count": 64
+        "topology_class": "2d_planar",
+        "key_invariants": [
+          "pixel_grid_periodicity",
+          "inter_pixel_gap_continuity",
+          "aliasing_free"
+        ]
       },
       "ika_questions": [
         {
-          "id": "ika1",
-          "text": "Between the first and final frame, has the die width remained within 2% of its initial measurement?",
-          "answer": "yes",
-          "weakness_target": "W6"
+          "id": "q1",
+          "text": "Does the pixel grid maintain its regular row-column alignment without topology merge or aliasing during the lateral pan?",
+          "answer": "yes"
         },
         {
-          "id": "ika2",
-          "text": "Throughout the video, do the pad pitch maintain consistent angular alignment without drift?",
-          "answer": "no",
-          "weakness_target": "W2"
+          "id": "q2",
+          "text": "Do the inter-pixel gap lines remain geometrically consistent throughout the pan without disappearing or merging?",
+          "answer": "yes"
         },
         {
-          "id": "ika3",
-          "text": "Between the first and final frame, has the lead length remained within 5% of its initial value?",
-          "answer": "yes",
-          "weakness_target": "W4"
+          "id": "q3",
+          "text": "Is the pixel array periodicity preserved without frequency aliasing introducing spurious moiré patterns?",
+          "answer": "yes"
         }
       ],
       "sensitivity_variants": [
@@ -11008,7 +10989,8 @@
         }
       ],
       "primary_topology": "lattice",
-      "sub_topology": "2d_planar"
+      "sub_topology": "2d_planar",
+      "failure_target": "lattice_topology_preservation"
     },
     {
       "task_id": "mine_kin_007",
