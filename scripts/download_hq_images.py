@@ -175,7 +175,8 @@ def main():
         domain = src.parent.name
         dst    = DST_DIR / domain / src.name
 
-        if dst.exists():
+        out_check = dst.with_suffix(".png") if SAVE_FORMAT == "PNG" else dst
+        if out_check.exists():
             skip += 1
             continue
 

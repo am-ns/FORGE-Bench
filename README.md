@@ -91,40 +91,93 @@ Floor values: LLM-scored axes (IKA, TC, PP, VF) are floored at 5.0; CV-scored ax
 ## Scoring Pipeline
 
 ```
-┌─────────────┐
-│ Video Frames │  (extracted from model output .mp4)
-└──────┬──────┘
-       │
-       ├──► GI Module ──────────────────────────────────────┐
-       │    ├── kinematic (static camera detection)          │
-       │    ├── lattice (SIFT keypoint matching)             │
-       │    └── surface (SIFT proxy for point-cloud GI)      │
-       │                                                     │
-       ├──► IC Checkers (augment GI result) ─────────────────┤
-       │    ├── count_invariant                              │
-       │    ├── kinematic_coupling                           │
-       │    ├── periodic_structure                           │
-       │    └── topology_merge_detector                      │
-       │                                                     ▼
-       │                                          ┌──────────────────┐
-       ├──► VFA Module (RANSAC affine rotation) ──►│  Per-Sample      │
-       │                                           │  Scoring Engine  │
-       └──► IKA Module (LLM answer match) ────────►│  (score_sample)  │
-                                                    └────────┬─────────┘
-                                                             │
-                                                    ┌────────▼─────────┐
-                                                    │ Aggregate Engine │
-                                                    │ (floor + RIF +   │
-                                                    │  VFA tiering)    │
-                                                    └────────┬─────────┘
-                                                             │
-                                                    ┌────────▼─────────┐
-                                                    │ report.json      │
-                                                    │ aggregate.json   │
-                                                    └──────────────────┘
+┌──────────────────┐
+│   Video Frames   │  (uniformly sampled from model-generated .mp4, 1920×1080)
+└────────┬─────────┘
+         │
+         ├─────────────────────────────────────────────────────────────────────┐
+         │  CV TRACK  (deterministic, no LLM)                                  │
+         │                                                                     │
+         │  ┌─── GI Module (topology-type dispatch) ──────────────────────┐   │
+         │  │    ├── articulated   → Kinematic chain MAD + bilateral sym.  │   │
+         │  │    ├── rotational    → Polar symmetry / RCI                  │   │
+         │  │    ├── aerodynamic   → Chamfer distance on contours          │   │
+         │  │    ├── rigid_housing → SIFT keypoint proxy (first↔last)      │   │
+         │  │    ├── 2d_planar     → Fourier Spectral Integrity (FSI)      │   │
+         │  │    ├── 3d_spatial    → SIFT homography inlier ratio          │   │
+         │  │    └── cable_hose    → Optical flow continuity               │   │
+         │  └─────────────────────────────┬────────────────────────────────┘   │
+         │                                │ gi_score                           │
+         │  ┌─── IC Checkers (augment GI with ic_score) ──────────────────┐   │
+         │  │    ├── count_invariant      (element count stability)        │   │
+         │  │    ├── kinematic_coupling   (rigid-body coupling check)      │   │
+         │  │    ├── periodic_structure   (lattice / array preservation)   │   │
+         │  │    └── topology_merge_detector (component merge detection)   │   │
+         │  └─────────────────────────────┬────────────────────────────────┘   │
+         │                                │ ic_score (augments gi_score)       │
+         │                                │                                    │
+         │  ┌─── VFA Module (RANSAC affine, anchor→final frame) ──────────┐   │
+         │  │    • Estimates actual camera rotation angle                  │   │
+         │  │    • vfa ≈ 0  →  static video gate (penalizes orbit prompts) │   │
+         │  └─────────────────────────────┬────────────────────────────────┘   │
+         │                                │ vfa_score  +  gate_flag            │
+         │                                                                     │
+         ├─────────────────────────────────────────────────────────────────────┘
+         │
+         ├─────────────────────────────────────────────────────────────────────┐
+         │  LLM TRACK  (VLM judge — Claude Sonnet with CoT + visual prompting) │
+         │                                                                     │
+         │  ┌─── IKA  (Industrial Knowledge Alignment) ────────────────────┐  │
+         │  │    3 adversarial yes/no Qs per sample — structural invariants  │  │
+         │  │    CoT JSON output + SIFT-annotated frames → exact-match +    │  │
+         │  │    superlative-pass scoring                                   │  │
+         │  └─────────────────────────────┬────────────────────────────────┘  │
+         │                                │ ika_score                         │
+         │  ┌─── TC  (Temporal Consistency) ────────────────────────────────┐  │
+         │  │    Frame-to-frame coherence, no drift / merge / morphing      │  │
+         │  └─────────────────────────────┬────────────────────────────────┘  │
+         │                                │ tc_score                          │
+         │  ┌─── PP  (Physical Plausibility) ────────────────────────────────┐ │
+         │  │    Gravity, rigidity, realistic motion trajectories  1–5 scale │ │
+         │  └─────────────────────────────┬────────────────────────────────┘  │
+         │                                │ pp_score                          │
+         │  ┌─── VF  (Visual Fidelity) ──────────────────────────────────────┐ │
+         │  │    Structural preservation vs. reference image (SSIM + LLM)   │ │
+         │  └─────────────────────────────┬────────────────────────────────┘  │
+         │                                │ vf_score                          │
+         └─────────────────────────────────────────────────────────────────────┘
+                    │           │           │           │           │
+                 gi+ic        vfa         ika          tc+pp       vf
+                    │           │           │           │           │
+                    └───────────┴─────────────────┬─────┴───────────┘
+                                                  ▼
+                                    ┌─────────────────────────┐
+                                    │   Per-Sample Scoring    │
+                                    │   • Floor enforcement   │
+                                    │     (IKA/TC/PP/VF ≥ 5) │
+                                    │     (GI/IC ≥ 8)        │
+                                    │   • Weighted sum        │
+                                    │   • RIF = ∛(IKA·GI·VF) │
+                                    └────────────┬────────────┘
+                                                 │
+                                    ┌────────────▼────────────┐
+                                    │   Aggregate Engine      │
+                                    │   • Relax Score         │
+                                    │     (mean weighted axes)│
+                                    │   • Strict Pass Rate    │
+                                    │     (all axes pass)     │
+                                    │   • Gated Score         │
+                                    │     (VFA gate applied)  │
+                                    └────────────┬────────────┘
+                                                 │
+                                    ┌────────────▼────────────┐
+                                    │  report.json            │
+                                    │  aggregate.json         │
+                                    │  per_sample.json        │
+                                    └─────────────────────────┘
 ```
 
-**Flow:** Video frames are extracted and routed through three parallel evaluators. GI uses topology-type dispatch (kinematic / lattice / surface). IC checkers are domain-specific invariant tests that augment the GI result with an `ic_score`. VFA computes camera motion fidelity via anchor-to-final RANSAC affine estimation. IKA compares model answers to ground-truth via exact-match with superlative-pass handling. All axis scores feed into `score_sample()` which applies floor enforcement, computes RIF (Rotational Integrity Factor from IKA/GI/VFA), and produces the final weighted score.
+**Flow:** Video frames (1920×1080) are routed through two parallel tracks. The **CV track** dispatches to the correct GI sub-evaluator based on `sub_topology` (7 types), then augments the result with IC checker scores. The VFA module independently estimates actual camera motion via RANSAC affine estimation and acts as both a numeric score and a quality gate. The **LLM track** runs IKA (with CoT chain-of-thought reasoning and SIFT-annotated frames), TC, PP, and VF through Claude Sonnet. All five axis scores (gi, vfa, ika, tc, pp, vf) feed into `score_sample()`, which enforces per-axis floors, computes **RIF = ∛(IKA × GI × VF)** as a rotation-sensitive integrity factor, and produces the per-sample composite score. The aggregate engine then computes Relax Score, Strict Pass Rate, and VFA-Gated Score across all samples.
 
 ---
 
