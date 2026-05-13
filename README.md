@@ -70,20 +70,20 @@ Floor values: LLM-scored axes (IKA, TC, PP, VF) are floored at 5.0; CV-scored ax
 
 ## Dataset Overview
 
-| Domain | Chinese Name | Primary Topology | Samples | Example Equipment |
-|--------|-------------|------------------|---------|-------------------|
-| manufacturing | 制造业 | kinematic | 40 | Industrial robot arm, CNC lathe, hydraulic press |
-| construction | 建筑工程 | kinematic | 30 | Tower crane, concrete pump truck, tunnel boring machine |
-| mining | 矿业 | kinematic | 27 | Mining haul truck, ball mill, underground drill jumbo |
-| maritime | 船舶海工 | surface | 23 | Cargo ship, offshore crane, submarine hull |
-| aerospace | 航空航天 | kinematic | 20 | Boeing 747, turbine engine, satellite solar array |
-| electronics | 电子制造 | kinematic | 20 | PCB circuit board, pick-and-place machine, wire bonder |
-| chemical | 化工 | lattice | 20 | Distillation column, heat exchanger, reactor vessel |
-| energy_renewable | 可再生能源 | kinematic | 9 | Wind turbine, solar tracker, wave energy converter |
-| energy_power | 传统能源 | kinematic | 6 | Gas turbine, steam boiler, cooling tower |
-| oil_gas | 油气 | surface | 5 | Offshore oil platform, pipeline manifold, FPSO vessel |
+| Domain | Chinese Name | Samples | Dominant Sub-topology | Example Equipment |
+|--------|-------------|---------|----------------------|-------------------|
+| manufacturing | 制造业 | 40 | articulated, flexible | Industrial robot arm, CNC lathe, hydraulic press, AGV |
+| construction | 建筑工程 | 30 | articulated, 3d_spatial | Tower crane, TBM, concrete pump truck, lattice boom crane |
+| mining | 矿业 | 27 | rotational, 3d_spatial | Mining haul truck, ball mill, underground drill jumbo |
+| maritime | 船舶海工 | 23 | aerodynamic, 3d_spatial | Cargo ship, offshore crane, jack-up rig, drydock propeller |
+| aerospace | 航空航天 | 20 | aerodynamic, 2d_planar | Boeing 747, turbine engine, CCD sensor wafer |
+| electronics | 电子制造 | 20 | 2d_planar, articulated | PCB, pick-and-place machine, wire bonder, CCD pixel array |
+| chemical | 化工 | 19 | 3d_spatial, rigid_housing | Distillation column, heat exchanger, reactor, autoclave |
+| energy_renewable | 可再生能源 | 9 | rotational | Wind turbine, solar tracker, offshore wind farm |
+| energy_power | 传统能源 | 7 | rigid_housing, rotational | Gas turbine, nuclear plant, hydroelectric penstock |
+| oil_gas | 油气 | 5 | 3d_spatial, aerodynamic | Offshore oil platform, pipeline manifold, FPSO vessel |
 
-**Total: 200 samples, 3 topology types, 600 adversarial questions.**
+**Total: 200 samples, 4 topology types, 7 sub-categories, 600 adversarial questions.**
 
 ---
 
@@ -174,7 +174,8 @@ Each sample carries exactly 3 IKA questions, distributed across weakness targets
 
 ```bash
 # Install dependencies
-pip install opencv-python numpy tqdm
+pip install -r requirements.txt
+# requirements: opencv-python-headless numpy tqdm anthropic pillow scipy
 
 # Run evaluation against a model output directory
 python eval/run_eval.py \
@@ -280,10 +281,10 @@ FORGE-Bench uses a two-level topology taxonomy. The primary type (`primary_topol
 
 | Primary | Sub-category | Count | % | Primary CV Operator | Key Failure Mode |
 |---------|-------------|-------|---|--------------------|--------------------|
-| **kinematic** | articulated | 37 | 18.5% | Kinematic chain MAD | Joint dislocation / limb drift |
+| **kinematic** | articulated | 36 | 18.0% | Kinematic chain MAD | Joint dislocation / limb drift |
 | **kinematic** | rotational | 32 | 16.0% | Polar symmetry (RCI) | Rotational axis wander |
 | **surface** | aerodynamic | 25 | 12.5% | Chamfer distance | Fuselage / hull curvature distortion |
-| **surface** | rigid_housing | 19 | 9.5% | Max-contour AR | Aspect ratio / panel-gap deformation |
+| **surface** | rigid_housing | 20 | 10.0% | Max-contour AR | Aspect ratio / panel-gap deformation |
 | **lattice** | 2d_planar | 25 | 12.5% | Fourier spectral integrity (FSI) | Trace merge / texture collapse |
 | **lattice** | 3d_spatial | 37 | 18.5% | SIFT homography inlier ratio | Perspective-induced lattice distortion |
 | **flexible** | cable_hose | 25 | 12.5% | Topology continuity + non-intersection | Cable snap / hose penetration artifact |
@@ -304,15 +305,22 @@ The `flexible` topology class is new to FORGE-Bench and has no equivalent in pri
 
 ### Motion Type Distribution
 
-All 200 samples use camera orbit motion. VFA targets range from 0° to 180° (mean: 136.4°).
+| Motion Type | Count | % | Description |
+|-------------|-------|---|-------------|
+| orbit | 103 | 51.5% | Camera circles subject at constant radius (primary VFA test) |
+| pan | 46 | 23.0% | Lateral camera translation across structure |
+| crane | 29 | 14.5% | Vertical camera rise / descend |
+| dolly | 22 | 11.0% | Camera approach / recede along optical axis |
+
+Orbit samples carry quantitative VFA targets (15°–120°) for the SE(3) equivariance test. Pan and dolly samples target the VAE Nyquist failure mode under close-range lattice structures.
 
 ### Questions Per Sample
 
-Every sample contains exactly 3 adversarial IKA questions (600 total), each tagged with a weakness target (W2–W7).
+Every sample contains exactly 3 adversarial IKA questions (600 total), each tagged with a weakness target (W2–W7). Questions are generated per-sample against the specific structural invariants of the depicted equipment — not generic templates.
 
 ### Sensitivity Variants
 
-Every sample includes 2 sensitivity variants (easy + hard), yielding 400 additional prompt configurations for ablation studies.
+Sensitivity variant groups (SA01–SA03, SB01–SB03, SC01–SC03) provide monotonically increasing motion magnitude across 3 difficulty levels within the same subject, enabling ablation of the VFA threshold effect.
 
 ---
 
