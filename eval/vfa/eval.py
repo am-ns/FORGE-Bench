@@ -17,6 +17,7 @@ CONFIG = {
     "static_threshold_dark_bg": 0.5,  # px/frame — lower threshold for dark backgrounds
     "ransac_min_inliers": 4,          # Minimum inlier count for a valid RANSAC estimate
     "target_tolerance_deg": 45.0,     # Error at or above this gets zero VFA fidelity
+    "assumed_vertical_fov_deg": 60.0,  # Used to map crane translation to angle
 }
 
 
@@ -92,6 +93,86 @@ def _estimate_affine_rotation_angle(prev_gray: np.ndarray, curr_gray: np.ndarray
     return angle_deg, num_inliers
 
 
+def _estimate_affine_translation(prev_gray: np.ndarray, curr_gray: np.ndarray,
+                                  roi_center: bool = False) -> tuple[tuple[float, float] | None, int]:
+    """Estimate robust x/y translation between two frames via RANSAC affine."""
+    if roi_center:
+        prev_gray = _roi_center_crop(prev_gray)
+        curr_gray = _roi_center_crop(curr_gray)
+
+    pts_prev = cv2.goodFeaturesToTrack(prev_gray, maxCorners=500, qualityLevel=0.01,
+                                        minDistance=10, blockSize=7)
+    if pts_prev is None or len(pts_prev) < CONFIG["ransac_min_inliers"]:
+        return None, 0
+
+    H, W = prev_gray.shape[:2]
+    win = max(11, int(min(H, W) / 40))
+    pts_curr, status, _ = cv2.calcOpticalFlowPyrLK(prev_gray, curr_gray, pts_prev, None,
+                                                    winSize=(win, win))
+    if pts_curr is None:
+        return None, 0
+
+    good = status.flatten() == 1
+    pts_prev_good = pts_prev[good]
+    pts_curr_good = pts_curr[good]
+    if len(pts_prev_good) < CONFIG["ransac_min_inliers"]:
+        return None, 0
+
+    M, inliers = cv2.estimateAffinePartial2D(pts_prev_good, pts_curr_good, method=cv2.RANSAC)
+    if M is None or inliers is None:
+        return None, 0
+
+    num_inliers = int(inliers.sum())
+    if num_inliers < CONFIG["ransac_min_inliers"]:
+        return None, 0
+
+    return (float(M[0, 2]), float(M[1, 2])), num_inliers
+
+
+def _estimate_farneback_translation(prev_gray: np.ndarray, curr_gray: np.ndarray,
+                                     roi_center: bool = False) -> tuple[float, float, float]:
+    """Fallback dense-flow translation estimate using median flow."""
+    if roi_center:
+        prev_gray = _roi_center_crop(prev_gray)
+        curr_gray = _roi_center_crop(curr_gray)
+    flow = cv2.calcOpticalFlowFarneback(
+        prev_gray, curr_gray, None, pyr_scale=0.5, levels=3, winsize=21,
+        iterations=3, poly_n=5, poly_sigma=1.2, flags=0,
+    )
+    mag = np.sqrt(flow[..., 0] ** 2 + flow[..., 1] ** 2)
+    moving = mag > max(0.5, float(np.percentile(mag, 60)))
+    if not np.any(moving):
+        moving = mag > 0
+    if not np.any(moving):
+        return 0.0, 0.0, 0.0
+    dx = float(np.median(flow[..., 0][moving]))
+    dy = float(np.median(flow[..., 1][moving]))
+    mean_mag = float(np.mean(mag[moving]))
+    return dx, dy, mean_mag
+
+
+def _estimate_phase_translation(prev_gray: np.ndarray, curr_gray: np.ndarray,
+                                roi_center: bool = False) -> tuple[float, float, float]:
+    """Estimate global translation using phase correlation on edge maps."""
+    if roi_center:
+        prev_gray = _roi_center_crop(prev_gray)
+        curr_gray = _roi_center_crop(curr_gray)
+    prev_edges = cv2.Canny(prev_gray, 50, 150).astype(np.float32)
+    curr_edges = cv2.Canny(curr_gray, 50, 150).astype(np.float32)
+    if float(prev_edges.std()) < 1e-6 or float(curr_edges.std()) < 1e-6:
+        return 0.0, 0.0, 0.0
+    window = cv2.createHanningWindow((prev_edges.shape[1], prev_edges.shape[0]), cv2.CV_32F)
+    (dx, dy), response = cv2.phaseCorrelate(prev_edges, curr_edges, window)
+    return float(dx), float(dy), float(abs(response) * np.hypot(dx, dy))
+
+
+def _translation_to_crane_angle(dy_px: float, frame_height: int) -> float:
+    """Map vertical image translation to an approximate crane angle in degrees."""
+    half_fov_rad = np.deg2rad(CONFIG["assumed_vertical_fov_deg"] / 2.0)
+    focal_px = (frame_height / 2.0) / max(np.tan(half_fov_rad), 1e-6)
+    return abs(float(np.degrees(np.arctan2(abs(dy_px), focal_px))))
+
+
 def _is_static(mean_flow_mag: float, dark_bg: bool) -> bool:
     """Check if motion magnitude is below the static threshold."""
     thresh = CONFIG["static_threshold_dark_bg"] if dark_bg else CONFIG["static_threshold"]
@@ -142,7 +223,7 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | str | None = None,
     - Video shorter than 8 frames: computes on available frames with a warning.
     - Grayscale video: converts to BGR before optical flow computation.
     - Dark background: applies center-ROI crop and lower static threshold.
-    - Crane motion: reports vfa_uncalculable until a validated estimator exists.
+    - Crane motion: estimates vertical camera travel from robust image translation.
 
     Args:
         frames: List of video frames (BGR or grayscale).
@@ -196,20 +277,50 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | str | None = None,
     result["dark_background"] = dark_bg
     use_roi = dark_bg  # use center 60% ROI for dark backgrounds
 
-    # -- Crane motion type: estimator not yet implemented --
+    # -- Crane motion type: vertical translation estimator --
     if motion_type == "crane":
-        # Crane shots involve boom/arm extension which optical flow cannot
-        # reliably decompose into rotation vs. translation.  Report this
-        # explicitly rather than treating the sample as correctly scored.
-        result["vfa"] = None
-        result["vfa_score"] = None
+        first_gray = cv2.cvtColor(bgr_frames[0], cv2.COLOR_BGR2GRAY)
+        last_gray = cv2.cvtColor(bgr_frames[-1], cv2.COLOR_BGR2GRAY)
+        # Crane motion is measured as vertical travel across the frame; center
+        # cropping can hide large rises/descents, so use the full frame.
+        translation, n_inliers = _estimate_affine_translation(first_gray, last_gray,
+                                                              roi_center=False)
+        method = "anchor_to_final_crane_translation"
+        if translation is None:
+            dx, dy, phase_mag = _estimate_phase_translation(first_gray, last_gray,
+                                                            roi_center=False)
+            n_inliers = 0
+            method = "phase_correlation_crane_translation"
+            if phase_mag <= 0.0:
+                dx, dy, phase_mag = _estimate_farneback_translation(first_gray, last_gray,
+                                                                    roi_center=False)
+                method = "farneback_crane_translation"
+            mean_flow_mag = phase_mag / max(num_frames - 1, 1)
+        else:
+            dx, dy = translation
+            mean_flow_mag = float(np.hypot(dx, dy)) / max(num_frames - 1, 1)
+
+        if _is_static(mean_flow_mag, dark_bg):
+            crane_angle = 0.0
+            method = "static_detected"
+        else:
+            crane_angle = _translation_to_crane_angle(dy, first_gray.shape[0])
+
+        horizontal_ratio = abs(dx) / max(abs(dy), 1e-6)
+        result["vfa"] = round(float(crane_angle), 4)
+        result["vfa_score"] = _target_fidelity_score(crane_angle, target_vfa)
         result["vfa_orbit_component"] = 0.0
-        result["vfa_crane_component"] = None  # unimplemented
-        result["vfa_uncalculable"] = True
-        result["vfa_estimation_method"] = "static_detected"
+        result["vfa_crane_component"] = round(float(crane_angle), 4)
+        result["num_frames_used"] = num_frames
+        result["vfa_estimation_method"] = method
         result["vfa_detail"] = {
+            "vertical_translation_px": round(float(dy), 4),
+            "horizontal_translation_px": round(float(dx), 4),
+            "horizontal_to_vertical_ratio": round(float(horizontal_ratio), 4),
+            "ransac_inliers": n_inliers,
+            "mean_flow_magnitude_px_per_frame": round(float(mean_flow_mag), 4),
+            "assumed_vertical_fov_deg": CONFIG["assumed_vertical_fov_deg"],
             "dark_background": dark_bg,
-            "note": "crane_vlm_fallback_not_implemented",
         }
         return result
 

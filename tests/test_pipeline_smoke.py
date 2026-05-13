@@ -16,6 +16,7 @@ import numpy as np
 import pytest
 
 from eval.calibration.floor_enforcer import enforce_score_floors
+from eval.run_eval import evaluate_gi
 from eval.geometric_integrity.lattice import evaluate_lattice
 from eval.geometric_integrity.surface import evaluate_surface
 from eval.industrial_constraints.count_invariant import check_count_invariant
@@ -162,6 +163,39 @@ class TestVFA:
         assert result["vfa"] > 0
         assert result["vfa_estimation_method"] == "anchor_to_final_ransac"
 
+    def test_vfa_crane_translation_video(self):
+        """Crane motion should estimate vertical travel instead of being uncalculable."""
+        frames = []
+        for i in range(8):
+            frame = np.zeros((360, 640, 3), dtype=np.uint8)
+            y = 180 + i * 18
+            cv2.rectangle(frame, (180, y), (460, y + 80), (255, 255, 255), -1)
+            cv2.circle(frame, (260, y + 30), 12, (0, 0, 255), -1)
+            cv2.circle(frame, (380, y + 50), 12, (0, 255, 0), -1)
+            frames.append(frame)
+
+        result = compute_vfa(frames, vfa_target="crane_up_30deg", motion_type="crane")
+        assert result["vfa"] is not None
+        assert result["vfa"] > 0
+        assert result["vfa_score"] is not None
+        assert result["vfa_estimation_method"] in {
+            "anchor_to_final_crane_translation",
+            "phase_correlation_crane_translation",
+            "farneback_crane_translation",
+        }
+        assert "vfa_uncalculable" not in result
+
+    def test_vfa_static_crane_misses_target(self):
+        """Static crane prompt should be penalized against a nonzero crane target."""
+        base = np.zeros((360, 640, 3), dtype=np.uint8)
+        cv2.rectangle(base, (180, 160), (460, 240), (255, 255, 255), -1)
+        frames = [base.copy() for _ in range(8)]
+
+        result = compute_vfa(frames, vfa_target="crane_up_30deg", motion_type="crane")
+        assert result["vfa"] == 0.0
+        assert result["vfa_score"] < 40.0
+        assert result["vfa_estimation_method"] == "static_detected"
+
 
 class TestGeometricIntegrity:
     def test_gi_surface(self):
@@ -191,6 +225,14 @@ class TestGeometricIntegrity:
         img_b = _make_textured_image(seed=43)
         result = evaluate_lattice(img_a, img_b)
         assert result["result_score"] >= 0.10
+
+    def test_gi_articulated_accepts_frame_sequence(self):
+        """Articulated GI routing should evaluate symmetry per frame."""
+        frames = _make_stable_count_frames(n=4, h=240, w=320)
+        result = evaluate_gi("kinematic", "articulated", frames)
+        assert result["method"] == "kinematic_articulated"
+        assert 0 <= result["result_score"] <= 1
+        assert result["symmetry_details"]["num_frames_scored"] > 0
 
 
 class TestCountInvariant:

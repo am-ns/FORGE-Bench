@@ -142,10 +142,10 @@ Outputs
   - report.json
 ```
 
-Crane motion is represented in the dataset, but the current VFA implementation
-does not yet contain a reliable crane-specific estimator. Crane samples are
-flagged as VFA-uncalculable until that estimator or a validated VLM fallback is
-implemented.
+Crane motion is represented with a deterministic VFA estimator based on robust
+vertical image translation. The estimator maps first-to-last vertical pixel
+travel to an approximate camera-rise angle using an assumed 60 degree vertical
+field of view, then scores that angle against the target.
 
 ## Scoring Outputs
 
@@ -285,8 +285,9 @@ tests/
 
 ## Current Limitations
 
-- Crane-specific VFA is not yet implemented. Crane samples are reported as
-  VFA-uncalculable rather than silently treated as correct.
+- Crane-specific VFA is an image-translation estimate, not a calibrated camera
+  reconstruction. It is deterministic and useful for gating, but exact crane
+  kinematics still depend on unknown focal length and scene depth.
 - TC, PP, and VF have fallback scorers when the LLM track is disabled or an LLM
   call fails. These fallback values are useful for smoke testing but should not
   be treated as final benchmark-quality judgments.

@@ -108,9 +108,19 @@ def evaluate_gi(
         # Kinematic
         if sub == "articulated":
             kin = detect_static_camera(frames)
-            sym = evaluate_bilateral_symmetry(frames)
+            sym_results = [evaluate_bilateral_symmetry(frame) for frame in frames]
+            sym_scores = [
+                r.get("score") for r in sym_results
+                if isinstance(r, dict) and r.get("score") is not None
+            ]
+            sym = {
+                "method": "bilateral_symmetry_frames_mean",
+                "symmetry_score": float(np.mean(sym_scores)) if sym_scores else 0.0,
+                "num_frames_scored": len(sym_scores),
+                "frame_results": sym_results,
+            }
             kin_score = kin.get("kinematic_score", 0.0)
-            sym_score = sym.get("symmetry_score", 0.0) if isinstance(sym, dict) else 0.0
+            sym_score = sym.get("symmetry_score", 0.0)
             combined = 0.6 * kin_score + 0.4 * sym_score
             return {"result_score": float(combined),
                     "kinematic_details": kin, "symmetry_details": sym,
