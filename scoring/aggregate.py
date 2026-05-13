@@ -17,7 +17,8 @@ except ImportError:  # pragma: no cover
 # -- Tunable thresholds -------------------------------------------------------
 CONFIG = {
     "axis_floor_default": 5.0,    # Default minimum score floor for any axis
-    "axis_floor_gi": 10.0,        # Minimum score floor for the GI axis
+    "axis_floor_gi": 8.0,         # Minimum score floor for the GI axis
+    "axis_floor_vfa": 0.0,        # VFA is a gate and may legitimately be zero
     "vfa_tier_none": 5,           # VFA below this => 'none' tier
     "vfa_tier_weak": 20,          # VFA below this => 'weak' tier
     "vfa_tier_moderate": 60,      # VFA below this => 'moderate' tier; above => 'full'
@@ -33,6 +34,7 @@ AXIS_FLOORS = {
     "pp": CONFIG["axis_floor_default"],
     "vf": CONFIG["axis_floor_default"],
     "gi": CONFIG["axis_floor_gi"],
+    "vfa": CONFIG["axis_floor_vfa"],
 }
 
 

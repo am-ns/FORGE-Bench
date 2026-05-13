@@ -297,6 +297,8 @@ def evaluate_sample(
         axis_scores["pp"] = (float(pp_score) - 1) / 4 * 100.0
     if vf_result.get("vf_score") is not None:
         axis_scores["vf"] = float(vf_result["vf_score"])
+    if vfa_result.get("vfa_score") is not None:
+        axis_scores["vfa"] = float(vfa_result["vfa_score"])
     axis_scores["gi"] = gi_result["result_score"] * 100.0
 
     scored = score_sample(
@@ -320,6 +322,8 @@ def evaluate_sample(
         "ic_score": gi_result.get("ic_score"),
         "ic_details": gi_result.get("ic_details"),
         "vfa": vfa_result.get("vfa"),
+        "vfa_score": vfa_result.get("vfa_score"),
+        "vfa_target_degrees": vfa_result.get("vfa_target_degrees"),
         "vfa_details": {k: v for k, v in vfa_result.items() if k != "vfa_detail"},
         "tc_score": tc_result.get("tc_score"),
         "tc_details": tc_result,
@@ -397,9 +401,9 @@ def main() -> None:
     else:
         axis_keys: set[str] = set()
         for r in completed:
-            axis_keys.update(r.get("scored", {}).get("per_axis_weighted", {}).keys())
+            axis_keys.update(r.get("scored", {}).get("axis_scores", {}).keys())
         mean_axes = {
-            ax: float(np.mean([r["scored"]["per_axis_weighted"].get(ax, 0.0)
+            ax: float(np.mean([r["scored"]["axis_scores"].get(ax, 0.0)
                                for r in completed if "scored" in r]))
             for ax in axis_keys
         }

@@ -15,6 +15,7 @@ CONFIG = {
     "canny_low": 50,
     "canny_high": 150,
     "min_component_area_frac": 0.001,   # Minimum area as fraction of ROI
+    "min_edge_component_area_frac": 0.00015,  # Edge maps are sparse by design
     "polar_peaks_n": 360,               # Angular resolution for polar histogram
     "track_correlation_threshold": 0.3,  # Autocorrelation peak threshold
 }
@@ -37,9 +38,11 @@ def _count_edge_components(gray: np.ndarray, roi: tuple | None = None) -> int:
         gray = gray[y0:y1, x0:x1]
 
     edges = cv2.Canny(gray, CONFIG["canny_low"], CONFIG["canny_high"])
-    num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(edges)
+    kernel = np.ones((3, 3), np.uint8)
+    edges = cv2.morphologyEx(edges, cv2.MORPH_CLOSE, kernel, iterations=1)
+    num_labels, _, stats, _ = cv2.connectedComponentsWithStats(edges)
 
-    min_area = CONFIG["min_component_area_frac"] * gray.shape[0] * gray.shape[1]
+    min_area = CONFIG["min_edge_component_area_frac"] * gray.shape[0] * gray.shape[1]
     count = 0
     for i in range(1, num_labels):  # skip background
         if stats[i, cv2.CC_STAT_AREA] >= min_area:
@@ -221,11 +224,14 @@ def check_count_invariant(
 
     score = float(np.mean(frame_scores))
 
-    # Stability classification for metadata
+    # Stability classification for metadata.  If the detector sees no element
+    # in any frame, treat it as a failed invariant rather than a stable count.
     max_count = max(counts)
     min_count = min(counts)
     variation = max_count - min_count
-    stable = (variation == 0)
+    stable = (variation == 0 and max_count > 0)
+    if max_count == 0:
+        score = min(score, 0.10)
 
     return {
         "element_type": element_type,

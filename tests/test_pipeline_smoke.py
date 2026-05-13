@@ -130,6 +130,16 @@ class TestVFA:
         result = compute_vfa(frames)
         assert result["vfa"] == 0.0
 
+    def test_vfa_static_video_misses_orbit_target(self):
+        """Static video against an orbit target should get zero VFA fidelity."""
+        base = np.zeros((720, 1280, 3), dtype=np.uint8)
+        cv2.circle(base, (640, 360), 150, (255, 255, 255), -1)
+        frames = [base.copy() for _ in range(8)]
+
+        result = compute_vfa(frames, vfa_target=90.0, motion_type="orbit")
+        assert result["vfa"] == 0.0
+        assert result["vfa_score"] == 0.0
+
     def test_vfa_rotating_video(self):
         """Frames with progressive rotation should produce VFA > 0 via RANSAC."""
         frames = generate_synthetic_frames(n=8)
@@ -190,6 +200,15 @@ class TestScoring:
         )
         assert 0 < result["weighted_score"] <= 100
         assert result["rif"] is not None
+
+    def test_per_sample_score_includes_vfa_axis(self):
+        """VFA target fidelity should participate as a weighted axis."""
+        result = score_sample(
+            {"ika": 80, "tc": 70, "pp": 75, "vf": 85, "gi": 90, "vfa": 0},
+            vfa=0.0,
+        )
+        assert result["axis_scores"]["vfa"] == 0.0
+        assert result["weighted_score"] < 80.0
 
     def test_aggregate(self):
         """aggregate_scores should classify VFA tier and produce overall > 0."""

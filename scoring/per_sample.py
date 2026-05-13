@@ -18,6 +18,7 @@ AXIS_WEIGHTS: dict[str, float] = {
     "pp": 1.0,
     "vf": 1.0,
     "gi": 1.0,
+    "vfa": 1.25,
 }
 
 
@@ -29,7 +30,9 @@ def score_sample(axis_scores: dict[str, float], vfa: float | None = None,
 
     Args:
         axis_scores: Mapping of axis name to score, e.g.
-                     {"ika": 85.0, "tc": 72.5, "pp": 90.0, "gi": 60.0, "vf": 88.0}.
+                     {"ika": 85.0, "tc": 72.5, "pp": 90.0, "gi": 60.0,
+                      "vf": 88.0, "vfa": 75.0}. VFA is a 0-100 target
+                     fidelity score when a numeric target is available.
         vfa: Optional View-point Fidelity Angle. When < 0.05 (essentially
              static video), RIF is excluded from the output.
         vfa_orbit_component: Optional orbit sub-component of VFA (passed
@@ -92,6 +95,7 @@ def score_sample(axis_scores: dict[str, float], vfa: float | None = None,
 
     out = {
         "weighted_score": final_score,
+        "axis_scores": axis_scores,
         "per_axis_weighted": per_axis_weighted,
         "num_axes": len(axis_scores),
         "rif": rif,

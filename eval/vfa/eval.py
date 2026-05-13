@@ -16,6 +16,7 @@ CONFIG = {
     "static_threshold": 0.8,          # px/frame — below this, motion is considered static
     "static_threshold_dark_bg": 0.5,  # px/frame — lower threshold for dark backgrounds
     "ransac_min_inliers": 4,          # Minimum inlier count for a valid RANSAC estimate
+    "target_tolerance_deg": 45.0,     # Error at or above this gets zero VFA fidelity
 }
 
 
@@ -97,7 +98,39 @@ def _is_static(mean_flow_mag: float, dark_bg: bool) -> bool:
     return mean_flow_mag < thresh
 
 
-def compute_vfa(frames: list[np.ndarray], vfa_target: float | None = None,
+def _parse_vfa_target(vfa_target: float | str | None) -> float | None:
+    """Normalize numeric and legacy symbolic VFA targets to degrees."""
+    if vfa_target is None:
+        return None
+    if isinstance(vfa_target, (int, float)):
+        return float(vfa_target)
+    if not isinstance(vfa_target, str):
+        return None
+    text = vfa_target.strip().lower()
+    if text.startswith(("orbit_cw_", "orbit_ccw_", "crane_up_")) and text.endswith("deg"):
+        try:
+            return float(text.rsplit("_", 1)[-1][:-3])
+        except ValueError:
+            return None
+    # Legacy pan and dolly targets do not encode an angular magnitude.
+    return None
+
+
+def _target_fidelity_score(actual_vfa: float | None, target_vfa: float | None) -> float | None:
+    """Score camera-motion fidelity against the requested target angle.
+
+    The score is intentionally strict: a 45 degree miss receives 0, while
+    smaller errors decay linearly.  Other axes still retain their floors, so
+    a failed VFA does not collapse the whole sample to an all-zero result.
+    """
+    if actual_vfa is None or target_vfa is None:
+        return None
+    error = abs(float(actual_vfa) - float(target_vfa))
+    score = 100.0 * max(0.0, 1.0 - error / CONFIG["target_tolerance_deg"])
+    return round(float(score), 4)
+
+
+def compute_vfa(frames: list[np.ndarray], vfa_target: float | str | None = None,
                 motion_type: str | None = None) -> dict:
     """Compute View-point Fidelity Angle from a sequence of video frames.
 
@@ -124,12 +157,16 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | None = None,
     ORBIT_WEIGHT = 0.6
     CRANE_WEIGHT = 0.4
 
+    target_vfa = _parse_vfa_target(vfa_target)
+
     result: dict = {
         "vfa": CONFIG["vfa_default"],
+        "vfa_score": None,
         "vfa_orbit_component": 0.0,
         "vfa_crane_component": 0.0,
         "num_frames_used": 0,
         "vfa_target": vfa_target,
+        "vfa_target_degrees": target_vfa,
         "vfa_estimation_method": None,
         "dark_background": False,
     }
@@ -165,6 +202,7 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | None = None,
         # reliably decompose into rotation vs. translation.  A VLM
         # (Vision-Language Model) fallback is needed — see GitHub issue #TODO.
         result["vfa"] = None
+        result["vfa_score"] = None
         result["vfa_orbit_component"] = 0.0
         result["vfa_crane_component"] = None  # unimplemented
         result["vfa_uncalculable"] = True
@@ -192,6 +230,7 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | None = None,
 
     if _is_static(mean_flow_mag, dark_bg):
         result["vfa"] = 0.0
+        result["vfa_score"] = _target_fidelity_score(0.0, target_vfa)
         result["vfa_orbit_component"] = 0.0
         result["vfa_crane_component"] = 0.0
         result["num_frames_used"] = num_frames
@@ -220,6 +259,7 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | None = None,
     if angle_deg is None:
         # All RANSAC attempts failed — cannot calculate VFA
         result["vfa"] = None
+        result["vfa_score"] = None
         result["vfa_orbit_component"] = None
         result["vfa_crane_component"] = 0.0
         result["vfa_uncalculable"] = True
@@ -235,6 +275,7 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | None = None,
     orbit_component = round(float(vfa * ORBIT_WEIGHT), 4)
     crane_component = round(float(vfa * CRANE_WEIGHT), 4)
     result["vfa"] = round(float(vfa), 4)
+    result["vfa_score"] = _target_fidelity_score(vfa, target_vfa)
     result["vfa_orbit_component"] = orbit_component
     result["vfa_crane_component"] = crane_component
     result["num_frames_used"] = num_frames

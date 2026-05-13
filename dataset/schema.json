@@ -33,7 +33,8 @@
         "construction",
         "maritime",
         "chemical",
-        "mining"
+        "mining",
+        "robotics"
       ]
     },
     "topology_type": {
@@ -41,12 +42,34 @@
       "enum": [
         "surface",
         "lattice",
-        "kinematic"
+        "kinematic",
+        "flexible"
+      ]
+    },
+    "primary_topology": {
+      "type": "string",
+      "enum": [
+        "surface",
+        "lattice",
+        "kinematic",
+        "flexible"
+      ]
+    },
+    "sub_topology": {
+      "type": "string",
+      "enum": [
+        "articulated",
+        "rotational",
+        "aerodynamic",
+        "rigid_housing",
+        "2d_planar",
+        "3d_spatial",
+        "cable_hose"
       ]
     },
     "image_path": {
       "type": "string",
-      "pattern": "^dataset/images/"
+      "pattern": "^dataset[\\\\/]images[\\\\/]"
     },
     "prompt": {
       "type": "string",
@@ -57,7 +80,13 @@
       "enum": ["orbit", "pan", "crane", "dolly", "tilt", "static"]
     },
     "vfa_target": {
-      "type": "number"
+      "oneOf": [
+        { "type": "number" },
+        {
+          "type": "string",
+          "pattern": "^(orbit_(cw|ccw)_[0-9]+deg|crane_up_[0-9]+deg|horizontal_pan_lr|dolly_in_[0-9]+x)$"
+        }
+      ]
     },
     "difficulty_profile": {
       "type": "object",
@@ -69,7 +98,6 @@
     },
     "constraint_annotations": {
       "type": "object",
-      "required": ["topology_type"],
       "additionalProperties": true
     },
     "ika_questions": {
@@ -77,7 +105,7 @@
       "minItems": 3,
       "items": {
         "type": "object",
-        "required": ["id", "text", "answer", "weakness_target"],
+        "required": ["id", "text", "answer"],
         "properties": {
           "id": {
             "type": "string"
@@ -110,6 +138,9 @@
         },
         "additionalProperties": false
       }
+    },
+    "failure_target": {
+      "type": "string"
     }
   },
   "additionalProperties": false
