@@ -101,50 +101,156 @@ def _count_tokens(response) -> int:
 # ---------------------------------------------------------------------------
 
 
+# IKA system prompt — strict industrial forensics framing (Optimization 2)
+_IKA_SYSTEM = """\
+You are a rigorous industrial video forensics evaluator with deep expertise in \
+mechanical engineering, aerospace, electronics manufacturing, and structural \
+integrity assessment.
+
+Your task: detect structural and physical failures in AI-generated industrial \
+videos with ZERO tolerance for ambiguity. You must be a demanding critic, not a \
+lenient reviewer.
+
+Strict evaluation rules:
+- If ANY structural component shows non-physical stretching, warping, or \
+deformation — no matter how subtle — answer "no".
+- If ANY element (bolt, blade, trace, cable, joint) disappears or merges with \
+another element across frames — answer "no".
+- If a kinematic chain shows geometrically impossible motion (joint angle \
+exceeds physical limits, rigid body bends) — answer "no".
+- Do NOT infer what "should" be there. Judge only what is actually visible.
+- Do NOT give benefit of the doubt to the generative model. If you are \
+uncertain, lean toward "no".
+- A visually beautiful video that contains even one structural impossibility \
+must be penalized.
+
+Output format — for each question, output a JSON object on its own line:
+{"chain_of_thought": "<frame-by-frame forensic reasoning>", "answer": "<yes or no>"}
+
+Prefix each line with the question number. Example:
+1. {"chain_of_thought": "Frames 1-3 show four engine nacelles clearly. Frame 5 \
+after orbit shows only three — leftmost nacelle merged with wing root.", \
+"answer": "no"}
+2. {"chain_of_thought": "Scissor mechanism extends symmetrically in all 8 \
+frames. No lateral drift or asymmetric deformation observed.", "answer": "yes"}
+"""
+
+
+def _annotate_keypoints(frame: np.ndarray, n_top: int = 25) -> np.ndarray:
+    """Draw red circles on the top SIFT keypoints to guide LLM attention.
+
+    Highlights the structurally distinctive regions most likely to exhibit
+    topology failures (corners, junctions, periodic structure boundaries).
+    Returns a copy of the frame with annotations applied.
+    """
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    try:
+        sift = cv2.SIFT_create()
+    except Exception:
+        return frame  # SIFT unavailable (non-contrib build) — return raw
+    kps = sift.detect(gray, None)
+    if not kps:
+        return frame
+    kps_sorted = sorted(kps, key=lambda k: k.response, reverse=True)[:n_top]
+    annotated = frame.copy()
+    for kp in kps_sorted:
+        cx, cy = int(kp.pt[0]), int(kp.pt[1])
+        r = max(int(kp.size / 2), 6)
+        cv2.circle(annotated, (cx, cy), r, (0, 0, 255), 2)       # red circle
+        cv2.circle(annotated, (cx, cy), 2, (0, 0, 255), -1)      # center dot
+    return annotated
+
+
+def _parse_ika_json_line(line: str) -> dict | None:
+    """Extract chain_of_thought and answer from a CoT JSON line."""
+    import json
+    # strip leading "N. " prefix
+    line = line.strip()
+    dot_idx = line.find(". {")
+    if dot_idx != -1:
+        line = line[dot_idx + 2:]
+    elif line and line[0].isdigit():
+        line = line.lstrip("0123456789. ")
+    try:
+        obj = json.loads(line)
+        answer = str(obj.get("answer", "")).strip().lower()
+        cot = str(obj.get("chain_of_thought", "")).strip()
+        if answer.startswith("y"):
+            return {"answer": "yes", "chain_of_thought": cot}
+        if answer.startswith("n"):
+            return {"answer": "no", "chain_of_thought": cot}
+    except Exception:
+        pass
+    # Fallback: plain yes/no in the line
+    ll = line.lower()
+    if "yes" in ll:
+        return {"answer": "yes", "chain_of_thought": ""}
+    if "no" in ll:
+        return {"answer": "no", "chain_of_thought": ""}
+    return None
+
+
 def judge_sample_ika(
     frames: list[np.ndarray],
     questions: list[dict],
     sample_meta: dict,
     model: str = CONFIG["default_model"],
+    annotate_frames: bool = True,
 ) -> dict:
     """Use an LLM to answer IKA yes/no questions about a video.
 
-    Sends up to 8 evenly-sampled frames as base64 images alongside the
-    sample's IKA questions as a numbered list.  The model answers each
-    question with exactly 'yes' or 'no'.
+    Three improvements over naive yes/no prompting:
+      1. CoT JSON output  — model reasons frame-by-frame before answering,
+         chain_of_thought is returned for diagnostic reports.
+      2. Strict system prompt — zero-tolerance industrial forensics framing
+         prevents the model from compensating for structural failures.
+      3. Visual prompting — SIFT keypoints drawn as red circles on each frame
+         direct the LLM's attention to structurally distinctive regions.
 
     Args:
         frames: BGR numpy arrays from the video.
         questions: List of question dicts from samples.json (keys: id, text).
         sample_meta: Sample metadata (must contain task_id, prompt).
         model: Anthropic model ID.
+        annotate_frames: If True, draw SIFT keypoint circles before sending
+            frames to the LLM (visual prompting). Default True.
 
     Returns:
-        dict with keys: answers ({q_id: 'yes'/'no'}), raw_response,
-        model, tokens_used.
+        dict with keys: answers ({q_id: 'yes'/'no'}),
+        chain_of_thought ({q_id: str}), raw_response, model, tokens_used.
     """
     client = _get_client()
     indices = _sample_indices(len(frames), CONFIG["ika_max_frames"])
 
-    system_text = (
-        "You are an expert industrial video evaluator.  You will see frames "
-        "from a generated video and answer yes/no questions about the video's "
-        "structural and physical correctness.  For each question respond with "
-        "exactly 'yes' or 'no' on its own line, prefixed by the question number.  "
-        "Example:\n1. yes\n2. no\n3. yes"
-    )
+    # Visual prompting: annotate frames with SIFT keypoints
+    if annotate_frames:
+        selected_frames = [_annotate_keypoints(frames[i]) for i in indices]
+    else:
+        selected_frames = [frames[i] for i in indices]
 
-    image_blocks = [_make_image_content(frames[i]) for i in indices]
+    image_blocks = [_make_image_content(f) for f in selected_frames]
 
+    # Build numbered question list with weakness context
     question_lines = []
     for i, q in enumerate(questions, 1):
-        question_lines.append(f"{i}. {q['text']}")
+        weakness = q.get("weakness_target", "")
+        tag = f" [target: {weakness}]" if weakness else ""
+        question_lines.append(f"{i}. {q['text']}{tag}")
     question_text = "\n".join(question_lines)
 
+    domain = sample_meta.get("domain", "industrial")
+    sub_topo = sample_meta.get("sub_topology", "")
+    topo_note = f" ({sub_topo})" if sub_topo else ""
+
     prompt_text = (
-        f"Video prompt: {sample_meta.get('prompt', '')}\n\n"
-        f"Questions:\n{question_text}\n\n"
-        "Answer each question with exactly 'yes' or 'no'."
+        f"Domain: {domain}{topo_note}\n"
+        f"Generation prompt: {sample_meta.get('prompt', '')}\n\n"
+        f"The {len(selected_frames)} images above are uniformly sampled frames "
+        f"from the generated video (red circles highlight structurally "
+        f"distinctive keypoints).\n\n"
+        f"Answer each question using the strict forensic rules from the system "
+        f"prompt. Output one JSON object per line:\n\n"
+        f"{question_text}"
     )
 
     message_content = image_blocks + [{"type": "text", "text": prompt_text}]
@@ -152,37 +258,31 @@ def judge_sample_ika(
     response = _call_with_backoff(
         client,
         model=model,
-        max_tokens=256,
-        system=[
-            {
-                "type": "text",
-                "text": system_text,
-                "cache_control": {"type": "ephemeral"},
-            }
-        ],
+        max_tokens=1024,
+        system=[{"type": "text", "text": _IKA_SYSTEM,
+                 "cache_control": {"type": "ephemeral"}}],
         messages=[{"role": "user", "content": message_content}],
     )
 
     raw = response.content[0].text if response.content else ""
 
-    # Parse yes/no answers
+    # Parse CoT JSON answers
     answers: dict[str, str] = {}
-    lines = [l.strip() for l in raw.strip().splitlines() if l.strip()]
+    chain_of_thought: dict[str, str] = {}
+    lines = [l for l in raw.strip().splitlines() if l.strip()]
     for i, q in enumerate(questions):
         qid = q["id"]
-        if i < len(lines):
-            line = lines[i].lower()
-            if "yes" in line:
-                answers[qid] = "yes"
-            elif "no" in line:
-                answers[qid] = "no"
-            else:
-                answers[qid] = "no"  # conservative default
+        parsed = _parse_ika_json_line(lines[i]) if i < len(lines) else None
+        if parsed:
+            answers[qid] = parsed["answer"]
+            chain_of_thought[qid] = parsed["chain_of_thought"]
         else:
-            answers[qid] = "no"
+            answers[qid] = "no"  # conservative default
+            chain_of_thought[qid] = ""
 
     return {
         "answers": answers,
+        "chain_of_thought": chain_of_thought,
         "raw_response": raw,
         "model": model,
         "tokens_used": _count_tokens(response),
