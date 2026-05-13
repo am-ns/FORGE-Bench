@@ -17,10 +17,7 @@ import sys
 import cv2
 import numpy as np
 
-from eval.geometric_integrity import (
-    augment_gi_result, normalize_frame,
-    set_eval_resolution, get_eval_resolution,
-)
+from eval.geometric_integrity import augment_gi_result, normalize_frame
 from eval.geometric_integrity.kinematic import detect_static_camera
 from eval.geometric_integrity.lattice import evaluate_lattice
 from eval.geometric_integrity.lattice_fourier import compute_spectral_peak_score
@@ -188,13 +185,6 @@ def evaluate_sample(
         return {"task_id": task_id, "domain": domain, "skipped": True,
                 "skip_reason": "empty_video"}
 
-    # Set evaluation resolution = video's native resolution.
-    # All normalize_frame() calls in GI / TC / VF will use this target,
-    # so metrics run at the model's actual output quality (720p, 1080p, …).
-    native_h, native_w = frames[0].shape[:2]
-    set_eval_resolution((native_h, native_w))
-    logger.debug("Eval resolution set to %dx%d for %s", native_w, native_h, task_id)
-
     fc = validate_frame_count(video_path)
 
     # GI
@@ -212,23 +202,20 @@ def evaluate_sample(
         motion_type=sample.get("motion_type") or sample.get("constraint_annotations", {}).get("motion_type"),
     )
 
-    # Load reference image and resize to match video native resolution.
-    # This ensures VF comparisons are fair regardless of source image resolution.
+    # Load reference image — prefer HQ PNG (dataset/images_hq/), fall back to 720p JPEG.
+    # normalize_frame() will resize to EVAL_RESOLUTION (1080p) before metric computation.
     reference_image = None
     image_path = sample.get("image_path")
     if image_path:
         repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        # Prefer HQ PNG if available
         abs_path = image_path if os.path.isabs(image_path) else os.path.join(repo_root, image_path)
-        hq_path = abs_path.replace("dataset/images/", "dataset/images_hq/")
-        hq_png  = hq_path.rsplit(".", 1)[0] + ".png"
-        for candidate in (hq_png, hq_path, abs_path):
+        hq_png = abs_path.replace("dataset/images/", "dataset/images_hq/").rsplit(".", 1)[0] + ".png"
+        hq_jpg = abs_path.replace("dataset/images/", "dataset/images_hq/")
+        for candidate in (hq_png, hq_jpg, abs_path):
             if os.path.exists(candidate):
                 ref = cv2.imread(candidate)
                 if ref is not None:
-                    # Resize to video native resolution for aligned comparison
-                    ref = cv2.resize(ref, (native_w, native_h), interpolation=cv2.INTER_AREA)
-                    reference_image = ref
+                    reference_image = normalize_frame(ref)  # → 1080p
                     break
         if reference_image is None:
             logger.warning("Reference image missing: %s", abs_path)

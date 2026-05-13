@@ -3,44 +3,22 @@
 import cv2
 import numpy as np
 
-# Legacy constant kept for backward compatibility.
-# The active resolution is now set per-evaluation via set_eval_resolution().
-EVAL_RESOLUTION = (720, 1280)  # (height, width) — fallback default
-
-# Module-level current resolution; None = use each frame's native size.
-_current_hw: tuple[int, int] | None = None
-
-
-def set_eval_resolution(hw: tuple[int, int] | None) -> None:
-    """Set the evaluation resolution for the current sample.
-
-    Call this once per sample with the video's native (height, width).
-    All subsequent normalize_frame() calls will resize to this target.
-    Pass None to disable normalization (keep native resolution).
-    """
-    global _current_hw
-    _current_hw = hw
+# Fixed evaluation resolution: all video frames AND reference images are
+# normalised to 1080p before any metric computation.
+# - Low-res model outputs (720p) are upscaled → consistent comparison baseline.
+# - High-res model outputs (1080p) are unchanged.
+# - Reference images (PNG originals, 2K–4K) are downscaled.
+# Using a fixed standard avoids per-video edge cases in CV tools.
+EVAL_RESOLUTION = (1080, 1920)  # (height, width)
 
 
-def get_eval_resolution() -> tuple[int, int] | None:
-    """Return the currently active evaluation resolution, or None."""
-    return _current_hw
-
-
-def normalize_frame(frame: np.ndarray,
-                    target_hw: tuple[int, int] | None = None) -> np.ndarray:
-    """Resize *frame* to the target resolution if it differs.
-
-    Resolution priority:
-      1. ``target_hw`` argument (explicit override)
-      2. Module-level ``_current_hw`` set by set_eval_resolution()
-      3. Legacy ``EVAL_RESOLUTION`` constant (720p fallback)
+def normalize_frame(frame: np.ndarray) -> np.ndarray:
+    """Resize *frame* to EVAL_RESOLUTION (1920×1080) if it differs.
 
     Uses INTER_AREA for downscaling (good anti-aliasing) and
     INTER_LINEAR for upscaling.
     """
-    target = target_hw or _current_hw or EVAL_RESOLUTION
-    target_h, target_w = target
+    target_h, target_w = EVAL_RESOLUTION
     h, w = frame.shape[:2]
     if (h, w) == (target_h, target_w):
         return frame
