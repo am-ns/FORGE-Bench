@@ -1,21 +1,28 @@
 # Dataset Annotations
 
-## Schema Fields
+`samples.json` contains 500 benchmark samples: 100 samples for each scenario
+domain. The schema is enforced by `dataset/schema.json`.
 
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `task_id` | string | yes | Unique identifier matching `^[a-z]{2,8}(_[a-z]+)?_[0-9]{3}$` or `^S[A-Z][0-9]{2}$` |
-| `domain` | string | yes | Engineering domain: aerospace, microelectronics, robotics, energy, vehicle, or manufacturing |
-| `topology_type` | string | yes | Motion topology: surface (static), lattice, or kinematic (animated) |
-| `failure_target` | string | no | Description of the expected failure mode when constraints are violated (min 10 chars) |
-| `text` | string | yes | Ground-truth caption or description for the sample (min 20 chars) |
-| `image_path` | string | yes | Path to the reference image, prefixed with `dataset/images/` |
-| `vfa_target` | string | yes | Visual feature alignment target describing the engineering domain focus |
-| `questions` | array | yes | At least 2 question objects, each with `q` (question text) and `answer` (correct answer) |
-| `constraint_annotations` | object | yes | Must contain `topology_type`; may include additional keys like `camera_motion`, `failure_mode` |
-| `reverse` | boolean | no | Whether the sample tests reversed constraint direction |
-| `extra_frame` | integer | no | Additional frame index for multi-frame evaluation |
+## Required Fields
+
+| Field | Type | Description |
+|---|---|---|
+| `task_id` | string | Unique sample identifier such as `vsec_001` or `pdef_042`. |
+| `domain` | string | One of `visual_security`, `embodied_robotics`, `heavy_load_construction`, `precision_defect_gen`, or `extreme_emergency`. |
+| `task_category` | string | One of the five abstract task categories in `TASK_TAXONOMY.md`. |
+| `image_path` | string | Reference image path under `dataset/images/` or `dataset/images_hq/`. |
+| `prompt` | string | Executable image-to-video prompt with full-name axis checks. |
+| `video_generation_prompt` | string | Short prompt intended to be sent directly to image-to-video generation models. |
+| `motion_type` | string | `orbit`, `pan`, `crane`, `dolly`, `tilt`, or `static`. |
+| `viewpoint_motion_target` | number or string | Target motion value used by the viewpoint motion estimator and static-video gate. |
+| `topology_type` | string | Primary topology family: `surface`, `lattice`, `kinematic`, or `flexible`. |
+| `constraint_annotations` | object | Hard constraints, failure modes, domain scenario, abstract task category, and full-name model-evaluation axes. |
+| `industrial_logic_questions` | array | Yes/no questions used for industrial logic and fact alignment. |
+| `difficulty_profile` | object | Per-axis difficulty keyed by full-name axis. |
+| `sensitivity_variants` | array | Easy/hard prompt deltas and viewpoint-motion target deltas. |
 
 ## Validation
 
-Run `python3 dataset/validate.py` to validate all entries against `dataset/schema.json`.
+```bash
+python dataset/validate.py
+```

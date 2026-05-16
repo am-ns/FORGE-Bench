@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
-"""FORGE-Bench evaluation runner.
-
-Full pipeline: GI (sub-topology dispatch) -> IC -> VFA -> IKA -> TC -> PP -> VF
--> per-sample score -> aggregate -> report.
-
-LLM evaluation (IKA/TC/PP/VF) is enabled by default when ANTHROPIC_API_KEY
-is set. Pass --no_llm for CV-only mode.
-"""
+"""FORGE-Bench evaluation runner."""
 
 import argparse
 import json
@@ -34,6 +27,17 @@ from eval.preflight import validate_frame_count
 from eval.temporal_coherence.eval import evaluate_tc
 from eval.visual_fidelity.eval import evaluate_vf
 from eval.vfa.eval import compute_vfa
+from eval.axis_registry import (
+    GEOMETRIC_INTEGRITY,
+    INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
+    PHYSICAL_PLAUSIBILITY,
+    REFERENCE_AND_MOTION_FIDELITY,
+    TEMPORAL_CONSISTENCY,
+    VIEWPOINT_MOTION_FIDELITY,
+    MODEL_EVALUATION_AXES,
+    axis_weights_for,
+    task_profile_for,
+)
 from scoring.per_sample import score_sample
 from scoring.aggregate import aggregate_sample_results
 from scoring.report import generate_diagnostic_report, generate_report
@@ -185,6 +189,10 @@ def evaluate_sample(
     domain = sample["domain"]
     primary_topology = sample.get("primary_topology") or sample.get("topology_type", "kinematic")
     sub_topology = sample.get("sub_topology", "")
+    task_profile = task_profile_for(sample)
+    task_category = sample.get("task_category") or task_profile["task_category"]
+    axis_weights = sample.get("axis_weights") or axis_weights_for(sample)
+    axis_rubric = sample.get("axis_rubric") or task_profile.get("rubric", {})
 
     # video loading
     video_path = os.path.join(video_dir, f"{task_id}.mp4")
@@ -212,7 +220,7 @@ def evaluate_sample(
     # VFA
     vfa_result = compute_vfa(
         frames,
-        vfa_target=sample.get("vfa_target"),
+        vfa_target=sample.get("viewpoint_motion_target", sample.get("vfa_target")),
         motion_type=sample.get("motion_type") or sample.get("constraint_annotations", {}).get("motion_type"),
     )
 
@@ -238,7 +246,10 @@ def evaluate_sample(
     ika_score = None
     ika_details = None
     cot_map: dict[str, str] = {}
-    questions = sample.get("ika_questions", sample.get("questions", []))
+    questions = sample.get(
+        "industrial_logic_questions",
+        sample.get("ika_questions", sample.get("questions", [])),
+    )
 
     if judge_ika is not None and questions:
         try:
@@ -304,19 +315,19 @@ def evaluate_sample(
     elif not vf_result:
         vf_result = {"vf_score": None, "cv_ssim": None, "cv_hist_corr": None}
 
-    # Build axis scores for per-sample scorer
+    # Build public full-name axis scores for per-sample scoring.
     axis_scores: dict[str, float] = {}
     if ika_score is not None:
-        axis_scores["ika"] = float(ika_score) * 100.0
+        axis_scores[INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT] = float(ika_score) * 100.0
     if tc_result.get("tc_score") is not None:
-        axis_scores["tc"] = float(tc_result["tc_score"])
+        axis_scores[TEMPORAL_CONSISTENCY] = float(tc_result["tc_score"])
     if pp_score is not None:
-        axis_scores["pp"] = float(pp_score)
+        axis_scores[PHYSICAL_PLAUSIBILITY] = float(pp_score)
     if vf_result.get("vf_score") is not None:
-        axis_scores["vf"] = float(vf_result["vf_score"])
+        axis_scores[REFERENCE_AND_MOTION_FIDELITY] = float(vf_result["vf_score"])
     if vfa_result.get("vfa_score") is not None:
-        axis_scores["vfa"] = float(vfa_result["vfa_score"])
-    axis_scores["gi"] = gi_result["result_score"] * 100.0
+        axis_scores[VIEWPOINT_MOTION_FIDELITY] = float(vfa_result["vfa_score"])
+    axis_scores[GEOMETRIC_INTEGRITY] = gi_result["result_score"] * 100.0
 
     scored = score_sample(
         axis_scores,
@@ -324,11 +335,16 @@ def evaluate_sample(
         vfa_orbit_component=vfa_result.get("vfa_orbit_component"),
         vfa_crane_component=vfa_result.get("vfa_crane_component"),
         ic_score=gi_result.get("ic_score"),
+        axis_weights=axis_weights,
+        axis_rubric=axis_rubric,
+        task_category=task_category,
     )
 
     return {
         "task_id": task_id,
         "domain": domain,
+        "task_category": task_category,
+        "application_value": sample.get("application_value") or task_profile.get("application_value"),
         "primary_topology": primary_topology,
         "sub_topology": sub_topology,
         "motion_type": sample.get("motion_type"),
@@ -339,27 +355,43 @@ def evaluate_sample(
         "skipped": False,
         "frame_count_reported": fc.get("reported_count"),
         "frame_count_actual": fc.get("actual_count"),
-        "gi_score": gi_result["result_score"],
-        "gi_method": gi_result.get("method"),
-        "ic_score": gi_result.get("ic_score"),
-        "ic_details": gi_result.get("ic_details"),
-        "vfa": vfa_result.get("vfa"),
-        "vfa_score": vfa_result.get("vfa_score"),
-        "vfa_target_degrees": vfa_result.get("vfa_target_degrees"),
-        "vfa_details": {k: v for k, v in vfa_result.items() if k != "vfa_detail"},
-        "tc_score": tc_result.get("tc_score"),
-        "tc_details": tc_result,
-        "pp_score": pp_score,
-        "pp_details": pp_details,
-        "vf_score": vf_result.get("vf_score"),
-        "vf_details": vf_result,
-        "ika_score": ika_score,
-        "ika_details": ika_details,
+        "geometric_integrity_score": gi_result["result_score"],
+        "geometric_integrity_method": gi_result.get("method"),
+        "industrial_constraint_score": gi_result.get("ic_score"),
+        "industrial_constraint_details": gi_result.get("ic_details"),
+        "viewpoint_motion": vfa_result.get("vfa"),
+        "viewpoint_motion_score": vfa_result.get("vfa_score"),
+        "viewpoint_motion_target_degrees": vfa_result.get("vfa_target_degrees"),
+        "viewpoint_motion_details": {k: v for k, v in vfa_result.items() if k != "vfa_detail"},
+        "temporal_consistency_score": tc_result.get("tc_score"),
+        "temporal_consistency_details": tc_result,
+        "physical_plausibility_score": pp_score,
+        "physical_plausibility_details": pp_details,
+        "reference_and_motion_fidelity_score": vf_result.get("vf_score"),
+        "reference_and_motion_fidelity_details": vf_result,
+        "industrial_logic_and_fact_alignment_score": ika_score,
+        "industrial_logic_and_fact_alignment_details": ika_details,
         "scored": scored,
     }
 
 
-# CLI
+def _mean(values: list[float]) -> float:
+    return float(np.mean(values)) if values else 0.0
+
+
+def _aggregate_group(results: list[dict]) -> dict:
+    """Aggregate completed sample results for one domain or task group."""
+    aggregate = aggregate_sample_results(results)
+    axis_means = aggregate.get("axis_scores", {})
+    aggregate["num_samples"] = len(results)
+    aggregate["low_fidelity_flags"] = {
+        "physical_plausibility_low": axis_means.get(PHYSICAL_PLAUSIBILITY, 100.0) < 35.0,
+        "geometric_integrity_low": axis_means.get(GEOMETRIC_INTEGRITY, 100.0) < 35.0,
+    }
+    return aggregate
+
+
+# ── CLI ───────────────────────────────────────────────────────────────────────
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="FORGE-Bench evaluation runner")
@@ -418,6 +450,30 @@ def main() -> None:
         all_results.append(result)
 
     aggregate = aggregate_sample_results(all_results)
+
+    completed = [r for r in all_results if not r.get("skipped")]
+    if completed:
+        by_domain = {}
+        for domain in sorted({r.get("domain") for r in completed}):
+            domain_results = [r for r in completed if r.get("domain") == domain]
+            by_domain[domain] = _aggregate_group(domain_results)
+        aggregate["domain_breakdown"] = by_domain
+        by_task = {}
+        for task in sorted({r.get("task_category") for r in completed}):
+            task_results = [r for r in completed if r.get("task_category") == task]
+            by_task[task] = _aggregate_group(task_results)
+        aggregate["task_breakdown"] = by_task
+        aggregate["model_evaluation_axes"] = MODEL_EVALUATION_AXES
+        aggregate["low_fidelity_summary"] = {
+            "domains_physical_low": [
+                domain for domain, item in by_domain.items()
+                if item["low_fidelity_flags"]["physical_plausibility_low"]
+            ],
+            "domains_geometric_low": [
+                domain for domain, item in by_domain.items()
+                if item["low_fidelity_flags"]["geometric_integrity_low"]
+            ],
+        }
 
     with open(os.path.join(out_dir, "per_sample.json"), "w") as f:
         json.dump(all_results, f, indent=2, default=str)

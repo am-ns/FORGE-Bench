@@ -167,6 +167,31 @@ def evaluate_industrial_constraints(
     """
     key = (domain, topology_type)
     checkers = _DISPATCH_TABLE.get(key, [])
+    if not checkers and sample_meta:
+        task_category = sample_meta.get("task_category", "")
+        if task_category == "rigid_body_kinematics_and_coupling":
+            checkers = [
+                {"fn": check_kinematic_coupling, "kwargs": {"mechanism_type": "robotic_arm"}},
+                {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+            ]
+        elif task_category == "topology_mutation_and_failure":
+            checkers = [
+                {"fn": check_periodic_structure, "kwargs": {"structure_type": "pcb_trace"}},
+                {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+            ]
+        elif task_category == "fluid_dynamics_and_thermodynamics":
+            checkers = [
+                {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+            ]
+        elif task_category == "spatial_exploration_and_viewpoint":
+            checkers = [
+                {"fn": check_count_invariant, "kwargs": {"element_type": "fuselage_protrusions"}},
+                {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+            ]
+        elif task_category == "industrial_logic_and_compliance":
+            checkers = [
+                {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+            ]
 
     if not checkers:
         return {

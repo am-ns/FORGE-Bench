@@ -1,40 +1,115 @@
-"""Export all prompts to a readable markdown file for easy copy-paste."""
+#!/usr/bin/env python3
+"""Export the current prompt framework and all sample prompts."""
+
+from __future__ import annotations
+
+import argparse
 import json
 from pathlib import Path
 
-with open("C:/Users/assd/S_I_Eval/dataset/annotations/samples.json", encoding="utf-8") as f:
-    samples = json.load(f)
 
-main = [s for s in samples if not s["task_id"].startswith(("SA","SB","SC"))]
-sens = [s for s in samples if s["task_id"].startswith(("SA","SB","SC"))]
+ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_SAMPLES = ROOT / "dataset" / "annotations" / "samples.json"
+DEFAULT_MARKDOWN = ROOT / "reports" / "prompts.md"
+DEFAULT_JSONL = ROOT / "reports" / "prompts.jsonl"
 
-lines = ["# FORGE Prompt Reference\n"]
-lines.append("每条格式：`task_id` | 参考图 | **Prompt**\n")
 
-domain_order = ["aerospace","vehicle","energy","manufacturing","microelectronics","robotics"]
-domain_cn = {
-    "aerospace":"航空航天","vehicle":"地面车辆","energy":"能源",
-    "manufacturing":"制造业","microelectronics":"微电子","robotics":"机器人"
-}
+PROMPT_FRAMEWORK = [
+    "Task objective",
+    "Core scenario",
+    "Reference subject",
+    "Motion requirement / viewpoint motion fidelity",
+    "Industrial logic and fact alignment check",
+    "Geometric integrity check",
+    "Physical plausibility check",
+    "Temporal consistency check",
+    "Reference and motion fidelity check",
+    "Execution constraints",
+    "Scoring emphasis",
+]
 
-for domain in domain_order:
-    group = [s for s in main if s["domain"] == domain]
-    lines.append(f"\n## {domain_cn[domain]}（{domain}）\n")
-    for s in group:
-        img = s["image_path"].split("/")[-1]
-        lines.append(f"### `{s['task_id']}` — {img}")
-        lines.append(f"> {s['text']}")
-        lines.append("")
 
-lines.append("\n---\n## 敏感性实验（SA / SB / SC）\n")
-for gk in ["SA","SB","SC"]:
-    group = [s for s in sens if s["task_id"].startswith(gk)]
-    lines.append(f"### {gk} — {group[0]['text'].split('.')[0][:40]}...")
-    for s in group:
-        lines.append(f"- **`{s['task_id']}`** `{s['vfa_target']}`")
-        lines.append(f"  > {s['text']}")
+def _load_samples(path: Path) -> list[dict]:
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return data.get("samples", data) if isinstance(data, dict) else data
+
+
+def _write_markdown(samples: list[dict], out_path: Path) -> None:
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    lines = [
+        "# FORGE-Bench Prompt Reference",
+        "",
+        "## Prompt Framework",
+        "",
+    ]
+    for index, item in enumerate(PROMPT_FRAMEWORK, 1):
+        lines.append(f"{index}. {item}")
     lines.append("")
 
-out = Path("C:/Users/assd/S_I_Eval/prompts.md")
-out.write_text("\n".join(lines), encoding="utf-8")
-print(f"Wrote {len(samples)} prompts to {out}")
+    current_domain = None
+    current_task = None
+    for sample in sorted(samples, key=lambda x: (x["domain"], x["task_category"], x["task_id"])):
+        if sample["domain"] != current_domain:
+            current_domain = sample["domain"]
+            current_task = None
+            lines.append(f"## {current_domain}")
+            lines.append("")
+        if sample["task_category"] != current_task:
+            current_task = sample["task_category"]
+            lines.append(f"### {current_task}")
+            lines.append("")
+        lines.append(f"#### `{sample['task_id']}`")
+        lines.append("")
+        lines.append(f"- image: `{sample.get('image_path', '')}`")
+        lines.append(f"- motion_type: `{sample.get('motion_type', '')}`")
+        lines.append(f"- viewpoint_motion_target: `{sample.get('viewpoint_motion_target', '')}`")
+        lines.append("")
+        lines.append("Generation prompt:")
+        lines.append("")
+        lines.append("```text")
+        lines.append(sample.get("video_generation_prompt", sample["prompt"]))
+        lines.append("```")
+        lines.append("")
+        lines.append("Evaluation prompt:")
+        lines.append("")
+        lines.append("```text")
+        lines.append(sample["prompt"])
+        lines.append("```")
+        lines.append("")
+
+    out_path.write_text("\n".join(lines), encoding="utf-8")
+
+
+def _write_jsonl(samples: list[dict], out_path: Path) -> None:
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    with out_path.open("w", encoding="utf-8") as f:
+        for sample in sorted(samples, key=lambda x: x["task_id"]):
+            row = {
+                "task_id": sample["task_id"],
+                "domain": sample["domain"],
+                "task_category": sample["task_category"],
+                "image_path": sample["image_path"],
+                "motion_type": sample["motion_type"],
+                "viewpoint_motion_target": sample["viewpoint_motion_target"],
+                "video_generation_prompt": sample.get("video_generation_prompt", sample["prompt"]),
+                "prompt": sample["prompt"],
+            }
+            f.write(json.dumps(row, ensure_ascii=False) + "\n")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Export FORGE-Bench prompts.")
+    parser.add_argument("--samples", default=str(DEFAULT_SAMPLES))
+    parser.add_argument("--markdown", default=str(DEFAULT_MARKDOWN))
+    parser.add_argument("--jsonl", default=str(DEFAULT_JSONL))
+    args = parser.parse_args()
+
+    samples = _load_samples(Path(args.samples))
+    _write_markdown(samples, Path(args.markdown))
+    _write_jsonl(samples, Path(args.jsonl))
+    print(f"wrote {len(samples)} prompts to {args.markdown}")
+    print(f"wrote {len(samples)} jsonl rows to {args.jsonl}")
+
+
+if __name__ == "__main__":
+    main()

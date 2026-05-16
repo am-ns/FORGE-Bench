@@ -1,43 +1,45 @@
 #!/usr/bin/env python3
-"""Domain-specific score floor enforcement.
+"""Score floor enforcement for public full-name benchmark axes."""
 
-Applies axis-specific minimum scores so that no metric ever returns exactly 0.0
-except VFA, which is a gate (not a quality score) and scientifically CAN be
-zero when a model produces a perfect static video.
-"""
+from eval.axis_registry import (
+    GEOMETRIC_INTEGRITY,
+    INDUSTRIAL_CONSTRAINT_SCORE,
+    INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
+    PHYSICAL_PLAUSIBILITY,
+    REFERENCE_AND_MOTION_FIDELITY,
+    TEMPORAL_CONSISTENCY,
+    VIEWPOINT_MOTION_FIDELITY,
+    canonical_axis,
+)
 
 # Floor values on a 0-100 scale.
-# LLM-scored axes get a lower floor (5.0) because the LMM fallback is already 3/5.
-# CV-scored axes get a higher floor (8.0) because even degraded geometry has
-# measurable residual structure.
-# VFA gets floor 0.0 — it is a gate, not a quality score.
-_FLOOR_LLM_SCORED = 5.0   # ika, tc, pp, vf
-_FLOOR_CV_SCORED = 8.0    # gi, ic_score
-_FLOOR_VFA = 0.0          # vfa is a gate
+_FLOOR_MODEL_JUDGED = 5.0
+_FLOOR_CV_SCORED = 8.0
+_FLOOR_VIEWPOINT_GATE = 0.0
 
-_LLM_AXES = {"ika", "tc", "pp", "vf"}
-_CV_AXES = {"gi", "ic", "ic_score"}
+_MODEL_JUDGED_AXES = {
+    INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
+    TEMPORAL_CONSISTENCY,
+    PHYSICAL_PLAUSIBILITY,
+    REFERENCE_AND_MOTION_FIDELITY,
+}
+_CV_AXES = {GEOMETRIC_INTEGRITY, INDUSTRIAL_CONSTRAINT_SCORE}
 
 
 def enforce_score_floors(scores_dict: dict[str, float]) -> dict[str, float]:
-    """Apply domain-specific minimum floors to a dict of axis scores.
+    """Apply minimum floors to axis scores.
 
-    Args:
-        scores_dict: Mapping of axis name to score (0-100 scale).
-            Expected keys: ika, tc, pp, vf, gi, vfa, ic_score.
-
-    Returns:
-        New dict with the same keys; values clamped to per-axis floors.
+    Legacy short names are accepted and normalized to public full-name axes.
     """
     out = {}
     for axis, score in scores_dict.items():
-        if axis == "vfa":
-            out[axis] = max(_FLOOR_VFA, score)
-        elif axis in _LLM_AXES:
-            out[axis] = max(_FLOOR_LLM_SCORED, score)
-        elif axis in _CV_AXES:
-            out[axis] = max(_FLOOR_CV_SCORED, score)
+        canonical = canonical_axis(axis)
+        if canonical == VIEWPOINT_MOTION_FIDELITY:
+            out[canonical] = max(_FLOOR_VIEWPOINT_GATE, score)
+        elif canonical in _MODEL_JUDGED_AXES:
+            out[canonical] = max(_FLOOR_MODEL_JUDGED, score)
+        elif canonical in _CV_AXES:
+            out[canonical] = max(_FLOOR_CV_SCORED, score)
         else:
-            # Unknown axes get the LLM floor as a safe default
-            out[axis] = max(_FLOOR_LLM_SCORED, score)
+            out[canonical] = max(_FLOOR_MODEL_JUDGED, score)
     return out

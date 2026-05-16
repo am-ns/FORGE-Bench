@@ -16,6 +16,14 @@ import numpy as np
 import pytest
 
 from eval.calibration.floor_enforcer import enforce_score_floors
+from eval.axis_registry import (
+    GEOMETRIC_INTEGRITY,
+    INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
+    PHYSICAL_PLAUSIBILITY,
+    REFERENCE_AND_MOTION_FIDELITY,
+    TEMPORAL_CONSISTENCY,
+    VIEWPOINT_MOTION_FIDELITY,
+)
 from eval.physical_plausibility.eval import parse_pp_score
 from eval.run_eval import evaluate_gi, evaluate_sample
 from eval.geometric_integrity.lattice import evaluate_lattice
@@ -255,9 +263,9 @@ class TestCountInvariant:
 class TestFloorEnforcer:
     def test_floor_enforcer(self):
         """Floor enforcer should clamp axes to their domain-specific minimums."""
-        assert enforce_score_floors({"ika": 1.0})["ika"] == 5.0
-        assert enforce_score_floors({"gi": 5.0})["gi"] == 8.0
-        assert enforce_score_floors({"vfa": -1.0})["vfa"] == 0.0
+        assert enforce_score_floors({"ika": 1.0})[INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT] == 5.0
+        assert enforce_score_floors({"gi": 5.0})[GEOMETRIC_INTEGRITY] == 8.0
+        assert enforce_score_floors({"vfa": -1.0})[VIEWPOINT_MOTION_FIDELITY] == 0.0
 
 
 class TestScoring:
@@ -269,23 +277,26 @@ class TestScoring:
         assert 0 < result["weighted_score"] <= 100
         assert result["rif"] is not None
 
-    def test_per_sample_score_includes_vfa_axis(self):
-        """VFA target fidelity should participate as a weighted axis."""
+    def test_per_sample_score_folds_vfa_into_vf(self):
+        """VFA target fidelity should fold into the VF axis."""
         result = score_sample(
             {"ika": 80, "tc": 70, "pp": 75, "vf": 85, "gi": 90, "vfa": 0},
             vfa=0.0,
         )
-        assert result["axis_scores"]["vfa"] == 0.0
+        assert VIEWPOINT_MOTION_FIDELITY not in result["axis_scores"]
+        assert result["axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == pytest.approx(59.5)
+        assert result["viewpoint_motion_score"] == 0.0
         assert result["weighted_score"] < 80.0
 
     def test_per_sample_score_mixes_ic_into_gi(self):
-        """Industrial constraints should lower GI and participate as an axis."""
+        """Industrial constraints should lower GI without becoming an axis."""
         result = score_sample(
             {"ika": 80, "tc": 70, "pp": 75, "vf": 85, "gi": 90},
             ic_score=0.20,
         )
-        assert result["axis_scores"]["ic"] == 20.0
-        assert result["axis_scores"]["gi"] == 69.0
+        assert "ic" not in result["axis_scores"]
+        assert result["axis_scores"][GEOMETRIC_INTEGRITY] == 69.0
+        assert result["industrial_constraint_score"] == 20.0
         assert result["weighted_score"] < 80.0
 
     def test_aggregate(self):
@@ -293,7 +304,7 @@ class TestScoring:
         result = aggregate_scores(
             {"ika": 80, "tc": 70, "pp": 75, "vf": 85, "gi": 90}, vfa=15.0
         )
-        assert result["vfa_tier"] == "weak"
+        assert result["viewpoint_motion_tier"] == "weak"
         assert result["overall"] > 0
 
     def test_aggregate_sample_results_outputs_public_metrics(self):
@@ -302,24 +313,28 @@ class TestScoring:
             {
                 "task_id": "ok",
                 "skipped": False,
-                "vfa": 60.0,
+                "viewpoint_motion": 60.0,
+                "vfa_score": 100.0,
                 "scored": {
                     "weighted_score": 80.0,
-                    "axis_scores": {"ika": 80, "tc": 80, "pp": 80, "vf": 80, "gi": 80, "vfa": 100},
+                    "axis_scores": {"ika": 80, "tc": 80, "pp": 80, "vf": 80, "gi": 80},
+                    "viewpoint_motion_score": 100.0,
                 },
             },
             {
                 "task_id": "bad_vfa",
                 "skipped": False,
-                "vfa": 0.0,
+                "viewpoint_motion": 0.0,
+                "vfa_score": 0.0,
                 "scored": {
                     "weighted_score": 70.0,
-                    "axis_scores": {"ika": 80, "tc": 80, "pp": 80, "vf": 80, "gi": 80, "vfa": 0},
+                    "axis_scores": {"ika": 80, "tc": 80, "pp": 80, "vf": 80, "gi": 80},
+                    "viewpoint_motion_score": 0.0,
                 },
             },
         ])
         assert result["relax_score"] == 75.0
-        assert result["strict_pass_rate"] == 0.5
+        assert result["strict_pass_rate"] == 1.0
         assert result["gated_score"] == 40.0
         assert result["overall"] == result["gated_score"]
 
@@ -348,15 +363,15 @@ class TestReport:
                 "sub_topology": "articulated",
                 "motion_type": "orbit",
                 "skipped": False,
-                "vfa": 0.0,
-                "vfa_score": 0.0,
-                "vfa_target_degrees": 90.0,
-                "vfa_details": {},
+                "viewpoint_motion": 0.0,
+                "viewpoint_motion_score": 0.0,
+                "viewpoint_motion_target_degrees": 90.0,
+                "viewpoint_motion_details": {},
                 "ic_details": {
                     "violations": ["check_count_invariant: element count varied"],
                     "invariants_checked": ["check_count_invariant"],
                 },
-                "ika_details": {
+                "industrial_logic_and_fact_alignment_details": {
                     "per_question": [
                         {"weakness_target": "W3", "correct": False},
                         {"weakness_target": "W5", "correct": True},
@@ -364,15 +379,17 @@ class TestReport:
                 },
                 "scored": {
                     "weighted_score": 30.0,
-                    "axis_scores": {"ika": 50, "gi": 30, "ic": 20, "vfa": 0},
+                    "axis_scores": {"ika": 50, "gi": 27},
+                    "industrial_constraint_score": 20,
+                    "viewpoint_motion_score": 0,
                 },
             }
         ]
         report = generate_diagnostic_report("model", {"overall": 0.0}, samples)
-        assert report["summary"]["weakest_axes"][0]["axis"] == "vfa"
-        assert report["vfa_diagnostics"]["static_or_near_static_count"] == 1
-        assert report["ic_diagnostics"]["violation_counts"]["check_count_invariant"] == 1
-        assert report["ika_weakness_diagnostics"]["W3"]["accuracy"] == 0.0
+        assert report["summary"]["weakest_axes"][0]["axis"] == GEOMETRIC_INTEGRITY
+        assert report["viewpoint_motion_diagnostics"]["static_or_near_static_count"] == 1
+        assert report["industrial_constraint_diagnostics"]["violation_counts"]["check_count_invariant"] == 1
+        assert report["industrial_logic_weakness_diagnostics"]["W3"]["accuracy"] == 0.0
         assert report["worst_samples"][0]["task_id"] == "bad"
 
 
@@ -409,9 +426,9 @@ class TestRunEvalCLI:
             "primary_topology": "surface",
             "sub_topology": "aerodynamic",
             "motion_type": "orbit",
-            "vfa_target": 45.0,
+            "viewpoint_motion_target": 45.0,
             "constraint_annotations": {"topology_type": "surface"},
-            "ika_questions": [],
+            "industrial_logic_questions": [],
         }
 
         def judge_tc(frames, sample_meta=None):
@@ -424,9 +441,9 @@ class TestRunEvalCLI:
             sample, str(video_dir), "mock_model", None,
             None, judge_tc, judge_pp, None,
         )
-        assert result["pp_score"] == 80
-        assert result["scored"]["axis_scores"]["pp"] == 80.0
-        assert result["tc_details"]["method"] == "vlm_direct"
+        assert result["physical_plausibility_score"] == 80
+        assert result["scored"]["axis_scores"][PHYSICAL_PLAUSIBILITY] == 80.0
+        assert result["temporal_consistency_details"]["method"] == "vlm_direct"
 
     def test_run_eval_cli_writes_pipeline_outputs(self, tmp_path):
         """README run_eval.py command should produce all public output files."""
@@ -451,10 +468,10 @@ class TestRunEvalCLI:
             "primary_topology": "surface",
             "sub_topology": "aerodynamic",
             "motion_type": "orbit",
-            "vfa_target": 45.0,
-            "difficulty_profile": {"gi": "medium", "vfa": "hard"},
+            "viewpoint_motion_target": 45.0,
+            "difficulty_profile": {GEOMETRIC_INTEGRITY: "medium", VIEWPOINT_MOTION_FIDELITY: "hard"},
             "constraint_annotations": {"topology_type": "surface"},
-            "ika_questions": [],
+            "industrial_logic_questions": [],
         }
         samples_path = tmp_path / "samples.json"
         samples_path.write_text(json.dumps({"samples": [sample]}), encoding="utf-8")
@@ -484,4 +501,4 @@ class TestRunEvalCLI:
         assert "strict_pass_rate" in aggregate
         assert "gated_score" in aggregate
         assert report["summary"]["num_samples_completed"] == 1
-        assert "vfa_diagnostics" in report
+        assert "viewpoint_motion_diagnostics" in report

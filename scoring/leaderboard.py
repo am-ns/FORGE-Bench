@@ -1,15 +1,26 @@
 #!/usr/bin/env python3
-"""Aggregate results from multiple models into a ranked leaderboard.
-
-Scans a results directory for MODEL_NAME/aggregate.json files, ranks models
-by overall score, and writes leaderboard.md + leaderboard.json.
-"""
+"""Aggregate results from multiple models into a ranked leaderboard."""
 
 import json
 import os
 import sys
 
-from scoring.aggregate import vfa_tier
+from eval.axis_registry import (
+    GEOMETRIC_INTEGRITY,
+    INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
+    PHYSICAL_PLAUSIBILITY,
+    REFERENCE_AND_MOTION_FIDELITY,
+    TEMPORAL_CONSISTENCY,
+)
+
+
+LEADERBOARD_AXES = [
+    INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
+    TEMPORAL_CONSISTENCY,
+    PHYSICAL_PLAUSIBILITY,
+    REFERENCE_AND_MOTION_FIDELITY,
+    GEOMETRIC_INTEGRITY,
+]
 
 
 def _load_model_results(results_dir: str) -> list[dict]:
@@ -24,7 +35,7 @@ def _load_model_results(results_dir: str) -> list[dict]:
         if not os.path.isfile(agg_path):
             continue
         try:
-            with open(agg_path) as f:
+            with open(agg_path, encoding="utf-8") as f:
                 data = json.load(f)
         except (json.JSONDecodeError, OSError) as exc:
             print(f"WARNING: could not load {agg_path}: {exc}", file=sys.stderr)
@@ -34,7 +45,7 @@ def _load_model_results(results_dir: str) -> list[dict]:
             "model": entry,
             "overall": data.get("overall", 0.0),
             "axis_scores": data.get("axis_scores", {}),
-            "vfa_tier": data.get("vfa_tier", "unknown"),
+            "viewpoint_motion_tier": data.get("viewpoint_motion_tier", "unknown"),
             "rif": data.get("rif"),
             "rif_gated": data.get("rif_gated"),
             "num_samples_completed": data.get("num_samples_completed"),
@@ -46,98 +57,77 @@ def _load_model_results(results_dir: str) -> list[dict]:
 
 
 def _format_axis(axis_scores: dict, axis: str) -> str:
-    """Format a single axis score for the markdown table, or em-dash if absent."""
+    """Format a single axis score for the markdown table."""
     val = axis_scores.get(axis)
     if val is None:
-        return "—"
-    return f"{val:.1f}"
+        return "-"
+    return f"{float(val):.1f}"
 
 
 def _generate_markdown(models: list[dict]) -> str:
     """Build a markdown leaderboard table from ranked model list."""
+    header = [
+        "Rank",
+        "Model",
+        "Overall",
+        *LEADERBOARD_AXES,
+        "viewpoint_motion_tier",
+        "rotation_integrity_factor",
+    ]
     lines = [
         "# FORGE-Bench Leaderboard",
         "",
-        "| Rank | Model | Overall | IKA | TC | PP | VF | GI | VFA Tier | RIF |",
-        "|------|-------|---------|-----|----|----|----|----|---------:|-----|",
+        "| " + " | ".join(header) + " |",
+        "| " + " | ".join(["---"] * len(header)) + " |",
     ]
 
-    for rank, m in enumerate(models, 1):
-        ax = m["axis_scores"]
-        rif_str = f"{m['rif']:.1f}" if m["rif"] is not None else "—"
-        lines.append(
-            f"| {rank} | {m['model']} | {m['overall']:.1f} | "
-            f"{_format_axis(ax, 'ika')} | {_format_axis(ax, 'tc')} | "
-            f"{_format_axis(ax, 'pp')} | {_format_axis(ax, 'vf')} | "
-            f"{_format_axis(ax, 'gi')} | {m['vfa_tier']} | {rif_str} |"
-        )
+    for rank, item in enumerate(models, 1):
+        axis_scores = item["axis_scores"]
+        rif_str = f"{float(item['rif']):.1f}" if item["rif"] is not None else "-"
+        row = [
+            str(rank),
+            item["model"],
+            f"{float(item['overall']):.1f}",
+            *[_format_axis(axis_scores, axis) for axis in LEADERBOARD_AXES],
+            item["viewpoint_motion_tier"],
+            rif_str,
+        ]
+        lines.append("| " + " | ".join(row) + " |")
 
     lines.append("")
-    lines.append(
-        f"*Generated from {len(models)} model(s) in the results directory.*"
-    )
+    lines.append(f"Generated from {len(models)} model(s) in the results directory.")
     lines.append("")
     return "\n".join(lines)
 
 
 def build_leaderboard(results_dir: str) -> dict:
-    """Build a ranked leaderboard from all models in *results_dir*.
-
-    Scans for MODEL_NAME/aggregate.json, ranks by overall score descending,
-    and writes leaderboard.md and leaderboard.json into *results_dir*.
-
-    Args:
-        results_dir: Path to the directory containing per-model subdirectories.
-
-    Returns:
-        dict with keys: models (ranked list), num_models, generated_files.
-    """
+    """Build a ranked leaderboard from all model aggregate files."""
     models = _load_model_results(results_dir)
     models.sort(key=lambda m: m["overall"], reverse=True)
 
-    # Assign ranks
-    for i, m in enumerate(models, 1):
-        m["rank"] = i
+    for index, item in enumerate(models, 1):
+        item["rank"] = index
 
-    # Strip raw aggregate from the serialised output
-    serializable = []
-    for m in models:
-        entry = {k: v for k, v in m.items() if k != "raw"}
-        serializable.append(entry)
+    serializable = [{k: v for k, v in item.items() if k != "raw"} for item in models]
+    leaderboard = {"models": serializable, "num_models": len(models)}
 
-    leaderboard = {
-        "models": serializable,
-        "num_models": len(models),
-    }
-
-    # Write JSON
     json_path = os.path.join(results_dir, "leaderboard.json")
-    with open(json_path, "w") as f:
+    with open(json_path, "w", encoding="utf-8") as f:
         json.dump(leaderboard, f, indent=2, default=str)
 
-    # Write markdown
     md_path = os.path.join(results_dir, "leaderboard.md")
-    md_content = _generate_markdown(models)
-    with open(md_path, "w") as f:
-        f.write(md_content)
+    with open(md_path, "w", encoding="utf-8") as f:
+        f.write(_generate_markdown(models))
 
     leaderboard["generated_files"] = [json_path, md_path]
     print(f"Leaderboard written: {json_path}, {md_path}", file=sys.stderr)
     return leaderboard
 
 
-# ---------------------------------------------------------------------------
-# CLI
-# ---------------------------------------------------------------------------
-
 if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description="Build FORGE-Bench leaderboard")
-    parser.add_argument(
-        "results_dir",
-        help="Directory containing MODEL_NAME/aggregate.json files",
-    )
+    parser.add_argument("results_dir", help="Directory containing MODEL_NAME/aggregate.json files")
     args = parser.parse_args()
-    result = build_leaderboard(args.results_dir)
-    print(json.dumps(result, indent=2, default=str))
+    print(json.dumps(build_leaderboard(args.results_dir), indent=2, default=str))

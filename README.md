@@ -2,214 +2,130 @@
 
 Factory-Oriented Reasoning and Generation Evaluation for Industrial Video Generation.
 
-FORGE-Bench evaluates image-to-video generation for industrial use cases where
-functional fidelity matters more than visual appeal. A video can look realistic
-while still being unusable: a missing gear tooth, merged PCB traces, distorted
-robot joints, or a camera orbit that ignores the requested angle is a functional
-failure even if the clip is perceptually plausible.
+FORGE-Bench evaluates image-to-video models on industrial videos where a clip can
+look plausible but still be unsafe, physically wrong, or useless for inspection.
+The benchmark is now organized around five scenario domains, five abstract task
+categories, and five full-name evaluation axes.
 
-The benchmark combines deterministic computer-vision checks with VLM judging.
-The intent is strict but not degenerate scoring: failures should be penalized
-strongly, while floor values prevent all-zero reports that are hard to analyze.
+```text
+scenario domain -> abstract task -> reference image -> executable prompt
+  -> task-specific axis weights -> domain/task breakdown report
+```
 
-## Current Dataset
+## Dataset
 
-The repository currently contains:
+The current annotation file contains 500 samples: 100 samples in each domain.
 
-| Item | Count |
-|------|------:|
-| Samples | 208 |
-| Domains | 11 |
-| IKA questions | 624 |
-| Primary topology classes | 4 |
-| Sub-topology classes | 7 |
+| Domain | Samples | Coverage Focus |
+|---|---:|---|
+| `visual_security` | 100 | Security monitoring, restricted-zone intrusion, missing protective equipment, unsafe vehicle behavior, and compliance consequences. |
+| `embodied_robotics` | 100 | Robotic-arm manipulation, mobile or legged robot navigation, first-person robot viewpoint, and light-curtain emergency stops. |
+| `heavy_load_construction` | 100 | Excavators, crawler cranes, wire-rope load paths, muddy ground contact, gantry or bridge-segment alignment, and heavy-load failure. |
+| `precision_defect_gen` | 100 | Circuit-board bridge defects, endoscopic crack inspection, gear damage, multi-axis machining, cutting-fluid spray, and tube-bundle viewpoint motion. |
+| `extreme_emergency` | 100 | High-pressure leakage, flash fire spread, dust explosion, tower icing collapse, and emergency-state causal evolution. |
 
-Domain distribution:
+The benchmark uses existing repository images as reference anchors. The
+annotation layer is responsible for the new domain/task semantics, prompts,
+questions, weights, and report grouping.
 
-| Domain | Samples |
-|--------|--------:|
-| construction | 30 |
-| robotics | 28 |
-| mining | 27 |
-| maritime | 23 |
-| aerospace | 20 |
-| manufacturing | 20 |
-| electronics | 20 |
-| chemical | 19 |
-| energy_renewable | 9 |
-| energy_power | 7 |
-| oil_gas | 5 |
+## Task Categories
 
-Primary topology distribution from `primary_topology`:
-
-| Primary topology | Samples |
-|------------------|--------:|
-| kinematic | 74 |
-| lattice | 62 |
-| surface | 45 |
-| flexible | 27 |
-
-Sub-topology distribution:
-
-| Sub-topology | Samples |
-|--------------|--------:|
-| articulated | 42 |
-| 3d_spatial | 37 |
-| rotational | 32 |
-| cable_hose | 27 |
-| aerodynamic | 25 |
-| 2d_planar | 25 |
-| rigid_housing | 20 |
-
-Motion distribution:
-
-| Motion | Samples |
-|--------|--------:|
-| orbit | 107 |
-| pan | 48 |
-| crane | 30 |
-| dolly | 23 |
+| Task Category | Highest Weight or Gate | Increased Axes | Evaluation Bottom Line |
+|---|---|---|---|
+| `rigid_body_kinematics_and_coupling` | `geometric_integrity` | `physical_plausibility`, `temporal_consistency` | Rigid links, joints, supports, and multi-axis coupling must not drift, collapse, or pass through each other. |
+| `topology_mutation_and_failure` | `geometric_integrity` | `reference_and_motion_fidelity`, `temporal_consistency` | Local defects, shorts, fractures, rope failures, or missing teeth must appear precisely while untouched regions stay locked. |
+| `fluid_dynamics_and_thermodynamics` | `physical_plausibility` | `temporal_consistency`, `industrial_logic_and_fact_alignment` | Leakage, pressure, spray, smoke, flame, heat, and diffusion must follow plausible physical and industrial evolution. |
+| `spatial_exploration_and_viewpoint` | `reference_and_motion_fidelity` as gate | `geometric_integrity`, `temporal_consistency` | The requested orbit, pan, dolly, crane, endoscope, drone, or robot-camera move must happen; static substitutions are gated down. |
+| `industrial_logic_and_compliance` | `industrial_logic_and_fact_alignment` | `temporal_consistency`, `physical_plausibility` | Violations, triggers, alarms, braking, evacuation, and consequences must form a complete industrial causal loop. |
 
 ## Evaluation Axes
 
-| Axis | Meaning | Main implementation | Scale | Floor |
-|------|---------|---------------------|------:|------:|
-| IKA | Industrial Knowledge Alignment | yes/no industrial questions, exact match plus superlative pass | 0-100 | 5 |
-| TC | Temporal Consistency | VLM frame judging, with CV fallback when disabled | 0-100 | 5 |
-| PP | Physical Plausibility | VLM frame judging on a native 0-100 industrial physics rubric | 0-100 | 5 |
-| VF | Visual Fidelity | VLM reference-vs-video judging, with SSIM/histogram fallback | 0-100 | 5 |
-| GI | Geometric Integrity | topology-dispatched CV metrics | 0-100 | 8 |
-| IC | Industrial Constraints | hard invariant checkers mixed into GI and included as an axis | 0-100 | 8 |
-| VFA | View-point Fidelity Angle | RANSAC affine angle estimate scored against target | 0-100 fidelity; raw angle retained | 0 |
+Public data and reports use full axis names. Legacy short aliases are still
+accepted by code paths that load older result files, but new samples and docs do
+not use them.
 
-VFA is both an axis and a gate. A static video against an orbit target may
-receive `vfa_score = 0`, but other axes retain floors so the report still
-contains useful diagnostic signal.
+| Axis | Focus | Methodology |
+|---|---|---|
+| `industrial_logic_and_fact_alignment` | Causality and state transitions | State-machine-style adversarial question judging for compliance, triggers, equipment roles, and consequences. |
+| `geometric_integrity` | Topology and structure | Kinematic-chain operators, topology-merge detection, periodic-structure counting, and industrial constraint checks. |
+| `physical_plausibility` | Dynamics and physics | Model judgment focused on force, gravity, contact, pressure, fluid flow, thermal spread, and feasible motion. |
+| `temporal_consistency` | Continuity and identity | Frame-sequence model judgment plus structural-similarity style fallback checks. |
+| `reference_and_motion_fidelity` | Spatial mapping and control | Reference fidelity, viewpoint motion estimation, static-video gating, and masked non-mutated-region preservation. |
 
-## Pipeline
+`viewpoint_motion_fidelity` is retained as a motion gate component and is folded
+into `reference_and_motion_fidelity` for per-sample scoring. The industrial
+constraint score is folded into `geometric_integrity`.
 
-```text
-Video Frames
-  Uniformly sampled from model-generated .mp4
-  Expected naming: {task_id}.mp4
-        |
-        +--> CV TRACK: deterministic, no LLM
-        |     |
-        |     +--> GI module, dispatched by sub_topology
-        |     |     articulated   -> kinematic proxy + bilateral symmetry
-        |     |     rotational    -> polar / rotational symmetry
-        |     |     aerodynamic   -> contour Chamfer distance
-        |     |     rigid_housing -> SIFT keypoint proxy
-        |     |     2d_planar     -> Fourier spectral integrity
-        |     |     3d_spatial    -> SIFT homography / inlier ratio
-        |     |     cable_hose    -> optical-flow continuity proxy
-        |     |
-        |     +--> IC checkers
-        |     |     count_invariant
-        |     |     kinematic_coupling
-        |     |     periodic_structure
-        |     |     topology_merge_detector
-        |     |
-        |     +--> VFA module
-        |           RANSAC affine estimate from anchor to final frame
-        |           raw vfa angle plus target-fidelity score
-        |
-        +--> LLM TRACK: enabled when ANTHROPIC_API_KEY is set
-              |
-              +--> IKA: 3 adversarial yes/no questions per sample
-              +--> TC: temporal coherence
-              +--> PP: physical plausibility
-              +--> VF: visual/reference fidelity
-        |
-        v
-Per-sample scoring
-  - Floor enforcement
-  - IC normalized to 0-100 and mixed into GI at 30% weight
-  - Weighted axis sum
-  - RIF = geometric mean of IKA, GI, and VF
-        |
-        v
-Aggregate engine
-  - Relax Score: mean per-sample weighted score
-  - Strict Pass Rate: fraction of samples passing all present axis thresholds
-  - Gated Score: per-sample weighted score multiplied by VFA fidelity gate
-        |
-        v
-Outputs
-  - {task_id}.json for each sample
-  - per_sample.json
-  - aggregate.json
-  - report.json
-```
+## Prompt Standard
 
-Crane motion is represented with a deterministic VFA estimator based on robust
-vertical image translation. The estimator maps first-to-last vertical pixel
-travel to an approximate camera-rise angle using an assumed 60 degree vertical
-field of view, then scores that angle against the target.
+Each sample has two prompt fields:
 
-## Scoring Outputs
+- `video_generation_prompt`: short, direct prompt intended for image-to-video
+  generation models.
+- `prompt`: fuller evaluation prompt used by judges and reports.
 
-For each model, `eval/run_eval.py` writes outputs under:
+The evaluation prompt follows this structure:
+
+1. `Task objective`: scenario domain and abstract task category.
+2. `Core scenario`: concrete industrial event to generate.
+3. `Reference subject`: visible reference image anchor.
+4. `Motion requirement / viewpoint motion fidelity`: camera or static-state requirement.
+5. `Industrial logic and fact alignment check`: causal and compliance constraints.
+6. `Geometric integrity check`: topology, joints, counts, local defect, and support constraints.
+7. `Physical plausibility check`: dynamics, loads, pressure, fluid, heat, and contact constraints.
+8. `Temporal consistency check`: identity, material, state, and event continuity.
+9. `Reference and motion fidelity check`: reference identity, perspective, background, and camera control.
+10. `Execution constraints` and `Scoring emphasis`.
+
+## Scoring Pipeline
 
 ```text
-{output_dir}/{model}/
-  aggregate.json
-  report.json
-  per_sample.json
-  {task_id}.json
+model video frames
+  |
+  +-- geometric integrity and industrial constraint operators
+  |
+  +-- viewpoint motion estimator and static-video gate
+  |
+  +-- model judges for industrial logic, temporal consistency,
+      physical plausibility, and reference/motion fidelity
+  |
+  +-- per-sample scoring
+      floors + constraint/geometric blend + motion/reference blend
+      + dynamic task weights + rotation integrity factor
+  |
+  +-- aggregate report
+      relax score, strict pass rate, gated score, domain breakdown,
+      task breakdown, low-fidelity summary
 ```
 
-`aggregate.json` contains leaderboard-level metrics:
+Expected video naming is `{task_id}.mp4`.
 
-| Field | Meaning |
-|-------|---------|
-| `relax_score` | Mean per-sample weighted score |
-| `strict_pass_rate` | Fraction of completed samples where every present axis clears threshold |
-| `gated_score` | Mean weighted score after applying the VFA fidelity gate |
-| `overall` | Alias for `gated_score`, used for leaderboard ranking |
-| `axis_scores` | Mean floored axis scores |
-| `vfa_tier` | Raw-angle tier: none, weak, moderate, full |
-| `rif` / `rif_gated` | Rotation-sensitive integrity factor |
+## Running Evaluation
 
-`report.json` is the diagnostic report. It is designed to answer what the model
-failed at, not just how low it scored. It includes:
-
-| Section | What it reports |
-|---------|-----------------|
-| `summary.weakest_axes` | Lowest mean axes and low-score rates |
-| `axis_statistics` | Mean, median, min, max, count, and low-score rate per axis |
-| `breakdowns.by_domain` | Mean score and low-score rate by industrial domain |
-| `breakdowns.by_primary_topology` | Weak topology families |
-| `breakdowns.by_sub_topology` | Weak sub-topology operators |
-| `breakdowns.by_motion_type` | Motion classes that fail most often |
-| `vfa_diagnostics` | target-angle errors, static-video count, uncalculable count |
-| `ic_diagnostics` | IC checker coverage and violation counts |
-| `ika_weakness_diagnostics` | IKA accuracy by W2-W7 weakness target |
-| `worst_samples` | Lowest-scoring samples with weakest axis and violations |
-
-## Quick Start
-
-Install dependencies:
+First export prompts and inspect the image plan:
 
 ```bash
-pip install -r requirements.txt
+python scripts/export_prompts.py
+python scripts/make_image_sourcing_plan.py
 ```
 
-Run CV-only evaluation:
+This writes:
 
-```bash
-python eval/run_eval.py \
-  --model my_model \
-  --video_dir /path/to/model_outputs \
-  --samples_json dataset/annotations/samples.json \
-  --output_dir results \
-  --no_llm
+```text
+reports/prompts.md
+reports/prompts.jsonl
+reports/image_sourcing_plan.csv
+reports/image_sourcing_plan.md
 ```
 
-Run with the LLM track enabled:
+Use `reports/prompts.jsonl` when batch-submitting tasks to a video generation
+model. Each row contains `task_id`, `image_path`, `video_generation_prompt`,
+`motion_type`, and `viewpoint_motion_target`.
+
+After videos are generated, place them in a flat directory as `{task_id}.mp4`.
+Then run:
 
 ```bash
-set ANTHROPIC_API_KEY=your_key_here
 python eval/run_eval.py \
   --model my_model \
   --video_dir /path/to/model_outputs \
@@ -217,7 +133,10 @@ python eval/run_eval.py \
   --output_dir results
 ```
 
-Optional IKA answer file:
+Model judging is enabled when `ANTHROPIC_API_KEY` is present. Use `--no_llm` for
+operator-only smoke runs.
+
+Optional industrial-logic answers:
 
 ```bash
 python eval/run_eval.py \
@@ -228,83 +147,47 @@ python eval/run_eval.py \
   --model_answers /path/to/answers.json
 ```
 
-Expected answer JSON format:
+Answer format:
 
 ```json
-{
-  "aero_001:q1": "yes",
-  "aero_001:q2": "no"
-}
+{"vsec_001:q1": "yes", "vsec_001:q2": "no"}
 ```
 
-Validate the dataset:
+## Outputs
+
+For each model, outputs are written under:
+
+```text
+{output_dir}/{model}/
+  {task_id}.json
+  per_sample.json
+  aggregate.json
+  report.json
+```
+
+Important aggregate fields:
+
+| Field | Meaning |
+|---|---|
+| `relax_score` | Mean per-sample weighted score. |
+| `strict_pass_rate` | Fraction of completed samples where all present axes pass thresholds. |
+| `gated_score` | Per-sample weighted score multiplied by viewpoint-motion fidelity gate. |
+| `overall` | Leaderboard headline score, currently aligned to `gated_score`. |
+| `axis_scores` | Mean floored full-name axis scores. |
+| `domain_breakdown` | Scores and low-fidelity flags by the five scenario domains. |
+| `task_breakdown` | Scores and low-fidelity flags by abstract task category. |
+| `low_fidelity_summary` | Domains with low physical plausibility or geometric integrity. |
+
+## Validation
 
 ```bash
 python dataset/validate.py
+python -m pytest tests/test_pipeline_smoke.py -q
 ```
 
-Run tests:
+On Windows environments where the default temp directory is locked, use a local
+pytest base temp:
 
 ```bash
-python -m pytest -q
-```
-
-## Repository Layout
-
-```text
-dataset/
-  annotations/
-    samples.json
-    DATASET.md
-    README.md
-  images/
-  schema.json
-  validate.py
-
-eval/
-  run_eval.py
-  preflight.py
-  calibration/
-  domain_alignment/
-  geometric_integrity/
-  industrial_constraints/
-  physical_plausibility/
-  temporal_coherence/
-  visual_fidelity/
-  vfa/
-
-scoring/
-  aggregate.py
-  leaderboard.py
-  per_sample.py
-  report.py
-
-tests/
-  test_pipeline_smoke.py
-```
-
-## Current Limitations
-
-- Crane-specific VFA is an image-translation estimate, not a calibrated camera
-  reconstruction. It is deterministic and useful for gating, but exact crane
-  kinematics still depend on unknown focal length and scene depth.
-- TC, PP, and VF use the VLM judge in `eval/llm_judge.py` when
-  `ANTHROPIC_API_KEY` is set. CV/text fallback outputs are useful for smoke
-  testing and debugging, but final benchmark-quality judgments should use the
-  VLM path.
-- Some legacy samples use symbolic VFA targets such as `orbit_cw_45deg` or
-  `horizontal_pan_lr`. Numeric targets are preferred for strict VFA scoring.
-- The benchmark is intentionally strict. High visual quality alone should not
-  guarantee a high score if geometry, topology, count invariants, or requested
-  camera motion are wrong.
-
-## Citation
-
-```bibtex
-@article{forgebench2026,
-  title={FORGE-Bench: Factory-Oriented Reasoning and Generation Evaluation for Industrial Video Generation},
-  author={TBD},
-  journal={TBD},
-  year={2026}
-}
+python -m pytest tests/test_pipeline_smoke.py -q --basetemp .pytest_tmp
 ```

@@ -9,11 +9,12 @@
     "topology_type",
     "image_path",
     "prompt",
+    "video_generation_prompt",
     "motion_type",
-    "vfa_target",
+    "viewpoint_motion_target",
     "difficulty_profile",
     "constraint_annotations",
-    "ika_questions",
+    "industrial_logic_questions",
     "sensitivity_variants"
   ],
   "properties": {
@@ -24,36 +25,20 @@
     "domain": {
       "type": "string",
       "enum": [
-        "aerospace",
-        "electronics",
-        "manufacturing",
-        "energy_power",
-        "energy_renewable",
-        "oil_gas",
-        "construction",
-        "maritime",
-        "chemical",
-        "mining",
-        "robotics"
+        "visual_security",
+        "embodied_robotics",
+        "heavy_load_construction",
+        "precision_defect_gen",
+        "extreme_emergency"
       ]
     },
     "topology_type": {
       "type": "string",
-      "enum": [
-        "surface",
-        "lattice",
-        "kinematic",
-        "flexible"
-      ]
+      "enum": ["surface", "lattice", "kinematic", "flexible"]
     },
     "primary_topology": {
       "type": "string",
-      "enum": [
-        "surface",
-        "lattice",
-        "kinematic",
-        "flexible"
-      ]
+      "enum": ["surface", "lattice", "kinematic", "flexible"]
     },
     "sub_topology": {
       "type": "string",
@@ -69,17 +54,22 @@
     },
     "image_path": {
       "type": "string",
-      "pattern": "^dataset[\\\\/]images[\\\\/]"
+      "pattern": "^dataset[\\\\/]images(_hq)?[\\\\/]"
     },
     "prompt": {
       "type": "string",
+      "minLength": 50
+    },
+    "video_generation_prompt": {
+      "type": "string",
+      "description": "Direct prompt intended for image-to-video generation models.",
       "minLength": 50
     },
     "motion_type": {
       "type": "string",
       "enum": ["orbit", "pan", "crane", "dolly", "tilt", "static"]
     },
-    "vfa_target": {
+    "viewpoint_motion_target": {
       "oneOf": [
         { "type": "number" },
         {
@@ -100,19 +90,48 @@
       "type": "object",
       "additionalProperties": true
     },
-    "ika_questions": {
+    "task_category": {
+      "type": "string",
+      "enum": [
+        "rigid_body_kinematics_and_coupling",
+        "topology_mutation_and_failure",
+        "fluid_dynamics_and_thermodynamics",
+        "spatial_exploration_and_viewpoint",
+        "industrial_logic_and_compliance"
+      ]
+    },
+    "application_value": {
+      "type": "string",
+      "minLength": 20
+    },
+    "axis_weights": {
+      "type": "object",
+      "description": "Dynamic per-sample model-evaluation weights.",
+      "additionalProperties": {
+        "type": "number",
+        "minimum": 0
+      }
+    },
+    "axis_rubric": {
+      "type": "object",
+      "description": "Task-specific scoring criteria by axis.",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 10
+      }
+    },
+    "failure_target": {
+      "type": "string"
+    },
+    "industrial_logic_questions": {
       "type": "array",
       "minItems": 3,
       "items": {
         "type": "object",
         "required": ["id", "text", "answer"],
         "properties": {
-          "id": {
-            "type": "string"
-          },
-          "text": {
-            "type": "string"
-          },
+          "id": { "type": "string" },
+          "text": { "type": "string" },
           "answer": {
             "type": "string",
             "enum": ["yes", "no"]
@@ -129,18 +148,15 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "difficulty", "prompt_delta", "vfa_target_delta"],
+        "required": ["id", "difficulty", "prompt_delta", "viewpoint_motion_target_delta"],
         "properties": {
           "id": { "type": "string" },
           "difficulty": { "type": "string" },
           "prompt_delta": { "type": "string" },
-          "vfa_target_delta": { "type": "number" }
+          "viewpoint_motion_target_delta": { "type": "number" }
         },
         "additionalProperties": false
       }
-    },
-    "failure_target": {
-      "type": "string"
     }
   },
   "additionalProperties": false

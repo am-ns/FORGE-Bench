@@ -1,7 +1,19 @@
 #!/usr/bin/env python3
-"""Aggregate per-axis benchmark scores with floor enforcement and VFA tiering."""
+"""Aggregate per-axis benchmark scores with floor enforcement and motion tiering."""
 
 import sys
+
+from eval.axis_registry import (
+    GEOMETRIC_INTEGRITY,
+    INDUSTRIAL_CONSTRAINT_SCORE,
+    INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
+    PHYSICAL_PLAUSIBILITY,
+    REFERENCE_AND_MOTION_FIDELITY,
+    TEMPORAL_CONSISTENCY,
+    VIEWPOINT_MOTION_FIDELITY,
+    canonical_axis,
+    canonicalize_axis_dict,
+)
 
 try:
     import numpy as np
@@ -17,13 +29,12 @@ except ImportError:  # pragma: no cover
 # -- Tunable thresholds -------------------------------------------------------
 CONFIG = {
     "axis_floor_default": 5.0,    # Default minimum score floor for any axis
-    "axis_floor_gi": 8.0,         # Minimum score floor for the GI axis
-    "axis_floor_vfa": 0.0,        # VFA is a gate and may legitimately be zero
-    "vfa_tier_none": 5,           # VFA below this => 'none' tier
-    "vfa_tier_weak": 20,          # VFA below this => 'weak' tier
-    "vfa_tier_moderate": 60,      # VFA below this => 'moderate' tier; above => 'full'
+    "axis_floor_geometric_integrity": 8.0,
+    "axis_floor_viewpoint_motion": 0.0,
+    "motion_tier_none": 5,
+    "motion_tier_weak": 20,
+    "motion_tier_moderate": 60,
     "strict_axis_threshold": 60.0,
-    "strict_vfa_threshold": 50.0,
 }
 
 # RIF component weights — unvalidated defaults, intended for tuning.
@@ -31,28 +42,27 @@ RIF_WEIGHT_SSIM = 0.5           # Weight for structural similarity in RIF blend
 RIF_WEIGHT_HIST = 0.5           # Weight for histogram correlation in RIF blend
 
 AXIS_FLOORS = {
-    "ika": CONFIG["axis_floor_default"],
-    "tc": CONFIG["axis_floor_default"],
-    "pp": CONFIG["axis_floor_default"],
-    "vf": CONFIG["axis_floor_default"],
-    "gi": CONFIG["axis_floor_gi"],
-    "ic": CONFIG["axis_floor_gi"],
-    "vfa": CONFIG["axis_floor_vfa"],
+    INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: CONFIG["axis_floor_default"],
+    TEMPORAL_CONSISTENCY: CONFIG["axis_floor_default"],
+    PHYSICAL_PLAUSIBILITY: CONFIG["axis_floor_default"],
+    REFERENCE_AND_MOTION_FIDELITY: CONFIG["axis_floor_default"],
+    GEOMETRIC_INTEGRITY: CONFIG["axis_floor_geometric_integrity"],
+    INDUSTRIAL_CONSTRAINT_SCORE: CONFIG["axis_floor_geometric_integrity"],
+    VIEWPOINT_MOTION_FIDELITY: CONFIG["axis_floor_viewpoint_motion"],
 }
 
 STRICT_AXIS_THRESHOLDS = {
-    "ika": CONFIG["strict_axis_threshold"],
-    "tc": CONFIG["strict_axis_threshold"],
-    "pp": CONFIG["strict_axis_threshold"],
-    "vf": CONFIG["strict_axis_threshold"],
-    "gi": CONFIG["strict_axis_threshold"],
-    "ic": CONFIG["strict_axis_threshold"],
-    "vfa": CONFIG["strict_vfa_threshold"],
+    INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: CONFIG["strict_axis_threshold"],
+    TEMPORAL_CONSISTENCY: CONFIG["strict_axis_threshold"],
+    PHYSICAL_PLAUSIBILITY: CONFIG["strict_axis_threshold"],
+    REFERENCE_AND_MOTION_FIDELITY: CONFIG["strict_axis_threshold"],
+    GEOMETRIC_INTEGRITY: CONFIG["strict_axis_threshold"],
+    INDUSTRIAL_CONSTRAINT_SCORE: CONFIG["strict_axis_threshold"],
 }
 
 
-def vfa_tier(vfa: float) -> str:
-    """Classify VFA into a descriptive tier.
+def viewpoint_motion_tier(viewpoint_motion_value: float) -> str:
+    """Classify viewpoint motion fidelity into a descriptive tier.
 
     Returns:
         'none'     if vfa < 5
@@ -60,28 +70,42 @@ def vfa_tier(vfa: float) -> str:
         'moderate' if 20 <= vfa < 60
         'full'     if vfa >= 60
     """
-    if vfa < CONFIG["vfa_tier_none"]:
+    if viewpoint_motion_value < CONFIG["motion_tier_none"]:
         return "none"
-    if vfa < CONFIG["vfa_tier_weak"]:
+    if viewpoint_motion_value < CONFIG["motion_tier_weak"]:
         return "weak"
-    if vfa < CONFIG["vfa_tier_moderate"]:
+    if viewpoint_motion_value < CONFIG["motion_tier_moderate"]:
         return "moderate"
     return "full"
 
 
+def vfa_tier(viewpoint_motion_value: float) -> str:
+    """Legacy alias for older callers."""
+    return viewpoint_motion_tier(viewpoint_motion_value)
+
+
 def enforce_floor(axis: str, score: float) -> float:
     """Clamp *score* to the minimum floor for *axis*."""
-    floor = AXIS_FLOORS.get(axis, 0.0)
+    floor = AXIS_FLOORS.get(canonical_axis(axis), 0.0)
     return max(floor, score)
 
 
 def compute_rif(axis_scores: dict[str, float]) -> float | None:
     """Compute Rotational Integrity Factor from axis scores.
 
-    RIF is the geometric-mean of rotation-sensitive axes (ika, gi, vf).
+    The factor is the geometric mean of rotation-sensitive public axes.
     Returns None if fewer than 2 of those axes are present.
     """
-    rot_axes = [axis_scores[a] for a in ("ika", "gi", "vf") if a in axis_scores]
+    axis_scores = canonicalize_axis_dict(axis_scores)
+    rot_axes = [
+        axis_scores[a]
+        for a in (
+            INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
+            GEOMETRIC_INTEGRITY,
+            REFERENCE_AND_MOTION_FIDELITY,
+        )
+        if a in axis_scores
+    ]
     if len(rot_axes) < 2:
         return None
     product = 1.0
@@ -95,9 +119,8 @@ def aggregate_scores(axis_scores: dict[str, float], vfa: float | None = None) ->
 
     Args:
         axis_scores: Mapping of axis name to mean score, e.g.
-                     {"ika": 85.0, "tc": 72.5, "pp": 90.0, "gi": 60.0, "vf": 88.0}.
-        vfa: View-point Fidelity Angle value.  If provided, a vfa_tier
-             classification is included in the output.
+                     public full-name axes. Legacy short axis keys are accepted.
+        vfa: Viewpoint motion value. If provided, a motion tier is included.
 
     Returns:
         dict with per-axis floored scores, overall mean, optional vfa_tier,
@@ -106,10 +129,11 @@ def aggregate_scores(axis_scores: dict[str, float], vfa: float | None = None) ->
     if not isinstance(axis_scores, dict):
         print(f"WARNING: axis_scores is {type(axis_scores).__name__}, expected dict", file=sys.stderr)
         axis_scores = {}
+    axis_scores = canonicalize_axis_dict(axis_scores)
 
     floored: dict[str, float] = {}
     for axis, score in axis_scores.items():
-        floored[axis] = enforce_floor(axis, score)
+        floored[canonical_axis(axis)] = enforce_floor(axis, score)
 
     result = {
         "axis_scores": floored,
@@ -117,14 +141,13 @@ def aggregate_scores(axis_scores: dict[str, float], vfa: float | None = None) ->
     }
 
     if vfa is not None:
-        result["vfa_tier"] = vfa_tier(vfa)
+        result["viewpoint_motion_tier"] = viewpoint_motion_tier(vfa)
 
-    # RIF (Rotational Integrity Factor) with VFA-gating
     rif = compute_rif(floored)
     result["rif"] = rif
     if vfa is not None and vfa < 0.05:
         result["rif_gated"] = None
-        result["rif_note"] = "rif_excluded_static_video"
+        result["rif_note"] = "rotation_integrity_factor_excluded_static_video"
     else:
         result["rif_gated"] = rif
 
@@ -142,11 +165,17 @@ def _sample_passes_strict(axis_scores: dict[str, float]) -> bool:
     return True
 
 
-def _vfa_gate_multiplier(axis_scores: dict[str, float]) -> float:
+def _vfa_gate_multiplier(result: dict) -> float:
     """Convert VFA target fidelity to a soft gate multiplier in [0, 1]."""
-    if "vfa" not in axis_scores:
+    scored = result.get("scored", {})
+    vfa_score = scored.get("viewpoint_motion_score", result.get("viewpoint_motion_score"))
+    if vfa_score is None:
+        vfa_score = scored.get("vfa_score", result.get("vfa_score"))
+    if vfa_score is None:
+        vfa_score = canonicalize_axis_dict(scored.get("axis_scores", {})).get(VIEWPOINT_MOTION_FIDELITY)
+    if vfa_score is None:
         return 1.0
-    return max(0.0, min(1.0, float(axis_scores["vfa"]) / 100.0))
+    return max(0.0, min(1.0, float(vfa_score) / 100.0))
 
 
 def aggregate_sample_results(sample_results: list[dict]) -> dict:
@@ -184,7 +213,11 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         for axis in axis_keys
     }
 
-    vfa_vals = [r["vfa"] for r in completed if r.get("vfa") is not None]
+    vfa_vals = [
+        r.get("viewpoint_motion", r.get("vfa"))
+        for r in completed
+        if r.get("viewpoint_motion", r.get("vfa")) is not None
+    ]
     aggregate = aggregate_scores(
         mean_axes,
         vfa=float(np.mean(vfa_vals)) if vfa_vals else None,
@@ -200,7 +233,7 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     ]
     gated_scores = [
         float(r["scored"].get("weighted_score", 0.0))
-        * _vfa_gate_multiplier(r["scored"].get("axis_scores", {}))
+        * _vfa_gate_multiplier(r)
         for r in completed
     ]
 

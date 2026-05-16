@@ -106,7 +106,10 @@ def _format_sample_context(sample_meta: dict | None) -> str:
         "primary_topology": sample_meta.get("primary_topology") or sample_meta.get("topology_type"),
         "sub_topology": sample_meta.get("sub_topology"),
         "motion_type": sample_meta.get("motion_type"),
-        "vfa_target": sample_meta.get("vfa_target"),
+        "viewpoint_motion_target": sample_meta.get(
+            "viewpoint_motion_target",
+            sample_meta.get("vfa_target"),
+        ),
     }
     lines = ["Sample context:"]
     for key, value in fields.items():
