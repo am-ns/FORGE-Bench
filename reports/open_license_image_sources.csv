@@ -1,0 +1,29 @@
+domain,slug,query,local_path,title,source_url,license,author,width,height,bytes,status,curated_width,curated_height,curated_bytes,curation_status
+visual_security,forklift_pallet,forklift pallets warehouse,dataset/images_candidates/open_license/visual_security__forklift_pallet__Container_loading_with_forklift_at_warehouse_in_Thailand.jpg.jpg,File:Container loading with forklift at warehouse in Thailand.jpg,https://commons.wikimedia.org/wiki/File:Container_loading_with_forklift_at_warehouse_in_Thailand.jpg,CC BY 4.0,Goterrestrial,3024,4032,1172879,downloaded,1200,1600,435382,kept
+visual_security,forklift_pallet,forklift pallets warehouse,dataset/images_candidates/open_license/visual_security__forklift_pallet__Distribution_centre_J_Sainsbury_s_.jpg.jpg,File:Distribution centre (J Sainsbury's).jpg,https://commons.wikimedia.org/wiki/File:Distribution_centre_(J_Sainsbury%27s).jpg,CC BY 2.0,Nick Saltmarsh,1901,1494,802867,downloaded,1600,1257,570492,kept
+visual_security,ppe_worker,construction worker hard hat safety harness,dataset/images_candidates/open_license/visual_security__ppe_worker__Residential_construction_fall_arrest_system_9256413286_.jpg.jpg,File:Residential construction fall arrest system (9256413286).jpg,https://commons.wikimedia.org/wiki/File:Residential_construction_fall_arrest_system_(9256413286).jpg,Public domain,National Institute for Occupational Safety and Health (NIOSH) from USA,3648,2736,1041216,downloaded,1600,1200,391050,kept
+embodied_robotics,robot_arm_gripper,industrial robot arm gripper,dataset/images_candidates/open_license/embodied_robotics__robot_arm_gripper__Robot_arm_handles_an_assay_plate.jpg.jpg,File:Robot arm handles an assay plate.jpg,https://commons.wikimedia.org/wiki/File:Robot_arm_handles_an_assay_plate.jpg,Public domain,National Institute of Allergy and Infectious Diseases,1464,824,410853,downloaded,1464,824,101618,kept
+embodied_robotics,collaborative_robot,collaborative robot industrial,dataset/images_candidates/open_license/embodied_robotics__collaborative_robot__Halifax_Community_College_Industrial_Systems_Technology_Program_Department_Head_Jason_Bowe.jpg,"File:Halifax Community College, Industrial Systems Technology Program, Department Head Jason Bowen talks with students about the importance of automated systems maintainers in the manufacturing industry in We (20230523-USDA-RD-NC-LSC-0834).jpg",https://commons.wikimedia.org/wiki/File:Halifax_Community_College%2C_Industrial_Systems_Technology_Program%2C_Department_Head_Jason_Bowen_talks_with_students_about_the_importance_of_automated_systems_maintainers_in_the_manufacturing_industry_in_We_(20230523-USDA-RD-NC-LSC-0834).jpg,Public domain,USDAgov,6015,4010,11260014,downloaded,1600,1066,250530,kept
+heavy_load_construction,gantry_crane,gantry crane,dataset/images_candidates/open_license/heavy_load_construction__gantry_crane__Portainer_gantry_crane_.jpg.jpg,File:Portainer (gantry crane).jpg,https://commons.wikimedia.org/wiki/File:Portainer_(gantry_crane).jpg,CC BY-SA 3.0,M.Minderhoud,1747,1347,263825,downloaded,1600,1233,275103,kept
+visual_security,damaged_fence,,,,,,,,,,pending_rate_limited_or_needs_manual_search,,,,
+visual_security,chemical_spill,,,,,,,,,,pending_rate_limited_or_needs_manual_search,,,,
+visual_security,cctv_camera,,,,,,,,,,pending_rate_limited_or_needs_manual_search,,,,
+embodied_robotics,mobile_robot,,,,,,,,,,pending_rate_limited_or_needs_manual_search,,,,
+embodied_robotics,legged_robot,,,,,,,,,,pending_rate_limited_or_needs_manual_search,,,,
+embodied_robotics,light_curtain,,,,,,,,,,pending_rate_limited_or_needs_manual_search,,,,
+heavy_load_construction,crawler_crane,,,,,,,,,,pending_rate_limited_or_needs_manual_search,,,,
+heavy_load_construction,wire_rope_hook,,,,,,,,,,pending_rate_limited_or_needs_manual_search,,,,
+heavy_load_construction,mining_truck,,,,,,,,,,pending_rate_limited_or_needs_manual_search,,,,
+heavy_load_construction,excavator_hydraulic,,,,,,,,,,pending_rate_limited_or_needs_manual_search,,,,
+heavy_load_construction,bridge_girder,,,,,,,,,,pending_rate_limited_or_needs_manual_search,,,,
+precision_defect_gen,pcb_macro,,,,,,,,,,pending_rate_limited_or_needs_manual_search,,,,
+precision_defect_gen,solder_bga,,,,,,,,,,pending_rate_limited_or_needs_manual_search,,,,
+precision_defect_gen,borescope_pipe,,,,,,,,,,pending_rate_limited_or_needs_manual_search,,,,
+precision_defect_gen,gear_wear,,,,,,,,,,pending_rate_limited_or_needs_manual_search,,,,
+precision_defect_gen,cnc_machine,,,,,,,,,,pending_rate_limited_or_needs_manual_search,,,,
+precision_defect_gen,cutting_fluid,,,,,,,,,,pending_rate_limited_or_needs_manual_search,,,,
+extreme_emergency,flange_pipe,,,,,,,,,,pending_rate_limited_or_needs_manual_search,,,,
+extreme_emergency,storage_tank_fire,,,,,,,,,,pending_rate_limited_or_needs_manual_search,,,,
+extreme_emergency,transmission_tower_ice,,,,,,,,,,pending_rate_limited_or_needs_manual_search,,,,
+extreme_emergency,pipeline_fire,,,,,,,,,,pending_rate_limited_or_needs_manual_search,,,,
+extreme_emergency,confined_space,,,,,,,,,,pending_rate_limited_or_needs_manual_search,,,,
