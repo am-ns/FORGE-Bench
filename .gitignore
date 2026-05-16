@@ -13,6 +13,8 @@ dataset/videos_preview/
 *.log
 logs/
 .pytest_cache/
+.pytest_tmp*/
+.tmp_*/
 htmlcov/
 .coverage
 _forge_review/
