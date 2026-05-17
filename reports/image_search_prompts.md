@@ -1,0 +1,6003 @@
+# Strict Image Search Prompts
+
+One prompt per benchmark sample. These prompts target open-license, high-resolution, low-clutter industrial reference photos.
+
+## `vsec_001`
+
+- domain: `visual_security`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `forklift`
+- core_scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force
+- search_query: `forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force industrial security monitoring, restricted access, PPE compliance, vehicle safety a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_001. Domain: visual_security. Task: rigid_body_kinematics_and_coupling. Scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force. Required subject: forklift. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_002`
+
+- domain: `visual_security`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `heavy haul truck`
+- core_scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force
+- search_query: `heavy haul truck forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force industrial security monitoring, restricted access, PPE compliance, vehicle safety a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_002. Domain: visual_security. Task: rigid_body_kinematics_and_coupling. Scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force. Required subject: heavy haul truck. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_003`
+
+- domain: `visual_security`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `road train coupling system`
+- core_scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force
+- search_query: `road train coupling system forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force industrial security monitoring, restricted access, PPE compliance, vehicle safety a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_003. Domain: visual_security. Task: rigid_body_kinematics_and_coupling. Scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force. Required subject: road train coupling system. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_004`
+
+- domain: `visual_security`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `articulated dump truck`
+- core_scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force
+- search_query: `articulated dump truck forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force industrial security monitoring, restricted access, PPE compliance, vehicle safety a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_004. Domain: visual_security. Task: rigid_body_kinematics_and_coupling. Scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force. Required subject: articulated dump truck. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_005`
+
+- domain: `visual_security`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `forklift`
+- core_scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force
+- search_query: `forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force industrial security monitoring, restricted access, PPE compliance, vehicle safety a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_005. Domain: visual_security. Task: rigid_body_kinematics_and_coupling. Scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force. Required subject: forklift. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_006`
+
+- domain: `visual_security`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `heavy haul truck`
+- core_scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force
+- search_query: `heavy haul truck forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force industrial security monitoring, restricted access, PPE compliance, vehicle safety a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_006. Domain: visual_security. Task: rigid_body_kinematics_and_coupling. Scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force. Required subject: heavy haul truck. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_007`
+
+- domain: `visual_security`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `road train coupling system`
+- core_scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force
+- search_query: `road train coupling system forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force industrial security monitoring, restricted access, PPE compliance, vehicle safety a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_007. Domain: visual_security. Task: rigid_body_kinematics_and_coupling. Scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force. Required subject: road train coupling system. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_008`
+
+- domain: `visual_security`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `articulated dump truck`
+- core_scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force
+- search_query: `articulated dump truck forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force industrial security monitoring, restricted access, PPE compliance, vehicle safety a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_008. Domain: visual_security. Task: rigid_body_kinematics_and_coupling. Scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force. Required subject: articulated dump truck. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_009`
+
+- domain: `visual_security`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `forklift`
+- core_scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force
+- search_query: `forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force industrial security monitoring, restricted access, PPE compliance, vehicle safety a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_009. Domain: visual_security. Task: rigid_body_kinematics_and_coupling. Scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force. Required subject: forklift. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_010`
+
+- domain: `visual_security`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `heavy haul truck`
+- core_scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force
+- search_query: `heavy haul truck forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force industrial security monitoring, restricted access, PPE compliance, vehicle safety a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_010. Domain: visual_security. Task: rigid_body_kinematics_and_coupling. Scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force. Required subject: heavy haul truck. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_011`
+
+- domain: `visual_security`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `road train coupling system`
+- core_scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force
+- search_query: `road train coupling system forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force industrial security monitoring, restricted access, PPE compliance, vehicle safety a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_011. Domain: visual_security. Task: rigid_body_kinematics_and_coupling. Scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force. Required subject: road train coupling system. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_012`
+
+- domain: `visual_security`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `articulated dump truck`
+- core_scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force
+- search_query: `articulated dump truck forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force industrial security monitoring, restricted access, PPE compliance, vehicle safety a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_012. Domain: visual_security. Task: rigid_body_kinematics_and_coupling. Scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force. Required subject: articulated dump truck. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_013`
+
+- domain: `visual_security`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `forklift`
+- core_scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force
+- search_query: `forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force industrial security monitoring, restricted access, PPE compliance, vehicle safety a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_013. Domain: visual_security. Task: rigid_body_kinematics_and_coupling. Scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force. Required subject: forklift. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_014`
+
+- domain: `visual_security`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `heavy haul truck`
+- core_scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force
+- search_query: `heavy haul truck forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force industrial security monitoring, restricted access, PPE compliance, vehicle safety a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_014. Domain: visual_security. Task: rigid_body_kinematics_and_coupling. Scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force. Required subject: heavy haul truck. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_015`
+
+- domain: `visual_security`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `road train coupling system`
+- core_scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force
+- search_query: `road train coupling system forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force industrial security monitoring, restricted access, PPE compliance, vehicle safety a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_015. Domain: visual_security. Task: rigid_body_kinematics_and_coupling. Scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force. Required subject: road train coupling system. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_016`
+
+- domain: `visual_security`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `articulated dump truck`
+- core_scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force
+- search_query: `articulated dump truck forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force industrial security monitoring, restricted access, PPE compliance, vehicle safety a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_016. Domain: visual_security. Task: rigid_body_kinematics_and_coupling. Scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force. Required subject: articulated dump truck. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_017`
+
+- domain: `visual_security`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `forklift`
+- core_scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force
+- search_query: `forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force industrial security monitoring, restricted access, PPE compliance, vehicle safety a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_017. Domain: visual_security. Task: rigid_body_kinematics_and_coupling. Scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force. Required subject: forklift. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_018`
+
+- domain: `visual_security`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `heavy haul truck`
+- core_scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force
+- search_query: `heavy haul truck forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force industrial security monitoring, restricted access, PPE compliance, vehicle safety a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_018. Domain: visual_security. Task: rigid_body_kinematics_and_coupling. Scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force. Required subject: heavy haul truck. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_019`
+
+- domain: `visual_security`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `road train coupling system`
+- core_scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force
+- search_query: `road train coupling system forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force industrial security monitoring, restricted access, PPE compliance, vehicle safety a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_019. Domain: visual_security. Task: rigid_body_kinematics_and_coupling. Scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force. Required subject: road train coupling system. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_020`
+
+- domain: `visual_security`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `articulated dump truck`
+- core_scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force
+- search_query: `articulated dump truck forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force industrial security monitoring, restricted access, PPE compliance, vehicle safety a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_020. Domain: visual_security. Task: rigid_body_kinematics_and_coupling. Scenario: forklift overspeed during a tight turn causing pallet cargo to slide outward under centrifugal force. Required subject: articulated dump truck. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_021`
+
+- domain: `visual_security`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `formwork climbing system`
+- core_scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary
+- search_query: `formwork climbing system factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary industrial security monitoring, restricted access, PPE compliance, vehicle safety a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_021. Domain: visual_security. Task: topology_mutation_and_failure. Scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary. Required subject: formwork climbing system. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_022`
+
+- domain: `visual_security`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `tower crane luffing jib`
+- core_scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary
+- search_query: `tower crane luffing jib factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary industrial security monitoring, restricted access, PPE compliance, vehicle safety a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_022. Domain: visual_security. Task: topology_mutation_and_failure. Scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary. Required subject: tower crane luffing jib. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_023`
+
+- domain: `visual_security`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `lattice boom crawler crane`
+- core_scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary
+- search_query: `lattice boom crawler crane factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary industrial security monitoring, restricted access, PPE compliance, vehicle safety a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_023. Domain: visual_security. Task: topology_mutation_and_failure. Scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary. Required subject: lattice boom crawler crane. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_024`
+
+- domain: `visual_security`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `aerial work platform boom`
+- core_scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary
+- search_query: `aerial work platform boom factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary industrial security monitoring, restricted access, PPE compliance, vehicle safety a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_024. Domain: visual_security. Task: topology_mutation_and_failure. Scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary. Required subject: aerial work platform boom. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_025`
+
+- domain: `visual_security`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `formwork climbing system`
+- core_scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary
+- search_query: `formwork climbing system factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary industrial security monitoring, restricted access, PPE compliance, vehicle safety a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_025. Domain: visual_security. Task: topology_mutation_and_failure. Scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary. Required subject: formwork climbing system. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_026`
+
+- domain: `visual_security`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `tower crane luffing jib`
+- core_scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary
+- search_query: `tower crane luffing jib factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary industrial security monitoring, restricted access, PPE compliance, vehicle safety a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_026. Domain: visual_security. Task: topology_mutation_and_failure. Scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary. Required subject: tower crane luffing jib. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_027`
+
+- domain: `visual_security`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `lattice boom crawler crane`
+- core_scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary
+- search_query: `lattice boom crawler crane factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary industrial security monitoring, restricted access, PPE compliance, vehicle safety a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_027. Domain: visual_security. Task: topology_mutation_and_failure. Scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary. Required subject: lattice boom crawler crane. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_028`
+
+- domain: `visual_security`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `aerial work platform boom`
+- core_scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary
+- search_query: `aerial work platform boom factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary industrial security monitoring, restricted access, PPE compliance, vehicle safety a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_028. Domain: visual_security. Task: topology_mutation_and_failure. Scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary. Required subject: aerial work platform boom. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_029`
+
+- domain: `visual_security`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `formwork climbing system`
+- core_scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary
+- search_query: `formwork climbing system factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary industrial security monitoring, restricted access, PPE compliance, vehicle safety a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_029. Domain: visual_security. Task: topology_mutation_and_failure. Scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary. Required subject: formwork climbing system. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_030`
+
+- domain: `visual_security`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `tower crane luffing jib`
+- core_scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary
+- search_query: `tower crane luffing jib factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary industrial security monitoring, restricted access, PPE compliance, vehicle safety a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_030. Domain: visual_security. Task: topology_mutation_and_failure. Scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary. Required subject: tower crane luffing jib. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_031`
+
+- domain: `visual_security`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `lattice boom crawler crane`
+- core_scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary
+- search_query: `lattice boom crawler crane factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary industrial security monitoring, restricted access, PPE compliance, vehicle safety a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_031. Domain: visual_security. Task: topology_mutation_and_failure. Scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary. Required subject: lattice boom crawler crane. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_032`
+
+- domain: `visual_security`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `aerial work platform boom`
+- core_scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary
+- search_query: `aerial work platform boom factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary industrial security monitoring, restricted access, PPE compliance, vehicle safety a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_032. Domain: visual_security. Task: topology_mutation_and_failure. Scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary. Required subject: aerial work platform boom. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_033`
+
+- domain: `visual_security`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `formwork climbing system`
+- core_scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary
+- search_query: `formwork climbing system factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary industrial security monitoring, restricted access, PPE compliance, vehicle safety a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_033. Domain: visual_security. Task: topology_mutation_and_failure. Scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary. Required subject: formwork climbing system. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_034`
+
+- domain: `visual_security`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `tower crane luffing jib`
+- core_scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary
+- search_query: `tower crane luffing jib factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary industrial security monitoring, restricted access, PPE compliance, vehicle safety a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_034. Domain: visual_security. Task: topology_mutation_and_failure. Scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary. Required subject: tower crane luffing jib. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_035`
+
+- domain: `visual_security`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `lattice boom crawler crane`
+- core_scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary
+- search_query: `lattice boom crawler crane factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary industrial security monitoring, restricted access, PPE compliance, vehicle safety a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_035. Domain: visual_security. Task: topology_mutation_and_failure. Scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary. Required subject: lattice boom crawler crane. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_036`
+
+- domain: `visual_security`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `aerial work platform boom`
+- core_scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary
+- search_query: `aerial work platform boom factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary industrial security monitoring, restricted access, PPE compliance, vehicle safety a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_036. Domain: visual_security. Task: topology_mutation_and_failure. Scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary. Required subject: aerial work platform boom. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_037`
+
+- domain: `visual_security`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `formwork climbing system`
+- core_scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary
+- search_query: `formwork climbing system factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary industrial security monitoring, restricted access, PPE compliance, vehicle safety a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_037. Domain: visual_security. Task: topology_mutation_and_failure. Scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary. Required subject: formwork climbing system. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_038`
+
+- domain: `visual_security`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `tower crane luffing jib`
+- core_scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary
+- search_query: `tower crane luffing jib factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary industrial security monitoring, restricted access, PPE compliance, vehicle safety a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_038. Domain: visual_security. Task: topology_mutation_and_failure. Scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary. Required subject: tower crane luffing jib. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_039`
+
+- domain: `visual_security`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `lattice boom crawler crane`
+- core_scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary
+- search_query: `lattice boom crawler crane factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary industrial security monitoring, restricted access, PPE compliance, vehicle safety a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_039. Domain: visual_security. Task: topology_mutation_and_failure. Scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary. Required subject: lattice boom crawler crane. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_040`
+
+- domain: `visual_security`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `aerial work platform boom`
+- core_scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary
+- search_query: `aerial work platform boom factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary industrial security monitoring, restricted access, PPE compliance, vehicle safety a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_040. Domain: visual_security. Task: topology_mutation_and_failure. Scenario: factory perimeter wire fence broken by external impact with a visible gap in the restricted boundary. Required subject: aerial work platform boom. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_041`
+
+- domain: `visual_security`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `piping manifold`
+- core_scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone
+- search_query: `piping manifold unknown chemical liquid leaking and spreading across a dangerous-goods loading zone industrial security monitoring, restricted access, PPE compliance, vehicle safety pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_041. Domain: visual_security. Task: fluid_dynamics_and_thermodynamics. Scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone. Required subject: piping manifold. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_042`
+
+- domain: `visual_security`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `chemical storage tanks`
+- core_scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone
+- search_query: `chemical storage tanks unknown chemical liquid leaking and spreading across a dangerous-goods loading zone industrial security monitoring, restricted access, PPE compliance, vehicle safety pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_042. Domain: visual_security. Task: fluid_dynamics_and_thermodynamics. Scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone. Required subject: chemical storage tanks. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_043`
+
+- domain: `visual_security`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `pressure vessel farm`
+- core_scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone
+- search_query: `pressure vessel farm unknown chemical liquid leaking and spreading across a dangerous-goods loading zone industrial security monitoring, restricted access, PPE compliance, vehicle safety pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_043. Domain: visual_security. Task: fluid_dynamics_and_thermodynamics. Scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone. Required subject: pressure vessel farm. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_044`
+
+- domain: `visual_security`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `solvent extraction battery`
+- core_scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone
+- search_query: `solvent extraction battery unknown chemical liquid leaking and spreading across a dangerous-goods loading zone industrial security monitoring, restricted access, PPE compliance, vehicle safety pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_044. Domain: visual_security. Task: fluid_dynamics_and_thermodynamics. Scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone. Required subject: solvent extraction battery. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_045`
+
+- domain: `visual_security`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `piping manifold`
+- core_scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone
+- search_query: `piping manifold unknown chemical liquid leaking and spreading across a dangerous-goods loading zone industrial security monitoring, restricted access, PPE compliance, vehicle safety pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_045. Domain: visual_security. Task: fluid_dynamics_and_thermodynamics. Scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone. Required subject: piping manifold. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_046`
+
+- domain: `visual_security`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `chemical storage tanks`
+- core_scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone
+- search_query: `chemical storage tanks unknown chemical liquid leaking and spreading across a dangerous-goods loading zone industrial security monitoring, restricted access, PPE compliance, vehicle safety pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_046. Domain: visual_security. Task: fluid_dynamics_and_thermodynamics. Scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone. Required subject: chemical storage tanks. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_047`
+
+- domain: `visual_security`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `pressure vessel farm`
+- core_scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone
+- search_query: `pressure vessel farm unknown chemical liquid leaking and spreading across a dangerous-goods loading zone industrial security monitoring, restricted access, PPE compliance, vehicle safety pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_047. Domain: visual_security. Task: fluid_dynamics_and_thermodynamics. Scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone. Required subject: pressure vessel farm. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_048`
+
+- domain: `visual_security`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `solvent extraction battery`
+- core_scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone
+- search_query: `solvent extraction battery unknown chemical liquid leaking and spreading across a dangerous-goods loading zone industrial security monitoring, restricted access, PPE compliance, vehicle safety pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_048. Domain: visual_security. Task: fluid_dynamics_and_thermodynamics. Scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone. Required subject: solvent extraction battery. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_049`
+
+- domain: `visual_security`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `piping manifold`
+- core_scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone
+- search_query: `piping manifold unknown chemical liquid leaking and spreading across a dangerous-goods loading zone industrial security monitoring, restricted access, PPE compliance, vehicle safety pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_049. Domain: visual_security. Task: fluid_dynamics_and_thermodynamics. Scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone. Required subject: piping manifold. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_050`
+
+- domain: `visual_security`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `chemical storage tanks`
+- core_scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone
+- search_query: `chemical storage tanks unknown chemical liquid leaking and spreading across a dangerous-goods loading zone industrial security monitoring, restricted access, PPE compliance, vehicle safety pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_050. Domain: visual_security. Task: fluid_dynamics_and_thermodynamics. Scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone. Required subject: chemical storage tanks. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_051`
+
+- domain: `visual_security`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `pressure vessel farm`
+- core_scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone
+- search_query: `pressure vessel farm unknown chemical liquid leaking and spreading across a dangerous-goods loading zone industrial security monitoring, restricted access, PPE compliance, vehicle safety pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_051. Domain: visual_security. Task: fluid_dynamics_and_thermodynamics. Scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone. Required subject: pressure vessel farm. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_052`
+
+- domain: `visual_security`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `solvent extraction battery`
+- core_scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone
+- search_query: `solvent extraction battery unknown chemical liquid leaking and spreading across a dangerous-goods loading zone industrial security monitoring, restricted access, PPE compliance, vehicle safety pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_052. Domain: visual_security. Task: fluid_dynamics_and_thermodynamics. Scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone. Required subject: solvent extraction battery. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_053`
+
+- domain: `visual_security`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `piping manifold`
+- core_scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone
+- search_query: `piping manifold unknown chemical liquid leaking and spreading across a dangerous-goods loading zone industrial security monitoring, restricted access, PPE compliance, vehicle safety pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_053. Domain: visual_security. Task: fluid_dynamics_and_thermodynamics. Scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone. Required subject: piping manifold. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_054`
+
+- domain: `visual_security`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `chemical storage tanks`
+- core_scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone
+- search_query: `chemical storage tanks unknown chemical liquid leaking and spreading across a dangerous-goods loading zone industrial security monitoring, restricted access, PPE compliance, vehicle safety pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_054. Domain: visual_security. Task: fluid_dynamics_and_thermodynamics. Scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone. Required subject: chemical storage tanks. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_055`
+
+- domain: `visual_security`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `pressure vessel farm`
+- core_scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone
+- search_query: `pressure vessel farm unknown chemical liquid leaking and spreading across a dangerous-goods loading zone industrial security monitoring, restricted access, PPE compliance, vehicle safety pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_055. Domain: visual_security. Task: fluid_dynamics_and_thermodynamics. Scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone. Required subject: pressure vessel farm. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_056`
+
+- domain: `visual_security`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `solvent extraction battery`
+- core_scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone
+- search_query: `solvent extraction battery unknown chemical liquid leaking and spreading across a dangerous-goods loading zone industrial security monitoring, restricted access, PPE compliance, vehicle safety pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_056. Domain: visual_security. Task: fluid_dynamics_and_thermodynamics. Scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone. Required subject: solvent extraction battery. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_057`
+
+- domain: `visual_security`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `piping manifold`
+- core_scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone
+- search_query: `piping manifold unknown chemical liquid leaking and spreading across a dangerous-goods loading zone industrial security monitoring, restricted access, PPE compliance, vehicle safety pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_057. Domain: visual_security. Task: fluid_dynamics_and_thermodynamics. Scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone. Required subject: piping manifold. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_058`
+
+- domain: `visual_security`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `chemical storage tanks`
+- core_scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone
+- search_query: `chemical storage tanks unknown chemical liquid leaking and spreading across a dangerous-goods loading zone industrial security monitoring, restricted access, PPE compliance, vehicle safety pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_058. Domain: visual_security. Task: fluid_dynamics_and_thermodynamics. Scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone. Required subject: chemical storage tanks. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_059`
+
+- domain: `visual_security`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `pressure vessel farm`
+- core_scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone
+- search_query: `pressure vessel farm unknown chemical liquid leaking and spreading across a dangerous-goods loading zone industrial security monitoring, restricted access, PPE compliance, vehicle safety pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_059. Domain: visual_security. Task: fluid_dynamics_and_thermodynamics. Scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone. Required subject: pressure vessel farm. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_060`
+
+- domain: `visual_security`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `solvent extraction battery`
+- core_scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone
+- search_query: `solvent extraction battery unknown chemical liquid leaking and spreading across a dangerous-goods loading zone industrial security monitoring, restricted access, PPE compliance, vehicle safety pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_060. Domain: visual_security. Task: fluid_dynamics_and_thermodynamics. Scenario: unknown chemical liquid leaking and spreading across a dangerous-goods loading zone. Required subject: solvent extraction battery. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_061`
+
+- domain: `visual_security`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `assembly line`
+- core_scenario: surveillance camera sweeping across a large blind spot near a restricted area
+- search_query: `assembly line surveillance camera sweeping across a large blind spot near a restricted area industrial security monitoring, restricted access, PPE compliance, vehicle safety a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_061. Domain: visual_security. Task: spatial_exploration_and_viewpoint. Scenario: surveillance camera sweeping across a large blind spot near a restricted area. Required subject: assembly line. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_062`
+
+- domain: `visual_security`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `server rack row in data center`
+- core_scenario: surveillance camera sweeping across a large blind spot near a restricted area
+- search_query: `server rack row in data center surveillance camera sweeping across a large blind spot near a restricted area industrial security monitoring, restricted access, PPE compliance, vehicle safety a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_062. Domain: visual_security. Task: spatial_exploration_and_viewpoint. Scenario: surveillance camera sweeping across a large blind spot near a restricted area. Required subject: server rack row in data center. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_063`
+
+- domain: `visual_security`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `concrete batching plant`
+- core_scenario: surveillance camera sweeping across a large blind spot near a restricted area
+- search_query: `concrete batching plant surveillance camera sweeping across a large blind spot near a restricted area industrial security monitoring, restricted access, PPE compliance, vehicle safety a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_063. Domain: visual_security. Task: spatial_exploration_and_viewpoint. Scenario: surveillance camera sweeping across a large blind spot near a restricted area. Required subject: concrete batching plant. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_064`
+
+- domain: `visual_security`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `robotic welding cell`
+- core_scenario: surveillance camera sweeping across a large blind spot near a restricted area
+- search_query: `robotic welding cell surveillance camera sweeping across a large blind spot near a restricted area industrial security monitoring, restricted access, PPE compliance, vehicle safety a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_064. Domain: visual_security. Task: spatial_exploration_and_viewpoint. Scenario: surveillance camera sweeping across a large blind spot near a restricted area. Required subject: robotic welding cell. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_065`
+
+- domain: `visual_security`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `assembly line`
+- core_scenario: surveillance camera sweeping across a large blind spot near a restricted area
+- search_query: `assembly line surveillance camera sweeping across a large blind spot near a restricted area industrial security monitoring, restricted access, PPE compliance, vehicle safety a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_065. Domain: visual_security. Task: spatial_exploration_and_viewpoint. Scenario: surveillance camera sweeping across a large blind spot near a restricted area. Required subject: assembly line. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_066`
+
+- domain: `visual_security`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `server rack row in data center`
+- core_scenario: surveillance camera sweeping across a large blind spot near a restricted area
+- search_query: `server rack row in data center surveillance camera sweeping across a large blind spot near a restricted area industrial security monitoring, restricted access, PPE compliance, vehicle safety a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_066. Domain: visual_security. Task: spatial_exploration_and_viewpoint. Scenario: surveillance camera sweeping across a large blind spot near a restricted area. Required subject: server rack row in data center. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_067`
+
+- domain: `visual_security`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `concrete batching plant`
+- core_scenario: surveillance camera sweeping across a large blind spot near a restricted area
+- search_query: `concrete batching plant surveillance camera sweeping across a large blind spot near a restricted area industrial security monitoring, restricted access, PPE compliance, vehicle safety a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_067. Domain: visual_security. Task: spatial_exploration_and_viewpoint. Scenario: surveillance camera sweeping across a large blind spot near a restricted area. Required subject: concrete batching plant. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_068`
+
+- domain: `visual_security`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `robotic welding cell`
+- core_scenario: surveillance camera sweeping across a large blind spot near a restricted area
+- search_query: `robotic welding cell surveillance camera sweeping across a large blind spot near a restricted area industrial security monitoring, restricted access, PPE compliance, vehicle safety a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_068. Domain: visual_security. Task: spatial_exploration_and_viewpoint. Scenario: surveillance camera sweeping across a large blind spot near a restricted area. Required subject: robotic welding cell. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_069`
+
+- domain: `visual_security`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `assembly line`
+- core_scenario: surveillance camera sweeping across a large blind spot near a restricted area
+- search_query: `assembly line surveillance camera sweeping across a large blind spot near a restricted area industrial security monitoring, restricted access, PPE compliance, vehicle safety a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_069. Domain: visual_security. Task: spatial_exploration_and_viewpoint. Scenario: surveillance camera sweeping across a large blind spot near a restricted area. Required subject: assembly line. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_070`
+
+- domain: `visual_security`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `server rack row in data center`
+- core_scenario: surveillance camera sweeping across a large blind spot near a restricted area
+- search_query: `server rack row in data center surveillance camera sweeping across a large blind spot near a restricted area industrial security monitoring, restricted access, PPE compliance, vehicle safety a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_070. Domain: visual_security. Task: spatial_exploration_and_viewpoint. Scenario: surveillance camera sweeping across a large blind spot near a restricted area. Required subject: server rack row in data center. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_071`
+
+- domain: `visual_security`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `concrete batching plant`
+- core_scenario: surveillance camera sweeping across a large blind spot near a restricted area
+- search_query: `concrete batching plant surveillance camera sweeping across a large blind spot near a restricted area industrial security monitoring, restricted access, PPE compliance, vehicle safety a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_071. Domain: visual_security. Task: spatial_exploration_and_viewpoint. Scenario: surveillance camera sweeping across a large blind spot near a restricted area. Required subject: concrete batching plant. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_072`
+
+- domain: `visual_security`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `robotic welding cell`
+- core_scenario: surveillance camera sweeping across a large blind spot near a restricted area
+- search_query: `robotic welding cell surveillance camera sweeping across a large blind spot near a restricted area industrial security monitoring, restricted access, PPE compliance, vehicle safety a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_072. Domain: visual_security. Task: spatial_exploration_and_viewpoint. Scenario: surveillance camera sweeping across a large blind spot near a restricted area. Required subject: robotic welding cell. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_073`
+
+- domain: `visual_security`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `assembly line`
+- core_scenario: surveillance camera sweeping across a large blind spot near a restricted area
+- search_query: `assembly line surveillance camera sweeping across a large blind spot near a restricted area industrial security monitoring, restricted access, PPE compliance, vehicle safety a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_073. Domain: visual_security. Task: spatial_exploration_and_viewpoint. Scenario: surveillance camera sweeping across a large blind spot near a restricted area. Required subject: assembly line. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_074`
+
+- domain: `visual_security`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `server rack row in data center`
+- core_scenario: surveillance camera sweeping across a large blind spot near a restricted area
+- search_query: `server rack row in data center surveillance camera sweeping across a large blind spot near a restricted area industrial security monitoring, restricted access, PPE compliance, vehicle safety a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_074. Domain: visual_security. Task: spatial_exploration_and_viewpoint. Scenario: surveillance camera sweeping across a large blind spot near a restricted area. Required subject: server rack row in data center. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_075`
+
+- domain: `visual_security`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `concrete batching plant`
+- core_scenario: surveillance camera sweeping across a large blind spot near a restricted area
+- search_query: `concrete batching plant surveillance camera sweeping across a large blind spot near a restricted area industrial security monitoring, restricted access, PPE compliance, vehicle safety a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_075. Domain: visual_security. Task: spatial_exploration_and_viewpoint. Scenario: surveillance camera sweeping across a large blind spot near a restricted area. Required subject: concrete batching plant. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_076`
+
+- domain: `visual_security`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `robotic welding cell`
+- core_scenario: surveillance camera sweeping across a large blind spot near a restricted area
+- search_query: `robotic welding cell surveillance camera sweeping across a large blind spot near a restricted area industrial security monitoring, restricted access, PPE compliance, vehicle safety a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_076. Domain: visual_security. Task: spatial_exploration_and_viewpoint. Scenario: surveillance camera sweeping across a large blind spot near a restricted area. Required subject: robotic welding cell. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_077`
+
+- domain: `visual_security`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `assembly line`
+- core_scenario: surveillance camera sweeping across a large blind spot near a restricted area
+- search_query: `assembly line surveillance camera sweeping across a large blind spot near a restricted area industrial security monitoring, restricted access, PPE compliance, vehicle safety a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_077. Domain: visual_security. Task: spatial_exploration_and_viewpoint. Scenario: surveillance camera sweeping across a large blind spot near a restricted area. Required subject: assembly line. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_078`
+
+- domain: `visual_security`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `server rack row in data center`
+- core_scenario: surveillance camera sweeping across a large blind spot near a restricted area
+- search_query: `server rack row in data center surveillance camera sweeping across a large blind spot near a restricted area industrial security monitoring, restricted access, PPE compliance, vehicle safety a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_078. Domain: visual_security. Task: spatial_exploration_and_viewpoint. Scenario: surveillance camera sweeping across a large blind spot near a restricted area. Required subject: server rack row in data center. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_079`
+
+- domain: `visual_security`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `concrete batching plant`
+- core_scenario: surveillance camera sweeping across a large blind spot near a restricted area
+- search_query: `concrete batching plant surveillance camera sweeping across a large blind spot near a restricted area industrial security monitoring, restricted access, PPE compliance, vehicle safety a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_079. Domain: visual_security. Task: spatial_exploration_and_viewpoint. Scenario: surveillance camera sweeping across a large blind spot near a restricted area. Required subject: concrete batching plant. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_080`
+
+- domain: `visual_security`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `robotic welding cell`
+- core_scenario: surveillance camera sweeping across a large blind spot near a restricted area
+- search_query: `robotic welding cell surveillance camera sweeping across a large blind spot near a restricted area industrial security monitoring, restricted access, PPE compliance, vehicle safety a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_080. Domain: visual_security. Task: spatial_exploration_and_viewpoint. Scenario: surveillance camera sweeping across a large blind spot near a restricted area. Required subject: robotic welding cell. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_081`
+
+- domain: `visual_security`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `aerial work platform boom`
+- core_scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet
+- search_query: `aerial work platform boom unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet industrial security monitoring, restricted access, PPE compliance, vehicle safety a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_081. Domain: visual_security. Task: industrial_logic_and_compliance. Scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet. Required subject: aerial work platform boom. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_082`
+
+- domain: `visual_security`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `assembly line`
+- core_scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet
+- search_query: `assembly line unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet industrial security monitoring, restricted access, PPE compliance, vehicle safety a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_082. Domain: visual_security. Task: industrial_logic_and_compliance. Scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet. Required subject: assembly line. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_083`
+
+- domain: `visual_security`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `unregistered social vehicle entering a no-parking`
+- core_scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet
+- search_query: `unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet industrial security monitoring, restricted access, PPE compliance, vehicle safety a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_083. Domain: visual_security. Task: industrial_logic_and_compliance. Scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet. Required subject: unregistered social vehicle entering a no-parking. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_084`
+
+- domain: `visual_security`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `mobile crane outrigger system`
+- core_scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet
+- search_query: `mobile crane outrigger system unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet industrial security monitoring, restricted access, PPE compliance, vehicle safety a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_084. Domain: visual_security. Task: industrial_logic_and_compliance. Scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet. Required subject: mobile crane outrigger system. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_085`
+
+- domain: `visual_security`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `aerial work platform boom`
+- core_scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet
+- search_query: `aerial work platform boom unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet industrial security monitoring, restricted access, PPE compliance, vehicle safety a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_085. Domain: visual_security. Task: industrial_logic_and_compliance. Scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet. Required subject: aerial work platform boom. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_086`
+
+- domain: `visual_security`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `assembly line`
+- core_scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet
+- search_query: `assembly line unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet industrial security monitoring, restricted access, PPE compliance, vehicle safety a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_086. Domain: visual_security. Task: industrial_logic_and_compliance. Scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet. Required subject: assembly line. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_087`
+
+- domain: `visual_security`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `unregistered social vehicle entering a no-parking`
+- core_scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet
+- search_query: `unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet industrial security monitoring, restricted access, PPE compliance, vehicle safety a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_087. Domain: visual_security. Task: industrial_logic_and_compliance. Scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet. Required subject: unregistered social vehicle entering a no-parking. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_088`
+
+- domain: `visual_security`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `mobile crane outrigger system`
+- core_scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet
+- search_query: `mobile crane outrigger system unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet industrial security monitoring, restricted access, PPE compliance, vehicle safety a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_088. Domain: visual_security. Task: industrial_logic_and_compliance. Scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet. Required subject: mobile crane outrigger system. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_089`
+
+- domain: `visual_security`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `aerial work platform boom`
+- core_scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet
+- search_query: `aerial work platform boom unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet industrial security monitoring, restricted access, PPE compliance, vehicle safety a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_089. Domain: visual_security. Task: industrial_logic_and_compliance. Scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet. Required subject: aerial work platform boom. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_090`
+
+- domain: `visual_security`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `assembly line`
+- core_scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet
+- search_query: `assembly line unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet industrial security monitoring, restricted access, PPE compliance, vehicle safety a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_090. Domain: visual_security. Task: industrial_logic_and_compliance. Scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet. Required subject: assembly line. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_091`
+
+- domain: `visual_security`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `unregistered social vehicle entering a no-parking`
+- core_scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet
+- search_query: `unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet industrial security monitoring, restricted access, PPE compliance, vehicle safety a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_091. Domain: visual_security. Task: industrial_logic_and_compliance. Scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet. Required subject: unregistered social vehicle entering a no-parking. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_092`
+
+- domain: `visual_security`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `mobile crane outrigger system`
+- core_scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet
+- search_query: `mobile crane outrigger system unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet industrial security monitoring, restricted access, PPE compliance, vehicle safety a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_092. Domain: visual_security. Task: industrial_logic_and_compliance. Scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet. Required subject: mobile crane outrigger system. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_093`
+
+- domain: `visual_security`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `aerial work platform boom`
+- core_scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet
+- search_query: `aerial work platform boom unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet industrial security monitoring, restricted access, PPE compliance, vehicle safety a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_093. Domain: visual_security. Task: industrial_logic_and_compliance. Scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet. Required subject: aerial work platform boom. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_094`
+
+- domain: `visual_security`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `assembly line`
+- core_scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet
+- search_query: `assembly line unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet industrial security monitoring, restricted access, PPE compliance, vehicle safety a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_094. Domain: visual_security. Task: industrial_logic_and_compliance. Scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet. Required subject: assembly line. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_095`
+
+- domain: `visual_security`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `unregistered social vehicle entering a no-parking`
+- core_scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet
+- search_query: `unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet industrial security monitoring, restricted access, PPE compliance, vehicle safety a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_095. Domain: visual_security. Task: industrial_logic_and_compliance. Scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet. Required subject: unregistered social vehicle entering a no-parking. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_096`
+
+- domain: `visual_security`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `mobile crane outrigger system`
+- core_scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet
+- search_query: `mobile crane outrigger system unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet industrial security monitoring, restricted access, PPE compliance, vehicle safety a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_096. Domain: visual_security. Task: industrial_logic_and_compliance. Scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet. Required subject: mobile crane outrigger system. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_097`
+
+- domain: `visual_security`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `aerial work platform boom`
+- core_scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet
+- search_query: `aerial work platform boom unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet industrial security monitoring, restricted access, PPE compliance, vehicle safety a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_097. Domain: visual_security. Task: industrial_logic_and_compliance. Scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet. Required subject: aerial work platform boom. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_098`
+
+- domain: `visual_security`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `assembly line`
+- core_scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet
+- search_query: `assembly line unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet industrial security monitoring, restricted access, PPE compliance, vehicle safety a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_098. Domain: visual_security. Task: industrial_logic_and_compliance. Scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet. Required subject: assembly line. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_099`
+
+- domain: `visual_security`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `unregistered social vehicle entering a no-parking`
+- core_scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet
+- search_query: `unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet industrial security monitoring, restricted access, PPE compliance, vehicle safety a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_099. Domain: visual_security. Task: industrial_logic_and_compliance. Scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet. Required subject: unregistered social vehicle entering a no-parking. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `vsec_100`
+
+- domain: `visual_security`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `mobile crane outrigger system`
+- core_scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet
+- search_query: `mobile crane outrigger system unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet industrial security monitoring, restricted access, PPE compliance, vehicle safety a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for vsec_100. Domain: visual_security. Task: industrial_logic_and_compliance. Scenario: unregistered social vehicle entering a no-parking restricted zone or a worker at height missing a safety helmet. Required subject: mobile crane outrigger system. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_001`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `industrial robot arm`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `industrial robot arm multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_001. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: industrial robot arm. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_002`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `collaborative robot`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `collaborative robot multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_002. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: collaborative robot. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_003`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `parallel kinematic hexapod`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `parallel kinematic hexapod multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_003. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: parallel kinematic hexapod. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_004`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `surgical robot instrument arm`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `surgical robot instrument arm multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_004. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: surgical robot instrument arm. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_005`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `industrial robot arm`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `industrial robot arm multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_005. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: industrial robot arm. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_006`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `collaborative robot`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `collaborative robot multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_006. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: collaborative robot. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_007`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `parallel kinematic hexapod`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `parallel kinematic hexapod multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_007. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: parallel kinematic hexapod. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_008`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `surgical robot instrument arm`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `surgical robot instrument arm multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_008. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: surgical robot instrument arm. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_009`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `industrial robot arm`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `industrial robot arm multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_009. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: industrial robot arm. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_010`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `collaborative robot`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `collaborative robot multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_010. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: collaborative robot. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_011`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `parallel kinematic hexapod`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `parallel kinematic hexapod multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_011. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: parallel kinematic hexapod. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_012`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `surgical robot instrument arm`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `surgical robot instrument arm multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_012. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: surgical robot instrument arm. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_013`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `industrial robot arm`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `industrial robot arm multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_013. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: industrial robot arm. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_014`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `collaborative robot`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `collaborative robot multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_014. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: collaborative robot. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_015`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `parallel kinematic hexapod`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `parallel kinematic hexapod multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_015. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: parallel kinematic hexapod. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_016`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `surgical robot instrument arm`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `surgical robot instrument arm multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_016. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: surgical robot instrument arm. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_017`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `industrial robot arm`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `industrial robot arm multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_017. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: industrial robot arm. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_018`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `collaborative robot`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `collaborative robot multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_018. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: collaborative robot. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_019`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `parallel kinematic hexapod`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `parallel kinematic hexapod multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_019. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: parallel kinematic hexapod. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_020`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `surgical robot instrument arm`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `surgical robot instrument arm multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_020. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: surgical robot instrument arm. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_021`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `industrial robot arm`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `industrial robot arm multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_021. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: industrial robot arm. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_022`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `collaborative robot`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `collaborative robot multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_022. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: collaborative robot. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_023`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `parallel kinematic hexapod`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `parallel kinematic hexapod multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_023. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: parallel kinematic hexapod. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_024`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `surgical robot instrument arm`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `surgical robot instrument arm multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_024. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: surgical robot instrument arm. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_025`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `industrial robot arm`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `industrial robot arm multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_025. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: industrial robot arm. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_026`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `collaborative robot`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `collaborative robot multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_026. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: collaborative robot. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_027`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `parallel kinematic hexapod`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `parallel kinematic hexapod multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_027. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: parallel kinematic hexapod. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_028`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `surgical robot instrument arm`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `surgical robot instrument arm multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_028. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: surgical robot instrument arm. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_029`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `industrial robot arm`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `industrial robot arm multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_029. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: industrial robot arm. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_030`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `collaborative robot`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `collaborative robot multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_030. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: collaborative robot. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_031`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `parallel kinematic hexapod`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `parallel kinematic hexapod multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_031. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: parallel kinematic hexapod. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_032`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `surgical robot instrument arm`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `surgical robot instrument arm multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_032. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: surgical robot instrument arm. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_033`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `industrial robot arm`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `industrial robot arm multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_033. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: industrial robot arm. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_034`
+
+- domain: `embodied_robotics`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `collaborative robot`
+- core_scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact
+- search_query: `collaborative robot multi-axis robotic arm performing high-precision grasping with tool-environment contact robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_034. Domain: embodied_robotics. Task: rigid_body_kinematics_and_coupling. Scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Required subject: collaborative robot. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_035`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `autonomous mobile robot`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `autonomous mobile robot quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_035. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: autonomous mobile robot. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_036`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `robotic pipe crawler`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `robotic pipe crawler quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_036. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: robotic pipe crawler. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_037`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `snake robot inspection unit`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `snake robot inspection unit quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_037. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: snake robot inspection unit. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_038`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `agv fleet navigation unit`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `agv fleet navigation unit quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_038. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: agv fleet navigation unit. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_039`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `autonomous mobile robot`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `autonomous mobile robot quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_039. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: autonomous mobile robot. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_040`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `robotic pipe crawler`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `robotic pipe crawler quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_040. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: robotic pipe crawler. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_041`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `snake robot inspection unit`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `snake robot inspection unit quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_041. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: snake robot inspection unit. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_042`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `agv fleet navigation unit`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `agv fleet navigation unit quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_042. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: agv fleet navigation unit. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_043`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `autonomous mobile robot`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `autonomous mobile robot quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_043. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: autonomous mobile robot. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_044`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `robotic pipe crawler`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `robotic pipe crawler quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_044. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: robotic pipe crawler. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_045`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `snake robot inspection unit`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `snake robot inspection unit quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_045. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: snake robot inspection unit. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_046`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `agv fleet navigation unit`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `agv fleet navigation unit quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_046. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: agv fleet navigation unit. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_047`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `autonomous mobile robot`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `autonomous mobile robot quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_047. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: autonomous mobile robot. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_048`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `robotic pipe crawler`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `robotic pipe crawler quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_048. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: robotic pipe crawler. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_049`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `snake robot inspection unit`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `snake robot inspection unit quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_049. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: snake robot inspection unit. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_050`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `agv fleet navigation unit`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `agv fleet navigation unit quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_050. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: agv fleet navigation unit. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_051`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `autonomous mobile robot`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `autonomous mobile robot quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_051. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: autonomous mobile robot. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_052`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `robotic pipe crawler`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `robotic pipe crawler quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_052. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: robotic pipe crawler. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_053`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `snake robot inspection unit`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `snake robot inspection unit quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_053. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: snake robot inspection unit. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_054`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `agv fleet navigation unit`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `agv fleet navigation unit quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_054. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: agv fleet navigation unit. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_055`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `autonomous mobile robot`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `autonomous mobile robot quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_055. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: autonomous mobile robot. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_056`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `robotic pipe crawler`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `robotic pipe crawler quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_056. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: robotic pipe crawler. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_057`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `snake robot inspection unit`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `snake robot inspection unit quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_057. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: snake robot inspection unit. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_058`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `agv fleet navigation unit`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `agv fleet navigation unit quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_058. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: agv fleet navigation unit. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_059`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `autonomous mobile robot`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `autonomous mobile robot quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_059. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: autonomous mobile robot. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_060`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `robotic pipe crawler`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `robotic pipe crawler quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_060. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: robotic pipe crawler. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_061`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `snake robot inspection unit`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `snake robot inspection unit quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_061. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: snake robot inspection unit. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_062`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `agv fleet navigation unit`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `agv fleet navigation unit quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_062. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: agv fleet navigation unit. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_063`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `autonomous mobile robot`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `autonomous mobile robot quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_063. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: autonomous mobile robot. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_064`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `robotic pipe crawler`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `robotic pipe crawler quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_064. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: robotic pipe crawler. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_065`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `snake robot inspection unit`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `snake robot inspection unit quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_065. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: snake robot inspection unit. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_066`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `agv fleet navigation unit`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `agv fleet navigation unit quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_066. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: agv fleet navigation unit. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_067`
+
+- domain: `embodied_robotics`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `autonomous mobile robot`
+- core_scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint
+- search_query: `autonomous mobile robot quadruped robot head camera moving through complex rubble from a first-person viewpoint robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_067. Domain: embodied_robotics. Task: spatial_exploration_and_viewpoint. Scenario: quadruped robot head camera moving through complex rubble from a first-person viewpoint. Required subject: autonomous mobile robot. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_068`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `assembly line`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `assembly line worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_068. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: assembly line. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_069`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `cobot assembly station`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `cobot assembly station worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_069. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: cobot assembly station. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_070`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `collaborative robot`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `collaborative robot worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_070. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: collaborative robot. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_071`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `robotic welding cell`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `robotic welding cell worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_071. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: robotic welding cell. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_072`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `assembly line`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `assembly line worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_072. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: assembly line. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_073`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `cobot assembly station`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `cobot assembly station worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_073. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: cobot assembly station. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_074`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `collaborative robot`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `collaborative robot worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_074. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: collaborative robot. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_075`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `robotic welding cell`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `robotic welding cell worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_075. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: robotic welding cell. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_076`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `assembly line`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `assembly line worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_076. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: assembly line. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_077`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `cobot assembly station`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `cobot assembly station worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_077. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: cobot assembly station. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_078`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `collaborative robot`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `collaborative robot worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_078. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: collaborative robot. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_079`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `robotic welding cell`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `robotic welding cell worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_079. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: robotic welding cell. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_080`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `assembly line`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `assembly line worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_080. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: assembly line. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_081`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `cobot assembly station`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `cobot assembly station worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_081. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: cobot assembly station. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_082`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `collaborative robot`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `collaborative robot worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_082. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: collaborative robot. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_083`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `robotic welding cell`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `robotic welding cell worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_083. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: robotic welding cell. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_084`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `assembly line`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `assembly line worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_084. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: assembly line. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_085`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `cobot assembly station`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `cobot assembly station worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_085. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: cobot assembly station. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_086`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `collaborative robot`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `collaborative robot worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_086. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: collaborative robot. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_087`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `robotic welding cell`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `robotic welding cell worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_087. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: robotic welding cell. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_088`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `assembly line`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `assembly line worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_088. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: assembly line. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_089`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `cobot assembly station`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `cobot assembly station worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_089. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: cobot assembly station. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_090`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `collaborative robot`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `collaborative robot worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_090. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: collaborative robot. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_091`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `robotic welding cell`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `robotic welding cell worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_091. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: robotic welding cell. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_092`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `assembly line`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `assembly line worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_092. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: assembly line. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_093`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `cobot assembly station`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `cobot assembly station worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_093. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: cobot assembly station. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_094`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `collaborative robot`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `collaborative robot worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_094. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: collaborative robot. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_095`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `robotic welding cell`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `robotic welding cell worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_095. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: robotic welding cell. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_096`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `assembly line`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `assembly line worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_096. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: assembly line. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_097`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `cobot assembly station`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `cobot assembly station worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_097. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: cobot assembly station. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_098`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `collaborative robot`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `collaborative robot worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_098. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: collaborative robot. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_099`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `robotic welding cell`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `robotic welding cell worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_099. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: robotic welding cell. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `erob_100`
+
+- domain: `embodied_robotics`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `assembly line`
+- core_scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking
+- search_query: `assembly line worker approaching an automated line and triggering a light curtain that forces emergency braking robot arm, mobile robot, quadruped robot, automation cell, gripper, sensor a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for erob_100. Domain: embodied_robotics. Task: industrial_logic_and_compliance. Scenario: worker approaching an automated line and triggering a light curtain that forces emergency braking. Required subject: assembly line. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_001`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `excavator`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_001. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: excavator. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_002`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `lattice boom crawler crane`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `lattice boom crawler crane excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_002. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: lattice boom crawler crane. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_003`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `mobile crane telescoping`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `mobile crane telescoping excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_003. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: mobile crane telescoping. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_004`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `hydraulic shovel loading`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `hydraulic shovel loading excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_004. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: hydraulic shovel loading. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_005`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `excavator`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_005. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: excavator. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_006`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `lattice boom crawler crane`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `lattice boom crawler crane excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_006. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: lattice boom crawler crane. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_007`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `mobile crane telescoping`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `mobile crane telescoping excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_007. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: mobile crane telescoping. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_008`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `hydraulic shovel loading`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `hydraulic shovel loading excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_008. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: hydraulic shovel loading. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_009`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `excavator`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_009. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: excavator. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_010`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `lattice boom crawler crane`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `lattice boom crawler crane excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_010. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: lattice boom crawler crane. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_011`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `mobile crane telescoping`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `mobile crane telescoping excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_011. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: mobile crane telescoping. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_012`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `hydraulic shovel loading`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `hydraulic shovel loading excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_012. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: hydraulic shovel loading. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_013`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `excavator`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_013. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: excavator. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_014`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `lattice boom crawler crane`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `lattice boom crawler crane excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_014. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: lattice boom crawler crane. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_015`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `mobile crane telescoping`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `mobile crane telescoping excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_015. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: mobile crane telescoping. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_016`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `hydraulic shovel loading`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `hydraulic shovel loading excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_016. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: hydraulic shovel loading. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_017`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `excavator`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_017. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: excavator. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_018`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `lattice boom crawler crane`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `lattice boom crawler crane excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_018. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: lattice boom crawler crane. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_019`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `mobile crane telescoping`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `mobile crane telescoping excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_019. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: mobile crane telescoping. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_020`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `hydraulic shovel loading`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `hydraulic shovel loading excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_020. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: hydraulic shovel loading. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_021`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `excavator`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_021. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: excavator. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_022`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `lattice boom crawler crane`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `lattice boom crawler crane excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_022. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: lattice boom crawler crane. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_023`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `mobile crane telescoping`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `mobile crane telescoping excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_023. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: mobile crane telescoping. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_024`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `hydraulic shovel loading`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `hydraulic shovel loading excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_024. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: hydraulic shovel loading. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_025`
+
+- domain: `heavy_load_construction`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `excavator`
+- core_scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path
+- search_query: `excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path construction machinery, crane, excavator, bridge segment, gantry, haul truck a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_025. Domain: heavy_load_construction. Task: rigid_body_kinematics_and_coupling. Scenario: excavator multi-link loading motion or synchronized crawler-crane hoisting with visible load path. Required subject: excavator. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_026`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `lattice boom crawler crane`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `lattice boom crawler crane overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_026. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: lattice boom crawler crane. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_027`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `tower crane luffing`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `tower crane luffing overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_027. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: tower crane luffing. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_028`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `cable laying ship drum`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `cable laying ship drum overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_028. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: cable laying ship drum. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_029`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `mine hoist headframe`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `mine hoist headframe overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_029. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: mine hoist headframe. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_030`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `lattice boom crawler crane`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `lattice boom crawler crane overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_030. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: lattice boom crawler crane. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_031`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `tower crane luffing`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `tower crane luffing overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_031. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: tower crane luffing. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_032`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `cable laying ship drum`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `cable laying ship drum overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_032. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: cable laying ship drum. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_033`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `mine hoist headframe`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `mine hoist headframe overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_033. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: mine hoist headframe. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_034`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `lattice boom crawler crane`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `lattice boom crawler crane overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_034. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: lattice boom crawler crane. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_035`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `tower crane luffing`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `tower crane luffing overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_035. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: tower crane luffing. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_036`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `cable laying ship drum`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `cable laying ship drum overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_036. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: cable laying ship drum. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_037`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `mine hoist headframe`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `mine hoist headframe overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_037. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: mine hoist headframe. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_038`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `lattice boom crawler crane`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `lattice boom crawler crane overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_038. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: lattice boom crawler crane. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_039`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `tower crane luffing`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `tower crane luffing overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_039. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: tower crane luffing. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_040`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `cable laying ship drum`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `cable laying ship drum overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_040. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: cable laying ship drum. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_041`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `mine hoist headframe`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `mine hoist headframe overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_041. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: mine hoist headframe. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_042`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `lattice boom crawler crane`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `lattice boom crawler crane overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_042. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: lattice boom crawler crane. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_043`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `tower crane luffing`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `tower crane luffing overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_043. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: tower crane luffing. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_044`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `cable laying ship drum`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `cable laying ship drum overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_044. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: cable laying ship drum. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_045`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `mine hoist headframe`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `mine hoist headframe overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_045. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: mine hoist headframe. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_046`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `lattice boom crawler crane`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `lattice boom crawler crane overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_046. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: lattice boom crawler crane. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_047`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `tower crane luffing`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `tower crane luffing overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_047. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: tower crane luffing. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_048`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `cable laying ship drum`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `cable laying ship drum overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_048. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: cable laying ship drum. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_049`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `mine hoist headframe`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `mine hoist headframe overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_049. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: mine hoist headframe. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_050`
+
+- domain: `heavy_load_construction`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `lattice boom crawler crane`
+- core_scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping
+- search_query: `lattice boom crawler crane overloaded crawler crane causing wire-rope extreme deformation and possible snapping construction machinery, crane, excavator, bridge segment, gantry, haul truck a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_050. Domain: heavy_load_construction. Task: topology_mutation_and_failure. Scenario: overloaded crawler crane causing wire-rope extreme deformation and possible snapping. Required subject: lattice boom crawler crane. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_051`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `trenchless pipe jacking machine`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `trenchless pipe jacking machine underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_051. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: trenchless pipe jacking machine. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_052`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `tunnel boring machine`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `tunnel boring machine underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_052. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: tunnel boring machine. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_053`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `piping manifold`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `piping manifold underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_053. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: piping manifold. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_054`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `thickener tank farm`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `thickener tank farm underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_054. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: thickener tank farm. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_055`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `trenchless pipe jacking machine`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `trenchless pipe jacking machine underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_055. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: trenchless pipe jacking machine. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_056`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `tunnel boring machine`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `tunnel boring machine underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_056. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: tunnel boring machine. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_057`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `piping manifold`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `piping manifold underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_057. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: piping manifold. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_058`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `thickener tank farm`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `thickener tank farm underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_058. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: thickener tank farm. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_059`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `trenchless pipe jacking machine`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `trenchless pipe jacking machine underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_059. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: trenchless pipe jacking machine. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_060`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `tunnel boring machine`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `tunnel boring machine underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_060. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: tunnel boring machine. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_061`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `piping manifold`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `piping manifold underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_061. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: piping manifold. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_062`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `thickener tank farm`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `thickener tank farm underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_062. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: thickener tank farm. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_063`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `trenchless pipe jacking machine`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `trenchless pipe jacking machine underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_063. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: trenchless pipe jacking machine. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_064`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `tunnel boring machine`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `tunnel boring machine underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_064. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: tunnel boring machine. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_065`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `piping manifold`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `piping manifold underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_065. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: piping manifold. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_066`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `thickener tank farm`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `thickener tank farm underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_066. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: thickener tank farm. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_067`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `trenchless pipe jacking machine`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `trenchless pipe jacking machine underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_067. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: trenchless pipe jacking machine. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_068`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `tunnel boring machine`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `tunnel boring machine underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_068. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: tunnel boring machine. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_069`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `piping manifold`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `piping manifold underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_069. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: piping manifold. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_070`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `thickener tank farm`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `thickener tank farm underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_070. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: thickener tank farm. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_071`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `trenchless pipe jacking machine`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `trenchless pipe jacking machine underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_071. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: trenchless pipe jacking machine. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_072`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `tunnel boring machine`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `tunnel boring machine underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_072. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: tunnel boring machine. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_073`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `piping manifold`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `piping manifold underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_073. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: piping manifold. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_074`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `thickener tank farm`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `thickener tank farm underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_074. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: thickener tank farm. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_075`
+
+- domain: `heavy_load_construction`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `trenchless pipe jacking machine`
+- core_scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward
+- search_query: `trenchless pipe jacking machine underground water pipe accidentally broken at a construction site causing muddy water to surge upward construction machinery, crane, excavator, bridge segment, gantry, haul truck pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_075. Domain: heavy_load_construction. Task: fluid_dynamics_and_thermodynamics. Scenario: underground water pipe accidentally broken at a construction site causing muddy water to surge upward. Required subject: trenchless pipe jacking machine. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_076`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `cable stayed bridge deck segment`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `cable stayed bridge deck segment drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_076. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: cable stayed bridge deck segment. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_077`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `precast yard stacking gantry`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `precast yard stacking gantry drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_077. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: precast yard stacking gantry. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_078`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `container terminal quay crane`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `container terminal quay crane drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_078. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: container terminal quay crane. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_079`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `cable stayed bridge deck segment`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `cable stayed bridge deck segment drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_079. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: cable stayed bridge deck segment. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_080`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `precast yard stacking gantry`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `precast yard stacking gantry drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_080. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: precast yard stacking gantry. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_081`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `container terminal quay crane`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `container terminal quay crane drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_081. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: container terminal quay crane. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_082`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `cable stayed bridge deck segment`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `cable stayed bridge deck segment drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_082. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: cable stayed bridge deck segment. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_083`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `precast yard stacking gantry`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `precast yard stacking gantry drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_083. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: precast yard stacking gantry. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_084`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `container terminal quay crane`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `container terminal quay crane drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_084. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: container terminal quay crane. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_085`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `cable stayed bridge deck segment`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `cable stayed bridge deck segment drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_085. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: cable stayed bridge deck segment. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_086`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `precast yard stacking gantry`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `precast yard stacking gantry drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_086. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: precast yard stacking gantry. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_087`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `container terminal quay crane`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `container terminal quay crane drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_087. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: container terminal quay crane. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_088`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `cable stayed bridge deck segment`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `cable stayed bridge deck segment drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_088. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: cable stayed bridge deck segment. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_089`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `precast yard stacking gantry`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `precast yard stacking gantry drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_089. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: precast yard stacking gantry. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_090`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `container terminal quay crane`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `container terminal quay crane drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_090. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: container terminal quay crane. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_091`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `cable stayed bridge deck segment`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `cable stayed bridge deck segment drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_091. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: cable stayed bridge deck segment. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_092`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `precast yard stacking gantry`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `precast yard stacking gantry drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_092. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: precast yard stacking gantry. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_093`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `container terminal quay crane`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `container terminal quay crane drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_093. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: container terminal quay crane. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_094`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `cable stayed bridge deck segment`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `cable stayed bridge deck segment drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_094. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: cable stayed bridge deck segment. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_095`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `precast yard stacking gantry`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `precast yard stacking gantry drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_095. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: precast yard stacking gantry. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_096`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `container terminal quay crane`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `container terminal quay crane drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_096. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: container terminal quay crane. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_097`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `cable stayed bridge deck segment`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `cable stayed bridge deck segment drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_097. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: cable stayed bridge deck segment. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_098`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `precast yard stacking gantry`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `precast yard stacking gantry drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_098. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: precast yard stacking gantry. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_099`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `container terminal quay crane`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `container terminal quay crane drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_099. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: container terminal quay crane. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `hload_100`
+
+- domain: `heavy_load_construction`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `cable stayed bridge deck segment`
+- core_scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment
+- search_query: `cable stayed bridge deck segment drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment construction machinery, crane, excavator, bridge segment, gantry, haul truck a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for hload_100. Domain: heavy_load_construction. Task: spatial_exploration_and_viewpoint. Scenario: drone orbiting a hundred-ton bridge precast segment to inspect hoisting alignment. Required subject: cable stayed bridge deck segment. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_001`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `cnc machine`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_001. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: cnc machine. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_002`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `five axis machining center`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `five axis machining center CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_002. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: five axis machining center. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_003`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `gear hobbing machine`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `gear hobbing machine CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_003. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: gear hobbing machine. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_004`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `automated grinding cell`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `automated grinding cell CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_004. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: automated grinding cell. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_005`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `cnc machine`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_005. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: cnc machine. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_006`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `five axis machining center`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `five axis machining center CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_006. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: five axis machining center. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_007`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `gear hobbing machine`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `gear hobbing machine CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_007. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: gear hobbing machine. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_008`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `automated grinding cell`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `automated grinding cell CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_008. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: automated grinding cell. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_009`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `cnc machine`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_009. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: cnc machine. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_010`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `five axis machining center`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `five axis machining center CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_010. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: five axis machining center. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_011`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `gear hobbing machine`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `gear hobbing machine CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_011. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: gear hobbing machine. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_012`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `automated grinding cell`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `automated grinding cell CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_012. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: automated grinding cell. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_013`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `cnc machine`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_013. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: cnc machine. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_014`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `five axis machining center`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `five axis machining center CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_014. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: five axis machining center. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_015`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `gear hobbing machine`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `gear hobbing machine CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_015. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: gear hobbing machine. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_016`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `automated grinding cell`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `automated grinding cell CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_016. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: automated grinding cell. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_017`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `cnc machine`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_017. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: cnc machine. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_018`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `five axis machining center`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `five axis machining center CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_018. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: five axis machining center. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_019`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `gear hobbing machine`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `gear hobbing machine CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_019. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: gear hobbing machine. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_020`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `automated grinding cell`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `automated grinding cell CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_020. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: automated grinding cell. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_021`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `cnc machine`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_021. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: cnc machine. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_022`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `five axis machining center`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `five axis machining center CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_022. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: five axis machining center. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_023`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `gear hobbing machine`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `gear hobbing machine CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_023. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: gear hobbing machine. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_024`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `automated grinding cell`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `automated grinding cell CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_024. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: automated grinding cell. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_025`
+
+- domain: `precision_defect_gen`
+- task_category: `rigid_body_kinematics_and_coupling`
+- reference_subject: `cnc machine`
+- core_scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface
+- search_query: `CNC machine performing multi-axis coupled cutting on a complex curved surface precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_025. Domain: precision_defect_gen. Task: rigid_body_kinematics_and_coupling. Scenario: CNC machine performing multi-axis coupled cutting on a complex curved surface. Required subject: cnc machine. The image must show a clear rigid mechanism with visible joints, links, supports, wheels, load path, tool contact, or coupled industrial motion geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_026`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `pcb circuit board`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `pcb circuit board dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_026. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: pcb circuit board. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_027`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `pcb traces`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_027. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: pcb traces. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_028`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `gear hobbing machine`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `gear hobbing machine dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_028. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: gear hobbing machine. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_029`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `pcb circuit board`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `pcb circuit board dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_029. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: pcb circuit board. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_030`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `pcb circuit board`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `pcb circuit board dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_030. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: pcb circuit board. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_031`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `pcb traces`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_031. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: pcb traces. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_032`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `gear hobbing machine`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `gear hobbing machine dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_032. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: gear hobbing machine. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_033`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `pcb circuit board`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `pcb circuit board dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_033. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: pcb circuit board. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_034`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `pcb circuit board`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `pcb circuit board dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_034. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: pcb circuit board. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_035`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `pcb traces`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_035. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: pcb traces. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_036`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `gear hobbing machine`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `gear hobbing machine dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_036. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: gear hobbing machine. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_037`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `pcb circuit board`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `pcb circuit board dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_037. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: pcb circuit board. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_038`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `pcb circuit board`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `pcb circuit board dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_038. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: pcb circuit board. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_039`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `pcb traces`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_039. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: pcb traces. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_040`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `gear hobbing machine`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `gear hobbing machine dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_040. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: gear hobbing machine. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_041`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `pcb circuit board`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `pcb circuit board dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_041. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: pcb circuit board. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_042`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `pcb circuit board`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `pcb circuit board dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_042. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: pcb circuit board. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_043`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `pcb traces`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_043. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: pcb traces. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_044`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `gear hobbing machine`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `gear hobbing machine dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_044. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: gear hobbing machine. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_045`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `pcb circuit board`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `pcb circuit board dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_045. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: pcb circuit board. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_046`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `pcb circuit board`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `pcb circuit board dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_046. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: pcb circuit board. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_047`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `pcb traces`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_047. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: pcb traces. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_048`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `gear hobbing machine`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `gear hobbing machine dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_048. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: gear hobbing machine. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_049`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `pcb circuit board`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `pcb circuit board dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_049. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: pcb circuit board. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_050`
+
+- domain: `precision_defect_gen`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `pcb circuit board`
+- core_scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear
+- search_query: `pcb circuit board dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_050. Domain: precision_defect_gen. Task: topology_mutation_and_failure. Scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Required subject: pcb circuit board. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_051`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `cnc machine`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `cnc machine cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_051. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: cnc machine. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_052`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `industrial washing line`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `industrial washing line cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_052. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: industrial washing line. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_053`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `centrifuge battery`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `centrifuge battery cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_053. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: centrifuge battery. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_054`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `automated grinding cell`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `automated grinding cell cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_054. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: automated grinding cell. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_055`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `cnc machine`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `cnc machine cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_055. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: cnc machine. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_056`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `industrial washing line`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `industrial washing line cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_056. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: industrial washing line. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_057`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `centrifuge battery`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `centrifuge battery cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_057. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: centrifuge battery. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_058`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `automated grinding cell`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `automated grinding cell cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_058. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: automated grinding cell. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_059`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `cnc machine`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `cnc machine cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_059. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: cnc machine. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_060`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `industrial washing line`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `industrial washing line cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_060. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: industrial washing line. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_061`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `centrifuge battery`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `centrifuge battery cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_061. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: centrifuge battery. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_062`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `automated grinding cell`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `automated grinding cell cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_062. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: automated grinding cell. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_063`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `cnc machine`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `cnc machine cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_063. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: cnc machine. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_064`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `industrial washing line`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `industrial washing line cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_064. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: industrial washing line. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_065`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `centrifuge battery`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `centrifuge battery cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_065. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: centrifuge battery. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_066`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `automated grinding cell`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `automated grinding cell cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_066. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: automated grinding cell. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_067`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `cnc machine`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `cnc machine cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_067. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: cnc machine. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_068`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `industrial washing line`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `industrial washing line cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_068. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: industrial washing line. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_069`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `centrifuge battery`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `centrifuge battery cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_069. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: centrifuge battery. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_070`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `automated grinding cell`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `automated grinding cell cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_070. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: automated grinding cell. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_071`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `cnc machine`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `cnc machine cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_071. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: cnc machine. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_072`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `industrial washing line`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `industrial washing line cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_072. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: industrial washing line. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_073`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `centrifuge battery`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `centrifuge battery cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_073. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: centrifuge battery. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_074`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `automated grinding cell`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `automated grinding cell cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_074. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: automated grinding cell. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_075`
+
+- domain: `precision_defect_gen`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `cnc machine`
+- core_scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories
+- search_query: `cnc machine cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_075. Domain: precision_defect_gen. Task: fluid_dynamics_and_thermodynamics. Scenario: cutting fluid splashing from a high-speed rotating tool with coherent spray trajectories. Required subject: cnc machine. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_076`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `heat exchanger bundle`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `heat exchanger bundle endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_076. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: heat exchanger bundle. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_077`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `piping manifold`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `piping manifold endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_077. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: piping manifold. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_078`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `gas turbine compressor section`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `gas turbine compressor section endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_078. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: gas turbine compressor section. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_079`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `heat exchanger bundle`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `heat exchanger bundle endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_079. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: heat exchanger bundle. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_080`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `piping manifold`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `piping manifold endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_080. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: piping manifold. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_081`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `gas turbine compressor section`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `gas turbine compressor section endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_081. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: gas turbine compressor section. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_082`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `heat exchanger bundle`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `heat exchanger bundle endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_082. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: heat exchanger bundle. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_083`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `piping manifold`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `piping manifold endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_083. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: piping manifold. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_084`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `gas turbine compressor section`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `gas turbine compressor section endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_084. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: gas turbine compressor section. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_085`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `heat exchanger bundle`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `heat exchanger bundle endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_085. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: heat exchanger bundle. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_086`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `piping manifold`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `piping manifold endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_086. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: piping manifold. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_087`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `gas turbine compressor section`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `gas turbine compressor section endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_087. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: gas turbine compressor section. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_088`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `heat exchanger bundle`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `heat exchanger bundle endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_088. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: heat exchanger bundle. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_089`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `piping manifold`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `piping manifold endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_089. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: piping manifold. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_090`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `gas turbine compressor section`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `gas turbine compressor section endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_090. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: gas turbine compressor section. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_091`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `heat exchanger bundle`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `heat exchanger bundle endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_091. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: heat exchanger bundle. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_092`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `piping manifold`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `piping manifold endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_092. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: piping manifold. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_093`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `gas turbine compressor section`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `gas turbine compressor section endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_093. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: gas turbine compressor section. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_094`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `heat exchanger bundle`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `heat exchanger bundle endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_094. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: heat exchanger bundle. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_095`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `piping manifold`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `piping manifold endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_095. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: piping manifold. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_096`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `gas turbine compressor section`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `gas turbine compressor section endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_096. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: gas turbine compressor section. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_097`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `heat exchanger bundle`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `heat exchanger bundle endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_097. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: heat exchanger bundle. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_098`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `piping manifold`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `piping manifold endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_098. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: piping manifold. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_099`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `gas turbine compressor section`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `gas turbine compressor section endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_099. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: gas turbine compressor section. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `pdef_100`
+
+- domain: `precision_defect_gen`
+- task_category: `spatial_exploration_and_viewpoint`
+- reference_subject: `heat exchanger bundle`
+- core_scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry
+- search_query: `heat exchanger bundle endoscope moving through a complex tube bundle while preserving pipe-wall geometry precision inspection, PCB, gear, CNC, tube bundle, crack, micro defect a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry real industrial photo high resolution`
+
+```text
+Find one open-license reference image for pdef_100. Domain: precision_defect_gen. Task: spatial_exploration_and_viewpoint. Scenario: endoscope moving through a complex tube bundle while preserving pipe-wall geometry. Required subject: heat exchanger bundle. The image must show a subject with readable depth, occlusion, corridors, inspection access, bridge span, robot viewpoint, tube bundle, or drone-orbit geometry. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_001`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `high voltage transformer yard`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `high voltage transformer yard transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_001. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: high voltage transformer yard. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_002`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `wind turbine`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `wind turbine transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_002. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: wind turbine. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_003`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `tower crane luffing jib`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `tower crane luffing jib transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_003. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: tower crane luffing jib. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_004`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `mine hoist headframe`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `mine hoist headframe transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_004. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: mine hoist headframe. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_005`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `high voltage transformer yard`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `high voltage transformer yard transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_005. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: high voltage transformer yard. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_006`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `wind turbine`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `wind turbine transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_006. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: wind turbine. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_007`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `tower crane luffing jib`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `tower crane luffing jib transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_007. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: tower crane luffing jib. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_008`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `mine hoist headframe`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `mine hoist headframe transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_008. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: mine hoist headframe. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_009`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `high voltage transformer yard`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `high voltage transformer yard transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_009. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: high voltage transformer yard. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_010`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `wind turbine`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `wind turbine transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_010. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: wind turbine. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_011`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `tower crane luffing jib`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `tower crane luffing jib transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_011. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: tower crane luffing jib. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_012`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `mine hoist headframe`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `mine hoist headframe transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_012. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: mine hoist headframe. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_013`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `high voltage transformer yard`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `high voltage transformer yard transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_013. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: high voltage transformer yard. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_014`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `wind turbine`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `wind turbine transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_014. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: wind turbine. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_015`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `tower crane luffing jib`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `tower crane luffing jib transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_015. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: tower crane luffing jib. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_016`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `mine hoist headframe`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `mine hoist headframe transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_016. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: mine hoist headframe. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_017`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `high voltage transformer yard`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `high voltage transformer yard transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_017. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: high voltage transformer yard. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_018`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `wind turbine`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `wind turbine transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_018. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: wind turbine. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_019`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `tower crane luffing jib`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `tower crane luffing jib transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_019. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: tower crane luffing jib. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_020`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `mine hoist headframe`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `mine hoist headframe transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_020. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: mine hoist headframe. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_021`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `high voltage transformer yard`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `high voltage transformer yard transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_021. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: high voltage transformer yard. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_022`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `wind turbine`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `wind turbine transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_022. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: wind turbine. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_023`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `tower crane luffing jib`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `tower crane luffing jib transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_023. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: tower crane luffing jib. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_024`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `mine hoist headframe`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `mine hoist headframe transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_024. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: mine hoist headframe. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_025`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `high voltage transformer yard`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `high voltage transformer yard transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_025. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: high voltage transformer yard. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_026`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `wind turbine`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `wind turbine transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_026. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: wind turbine. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_027`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `tower crane luffing jib`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `tower crane luffing jib transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_027. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: tower crane luffing jib. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_028`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `mine hoist headframe`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `mine hoist headframe transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_028. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: mine hoist headframe. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_029`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `high voltage transformer yard`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `high voltage transformer yard transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_029. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: high voltage transformer yard. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_030`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `wind turbine`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `wind turbine transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_030. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: wind turbine. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_031`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `tower crane luffing jib`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `tower crane luffing jib transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_031. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: tower crane luffing jib. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_032`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `mine hoist headframe`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `mine hoist headframe transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_032. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: mine hoist headframe. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_033`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `high voltage transformer yard`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `high voltage transformer yard transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_033. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: high voltage transformer yard. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_034`
+
+- domain: `extreme_emergency`
+- task_category: `topology_mutation_and_failure`
+- reference_subject: `wind turbine`
+- core_scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses
+- search_query: `wind turbine transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses industrial emergency, chemical plant, fire, leak, explosion, structural collapse a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_034. Domain: extreme_emergency. Task: topology_mutation_and_failure. Scenario: transmission tower overloaded by ice and snow until the load-bearing structure yields and collapses. Required subject: wind turbine. The image must show a localized inspection target such as PCB traces, gear teeth, cable, rope, fence, truss, crack-prone structure, or other precise failure region. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_035`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `chemical storage tanks`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `chemical storage tanks chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_035. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: chemical storage tanks. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_036`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `piping manifold`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `piping manifold chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_036. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: piping manifold. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_037`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `offshore oil platform`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `offshore oil platform chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_037. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: offshore oil platform. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_038`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `distillation column array`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `distillation column array chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_038. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: distillation column array. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_039`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `chemical storage tanks`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `chemical storage tanks chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_039. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: chemical storage tanks. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_040`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `piping manifold`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `piping manifold chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_040. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: piping manifold. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_041`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `offshore oil platform`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `offshore oil platform chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_041. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: offshore oil platform. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_042`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `distillation column array`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `distillation column array chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_042. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: distillation column array. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_043`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `chemical storage tanks`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `chemical storage tanks chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_043. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: chemical storage tanks. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_044`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `piping manifold`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `piping manifold chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_044. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: piping manifold. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_045`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `offshore oil platform`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `offshore oil platform chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_045. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: offshore oil platform. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_046`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `distillation column array`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `distillation column array chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_046. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: distillation column array. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_047`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `chemical storage tanks`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `chemical storage tanks chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_047. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: chemical storage tanks. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_048`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `piping manifold`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `piping manifold chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_048. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: piping manifold. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_049`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `offshore oil platform`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `offshore oil platform chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_049. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: offshore oil platform. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_050`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `distillation column array`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `distillation column array chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_050. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: distillation column array. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_051`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `chemical storage tanks`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `chemical storage tanks chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_051. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: chemical storage tanks. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_052`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `piping manifold`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `piping manifold chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_052. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: piping manifold. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_053`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `offshore oil platform`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `offshore oil platform chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_053. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: offshore oil platform. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_054`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `distillation column array`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `distillation column array chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_054. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: distillation column array. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_055`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `chemical storage tanks`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `chemical storage tanks chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_055. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: chemical storage tanks. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_056`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `piping manifold`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `piping manifold chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_056. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: piping manifold. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_057`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `offshore oil platform`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `offshore oil platform chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_057. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: offshore oil platform. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_058`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `distillation column array`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `distillation column array chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_058. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: distillation column array. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_059`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `chemical storage tanks`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `chemical storage tanks chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_059. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: chemical storage tanks. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_060`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `piping manifold`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `piping manifold chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_060. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: piping manifold. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_061`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `offshore oil platform`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `offshore oil platform chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_061. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: offshore oil platform. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_062`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `distillation column array`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `distillation column array chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_062. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: distillation column array. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_063`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `chemical storage tanks`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `chemical storage tanks chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_063. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: chemical storage tanks. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_064`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `piping manifold`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `piping manifold chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_064. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: piping manifold. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_065`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `offshore oil platform`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `offshore oil platform chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_065. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: offshore oil platform. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_066`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `distillation column array`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `distillation column array chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_066. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: distillation column array. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_067`
+
+- domain: `extreme_emergency`
+- task_category: `fluid_dynamics_and_thermodynamics`
+- reference_subject: `chemical storage tanks`
+- core_scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network
+- search_query: `chemical storage tanks chemical storage-tank flash fire with flame propagating along an industrial pipe network industrial emergency, chemical plant, fire, leak, explosion, structural collapse pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_067. Domain: extreme_emergency. Task: fluid_dynamics_and_thermodynamics. Scenario: chemical storage-tank flash fire with flame propagating along an industrial pipe network. Required subject: chemical storage tanks. The image must show pipes, tanks, vessels, spray source, fluid path, pressure boundary, smoke or flame path, containment, or thermal process equipment. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_068`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `robotic welding cell`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `robotic welding cell illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_068. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: robotic welding cell. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_069`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `assembly line`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `assembly line illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_069. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: assembly line. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_070`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `pressure vessel farm`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `pressure vessel farm illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_070. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: pressure vessel farm. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_071`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `surface blast pattern`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `surface blast pattern illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_071. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: surface blast pattern. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_072`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `robotic welding cell`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `robotic welding cell illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_072. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: robotic welding cell. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_073`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `assembly line`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `assembly line illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_073. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: assembly line. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_074`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `pressure vessel farm`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `pressure vessel farm illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_074. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: pressure vessel farm. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_075`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `surface blast pattern`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `surface blast pattern illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_075. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: surface blast pattern. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_076`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `robotic welding cell`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `robotic welding cell illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_076. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: robotic welding cell. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_077`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `assembly line`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `assembly line illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_077. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: assembly line. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_078`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `pressure vessel farm`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `pressure vessel farm illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_078. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: pressure vessel farm. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_079`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `surface blast pattern`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `surface blast pattern illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_079. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: surface blast pattern. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_080`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `robotic welding cell`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `robotic welding cell illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_080. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: robotic welding cell. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_081`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `assembly line`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `assembly line illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_081. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: assembly line. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_082`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `pressure vessel farm`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `pressure vessel farm illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_082. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: pressure vessel farm. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_083`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `surface blast pattern`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `surface blast pattern illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_083. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: surface blast pattern. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_084`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `robotic welding cell`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `robotic welding cell illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_084. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: robotic welding cell. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_085`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `assembly line`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `assembly line illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_085. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: assembly line. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_086`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `pressure vessel farm`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `pressure vessel farm illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_086. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: pressure vessel farm. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_087`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `surface blast pattern`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `surface blast pattern illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_087. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: surface blast pattern. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_088`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `robotic welding cell`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `robotic welding cell illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_088. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: robotic welding cell. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_089`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `assembly line`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `assembly line illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_089. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: assembly line. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_090`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `pressure vessel farm`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `pressure vessel farm illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_090. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: pressure vessel farm. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_091`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `surface blast pattern`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `surface blast pattern illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_091. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: surface blast pattern. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_092`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `robotic welding cell`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `robotic welding cell illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_092. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: robotic welding cell. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_093`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `assembly line`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `assembly line illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_093. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: assembly line. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_094`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `pressure vessel farm`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `pressure vessel farm illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_094. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: pressure vessel farm. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_095`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `surface blast pattern`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `surface blast pattern illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_095. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: surface blast pattern. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_096`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `robotic welding cell`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `robotic welding cell illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_096. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: robotic welding cell. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_097`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `assembly line`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `assembly line illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_097. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: assembly line. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_098`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `pressure vessel farm`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `pressure vessel farm illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_098. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: pressure vessel farm. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_099`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `surface blast pattern`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `surface blast pattern illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_099. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: surface blast pattern. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```
+
+## `emerg_100`
+
+- domain: `extreme_emergency`
+- task_category: `industrial_logic_and_compliance`
+- reference_subject: `robotic welding cell`
+- core_scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response
+- search_query: `robotic welding cell illegal hot work in a confined space directly triggering a dust explosion and emergency response industrial emergency, chemical plant, fire, leak, explosion, structural collapse a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard real industrial photo high resolution`
+
+```text
+Find one open-license reference image for emerg_100. Domain: extreme_emergency. Task: industrial_logic_and_compliance. Scenario: illegal hot work in a confined space directly triggering a dust explosion and emergency response. Required subject: robotic welding cell. The image must show a visible rule or trigger context such as restricted zone, PPE area, worker-machine proximity, light curtain, vehicle path, alarm, or hot-work hazard. Strict visual rules: real photo only; no render, drawing, diagram, collage, poster, screenshot, logo, text-heavy image, map, close crowd, showroom, toy, miniature, or heavily edited image; main subject must occupy roughly 25-75 percent of the frame; background must be simple enough for image-to-video evaluation, with no dense unrelated clutter. Reject if the image is decorative, synthetic, low resolution, blurry, too dark, too crowded, text-dominated, unrelated to the equipment, or missing the requested industrial subject.
+```

@@ -110,6 +110,7 @@ First export prompts and inspect the image plan:
 ```bash
 python scripts/export_prompts.py
 python scripts/make_image_sourcing_plan.py
+python scripts/build_image_search_prompts.py
 ```
 
 This writes:
@@ -119,7 +120,23 @@ reports/prompts.md
 reports/prompts.jsonl
 reports/image_sourcing_plan.csv
 reports/image_sourcing_plan.md
+reports/image_search_prompts.csv
+reports/image_search_prompts.jsonl
+reports/image_search_prompts.md
 ```
+
+To search for one strict open-license reference image per sample, run:
+
+```bash
+python scripts/find_reference_images.py --target 500 --search-limit 25
+```
+
+The finder writes candidates under `dataset/images_candidates/strict_open_license/`
+and a rejection/acceptance manifest at
+`reports/strict_reference_image_candidates.csv`. It enforces open-license
+metadata, minimum 1280x720 resolution, minimum 900-pixel short side, blur
+rejection, topic-title overlap, near-duplicate filtering, and background edge
+density limits to avoid overly cluttered images.
 
 Use `reports/prompts.jsonl` when batch-submitting tasks to a video generation
 model. Each row contains `task_id`, `image_path`, `video_generation_prompt`,
