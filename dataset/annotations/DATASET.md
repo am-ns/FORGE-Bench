@@ -26,6 +26,20 @@ All new annotations use full-name axis identifiers:
 Short legacy aliases are accepted by code for backward compatibility, but they
 are not used in new annotations or documentation.
 
+## Reference Image Classification
+
+Reference images used by samples are mirrored under the same five scenario
+domains as the annotations:
+
+- `dataset/images/visual_security/`
+- `dataset/images/embodied_robotics/`
+- `dataset/images/heavy_load_construction/`
+- `dataset/images/precision_defect_gen/`
+- `dataset/images/extreme_emergency/`
+
+Legacy industry image directories may remain in the repository as source pools,
+but current samples point only to the scenario-domain directories.
+
 ## Task Categories
 
 Each sample has one abstract task category:

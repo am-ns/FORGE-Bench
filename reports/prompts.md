@@ -20,7 +20,7 @@
 
 #### `erob_068`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__assembly_line.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -38,7 +38,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_069`
 
-- image: `dataset/images/manufacturing/cobot_assembly_station.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__cobot_assembly_station.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -56,7 +56,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_070`
 
-- image: `dataset/images/robotics/collaborative_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__collaborative_robot.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -74,7 +74,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_071`
 
-- image: `dataset/images/manufacturing/robotic_welding_cell.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__robotic_welding_cell.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -92,7 +92,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_072`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__assembly_line.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -110,7 +110,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_073`
 
-- image: `dataset/images/manufacturing/cobot_assembly_station.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__cobot_assembly_station.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -128,7 +128,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_074`
 
-- image: `dataset/images/robotics/collaborative_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__collaborative_robot.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -146,7 +146,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_075`
 
-- image: `dataset/images/manufacturing/robotic_welding_cell.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__robotic_welding_cell.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -164,7 +164,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_076`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__assembly_line.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -182,7 +182,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_077`
 
-- image: `dataset/images/manufacturing/cobot_assembly_station.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__cobot_assembly_station.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -200,7 +200,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_078`
 
-- image: `dataset/images/robotics/collaborative_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__collaborative_robot.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -218,7 +218,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_079`
 
-- image: `dataset/images/manufacturing/robotic_welding_cell.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__robotic_welding_cell.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -236,7 +236,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_080`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__assembly_line.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -254,7 +254,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_081`
 
-- image: `dataset/images/manufacturing/cobot_assembly_station.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__cobot_assembly_station.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -272,7 +272,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_082`
 
-- image: `dataset/images/robotics/collaborative_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__collaborative_robot.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -290,7 +290,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_083`
 
-- image: `dataset/images/manufacturing/robotic_welding_cell.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__robotic_welding_cell.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -308,7 +308,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_084`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__assembly_line.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -326,7 +326,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_085`
 
-- image: `dataset/images/manufacturing/cobot_assembly_station.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__cobot_assembly_station.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -344,7 +344,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_086`
 
-- image: `dataset/images/robotics/collaborative_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__collaborative_robot.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -362,7 +362,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_087`
 
-- image: `dataset/images/manufacturing/robotic_welding_cell.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__robotic_welding_cell.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -380,7 +380,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_088`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__assembly_line.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -398,7 +398,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_089`
 
-- image: `dataset/images/manufacturing/cobot_assembly_station.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__cobot_assembly_station.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -416,7 +416,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_090`
 
-- image: `dataset/images/robotics/collaborative_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__collaborative_robot.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -434,7 +434,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_091`
 
-- image: `dataset/images/manufacturing/robotic_welding_cell.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__robotic_welding_cell.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -452,7 +452,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_092`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__assembly_line.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -470,7 +470,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_093`
 
-- image: `dataset/images/manufacturing/cobot_assembly_station.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__cobot_assembly_station.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -488,7 +488,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_094`
 
-- image: `dataset/images/robotics/collaborative_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__collaborative_robot.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -506,7 +506,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_095`
 
-- image: `dataset/images/manufacturing/robotic_welding_cell.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__robotic_welding_cell.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -524,7 +524,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_096`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__assembly_line.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -542,7 +542,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_097`
 
-- image: `dataset/images/manufacturing/cobot_assembly_station.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__cobot_assembly_station.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -560,7 +560,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_098`
 
-- image: `dataset/images/robotics/collaborative_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__collaborative_robot.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -578,7 +578,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_099`
 
-- image: `dataset/images/manufacturing/robotic_welding_cell.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__robotic_welding_cell.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -596,7 +596,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_100`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__assembly_line.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -616,7 +616,7 @@ Task objective: embodied robotics for industrial logic and compliance. Core scen
 
 #### `erob_001`
 
-- image: `dataset/images/robotics/industrial_robot_arm.jpg`
+- image: `dataset/images/embodied_robotics/robotics__industrial_robot_arm.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -634,7 +634,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_002`
 
-- image: `dataset/images/robotics/collaborative_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__collaborative_robot.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -652,7 +652,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_003`
 
-- image: `dataset/images/robotics/parallel_kinematic_hexapod.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__parallel_kinematic_hexapod.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -670,7 +670,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_004`
 
-- image: `dataset/images/robotics/surgical_robot_instrument_arm.jpg`
+- image: `dataset/images/embodied_robotics/robotics__surgical_robot_instrument_arm.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -688,7 +688,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_005`
 
-- image: `dataset/images/robotics/industrial_robot_arm.jpg`
+- image: `dataset/images/embodied_robotics/robotics__industrial_robot_arm.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -706,7 +706,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_006`
 
-- image: `dataset/images/robotics/collaborative_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__collaborative_robot.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -724,7 +724,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_007`
 
-- image: `dataset/images/robotics/parallel_kinematic_hexapod.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__parallel_kinematic_hexapod.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -742,7 +742,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_008`
 
-- image: `dataset/images/robotics/surgical_robot_instrument_arm.jpg`
+- image: `dataset/images/embodied_robotics/robotics__surgical_robot_instrument_arm.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -760,7 +760,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_009`
 
-- image: `dataset/images/robotics/industrial_robot_arm.jpg`
+- image: `dataset/images/embodied_robotics/robotics__industrial_robot_arm.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -778,7 +778,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_010`
 
-- image: `dataset/images/robotics/collaborative_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__collaborative_robot.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -796,7 +796,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_011`
 
-- image: `dataset/images/robotics/parallel_kinematic_hexapod.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__parallel_kinematic_hexapod.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -814,7 +814,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_012`
 
-- image: `dataset/images/robotics/surgical_robot_instrument_arm.jpg`
+- image: `dataset/images/embodied_robotics/robotics__surgical_robot_instrument_arm.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -832,7 +832,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_013`
 
-- image: `dataset/images/robotics/industrial_robot_arm.jpg`
+- image: `dataset/images/embodied_robotics/robotics__industrial_robot_arm.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -850,7 +850,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_014`
 
-- image: `dataset/images/robotics/collaborative_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__collaborative_robot.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -868,7 +868,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_015`
 
-- image: `dataset/images/robotics/parallel_kinematic_hexapod.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__parallel_kinematic_hexapod.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -886,7 +886,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_016`
 
-- image: `dataset/images/robotics/surgical_robot_instrument_arm.jpg`
+- image: `dataset/images/embodied_robotics/robotics__surgical_robot_instrument_arm.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -904,7 +904,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_017`
 
-- image: `dataset/images/robotics/industrial_robot_arm.jpg`
+- image: `dataset/images/embodied_robotics/robotics__industrial_robot_arm.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -922,7 +922,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_018`
 
-- image: `dataset/images/robotics/collaborative_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__collaborative_robot.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -940,7 +940,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_019`
 
-- image: `dataset/images/robotics/parallel_kinematic_hexapod.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__parallel_kinematic_hexapod.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -958,7 +958,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_020`
 
-- image: `dataset/images/robotics/surgical_robot_instrument_arm.jpg`
+- image: `dataset/images/embodied_robotics/robotics__surgical_robot_instrument_arm.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -976,7 +976,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_021`
 
-- image: `dataset/images/robotics/industrial_robot_arm.jpg`
+- image: `dataset/images/embodied_robotics/robotics__industrial_robot_arm.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -994,7 +994,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_022`
 
-- image: `dataset/images/robotics/collaborative_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__collaborative_robot.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -1012,7 +1012,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_023`
 
-- image: `dataset/images/robotics/parallel_kinematic_hexapod.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__parallel_kinematic_hexapod.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -1030,7 +1030,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_024`
 
-- image: `dataset/images/robotics/surgical_robot_instrument_arm.jpg`
+- image: `dataset/images/embodied_robotics/robotics__surgical_robot_instrument_arm.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -1048,7 +1048,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_025`
 
-- image: `dataset/images/robotics/industrial_robot_arm.jpg`
+- image: `dataset/images/embodied_robotics/robotics__industrial_robot_arm.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -1066,7 +1066,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_026`
 
-- image: `dataset/images/robotics/collaborative_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__collaborative_robot.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -1084,7 +1084,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_027`
 
-- image: `dataset/images/robotics/parallel_kinematic_hexapod.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__parallel_kinematic_hexapod.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -1102,7 +1102,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_028`
 
-- image: `dataset/images/robotics/surgical_robot_instrument_arm.jpg`
+- image: `dataset/images/embodied_robotics/robotics__surgical_robot_instrument_arm.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -1120,7 +1120,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_029`
 
-- image: `dataset/images/robotics/industrial_robot_arm.jpg`
+- image: `dataset/images/embodied_robotics/robotics__industrial_robot_arm.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -1138,7 +1138,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_030`
 
-- image: `dataset/images/robotics/collaborative_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__collaborative_robot.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -1156,7 +1156,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_031`
 
-- image: `dataset/images/robotics/parallel_kinematic_hexapod.jpg`
+- image: `dataset/images/embodied_robotics/manufacturing__parallel_kinematic_hexapod.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -1174,7 +1174,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_032`
 
-- image: `dataset/images/robotics/surgical_robot_instrument_arm.jpg`
+- image: `dataset/images/embodied_robotics/robotics__surgical_robot_instrument_arm.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -1192,7 +1192,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_033`
 
-- image: `dataset/images/robotics/industrial_robot_arm.jpg`
+- image: `dataset/images/embodied_robotics/robotics__industrial_robot_arm.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -1210,7 +1210,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_034`
 
-- image: `dataset/images/robotics/collaborative_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__collaborative_robot.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -1230,7 +1230,7 @@ Task objective: embodied robotics for rigid body kinematics and coupling. Core s
 
 #### `erob_035`
 
-- image: `dataset/images/robotics/autonomous_mobile_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__autonomous_mobile_robot.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1248,7 +1248,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_036`
 
-- image: `dataset/images/robotics/robotic_pipe_crawler.jpg`
+- image: `dataset/images/embodied_robotics/robotics__robotic_pipe_crawler.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1266,7 +1266,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_037`
 
-- image: `dataset/images/robotics/snake_robot_inspection_unit.jpg`
+- image: `dataset/images/embodied_robotics/robotics__snake_robot_inspection_unit.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1284,7 +1284,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_038`
 
-- image: `dataset/images/robotics/agv_fleet_navigation_unit.jpg`
+- image: `dataset/images/embodied_robotics/robotics__agv_fleet_navigation_unit.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1302,7 +1302,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_039`
 
-- image: `dataset/images/robotics/autonomous_mobile_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__autonomous_mobile_robot.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1320,7 +1320,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_040`
 
-- image: `dataset/images/robotics/robotic_pipe_crawler.jpg`
+- image: `dataset/images/embodied_robotics/robotics__robotic_pipe_crawler.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1338,7 +1338,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_041`
 
-- image: `dataset/images/robotics/snake_robot_inspection_unit.jpg`
+- image: `dataset/images/embodied_robotics/robotics__snake_robot_inspection_unit.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1356,7 +1356,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_042`
 
-- image: `dataset/images/robotics/agv_fleet_navigation_unit.jpg`
+- image: `dataset/images/embodied_robotics/robotics__agv_fleet_navigation_unit.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1374,7 +1374,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_043`
 
-- image: `dataset/images/robotics/autonomous_mobile_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__autonomous_mobile_robot.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1392,7 +1392,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_044`
 
-- image: `dataset/images/robotics/robotic_pipe_crawler.jpg`
+- image: `dataset/images/embodied_robotics/robotics__robotic_pipe_crawler.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1410,7 +1410,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_045`
 
-- image: `dataset/images/robotics/snake_robot_inspection_unit.jpg`
+- image: `dataset/images/embodied_robotics/robotics__snake_robot_inspection_unit.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1428,7 +1428,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_046`
 
-- image: `dataset/images/robotics/agv_fleet_navigation_unit.jpg`
+- image: `dataset/images/embodied_robotics/robotics__agv_fleet_navigation_unit.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1446,7 +1446,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_047`
 
-- image: `dataset/images/robotics/autonomous_mobile_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__autonomous_mobile_robot.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1464,7 +1464,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_048`
 
-- image: `dataset/images/robotics/robotic_pipe_crawler.jpg`
+- image: `dataset/images/embodied_robotics/robotics__robotic_pipe_crawler.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1482,7 +1482,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_049`
 
-- image: `dataset/images/robotics/snake_robot_inspection_unit.jpg`
+- image: `dataset/images/embodied_robotics/robotics__snake_robot_inspection_unit.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1500,7 +1500,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_050`
 
-- image: `dataset/images/robotics/agv_fleet_navigation_unit.jpg`
+- image: `dataset/images/embodied_robotics/robotics__agv_fleet_navigation_unit.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1518,7 +1518,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_051`
 
-- image: `dataset/images/robotics/autonomous_mobile_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__autonomous_mobile_robot.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1536,7 +1536,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_052`
 
-- image: `dataset/images/robotics/robotic_pipe_crawler.jpg`
+- image: `dataset/images/embodied_robotics/robotics__robotic_pipe_crawler.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1554,7 +1554,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_053`
 
-- image: `dataset/images/robotics/snake_robot_inspection_unit.jpg`
+- image: `dataset/images/embodied_robotics/robotics__snake_robot_inspection_unit.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1572,7 +1572,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_054`
 
-- image: `dataset/images/robotics/agv_fleet_navigation_unit.jpg`
+- image: `dataset/images/embodied_robotics/robotics__agv_fleet_navigation_unit.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1590,7 +1590,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_055`
 
-- image: `dataset/images/robotics/autonomous_mobile_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__autonomous_mobile_robot.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1608,7 +1608,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_056`
 
-- image: `dataset/images/robotics/robotic_pipe_crawler.jpg`
+- image: `dataset/images/embodied_robotics/robotics__robotic_pipe_crawler.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1626,7 +1626,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_057`
 
-- image: `dataset/images/robotics/snake_robot_inspection_unit.jpg`
+- image: `dataset/images/embodied_robotics/robotics__snake_robot_inspection_unit.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1644,7 +1644,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_058`
 
-- image: `dataset/images/robotics/agv_fleet_navigation_unit.jpg`
+- image: `dataset/images/embodied_robotics/robotics__agv_fleet_navigation_unit.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1662,7 +1662,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_059`
 
-- image: `dataset/images/robotics/autonomous_mobile_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__autonomous_mobile_robot.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1680,7 +1680,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_060`
 
-- image: `dataset/images/robotics/robotic_pipe_crawler.jpg`
+- image: `dataset/images/embodied_robotics/robotics__robotic_pipe_crawler.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1698,7 +1698,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_061`
 
-- image: `dataset/images/robotics/snake_robot_inspection_unit.jpg`
+- image: `dataset/images/embodied_robotics/robotics__snake_robot_inspection_unit.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1716,7 +1716,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_062`
 
-- image: `dataset/images/robotics/agv_fleet_navigation_unit.jpg`
+- image: `dataset/images/embodied_robotics/robotics__agv_fleet_navigation_unit.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1734,7 +1734,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_063`
 
-- image: `dataset/images/robotics/autonomous_mobile_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__autonomous_mobile_robot.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1752,7 +1752,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_064`
 
-- image: `dataset/images/robotics/robotic_pipe_crawler.jpg`
+- image: `dataset/images/embodied_robotics/robotics__robotic_pipe_crawler.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1770,7 +1770,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_065`
 
-- image: `dataset/images/robotics/snake_robot_inspection_unit.jpg`
+- image: `dataset/images/embodied_robotics/robotics__snake_robot_inspection_unit.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1788,7 +1788,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_066`
 
-- image: `dataset/images/robotics/agv_fleet_navigation_unit.jpg`
+- image: `dataset/images/embodied_robotics/robotics__agv_fleet_navigation_unit.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1806,7 +1806,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `erob_067`
 
-- image: `dataset/images/robotics/autonomous_mobile_robot.jpg`
+- image: `dataset/images/embodied_robotics/robotics__autonomous_mobile_robot.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -1828,7 +1828,7 @@ Task objective: embodied robotics for spatial exploration and viewpoint. Core sc
 
 #### `emerg_035`
 
-- image: `dataset/images/chemical/chemical_storage_tanks.jpg`
+- image: `dataset/images/extreme_emergency/chemical__chemical_storage_tanks.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -1846,7 +1846,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_036`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/extreme_emergency/chemical__piping_manifold.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -1864,7 +1864,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_037`
 
-- image: `dataset/images/oil_gas/offshore_oil_platform.jpg`
+- image: `dataset/images/extreme_emergency/oil_gas__offshore_oil_platform.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -1882,7 +1882,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_038`
 
-- image: `dataset/images/chemical/distillation_column_array.jpg`
+- image: `dataset/images/extreme_emergency/chemical__distillation_column_array.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -1900,7 +1900,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_039`
 
-- image: `dataset/images/chemical/chemical_storage_tanks.jpg`
+- image: `dataset/images/extreme_emergency/chemical__chemical_storage_tanks.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -1918,7 +1918,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_040`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/extreme_emergency/chemical__piping_manifold.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -1936,7 +1936,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_041`
 
-- image: `dataset/images/oil_gas/offshore_oil_platform.jpg`
+- image: `dataset/images/extreme_emergency/oil_gas__offshore_oil_platform.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -1954,7 +1954,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_042`
 
-- image: `dataset/images/chemical/distillation_column_array.jpg`
+- image: `dataset/images/extreme_emergency/chemical__distillation_column_array.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -1972,7 +1972,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_043`
 
-- image: `dataset/images/chemical/chemical_storage_tanks.jpg`
+- image: `dataset/images/extreme_emergency/chemical__chemical_storage_tanks.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -1990,7 +1990,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_044`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/extreme_emergency/chemical__piping_manifold.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2008,7 +2008,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_045`
 
-- image: `dataset/images/oil_gas/offshore_oil_platform.jpg`
+- image: `dataset/images/extreme_emergency/oil_gas__offshore_oil_platform.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2026,7 +2026,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_046`
 
-- image: `dataset/images/chemical/distillation_column_array.jpg`
+- image: `dataset/images/extreme_emergency/chemical__distillation_column_array.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2044,7 +2044,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_047`
 
-- image: `dataset/images/chemical/chemical_storage_tanks.jpg`
+- image: `dataset/images/extreme_emergency/chemical__chemical_storage_tanks.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2062,7 +2062,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_048`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/extreme_emergency/chemical__piping_manifold.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2080,7 +2080,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_049`
 
-- image: `dataset/images/oil_gas/offshore_oil_platform.jpg`
+- image: `dataset/images/extreme_emergency/oil_gas__offshore_oil_platform.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2098,7 +2098,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_050`
 
-- image: `dataset/images/chemical/distillation_column_array.jpg`
+- image: `dataset/images/extreme_emergency/chemical__distillation_column_array.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2116,7 +2116,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_051`
 
-- image: `dataset/images/chemical/chemical_storage_tanks.jpg`
+- image: `dataset/images/extreme_emergency/chemical__chemical_storage_tanks.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2134,7 +2134,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_052`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/extreme_emergency/chemical__piping_manifold.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2152,7 +2152,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_053`
 
-- image: `dataset/images/oil_gas/offshore_oil_platform.jpg`
+- image: `dataset/images/extreme_emergency/oil_gas__offshore_oil_platform.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2170,7 +2170,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_054`
 
-- image: `dataset/images/chemical/distillation_column_array.jpg`
+- image: `dataset/images/extreme_emergency/chemical__distillation_column_array.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2188,7 +2188,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_055`
 
-- image: `dataset/images/chemical/chemical_storage_tanks.jpg`
+- image: `dataset/images/extreme_emergency/chemical__chemical_storage_tanks.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2206,7 +2206,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_056`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/extreme_emergency/chemical__piping_manifold.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2224,7 +2224,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_057`
 
-- image: `dataset/images/oil_gas/offshore_oil_platform.jpg`
+- image: `dataset/images/extreme_emergency/oil_gas__offshore_oil_platform.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2242,7 +2242,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_058`
 
-- image: `dataset/images/chemical/distillation_column_array.jpg`
+- image: `dataset/images/extreme_emergency/chemical__distillation_column_array.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2260,7 +2260,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_059`
 
-- image: `dataset/images/chemical/chemical_storage_tanks.jpg`
+- image: `dataset/images/extreme_emergency/chemical__chemical_storage_tanks.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2278,7 +2278,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_060`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/extreme_emergency/chemical__piping_manifold.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2296,7 +2296,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_061`
 
-- image: `dataset/images/oil_gas/offshore_oil_platform.jpg`
+- image: `dataset/images/extreme_emergency/oil_gas__offshore_oil_platform.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2314,7 +2314,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_062`
 
-- image: `dataset/images/chemical/distillation_column_array.jpg`
+- image: `dataset/images/extreme_emergency/chemical__distillation_column_array.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2332,7 +2332,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_063`
 
-- image: `dataset/images/chemical/chemical_storage_tanks.jpg`
+- image: `dataset/images/extreme_emergency/chemical__chemical_storage_tanks.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2350,7 +2350,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_064`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/extreme_emergency/chemical__piping_manifold.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2368,7 +2368,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_065`
 
-- image: `dataset/images/oil_gas/offshore_oil_platform.jpg`
+- image: `dataset/images/extreme_emergency/oil_gas__offshore_oil_platform.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2386,7 +2386,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_066`
 
-- image: `dataset/images/chemical/distillation_column_array.jpg`
+- image: `dataset/images/extreme_emergency/chemical__distillation_column_array.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2404,7 +2404,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_067`
 
-- image: `dataset/images/chemical/chemical_storage_tanks.jpg`
+- image: `dataset/images/extreme_emergency/chemical__chemical_storage_tanks.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -2424,7 +2424,7 @@ Task objective: extreme emergency for fluid dynamics and thermodynamics. Core sc
 
 #### `emerg_068`
 
-- image: `dataset/images/manufacturing/robotic_welding_cell.jpg`
+- image: `dataset/images/extreme_emergency/manufacturing__robotic_welding_cell.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2442,7 +2442,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_069`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/extreme_emergency/manufacturing__assembly_line.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2460,7 +2460,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_070`
 
-- image: `dataset/images/chemical/pressure_vessel_farm.jpg`
+- image: `dataset/images/extreme_emergency/chemical__pressure_vessel_farm.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2478,7 +2478,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_071`
 
-- image: `dataset/images/mining/surface_blast_pattern.jpg`
+- image: `dataset/images/extreme_emergency/mining__surface_blast_pattern.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2496,7 +2496,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_072`
 
-- image: `dataset/images/manufacturing/robotic_welding_cell.jpg`
+- image: `dataset/images/extreme_emergency/manufacturing__robotic_welding_cell.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2514,7 +2514,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_073`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/extreme_emergency/manufacturing__assembly_line.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2532,7 +2532,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_074`
 
-- image: `dataset/images/chemical/pressure_vessel_farm.jpg`
+- image: `dataset/images/extreme_emergency/chemical__pressure_vessel_farm.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2550,7 +2550,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_075`
 
-- image: `dataset/images/mining/surface_blast_pattern.jpg`
+- image: `dataset/images/extreme_emergency/mining__surface_blast_pattern.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2568,7 +2568,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_076`
 
-- image: `dataset/images/manufacturing/robotic_welding_cell.jpg`
+- image: `dataset/images/extreme_emergency/manufacturing__robotic_welding_cell.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2586,7 +2586,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_077`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/extreme_emergency/manufacturing__assembly_line.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2604,7 +2604,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_078`
 
-- image: `dataset/images/chemical/pressure_vessel_farm.jpg`
+- image: `dataset/images/extreme_emergency/chemical__pressure_vessel_farm.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2622,7 +2622,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_079`
 
-- image: `dataset/images/mining/surface_blast_pattern.jpg`
+- image: `dataset/images/extreme_emergency/mining__surface_blast_pattern.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2640,7 +2640,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_080`
 
-- image: `dataset/images/manufacturing/robotic_welding_cell.jpg`
+- image: `dataset/images/extreme_emergency/manufacturing__robotic_welding_cell.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2658,7 +2658,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_081`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/extreme_emergency/manufacturing__assembly_line.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2676,7 +2676,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_082`
 
-- image: `dataset/images/chemical/pressure_vessel_farm.jpg`
+- image: `dataset/images/extreme_emergency/chemical__pressure_vessel_farm.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2694,7 +2694,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_083`
 
-- image: `dataset/images/mining/surface_blast_pattern.jpg`
+- image: `dataset/images/extreme_emergency/mining__surface_blast_pattern.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2712,7 +2712,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_084`
 
-- image: `dataset/images/manufacturing/robotic_welding_cell.jpg`
+- image: `dataset/images/extreme_emergency/manufacturing__robotic_welding_cell.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2730,7 +2730,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_085`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/extreme_emergency/manufacturing__assembly_line.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2748,7 +2748,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_086`
 
-- image: `dataset/images/chemical/pressure_vessel_farm.jpg`
+- image: `dataset/images/extreme_emergency/chemical__pressure_vessel_farm.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2766,7 +2766,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_087`
 
-- image: `dataset/images/mining/surface_blast_pattern.jpg`
+- image: `dataset/images/extreme_emergency/mining__surface_blast_pattern.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2784,7 +2784,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_088`
 
-- image: `dataset/images/manufacturing/robotic_welding_cell.jpg`
+- image: `dataset/images/extreme_emergency/manufacturing__robotic_welding_cell.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2802,7 +2802,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_089`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/extreme_emergency/manufacturing__assembly_line.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2820,7 +2820,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_090`
 
-- image: `dataset/images/chemical/pressure_vessel_farm.jpg`
+- image: `dataset/images/extreme_emergency/chemical__pressure_vessel_farm.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2838,7 +2838,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_091`
 
-- image: `dataset/images/mining/surface_blast_pattern.jpg`
+- image: `dataset/images/extreme_emergency/mining__surface_blast_pattern.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2856,7 +2856,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_092`
 
-- image: `dataset/images/manufacturing/robotic_welding_cell.jpg`
+- image: `dataset/images/extreme_emergency/manufacturing__robotic_welding_cell.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2874,7 +2874,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_093`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/extreme_emergency/manufacturing__assembly_line.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2892,7 +2892,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_094`
 
-- image: `dataset/images/chemical/pressure_vessel_farm.jpg`
+- image: `dataset/images/extreme_emergency/chemical__pressure_vessel_farm.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2910,7 +2910,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_095`
 
-- image: `dataset/images/mining/surface_blast_pattern.jpg`
+- image: `dataset/images/extreme_emergency/mining__surface_blast_pattern.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2928,7 +2928,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_096`
 
-- image: `dataset/images/manufacturing/robotic_welding_cell.jpg`
+- image: `dataset/images/extreme_emergency/manufacturing__robotic_welding_cell.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2946,7 +2946,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_097`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/extreme_emergency/manufacturing__assembly_line.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2964,7 +2964,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_098`
 
-- image: `dataset/images/chemical/pressure_vessel_farm.jpg`
+- image: `dataset/images/extreme_emergency/chemical__pressure_vessel_farm.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -2982,7 +2982,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_099`
 
-- image: `dataset/images/mining/surface_blast_pattern.jpg`
+- image: `dataset/images/extreme_emergency/mining__surface_blast_pattern.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -3000,7 +3000,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_100`
 
-- image: `dataset/images/manufacturing/robotic_welding_cell.jpg`
+- image: `dataset/images/extreme_emergency/manufacturing__robotic_welding_cell.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -3020,7 +3020,7 @@ Task objective: extreme emergency for industrial logic and compliance. Core scen
 
 #### `emerg_001`
 
-- image: `dataset/images/energy_power/high_voltage_transformer_yard.jpg`
+- image: `dataset/images/extreme_emergency/energy_power__high_voltage_transformer_yard.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3038,7 +3038,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_002`
 
-- image: `dataset/images/energy_renewable/wind_turbine.jpg`
+- image: `dataset/images/extreme_emergency/energy_renewable__wind_turbine.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3056,7 +3056,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_003`
 
-- image: `dataset/images/construction/tower_crane_luffing_jib.jpg`
+- image: `dataset/images/extreme_emergency/construction__tower_crane_luffing_jib.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3074,7 +3074,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_004`
 
-- image: `dataset/images/mining/mine_hoist_headframe.jpg`
+- image: `dataset/images/extreme_emergency/mining__mine_hoist_headframe.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3092,7 +3092,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_005`
 
-- image: `dataset/images/energy_power/high_voltage_transformer_yard.jpg`
+- image: `dataset/images/extreme_emergency/energy_power__high_voltage_transformer_yard.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3110,7 +3110,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_006`
 
-- image: `dataset/images/energy_renewable/wind_turbine.jpg`
+- image: `dataset/images/extreme_emergency/energy_renewable__wind_turbine.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3128,7 +3128,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_007`
 
-- image: `dataset/images/construction/tower_crane_luffing_jib.jpg`
+- image: `dataset/images/extreme_emergency/construction__tower_crane_luffing_jib.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3146,7 +3146,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_008`
 
-- image: `dataset/images/mining/mine_hoist_headframe.jpg`
+- image: `dataset/images/extreme_emergency/mining__mine_hoist_headframe.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3164,7 +3164,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_009`
 
-- image: `dataset/images/energy_power/high_voltage_transformer_yard.jpg`
+- image: `dataset/images/extreme_emergency/energy_power__high_voltage_transformer_yard.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3182,7 +3182,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_010`
 
-- image: `dataset/images/energy_renewable/wind_turbine.jpg`
+- image: `dataset/images/extreme_emergency/energy_renewable__wind_turbine.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3200,7 +3200,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_011`
 
-- image: `dataset/images/construction/tower_crane_luffing_jib.jpg`
+- image: `dataset/images/extreme_emergency/construction__tower_crane_luffing_jib.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3218,7 +3218,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_012`
 
-- image: `dataset/images/mining/mine_hoist_headframe.jpg`
+- image: `dataset/images/extreme_emergency/mining__mine_hoist_headframe.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3236,7 +3236,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_013`
 
-- image: `dataset/images/energy_power/high_voltage_transformer_yard.jpg`
+- image: `dataset/images/extreme_emergency/energy_power__high_voltage_transformer_yard.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3254,7 +3254,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_014`
 
-- image: `dataset/images/energy_renewable/wind_turbine.jpg`
+- image: `dataset/images/extreme_emergency/energy_renewable__wind_turbine.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3272,7 +3272,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_015`
 
-- image: `dataset/images/construction/tower_crane_luffing_jib.jpg`
+- image: `dataset/images/extreme_emergency/construction__tower_crane_luffing_jib.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3290,7 +3290,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_016`
 
-- image: `dataset/images/mining/mine_hoist_headframe.jpg`
+- image: `dataset/images/extreme_emergency/mining__mine_hoist_headframe.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3308,7 +3308,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_017`
 
-- image: `dataset/images/energy_power/high_voltage_transformer_yard.jpg`
+- image: `dataset/images/extreme_emergency/energy_power__high_voltage_transformer_yard.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3326,7 +3326,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_018`
 
-- image: `dataset/images/energy_renewable/wind_turbine.jpg`
+- image: `dataset/images/extreme_emergency/energy_renewable__wind_turbine.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3344,7 +3344,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_019`
 
-- image: `dataset/images/construction/tower_crane_luffing_jib.jpg`
+- image: `dataset/images/extreme_emergency/construction__tower_crane_luffing_jib.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3362,7 +3362,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_020`
 
-- image: `dataset/images/mining/mine_hoist_headframe.jpg`
+- image: `dataset/images/extreme_emergency/mining__mine_hoist_headframe.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3380,7 +3380,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_021`
 
-- image: `dataset/images/energy_power/high_voltage_transformer_yard.jpg`
+- image: `dataset/images/extreme_emergency/energy_power__high_voltage_transformer_yard.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3398,7 +3398,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_022`
 
-- image: `dataset/images/energy_renewable/wind_turbine.jpg`
+- image: `dataset/images/extreme_emergency/energy_renewable__wind_turbine.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3416,7 +3416,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_023`
 
-- image: `dataset/images/construction/tower_crane_luffing_jib.jpg`
+- image: `dataset/images/extreme_emergency/construction__tower_crane_luffing_jib.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3434,7 +3434,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_024`
 
-- image: `dataset/images/mining/mine_hoist_headframe.jpg`
+- image: `dataset/images/extreme_emergency/mining__mine_hoist_headframe.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3452,7 +3452,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_025`
 
-- image: `dataset/images/energy_power/high_voltage_transformer_yard.jpg`
+- image: `dataset/images/extreme_emergency/energy_power__high_voltage_transformer_yard.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3470,7 +3470,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_026`
 
-- image: `dataset/images/energy_renewable/wind_turbine.jpg`
+- image: `dataset/images/extreme_emergency/energy_renewable__wind_turbine.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3488,7 +3488,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_027`
 
-- image: `dataset/images/construction/tower_crane_luffing_jib.jpg`
+- image: `dataset/images/extreme_emergency/construction__tower_crane_luffing_jib.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3506,7 +3506,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_028`
 
-- image: `dataset/images/mining/mine_hoist_headframe.jpg`
+- image: `dataset/images/extreme_emergency/mining__mine_hoist_headframe.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3524,7 +3524,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_029`
 
-- image: `dataset/images/energy_power/high_voltage_transformer_yard.jpg`
+- image: `dataset/images/extreme_emergency/energy_power__high_voltage_transformer_yard.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3542,7 +3542,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_030`
 
-- image: `dataset/images/energy_renewable/wind_turbine.jpg`
+- image: `dataset/images/extreme_emergency/energy_renewable__wind_turbine.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3560,7 +3560,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_031`
 
-- image: `dataset/images/construction/tower_crane_luffing_jib.jpg`
+- image: `dataset/images/extreme_emergency/construction__tower_crane_luffing_jib.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3578,7 +3578,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_032`
 
-- image: `dataset/images/mining/mine_hoist_headframe.jpg`
+- image: `dataset/images/extreme_emergency/mining__mine_hoist_headframe.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3596,7 +3596,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_033`
 
-- image: `dataset/images/energy_power/high_voltage_transformer_yard.jpg`
+- image: `dataset/images/extreme_emergency/energy_power__high_voltage_transformer_yard.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3614,7 +3614,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `emerg_034`
 
-- image: `dataset/images/energy_renewable/wind_turbine.jpg`
+- image: `dataset/images/extreme_emergency/energy_renewable__wind_turbine.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -3636,7 +3636,7 @@ Task objective: extreme emergency for topology mutation and failure. Core scenar
 
 #### `hload_051`
 
-- image: `dataset/images/construction/trenchless_pipe_jacking_machine.jpg`
+- image: `dataset/images/heavy_load_construction/construction__trenchless_pipe_jacking_machine.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -3654,7 +3654,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_052`
 
-- image: `dataset/images/construction/tunnel_boring_machine.jpg`
+- image: `dataset/images/heavy_load_construction/construction__tunnel_boring_machine.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -3672,7 +3672,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_053`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/heavy_load_construction/chemical__piping_manifold.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -3690,7 +3690,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_054`
 
-- image: `dataset/images/mining/thickener_tank_farm.jpg`
+- image: `dataset/images/heavy_load_construction/mining__thickener_tank_farm.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -3708,7 +3708,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_055`
 
-- image: `dataset/images/construction/trenchless_pipe_jacking_machine.jpg`
+- image: `dataset/images/heavy_load_construction/construction__trenchless_pipe_jacking_machine.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -3726,7 +3726,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_056`
 
-- image: `dataset/images/construction/tunnel_boring_machine.jpg`
+- image: `dataset/images/heavy_load_construction/construction__tunnel_boring_machine.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -3744,7 +3744,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_057`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/heavy_load_construction/chemical__piping_manifold.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -3762,7 +3762,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_058`
 
-- image: `dataset/images/mining/thickener_tank_farm.jpg`
+- image: `dataset/images/heavy_load_construction/mining__thickener_tank_farm.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -3780,7 +3780,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_059`
 
-- image: `dataset/images/construction/trenchless_pipe_jacking_machine.jpg`
+- image: `dataset/images/heavy_load_construction/construction__trenchless_pipe_jacking_machine.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -3798,7 +3798,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_060`
 
-- image: `dataset/images/construction/tunnel_boring_machine.jpg`
+- image: `dataset/images/heavy_load_construction/construction__tunnel_boring_machine.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -3816,7 +3816,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_061`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/heavy_load_construction/chemical__piping_manifold.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -3834,7 +3834,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_062`
 
-- image: `dataset/images/mining/thickener_tank_farm.jpg`
+- image: `dataset/images/heavy_load_construction/mining__thickener_tank_farm.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -3852,7 +3852,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_063`
 
-- image: `dataset/images/construction/trenchless_pipe_jacking_machine.jpg`
+- image: `dataset/images/heavy_load_construction/construction__trenchless_pipe_jacking_machine.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -3870,7 +3870,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_064`
 
-- image: `dataset/images/construction/tunnel_boring_machine.jpg`
+- image: `dataset/images/heavy_load_construction/construction__tunnel_boring_machine.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -3888,7 +3888,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_065`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/heavy_load_construction/chemical__piping_manifold.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -3906,7 +3906,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_066`
 
-- image: `dataset/images/mining/thickener_tank_farm.jpg`
+- image: `dataset/images/heavy_load_construction/mining__thickener_tank_farm.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -3924,7 +3924,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_067`
 
-- image: `dataset/images/construction/trenchless_pipe_jacking_machine.jpg`
+- image: `dataset/images/heavy_load_construction/construction__trenchless_pipe_jacking_machine.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -3942,7 +3942,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_068`
 
-- image: `dataset/images/construction/tunnel_boring_machine.jpg`
+- image: `dataset/images/heavy_load_construction/construction__tunnel_boring_machine.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -3960,7 +3960,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_069`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/heavy_load_construction/chemical__piping_manifold.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -3978,7 +3978,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_070`
 
-- image: `dataset/images/mining/thickener_tank_farm.jpg`
+- image: `dataset/images/heavy_load_construction/mining__thickener_tank_farm.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -3996,7 +3996,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_071`
 
-- image: `dataset/images/construction/trenchless_pipe_jacking_machine.jpg`
+- image: `dataset/images/heavy_load_construction/construction__trenchless_pipe_jacking_machine.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -4014,7 +4014,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_072`
 
-- image: `dataset/images/construction/tunnel_boring_machine.jpg`
+- image: `dataset/images/heavy_load_construction/construction__tunnel_boring_machine.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -4032,7 +4032,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_073`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/heavy_load_construction/chemical__piping_manifold.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -4050,7 +4050,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_074`
 
-- image: `dataset/images/mining/thickener_tank_farm.jpg`
+- image: `dataset/images/heavy_load_construction/mining__thickener_tank_farm.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -4068,7 +4068,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_075`
 
-- image: `dataset/images/construction/trenchless_pipe_jacking_machine.jpg`
+- image: `dataset/images/heavy_load_construction/construction__trenchless_pipe_jacking_machine.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -4088,7 +4088,7 @@ Task objective: heavy load construction for fluid dynamics and thermodynamics. C
 
 #### `hload_001`
 
-- image: `dataset/images/construction/excavator.jpg`
+- image: `dataset/images/heavy_load_construction/construction__excavator.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4106,7 +4106,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_002`
 
-- image: `dataset/images/construction/lattice_boom_crawler_crane.jpg`
+- image: `dataset/images/heavy_load_construction/construction__lattice_boom_crawler_crane.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4124,7 +4124,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_003`
 
-- image: `dataset/images/construction/mobile_crane_telescoping.jpg`
+- image: `dataset/images/heavy_load_construction/construction__mobile_crane_telescoping.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4142,7 +4142,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_004`
 
-- image: `dataset/images/mining/hydraulic_shovel_loading.jpg`
+- image: `dataset/images/heavy_load_construction/mining__hydraulic_shovel_loading.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4160,7 +4160,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_005`
 
-- image: `dataset/images/construction/excavator.jpg`
+- image: `dataset/images/heavy_load_construction/construction__excavator.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4178,7 +4178,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_006`
 
-- image: `dataset/images/construction/lattice_boom_crawler_crane.jpg`
+- image: `dataset/images/heavy_load_construction/construction__lattice_boom_crawler_crane.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4196,7 +4196,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_007`
 
-- image: `dataset/images/construction/mobile_crane_telescoping.jpg`
+- image: `dataset/images/heavy_load_construction/construction__mobile_crane_telescoping.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4214,7 +4214,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_008`
 
-- image: `dataset/images/mining/hydraulic_shovel_loading.jpg`
+- image: `dataset/images/heavy_load_construction/mining__hydraulic_shovel_loading.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4232,7 +4232,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_009`
 
-- image: `dataset/images/construction/excavator.jpg`
+- image: `dataset/images/heavy_load_construction/construction__excavator.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4250,7 +4250,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_010`
 
-- image: `dataset/images/construction/lattice_boom_crawler_crane.jpg`
+- image: `dataset/images/heavy_load_construction/construction__lattice_boom_crawler_crane.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4268,7 +4268,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_011`
 
-- image: `dataset/images/construction/mobile_crane_telescoping.jpg`
+- image: `dataset/images/heavy_load_construction/construction__mobile_crane_telescoping.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4286,7 +4286,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_012`
 
-- image: `dataset/images/mining/hydraulic_shovel_loading.jpg`
+- image: `dataset/images/heavy_load_construction/mining__hydraulic_shovel_loading.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4304,7 +4304,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_013`
 
-- image: `dataset/images/construction/excavator.jpg`
+- image: `dataset/images/heavy_load_construction/construction__excavator.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4322,7 +4322,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_014`
 
-- image: `dataset/images/construction/lattice_boom_crawler_crane.jpg`
+- image: `dataset/images/heavy_load_construction/construction__lattice_boom_crawler_crane.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4340,7 +4340,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_015`
 
-- image: `dataset/images/construction/mobile_crane_telescoping.jpg`
+- image: `dataset/images/heavy_load_construction/construction__mobile_crane_telescoping.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4358,7 +4358,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_016`
 
-- image: `dataset/images/mining/hydraulic_shovel_loading.jpg`
+- image: `dataset/images/heavy_load_construction/mining__hydraulic_shovel_loading.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4376,7 +4376,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_017`
 
-- image: `dataset/images/construction/excavator.jpg`
+- image: `dataset/images/heavy_load_construction/construction__excavator.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4394,7 +4394,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_018`
 
-- image: `dataset/images/construction/lattice_boom_crawler_crane.jpg`
+- image: `dataset/images/heavy_load_construction/construction__lattice_boom_crawler_crane.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4412,7 +4412,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_019`
 
-- image: `dataset/images/construction/mobile_crane_telescoping.jpg`
+- image: `dataset/images/heavy_load_construction/construction__mobile_crane_telescoping.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4430,7 +4430,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_020`
 
-- image: `dataset/images/mining/hydraulic_shovel_loading.jpg`
+- image: `dataset/images/heavy_load_construction/mining__hydraulic_shovel_loading.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4448,7 +4448,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_021`
 
-- image: `dataset/images/construction/excavator.jpg`
+- image: `dataset/images/heavy_load_construction/construction__excavator.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4466,7 +4466,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_022`
 
-- image: `dataset/images/construction/lattice_boom_crawler_crane.jpg`
+- image: `dataset/images/heavy_load_construction/construction__lattice_boom_crawler_crane.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4484,7 +4484,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_023`
 
-- image: `dataset/images/construction/mobile_crane_telescoping.jpg`
+- image: `dataset/images/heavy_load_construction/construction__mobile_crane_telescoping.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4502,7 +4502,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_024`
 
-- image: `dataset/images/mining/hydraulic_shovel_loading.jpg`
+- image: `dataset/images/heavy_load_construction/mining__hydraulic_shovel_loading.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4520,7 +4520,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_025`
 
-- image: `dataset/images/construction/excavator.jpg`
+- image: `dataset/images/heavy_load_construction/construction__excavator.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -4540,7 +4540,7 @@ Task objective: heavy load construction for rigid body kinematics and coupling. 
 
 #### `hload_076`
 
-- image: `dataset/images/construction/cable_stayed_bridge_deck_segment.jpg`
+- image: `dataset/images/heavy_load_construction/construction__cable_stayed_bridge_deck_segment.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4558,7 +4558,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_077`
 
-- image: `dataset/images/construction/precast_yard_stacking_gantry.jpg`
+- image: `dataset/images/heavy_load_construction/construction__precast_yard_stacking_gantry.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4576,7 +4576,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_078`
 
-- image: `dataset/images/maritime/container_terminal_quay_crane.jpg`
+- image: `dataset/images/heavy_load_construction/maritime__container_terminal_quay_crane.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4594,7 +4594,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_079`
 
-- image: `dataset/images/construction/cable_stayed_bridge_deck_segment.jpg`
+- image: `dataset/images/heavy_load_construction/construction__cable_stayed_bridge_deck_segment.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4612,7 +4612,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_080`
 
-- image: `dataset/images/construction/precast_yard_stacking_gantry.jpg`
+- image: `dataset/images/heavy_load_construction/construction__precast_yard_stacking_gantry.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4630,7 +4630,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_081`
 
-- image: `dataset/images/maritime/container_terminal_quay_crane.jpg`
+- image: `dataset/images/heavy_load_construction/maritime__container_terminal_quay_crane.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4648,7 +4648,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_082`
 
-- image: `dataset/images/construction/cable_stayed_bridge_deck_segment.jpg`
+- image: `dataset/images/heavy_load_construction/construction__cable_stayed_bridge_deck_segment.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4666,7 +4666,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_083`
 
-- image: `dataset/images/construction/precast_yard_stacking_gantry.jpg`
+- image: `dataset/images/heavy_load_construction/construction__precast_yard_stacking_gantry.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4684,7 +4684,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_084`
 
-- image: `dataset/images/maritime/container_terminal_quay_crane.jpg`
+- image: `dataset/images/heavy_load_construction/maritime__container_terminal_quay_crane.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4702,7 +4702,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_085`
 
-- image: `dataset/images/construction/cable_stayed_bridge_deck_segment.jpg`
+- image: `dataset/images/heavy_load_construction/construction__cable_stayed_bridge_deck_segment.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4720,7 +4720,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_086`
 
-- image: `dataset/images/construction/precast_yard_stacking_gantry.jpg`
+- image: `dataset/images/heavy_load_construction/construction__precast_yard_stacking_gantry.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4738,7 +4738,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_087`
 
-- image: `dataset/images/maritime/container_terminal_quay_crane.jpg`
+- image: `dataset/images/heavy_load_construction/maritime__container_terminal_quay_crane.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4756,7 +4756,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_088`
 
-- image: `dataset/images/construction/cable_stayed_bridge_deck_segment.jpg`
+- image: `dataset/images/heavy_load_construction/construction__cable_stayed_bridge_deck_segment.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4774,7 +4774,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_089`
 
-- image: `dataset/images/construction/precast_yard_stacking_gantry.jpg`
+- image: `dataset/images/heavy_load_construction/construction__precast_yard_stacking_gantry.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4792,7 +4792,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_090`
 
-- image: `dataset/images/maritime/container_terminal_quay_crane.jpg`
+- image: `dataset/images/heavy_load_construction/maritime__container_terminal_quay_crane.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4810,7 +4810,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_091`
 
-- image: `dataset/images/construction/cable_stayed_bridge_deck_segment.jpg`
+- image: `dataset/images/heavy_load_construction/construction__cable_stayed_bridge_deck_segment.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4828,7 +4828,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_092`
 
-- image: `dataset/images/construction/precast_yard_stacking_gantry.jpg`
+- image: `dataset/images/heavy_load_construction/construction__precast_yard_stacking_gantry.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4846,7 +4846,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_093`
 
-- image: `dataset/images/maritime/container_terminal_quay_crane.jpg`
+- image: `dataset/images/heavy_load_construction/maritime__container_terminal_quay_crane.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4864,7 +4864,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_094`
 
-- image: `dataset/images/construction/cable_stayed_bridge_deck_segment.jpg`
+- image: `dataset/images/heavy_load_construction/construction__cable_stayed_bridge_deck_segment.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4882,7 +4882,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_095`
 
-- image: `dataset/images/construction/precast_yard_stacking_gantry.jpg`
+- image: `dataset/images/heavy_load_construction/construction__precast_yard_stacking_gantry.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4900,7 +4900,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_096`
 
-- image: `dataset/images/maritime/container_terminal_quay_crane.jpg`
+- image: `dataset/images/heavy_load_construction/maritime__container_terminal_quay_crane.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4918,7 +4918,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_097`
 
-- image: `dataset/images/construction/cable_stayed_bridge_deck_segment.jpg`
+- image: `dataset/images/heavy_load_construction/construction__cable_stayed_bridge_deck_segment.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4936,7 +4936,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_098`
 
-- image: `dataset/images/construction/precast_yard_stacking_gantry.jpg`
+- image: `dataset/images/heavy_load_construction/construction__precast_yard_stacking_gantry.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4954,7 +4954,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_099`
 
-- image: `dataset/images/maritime/container_terminal_quay_crane.jpg`
+- image: `dataset/images/heavy_load_construction/maritime__container_terminal_quay_crane.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4972,7 +4972,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_100`
 
-- image: `dataset/images/construction/cable_stayed_bridge_deck_segment.jpg`
+- image: `dataset/images/heavy_load_construction/construction__cable_stayed_bridge_deck_segment.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -4992,7 +4992,7 @@ Task objective: heavy load construction for spatial exploration and viewpoint. C
 
 #### `hload_026`
 
-- image: `dataset/images/construction/lattice_boom_crawler_crane.jpg`
+- image: `dataset/images/heavy_load_construction/construction__lattice_boom_crawler_crane.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5010,7 +5010,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_027`
 
-- image: `dataset/images/construction/tower_crane_luffing.jpg`
+- image: `dataset/images/heavy_load_construction/construction__tower_crane_luffing.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5028,7 +5028,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_028`
 
-- image: `dataset/images/maritime/cable_laying_ship_drum.jpg`
+- image: `dataset/images/heavy_load_construction/maritime__cable_laying_ship_drum.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5046,7 +5046,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_029`
 
-- image: `dataset/images/mining/mine_hoist_headframe.jpg`
+- image: `dataset/images/heavy_load_construction/mining__mine_hoist_headframe.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5064,7 +5064,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_030`
 
-- image: `dataset/images/construction/lattice_boom_crawler_crane.jpg`
+- image: `dataset/images/heavy_load_construction/construction__lattice_boom_crawler_crane.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5082,7 +5082,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_031`
 
-- image: `dataset/images/construction/tower_crane_luffing.jpg`
+- image: `dataset/images/heavy_load_construction/construction__tower_crane_luffing.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5100,7 +5100,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_032`
 
-- image: `dataset/images/maritime/cable_laying_ship_drum.jpg`
+- image: `dataset/images/heavy_load_construction/maritime__cable_laying_ship_drum.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5118,7 +5118,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_033`
 
-- image: `dataset/images/mining/mine_hoist_headframe.jpg`
+- image: `dataset/images/heavy_load_construction/mining__mine_hoist_headframe.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5136,7 +5136,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_034`
 
-- image: `dataset/images/construction/lattice_boom_crawler_crane.jpg`
+- image: `dataset/images/heavy_load_construction/construction__lattice_boom_crawler_crane.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5154,7 +5154,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_035`
 
-- image: `dataset/images/construction/tower_crane_luffing.jpg`
+- image: `dataset/images/heavy_load_construction/construction__tower_crane_luffing.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5172,7 +5172,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_036`
 
-- image: `dataset/images/maritime/cable_laying_ship_drum.jpg`
+- image: `dataset/images/heavy_load_construction/maritime__cable_laying_ship_drum.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5190,7 +5190,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_037`
 
-- image: `dataset/images/mining/mine_hoist_headframe.jpg`
+- image: `dataset/images/heavy_load_construction/mining__mine_hoist_headframe.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5208,7 +5208,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_038`
 
-- image: `dataset/images/construction/lattice_boom_crawler_crane.jpg`
+- image: `dataset/images/heavy_load_construction/construction__lattice_boom_crawler_crane.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5226,7 +5226,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_039`
 
-- image: `dataset/images/construction/tower_crane_luffing.jpg`
+- image: `dataset/images/heavy_load_construction/construction__tower_crane_luffing.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5244,7 +5244,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_040`
 
-- image: `dataset/images/maritime/cable_laying_ship_drum.jpg`
+- image: `dataset/images/heavy_load_construction/maritime__cable_laying_ship_drum.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5262,7 +5262,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_041`
 
-- image: `dataset/images/mining/mine_hoist_headframe.jpg`
+- image: `dataset/images/heavy_load_construction/mining__mine_hoist_headframe.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5280,7 +5280,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_042`
 
-- image: `dataset/images/construction/lattice_boom_crawler_crane.jpg`
+- image: `dataset/images/heavy_load_construction/construction__lattice_boom_crawler_crane.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5298,7 +5298,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_043`
 
-- image: `dataset/images/construction/tower_crane_luffing.jpg`
+- image: `dataset/images/heavy_load_construction/construction__tower_crane_luffing.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5316,7 +5316,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_044`
 
-- image: `dataset/images/maritime/cable_laying_ship_drum.jpg`
+- image: `dataset/images/heavy_load_construction/maritime__cable_laying_ship_drum.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5334,7 +5334,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_045`
 
-- image: `dataset/images/mining/mine_hoist_headframe.jpg`
+- image: `dataset/images/heavy_load_construction/mining__mine_hoist_headframe.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5352,7 +5352,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_046`
 
-- image: `dataset/images/construction/lattice_boom_crawler_crane.jpg`
+- image: `dataset/images/heavy_load_construction/construction__lattice_boom_crawler_crane.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5370,7 +5370,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_047`
 
-- image: `dataset/images/construction/tower_crane_luffing.jpg`
+- image: `dataset/images/heavy_load_construction/construction__tower_crane_luffing.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5388,7 +5388,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_048`
 
-- image: `dataset/images/maritime/cable_laying_ship_drum.jpg`
+- image: `dataset/images/heavy_load_construction/maritime__cable_laying_ship_drum.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5406,7 +5406,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_049`
 
-- image: `dataset/images/mining/mine_hoist_headframe.jpg`
+- image: `dataset/images/heavy_load_construction/mining__mine_hoist_headframe.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5424,7 +5424,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `hload_050`
 
-- image: `dataset/images/construction/lattice_boom_crawler_crane.jpg`
+- image: `dataset/images/heavy_load_construction/construction__lattice_boom_crawler_crane.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -5446,7 +5446,7 @@ Task objective: heavy load construction for topology mutation and failure. Core 
 
 #### `pdef_051`
 
-- image: `dataset/images/manufacturing/cnc_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__cnc_machine.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5464,7 +5464,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_052`
 
-- image: `dataset/images/manufacturing/industrial_washing_line.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__industrial_washing_line.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5482,7 +5482,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_053`
 
-- image: `dataset/images/chemical/centrifuge_battery.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__centrifuge_battery.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5500,7 +5500,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_054`
 
-- image: `dataset/images/manufacturing/automated_grinding_cell.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__automated_grinding_cell.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5518,7 +5518,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_055`
 
-- image: `dataset/images/manufacturing/cnc_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__cnc_machine.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5536,7 +5536,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_056`
 
-- image: `dataset/images/manufacturing/industrial_washing_line.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__industrial_washing_line.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5554,7 +5554,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_057`
 
-- image: `dataset/images/chemical/centrifuge_battery.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__centrifuge_battery.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5572,7 +5572,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_058`
 
-- image: `dataset/images/manufacturing/automated_grinding_cell.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__automated_grinding_cell.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5590,7 +5590,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_059`
 
-- image: `dataset/images/manufacturing/cnc_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__cnc_machine.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5608,7 +5608,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_060`
 
-- image: `dataset/images/manufacturing/industrial_washing_line.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__industrial_washing_line.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5626,7 +5626,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_061`
 
-- image: `dataset/images/chemical/centrifuge_battery.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__centrifuge_battery.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5644,7 +5644,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_062`
 
-- image: `dataset/images/manufacturing/automated_grinding_cell.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__automated_grinding_cell.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5662,7 +5662,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_063`
 
-- image: `dataset/images/manufacturing/cnc_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__cnc_machine.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5680,7 +5680,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_064`
 
-- image: `dataset/images/manufacturing/industrial_washing_line.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__industrial_washing_line.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5698,7 +5698,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_065`
 
-- image: `dataset/images/chemical/centrifuge_battery.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__centrifuge_battery.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5716,7 +5716,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_066`
 
-- image: `dataset/images/manufacturing/automated_grinding_cell.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__automated_grinding_cell.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5734,7 +5734,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_067`
 
-- image: `dataset/images/manufacturing/cnc_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__cnc_machine.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5752,7 +5752,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_068`
 
-- image: `dataset/images/manufacturing/industrial_washing_line.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__industrial_washing_line.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5770,7 +5770,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_069`
 
-- image: `dataset/images/chemical/centrifuge_battery.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__centrifuge_battery.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5788,7 +5788,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_070`
 
-- image: `dataset/images/manufacturing/automated_grinding_cell.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__automated_grinding_cell.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5806,7 +5806,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_071`
 
-- image: `dataset/images/manufacturing/cnc_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__cnc_machine.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5824,7 +5824,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_072`
 
-- image: `dataset/images/manufacturing/industrial_washing_line.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__industrial_washing_line.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5842,7 +5842,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_073`
 
-- image: `dataset/images/chemical/centrifuge_battery.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__centrifuge_battery.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5860,7 +5860,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_074`
 
-- image: `dataset/images/manufacturing/automated_grinding_cell.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__automated_grinding_cell.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5878,7 +5878,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_075`
 
-- image: `dataset/images/manufacturing/cnc_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__cnc_machine.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -5898,7 +5898,7 @@ Task objective: precision defect gen for fluid dynamics and thermodynamics. Core
 
 #### `pdef_001`
 
-- image: `dataset/images/manufacturing/cnc_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__cnc_machine.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -5916,7 +5916,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_002`
 
-- image: `dataset/images/manufacturing/five_axis_machining_center.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__five_axis_machining_center.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -5934,7 +5934,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_003`
 
-- image: `dataset/images/manufacturing/gear_hobbing_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__gear_hobbing_machine.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -5952,7 +5952,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_004`
 
-- image: `dataset/images/manufacturing/automated_grinding_cell.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__automated_grinding_cell.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -5970,7 +5970,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_005`
 
-- image: `dataset/images/manufacturing/cnc_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__cnc_machine.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -5988,7 +5988,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_006`
 
-- image: `dataset/images/manufacturing/five_axis_machining_center.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__five_axis_machining_center.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -6006,7 +6006,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_007`
 
-- image: `dataset/images/manufacturing/gear_hobbing_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__gear_hobbing_machine.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -6024,7 +6024,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_008`
 
-- image: `dataset/images/manufacturing/automated_grinding_cell.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__automated_grinding_cell.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -6042,7 +6042,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_009`
 
-- image: `dataset/images/manufacturing/cnc_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__cnc_machine.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -6060,7 +6060,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_010`
 
-- image: `dataset/images/manufacturing/five_axis_machining_center.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__five_axis_machining_center.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -6078,7 +6078,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_011`
 
-- image: `dataset/images/manufacturing/gear_hobbing_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__gear_hobbing_machine.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -6096,7 +6096,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_012`
 
-- image: `dataset/images/manufacturing/automated_grinding_cell.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__automated_grinding_cell.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -6114,7 +6114,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_013`
 
-- image: `dataset/images/manufacturing/cnc_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__cnc_machine.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -6132,7 +6132,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_014`
 
-- image: `dataset/images/manufacturing/five_axis_machining_center.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__five_axis_machining_center.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -6150,7 +6150,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_015`
 
-- image: `dataset/images/manufacturing/gear_hobbing_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__gear_hobbing_machine.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -6168,7 +6168,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_016`
 
-- image: `dataset/images/manufacturing/automated_grinding_cell.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__automated_grinding_cell.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -6186,7 +6186,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_017`
 
-- image: `dataset/images/manufacturing/cnc_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__cnc_machine.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -6204,7 +6204,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_018`
 
-- image: `dataset/images/manufacturing/five_axis_machining_center.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__five_axis_machining_center.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -6222,7 +6222,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_019`
 
-- image: `dataset/images/manufacturing/gear_hobbing_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__gear_hobbing_machine.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -6240,7 +6240,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_020`
 
-- image: `dataset/images/manufacturing/automated_grinding_cell.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__automated_grinding_cell.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -6258,7 +6258,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_021`
 
-- image: `dataset/images/manufacturing/cnc_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__cnc_machine.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -6276,7 +6276,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_022`
 
-- image: `dataset/images/manufacturing/five_axis_machining_center.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__five_axis_machining_center.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -6294,7 +6294,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_023`
 
-- image: `dataset/images/manufacturing/gear_hobbing_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__gear_hobbing_machine.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -6312,7 +6312,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_024`
 
-- image: `dataset/images/manufacturing/automated_grinding_cell.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__automated_grinding_cell.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -6330,7 +6330,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_025`
 
-- image: `dataset/images/manufacturing/cnc_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__cnc_machine.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -6350,7 +6350,7 @@ Task objective: precision defect gen for rigid body kinematics and coupling. Cor
 
 #### `pdef_076`
 
-- image: `dataset/images/chemical/heat_exchanger_bundle.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__heat_exchanger_bundle.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6368,7 +6368,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_077`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__piping_manifold.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6386,7 +6386,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_078`
 
-- image: `dataset/images/oil_gas/gas_turbine_compressor_section.jpg`
+- image: `dataset/images/precision_defect_gen/oil_gas__gas_turbine_compressor_section.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6404,7 +6404,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_079`
 
-- image: `dataset/images/chemical/heat_exchanger_bundle.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__heat_exchanger_bundle.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6422,7 +6422,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_080`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__piping_manifold.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6440,7 +6440,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_081`
 
-- image: `dataset/images/oil_gas/gas_turbine_compressor_section.jpg`
+- image: `dataset/images/precision_defect_gen/oil_gas__gas_turbine_compressor_section.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6458,7 +6458,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_082`
 
-- image: `dataset/images/chemical/heat_exchanger_bundle.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__heat_exchanger_bundle.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6476,7 +6476,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_083`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__piping_manifold.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6494,7 +6494,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_084`
 
-- image: `dataset/images/oil_gas/gas_turbine_compressor_section.jpg`
+- image: `dataset/images/precision_defect_gen/oil_gas__gas_turbine_compressor_section.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6512,7 +6512,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_085`
 
-- image: `dataset/images/chemical/heat_exchanger_bundle.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__heat_exchanger_bundle.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6530,7 +6530,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_086`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__piping_manifold.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6548,7 +6548,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_087`
 
-- image: `dataset/images/oil_gas/gas_turbine_compressor_section.jpg`
+- image: `dataset/images/precision_defect_gen/oil_gas__gas_turbine_compressor_section.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6566,7 +6566,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_088`
 
-- image: `dataset/images/chemical/heat_exchanger_bundle.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__heat_exchanger_bundle.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6584,7 +6584,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_089`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__piping_manifold.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6602,7 +6602,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_090`
 
-- image: `dataset/images/oil_gas/gas_turbine_compressor_section.jpg`
+- image: `dataset/images/precision_defect_gen/oil_gas__gas_turbine_compressor_section.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6620,7 +6620,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_091`
 
-- image: `dataset/images/chemical/heat_exchanger_bundle.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__heat_exchanger_bundle.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6638,7 +6638,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_092`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__piping_manifold.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6656,7 +6656,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_093`
 
-- image: `dataset/images/oil_gas/gas_turbine_compressor_section.jpg`
+- image: `dataset/images/precision_defect_gen/oil_gas__gas_turbine_compressor_section.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6674,7 +6674,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_094`
 
-- image: `dataset/images/chemical/heat_exchanger_bundle.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__heat_exchanger_bundle.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6692,7 +6692,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_095`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__piping_manifold.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6710,7 +6710,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_096`
 
-- image: `dataset/images/oil_gas/gas_turbine_compressor_section.jpg`
+- image: `dataset/images/precision_defect_gen/oil_gas__gas_turbine_compressor_section.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6728,7 +6728,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_097`
 
-- image: `dataset/images/chemical/heat_exchanger_bundle.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__heat_exchanger_bundle.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6746,7 +6746,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_098`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__piping_manifold.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6764,7 +6764,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_099`
 
-- image: `dataset/images/oil_gas/gas_turbine_compressor_section.jpg`
+- image: `dataset/images/precision_defect_gen/oil_gas__gas_turbine_compressor_section.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6782,7 +6782,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_100`
 
-- image: `dataset/images/chemical/heat_exchanger_bundle.jpg`
+- image: `dataset/images/precision_defect_gen/chemical__heat_exchanger_bundle.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -6802,7 +6802,7 @@ Task objective: precision defect gen for spatial exploration and viewpoint. Core
 
 #### `pdef_026`
 
-- image: `dataset/images/electronics/pcb_circuit_board.jpg`
+- image: `dataset/images/precision_defect_gen/electronics__pcb_circuit_board.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -6820,7 +6820,7 @@ Task objective: precision defect gen for topology mutation and failure. Core sce
 
 #### `pdef_027`
 
-- image: `dataset/images/electronics/micro_009.jpg`
+- image: `dataset/images/precision_defect_gen/electronics__micro_009.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -6838,7 +6838,7 @@ Task objective: precision defect gen for topology mutation and failure. Core sce
 
 #### `pdef_028`
 
-- image: `dataset/images/manufacturing/gear_hobbing_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__gear_hobbing_machine.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -6856,25 +6856,25 @@ Task objective: precision defect gen for topology mutation and failure. Core sce
 
 #### `pdef_029`
 
-- image: `dataset/images/electronics/wire_bonding_machine.jpg`
+- image: `dataset/images/precision_defect_gen/electronics__pcb_circuit_board.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
 Generation prompt:
 
 ```text
-Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Camera: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Action: Generate only the requested local break, short, crack, missing tooth, rope deformation, or structural failure; keep every unaffected area stable. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes.
+Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: pcb circuit board. Camera: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Action: Generate only the requested local break, short, crack, missing tooth, rope deformation, or structural failure; keep every unaffected area stable. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes.
 ```
 
 Evaluation prompt:
 
 ```text
-Task objective: precision defect gen for topology mutation and failure. Core scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Motion requirement / viewpoint motion fidelity: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.80, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.05, reference_and_motion_fidelity=1.35, temporal_consistency=1.25.
+Task objective: precision defect gen for topology mutation and failure. Core scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: pcb circuit board. Motion requirement / viewpoint motion fidelity: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.80, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.05, reference_and_motion_fidelity=1.35, temporal_consistency=1.25.
 ```
 
 #### `pdef_030`
 
-- image: `dataset/images/electronics/pcb_circuit_board.jpg`
+- image: `dataset/images/precision_defect_gen/electronics__pcb_circuit_board.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -6892,7 +6892,7 @@ Task objective: precision defect gen for topology mutation and failure. Core sce
 
 #### `pdef_031`
 
-- image: `dataset/images/electronics/micro_009.jpg`
+- image: `dataset/images/precision_defect_gen/electronics__micro_009.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -6910,7 +6910,7 @@ Task objective: precision defect gen for topology mutation and failure. Core sce
 
 #### `pdef_032`
 
-- image: `dataset/images/manufacturing/gear_hobbing_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__gear_hobbing_machine.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -6928,25 +6928,25 @@ Task objective: precision defect gen for topology mutation and failure. Core sce
 
 #### `pdef_033`
 
-- image: `dataset/images/electronics/wire_bonding_machine.jpg`
+- image: `dataset/images/precision_defect_gen/electronics__pcb_circuit_board.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
 Generation prompt:
 
 ```text
-Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Camera: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Action: Generate only the requested local break, short, crack, missing tooth, rope deformation, or structural failure; keep every unaffected area stable. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes.
+Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: pcb circuit board. Camera: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Action: Generate only the requested local break, short, crack, missing tooth, rope deformation, or structural failure; keep every unaffected area stable. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes.
 ```
 
 Evaluation prompt:
 
 ```text
-Task objective: precision defect gen for topology mutation and failure. Core scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Motion requirement / viewpoint motion fidelity: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.80, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.05, reference_and_motion_fidelity=1.35, temporal_consistency=1.25.
+Task objective: precision defect gen for topology mutation and failure. Core scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: pcb circuit board. Motion requirement / viewpoint motion fidelity: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.80, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.05, reference_and_motion_fidelity=1.35, temporal_consistency=1.25.
 ```
 
 #### `pdef_034`
 
-- image: `dataset/images/electronics/pcb_circuit_board.jpg`
+- image: `dataset/images/precision_defect_gen/electronics__pcb_circuit_board.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -6964,7 +6964,7 @@ Task objective: precision defect gen for topology mutation and failure. Core sce
 
 #### `pdef_035`
 
-- image: `dataset/images/electronics/micro_009.jpg`
+- image: `dataset/images/precision_defect_gen/electronics__micro_009.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -6982,7 +6982,7 @@ Task objective: precision defect gen for topology mutation and failure. Core sce
 
 #### `pdef_036`
 
-- image: `dataset/images/manufacturing/gear_hobbing_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__gear_hobbing_machine.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -7000,25 +7000,25 @@ Task objective: precision defect gen for topology mutation and failure. Core sce
 
 #### `pdef_037`
 
-- image: `dataset/images/electronics/wire_bonding_machine.jpg`
+- image: `dataset/images/precision_defect_gen/electronics__pcb_circuit_board.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
 Generation prompt:
 
 ```text
-Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Camera: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Action: Generate only the requested local break, short, crack, missing tooth, rope deformation, or structural failure; keep every unaffected area stable. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes.
+Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: pcb circuit board. Camera: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Action: Generate only the requested local break, short, crack, missing tooth, rope deformation, or structural failure; keep every unaffected area stable. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes.
 ```
 
 Evaluation prompt:
 
 ```text
-Task objective: precision defect gen for topology mutation and failure. Core scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Motion requirement / viewpoint motion fidelity: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.80, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.05, reference_and_motion_fidelity=1.35, temporal_consistency=1.25.
+Task objective: precision defect gen for topology mutation and failure. Core scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: pcb circuit board. Motion requirement / viewpoint motion fidelity: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.80, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.05, reference_and_motion_fidelity=1.35, temporal_consistency=1.25.
 ```
 
 #### `pdef_038`
 
-- image: `dataset/images/electronics/pcb_circuit_board.jpg`
+- image: `dataset/images/precision_defect_gen/electronics__pcb_circuit_board.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -7036,7 +7036,7 @@ Task objective: precision defect gen for topology mutation and failure. Core sce
 
 #### `pdef_039`
 
-- image: `dataset/images/electronics/micro_009.jpg`
+- image: `dataset/images/precision_defect_gen/electronics__micro_009.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -7054,7 +7054,7 @@ Task objective: precision defect gen for topology mutation and failure. Core sce
 
 #### `pdef_040`
 
-- image: `dataset/images/manufacturing/gear_hobbing_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__gear_hobbing_machine.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -7072,25 +7072,25 @@ Task objective: precision defect gen for topology mutation and failure. Core sce
 
 #### `pdef_041`
 
-- image: `dataset/images/electronics/wire_bonding_machine.jpg`
+- image: `dataset/images/precision_defect_gen/electronics__pcb_circuit_board.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
 Generation prompt:
 
 ```text
-Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Camera: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Action: Generate only the requested local break, short, crack, missing tooth, rope deformation, or structural failure; keep every unaffected area stable. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes.
+Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: pcb circuit board. Camera: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Action: Generate only the requested local break, short, crack, missing tooth, rope deformation, or structural failure; keep every unaffected area stable. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes.
 ```
 
 Evaluation prompt:
 
 ```text
-Task objective: precision defect gen for topology mutation and failure. Core scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Motion requirement / viewpoint motion fidelity: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.80, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.05, reference_and_motion_fidelity=1.35, temporal_consistency=1.25.
+Task objective: precision defect gen for topology mutation and failure. Core scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: pcb circuit board. Motion requirement / viewpoint motion fidelity: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.80, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.05, reference_and_motion_fidelity=1.35, temporal_consistency=1.25.
 ```
 
 #### `pdef_042`
 
-- image: `dataset/images/electronics/pcb_circuit_board.jpg`
+- image: `dataset/images/precision_defect_gen/electronics__pcb_circuit_board.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -7108,7 +7108,7 @@ Task objective: precision defect gen for topology mutation and failure. Core sce
 
 #### `pdef_043`
 
-- image: `dataset/images/electronics/micro_009.jpg`
+- image: `dataset/images/precision_defect_gen/electronics__micro_009.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -7126,7 +7126,7 @@ Task objective: precision defect gen for topology mutation and failure. Core sce
 
 #### `pdef_044`
 
-- image: `dataset/images/manufacturing/gear_hobbing_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__gear_hobbing_machine.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -7144,25 +7144,25 @@ Task objective: precision defect gen for topology mutation and failure. Core sce
 
 #### `pdef_045`
 
-- image: `dataset/images/electronics/wire_bonding_machine.jpg`
+- image: `dataset/images/precision_defect_gen/electronics__pcb_circuit_board.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
 Generation prompt:
 
 ```text
-Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Camera: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Action: Generate only the requested local break, short, crack, missing tooth, rope deformation, or structural failure; keep every unaffected area stable. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes.
+Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: pcb circuit board. Camera: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Action: Generate only the requested local break, short, crack, missing tooth, rope deformation, or structural failure; keep every unaffected area stable. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes.
 ```
 
 Evaluation prompt:
 
 ```text
-Task objective: precision defect gen for topology mutation and failure. Core scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Motion requirement / viewpoint motion fidelity: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.80, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.05, reference_and_motion_fidelity=1.35, temporal_consistency=1.25.
+Task objective: precision defect gen for topology mutation and failure. Core scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: pcb circuit board. Motion requirement / viewpoint motion fidelity: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.80, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.05, reference_and_motion_fidelity=1.35, temporal_consistency=1.25.
 ```
 
 #### `pdef_046`
 
-- image: `dataset/images/electronics/pcb_circuit_board.jpg`
+- image: `dataset/images/precision_defect_gen/electronics__pcb_circuit_board.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -7180,7 +7180,7 @@ Task objective: precision defect gen for topology mutation and failure. Core sce
 
 #### `pdef_047`
 
-- image: `dataset/images/electronics/micro_009.jpg`
+- image: `dataset/images/precision_defect_gen/electronics__micro_009.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -7198,7 +7198,7 @@ Task objective: precision defect gen for topology mutation and failure. Core sce
 
 #### `pdef_048`
 
-- image: `dataset/images/manufacturing/gear_hobbing_machine.jpg`
+- image: `dataset/images/precision_defect_gen/manufacturing__gear_hobbing_machine.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -7216,25 +7216,25 @@ Task objective: precision defect gen for topology mutation and failure. Core sce
 
 #### `pdef_049`
 
-- image: `dataset/images/electronics/wire_bonding_machine.jpg`
+- image: `dataset/images/precision_defect_gen/electronics__pcb_circuit_board.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
 Generation prompt:
 
 ```text
-Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Camera: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Action: Generate only the requested local break, short, crack, missing tooth, rope deformation, or structural failure; keep every unaffected area stable. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes.
+Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: pcb circuit board. Camera: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Action: Generate only the requested local break, short, crack, missing tooth, rope deformation, or structural failure; keep every unaffected area stable. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes.
 ```
 
 Evaluation prompt:
 
 ```text
-Task objective: precision defect gen for topology mutation and failure. Core scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Motion requirement / viewpoint motion fidelity: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.80, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.05, reference_and_motion_fidelity=1.35, temporal_consistency=1.25.
+Task objective: precision defect gen for topology mutation and failure. Core scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: pcb circuit board. Motion requirement / viewpoint motion fidelity: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.80, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.05, reference_and_motion_fidelity=1.35, temporal_consistency=1.25.
 ```
 
 #### `pdef_050`
 
-- image: `dataset/images/electronics/pcb_circuit_board.jpg`
+- image: `dataset/images/precision_defect_gen/electronics__pcb_circuit_board.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -7256,7 +7256,7 @@ Task objective: precision defect gen for topology mutation and failure. Core sce
 
 #### `vsec_041`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/visual_security/chemical__piping_manifold.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -7274,7 +7274,7 @@ Task objective: visual security for fluid dynamics and thermodynamics. Core scen
 
 #### `vsec_042`
 
-- image: `dataset/images/chemical/chemical_storage_tanks.jpg`
+- image: `dataset/images/visual_security/chemical__chemical_storage_tanks.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -7292,7 +7292,7 @@ Task objective: visual security for fluid dynamics and thermodynamics. Core scen
 
 #### `vsec_043`
 
-- image: `dataset/images/chemical/pressure_vessel_farm.jpg`
+- image: `dataset/images/visual_security/chemical__pressure_vessel_farm.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -7310,7 +7310,7 @@ Task objective: visual security for fluid dynamics and thermodynamics. Core scen
 
 #### `vsec_044`
 
-- image: `dataset/images/chemical/solvent_extraction_battery.jpg`
+- image: `dataset/images/visual_security/chemical__solvent_extraction_battery.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -7328,7 +7328,7 @@ Task objective: visual security for fluid dynamics and thermodynamics. Core scen
 
 #### `vsec_045`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/visual_security/chemical__piping_manifold.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -7346,7 +7346,7 @@ Task objective: visual security for fluid dynamics and thermodynamics. Core scen
 
 #### `vsec_046`
 
-- image: `dataset/images/chemical/chemical_storage_tanks.jpg`
+- image: `dataset/images/visual_security/chemical__chemical_storage_tanks.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -7364,7 +7364,7 @@ Task objective: visual security for fluid dynamics and thermodynamics. Core scen
 
 #### `vsec_047`
 
-- image: `dataset/images/chemical/pressure_vessel_farm.jpg`
+- image: `dataset/images/visual_security/chemical__pressure_vessel_farm.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -7382,7 +7382,7 @@ Task objective: visual security for fluid dynamics and thermodynamics. Core scen
 
 #### `vsec_048`
 
-- image: `dataset/images/chemical/solvent_extraction_battery.jpg`
+- image: `dataset/images/visual_security/chemical__solvent_extraction_battery.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -7400,7 +7400,7 @@ Task objective: visual security for fluid dynamics and thermodynamics. Core scen
 
 #### `vsec_049`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/visual_security/chemical__piping_manifold.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -7418,7 +7418,7 @@ Task objective: visual security for fluid dynamics and thermodynamics. Core scen
 
 #### `vsec_050`
 
-- image: `dataset/images/chemical/chemical_storage_tanks.jpg`
+- image: `dataset/images/visual_security/chemical__chemical_storage_tanks.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -7436,7 +7436,7 @@ Task objective: visual security for fluid dynamics and thermodynamics. Core scen
 
 #### `vsec_051`
 
-- image: `dataset/images/chemical/pressure_vessel_farm.jpg`
+- image: `dataset/images/visual_security/chemical__pressure_vessel_farm.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -7454,7 +7454,7 @@ Task objective: visual security for fluid dynamics and thermodynamics. Core scen
 
 #### `vsec_052`
 
-- image: `dataset/images/chemical/solvent_extraction_battery.jpg`
+- image: `dataset/images/visual_security/chemical__solvent_extraction_battery.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -7472,7 +7472,7 @@ Task objective: visual security for fluid dynamics and thermodynamics. Core scen
 
 #### `vsec_053`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/visual_security/chemical__piping_manifold.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -7490,7 +7490,7 @@ Task objective: visual security for fluid dynamics and thermodynamics. Core scen
 
 #### `vsec_054`
 
-- image: `dataset/images/chemical/chemical_storage_tanks.jpg`
+- image: `dataset/images/visual_security/chemical__chemical_storage_tanks.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -7508,7 +7508,7 @@ Task objective: visual security for fluid dynamics and thermodynamics. Core scen
 
 #### `vsec_055`
 
-- image: `dataset/images/chemical/pressure_vessel_farm.jpg`
+- image: `dataset/images/visual_security/chemical__pressure_vessel_farm.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -7526,7 +7526,7 @@ Task objective: visual security for fluid dynamics and thermodynamics. Core scen
 
 #### `vsec_056`
 
-- image: `dataset/images/chemical/solvent_extraction_battery.jpg`
+- image: `dataset/images/visual_security/chemical__solvent_extraction_battery.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -7544,7 +7544,7 @@ Task objective: visual security for fluid dynamics and thermodynamics. Core scen
 
 #### `vsec_057`
 
-- image: `dataset/images/chemical/piping_manifold.jpg`
+- image: `dataset/images/visual_security/chemical__piping_manifold.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -7562,7 +7562,7 @@ Task objective: visual security for fluid dynamics and thermodynamics. Core scen
 
 #### `vsec_058`
 
-- image: `dataset/images/chemical/chemical_storage_tanks.jpg`
+- image: `dataset/images/visual_security/chemical__chemical_storage_tanks.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -7580,7 +7580,7 @@ Task objective: visual security for fluid dynamics and thermodynamics. Core scen
 
 #### `vsec_059`
 
-- image: `dataset/images/chemical/pressure_vessel_farm.jpg`
+- image: `dataset/images/visual_security/chemical__pressure_vessel_farm.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -7598,7 +7598,7 @@ Task objective: visual security for fluid dynamics and thermodynamics. Core scen
 
 #### `vsec_060`
 
-- image: `dataset/images/chemical/solvent_extraction_battery.jpg`
+- image: `dataset/images/visual_security/chemical__solvent_extraction_battery.jpg`
 - motion_type: `pan`
 - viewpoint_motion_target: `45.0`
 
@@ -7618,7 +7618,7 @@ Task objective: visual security for fluid dynamics and thermodynamics. Core scen
 
 #### `vsec_081`
 
-- image: `dataset/images/construction/aerial_work_platform_boom.jpg`
+- image: `dataset/images/visual_security/construction__aerial_work_platform_boom.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -7636,7 +7636,7 @@ Task objective: visual security for industrial logic and compliance. Core scenar
 
 #### `vsec_082`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/visual_security/manufacturing__assembly_line.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -7654,7 +7654,7 @@ Task objective: visual security for industrial logic and compliance. Core scenar
 
 #### `vsec_083`
 
-- image: `dataset/images/construction/veh_008.jpg`
+- image: `dataset/images/visual_security/construction__veh_008.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -7672,7 +7672,7 @@ Task objective: visual security for industrial logic and compliance. Core scenar
 
 #### `vsec_084`
 
-- image: `dataset/images/construction/mobile_crane_outrigger_system.jpg`
+- image: `dataset/images/visual_security/construction__mobile_crane_outrigger_system.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -7690,7 +7690,7 @@ Task objective: visual security for industrial logic and compliance. Core scenar
 
 #### `vsec_085`
 
-- image: `dataset/images/construction/aerial_work_platform_boom.jpg`
+- image: `dataset/images/visual_security/construction__aerial_work_platform_boom.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -7708,7 +7708,7 @@ Task objective: visual security for industrial logic and compliance. Core scenar
 
 #### `vsec_086`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/visual_security/manufacturing__assembly_line.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -7726,7 +7726,7 @@ Task objective: visual security for industrial logic and compliance. Core scenar
 
 #### `vsec_087`
 
-- image: `dataset/images/construction/veh_008.jpg`
+- image: `dataset/images/visual_security/construction__veh_008.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -7744,7 +7744,7 @@ Task objective: visual security for industrial logic and compliance. Core scenar
 
 #### `vsec_088`
 
-- image: `dataset/images/construction/mobile_crane_outrigger_system.jpg`
+- image: `dataset/images/visual_security/construction__mobile_crane_outrigger_system.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -7762,7 +7762,7 @@ Task objective: visual security for industrial logic and compliance. Core scenar
 
 #### `vsec_089`
 
-- image: `dataset/images/construction/aerial_work_platform_boom.jpg`
+- image: `dataset/images/visual_security/construction__aerial_work_platform_boom.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -7780,7 +7780,7 @@ Task objective: visual security for industrial logic and compliance. Core scenar
 
 #### `vsec_090`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/visual_security/manufacturing__assembly_line.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -7798,7 +7798,7 @@ Task objective: visual security for industrial logic and compliance. Core scenar
 
 #### `vsec_091`
 
-- image: `dataset/images/construction/veh_008.jpg`
+- image: `dataset/images/visual_security/construction__veh_008.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -7816,7 +7816,7 @@ Task objective: visual security for industrial logic and compliance. Core scenar
 
 #### `vsec_092`
 
-- image: `dataset/images/construction/mobile_crane_outrigger_system.jpg`
+- image: `dataset/images/visual_security/construction__mobile_crane_outrigger_system.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -7834,7 +7834,7 @@ Task objective: visual security for industrial logic and compliance. Core scenar
 
 #### `vsec_093`
 
-- image: `dataset/images/construction/aerial_work_platform_boom.jpg`
+- image: `dataset/images/visual_security/construction__aerial_work_platform_boom.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -7852,7 +7852,7 @@ Task objective: visual security for industrial logic and compliance. Core scenar
 
 #### `vsec_094`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/visual_security/manufacturing__assembly_line.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -7870,7 +7870,7 @@ Task objective: visual security for industrial logic and compliance. Core scenar
 
 #### `vsec_095`
 
-- image: `dataset/images/construction/veh_008.jpg`
+- image: `dataset/images/visual_security/construction__veh_008.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -7888,7 +7888,7 @@ Task objective: visual security for industrial logic and compliance. Core scenar
 
 #### `vsec_096`
 
-- image: `dataset/images/construction/mobile_crane_outrigger_system.jpg`
+- image: `dataset/images/visual_security/construction__mobile_crane_outrigger_system.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -7906,7 +7906,7 @@ Task objective: visual security for industrial logic and compliance. Core scenar
 
 #### `vsec_097`
 
-- image: `dataset/images/construction/aerial_work_platform_boom.jpg`
+- image: `dataset/images/visual_security/construction__aerial_work_platform_boom.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -7924,7 +7924,7 @@ Task objective: visual security for industrial logic and compliance. Core scenar
 
 #### `vsec_098`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/visual_security/manufacturing__assembly_line.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -7942,7 +7942,7 @@ Task objective: visual security for industrial logic and compliance. Core scenar
 
 #### `vsec_099`
 
-- image: `dataset/images/construction/veh_008.jpg`
+- image: `dataset/images/visual_security/construction__veh_008.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -7960,7 +7960,7 @@ Task objective: visual security for industrial logic and compliance. Core scenar
 
 #### `vsec_100`
 
-- image: `dataset/images/construction/mobile_crane_outrigger_system.jpg`
+- image: `dataset/images/visual_security/construction__mobile_crane_outrigger_system.jpg`
 - motion_type: `static`
 - viewpoint_motion_target: `0.0`
 
@@ -7980,7 +7980,7 @@ Task objective: visual security for industrial logic and compliance. Core scenar
 
 #### `vsec_001`
 
-- image: `dataset/images/construction/veh_014.jpg`
+- image: `dataset/images/visual_security/construction__veh_014.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -7998,7 +7998,7 @@ Task objective: visual security for rigid body kinematics and coupling. Core sce
 
 #### `vsec_002`
 
-- image: `dataset/images/mining/heavy_haul_truck.jpg`
+- image: `dataset/images/visual_security/mining__heavy_haul_truck.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -8016,7 +8016,7 @@ Task objective: visual security for rigid body kinematics and coupling. Core sce
 
 #### `vsec_003`
 
-- image: `dataset/images/construction/road_train_coupling_system.jpg`
+- image: `dataset/images/visual_security/construction__road_train_coupling_system.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -8034,7 +8034,7 @@ Task objective: visual security for rigid body kinematics and coupling. Core sce
 
 #### `vsec_004`
 
-- image: `dataset/images/mining/articulated_dump_truck.jpg`
+- image: `dataset/images/visual_security/mining__articulated_dump_truck.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -8052,7 +8052,7 @@ Task objective: visual security for rigid body kinematics and coupling. Core sce
 
 #### `vsec_005`
 
-- image: `dataset/images/construction/veh_014.jpg`
+- image: `dataset/images/visual_security/construction__veh_014.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -8070,7 +8070,7 @@ Task objective: visual security for rigid body kinematics and coupling. Core sce
 
 #### `vsec_006`
 
-- image: `dataset/images/mining/heavy_haul_truck.jpg`
+- image: `dataset/images/visual_security/mining__heavy_haul_truck.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -8088,7 +8088,7 @@ Task objective: visual security for rigid body kinematics and coupling. Core sce
 
 #### `vsec_007`
 
-- image: `dataset/images/construction/road_train_coupling_system.jpg`
+- image: `dataset/images/visual_security/construction__road_train_coupling_system.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -8106,7 +8106,7 @@ Task objective: visual security for rigid body kinematics and coupling. Core sce
 
 #### `vsec_008`
 
-- image: `dataset/images/mining/articulated_dump_truck.jpg`
+- image: `dataset/images/visual_security/mining__articulated_dump_truck.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -8124,7 +8124,7 @@ Task objective: visual security for rigid body kinematics and coupling. Core sce
 
 #### `vsec_009`
 
-- image: `dataset/images/construction/veh_014.jpg`
+- image: `dataset/images/visual_security/construction__veh_014.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -8142,7 +8142,7 @@ Task objective: visual security for rigid body kinematics and coupling. Core sce
 
 #### `vsec_010`
 
-- image: `dataset/images/mining/heavy_haul_truck.jpg`
+- image: `dataset/images/visual_security/mining__heavy_haul_truck.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -8160,7 +8160,7 @@ Task objective: visual security for rigid body kinematics and coupling. Core sce
 
 #### `vsec_011`
 
-- image: `dataset/images/construction/road_train_coupling_system.jpg`
+- image: `dataset/images/visual_security/construction__road_train_coupling_system.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -8178,7 +8178,7 @@ Task objective: visual security for rigid body kinematics and coupling. Core sce
 
 #### `vsec_012`
 
-- image: `dataset/images/mining/articulated_dump_truck.jpg`
+- image: `dataset/images/visual_security/mining__articulated_dump_truck.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -8196,7 +8196,7 @@ Task objective: visual security for rigid body kinematics and coupling. Core sce
 
 #### `vsec_013`
 
-- image: `dataset/images/construction/veh_014.jpg`
+- image: `dataset/images/visual_security/construction__veh_014.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -8214,7 +8214,7 @@ Task objective: visual security for rigid body kinematics and coupling. Core sce
 
 #### `vsec_014`
 
-- image: `dataset/images/mining/heavy_haul_truck.jpg`
+- image: `dataset/images/visual_security/mining__heavy_haul_truck.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -8232,7 +8232,7 @@ Task objective: visual security for rigid body kinematics and coupling. Core sce
 
 #### `vsec_015`
 
-- image: `dataset/images/construction/road_train_coupling_system.jpg`
+- image: `dataset/images/visual_security/construction__road_train_coupling_system.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -8250,7 +8250,7 @@ Task objective: visual security for rigid body kinematics and coupling. Core sce
 
 #### `vsec_016`
 
-- image: `dataset/images/mining/articulated_dump_truck.jpg`
+- image: `dataset/images/visual_security/mining__articulated_dump_truck.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -8268,7 +8268,7 @@ Task objective: visual security for rigid body kinematics and coupling. Core sce
 
 #### `vsec_017`
 
-- image: `dataset/images/construction/veh_014.jpg`
+- image: `dataset/images/visual_security/construction__veh_014.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -8286,7 +8286,7 @@ Task objective: visual security for rigid body kinematics and coupling. Core sce
 
 #### `vsec_018`
 
-- image: `dataset/images/mining/heavy_haul_truck.jpg`
+- image: `dataset/images/visual_security/mining__heavy_haul_truck.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -8304,7 +8304,7 @@ Task objective: visual security for rigid body kinematics and coupling. Core sce
 
 #### `vsec_019`
 
-- image: `dataset/images/construction/road_train_coupling_system.jpg`
+- image: `dataset/images/visual_security/construction__road_train_coupling_system.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -8322,7 +8322,7 @@ Task objective: visual security for rigid body kinematics and coupling. Core sce
 
 #### `vsec_020`
 
-- image: `dataset/images/mining/articulated_dump_truck.jpg`
+- image: `dataset/images/visual_security/mining__articulated_dump_truck.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `45.0`
 
@@ -8342,7 +8342,7 @@ Task objective: visual security for rigid body kinematics and coupling. Core sce
 
 #### `vsec_061`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/visual_security/manufacturing__assembly_line.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -8360,7 +8360,7 @@ Task objective: visual security for spatial exploration and viewpoint. Core scen
 
 #### `vsec_062`
 
-- image: `dataset/images/electronics/server_rack_row_in_data_center.jpg`
+- image: `dataset/images/visual_security/electronics__server_rack_row_in_data_center.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -8378,7 +8378,7 @@ Task objective: visual security for spatial exploration and viewpoint. Core scen
 
 #### `vsec_063`
 
-- image: `dataset/images/construction/concrete_batching_plant.jpg`
+- image: `dataset/images/visual_security/construction__concrete_batching_plant.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -8396,7 +8396,7 @@ Task objective: visual security for spatial exploration and viewpoint. Core scen
 
 #### `vsec_064`
 
-- image: `dataset/images/manufacturing/robotic_welding_cell.jpg`
+- image: `dataset/images/visual_security/manufacturing__robotic_welding_cell.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -8414,7 +8414,7 @@ Task objective: visual security for spatial exploration and viewpoint. Core scen
 
 #### `vsec_065`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/visual_security/manufacturing__assembly_line.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -8432,7 +8432,7 @@ Task objective: visual security for spatial exploration and viewpoint. Core scen
 
 #### `vsec_066`
 
-- image: `dataset/images/electronics/server_rack_row_in_data_center.jpg`
+- image: `dataset/images/visual_security/electronics__server_rack_row_in_data_center.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -8450,7 +8450,7 @@ Task objective: visual security for spatial exploration and viewpoint. Core scen
 
 #### `vsec_067`
 
-- image: `dataset/images/construction/concrete_batching_plant.jpg`
+- image: `dataset/images/visual_security/construction__concrete_batching_plant.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -8468,7 +8468,7 @@ Task objective: visual security for spatial exploration and viewpoint. Core scen
 
 #### `vsec_068`
 
-- image: `dataset/images/manufacturing/robotic_welding_cell.jpg`
+- image: `dataset/images/visual_security/manufacturing__robotic_welding_cell.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -8486,7 +8486,7 @@ Task objective: visual security for spatial exploration and viewpoint. Core scen
 
 #### `vsec_069`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/visual_security/manufacturing__assembly_line.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -8504,7 +8504,7 @@ Task objective: visual security for spatial exploration and viewpoint. Core scen
 
 #### `vsec_070`
 
-- image: `dataset/images/electronics/server_rack_row_in_data_center.jpg`
+- image: `dataset/images/visual_security/electronics__server_rack_row_in_data_center.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -8522,7 +8522,7 @@ Task objective: visual security for spatial exploration and viewpoint. Core scen
 
 #### `vsec_071`
 
-- image: `dataset/images/construction/concrete_batching_plant.jpg`
+- image: `dataset/images/visual_security/construction__concrete_batching_plant.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -8540,7 +8540,7 @@ Task objective: visual security for spatial exploration and viewpoint. Core scen
 
 #### `vsec_072`
 
-- image: `dataset/images/manufacturing/robotic_welding_cell.jpg`
+- image: `dataset/images/visual_security/manufacturing__robotic_welding_cell.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -8558,7 +8558,7 @@ Task objective: visual security for spatial exploration and viewpoint. Core scen
 
 #### `vsec_073`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/visual_security/manufacturing__assembly_line.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -8576,7 +8576,7 @@ Task objective: visual security for spatial exploration and viewpoint. Core scen
 
 #### `vsec_074`
 
-- image: `dataset/images/electronics/server_rack_row_in_data_center.jpg`
+- image: `dataset/images/visual_security/electronics__server_rack_row_in_data_center.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -8594,7 +8594,7 @@ Task objective: visual security for spatial exploration and viewpoint. Core scen
 
 #### `vsec_075`
 
-- image: `dataset/images/construction/concrete_batching_plant.jpg`
+- image: `dataset/images/visual_security/construction__concrete_batching_plant.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -8612,7 +8612,7 @@ Task objective: visual security for spatial exploration and viewpoint. Core scen
 
 #### `vsec_076`
 
-- image: `dataset/images/manufacturing/robotic_welding_cell.jpg`
+- image: `dataset/images/visual_security/manufacturing__robotic_welding_cell.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -8630,7 +8630,7 @@ Task objective: visual security for spatial exploration and viewpoint. Core scen
 
 #### `vsec_077`
 
-- image: `dataset/images/manufacturing/assembly_line.jpg`
+- image: `dataset/images/visual_security/manufacturing__assembly_line.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -8648,7 +8648,7 @@ Task objective: visual security for spatial exploration and viewpoint. Core scen
 
 #### `vsec_078`
 
-- image: `dataset/images/electronics/server_rack_row_in_data_center.jpg`
+- image: `dataset/images/visual_security/electronics__server_rack_row_in_data_center.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -8666,7 +8666,7 @@ Task objective: visual security for spatial exploration and viewpoint. Core scen
 
 #### `vsec_079`
 
-- image: `dataset/images/construction/concrete_batching_plant.jpg`
+- image: `dataset/images/visual_security/construction__concrete_batching_plant.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -8684,7 +8684,7 @@ Task objective: visual security for spatial exploration and viewpoint. Core scen
 
 #### `vsec_080`
 
-- image: `dataset/images/manufacturing/robotic_welding_cell.jpg`
+- image: `dataset/images/visual_security/manufacturing__robotic_welding_cell.jpg`
 - motion_type: `orbit`
 - viewpoint_motion_target: `75.0`
 
@@ -8704,7 +8704,7 @@ Task objective: visual security for spatial exploration and viewpoint. Core scen
 
 #### `vsec_021`
 
-- image: `dataset/images/construction/formwork_climbing_system.jpg`
+- image: `dataset/images/visual_security/construction__formwork_climbing_system.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -8722,7 +8722,7 @@ Task objective: visual security for topology mutation and failure. Core scenario
 
 #### `vsec_022`
 
-- image: `dataset/images/construction/tower_crane_luffing_jib.jpg`
+- image: `dataset/images/visual_security/construction__tower_crane_luffing_jib.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -8740,7 +8740,7 @@ Task objective: visual security for topology mutation and failure. Core scenario
 
 #### `vsec_023`
 
-- image: `dataset/images/construction/lattice_boom_crawler_crane.jpg`
+- image: `dataset/images/visual_security/construction__lattice_boom_crawler_crane.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -8758,7 +8758,7 @@ Task objective: visual security for topology mutation and failure. Core scenario
 
 #### `vsec_024`
 
-- image: `dataset/images/construction/aerial_work_platform_boom.jpg`
+- image: `dataset/images/visual_security/construction__aerial_work_platform_boom.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -8776,7 +8776,7 @@ Task objective: visual security for topology mutation and failure. Core scenario
 
 #### `vsec_025`
 
-- image: `dataset/images/construction/formwork_climbing_system.jpg`
+- image: `dataset/images/visual_security/construction__formwork_climbing_system.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -8794,7 +8794,7 @@ Task objective: visual security for topology mutation and failure. Core scenario
 
 #### `vsec_026`
 
-- image: `dataset/images/construction/tower_crane_luffing_jib.jpg`
+- image: `dataset/images/visual_security/construction__tower_crane_luffing_jib.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -8812,7 +8812,7 @@ Task objective: visual security for topology mutation and failure. Core scenario
 
 #### `vsec_027`
 
-- image: `dataset/images/construction/lattice_boom_crawler_crane.jpg`
+- image: `dataset/images/visual_security/construction__lattice_boom_crawler_crane.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -8830,7 +8830,7 @@ Task objective: visual security for topology mutation and failure. Core scenario
 
 #### `vsec_028`
 
-- image: `dataset/images/construction/aerial_work_platform_boom.jpg`
+- image: `dataset/images/visual_security/construction__aerial_work_platform_boom.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -8848,7 +8848,7 @@ Task objective: visual security for topology mutation and failure. Core scenario
 
 #### `vsec_029`
 
-- image: `dataset/images/construction/formwork_climbing_system.jpg`
+- image: `dataset/images/visual_security/construction__formwork_climbing_system.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -8866,7 +8866,7 @@ Task objective: visual security for topology mutation and failure. Core scenario
 
 #### `vsec_030`
 
-- image: `dataset/images/construction/tower_crane_luffing_jib.jpg`
+- image: `dataset/images/visual_security/construction__tower_crane_luffing_jib.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -8884,7 +8884,7 @@ Task objective: visual security for topology mutation and failure. Core scenario
 
 #### `vsec_031`
 
-- image: `dataset/images/construction/lattice_boom_crawler_crane.jpg`
+- image: `dataset/images/visual_security/construction__lattice_boom_crawler_crane.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -8902,7 +8902,7 @@ Task objective: visual security for topology mutation and failure. Core scenario
 
 #### `vsec_032`
 
-- image: `dataset/images/construction/aerial_work_platform_boom.jpg`
+- image: `dataset/images/visual_security/construction__aerial_work_platform_boom.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -8920,7 +8920,7 @@ Task objective: visual security for topology mutation and failure. Core scenario
 
 #### `vsec_033`
 
-- image: `dataset/images/construction/formwork_climbing_system.jpg`
+- image: `dataset/images/visual_security/construction__formwork_climbing_system.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -8938,7 +8938,7 @@ Task objective: visual security for topology mutation and failure. Core scenario
 
 #### `vsec_034`
 
-- image: `dataset/images/construction/tower_crane_luffing_jib.jpg`
+- image: `dataset/images/visual_security/construction__tower_crane_luffing_jib.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -8956,7 +8956,7 @@ Task objective: visual security for topology mutation and failure. Core scenario
 
 #### `vsec_035`
 
-- image: `dataset/images/construction/lattice_boom_crawler_crane.jpg`
+- image: `dataset/images/visual_security/construction__lattice_boom_crawler_crane.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -8974,7 +8974,7 @@ Task objective: visual security for topology mutation and failure. Core scenario
 
 #### `vsec_036`
 
-- image: `dataset/images/construction/aerial_work_platform_boom.jpg`
+- image: `dataset/images/visual_security/construction__aerial_work_platform_boom.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -8992,7 +8992,7 @@ Task objective: visual security for topology mutation and failure. Core scenario
 
 #### `vsec_037`
 
-- image: `dataset/images/construction/formwork_climbing_system.jpg`
+- image: `dataset/images/visual_security/construction__formwork_climbing_system.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -9010,7 +9010,7 @@ Task objective: visual security for topology mutation and failure. Core scenario
 
 #### `vsec_038`
 
-- image: `dataset/images/construction/tower_crane_luffing_jib.jpg`
+- image: `dataset/images/visual_security/construction__tower_crane_luffing_jib.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -9028,7 +9028,7 @@ Task objective: visual security for topology mutation and failure. Core scenario
 
 #### `vsec_039`
 
-- image: `dataset/images/construction/lattice_boom_crawler_crane.jpg`
+- image: `dataset/images/visual_security/construction__lattice_boom_crawler_crane.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 
@@ -9046,7 +9046,7 @@ Task objective: visual security for topology mutation and failure. Core scenario
 
 #### `vsec_040`
 
-- image: `dataset/images/construction/aerial_work_platform_boom.jpg`
+- image: `dataset/images/visual_security/construction__aerial_work_platform_boom.jpg`
 - motion_type: `dolly`
 - viewpoint_motion_target: `1.5`
 

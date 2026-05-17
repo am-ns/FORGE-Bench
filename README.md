@@ -27,6 +27,9 @@ The current annotation file contains 500 samples: 100 samples in each domain.
 The benchmark uses existing repository images as reference anchors. The
 annotation layer is responsible for the new domain/task semantics, prompts,
 questions, weights, and report grouping.
+Current sample `image_path` values point to matching scenario-domain image
+directories under `dataset/images/`; legacy industry image directories are only
+kept as source pools.
 
 ## Task Categories
 

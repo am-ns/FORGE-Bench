@@ -120,7 +120,7 @@ _DISPATCH_TABLE: dict[tuple[str, str], list[dict]] = {
     ("manufacturing", "surface"): [
         {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
     ],
-    # --- legacy aliases (samples.json uses these domain names) ---
+    # --- legacy aliases for older sample files ---
     ("microelectronics", "lattice"): [
         {"fn": check_periodic_structure, "kwargs": {"structure_type": "pcb_trace"}},
         {"fn": check_count_invariant, "kwargs": {"element_type": "via_holes"}},
@@ -152,7 +152,7 @@ def evaluate_industrial_constraints(
     """Dispatch to the correct invariant checkers for a given domain + topology.
 
     Args:
-        domain: Industrial domain (e.g. 'aerospace', 'energy').
+        domain: Scenario domain or legacy industrial domain.
         topology_type: Topology type ('surface', 'kinematic', 'lattice').
         frames: List of BGR frames.
         sample_meta: Optional sample metadata dict (unused currently).

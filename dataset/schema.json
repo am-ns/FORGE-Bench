@@ -54,7 +54,7 @@
     },
     "image_path": {
       "type": "string",
-      "pattern": "^dataset[\\\\/]images(_hq)?[\\\\/]"
+      "pattern": "^dataset[\\\\/]images(_hq)?[\\\\/](visual_security|embodied_robotics|heavy_load_construction|precision_defect_gen|extreme_emergency)[\\\\/]"
     },
     "prompt": {
       "type": "string",

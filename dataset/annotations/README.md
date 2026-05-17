@@ -10,7 +10,7 @@ domain. The schema is enforced by `dataset/schema.json`.
 | `task_id` | string | Unique sample identifier such as `vsec_001` or `pdef_042`. |
 | `domain` | string | One of `visual_security`, `embodied_robotics`, `heavy_load_construction`, `precision_defect_gen`, or `extreme_emergency`. |
 | `task_category` | string | One of the five abstract task categories in `TASK_TAXONOMY.md`. |
-| `image_path` | string | Reference image path under `dataset/images/` or `dataset/images_hq/`. |
+| `image_path` | string | Reference image path under the matching scenario-domain directory in `dataset/images/` or `dataset/images_hq/`. |
 | `prompt` | string | Executable image-to-video prompt with full-name axis checks. |
 | `video_generation_prompt` | string | Short prompt intended to be sent directly to image-to-video generation models. |
 | `motion_type` | string | `orbit`, `pan`, `crane`, `dolly`, `tilt`, or `static`. |
