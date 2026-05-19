@@ -122,7 +122,9 @@ def _clean_sentence(text: str) -> str:
 def build_prompt_row(sample: dict) -> dict:
     prompt = sample.get("prompt", "")
     scenario = _clean_sentence(_extract(r"Core scenario:\s*(.*?)(?=\s+Reference subject:|$)", prompt))
-    subject = _extract(r"Reference subject:\s*(.*?)(?=\s+Motion requirement|$)", prompt)
+    subject = sample.get("reference_subject", "")
+    if not subject:
+        subject = _extract(r"Reference subject:\s*(.*?)(?=\s+Motion requirement|$)", prompt)
     if not subject:
         subject = _fallback_subject(sample.get("image_path", ""))
     subject = _clean_subject(subject, scenario)

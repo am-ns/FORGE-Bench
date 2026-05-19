@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create an image matching and sourcing plan for the 500-sample taxonomy."""
+"""Create an image matching and sourcing plan for the current taxonomy."""
 
 from __future__ import annotations
 
@@ -17,16 +17,8 @@ DEFAULT_CSV = ROOT / "reports" / "image_sourcing_plan.csv"
 DEFAULT_MD = ROOT / "reports" / "image_sourcing_plan.md"
 
 IMAGE_DIRS = [
-    ROOT / "dataset" / "images" / "visual_security",
-    ROOT / "dataset" / "images" / "embodied_robotics",
-    ROOT / "dataset" / "images" / "heavy_load_construction",
-    ROOT / "dataset" / "images" / "precision_defect_gen",
-    ROOT / "dataset" / "images" / "extreme_emergency",
-    ROOT / "dataset" / "images_hq" / "visual_security",
-    ROOT / "dataset" / "images_hq" / "embodied_robotics",
-    ROOT / "dataset" / "images_hq" / "heavy_load_construction",
-    ROOT / "dataset" / "images_hq" / "precision_defect_gen",
-    ROOT / "dataset" / "images_hq" / "extreme_emergency",
+    ROOT / "dataset" / "images",
+    ROOT / "dataset" / "images_hq",
 ]
 
 TASK_IMAGE_REQUIREMENTS = {
@@ -170,7 +162,7 @@ def write_markdown(rows: list[dict], out_path: Path) -> None:
     lines = [
         "# Image Sourcing Plan",
         "",
-        "This file helps replace reused reference images within the five scenario-domain image directories.",
+        "This file helps replace reused reference images without deleting the existing image pool.",
         "",
     ]
     for row in rows:

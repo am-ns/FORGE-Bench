@@ -100,6 +100,26 @@
         "industrial_logic_and_compliance"
       ]
     },
+    "scene_id": {
+      "type": "string",
+      "pattern": "^(vsec|erob|hload|pdef|emerg)_[a-z0-9_]+$"
+    },
+    "reference_subject": {
+      "type": "string",
+      "minLength": 3
+    },
+    "image_requirement": {
+      "type": "string",
+      "minLength": 20
+    },
+    "task_title": {
+      "type": "string",
+      "minLength": 5
+    },
+    "task_title_zh": {
+      "type": "string",
+      "minLength": 2
+    },
     "application_value": {
       "type": "string",
       "minLength": 20

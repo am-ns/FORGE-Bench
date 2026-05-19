@@ -1,7 +1,10 @@
 # Dataset Annotations
 
-`samples.json` contains 500 benchmark samples: 100 samples for each scenario
-domain. The schema is enforced by `dataset/schema.json`.
+`samples.json` contains 490 benchmark samples across the five scenario domains.
+The schema is enforced by `dataset/schema.json`.
+
+`SCENE_BLUEPRINT.md` lists the target 49 scene families used to broaden future
+sample refreshes beyond repeated variants.
 
 ## Required Fields
 
@@ -10,7 +13,9 @@ domain. The schema is enforced by `dataset/schema.json`.
 | `task_id` | string | Unique sample identifier such as `vsec_001` or `pdef_042`. |
 | `domain` | string | One of `visual_security`, `embodied_robotics`, `heavy_load_construction`, `precision_defect_gen`, or `extreme_emergency`. |
 | `task_category` | string | One of the five abstract task categories in `TASK_TAXONOMY.md`. |
-| `image_path` | string | Reference image path under the matching scenario-domain directory in `dataset/images/` or `dataset/images_hq/`. |
+| `image_path` | string | Reference image path under `dataset/images/<domain>/<scene_id>/`, where `<domain>` is one of the five scenario domains. |
+| `task_title` | string | Short English task title for scenario-level review and reporting. |
+| `task_title_zh` | string | Short Chinese task title for scenario-level review and reporting. |
 | `prompt` | string | Executable image-to-video prompt with full-name axis checks. |
 | `video_generation_prompt` | string | Short prompt intended to be sent directly to image-to-video generation models. |
 | `motion_type` | string | `orbit`, `pan`, `crane`, `dolly`, `tilt`, or `static`. |

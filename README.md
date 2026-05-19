@@ -14,22 +14,21 @@ scenario domain -> abstract task -> reference image -> executable prompt
 
 ## Dataset
 
-The current annotation file contains 500 samples: 100 samples in each domain.
+The current annotation file contains 490 samples across five scenario domains.
 
 | Domain | Samples | Coverage Focus |
 |---|---:|---|
 | `visual_security` | 100 | Security monitoring, restricted-zone intrusion, missing protective equipment, unsafe vehicle behavior, and compliance consequences. |
-| `embodied_robotics` | 100 | Robotic-arm manipulation, mobile or legged robot navigation, first-person robot viewpoint, and light-curtain emergency stops. |
+| `embodied_robotics` | 90 | Robotic-arm manipulation, mobile or legged robot navigation, first-person robot viewpoint, and light-curtain emergency stops. |
 | `heavy_load_construction` | 100 | Excavators, crawler cranes, wire-rope load paths, muddy ground contact, gantry or bridge-segment alignment, and heavy-load failure. |
 | `precision_defect_gen` | 100 | Circuit-board bridge defects, endoscopic crack inspection, gear damage, multi-axis machining, cutting-fluid spray, and tube-bundle viewpoint motion. |
 | `extreme_emergency` | 100 | High-pressure leakage, flash fire spread, dust explosion, tower icing collapse, and emergency-state causal evolution. |
 
 The benchmark uses existing repository images as reference anchors. The
 annotation layer is responsible for the new domain/task semantics, prompts,
-questions, weights, and report grouping.
-Current sample `image_path` values point to matching scenario-domain image
-directories under `dataset/images/`; legacy industry image directories are only
-kept as source pools.
+questions, weights, and report grouping. Sample `image_path` values are kept
+under `dataset/images/<domain>/<scene_id>/` using the same five scenario-domain
+directories.
 
 ## Task Categories
 
@@ -41,6 +40,22 @@ kept as source pools.
 | `spatial_exploration_and_viewpoint` | `reference_and_motion_fidelity` as gate | `geometric_integrity`, `temporal_consistency` | The requested orbit, pan, dolly, crane, endoscope, drone, or robot-camera move must happen; static substitutions are gated down. |
 | `industrial_logic_and_compliance` | `industrial_logic_and_fact_alignment` | `temporal_consistency`, `physical_plausibility` | Violations, triggers, alarms, braking, evacuation, and consequences must form a complete industrial causal loop. |
 
+## Domain x Task Matrix
+
+FORGE-Bench uses an orthogonal matrix for precise failure attribution. The X
+axis is the industrial scenario domain: where the data and visual context come
+from. The Y axis is the abstract task category: which underlying capability is
+being tested. A model failure can therefore be reported as a domain-task
+interaction, not only as a single averaged score.
+
+| Domain | Rigid Kinematics | Topology Failure | Fluid and Thermo | Spatial Viewpoint | Logic and Compliance |
+|---|---|---|---|---|---|
+| `visual_security` | Forklift overspeed and crane swing | Fence breach and missing guards | Dangerous-goods leak and smoke alarm | CCTV blind-spot sweep | Intrusion, PPE, near-miss, alarm response |
+| `embodied_robotics` | Robot grasp, AMR path, tool contact | Gripper local failure | Safety-cell event dynamics | Tracked/quadruped robot viewpoint | Cobot handover and light-curtain stop |
+| `heavy_load_construction` | Crane, excavator, truck, gantry load paths | Wire rope, outrigger, formwork failure | Tunnel pipe burst and mud surge | Bridge/drone alignment inspection | Hoist stop before collision |
+| `precision_defect_gen` | CNC cutting and assembly misalignment | PCB bridge, gear wear, weld/scratch/pin defects | Cutting-fluid spray | Endoscope and tube-bundle navigation | Inspection logic through localized constraints |
+| `extreme_emergency` | Emergency crane/load dynamics | Tower icing and wall breach | Flange leak, flash fire, reactor, battery, tunnel, plume | Emergency spatial continuity | Dust explosion, evacuation, response chain |
+
 ## Evaluation Axes
 
 Public data and reports use full axis names. Legacy short aliases are still
@@ -49,11 +64,11 @@ not use them.
 
 | Axis | Focus | Methodology |
 |---|---|---|
-| `industrial_logic_and_fact_alignment` | Causality and state transitions | State-machine-style adversarial question judging for compliance, triggers, equipment roles, and consequences. |
-| `geometric_integrity` | Topology and structure | Kinematic-chain operators, topology-merge detection, periodic-structure counting, and industrial constraint checks. |
-| `physical_plausibility` | Dynamics and physics | Model judgment focused on force, gravity, contact, pressure, fluid flow, thermal spread, and feasible motion. |
-| `temporal_consistency` | Continuity and identity | Frame-sequence model judgment plus structural-similarity style fallback checks. |
-| `reference_and_motion_fidelity` | Spatial mapping and control | Reference fidelity, viewpoint motion estimation, static-video gating, and masked non-mutated-region preservation. |
+| `industrial_logic_and_fact_alignment` | Industrial logic and fact alignment | State-machine adversarial multi-round QA checks causal closure, conditional triggers such as alarm/braking, compliance state, and industrial fact progression. |
+| `geometric_integrity` | Geometry and topology integrity | Spatial topology, local micro-structure measurement, joint-center anti-drift, dense periodic-structure stability, and valid topology mutation such as fracture or adhesion. |
+| `physical_plausibility` | Physics and dynamics plausibility | Classical mechanics and dynamics checks for gravity, rigid-body contact, penetration, pressure diffusion direction, fluid flow, heat spread, and true load paths. |
+| `temporal_consistency` | Long-horizon temporal consistency | Identity, material, state, anti-deformation, anti-melting, and anti-flicker checks across sampled frames. |
+| `reference_and_motion_fidelity` | Reference and motion fidelity | Spatial mapping, camera-control execution, static-video gating for required camera motion, and region-isolated fidelity where only the requested defect/failure region may change. |
 
 `viewpoint_motion_fidelity` is retained as a motion gate component and is folded
 into `reference_and_motion_fidelity` for per-sample scoring. The industrial
@@ -83,23 +98,64 @@ The evaluation prompt follows this structure:
 ## Scoring Pipeline
 
 ```text
-model video frames
+video frames
+  sampled uniformly from model-generated .mp4 files
   |
-  +-- geometric integrity and industrial constraint operators
+  +-- five core evaluation axes
+  |     objective operators + model judges
   |
-  +-- viewpoint motion estimator and static-video gate
+  |     +-- industrial_logic_and_fact_alignment
+  |     |     adversarial state-machine QA
+  |     |     causal closure, trigger mechanisms, compliance states
+  |     |
+  |     +-- geometric_integrity
+  |     |     topology and micro-structure measurement
+  |     |     joint-axis anti-drift, periodic count/spacing stability
+  |     |     localized topology mutation checks
+  |     |
+  |     +-- physical_plausibility
+  |     |     mechanics and dynamics validation
+  |     |     gravity, contact, anti-penetration, pressure/flow direction
+  |     |
+  |     +-- temporal_consistency
+  |     |     long-horizon continuity and identity preservation
+  |     |     anti-melting, anti-flicker, material/model persistence
+  |     |
+  |     +-- reference_and_motion_fidelity
+  |           reference identity and camera-control execution
+  |           static-video gate for required motion
+  |           region-isolated fidelity for local defects/failures
   |
-  +-- model judges for industrial logic, temporal consistency,
-      physical plausibility, and reference/motion fidelity
+  +-- single sample scoring
+  |     floor vetoes, static gate, region-isolated fidelity
+  |     dynamic task weights, rotation and spatial-topology diagnostics
   |
-  +-- per-sample scoring
-      floors + constraint/geometric blend + motion/reference blend
-      + dynamic task weights + rotation integrity factor
-  |
-  +-- aggregate report
-      relax score, strict pass rate, gated score, domain breakdown,
-      task breakdown, low-fidelity summary
+  +-- matrix aggregation engine
+        loose mean score
+        strict pass rate
+        motion/static gate interception rate
+        Domain x Task cross-analysis report
+        low-level physical/common-sense and micro-geometry diagnostics
 ```
+
+Core formula:
+
+```text
+FORGE_final =
+  WeightedAverage(
+    industrial_logic_and_fact_alignment,
+    temporal_consistency,
+    physical_plausibility,
+    reference_and_motion_fidelity,
+    geometric_integrity
+  )
+```
+
+The weights are dynamic by abstract task category. Robot and mechanism tasks
+emphasize `geometric_integrity` and `physical_plausibility`; periodic or local
+defect tasks emphasize `geometric_integrity` and `temporal_consistency`;
+viewpoint-inspection tasks emphasize `reference_and_motion_fidelity` and
+`geometric_integrity`.
 
 Expected video naming is `{task_id}.mp4`.
 
@@ -128,7 +184,7 @@ reports/image_search_prompts.md
 To search for one strict open-license reference image per sample, run:
 
 ```bash
-python scripts/find_reference_images.py --target 500 --search-limit 25
+python scripts/find_reference_images.py --target 490 --search-limit 25
 ```
 
 The finder writes candidates under `dataset/images_candidates/strict_open_license/`

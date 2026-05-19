@@ -1,12 +1,12 @@
 # FORGE-Bench Dataset Notes
 
 The annotation file `samples.json` is the authoritative task list for the
-benchmark. It currently contains 500 samples arranged as:
+benchmark. It currently contains 490 samples arranged as:
 
 | Domain | Count |
 |---|---:|
 | `visual_security` | 100 |
-| `embodied_robotics` | 100 |
+| `embodied_robotics` | 90 |
 | `heavy_load_construction` | 100 |
 | `precision_defect_gen` | 100 |
 | `extreme_emergency` | 100 |
@@ -20,25 +20,11 @@ All new annotations use full-name axis identifiers:
 - `physical_plausibility`
 - `temporal_consistency`
 - `reference_and_motion_fidelity`
-- `viewpoint_motion_fidelity`
-- `industrial_constraint_score`
 
-Short legacy aliases are accepted by code for backward compatibility, but they
-are not used in new annotations or documentation.
-
-## Reference Image Classification
-
-Reference images used by samples are mirrored under the same five scenario
-domains as the annotations:
-
-- `dataset/images/visual_security/`
-- `dataset/images/embodied_robotics/`
-- `dataset/images/heavy_load_construction/`
-- `dataset/images/precision_defect_gen/`
-- `dataset/images/extreme_emergency/`
-
-Legacy industry image directories may remain in the repository as source pools,
-but current samples point only to the scenario-domain directories.
+`viewpoint_motion_fidelity` is now part of `reference_and_motion_fidelity` as
+the camera-motion gate. Industrial constraint checks are folded into
+`geometric_integrity`, where they contribute topology, count, joint, and local
+defect constraints.
 
 ## Task Categories
 
@@ -52,6 +38,18 @@ Each sample has one abstract task category:
 
 The task category determines the default axis weights and rubric. Domain
 determines the scenario family and the report breakdown.
+
+## Scenario Blueprint
+
+`SCENE_BLUEPRINT.md` defines the target scenario coverage before the annotation
+file is regenerated. It expands the benchmark to 49 practical scene families:
+10 scene families for most domains, 9 for `embodied_robotics`, and roughly 10
+samples per scene family. Each scene family has a task category,
+reference-image requirement, and example task statement.
+
+The current `samples.json` remains the executable dataset, while
+`SCENE_BLUEPRINT.md` is the planning source for the next full refresh of image
+search, prompt generation, and per-sample scene replacement.
 
 ## Motion Target
 

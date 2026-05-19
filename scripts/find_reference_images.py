@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Find strict open-license reference images for FORGE samples.
 
-The script targets one accepted image per sample. It searches Wikimedia Commons,
-downloads candidates, and applies hard filters for license, resolution, topic
-match, background complexity, sharpness, and duplicate content.
+The script targets one accepted image per sample. It searches open-license
+providers, downloads candidates, and applies hard filters for license,
+resolution, topic match, background complexity, sharpness, and duplicate
+content.
 """
 
 from __future__ import annotations
@@ -33,6 +34,7 @@ DEFAULT_OUT = ROOT / "dataset" / "images_candidates" / "strict_open_license"
 DEFAULT_MANIFEST = ROOT / "reports" / "strict_reference_image_candidates.csv"
 
 COMMONS_API = "https://commons.wikimedia.org/w/api.php"
+OPENVERSE_API = "https://api.openverse.engineering/v1/images/"
 USER_AGENT = "FORGE-Bench reference image finder/1.0 (open-license research dataset)"
 
 MIN_WIDTH = 1280
@@ -73,6 +75,7 @@ class Candidate:
     title: str
     pageid: int
     imageinfo: dict
+    source: str = "commons"
 
 
 def _load_samples(path: Path) -> list[dict]:
@@ -88,9 +91,9 @@ def _tokenize(text: str) -> set[str]:
     }
 
 
-def _http_json(params: dict, sleep_s: float) -> dict:
+def _url_json(url: str, params: dict, sleep_s: float) -> dict:
     query = urllib.parse.urlencode(params)
-    req = urllib.request.Request(f"{COMMONS_API}?{query}", headers={"User-Agent": USER_AGENT})
+    req = urllib.request.Request(f"{url}?{query}", headers={"User-Agent": USER_AGENT})
     with urllib.request.urlopen(req, timeout=30) as response:
         payload = response.read()
     if sleep_s:
@@ -110,14 +113,61 @@ def _commons_search(query: str, limit: int, sleep_s: float) -> list[Candidate]:
         "iiprop": "url|size|mime|extmetadata",
         "iiurlwidth": "1800",
     }
-    data = _http_json(params, sleep_s)
+    data = _url_json(COMMONS_API, params, sleep_s)
     pages = data.get("query", {}).get("pages", {})
     out: list[Candidate] = []
     for page in pages.values():
         infos = page.get("imageinfo") or []
         if infos:
-            out.append(Candidate(page.get("title", ""), int(page.get("pageid", 0)), infos[0]))
+            out.append(Candidate(page.get("title", ""), int(page.get("pageid", 0)), infos[0], "commons"))
     return out
+
+
+def _openverse_search(query: str, limit: int, sleep_s: float) -> list[Candidate]:
+    params = {
+        "q": query,
+        "page_size": str(min(limit, 20)),
+        "mature": "false",
+    }
+    data = _url_json(OPENVERSE_API, params, sleep_s)
+    out: list[Candidate] = []
+    for item in data.get("results", []):
+        width = int(item.get("width") or 0)
+        height = int(item.get("height") or 0)
+        license_name = str(item.get("license") or "")
+        license_version = str(item.get("license_version") or "")
+        license_url = str(item.get("license_url") or "")
+        source_url = str(item.get("foreign_landing_url") or item.get("url") or "")
+        image_url = str(item.get("url") or item.get("thumbnail") or "")
+        if not image_url:
+            continue
+        extmetadata = {
+            "LicenseShortName": {"value": license_name},
+            "UsageTerms": {"value": license_version},
+            "License": {"value": license_url},
+        }
+        imageinfo = {
+            "url": image_url,
+            "thumburl": image_url,
+            "descriptionurl": source_url,
+            "width": width,
+            "height": height,
+            "mime": item.get("mime_type") or "",
+            "extmetadata": extmetadata,
+            "creator": item.get("creator") or "",
+            "provider": item.get("provider") or "",
+            "license_url": license_url,
+        }
+        out.append(Candidate(str(item.get("title") or ""), 0, imageinfo, "openverse"))
+    return out
+
+
+def _search_provider(provider: str, query: str, limit: int, sleep_s: float) -> list[Candidate]:
+    if provider == "openverse":
+        return _openverse_search(query, limit, sleep_s)
+    if provider == "commons":
+        return _commons_search(query, limit, sleep_s)
+    raise ValueError(f"unknown source: {provider}")
 
 
 def _license_ok(imageinfo: dict) -> tuple[bool, str]:
@@ -128,7 +178,11 @@ def _license_ok(imageinfo: dict) -> tuple[bool, str]:
         meta.get("License", {}).get("value", ""),
     ]
     text = " ".join(fields).lower()
-    return any(hint in text for hint in ALLOWED_LICENSE_HINTS), " | ".join(fields)
+    if any(hint in text for hint in ALLOWED_LICENSE_HINTS):
+        return True, " | ".join(fields)
+    if re.search(r"(^|[^a-z])by($|[^a-z])", text) or "by-sa" in text:
+        return True, " | ".join(fields)
+    return False, " | ".join(fields)
 
 
 def _title_ok(title: str) -> bool:
@@ -144,6 +198,34 @@ def _topic_score(row: dict, title: str) -> int:
     ]))
     title_tokens = _tokenize(title.replace("File:", ""))
     return len(query_tokens & title_tokens)
+
+
+def _query_variants(row: dict) -> list[str]:
+    subject = row["reference_subject"].strip()
+    scenario_tokens = [t for t in _tokenize(row["core_scenario"]) if t not in _tokenize(subject)]
+    task_tokens = list(_tokenize(row["task_visual_requirement"]))
+    domain_terms = {
+        "visual_security": ["warehouse", "factory", "industrial"],
+        "embodied_robotics": ["robot", "industrial", "automation"],
+        "heavy_load_construction": ["construction", "crane", "industrial"],
+        "precision_defect_gen": ["inspection", "machine", "industrial"],
+        "extreme_emergency": ["chemical", "plant", "industrial"],
+    }.get(row["domain"], ["industrial"])
+
+    variants = [
+        subject,
+        f"{subject} industrial",
+        f"{subject} factory",
+        f"{subject} {' '.join(domain_terms[:2])}",
+        " ".join([subject, *scenario_tokens[:3]]),
+        " ".join([subject, *task_tokens[:3]]),
+    ]
+    cleaned = []
+    for query in variants:
+        query = re.sub(r"\s+", " ", query).strip()
+        if query and query not in cleaned:
+            cleaned.append(query)
+    return cleaned
 
 
 def _download(url: str, path: Path) -> None:
@@ -246,118 +328,167 @@ def _write_manifest(rows: list[dict], path: Path) -> None:
         writer.writerows(rows)
 
 
+def _read_manifest(path: Path) -> list[dict]:
+    if not path.exists():
+        return []
+    with path.open(newline="", encoding="utf-8") as f:
+        return list(csv.DictReader(f))
+
+
 def run(args: argparse.Namespace) -> None:
     samples = _load_samples(Path(args.samples))
-    selected = []
-    seen_hashes: list[str] = []
-    accepted = 0
+    selected = _read_manifest(Path(args.manifest)) if args.resume else []
+    accepted_task_ids = {row.get("task_id", "") for row in selected if row.get("status") == "accepted"}
+    seen_hashes: list[str] = [
+        row["average_hash"] for row in selected
+        if row.get("status") == "accepted" and row.get("average_hash")
+    ]
+    accepted = len(accepted_task_ids)
     rejected = 0
     out_root = Path(args.output_dir)
 
     for sample in samples:
         row = build_prompt_row(sample)
+        if args.resume and row["task_id"] in accepted_task_ids:
+            continue
+        if accepted >= args.target:
+            break
         sample_dir = out_root / row["domain"]
         sample_dir.mkdir(parents=True, exist_ok=True)
         accepted_for_sample = 0
         query = row["search_query"]
         if args.verbose:
             print(f"[{row['task_id']}] {query}")
-        try:
-            candidates = _commons_search(query, args.search_limit, args.sleep)
-        except Exception as exc:
-            selected.append({**row, "status": "search_error", "reason": str(exc)})
-            continue
 
-        for candidate in candidates:
+        tried_any_candidate = False
+        for search_query in _query_variants(row):
             if accepted_for_sample >= MAX_ACCEPTED_PER_SAMPLE:
                 break
-            info = candidate.imageinfo
-            status = {
-                **row,
-                "status": "rejected",
-                "source_title": candidate.title,
-                "source_pageid": str(candidate.pageid),
-                "source_url": info.get("descriptionurl", ""),
-                "image_url": info.get("thumburl") or info.get("url", ""),
-                "license": "",
-                "local_path": "",
-                "reason": "",
-                "width": str(info.get("width", "")),
-                "height": str(info.get("height", "")),
-                "topic_score": str(_topic_score(row, candidate.title)),
-                "edge_density": "",
-                "background_edge_density": "",
-                "laplacian_var": "",
-                "sha256": "",
-                "average_hash": "",
-            }
-            license_ok, license_text = _license_ok(info)
-            status["license"] = license_text
-            if not license_ok:
-                status["reason"] = "license_not_allowed"
-                rejected += 1
-                selected.append(status)
-                continue
-            if not _title_ok(candidate.title):
-                status["reason"] = "blocked_title_term"
-                rejected += 1
-                selected.append(status)
-                continue
-            if int(info.get("width", 0)) < MIN_WIDTH or int(info.get("height", 0)) < MIN_HEIGHT:
-                status["reason"] = "source_resolution_below_minimum"
-                rejected += 1
-                selected.append(status)
-                continue
-            if _topic_score(row, candidate.title) < args.min_topic_score:
-                status["reason"] = "topic_score_too_low"
-                rejected += 1
-                selected.append(status)
-                continue
-
-            suffix = ".jpg" if "jpeg" in info.get("mime", "").lower() else ".png"
-            local_path = sample_dir / f"{row['task_id']}{suffix}"
-            try:
-                _download(status["image_url"], local_path)
-                metrics = _image_metrics(local_path)
-                ahash = _average_hash(local_path)
-                status.update({
-                    "local_path": local_path.relative_to(ROOT).as_posix(),
-                    "width": str(metrics["width"]),
-                    "height": str(metrics["height"]),
-                    "edge_density": f"{metrics['edge_density']:.4f}",
-                    "background_edge_density": f"{metrics['background_edge_density']:.4f}",
-                    "laplacian_var": f"{metrics['laplacian_var']:.2f}",
-                    "sha256": metrics["sha256"],
-                    "average_hash": ahash,
-                })
-                ok, reason = _passes_metrics(
-                    metrics,
-                    strict_background=row["task_category"] != "precision_defect_gen",
-                )
-                if ok and _is_duplicate(ahash, seen_hashes, args.duplicate_hamming_distance):
-                    ok, reason = False, "near_duplicate"
-                if not ok:
-                    local_path.unlink(missing_ok=True)
-                    status["reason"] = reason
-                    rejected += 1
-                    selected.append(status)
+            for provider in args.sources.split(","):
+                provider = provider.strip()
+                if not provider or accepted_for_sample >= MAX_ACCEPTED_PER_SAMPLE:
                     continue
-            except Exception as exc:
-                local_path.unlink(missing_ok=True)
-                status["reason"] = f"download_or_metric_error:{exc}"
-                rejected += 1
-                selected.append(status)
-                continue
+                try:
+                    candidates = _search_provider(provider, search_query, args.search_limit, args.sleep)
+                except Exception as exc:
+                    selected.append({
+                        **row,
+                        "status": "search_error",
+                        "reason": str(exc),
+                        "used_query": search_query,
+                        "source_provider": provider,
+                    })
+                    _write_manifest(selected, Path(args.manifest))
+                    continue
+                if not candidates:
+                    selected.append({
+                        **row,
+                        "status": "no_results",
+                        "reason": "search_returned_no_candidates",
+                        "used_query": search_query,
+                        "source_provider": provider,
+                    })
+                    continue
+                tried_any_candidate = True
 
-            seen_hashes.append(status["average_hash"])
-            accepted += 1
-            accepted_for_sample += 1
-            status["status"] = "accepted"
-            status["reason"] = "accepted"
-            selected.append(status)
+                for candidate in candidates:
+                    if accepted_for_sample >= MAX_ACCEPTED_PER_SAMPLE:
+                        break
+                    info = candidate.imageinfo
+                    status = {
+                        **row,
+                        "status": "rejected",
+                        "used_query": search_query,
+                        "source_provider": candidate.source,
+                        "source_title": candidate.title,
+                        "source_pageid": str(candidate.pageid),
+                        "source_url": info.get("descriptionurl", ""),
+                        "image_url": info.get("thumburl") or info.get("url", ""),
+                        "creator": info.get("creator", ""),
+                        "provider": info.get("provider", ""),
+                        "license_url": info.get("license_url", ""),
+                        "license": "",
+                        "local_path": "",
+                        "reason": "",
+                        "width": str(info.get("width", "")),
+                        "height": str(info.get("height", "")),
+                        "topic_score": str(_topic_score(row, candidate.title)),
+                        "edge_density": "",
+                        "background_edge_density": "",
+                        "laplacian_var": "",
+                        "sha256": "",
+                        "average_hash": "",
+                    }
+                    license_ok, license_text = _license_ok(info)
+                    status["license"] = license_text
+                    if not license_ok:
+                        status["reason"] = "license_not_allowed"
+                        rejected += 1
+                        selected.append(status)
+                        continue
+                    if not _title_ok(candidate.title):
+                        status["reason"] = "blocked_title_term"
+                        rejected += 1
+                        selected.append(status)
+                        continue
+                    if int(info.get("width", 0)) < MIN_WIDTH or int(info.get("height", 0)) < MIN_HEIGHT:
+                        status["reason"] = "source_resolution_below_minimum"
+                        rejected += 1
+                        selected.append(status)
+                        continue
+                    if _topic_score(row, candidate.title) < args.min_topic_score:
+                        status["reason"] = "topic_score_too_low"
+                        rejected += 1
+                        selected.append(status)
+                        continue
+
+                    suffix = ".jpg" if "jpeg" in info.get("mime", "").lower() else ".png"
+                    local_path = sample_dir / f"{row['task_id']}{suffix}"
+                    try:
+                        _download(status["image_url"], local_path)
+                        metrics = _image_metrics(local_path)
+                        ahash = _average_hash(local_path)
+                        status.update({
+                            "local_path": local_path.resolve().relative_to(ROOT).as_posix(),
+                            "width": str(metrics["width"]),
+                            "height": str(metrics["height"]),
+                            "edge_density": f"{metrics['edge_density']:.4f}",
+                            "background_edge_density": f"{metrics['background_edge_density']:.4f}",
+                            "laplacian_var": f"{metrics['laplacian_var']:.2f}",
+                            "sha256": metrics["sha256"],
+                            "average_hash": ahash,
+                        })
+                        ok, reason = _passes_metrics(
+                            metrics,
+                            strict_background=row["task_category"] != "precision_defect_gen",
+                        )
+                        if ok and _is_duplicate(ahash, seen_hashes, args.duplicate_hamming_distance):
+                            ok, reason = False, "near_duplicate"
+                        if not ok:
+                            local_path.unlink(missing_ok=True)
+                            status["reason"] = reason
+                            rejected += 1
+                            selected.append(status)
+                            continue
+                    except Exception as exc:
+                        local_path.unlink(missing_ok=True)
+                        status["reason"] = f"download_or_metric_error:{exc}"
+                        rejected += 1
+                        selected.append(status)
+                        continue
+
+                    seen_hashes.append(status["average_hash"])
+                    accepted += 1
+                    accepted_for_sample += 1
+                    accepted_task_ids.add(row["task_id"])
+                    status["status"] = "accepted"
+                    status["reason"] = "accepted"
+                    selected.append(status)
 
         if accepted_for_sample == 0:
-            selected.append({**row, "status": "missing", "reason": "no_candidate_passed_filters"})
+            reason = "no_candidate_passed_filters" if tried_any_candidate else "no_search_candidates"
+            selected.append({**row, "status": "missing", "reason": reason, "used_query": " | ".join(_query_variants(row))})
+        _write_manifest(selected, Path(args.manifest))
         if accepted >= args.target:
             break
 
@@ -376,6 +507,8 @@ def main() -> None:
     parser.add_argument("--min-topic-score", type=int, default=2)
     parser.add_argument("--duplicate-hamming-distance", type=int, default=4)
     parser.add_argument("--sleep", type=float, default=0.25)
+    parser.add_argument("--sources", default="openverse,commons")
+    parser.add_argument("--resume", action="store_true")
     parser.add_argument("--verbose", action="store_true")
     run(parser.parse_args())
 

@@ -15,17 +15,20 @@ DEFAULT_JSONL = ROOT / "reports" / "prompts.jsonl"
 
 
 PROMPT_FRAMEWORK = [
+    "Domain x Task cell",
     "Task objective",
     "Core scenario",
     "Reference subject",
     "Motion requirement / viewpoint motion fidelity",
-    "Industrial logic and fact alignment check",
-    "Geometric integrity check",
-    "Physical plausibility check",
-    "Temporal consistency check",
-    "Reference and motion fidelity check",
+    "Evaluation dimensions",
+    "Industrial logic and fact alignment",
+    "Geometric integrity",
+    "Physical plausibility",
+    "Temporal consistency",
+    "Reference and motion fidelity",
+    "Single-sample scoring gates",
     "Execution constraints",
-    "Scoring emphasis",
+    "Dynamic scoring weights",
 ]
 
 
@@ -40,6 +43,11 @@ def _write_markdown(samples: list[dict], out_path: Path) -> None:
         "# FORGE-Bench Prompt Reference",
         "",
         "## Prompt Framework",
+        "",
+        "FORGE-Bench prompts are written around a Domain x Task matrix. The "
+        "domain identifies the industrial context; the abstract task identifies "
+        "the underlying capability being tested. Each prompt names the five "
+        "evaluation dimensions and the task-specific dynamic weights.",
         "",
     ]
     for index, item in enumerate(PROMPT_FRAMEWORK, 1):
@@ -60,6 +68,10 @@ def _write_markdown(samples: list[dict], out_path: Path) -> None:
             lines.append("")
         lines.append(f"#### `{sample['task_id']}`")
         lines.append("")
+        if sample.get("task_title"):
+            lines.append(f"- title: {sample['task_title']}")
+        if sample.get("task_title_zh"):
+            lines.append(f"- title_zh: {sample['task_title_zh']}")
         lines.append(f"- image: `{sample.get('image_path', '')}`")
         lines.append(f"- motion_type: `{sample.get('motion_type', '')}`")
         lines.append(f"- viewpoint_motion_target: `{sample.get('viewpoint_motion_target', '')}`")
@@ -88,6 +100,8 @@ def _write_jsonl(samples: list[dict], out_path: Path) -> None:
                 "task_id": sample["task_id"],
                 "domain": sample["domain"],
                 "task_category": sample["task_category"],
+                "task_title": sample.get("task_title", ""),
+                "task_title_zh": sample.get("task_title_zh", ""),
                 "image_path": sample["image_path"],
                 "motion_type": sample["motion_type"],
                 "viewpoint_motion_target": sample["viewpoint_motion_target"],
