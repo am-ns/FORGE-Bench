@@ -147,7 +147,15 @@ def _is_canonical_scene_name(path: Path) -> bool:
             re.match(r"^[a-z0-9]+_[a-z0-9_]+$", scene_id)
             and re.match(r"^(ref|strict|loss|feishu)_\d{1,2}\.(jpg|png)$", path.name.lower())
         )
-    return bool(re.match(r"^[a-z0-9]+_[a-z0-9_]+__(ref|strict|loss)_\d{2}\.(jpg|png)$", path.name.lower()))
+    return bool(re.match(r"^[a-z0-9]+_[a-z0-9_]+__ref_\d{2}\.(jpg|png)$", path.name.lower()))
+
+
+def _is_deprecated_variant(path: Path, referenced: set[str]) -> bool:
+    """Return true for non-sample loss/strict variants kept from old imports."""
+    return (
+        path.name.startswith(("loss_", "strict_"))
+        and _norm_rel(path) not in referenced
+    )
 
 
 def _norm_rel(path: Path) -> str:
@@ -202,6 +210,19 @@ def _duplicate_actions(images: list[Path], referenced: set[str]) -> tuple[list[d
                 "kept_path": _norm_rel(keep),
                 "referenced_by_samples": str(rel in referenced).lower(),
                 "canonical_scene_name": str(_is_canonical_scene_name(path)).lower(),
+                "keep_score": _keep_score(path, referenced),
+            })
+    for path in images:
+        if _is_deprecated_variant(path, referenced) and path not in delete_paths:
+            delete_paths.add(path)
+            rows.append({
+                "sha256": _sha256(path),
+                "action": "delete",
+                "reason": "deprecated_loss_or_strict_variant",
+                "path": _norm_rel(path),
+                "kept_path": "",
+                "referenced_by_samples": "false",
+                "canonical_scene_name": "false",
                 "keep_score": _keep_score(path, referenced),
             })
     return rows, delete_paths

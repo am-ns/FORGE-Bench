@@ -243,17 +243,17 @@ SCENE_CONCEPT_OVERRIDES = {
 IMAGE_OVERRIDES = {
     # excavator: ref_01 is B&W, use the generic colour stock excavator image
     "hload_excavator_linkage_loading":
-        "dataset/images/heavy_load_construction/construction__excavator.jpg",
+        "dataset/images/heavy_load_construction/hload_excavator_linkage_loading/ref_04.jpg",
 
     # crane load drop: use tower crane luffing jib from same domain
     "emerg_crane_load_drop_evacuation":
-        "dataset/images/extreme_emergency/construction__tower_crane_luffing_jib.jpg",
+        "dataset/images/extreme_emergency/emerg_crane_load_drop_evacuation/feishu_01.png",
     # multi-robot: welding cell typically has multiple robot arms
     "erob_multi_robot_coordination":
-        "dataset/images/embodied_robotics/manufacturing__robotic_welding_cell.jpg",
-    # bridge drone: use strict_1 which should show the segment more clearly
+        "dataset/images/embodied_robotics/erob_multi_robot_coordination/ref_01.jpg",
+    # bridge drone: use a curated reference under the scene directory
     "hload_bridge_segment_alignment_drone":
-        "dataset/images/heavy_load_construction/hload_bridge_segment_alignment_drone/strict_1.jpg",
+        "dataset/images/heavy_load_construction/hload_bridge_segment_alignment_drone/ref_01.jpg",
     # --- still needs manual image from user ---
     # "vsec_unregistered_vehicle_intrusion": gate + vehicle photo
 }
