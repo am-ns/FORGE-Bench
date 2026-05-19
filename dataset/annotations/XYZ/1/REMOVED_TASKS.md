@@ -1,0 +1,1323 @@
+# 已剔除样本说明与备份
+
+## 背景
+
+`dataset/images/` 下部分参考图已被删减。对 `dataset/annotations/samples.json` 中每条样本的 `image_path` 做了存在性检查，**仅保留磁盘上仍存在的图片**；缺失文件的 task 已从 `samples.json` 移除。
+
+- 检查时间（UTC）：2026-05-18T15:10:41.947527+00:00
+- 原样本数：500
+- 剔除数：**14**
+- 保留数：**486**
+
+## 剔除清单
+
+| task_id | domain | task_category | image_path（已失效） |
+|---------|--------|---------------|----------------------|
+| `erob_003` | `embodied_robotics` | `rigid_body_kinematics_and_coupling` | `dataset/images/robotics/parallel_kinematic_hexapod.jpg` |
+| `erob_007` | `embodied_robotics` | `rigid_body_kinematics_and_coupling` | `dataset/images/robotics/parallel_kinematic_hexapod.jpg` |
+| `erob_011` | `embodied_robotics` | `rigid_body_kinematics_and_coupling` | `dataset/images/robotics/parallel_kinematic_hexapod.jpg` |
+| `erob_015` | `embodied_robotics` | `rigid_body_kinematics_and_coupling` | `dataset/images/robotics/parallel_kinematic_hexapod.jpg` |
+| `erob_019` | `embodied_robotics` | `rigid_body_kinematics_and_coupling` | `dataset/images/robotics/parallel_kinematic_hexapod.jpg` |
+| `erob_023` | `embodied_robotics` | `rigid_body_kinematics_and_coupling` | `dataset/images/robotics/parallel_kinematic_hexapod.jpg` |
+| `erob_027` | `embodied_robotics` | `rigid_body_kinematics_and_coupling` | `dataset/images/robotics/parallel_kinematic_hexapod.jpg` |
+| `erob_031` | `embodied_robotics` | `rigid_body_kinematics_and_coupling` | `dataset/images/robotics/parallel_kinematic_hexapod.jpg` |
+| `pdef_029` | `precision_defect_gen` | `topology_mutation_and_failure` | `dataset/images/electronics/wire_bonding_machine.jpg` |
+| `pdef_033` | `precision_defect_gen` | `topology_mutation_and_failure` | `dataset/images/electronics/wire_bonding_machine.jpg` |
+| `pdef_037` | `precision_defect_gen` | `topology_mutation_and_failure` | `dataset/images/electronics/wire_bonding_machine.jpg` |
+| `pdef_041` | `precision_defect_gen` | `topology_mutation_and_failure` | `dataset/images/electronics/wire_bonding_machine.jpg` |
+| `pdef_045` | `precision_defect_gen` | `topology_mutation_and_failure` | `dataset/images/electronics/wire_bonding_machine.jpg` |
+| `pdef_049` | `precision_defect_gen` | `topology_mutation_and_failure` | `dataset/images/electronics/wire_bonding_machine.jpg` |
+
+## 失效图片汇总
+
+- `dataset/images/electronics/wire_bonding_machine.jpg`：6 条 task
+- `dataset/images/robotics/parallel_kinematic_hexapod.jpg`：8 条 task
+
+## 完整备份（JSON）
+
+以下为被剔除 task 的完整 annotation 备份，可用于恢复或对照改写。
+
+```json
+{
+  "removed_at": "2026-05-18T15:10:41.947527+00:00",
+  "reason": "image_path file missing under dataset/images after user image cleanup",
+  "count": 14,
+  "samples": [
+    {
+      "task_id": "erob_003",
+      "domain": "embodied_robotics",
+      "topology_type": "kinematic",
+      "image_path": "dataset/images/robotics/parallel_kinematic_hexapod.jpg",
+      "prompt": "Task objective: embodied robotics for rigid body kinematics and coupling. Core scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Reference subject: parallel kinematic hexapod. Motion requirement / viewpoint motion fidelity: perform a smooth constant-radius orbit around the subject; target motion value 45.0. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.70, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.45, reference_and_motion_fidelity=0.85, temporal_consistency=1.25.",
+      "motion_type": "orbit",
+      "difficulty_profile": {
+        "industrial_logic_and_fact_alignment": "medium",
+        "temporal_consistency": "medium",
+        "physical_plausibility": "hard",
+        "reference_and_motion_fidelity": "medium",
+        "geometric_integrity": "hard",
+        "viewpoint_motion_fidelity": "medium"
+      },
+      "constraint_annotations": {
+        "topology_type": "kinematic",
+        "hard_constraints": [
+          "tank_circularity",
+          "shell_course_consistency"
+        ],
+        "failure_modes": [
+          "vessel_wall_deformation",
+          "nozzle_count_drift"
+        ],
+        "element_count": null,
+        "model_evaluation_axes": [
+          "industrial_logic_and_fact_alignment",
+          "temporal_consistency",
+          "physical_plausibility",
+          "reference_and_motion_fidelity",
+          "geometric_integrity",
+          "viewpoint_motion_fidelity",
+          "industrial_constraint_score"
+        ],
+        "domain_scenario": "multi-axis robotic arm performing high-precision grasping with tool-environment contact",
+        "abstract_task_category": "rigid_body_kinematics_and_coupling"
+      },
+      "sensitivity_variants": [
+        {
+          "id": "chem_surf_002_easy",
+          "difficulty": "easy",
+          "prompt_delta": "Speed up the orbit by 40%, testing temporal consistency",
+          "viewpoint_motion_target_delta": 20.8
+        },
+        {
+          "id": "chem_surf_002_hard",
+          "difficulty": "hard",
+          "prompt_delta": "Add a slight camera rise during orbit, creating a helical path",
+          "viewpoint_motion_target_delta": 55.6
+        }
+      ],
+      "primary_topology": "kinematic",
+      "sub_topology": "articulated",
+      "application_value": "Rigid mechanisms, robotic arms, cranes, CNC machines, excavators, and multi-link equipment where coupled motion must stay feasible.",
+      "axis_weights": {
+        "industrial_logic_and_fact_alignment": 1.1,
+        "geometric_integrity": 1.7,
+        "physical_plausibility": 1.45,
+        "temporal_consistency": 1.25,
+        "reference_and_motion_fidelity": 0.85
+      },
+      "axis_rubric": {
+        "geometric_integrity": "Highest priority: links, rigid joints, axes, supports, and spatial topology must not drift, merge, or collapse.",
+        "physical_plausibility": "Motion must respect rigid-body coupling, load direction, contact, reachable poses, and classical mechanics.",
+        "temporal_consistency": "The same mechanism and parts must persist without flicker, detachment, identity swap, or soft-body melting."
+      },
+      "task_category": "rigid_body_kinematics_and_coupling",
+      "industrial_logic_questions": [
+        {
+          "id": "q1",
+          "text": "Does the video preserve the industrial cause-and-effect chain for this scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact?",
+          "answer": "yes",
+          "weakness_target": "W3"
+        },
+        {
+          "id": "q2",
+          "text": "Does any core equipment, person, vehicle, defect region, or emergency state change role without a visible causal trigger?",
+          "answer": "no",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
+          "text": "Does the generated event remain consistent with the domain context of embodied intelligence and robotic operation and the task category rigid-body kinematics and coupled mechanism motion?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        }
+      ],
+      "viewpoint_motion_target": 45.0,
+      "video_generation_prompt": "Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Reference subject: parallel kinematic hexapod. Camera: perform a smooth constant-radius orbit around the subject; target motion value 45.0. Action: Show the rigid mechanism moving under load with all links, joints, tools, supports, and contact points staying physically coupled. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes."
+    },
+    {
+      "task_id": "erob_007",
+      "domain": "embodied_robotics",
+      "topology_type": "kinematic",
+      "image_path": "dataset/images/robotics/parallel_kinematic_hexapod.jpg",
+      "prompt": "Task objective: embodied robotics for rigid body kinematics and coupling. Core scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Reference subject: parallel kinematic hexapod. Motion requirement / viewpoint motion fidelity: perform a smooth constant-radius orbit around the subject; target motion value 45.0. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.70, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.45, reference_and_motion_fidelity=0.85, temporal_consistency=1.25.",
+      "motion_type": "orbit",
+      "difficulty_profile": {
+        "industrial_logic_and_fact_alignment": "medium",
+        "temporal_consistency": "medium",
+        "physical_plausibility": "hard",
+        "reference_and_motion_fidelity": "medium",
+        "geometric_integrity": "hard",
+        "viewpoint_motion_fidelity": "medium"
+      },
+      "constraint_annotations": {
+        "topology_type": "kinematic",
+        "hard_constraints": [
+          "surface_curvature_invariant",
+          "panel_alignment_consistency"
+        ],
+        "failure_modes": [
+          "boom_section_morphing",
+          "hydraulic_cylinder_count_drift"
+        ],
+        "element_count": null,
+        "model_evaluation_axes": [
+          "industrial_logic_and_fact_alignment",
+          "temporal_consistency",
+          "physical_plausibility",
+          "reference_and_motion_fidelity",
+          "geometric_integrity",
+          "viewpoint_motion_fidelity",
+          "industrial_constraint_score"
+        ],
+        "domain_scenario": "multi-axis robotic arm performing high-precision grasping with tool-environment contact",
+        "abstract_task_category": "rigid_body_kinematics_and_coupling"
+      },
+      "sensitivity_variants": [
+        {
+          "id": "con_kin_018_easy",
+          "difficulty": "easy",
+          "prompt_delta": "Increase camera orbit speed by 40% while maintaining the same angular trajectory",
+          "viewpoint_motion_target_delta": 25.5
+        },
+        {
+          "id": "con_kin_018_hard",
+          "difficulty": "hard",
+          "prompt_delta": "Add a slight vertical drift component to the orbit, rising 3 degrees over the sequence",
+          "viewpoint_motion_target_delta": 68.0
+        }
+      ],
+      "primary_topology": "kinematic",
+      "sub_topology": "articulated",
+      "application_value": "Rigid mechanisms, robotic arms, cranes, CNC machines, excavators, and multi-link equipment where coupled motion must stay feasible.",
+      "axis_weights": {
+        "industrial_logic_and_fact_alignment": 1.1,
+        "geometric_integrity": 1.7,
+        "physical_plausibility": 1.45,
+        "temporal_consistency": 1.25,
+        "reference_and_motion_fidelity": 0.85
+      },
+      "axis_rubric": {
+        "geometric_integrity": "Highest priority: links, rigid joints, axes, supports, and spatial topology must not drift, merge, or collapse.",
+        "physical_plausibility": "Motion must respect rigid-body coupling, load direction, contact, reachable poses, and classical mechanics.",
+        "temporal_consistency": "The same mechanism and parts must persist without flicker, detachment, identity swap, or soft-body melting."
+      },
+      "task_category": "rigid_body_kinematics_and_coupling",
+      "industrial_logic_questions": [
+        {
+          "id": "q1",
+          "text": "Does the video preserve the industrial cause-and-effect chain for this scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact?",
+          "answer": "yes",
+          "weakness_target": "W3"
+        },
+        {
+          "id": "q2",
+          "text": "Does any core equipment, person, vehicle, defect region, or emergency state change role without a visible causal trigger?",
+          "answer": "no",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
+          "text": "Does the generated event remain consistent with the domain context of embodied intelligence and robotic operation and the task category rigid-body kinematics and coupled mechanism motion?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        }
+      ],
+      "viewpoint_motion_target": 45.0,
+      "video_generation_prompt": "Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Reference subject: parallel kinematic hexapod. Camera: perform a smooth constant-radius orbit around the subject; target motion value 45.0. Action: Show the rigid mechanism moving under load with all links, joints, tools, supports, and contact points staying physically coupled. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes."
+    },
+    {
+      "task_id": "erob_011",
+      "domain": "embodied_robotics",
+      "topology_type": "kinematic",
+      "image_path": "dataset/images/robotics/parallel_kinematic_hexapod.jpg",
+      "prompt": "Task objective: embodied robotics for rigid body kinematics and coupling. Core scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Reference subject: parallel kinematic hexapod. Motion requirement / viewpoint motion fidelity: perform a smooth constant-radius orbit around the subject; target motion value 45.0. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.70, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.45, reference_and_motion_fidelity=0.85, temporal_consistency=1.25.",
+      "motion_type": "orbit",
+      "difficulty_profile": {
+        "industrial_logic_and_fact_alignment": "medium",
+        "temporal_consistency": "medium",
+        "physical_plausibility": "hard",
+        "reference_and_motion_fidelity": "medium",
+        "geometric_integrity": "hard",
+        "viewpoint_motion_fidelity": "medium"
+      },
+      "constraint_annotations": {
+        "topology_type": "kinematic",
+        "hard_constraints": [
+          "unit_cell_pitch_invariant",
+          "lattice_node_alignment"
+        ],
+        "failure_modes": [
+          "container_grid_pitch_drift",
+          "cell_guide_merging"
+        ],
+        "element_count": 20,
+        "model_evaluation_axes": [
+          "industrial_logic_and_fact_alignment",
+          "temporal_consistency",
+          "physical_plausibility",
+          "reference_and_motion_fidelity",
+          "geometric_integrity",
+          "viewpoint_motion_fidelity",
+          "industrial_constraint_score"
+        ],
+        "domain_scenario": "multi-axis robotic arm performing high-precision grasping with tool-environment contact",
+        "abstract_task_category": "rigid_body_kinematics_and_coupling"
+      },
+      "sensitivity_variants": [
+        {
+          "id": "mar_lat_001_easy",
+          "difficulty": "easy",
+          "prompt_delta": "Increase camera orbit speed by 40% while maintaining the same angular trajectory",
+          "viewpoint_motion_target_delta": 26.8
+        },
+        {
+          "id": "mar_lat_001_hard",
+          "difficulty": "hard",
+          "prompt_delta": "Add a slight vertical drift component to the orbit, rising 3 degrees over the sequence",
+          "viewpoint_motion_target_delta": 71.6
+        }
+      ],
+      "primary_topology": "kinematic",
+      "sub_topology": "articulated",
+      "application_value": "Rigid mechanisms, robotic arms, cranes, CNC machines, excavators, and multi-link equipment where coupled motion must stay feasible.",
+      "axis_weights": {
+        "industrial_logic_and_fact_alignment": 1.1,
+        "geometric_integrity": 1.7,
+        "physical_plausibility": 1.45,
+        "temporal_consistency": 1.25,
+        "reference_and_motion_fidelity": 0.85
+      },
+      "axis_rubric": {
+        "geometric_integrity": "Highest priority: links, rigid joints, axes, supports, and spatial topology must not drift, merge, or collapse.",
+        "physical_plausibility": "Motion must respect rigid-body coupling, load direction, contact, reachable poses, and classical mechanics.",
+        "temporal_consistency": "The same mechanism and parts must persist without flicker, detachment, identity swap, or soft-body melting."
+      },
+      "task_category": "rigid_body_kinematics_and_coupling",
+      "industrial_logic_questions": [
+        {
+          "id": "q1",
+          "text": "Does the video preserve the industrial cause-and-effect chain for this scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact?",
+          "answer": "yes",
+          "weakness_target": "W3"
+        },
+        {
+          "id": "q2",
+          "text": "Does any core equipment, person, vehicle, defect region, or emergency state change role without a visible causal trigger?",
+          "answer": "no",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
+          "text": "Does the generated event remain consistent with the domain context of embodied intelligence and robotic operation and the task category rigid-body kinematics and coupled mechanism motion?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        }
+      ],
+      "viewpoint_motion_target": 45.0,
+      "video_generation_prompt": "Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Reference subject: parallel kinematic hexapod. Camera: perform a smooth constant-radius orbit around the subject; target motion value 45.0. Action: Show the rigid mechanism moving under load with all links, joints, tools, supports, and contact points staying physically coupled. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes."
+    },
+    {
+      "task_id": "erob_015",
+      "domain": "embodied_robotics",
+      "topology_type": "kinematic",
+      "image_path": "dataset/images/robotics/parallel_kinematic_hexapod.jpg",
+      "prompt": "Task objective: embodied robotics for rigid body kinematics and coupling. Core scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Reference subject: parallel kinematic hexapod. Motion requirement / viewpoint motion fidelity: perform a smooth constant-radius orbit around the subject; target motion value 45.0. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.70, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.45, reference_and_motion_fidelity=0.85, temporal_consistency=1.25.",
+      "motion_type": "orbit",
+      "difficulty_profile": {
+        "industrial_logic_and_fact_alignment": "medium",
+        "temporal_consistency": "medium",
+        "physical_plausibility": "hard",
+        "reference_and_motion_fidelity": "medium",
+        "geometric_integrity": "hard",
+        "viewpoint_motion_fidelity": "medium"
+      },
+      "constraint_annotations": {
+        "topology_type": "kinematic",
+        "hard_constraints": [
+          "surface_curvature_invariant",
+          "panel_alignment_consistency"
+        ],
+        "failure_modes": [
+          "tool_geometry_morphing",
+          "fixture_count_drift"
+        ],
+        "element_count": null,
+        "model_evaluation_axes": [
+          "industrial_logic_and_fact_alignment",
+          "temporal_consistency",
+          "physical_plausibility",
+          "reference_and_motion_fidelity",
+          "geometric_integrity",
+          "viewpoint_motion_fidelity",
+          "industrial_constraint_score"
+        ],
+        "domain_scenario": "multi-axis robotic arm performing high-precision grasping with tool-environment contact",
+        "abstract_task_category": "rigid_body_kinematics_and_coupling"
+      },
+      "sensitivity_variants": [
+        {
+          "id": "rob_017_easy",
+          "difficulty": "easy",
+          "prompt_delta": "Increase camera orbit speed by 40% while maintaining the same angular trajectory",
+          "viewpoint_motion_target_delta": 26.7
+        },
+        {
+          "id": "rob_017_hard",
+          "difficulty": "hard",
+          "prompt_delta": "Add a slight vertical drift component to the orbit, rising 3 degrees over the sequence",
+          "viewpoint_motion_target_delta": 71.2
+        }
+      ],
+      "primary_topology": "kinematic",
+      "sub_topology": "articulated",
+      "application_value": "Rigid mechanisms, robotic arms, cranes, CNC machines, excavators, and multi-link equipment where coupled motion must stay feasible.",
+      "axis_weights": {
+        "industrial_logic_and_fact_alignment": 1.1,
+        "geometric_integrity": 1.7,
+        "physical_plausibility": 1.45,
+        "temporal_consistency": 1.25,
+        "reference_and_motion_fidelity": 0.85
+      },
+      "axis_rubric": {
+        "geometric_integrity": "Highest priority: links, rigid joints, axes, supports, and spatial topology must not drift, merge, or collapse.",
+        "physical_plausibility": "Motion must respect rigid-body coupling, load direction, contact, reachable poses, and classical mechanics.",
+        "temporal_consistency": "The same mechanism and parts must persist without flicker, detachment, identity swap, or soft-body melting."
+      },
+      "task_category": "rigid_body_kinematics_and_coupling",
+      "industrial_logic_questions": [
+        {
+          "id": "q1",
+          "text": "Does the video preserve the industrial cause-and-effect chain for this scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact?",
+          "answer": "yes",
+          "weakness_target": "W3"
+        },
+        {
+          "id": "q2",
+          "text": "Does any core equipment, person, vehicle, defect region, or emergency state change role without a visible causal trigger?",
+          "answer": "no",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
+          "text": "Does the generated event remain consistent with the domain context of embodied intelligence and robotic operation and the task category rigid-body kinematics and coupled mechanism motion?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        }
+      ],
+      "viewpoint_motion_target": 45.0,
+      "video_generation_prompt": "Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Reference subject: parallel kinematic hexapod. Camera: perform a smooth constant-radius orbit around the subject; target motion value 45.0. Action: Show the rigid mechanism moving under load with all links, joints, tools, supports, and contact points staying physically coupled. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes."
+    },
+    {
+      "task_id": "erob_019",
+      "domain": "embodied_robotics",
+      "image_path": "dataset/images/robotics/parallel_kinematic_hexapod.jpg",
+      "prompt": "Task objective: embodied robotics for rigid body kinematics and coupling. Core scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Reference subject: parallel kinematic hexapod. Motion requirement / viewpoint motion fidelity: perform a smooth constant-radius orbit around the subject; target motion value 45.0. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.70, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.45, reference_and_motion_fidelity=0.85, temporal_consistency=1.25.",
+      "constraint_annotations": {
+        "topology_type": "kinematic",
+        "hard_constraints": [
+          "tool_geometry_must_not_deform",
+          "fixture_clamp_count_invariant"
+        ],
+        "failure_modes": [
+          "tool_geometry_morphing",
+          "fixture_count_drift"
+        ],
+        "element_count": null,
+        "model_evaluation_axes": [
+          "industrial_logic_and_fact_alignment",
+          "temporal_consistency",
+          "physical_plausibility",
+          "reference_and_motion_fidelity",
+          "geometric_integrity",
+          "viewpoint_motion_fidelity",
+          "industrial_constraint_score"
+        ],
+        "domain_scenario": "multi-axis robotic arm performing high-precision grasping with tool-environment contact",
+        "abstract_task_category": "rigid_body_kinematics_and_coupling"
+      },
+      "topology_type": "kinematic",
+      "difficulty_profile": {
+        "industrial_logic_and_fact_alignment": "medium",
+        "temporal_consistency": "medium",
+        "physical_plausibility": "hard",
+        "reference_and_motion_fidelity": "medium",
+        "geometric_integrity": "hard",
+        "viewpoint_motion_fidelity": "medium"
+      },
+      "sensitivity_variants": [
+        {
+          "id": "mfg_001_easy",
+          "difficulty": "easy",
+          "prompt_delta": "Reduce pan to 27.3° with slower lateral movement",
+          "viewpoint_motion_target_delta": -14.7
+        },
+        {
+          "id": "mfg_001_hard",
+          "difficulty": "hard",
+          "prompt_delta": "Increase pan to 58.8° and add slight 5° orbit component",
+          "viewpoint_motion_target_delta": 16.8
+        }
+      ],
+      "motion_type": "orbit",
+      "primary_topology": "kinematic",
+      "sub_topology": "articulated",
+      "application_value": "Rigid mechanisms, robotic arms, cranes, CNC machines, excavators, and multi-link equipment where coupled motion must stay feasible.",
+      "axis_weights": {
+        "industrial_logic_and_fact_alignment": 1.1,
+        "geometric_integrity": 1.7,
+        "physical_plausibility": 1.45,
+        "temporal_consistency": 1.25,
+        "reference_and_motion_fidelity": 0.85
+      },
+      "axis_rubric": {
+        "geometric_integrity": "Highest priority: links, rigid joints, axes, supports, and spatial topology must not drift, merge, or collapse.",
+        "physical_plausibility": "Motion must respect rigid-body coupling, load direction, contact, reachable poses, and classical mechanics.",
+        "temporal_consistency": "The same mechanism and parts must persist without flicker, detachment, identity swap, or soft-body melting."
+      },
+      "task_category": "rigid_body_kinematics_and_coupling",
+      "industrial_logic_questions": [
+        {
+          "id": "q1",
+          "text": "Does the video preserve the industrial cause-and-effect chain for this scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact?",
+          "answer": "yes",
+          "weakness_target": "W3"
+        },
+        {
+          "id": "q2",
+          "text": "Does any core equipment, person, vehicle, defect region, or emergency state change role without a visible causal trigger?",
+          "answer": "no",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
+          "text": "Does the generated event remain consistent with the domain context of embodied intelligence and robotic operation and the task category rigid-body kinematics and coupled mechanism motion?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        }
+      ],
+      "viewpoint_motion_target": 45.0,
+      "video_generation_prompt": "Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Reference subject: parallel kinematic hexapod. Camera: perform a smooth constant-radius orbit around the subject; target motion value 45.0. Action: Show the rigid mechanism moving under load with all links, joints, tools, supports, and contact points staying physically coupled. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes."
+    },
+    {
+      "task_id": "erob_023",
+      "domain": "embodied_robotics",
+      "topology_type": "kinematic",
+      "image_path": "dataset/images/robotics/parallel_kinematic_hexapod.jpg",
+      "prompt": "Task objective: embodied robotics for rigid body kinematics and coupling. Core scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Reference subject: parallel kinematic hexapod. Motion requirement / viewpoint motion fidelity: perform a smooth constant-radius orbit around the subject; target motion value 45.0. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.70, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.45, reference_and_motion_fidelity=0.85, temporal_consistency=1.25.",
+      "constraint_annotations": {
+        "topology_type": "kinematic",
+        "hard_constraints": [
+          "cable_spacing_must_not_vary_more_than_5_percent",
+          "truss_member_count_invariant"
+        ],
+        "failure_modes": [
+          "cable_spacing_drift"
+        ],
+        "element_count": 12,
+        "model_evaluation_axes": [
+          "industrial_logic_and_fact_alignment",
+          "temporal_consistency",
+          "physical_plausibility",
+          "reference_and_motion_fidelity",
+          "geometric_integrity",
+          "viewpoint_motion_fidelity",
+          "industrial_constraint_score"
+        ],
+        "domain_scenario": "multi-axis robotic arm performing high-precision grasping with tool-environment contact",
+        "abstract_task_category": "rigid_body_kinematics_and_coupling"
+      },
+      "difficulty_profile": {
+        "industrial_logic_and_fact_alignment": "medium",
+        "temporal_consistency": "medium",
+        "physical_plausibility": "hard",
+        "reference_and_motion_fidelity": "medium",
+        "geometric_integrity": "hard",
+        "viewpoint_motion_fidelity": "medium"
+      },
+      "sensitivity_variants": [
+        {
+          "id": "veh_010_easy",
+          "difficulty": "easy",
+          "prompt_delta": "Reduce orbit to 23.4° with slower, smoother arc",
+          "viewpoint_motion_target_delta": -12.6
+        },
+        {
+          "id": "veh_010_hard",
+          "difficulty": "hard",
+          "prompt_delta": "Increase orbit to 50.4° and add simultaneous 8° vertical rise",
+          "viewpoint_motion_target_delta": 14.4
+        }
+      ],
+      "motion_type": "orbit",
+      "primary_topology": "kinematic",
+      "sub_topology": "articulated",
+      "application_value": "Rigid mechanisms, robotic arms, cranes, CNC machines, excavators, and multi-link equipment where coupled motion must stay feasible.",
+      "axis_weights": {
+        "industrial_logic_and_fact_alignment": 1.1,
+        "geometric_integrity": 1.7,
+        "physical_plausibility": 1.45,
+        "temporal_consistency": 1.25,
+        "reference_and_motion_fidelity": 0.85
+      },
+      "axis_rubric": {
+        "geometric_integrity": "Highest priority: links, rigid joints, axes, supports, and spatial topology must not drift, merge, or collapse.",
+        "physical_plausibility": "Motion must respect rigid-body coupling, load direction, contact, reachable poses, and classical mechanics.",
+        "temporal_consistency": "The same mechanism and parts must persist without flicker, detachment, identity swap, or soft-body melting."
+      },
+      "task_category": "rigid_body_kinematics_and_coupling",
+      "industrial_logic_questions": [
+        {
+          "id": "q1",
+          "text": "Does the video preserve the industrial cause-and-effect chain for this scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact?",
+          "answer": "yes",
+          "weakness_target": "W3"
+        },
+        {
+          "id": "q2",
+          "text": "Does any core equipment, person, vehicle, defect region, or emergency state change role without a visible causal trigger?",
+          "answer": "no",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
+          "text": "Does the generated event remain consistent with the domain context of embodied intelligence and robotic operation and the task category rigid-body kinematics and coupled mechanism motion?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        }
+      ],
+      "viewpoint_motion_target": 45.0,
+      "video_generation_prompt": "Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Reference subject: parallel kinematic hexapod. Camera: perform a smooth constant-radius orbit around the subject; target motion value 45.0. Action: Show the rigid mechanism moving under load with all links, joints, tools, supports, and contact points staying physically coupled. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes."
+    },
+    {
+      "task_id": "erob_027",
+      "domain": "embodied_robotics",
+      "topology_type": "kinematic",
+      "image_path": "dataset/images/robotics/parallel_kinematic_hexapod.jpg",
+      "prompt": "Task objective: embodied robotics for rigid body kinematics and coupling. Core scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Reference subject: parallel kinematic hexapod. Motion requirement / viewpoint motion fidelity: perform a smooth constant-radius orbit around the subject; target motion value 45.0. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.70, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.45, reference_and_motion_fidelity=0.85, temporal_consistency=1.25.",
+      "motion_type": "orbit",
+      "difficulty_profile": {
+        "industrial_logic_and_fact_alignment": "medium",
+        "temporal_consistency": "medium",
+        "physical_plausibility": "hard",
+        "reference_and_motion_fidelity": "medium",
+        "geometric_integrity": "hard",
+        "viewpoint_motion_fidelity": "medium"
+      },
+      "constraint_annotations": {
+        "topology_type": "kinematic",
+        "hard_constraints": [
+          "boom_section_count_invariant",
+          "pivot_point_consistency"
+        ],
+        "failure_modes": [
+          "telescoping_section_merging",
+          "pivot_point_drift"
+        ],
+        "element_count": 4,
+        "model_evaluation_axes": [
+          "industrial_logic_and_fact_alignment",
+          "temporal_consistency",
+          "physical_plausibility",
+          "reference_and_motion_fidelity",
+          "geometric_integrity",
+          "viewpoint_motion_fidelity",
+          "industrial_constraint_score"
+        ],
+        "domain_scenario": "multi-axis robotic arm performing high-precision grasping with tool-environment contact",
+        "abstract_task_category": "rigid_body_kinematics_and_coupling"
+      },
+      "sensitivity_variants": [
+        {
+          "id": "con_kin_008_easy",
+          "difficulty": "easy",
+          "prompt_delta": "Reduce the swing arc from 90 degrees to 45 degrees, testing consistency over smaller motion",
+          "viewpoint_motion_target_delta": 25.9
+        },
+        {
+          "id": "con_kin_008_hard",
+          "difficulty": "hard",
+          "prompt_delta": "Add simultaneous boom raise during the swing, creating compound motion",
+          "viewpoint_motion_target_delta": 69.2
+        }
+      ],
+      "primary_topology": "kinematic",
+      "sub_topology": "articulated",
+      "application_value": "Rigid mechanisms, robotic arms, cranes, CNC machines, excavators, and multi-link equipment where coupled motion must stay feasible.",
+      "axis_weights": {
+        "industrial_logic_and_fact_alignment": 1.1,
+        "geometric_integrity": 1.7,
+        "physical_plausibility": 1.45,
+        "temporal_consistency": 1.25,
+        "reference_and_motion_fidelity": 0.85
+      },
+      "axis_rubric": {
+        "geometric_integrity": "Highest priority: links, rigid joints, axes, supports, and spatial topology must not drift, merge, or collapse.",
+        "physical_plausibility": "Motion must respect rigid-body coupling, load direction, contact, reachable poses, and classical mechanics.",
+        "temporal_consistency": "The same mechanism and parts must persist without flicker, detachment, identity swap, or soft-body melting."
+      },
+      "task_category": "rigid_body_kinematics_and_coupling",
+      "industrial_logic_questions": [
+        {
+          "id": "q1",
+          "text": "Does the video preserve the industrial cause-and-effect chain for this scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact?",
+          "answer": "yes",
+          "weakness_target": "W3"
+        },
+        {
+          "id": "q2",
+          "text": "Does any core equipment, person, vehicle, defect region, or emergency state change role without a visible causal trigger?",
+          "answer": "no",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
+          "text": "Does the generated event remain consistent with the domain context of embodied intelligence and robotic operation and the task category rigid-body kinematics and coupled mechanism motion?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        }
+      ],
+      "viewpoint_motion_target": 45.0,
+      "video_generation_prompt": "Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Reference subject: parallel kinematic hexapod. Camera: perform a smooth constant-radius orbit around the subject; target motion value 45.0. Action: Show the rigid mechanism moving under load with all links, joints, tools, supports, and contact points staying physically coupled. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes."
+    },
+    {
+      "task_id": "erob_031",
+      "domain": "embodied_robotics",
+      "topology_type": "kinematic",
+      "image_path": "dataset/images/robotics/parallel_kinematic_hexapod.jpg",
+      "prompt": "Task objective: embodied robotics for rigid body kinematics and coupling. Core scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Reference subject: parallel kinematic hexapod. Motion requirement / viewpoint motion fidelity: perform a smooth constant-radius orbit around the subject; target motion value 45.0. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.70, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.45, reference_and_motion_fidelity=0.85, temporal_consistency=1.25.",
+      "motion_type": "orbit",
+      "difficulty_profile": {
+        "industrial_logic_and_fact_alignment": "medium",
+        "temporal_consistency": "medium",
+        "physical_plausibility": "hard",
+        "reference_and_motion_fidelity": "medium",
+        "geometric_integrity": "hard",
+        "viewpoint_motion_fidelity": "medium"
+      },
+      "constraint_annotations": {
+        "topology_type": "kinematic",
+        "hard_constraints": [
+          "unit_cell_pitch_invariant",
+          "lattice_node_alignment"
+        ],
+        "failure_modes": [
+          "tube_bundle_pitch_compression",
+          "column_array_merging"
+        ],
+        "element_count": 12,
+        "model_evaluation_axes": [
+          "industrial_logic_and_fact_alignment",
+          "temporal_consistency",
+          "physical_plausibility",
+          "reference_and_motion_fidelity",
+          "geometric_integrity",
+          "viewpoint_motion_fidelity",
+          "industrial_constraint_score"
+        ],
+        "domain_scenario": "multi-axis robotic arm performing high-precision grasping with tool-environment contact",
+        "abstract_task_category": "rigid_body_kinematics_and_coupling"
+      },
+      "sensitivity_variants": [
+        {
+          "id": "chem_lat_009_easy",
+          "difficulty": "easy",
+          "prompt_delta": "Increase camera orbit speed by 40% while maintaining the same angular trajectory",
+          "viewpoint_motion_target_delta": 26.1
+        },
+        {
+          "id": "chem_lat_009_hard",
+          "difficulty": "hard",
+          "prompt_delta": "Add a slight vertical drift component to the orbit, rising 3 degrees over the sequence",
+          "viewpoint_motion_target_delta": 69.6
+        }
+      ],
+      "primary_topology": "kinematic",
+      "sub_topology": "articulated",
+      "application_value": "Rigid mechanisms, robotic arms, cranes, CNC machines, excavators, and multi-link equipment where coupled motion must stay feasible.",
+      "axis_weights": {
+        "industrial_logic_and_fact_alignment": 1.1,
+        "geometric_integrity": 1.7,
+        "physical_plausibility": 1.45,
+        "temporal_consistency": 1.25,
+        "reference_and_motion_fidelity": 0.85
+      },
+      "axis_rubric": {
+        "geometric_integrity": "Highest priority: links, rigid joints, axes, supports, and spatial topology must not drift, merge, or collapse.",
+        "physical_plausibility": "Motion must respect rigid-body coupling, load direction, contact, reachable poses, and classical mechanics.",
+        "temporal_consistency": "The same mechanism and parts must persist without flicker, detachment, identity swap, or soft-body melting."
+      },
+      "task_category": "rigid_body_kinematics_and_coupling",
+      "industrial_logic_questions": [
+        {
+          "id": "q1",
+          "text": "Does the video preserve the industrial cause-and-effect chain for this scenario: multi-axis robotic arm performing high-precision grasping with tool-environment contact?",
+          "answer": "yes",
+          "weakness_target": "W3"
+        },
+        {
+          "id": "q2",
+          "text": "Does any core equipment, person, vehicle, defect region, or emergency state change role without a visible causal trigger?",
+          "answer": "no",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
+          "text": "Does the generated event remain consistent with the domain context of embodied intelligence and robotic operation and the task category rigid-body kinematics and coupled mechanism motion?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        }
+      ],
+      "viewpoint_motion_target": 45.0,
+      "video_generation_prompt": "Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: multi-axis robotic arm performing high-precision grasping with tool-environment contact. Reference subject: parallel kinematic hexapod. Camera: perform a smooth constant-radius orbit around the subject; target motion value 45.0. Action: Show the rigid mechanism moving under load with all links, joints, tools, supports, and contact points staying physically coupled. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes."
+    },
+    {
+      "task_id": "pdef_029",
+      "domain": "precision_defect_gen",
+      "topology_type": "lattice",
+      "image_path": "dataset/images/electronics/wire_bonding_machine.jpg",
+      "prompt": "Task objective: precision defect gen for topology mutation and failure. Core scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Motion requirement / viewpoint motion fidelity: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.80, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.05, reference_and_motion_fidelity=1.35, temporal_consistency=1.25.",
+      "constraint_annotations": {
+        "topology_type": "lattice",
+        "hard_constraints": [
+          "joint_angle_sequence_physically_achievable",
+          "link_length_constant_within_2_percent"
+        ],
+        "failure_modes": [
+          "proportion_distortion"
+        ],
+        "element_count": 6,
+        "model_evaluation_axes": [
+          "industrial_logic_and_fact_alignment",
+          "temporal_consistency",
+          "physical_plausibility",
+          "reference_and_motion_fidelity",
+          "geometric_integrity",
+          "viewpoint_motion_fidelity",
+          "industrial_constraint_score"
+        ],
+        "domain_scenario": "dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear",
+        "abstract_task_category": "topology_mutation_and_failure"
+      },
+      "difficulty_profile": {
+        "industrial_logic_and_fact_alignment": "medium",
+        "temporal_consistency": "hard",
+        "physical_plausibility": "medium",
+        "reference_and_motion_fidelity": "medium",
+        "geometric_integrity": "hard",
+        "viewpoint_motion_fidelity": "medium"
+      },
+      "sensitivity_variants": [
+        {
+          "id": "aero_013_easy",
+          "difficulty": "easy",
+          "prompt_delta": "Reduce orbit to 87.1° with slower, smoother arc",
+          "viewpoint_motion_target_delta": -46.9
+        },
+        {
+          "id": "aero_013_hard",
+          "difficulty": "hard",
+          "prompt_delta": "Increase orbit to 187.6° and add simultaneous 8° vertical rise",
+          "viewpoint_motion_target_delta": 53.6
+        }
+      ],
+      "motion_type": "dolly",
+      "primary_topology": "lattice",
+      "sub_topology": "2d_planar",
+      "application_value": "Localized short circuits, fracture, rope failure, broken barriers, gear tooth loss, crack propagation, and other controlled defects.",
+      "axis_weights": {
+        "industrial_logic_and_fact_alignment": 1.1,
+        "geometric_integrity": 1.8,
+        "physical_plausibility": 1.05,
+        "temporal_consistency": 1.25,
+        "reference_and_motion_fidelity": 1.35
+      },
+      "axis_rubric": {
+        "geometric_integrity": "The requested local topology mutation must be precise while untouched structures keep their boundaries and counts.",
+        "reference_and_motion_fidelity": "Masked non-defect regions, background, and reference layout must remain locked while the defect evolves.",
+        "temporal_consistency": "The defect must persist and evolve continuously without global scene regeneration."
+      },
+      "task_category": "topology_mutation_and_failure",
+      "industrial_logic_questions": [
+        {
+          "id": "q1",
+          "text": "Does the video preserve the industrial cause-and-effect chain for this scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear?",
+          "answer": "yes",
+          "weakness_target": "W3"
+        },
+        {
+          "id": "q2",
+          "text": "Does any core equipment, person, vehicle, defect region, or emergency state change role without a visible causal trigger?",
+          "answer": "no",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
+          "text": "Does the generated event remain consistent with the domain context of precision manufacturing and defect generation and the task category topology mutation and structural failure?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        }
+      ],
+      "viewpoint_motion_target": 1.5,
+      "video_generation_prompt": "Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Camera: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Action: Generate only the requested local break, short, crack, missing tooth, rope deformation, or structural failure; keep every unaffected area stable. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes."
+    },
+    {
+      "task_id": "pdef_033",
+      "domain": "precision_defect_gen",
+      "topology_type": "lattice",
+      "image_path": "dataset/images/electronics/wire_bonding_machine.jpg",
+      "prompt": "Task objective: precision defect gen for topology mutation and failure. Core scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Motion requirement / viewpoint motion fidelity: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.80, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.05, reference_and_motion_fidelity=1.35, temporal_consistency=1.25.",
+      "constraint_annotations": {
+        "topology_type": "lattice",
+        "hard_constraints": [
+          "trace_width_must_not_deform",
+          "pad_geometry_must_be_preserved"
+        ],
+        "failure_modes": [
+          "grid_alignment_drift"
+        ],
+        "element_count": null,
+        "model_evaluation_axes": [
+          "industrial_logic_and_fact_alignment",
+          "temporal_consistency",
+          "physical_plausibility",
+          "reference_and_motion_fidelity",
+          "geometric_integrity",
+          "viewpoint_motion_fidelity",
+          "industrial_constraint_score"
+        ],
+        "domain_scenario": "dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear",
+        "abstract_task_category": "topology_mutation_and_failure"
+      },
+      "difficulty_profile": {
+        "industrial_logic_and_fact_alignment": "medium",
+        "temporal_consistency": "hard",
+        "physical_plausibility": "medium",
+        "reference_and_motion_fidelity": "medium",
+        "geometric_integrity": "hard",
+        "viewpoint_motion_fidelity": "medium"
+      },
+      "sensitivity_variants": [
+        {
+          "id": "micro_010_easy",
+          "difficulty": "easy",
+          "prompt_delta": "Reduce orbit to 107.2° with slower, smoother arc",
+          "viewpoint_motion_target_delta": -57.7
+        },
+        {
+          "id": "micro_010_hard",
+          "difficulty": "hard",
+          "prompt_delta": "Increase orbit to 231.0° and add simultaneous 8° vertical rise",
+          "viewpoint_motion_target_delta": 66.0
+        }
+      ],
+      "motion_type": "dolly",
+      "primary_topology": "lattice",
+      "sub_topology": "2d_planar",
+      "application_value": "Localized short circuits, fracture, rope failure, broken barriers, gear tooth loss, crack propagation, and other controlled defects.",
+      "axis_weights": {
+        "industrial_logic_and_fact_alignment": 1.1,
+        "geometric_integrity": 1.8,
+        "physical_plausibility": 1.05,
+        "temporal_consistency": 1.25,
+        "reference_and_motion_fidelity": 1.35
+      },
+      "axis_rubric": {
+        "geometric_integrity": "The requested local topology mutation must be precise while untouched structures keep their boundaries and counts.",
+        "reference_and_motion_fidelity": "Masked non-defect regions, background, and reference layout must remain locked while the defect evolves.",
+        "temporal_consistency": "The defect must persist and evolve continuously without global scene regeneration."
+      },
+      "task_category": "topology_mutation_and_failure",
+      "industrial_logic_questions": [
+        {
+          "id": "q1",
+          "text": "Does the video preserve the industrial cause-and-effect chain for this scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear?",
+          "answer": "yes",
+          "weakness_target": "W3"
+        },
+        {
+          "id": "q2",
+          "text": "Does any core equipment, person, vehicle, defect region, or emergency state change role without a visible causal trigger?",
+          "answer": "no",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
+          "text": "Does the generated event remain consistent with the domain context of precision manufacturing and defect generation and the task category topology mutation and structural failure?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        }
+      ],
+      "viewpoint_motion_target": 1.5,
+      "video_generation_prompt": "Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Camera: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Action: Generate only the requested local break, short, crack, missing tooth, rope deformation, or structural failure; keep every unaffected area stable. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes."
+    },
+    {
+      "task_id": "pdef_037",
+      "domain": "precision_defect_gen",
+      "topology_type": "lattice",
+      "image_path": "dataset/images/electronics/wire_bonding_machine.jpg",
+      "prompt": "Task objective: precision defect gen for topology mutation and failure. Core scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Motion requirement / viewpoint motion fidelity: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.80, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.05, reference_and_motion_fidelity=1.35, temporal_consistency=1.25.",
+      "motion_type": "dolly",
+      "difficulty_profile": {
+        "industrial_logic_and_fact_alignment": "medium",
+        "temporal_consistency": "hard",
+        "physical_plausibility": "medium",
+        "reference_and_motion_fidelity": "medium",
+        "geometric_integrity": "hard",
+        "viewpoint_motion_fidelity": "medium"
+      },
+      "constraint_annotations": {
+        "topology_type": "lattice",
+        "hard_constraints": [
+          "screen_deck_spacing_invariant",
+          "crusher_geometry_consistency"
+        ],
+        "failure_modes": [
+          "drill_bit_array_merging",
+          "screen_aperture_collapse"
+        ],
+        "element_count": 16,
+        "model_evaluation_axes": [
+          "industrial_logic_and_fact_alignment",
+          "temporal_consistency",
+          "physical_plausibility",
+          "reference_and_motion_fidelity",
+          "geometric_integrity",
+          "viewpoint_motion_fidelity",
+          "industrial_constraint_score"
+        ],
+        "domain_scenario": "dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear",
+        "abstract_task_category": "topology_mutation_and_failure"
+      },
+      "sensitivity_variants": [
+        {
+          "id": "mine_lat_001_easy",
+          "difficulty": "easy",
+          "prompt_delta": "Speed up the orbit by 40%, testing temporal consistency",
+          "viewpoint_motion_target_delta": 26.4
+        },
+        {
+          "id": "mine_lat_001_hard",
+          "difficulty": "hard",
+          "prompt_delta": "Add a slight camera rise during orbit",
+          "viewpoint_motion_target_delta": 70.4
+        }
+      ],
+      "primary_topology": "lattice",
+      "sub_topology": "2d_planar",
+      "application_value": "Localized short circuits, fracture, rope failure, broken barriers, gear tooth loss, crack propagation, and other controlled defects.",
+      "axis_weights": {
+        "industrial_logic_and_fact_alignment": 1.1,
+        "geometric_integrity": 1.8,
+        "physical_plausibility": 1.05,
+        "temporal_consistency": 1.25,
+        "reference_and_motion_fidelity": 1.35
+      },
+      "axis_rubric": {
+        "geometric_integrity": "The requested local topology mutation must be precise while untouched structures keep their boundaries and counts.",
+        "reference_and_motion_fidelity": "Masked non-defect regions, background, and reference layout must remain locked while the defect evolves.",
+        "temporal_consistency": "The defect must persist and evolve continuously without global scene regeneration."
+      },
+      "task_category": "topology_mutation_and_failure",
+      "industrial_logic_questions": [
+        {
+          "id": "q1",
+          "text": "Does the video preserve the industrial cause-and-effect chain for this scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear?",
+          "answer": "yes",
+          "weakness_target": "W3"
+        },
+        {
+          "id": "q2",
+          "text": "Does any core equipment, person, vehicle, defect region, or emergency state change role without a visible causal trigger?",
+          "answer": "no",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
+          "text": "Does the generated event remain consistent with the domain context of precision manufacturing and defect generation and the task category topology mutation and structural failure?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        }
+      ],
+      "viewpoint_motion_target": 1.5,
+      "video_generation_prompt": "Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Camera: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Action: Generate only the requested local break, short, crack, missing tooth, rope deformation, or structural failure; keep every unaffected area stable. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes."
+    },
+    {
+      "task_id": "pdef_041",
+      "domain": "precision_defect_gen",
+      "topology_type": "lattice",
+      "image_path": "dataset/images/electronics/wire_bonding_machine.jpg",
+      "prompt": "Task objective: precision defect gen for topology mutation and failure. Core scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Motion requirement / viewpoint motion fidelity: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.80, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.05, reference_and_motion_fidelity=1.35, temporal_consistency=1.25.",
+      "motion_type": "dolly",
+      "difficulty_profile": {
+        "industrial_logic_and_fact_alignment": "medium",
+        "temporal_consistency": "hard",
+        "physical_plausibility": "medium",
+        "reference_and_motion_fidelity": "medium",
+        "geometric_integrity": "hard",
+        "viewpoint_motion_fidelity": "medium"
+      },
+      "constraint_annotations": {
+        "topology_type": "lattice",
+        "hard_constraints": [
+          "joint_count_invariant",
+          "link_length_consistency"
+        ],
+        "failure_modes": [
+          "walking_beam_geometry_loss",
+          "counterweight_position_drift"
+        ],
+        "element_count": null,
+        "model_evaluation_axes": [
+          "industrial_logic_and_fact_alignment",
+          "temporal_consistency",
+          "physical_plausibility",
+          "reference_and_motion_fidelity",
+          "geometric_integrity",
+          "viewpoint_motion_fidelity",
+          "industrial_constraint_score"
+        ],
+        "domain_scenario": "dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear",
+        "abstract_task_category": "topology_mutation_and_failure"
+      },
+      "sensitivity_variants": [
+        {
+          "id": "eng_016_easy",
+          "difficulty": "easy",
+          "prompt_delta": "Increase camera orbit speed by 40% while maintaining the same angular trajectory",
+          "viewpoint_motion_target_delta": 25.8
+        },
+        {
+          "id": "eng_016_hard",
+          "difficulty": "hard",
+          "prompt_delta": "Add a slight vertical drift component to the orbit, rising 3 degrees over the sequence",
+          "viewpoint_motion_target_delta": 68.8
+        }
+      ],
+      "primary_topology": "lattice",
+      "sub_topology": "2d_planar",
+      "application_value": "Localized short circuits, fracture, rope failure, broken barriers, gear tooth loss, crack propagation, and other controlled defects.",
+      "axis_weights": {
+        "industrial_logic_and_fact_alignment": 1.1,
+        "geometric_integrity": 1.8,
+        "physical_plausibility": 1.05,
+        "temporal_consistency": 1.25,
+        "reference_and_motion_fidelity": 1.35
+      },
+      "axis_rubric": {
+        "geometric_integrity": "The requested local topology mutation must be precise while untouched structures keep their boundaries and counts.",
+        "reference_and_motion_fidelity": "Masked non-defect regions, background, and reference layout must remain locked while the defect evolves.",
+        "temporal_consistency": "The defect must persist and evolve continuously without global scene regeneration."
+      },
+      "task_category": "topology_mutation_and_failure",
+      "industrial_logic_questions": [
+        {
+          "id": "q1",
+          "text": "Does the video preserve the industrial cause-and-effect chain for this scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear?",
+          "answer": "yes",
+          "weakness_target": "W3"
+        },
+        {
+          "id": "q2",
+          "text": "Does any core equipment, person, vehicle, defect region, or emergency state change role without a visible causal trigger?",
+          "answer": "no",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
+          "text": "Does the generated event remain consistent with the domain context of precision manufacturing and defect generation and the task category topology mutation and structural failure?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        }
+      ],
+      "viewpoint_motion_target": 1.5,
+      "video_generation_prompt": "Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Camera: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Action: Generate only the requested local break, short, crack, missing tooth, rope deformation, or structural failure; keep every unaffected area stable. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes."
+    },
+    {
+      "task_id": "pdef_045",
+      "domain": "precision_defect_gen",
+      "topology_type": "lattice",
+      "image_path": "dataset/images/electronics/wire_bonding_machine.jpg",
+      "prompt": "Task objective: precision defect gen for topology mutation and failure. Core scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Motion requirement / viewpoint motion fidelity: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.80, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.05, reference_and_motion_fidelity=1.35, temporal_consistency=1.25.",
+      "motion_type": "dolly",
+      "difficulty_profile": {
+        "industrial_logic_and_fact_alignment": "medium",
+        "temporal_consistency": "hard",
+        "physical_plausibility": "medium",
+        "reference_and_motion_fidelity": "medium",
+        "geometric_integrity": "hard",
+        "viewpoint_motion_fidelity": "medium"
+      },
+      "constraint_annotations": {
+        "topology_type": "lattice",
+        "hard_constraints": [
+          "joint_count_invariant",
+          "link_length_consistency"
+        ],
+        "failure_modes": [
+          "bond_wire_loop_collapse",
+          "component_count_drift"
+        ],
+        "element_count": null,
+        "model_evaluation_axes": [
+          "industrial_logic_and_fact_alignment",
+          "temporal_consistency",
+          "physical_plausibility",
+          "reference_and_motion_fidelity",
+          "geometric_integrity",
+          "viewpoint_motion_fidelity",
+          "industrial_constraint_score"
+        ],
+        "domain_scenario": "dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear",
+        "abstract_task_category": "topology_mutation_and_failure"
+      },
+      "sensitivity_variants": [
+        {
+          "id": "micro_015_easy",
+          "difficulty": "easy",
+          "prompt_delta": "Increase camera orbit speed by 40% while maintaining the same angular trajectory",
+          "viewpoint_motion_target_delta": 26.8
+        },
+        {
+          "id": "micro_015_hard",
+          "difficulty": "hard",
+          "prompt_delta": "Add a slight vertical drift component to the orbit, rising 3 degrees over the sequence",
+          "viewpoint_motion_target_delta": 71.6
+        }
+      ],
+      "primary_topology": "lattice",
+      "sub_topology": "2d_planar",
+      "application_value": "Localized short circuits, fracture, rope failure, broken barriers, gear tooth loss, crack propagation, and other controlled defects.",
+      "axis_weights": {
+        "industrial_logic_and_fact_alignment": 1.1,
+        "geometric_integrity": 1.8,
+        "physical_plausibility": 1.05,
+        "temporal_consistency": 1.25,
+        "reference_and_motion_fidelity": 1.35
+      },
+      "axis_rubric": {
+        "geometric_integrity": "The requested local topology mutation must be precise while untouched structures keep their boundaries and counts.",
+        "reference_and_motion_fidelity": "Masked non-defect regions, background, and reference layout must remain locked while the defect evolves.",
+        "temporal_consistency": "The defect must persist and evolve continuously without global scene regeneration."
+      },
+      "task_category": "topology_mutation_and_failure",
+      "industrial_logic_questions": [
+        {
+          "id": "q1",
+          "text": "Does the video preserve the industrial cause-and-effect chain for this scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear?",
+          "answer": "yes",
+          "weakness_target": "W3"
+        },
+        {
+          "id": "q2",
+          "text": "Does any core equipment, person, vehicle, defect region, or emergency state change role without a visible causal trigger?",
+          "answer": "no",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
+          "text": "Does the generated event remain consistent with the domain context of precision manufacturing and defect generation and the task category topology mutation and structural failure?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        }
+      ],
+      "viewpoint_motion_target": 1.5,
+      "video_generation_prompt": "Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Camera: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Action: Generate only the requested local break, short, crack, missing tooth, rope deformation, or structural failure; keep every unaffected area stable. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes."
+    },
+    {
+      "task_id": "pdef_049",
+      "domain": "precision_defect_gen",
+      "topology_type": "lattice",
+      "image_path": "dataset/images/electronics/wire_bonding_machine.jpg",
+      "prompt": "Task objective: precision defect gen for topology mutation and failure. Core scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Motion requirement / viewpoint motion fidelity: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Industrial logic and fact alignment check: preserve the causal chain, equipment roles, personnel or vehicle states, compliance triggers, alarms, stops, and consequences described by the scenario. Geometric integrity check: preserve topology, rigid joints, load-bearing members, local defect boundaries, repeated structures, component counts, and spatial relationships; only the requested failure or defect region may change. Physical plausibility check: obey gravity, contact, rigid-body coupling, load paths, pressure direction, fluid diffusion, heat or flame propagation, and feasible emergency dynamics. Temporal consistency check: maintain object identity, material state, background, local event state, and cause-effect continuity across all frames without flicker, melting, or role switching. Reference and motion fidelity check: execute the requested viewpoint control while locking the reference identity, perspective, non-mutated regions, and background details. Execution constraints: do not add or remove functional parts; do not change component counts; do not merge separate structures unless the requested failure requires it; do not bend rigid members; do not replace the industrial scene with a different object. Scoring emphasis: geometric_integrity=1.80, industrial_logic_and_fact_alignment=1.10, physical_plausibility=1.05, reference_and_motion_fidelity=1.35, temporal_consistency=1.25.",
+      "motion_type": "dolly",
+      "difficulty_profile": {
+        "industrial_logic_and_fact_alignment": "medium",
+        "temporal_consistency": "hard",
+        "physical_plausibility": "medium",
+        "reference_and_motion_fidelity": "medium",
+        "geometric_integrity": "hard",
+        "viewpoint_motion_fidelity": "medium"
+      },
+      "constraint_annotations": {
+        "topology_type": "lattice",
+        "hard_constraints": [
+          "unit_cell_pitch_invariant",
+          "lattice_node_alignment"
+        ],
+        "failure_modes": [
+          "cable_array_pitch_drift",
+          "truss_member_dissolution"
+        ],
+        "element_count": 12,
+        "model_evaluation_axes": [
+          "industrial_logic_and_fact_alignment",
+          "temporal_consistency",
+          "physical_plausibility",
+          "reference_and_motion_fidelity",
+          "geometric_integrity",
+          "viewpoint_motion_fidelity",
+          "industrial_constraint_score"
+        ],
+        "domain_scenario": "dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear",
+        "abstract_task_category": "topology_mutation_and_failure"
+      },
+      "sensitivity_variants": [
+        {
+          "id": "veh_019_easy",
+          "difficulty": "easy",
+          "prompt_delta": "Increase camera orbit speed by 40% while maintaining the same angular trajectory",
+          "viewpoint_motion_target_delta": 25.1
+        },
+        {
+          "id": "veh_019_hard",
+          "difficulty": "hard",
+          "prompt_delta": "Add a slight vertical drift component to the orbit, rising 3 degrees over the sequence",
+          "viewpoint_motion_target_delta": 66.8
+        }
+      ],
+      "primary_topology": "lattice",
+      "sub_topology": "2d_planar",
+      "application_value": "Localized short circuits, fracture, rope failure, broken barriers, gear tooth loss, crack propagation, and other controlled defects.",
+      "axis_weights": {
+        "industrial_logic_and_fact_alignment": 1.1,
+        "geometric_integrity": 1.8,
+        "physical_plausibility": 1.05,
+        "temporal_consistency": 1.25,
+        "reference_and_motion_fidelity": 1.35
+      },
+      "axis_rubric": {
+        "geometric_integrity": "The requested local topology mutation must be precise while untouched structures keep their boundaries and counts.",
+        "reference_and_motion_fidelity": "Masked non-defect regions, background, and reference layout must remain locked while the defect evolves.",
+        "temporal_consistency": "The defect must persist and evolve continuously without global scene regeneration."
+      },
+      "task_category": "topology_mutation_and_failure",
+      "industrial_logic_questions": [
+        {
+          "id": "q1",
+          "text": "Does the video preserve the industrial cause-and-effect chain for this scenario: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear?",
+          "answer": "yes",
+          "weakness_target": "W3"
+        },
+        {
+          "id": "q2",
+          "text": "Does any core equipment, person, vehicle, defect region, or emergency state change role without a visible causal trigger?",
+          "answer": "no",
+          "weakness_target": "W5"
+        },
+        {
+          "id": "q3",
+          "text": "Does the generated event remain consistent with the domain context of precision manufacturing and defect generation and the task category topology mutation and structural failure?",
+          "answer": "yes",
+          "weakness_target": "W6"
+        }
+      ],
+      "viewpoint_motion_target": 1.5,
+      "video_generation_prompt": "Use the provided reference image as the first frame and visual anchor. Generate a 5-8 second realistic industrial video. Scene: dense PCB traces forming solder-bridge short circuits, missing gear teeth, or severe gear wear. Reference subject: wire bonding machine. Camera: perform a controlled dolly-in toward the local defect or failure region; target motion value 1.5. Action: Generate only the requested local break, short, crack, missing tooth, rope deformation, or structural failure; keep every unaffected area stable. Keep the same equipment identity, layout, colors, materials, background, and perspective cues from the reference image. Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes."
+    }
+  ]
+}
+```
+
+## 恢复方式（可选）
+
+若补回对应图片文件，可将上文 JSON 中 `samples` 数组里的对象重新合并进 `samples.json`，并重新运行 `python dataset/validate.py`。
