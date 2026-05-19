@@ -9,10 +9,11 @@ Applied on local `dataset/images` only. `dataset/annotations/samples.json` was n
 - Unmatched non-domain image-pool files removed: 57
 - Weak unmatched low-score candidate refs removed after review: 97
 - Deprecated unreferenced `loss_*` / `strict_*` variants removed: 120
-- Images after cleanup: 217
+- User-reviewed low-quality images removed after manual curation: 27
+- Images after cleanup: 190
 - Top-level image directories after cleanup: 5
-- Remaining exact duplicate groups: 7
-- Remaining duplicate files beyond the first copy: 8
+- Remaining exact duplicate groups: 6
+- Remaining duplicate files beyond the first copy: 7
 - Remaining `loss_*` files: 0
 - Remaining `strict_*` files: 0
 
@@ -35,9 +36,9 @@ Final domain counts:
 |---|---:|
 | `visual_security` | 25 |
 | `embodied_robotics` | 35 |
-| `heavy_load_construction` | 39 |
-| `precision_defect_gen` | 61 |
-| `extreme_emergency` | 57 |
+| `heavy_load_construction` | 36 |
+| `precision_defect_gen` | 46 |
+| `extreme_emergency` | 48 |
 
 ## Applied Rules
 
@@ -51,6 +52,8 @@ Final domain counts:
   low-score import pass.
 - Remove all unreferenced `loss_*` and `strict_*` variants because they are old
   import artifacts and often duplicate the curated references.
+- After manual review, compact remaining `ref_*` and `feishu_*` numbering inside
+  each scene directory and update `samples.json` paths.
 
 ## Audit Files
 
