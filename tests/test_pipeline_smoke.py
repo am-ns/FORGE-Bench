@@ -332,6 +332,25 @@ class TestOperatorEvidence:
         assert "fluid_diffusion" in evidence["operators"]
         assert "area_growth" in evidence["operators"]["fluid_diffusion"]
 
+    def test_operator_evidence_temporal_break(self):
+        frames = []
+        for _ in range(4):
+            frame = np.zeros((240, 320, 3), dtype=np.uint8)
+            cv2.rectangle(frame, (60, 70), (180, 170), (255, 255, 255), -1)
+            frames.append(frame)
+        for _ in range(4):
+            frame = np.zeros((240, 320, 3), dtype=np.uint8)
+            cv2.circle(frame, (230, 120), 55, (255, 255, 255), -1)
+            frames.append(frame)
+        evidence = evaluate_operator_evidence(
+            frames,
+            {"task_id": "break_001", "task_category": "topology_mutation_and_failure"},
+            reference_image=frames[0],
+        )
+        temporal = evidence["operators"]["temporal_break"]
+        assert temporal["abrupt_transition"] is True
+        assert any("temporal_break" in risk for risk in evidence["risk_flags"])
+
 
 class TestFloorEnforcer:
     def test_floor_enforcer(self):
@@ -473,6 +492,35 @@ class TestScoring:
             },
         ])
         assert result["gated_score"] == 0.0
+
+    def test_aggregate_applies_operator_risk_gate(self):
+        """Operator evidence should lower fallback scores for abrupt breaks."""
+        result = aggregate_sample_results([
+            {
+                "task_id": "break",
+                "skipped": False,
+                "task_category": "topology_mutation_and_failure",
+                "motion_type": "dolly",
+                "scored": {
+                    "weighted_score": 80.0,
+                    "axis_scores": {"ika": 80, "tc": 80, "pp": 80, "vf": 80, "gi": 80},
+                },
+                "operator_evidence": {
+                    "operators": {
+                        "local_region_lock": {
+                            "risk": "global_regeneration",
+                            "localized_change": False,
+                        },
+                        "temporal_break": {
+                            "abrupt_transition": True,
+                            "late_break": True,
+                        },
+                    }
+                },
+            },
+        ])
+        assert result["motion_gated_score"] == 80.0
+        assert result["gated_score"] < 40.0
 
     def test_pp_parser_uses_native_0_100_scale(self):
         """PP parser should no longer use the legacy 1-5 scale."""

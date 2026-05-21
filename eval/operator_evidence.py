@@ -21,6 +21,8 @@ CONFIG = {
     "fluid_area_growth_min": 0.12,
     "joint_min_tracks": 4,
     "safety_motion_threshold": 0.8,
+    "temporal_break_diff_threshold": 0.28,
+    "temporal_break_ratio_threshold": 2.5,
 }
 
 
@@ -210,6 +212,52 @@ def evaluate_safety_compliance_motion(frames: list[np.ndarray]) -> dict:
     }
 
 
+def evaluate_temporal_break(frames: list[np.ndarray]) -> dict:
+    """Detect abrupt late-stage frame discontinuities as evidence for TC/VF judges."""
+    if len(frames) < 3:
+        return {"operator": "temporal_break", "status": "insufficient_frames"}
+    indices = _sample_indices(len(frames), max(CONFIG["sample_frames"], 8))
+    grays = [_gray(frames[i]) for i in indices]
+    diffs = []
+    hist_diffs = []
+    for a, b in zip(grays, grays[1:]):
+        a_small = cv2.resize(a, (320, 180), interpolation=cv2.INTER_AREA)
+        b_small = cv2.resize(b, (320, 180), interpolation=cv2.INTER_AREA)
+        diff = float(np.mean(cv2.absdiff(a_small, b_small))) / 255.0
+        diffs.append(diff)
+        ha = cv2.calcHist([a_small], [0], None, [64], [0, 256])
+        hb = cv2.calcHist([b_small], [0], None, [64], [0, 256])
+        cv2.normalize(ha, ha)
+        cv2.normalize(hb, hb)
+        corr = cv2.compareHist(ha, hb, cv2.HISTCMP_CORREL)
+        hist_diffs.append(float(max(0.0, min(1.0, (1.0 - corr) / 2.0))))
+    combined = [0.65 * d + 0.35 * h for d, h in zip(diffs, hist_diffs)]
+    if not combined:
+        return {"operator": "temporal_break", "status": "insufficient_pairs"}
+    median = float(np.median(combined))
+    max_idx = int(np.argmax(combined))
+    max_change = float(combined[max_idx])
+    ratio = max_change / max(median, 1e-6)
+    abrupt = (
+        max_change >= CONFIG["temporal_break_diff_threshold"]
+        or (
+            max_change >= CONFIG["temporal_break_diff_threshold"] * 0.6
+            and ratio >= CONFIG["temporal_break_ratio_threshold"]
+        )
+    )
+    return {
+        "operator": "temporal_break",
+        "change_sequence": [round(v, 4) for v in combined],
+        "max_adjacent_change": round(max_change, 4),
+        "median_adjacent_change": round(median, 4),
+        "max_to_median_ratio": round(float(ratio), 4),
+        "worst_pair_index": max_idx,
+        "late_break": bool(max_idx >= len(combined) // 2),
+        "abrupt_transition": bool(abrupt),
+        "risk": "temporal_break" if abrupt else "none",
+    }
+
+
 def evaluate_operator_evidence(
     frames: list[np.ndarray],
     sample_meta: dict,
@@ -224,6 +272,7 @@ def evaluate_operator_evidence(
         "operators": {},
     }
     evidence["operators"]["local_region_lock"] = evaluate_local_region_lock(frames, reference_image)
+    evidence["operators"]["temporal_break"] = evaluate_temporal_break(frames)
 
     if task_category in {"fluid_dynamics_and_thermodynamics"}:
         evidence["operators"]["fluid_diffusion"] = evaluate_fluid_diffusion(frames)
@@ -243,5 +292,9 @@ def evaluate_operator_evidence(
             risks.append(f"{name}:nonlocalized_change")
         if result.get("plausible_continuity") is False:
             risks.append(f"{name}:discontinuous_motion")
+        if result.get("abrupt_transition") is True:
+            risks.append(f"{name}:abrupt_transition")
+        if result.get("late_break") is True and result.get("abrupt_transition") is True:
+            risks.append(f"{name}:late_break")
     evidence["risk_flags"] = risks
     return evidence

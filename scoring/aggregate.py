@@ -35,6 +35,7 @@ CONFIG = {
     "motion_tier_weak": 20,
     "motion_tier_moderate": 60,
     "strict_axis_threshold": 60.0,
+    "operator_gate_min": 0.35,
 }
 
 MOTION_GATE_TASK_CATEGORIES = {"spatial_exploration_and_viewpoint"}
@@ -191,6 +192,43 @@ def _vfa_gate_multiplier(result: dict) -> float:
     return max(0.0, min(1.0, float(vfa_score) / 100.0))
 
 
+def _operator_risk_multiplier(result: dict) -> float:
+    """Convert operator evidence risks to a conservative gating multiplier.
+
+    Operators remain diagnostic evidence for model-led axis scoring. This gate
+    only prevents no-LLM or weak fallback runs from over-crediting videos with
+    obvious global regeneration, abrupt temporal breaks, or rigid drift.
+    """
+    evidence = result.get("operator_evidence") or {}
+    operators = evidence.get("operators") or {}
+    multiplier = 1.0
+
+    local = operators.get("local_region_lock") or {}
+    changed_fraction = local.get("changed_fraction")
+    if local.get("risk") == "global_regeneration":
+        multiplier *= 0.70
+    elif changed_fraction is not None and float(changed_fraction) > 0.25:
+        multiplier *= 0.88
+    if local.get("localized_change") is False:
+        multiplier *= 0.92
+
+    temporal = operators.get("temporal_break") or {}
+    if temporal.get("abrupt_transition") is True:
+        multiplier *= 0.65
+    if temporal.get("late_break") is True and temporal.get("abrupt_transition") is True:
+        multiplier *= 0.75
+
+    rigid = operators.get("rigid_joint_tracking") or {}
+    if rigid.get("risk") == "rigid_drift":
+        multiplier *= 0.82
+
+    fluid = operators.get("fluid_diffusion") or {}
+    if fluid.get("plausible_continuity") is False:
+        multiplier *= 0.80
+
+    return max(CONFIG["operator_gate_min"], min(1.0, float(multiplier)))
+
+
 def aggregate_sample_results(sample_results: list[dict]) -> dict:
     """Aggregate completed per-sample results into benchmark-level metrics.
 
@@ -244,15 +282,23 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         _sample_passes_strict(r["scored"].get("axis_scores", {}))
         for r in completed
     ]
+    motion_gated_scores = [
+        float(r["scored"].get("weighted_score", 0.0))
+        * _vfa_gate_multiplier(r)
+        for r in completed
+    ]
     gated_scores = [
         float(r["scored"].get("weighted_score", 0.0))
         * _vfa_gate_multiplier(r)
+        * _operator_risk_multiplier(r)
         for r in completed
     ]
 
     aggregate["relax_score"] = float(np.mean(weighted_scores))
     aggregate["strict_pass_rate"] = float(np.mean(strict_flags))
+    aggregate["motion_gated_score"] = float(np.mean(motion_gated_scores))
     aggregate["gated_score"] = float(np.mean(gated_scores))
+    aggregate["operator_risk_adjusted_score"] = aggregate["gated_score"]
     aggregate["num_samples_total"] = len(sample_results)
     aggregate["num_samples_completed"] = len(completed)
     aggregate["num_samples_skipped"] = len(sample_results) - len(completed)
