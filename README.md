@@ -101,12 +101,17 @@ The evaluation prompt follows this structure:
 video frames
   sampled uniformly from model-generated .mp4 files
   |
+  +-- operator evidence layer
+  |     local-region locking, fluid/plume continuity, rigid-joint tracking,
+  |     safety response motion, and camera-control measurements
+  |
   +-- five core evaluation axes
-  |     objective operators + model judges
+  |     model judges with structured operator evidence
   |
   |     +-- industrial_logic_and_fact_alignment
   |     |     adversarial state-machine QA
   |     |     causal closure, trigger mechanisms, compliance states
+  |     |     safety-response evidence when applicable
   |     |
   |     +-- geometric_integrity
   |     |     topology and micro-structure measurement
@@ -116,6 +121,7 @@ video frames
   |     +-- physical_plausibility
   |     |     mechanics and dynamics validation
   |     |     gravity, contact, anti-penetration, pressure/flow direction
+  |     |     fluid-continuity and rigid-joint evidence
   |     |
   |     +-- temporal_consistency
   |     |     long-horizon continuity and identity preservation
@@ -127,8 +133,9 @@ video frames
   |           region-isolated fidelity for local defects/failures
   |
   +-- single sample scoring
-  |     floor vetoes, static gate, region-isolated fidelity
-  |     dynamic task weights, rotation and spatial-topology diagnostics
+  |     dynamic task weights, score floors, task-aware motion gate
+  |     operator evidence is reported and supplied to judges, not used as a
+  |     standalone replacement for model-led axis scoring
   |
   +-- matrix aggregation engine
         loose mean score
@@ -156,6 +163,26 @@ emphasize `geometric_integrity` and `physical_plausibility`; periodic or local
 defect tasks emphasize `geometric_integrity` and `temporal_consistency`;
 viewpoint-inspection tasks emphasize `reference_and_motion_fidelity` and
 `geometric_integrity`.
+
+### Operator Evidence
+
+FORGE keeps the five public axes model-led: the final axis scores are assigned
+by the judge pipeline, with CV operators exposed as structured evidence rather
+than as independent replacements for the judge. The current evidence layer
+includes:
+
+| Evidence Operator | Used For |
+|---|---|
+| `local_region_lock` | Detects global regeneration versus localized changes for defect/failure and reference-lock tasks. |
+| `fluid_diffusion` | Tracks fluid, smoke, fire, plume, or leak area growth and centroid continuity for physical-plausibility judging. |
+| `rigid_joint_tracking` | Tracks corner points and pairwise-distance drift to expose rigid-body or joint instability. |
+| `safety_compliance_motion` | Provides weak evidence for stop/slowdown response in safety and compliance scenarios. |
+| `viewpoint_motion_fidelity` | Measures `orbit`, `crane`, `pan`, `dolly`, and `static` motion control. |
+
+Motion control is task-aware. It gates `spatial_exploration_and_viewpoint`
+samples and `static` tasks. For non-viewpoint tasks, `pan` and `dolly` evidence
+is reported as `motion_control_score` diagnostics but does not by itself gate
+the final benchmark score.
 
 Expected video naming is `{task_id}.mp4`.
 
@@ -210,7 +237,8 @@ python eval/run_eval.py \
 ```
 
 Model judging is enabled when `ANTHROPIC_API_KEY` is present. Use `--no_llm` for
-operator-only smoke runs.
+local smoke runs that exercise CV fallbacks and operator evidence without
+calling the external judge.
 
 Optional industrial-logic answers:
 
@@ -247,12 +275,15 @@ Important aggregate fields:
 |---|---|
 | `relax_score` | Mean per-sample weighted score. |
 | `strict_pass_rate` | Fraction of completed samples where all present axes pass thresholds. |
-| `gated_score` | Per-sample weighted score multiplied by viewpoint-motion fidelity gate. |
+| `gated_score` | Per-sample weighted score after task-aware motion gating. |
 | `overall` | Leaderboard headline score, currently aligned to `gated_score`. |
 | `axis_scores` | Mean floored full-name axis scores. |
 | `domain_breakdown` | Scores and low-fidelity flags by the five scenario domains. |
 | `task_breakdown` | Scores and low-fidelity flags by abstract task category. |
 | `low_fidelity_summary` | Domains with low physical plausibility or geometric integrity. |
+
+`report.json` also includes `operator_evidence_diagnostics`, summarizing which
+evidence operators ran and which risk flags they produced.
 
 ## Validation
 

@@ -27,6 +27,7 @@ from eval.preflight import validate_frame_count
 from eval.temporal_coherence.eval import evaluate_tc
 from eval.visual_fidelity.eval import evaluate_vf
 from eval.vfa.eval import compute_vfa
+from eval.operator_evidence import evaluate_operator_evidence
 from eval.axis_registry import (
     GEOMETRIC_INTEGRITY,
     INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
@@ -242,6 +243,22 @@ def evaluate_sample(
         if reference_image is None:
             logger.warning("Reference image missing: %s", abs_path)
 
+    sample_for_judge = dict(sample)
+    try:
+        operator_evidence = evaluate_operator_evidence(
+            frames,
+            {
+                **sample,
+                "task_category": task_category,
+            },
+            reference_image=reference_image,
+        )
+    except Exception as exc:
+        logger.warning("Operator evidence failed for %s: %s", task_id, exc)
+        operator_evidence = {"error": str(exc), "operators": {}, "risk_flags": []}
+    sample_for_judge["operator_evidence"] = operator_evidence
+    sample_for_judge["task_category"] = task_category
+
     # IKA: LLM-based if judge available, else use pre-computed answers.
     ika_score = None
     ika_details = None
@@ -253,7 +270,7 @@ def evaluate_sample(
 
     if judge_ika is not None and questions:
         try:
-            ika_llm = judge_ika(frames, questions, sample_meta=sample)
+            ika_llm = judge_ika(frames, questions, sample_meta=sample_for_judge)
             answers = ika_llm.get("answers", {})
             cot_map = ika_llm.get("chain_of_thought", {})
             from eval.domain_alignment.eval import evaluate_ika
@@ -278,7 +295,7 @@ def evaluate_sample(
     tc_result: dict = {}
     if judge_tc is not None:
         try:
-            r = judge_tc(frames, sample_meta=sample)
+            r = judge_tc(frames, sample_meta=sample_for_judge)
             tc_result = {"tc_score": r.get("score"), "reasoning": r.get("reasoning", ""),
                          "raw_response": r.get("raw_response", ""),
                          "tokens_used": r.get("tokens_used"),
@@ -293,7 +310,7 @@ def evaluate_sample(
     pp_details: dict = {}
     if judge_pp is not None:
         try:
-            r = judge_pp(frames, prompt=sample.get("prompt", ""), sample_meta=sample)
+            r = judge_pp(frames, prompt=sample.get("prompt", ""), sample_meta=sample_for_judge)
             pp_score = r.get("score")
             pp_details = r
         except Exception as exc:
@@ -303,7 +320,7 @@ def evaluate_sample(
     vf_result: dict = {}
     if judge_vf is not None and reference_image is not None:
         try:
-            r = judge_vf(frames, reference_image=reference_image, sample_meta=sample)
+            r = judge_vf(frames, reference_image=reference_image, sample_meta=sample_for_judge)
             vf_result = {"vf_score": r.get("score"), "reasoning": r.get("reasoning", ""),
                          "raw_response": r.get("raw_response", ""),
                          "tokens_used": r.get("tokens_used"),
@@ -356,6 +373,7 @@ def evaluate_sample(
         "weakness_targets": [
             q.get("weakness_target") for q in questions if q.get("weakness_target")
         ],
+        "operator_evidence": operator_evidence,
         "skipped": False,
         "frame_count_reported": fc.get("reported_count"),
         "frame_count_actual": fc.get("actual_count"),

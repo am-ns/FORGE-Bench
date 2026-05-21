@@ -11,6 +11,7 @@ import io
 import os
 import sys
 import time
+import json
 
 import cv2
 import numpy as np
@@ -118,6 +119,34 @@ def _format_sample_context(sample_meta: dict | None) -> str:
     constraints = (sample_meta.get("constraint_annotations") or {}).get("hard_constraints", [])
     if constraints:
         lines.append("- hard_constraints: " + "; ".join(str(c) for c in constraints[:8]))
+    evidence_text = _format_operator_evidence(sample_meta.get("operator_evidence") if sample_meta else None)
+    if evidence_text:
+        lines.append(evidence_text)
+    return "\n".join(lines)
+
+
+def _format_operator_evidence(operator_evidence: dict | None) -> str:
+    """Format operator evidence as compact tool observations for the judge."""
+    if not operator_evidence:
+        return ""
+    operators = operator_evidence.get("operators", {})
+    lines = ["Operator evidence available to the judge:"]
+    risk_flags = operator_evidence.get("risk_flags") or []
+    if risk_flags:
+        lines.append("- risk_flags: " + "; ".join(str(r) for r in risk_flags[:8]))
+    for name, result in list(operators.items())[:6]:
+        compact = {
+            k: v for k, v in result.items()
+            if k not in {"operator", "area_sequence", "median_flow_sequence"}
+        }
+        try:
+            payload = json.dumps(compact, ensure_ascii=True, sort_keys=True)
+        except TypeError:
+            payload = str(compact)
+        lines.append(f"- {name}: {payload[:500]}")
+    lines.append(
+        "Use these tool observations as evidence, but make the final score from the visible frames."
+    )
     return "\n".join(lines)
 
 
@@ -270,6 +299,7 @@ def judge_sample_ika(
     prompt_text = (
         f"Domain: {domain}{topo_note}\n"
         f"Generation prompt: {sample_meta.get('prompt', '')}\n\n"
+        f"{_format_operator_evidence(sample_meta.get('operator_evidence'))}\n\n"
         f"The {len(selected_frames)} images above are uniformly sampled frames "
         f"from the generated video (red circles highlight structurally "
         f"distinctive keypoints).\n\n"

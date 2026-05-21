@@ -29,6 +29,7 @@ from eval.run_eval import evaluate_gi, evaluate_sample
 from eval.geometric_integrity.lattice import evaluate_lattice
 from eval.geometric_integrity.surface import evaluate_surface
 from eval.industrial_constraints.count_invariant import check_count_invariant
+from eval.operator_evidence import evaluate_operator_evidence
 from eval.preflight import check_dataset_integrity, validate_frame_count
 from eval.vfa.eval import compute_vfa
 from scoring.aggregate import aggregate_sample_results, aggregate_scores
@@ -305,6 +306,33 @@ class TestCountInvariant:
         assert result["score"] < 0.8
 
 
+class TestOperatorEvidence:
+    def test_operator_evidence_runs_task_relevant_tools(self):
+        frames = _make_stable_count_frames(n=5, h=240, w=320)
+        sample = {
+            "task_id": "evidence_001",
+            "task_category": "rigid_body_kinematics_and_coupling",
+        }
+        evidence = evaluate_operator_evidence(frames, sample, reference_image=frames[0])
+        assert "local_region_lock" in evidence["operators"]
+        assert "rigid_joint_tracking" in evidence["operators"]
+        assert isinstance(evidence["risk_flags"], list)
+
+    def test_operator_evidence_fluid_branch(self):
+        frames = []
+        for i in range(5):
+            frame = np.zeros((240, 320, 3), dtype=np.uint8)
+            cv2.circle(frame, (100 + i * 10, 120), 20 + i * 5, (255, 255, 255), -1)
+            frames.append(frame)
+        sample = {
+            "task_id": "fluid_001",
+            "task_category": "fluid_dynamics_and_thermodynamics",
+        }
+        evidence = evaluate_operator_evidence(frames, sample, reference_image=frames[0])
+        assert "fluid_diffusion" in evidence["operators"]
+        assert "area_growth" in evidence["operators"]["fluid_diffusion"]
+
+
 class TestFloorEnforcer:
     def test_floor_enforcer(self):
         """Floor enforcer should clamp axes to their domain-specific minimums."""
@@ -540,9 +568,13 @@ class TestRunEvalCLI:
         }
 
         def judge_tc(frames, sample_meta=None):
+            assert sample_meta is not None
+            assert "operator_evidence" in sample_meta
             return {"score": 70, "reasoning": "mock tc", "raw_response": "70"}
 
         def judge_pp(frames, prompt="", sample_meta=None):
+            assert sample_meta is not None
+            assert "operator_evidence" in sample_meta
             return {"score": 80, "justification": "mock pp", "raw_response": "80"}
 
         result = evaluate_sample(
@@ -550,6 +582,7 @@ class TestRunEvalCLI:
             None, judge_tc, judge_pp, None,
         )
         assert result["physical_plausibility_score"] == 80
+        assert "operator_evidence" in result
         assert result["scored"]["axis_scores"][PHYSICAL_PLAUSIBILITY] == 80.0
         assert result["temporal_consistency_details"]["method"] == "vlm_direct"
 

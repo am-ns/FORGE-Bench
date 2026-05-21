@@ -170,6 +170,31 @@ def _industrial_logic_weakness_diagnostics(results: list[dict]) -> dict:
     }
 
 
+def _operator_evidence_diagnostics(results: list[dict]) -> dict:
+    operator_counter: Counter[str] = Counter()
+    risk_counter: Counter[str] = Counter()
+    localized_false = 0
+    fluid_discontinuous = 0
+
+    for result in results:
+        evidence = result.get("operator_evidence") or {}
+        for name, payload in (evidence.get("operators") or {}).items():
+            operator_counter[name] += 1
+            if payload.get("localized_change") is False:
+                localized_false += 1
+            if payload.get("plausible_continuity") is False:
+                fluid_discontinuous += 1
+        for risk in evidence.get("risk_flags") or []:
+            risk_counter[str(risk)] += 1
+
+    return {
+        "operator_counts": dict(operator_counter.most_common()),
+        "risk_counts": dict(risk_counter.most_common()),
+        "nonlocalized_change_count": localized_false,
+        "fluid_discontinuity_count": fluid_discontinuous,
+    }
+
+
 def _worst_samples(results: list[dict]) -> list[dict]:
     completed = [r for r in results if not r.get("skipped") and r.get("scored")]
 
@@ -270,6 +295,7 @@ def generate_diagnostic_report(model: str, aggregate: dict, sample_results: list
         "viewpoint_motion_diagnostics": _vfa_diagnostics(completed),
         "industrial_constraint_diagnostics": _ic_diagnostics(completed),
         "industrial_logic_weakness_diagnostics": _industrial_logic_weakness_diagnostics(completed),
+        "operator_evidence_diagnostics": _operator_evidence_diagnostics(completed),
         "ability_failure_report": _ability_failure_report(completed),
         "worst_samples": _worst_samples(completed),
     }
