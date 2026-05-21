@@ -1,0 +1,126 @@
+#!/usr/bin/env python3
+"""Rebuild video_generation_prompt for wan_5b samples using a unified 5-section template."""
+
+import json
+
+
+def _camera_spec(sample):
+    motion_type = (sample.get("motion_type") or "static").lower()
+    viewpoint_target = sample.get("viewpoint_motion_target")
+    if motion_type == "static":
+        return "STATIC — camera locked, zero movement throughout."
+    if motion_type == "orbit":
+        degrees = int(viewpoint_target) if viewpoint_target else 30
+        return (
+            f"ORBIT {degrees}° clockwise around the central subject, starting from the "
+            f"reference-image viewpoint. Complete the arc smoothly over the full clip duration."
+        )
+    if motion_type == "dolly":
+        return (
+            "DOLLY FORWARD into the scene along the central axis, starting from the "
+            "reference-image viewpoint. Maintain subject framing throughout."
+        )
+    if motion_type == "pan":
+        return (
+            "PAN horizontally left-to-right across the scene, starting from the "
+            "reference-image viewpoint. Keep the horizon level."
+        )
+    return f"Camera motion: {motion_type}. Begin from the reference-image viewpoint."
+
+
+def _event_spec(sample):
+    constraint_annotations = sample.get("constraint_annotations") or {}
+    scenario = constraint_annotations.get("domain_scenario") or sample.get("task_title") or ""
+    task_category = sample.get("task_category") or ""
+    lines = [f"Show: {scenario}"]
+    failure_modes = constraint_annotations.get("failure_modes") or []
+    if failure_modes:
+        lines.append(f"Common failure modes to AVOID: {'; '.join(failure_modes[:4])}.")
+    if task_category == "industrial_logic_and_compliance":
+        lines.append(
+            "Require a complete causal chain: trigger → system response → resolved state, "
+            "all within 5 seconds."
+        )
+    elif task_category == "fluid_dynamics_and_thermodynamics":
+        lines.append(
+            "Fluid/gas/fire must expand or diffuse continuously — "
+            "no teleporting or resetting between frames."
+        )
+    elif task_category == "topology_mutation_and_failure":
+        lines.append(
+            "The specified structural change must be localized to the failure zone. "
+            "All surrounding geometry remains stable."
+        )
+    elif task_category == "spatial_exploration_and_viewpoint":
+        lines.append(
+            "Camera motion must be continuous and smooth. Subject must remain visible "
+            "and geometrically consistent throughout the arc."
+        )
+    elif task_category == "rigid_body_kinematics_and_coupling":
+        lines.append(
+            "All joint connections, linkage geometry, and kinematic constraints must "
+            "remain physically valid across every frame."
+        )
+    return " ".join(lines)
+
+
+def _preserve_spec(sample):
+    constraint_annotations = sample.get("constraint_annotations") or {}
+    subject = sample.get("reference_subject") or "main industrial subject"
+    hard_constraints = constraint_annotations.get("hard_constraints") or []
+    parts = [f"Subject identity: {subject}."]
+    if "preserve_component_counts_outside_requested_change" in hard_constraints:
+        parts.append("Component counts must remain constant in all non-failure regions.")
+    if (
+        "keep_unaffected_background_stable" in hard_constraints
+        or "preserve_reference_identity" in hard_constraints
+    ):
+        parts.append("Background, lighting, and layout must stay identical to the reference image.")
+    parts.append("Material textures, surface markings, and color must not drift between frames.")
+    return " ".join(parts)
+
+
+PROHIBIT = (
+    "No text overlays, subtitles, logos, or watermarks. "
+    "No extra machines, vehicles, or people appearing without cause. "
+    "No geometry warping, melting, or flickering. "
+    "No identity swaps or model changes mid-clip. "
+    "No impossible physics (floating loads, rigid bodies bending, penetration). "
+    "No global scene regeneration — changes must be strictly local to the specified event zone."
+)
+
+
+def build_prompt(sample):
+    scene = (sample.get("constraint_annotations") or {}).get("domain_scenario") or sample.get("task_title") or sample["task_id"]
+    camera = _camera_spec(sample)
+    event = _event_spec(sample)
+    preserve = _preserve_spec(sample)
+    return (
+        f"Use the reference image as the exact first frame and visual anchor. "
+        f"Generate a 5–7 second photorealistic industrial video.\n\n"
+        f"[SCENE] {scene}\n\n"
+        f"[CAMERA] {camera}\n\n"
+        f"[EVENT] {event}\n\n"
+        f"[PRESERVE] {preserve}\n\n"
+        f"[PROHIBIT] {PROHIBIT}"
+    )
+
+
+def main():
+    source_path = "reports/wan_5b_scene_samples.json"
+    destination_path = "reports/wan_5b_scene_samples_v2.json"
+    data = json.load(open(source_path, encoding="utf-8"))
+    for sample in data["samples"]:
+        sample["video_generation_prompt"] = build_prompt(sample)
+    json.dump(data, open(destination_path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    print(f"Written {len(data['samples'])} samples to {destination_path}")
+    # Print two example prompts
+    print("\n=== Example prompt (sample 1) ===")
+    print(data["samples"][0]["video_generation_prompt"])
+    if len(data["samples"]) > 1:
+        print("\n=== Example prompt (sample 2) ===")
+        print(data["samples"][1]["video_generation_prompt"])
+
+
+if __name__ == "__main__":
+    main()

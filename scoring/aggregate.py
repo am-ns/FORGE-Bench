@@ -189,7 +189,9 @@ def _vfa_gate_multiplier(result: dict) -> float:
         vfa_score = canonicalize_axis_dict(scored.get("axis_scores", {})).get(VIEWPOINT_MOTION_FIDELITY)
     if vfa_score is None:
         return 1.0
-    return max(0.0, min(1.0, float(vfa_score) / 100.0))
+    normalized_vfa_score = max(0.0, min(1.0, float(vfa_score) / 100.0))
+    # Soft gate: minimum 0.25 so a static video doesn't erase all other axis scores
+    return 0.25 + 0.75 * normalized_vfa_score
 
 
 def _operator_risk_multiplier(result: dict) -> float:
@@ -198,6 +200,12 @@ def _operator_risk_multiplier(result: dict) -> float:
     Operators remain diagnostic evidence for model-led axis scoring. This gate
     only prevents no-LLM or weak fallback runs from over-crediting videos with
     obvious global regeneration, abrupt temporal breaks, or rigid drift.
+
+    Note: the nonlocalized_change penalty (localized_change is False) was removed
+    because camera motion (orbit, dolly, pan) causes large bounding-box diffs that
+    make the localization check fire on 100% of non-static samples, incorrectly
+    penalizing videos that are otherwise spatially coherent. The global_regeneration
+    check (>35% pixel change) is retained as a stronger, more reliable signal.
     """
     evidence = result.get("operator_evidence") or {}
     operators = evidence.get("operators") or {}
@@ -209,8 +217,6 @@ def _operator_risk_multiplier(result: dict) -> float:
         multiplier *= 0.70
     elif changed_fraction is not None and float(changed_fraction) > 0.25:
         multiplier *= 0.88
-    if local.get("localized_change") is False:
-        multiplier *= 0.92
 
     temporal = operators.get("temporal_break") or {}
     if temporal.get("abrupt_transition") is True:

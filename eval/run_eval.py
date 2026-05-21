@@ -85,6 +85,17 @@ def evaluate_gi(
     if not frames:
         return {"result_score": 0.0, "error": "no_frames"}
 
+    # Fluid/thermodynamic tasks: background is rigid but the main subject (smoke/fire/fluid)
+    # has no stable geometry. SIFT/lattice metrics measure background stability, not subject GI.
+    # Use optical-flow continuity (kinematic proxy) instead.
+    task_category = (sample_meta or {}).get("task_category", "")
+    if task_category == "fluid_dynamics_and_thermodynamics":
+        kinematic_result = detect_static_camera(frames)
+        return {
+            "result_score": kinematic_result.get("kinematic_score", 0.0),
+            "method": "optical_flow_continuity_fluid",
+        }
+
     sub = sub_topology or ""
     primary = primary_topology or ""
 
@@ -174,6 +185,20 @@ def _make_llm_judges(use_llm: bool):
         return judge_sample_ika, judge_sample_tc, judge_sample_pp, judge_sample_vf
     except Exception as exc:
         logger.warning("Could not load LLM judges: %s - running CV-only", exc)
+        return None, None, None, None
+
+
+def _make_llm_judges_openai(use_llm: bool):
+    """Return OpenAI-compat judges or None for each."""
+    if not use_llm:
+        return None, None, None, None
+    try:
+        from eval.llm_judge_openai import (
+            judge_sample_ika, judge_sample_tc, judge_sample_pp, judge_sample_vf,
+        )
+        return judge_sample_ika, judge_sample_tc, judge_sample_pp, judge_sample_vf
+    except Exception as exc:
+        logger.warning("Could not load OpenAI-compat judges: %s - running CV-only", exc)
         return None, None, None, None
 
 
@@ -425,25 +450,34 @@ def main() -> None:
                         help="JSON mapping 'task_id:q_id' -> answer string")
     parser.add_argument("--no_llm", action="store_true",
                         help="Disable LLM evaluation (CV-only mode)")
+    parser.add_argument("--llm_provider", default="anthropic",
+                        choices=["anthropic", "openai_compat"],
+                        help="LLM backend: 'anthropic' (default) or 'openai_compat' (DashScope/OpenAI)")
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO,
                         format="%(asctime)s %(name)s %(levelname)s %(message)s")
 
-    with open(args.samples_json) as f:
+    with open(args.samples_json, encoding="utf-8") as f:
         data = json.load(f)
     samples = data["samples"]
     logger.info("Loaded %d samples", len(samples))
 
     model_answers = None
     if args.model_answers and os.path.exists(args.model_answers):
-        with open(args.model_answers) as f:
+        with open(args.model_answers, encoding="utf-8") as f:
             model_answers = json.load(f)
 
-    use_llm = not args.no_llm and bool(os.environ.get("ANTHROPIC_API_KEY"))
-    if not use_llm and not args.no_llm:
-        logger.warning("ANTHROPIC_API_KEY not set - running CV-only (use --no_llm to silence)")
-    judge_ika, judge_tc, judge_pp, judge_vf = _make_llm_judges(use_llm)
+    if args.llm_provider == "openai_compat":
+        use_llm = not args.no_llm and bool(os.environ.get("OPENAI_COMPAT_API_KEY"))
+        if not use_llm and not args.no_llm:
+            logger.warning("OPENAI_COMPAT_API_KEY not set - running CV-only")
+        judge_ika, judge_tc, judge_pp, judge_vf = _make_llm_judges_openai(use_llm)
+    else:
+        use_llm = not args.no_llm and bool(os.environ.get("ANTHROPIC_API_KEY"))
+        if not use_llm and not args.no_llm:
+            logger.warning("ANTHROPIC_API_KEY not set - running CV-only (use --no_llm to silence)")
+        judge_ika, judge_tc, judge_pp, judge_vf = _make_llm_judges(use_llm)
 
     out_dir = os.path.join(args.output_dir, args.model)
     os.makedirs(out_dir, exist_ok=True)

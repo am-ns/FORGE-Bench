@@ -61,8 +61,22 @@ def _bbox_from_mask(mask: np.ndarray) -> tuple[int, int, int, int] | None:
     return cv2.boundingRect(pts)
 
 
-def evaluate_local_region_lock(frames: list[np.ndarray], reference_image: np.ndarray | None = None) -> dict:
-    """Estimate whether visible changes stay localized instead of regenerating globally."""
+def evaluate_local_region_lock(
+    frames: list[np.ndarray],
+    reference_image: np.ndarray | None = None,
+    motion_type: str | None = None,
+) -> dict:
+    """Estimate whether visible changes stay localized instead of regenerating globally.
+
+    Args:
+        frames: Video frames as BGR numpy arrays.
+        reference_image: Optional reference frame; if provided, diff is computed
+            against this instead of the first video frame.
+        motion_type: Sample motion type (e.g. 'static', 'orbit', 'dolly', 'pan').
+            When the task has camera motion (non-static), the bbox-fraction check
+            is skipped because viewpoint shifts naturally produce large bounding-box
+            diffs that do not indicate global regeneration.
+    """
     if len(frames) < 2:
         return {"operator": "local_region_lock", "status": "insufficient_frames"}
     first = _gray(reference_image) if reference_image is not None else _gray(frames[0])
@@ -76,9 +90,13 @@ def evaluate_local_region_lock(frames: list[np.ndarray], reference_image: np.nda
     else:
         _x, _y, bw, bh = bbox
         bbox_fraction = float(bw * bh) / float(h * w)
+    is_static_task = motion_type is None or motion_type == "static"
     localized = (
         changed_fraction <= CONFIG["global_change_high"]
-        and bbox_fraction <= max(CONFIG["local_change_low"], CONFIG["global_change_high"] * 1.6)
+        and (
+            not is_static_task  # non-static: only check global change, not bbox
+            or bbox_fraction <= max(CONFIG["local_change_low"], CONFIG["global_change_high"] * 1.6)
+        )
     )
     return {
         "operator": "local_region_lock",
@@ -271,7 +289,8 @@ def evaluate_operator_evidence(
         "task_category": task_category,
         "operators": {},
     }
-    evidence["operators"]["local_region_lock"] = evaluate_local_region_lock(frames, reference_image)
+    motion_type = sample_meta.get("motion_type")
+    evidence["operators"]["local_region_lock"] = evaluate_local_region_lock(frames, reference_image, motion_type=motion_type)
     evidence["operators"]["temporal_break"] = evaluate_temporal_break(frames)
 
     if task_category in {"fluid_dynamics_and_thermodynamics"}:
