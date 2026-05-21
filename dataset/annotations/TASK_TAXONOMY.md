@@ -1,16 +1,17 @@
 # Domain and Task Taxonomy
 
-FORGE-Bench now treats `domain` as a scenario-capability domain, not a legacy
-industry label. Each domain has 100 samples and is scored through abstract task
-categories that determine the highest-weight axis, increased axes, prompt
-requirements, and report grouping.
+FORGE-Bench treats `domain` as a scenario-capability domain, not a legacy
+industry label. The benchmark is organized as a Domain x Task orthogonal matrix:
+the X axis is where the industrial data and visual context come from, while the
+Y axis is the abstract capability being tested. This allows cross-attribution of
+model weaknesses instead of only reporting a single average score.
 
 ## Domains
 
 | Domain | Samples | Core Evaluation Role |
 |---|---:|---|
 | `visual_security` | 100 | Industrial security, violation monitoring, access control, protective-equipment compliance, and consequence reasoning. |
-| `embodied_robotics` | 100 | Robot manipulation, locomotion, embodied viewpoint, tool contact, and safety interlocks. |
+| `embodied_robotics` | 90 | Robot manipulation, locomotion, embodied viewpoint, tool contact, and safety interlocks. |
 | `heavy_load_construction` | 100 | Construction machinery, cranes, gantries, trucks, wire ropes, load paths, and large-scale contact or failure. |
 | `precision_defect_gen` | 100 | Micro-defects, dense structures, endoscopy, gears, CNC cutting, and localized defect generation. |
 | `extreme_emergency` | 100 | Chemical leaks, fire spread, structural overload collapse, dust explosion, and emergency response. |
@@ -19,11 +20,11 @@ requirements, and report grouping.
 
 | Axis | Focus | Badcase Examples | Methodology |
 |---|---|---|---|
-| `industrial_logic_and_fact_alignment` | Causality and states | Triggered emergency stop ignored; violation has no consequence; equipment role changes without cause. | IndustrialLogicQAJudge with adversarial state-machine questions. |
-| `geometric_integrity` | Topology and structure | Joint centers drift; pipes or PCB traces merge; gear tooth count changes. | KinematicChainOperator, TopologyMergeDetector, PeriodicStructureCounter, and industrial constraint operators. |
-| `physical_plausibility` | Dynamics and physics | Suspended load floats; leakage ignores pressure direction; robot links pass through objects. | PhysicalDynamicsVLMJudge focused on forces, flow, heat, gravity, and contact. |
-| `temporal_consistency` | Continuity and identity | Parts flicker; repeated structures melt; robot model identity changes between frames. | TemporalConsistencyVLMJudge and StructuralSimilarityFrameOperator. |
-| `reference_and_motion_fidelity` | Spatial mapping and control | Static video for an orbit task; background collapses during a local defect; reference perspective drifts. | ViewpointMotionEstimator, StaticVideoGate, MaskedReferenceFidelityOperator, and model judgment. |
+| `industrial_logic_and_fact_alignment` | Causality and states | Triggered emergency stop ignored; violation has no consequence; equipment role changes without cause. | State-machine adversarial QA checks causal closure, conditional triggers, compliance state, and industrial fact progression. |
+| `geometric_integrity` | Topology and structure | Joint centers drift; pipes or PCB traces merge; gear tooth count changes. | Spatial topology, local micro-structure measurement, joint-center anti-drift, dense periodic-structure stability, and topology mutation validation. |
+| `physical_plausibility` | Dynamics and physics | Suspended load floats; leakage ignores pressure direction; robot links pass through objects. | Mechanics and dynamics validation for gravity, rigid-body contact, pressure direction, fluid spread, heat propagation, and load paths. |
+| `temporal_consistency` | Continuity and identity | Parts flicker; repeated structures melt; robot model identity changes between frames. | Long-horizon identity, material, state, anti-deformation, anti-melting, and anti-flicker checks. |
+| `reference_and_motion_fidelity` | Spatial mapping and control | Static video for an orbit task; background collapses during a local defect; reference perspective drifts. | Reference locking, camera-control execution, static-video gating, and region-isolated fidelity for local events. |
 
 `viewpoint_motion_fidelity` is a gate component folded into
 `reference_and_motion_fidelity`. The industrial constraint score is folded into
@@ -88,13 +89,34 @@ violation, trigger, state change, and consequence.
 
 ## Domain and Task Matrix
 
+This is the core diagnostic matrix. Domain answers "which industrial context
+failed"; task answers "which underlying capability failed".
+
 | Domain | Rigid Kinematics | Topology Failure | Fluid and Thermo | Spatial Viewpoint | Logic and Compliance |
 |---|---|---|---|---|---|
-| `visual_security` | Forklift overspeed turn and cargo sliding | Broken restricted-zone fence | Chemical liquid leak in dangerous-goods zone | Surveillance sweep across blind spot | Unauthorized vehicle or missing helmet at height |
-| `embodied_robotics` | Multi-axis arm grasp and tool contact | Not used | Not used | Quadruped first-person rubble traversal | Worker triggers light curtain and emergency stop |
-| `heavy_load_construction` | Excavator linkage or crane load-path motion | Wire-rope extreme deformation and snapping | Broken underground pipe and muddy surge | Drone orbit around bridge precast segment | Not used |
-| `precision_defect_gen` | CNC multi-axis curved-surface cutting | PCB solder bridge, gear tooth loss, crack defects | Cutting-fluid spray from high-speed tool | Endoscope through tube bundle | Not used |
-| `extreme_emergency` | Not used | Iced transmission tower yielding and collapse | Storage-tank flash fire and pipeline flame spread | Not used | Illegal hot work causing dust explosion |
+| `visual_security` | Forklift overspeed and crane swing | Fence breach and missing guards | Dangerous-goods leak and smoke alarm | CCTV blind-spot sweep | Intrusion, PPE, near-miss, alarm response |
+| `embodied_robotics` | Robot grasp, AMR path, tool contact | Gripper local failure | Safety-cell event dynamics | Tracked/quadruped robot viewpoint | Cobot handover and light-curtain stop |
+| `heavy_load_construction` | Crane, excavator, truck, gantry load paths | Wire rope, outrigger, formwork failure | Tunnel pipe burst and mud surge | Bridge/drone alignment inspection | Hoist stop before collision |
+| `precision_defect_gen` | CNC cutting and assembly misalignment | PCB bridge, gear wear, weld/scratch/pin defects | Cutting-fluid spray | Endoscope and tube-bundle navigation | Inspection logic through localized constraints |
+| `extreme_emergency` | Emergency crane/load dynamics | Tower icing and wall breach | Flange leak, flash fire, reactor, battery, tunnel, plume | Emergency spatial continuity | Dust explosion, evacuation, response chain |
+
+## Scoring Formula
+
+```text
+FORGE_final =
+  WeightedAverage(
+    industrial_logic_and_fact_alignment,
+    temporal_consistency,
+    physical_plausibility,
+    reference_and_motion_fidelity,
+    geometric_integrity
+  )
+```
+
+Weights are selected dynamically from the abstract task category. Mechanism and
+robotics tasks emphasize geometry and physics; periodic/local-defect tasks
+emphasize geometry and temporal continuity; spatial-inspection tasks emphasize
+reference/motion fidelity and geometry.
 
 ## Prompt Fields
 

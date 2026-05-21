@@ -21,3 +21,5 @@ _forge_review/
 _push_*.py
 deploy_lobster.py
 update_lobster.py
+.claude/
+dataset/imagesforloss/

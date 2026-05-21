@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create an image matching and sourcing plan for the 500-sample taxonomy."""
+"""Create an image matching and sourcing plan for the current taxonomy."""
 
 from __future__ import annotations
 

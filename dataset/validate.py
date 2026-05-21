@@ -18,9 +18,9 @@ def main():
     schema_path = root / "dataset" / "schema.json"
     samples_path = root / "dataset" / "annotations" / "samples.json"
 
-    with open(schema_path) as f:
+    with open(schema_path, encoding="utf-8") as f:
         schema = json.load(f)
-    with open(samples_path) as f:
+    with open(samples_path, encoding="utf-8") as f:
         data = json.load(f)
 
     samples = data.get("samples", data) if isinstance(data, dict) else data

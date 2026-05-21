@@ -53,10 +53,11 @@ MODEL_EVALUATION_AXES: dict[str, dict] = {
         "name": "Industrial Logic and Fact Alignment",
         "core_metric": "Causality and States",
         "capability": (
-            "Checks whether the video follows industrial causal logic, "
-            "condition-triggered state changes, and compliance consequences."
+            "Checks causal closure, condition-triggered state changes, "
+            "compliance states, alarms, braking, equipment roles, and "
+            "industrial fact progression."
         ),
-        "measurement": "IndustrialLogicQAJudge",
+        "measurement": "State-machine adversarial QA plus model judgment",
         "typical_badcases": [
             "emergency stop is triggered but the machine continues running",
             "a violation happens without an industrially plausible consequence",
@@ -67,8 +68,9 @@ MODEL_EVALUATION_AXES: dict[str, dict] = {
         "name": "Geometric Integrity",
         "core_metric": "Topology and Structure",
         "capability": (
-            "Preserves spatial topology, joint centers, clear boundaries, dense "
-            "periodic structures, and localized topology changes when requested."
+            "Preserves spatial topology, rigid structure, joint centers, "
+            "dense periodic counts and spacing, local defect boundaries, "
+            "component counts, and valid localized topology mutation."
         ),
         "measurement": (
             "KinematicChainOperator, TopologyMergeDetector, "
@@ -84,8 +86,9 @@ MODEL_EVALUATION_AXES: dict[str, dict] = {
         "name": "Physical Plausibility",
         "core_metric": "Dynamics and Physics",
         "capability": (
-            "Checks gravity, rigid-body forces, multi-body contact, fluid "
-            "pressure, heat spread, and physically feasible trajectories."
+            "Checks classical mechanics and dynamics: gravity, rigid-body "
+            "contact, anti-penetration, true load paths, fluid pressure "
+            "direction, heat spread, and physically feasible trajectories."
         ),
         "measurement": "PhysicalDynamicsVLMJudge",
         "typical_badcases": [
@@ -98,8 +101,9 @@ MODEL_EVALUATION_AXES: dict[str, dict] = {
         "name": "Temporal Consistency",
         "core_metric": "Continuity and Identity",
         "capability": (
-            "Keeps critical industrial targets stable across the whole video "
-            "without flicker, identity swap, melting, or material mutation."
+            "Keeps critical industrial targets, material state, background, "
+            "local event state, and cause-effect continuity stable across the "
+            "whole video without flicker, identity swap, melting, or mutation."
         ),
         "measurement": "TemporalConsistencyVLMJudge and StructuralSimilarityFrameOperator",
         "typical_badcases": [
@@ -112,8 +116,9 @@ MODEL_EVALUATION_AXES: dict[str, dict] = {
         "name": "Reference and Motion Fidelity",
         "core_metric": "Spatial Mapping and Control",
         "capability": (
-            "Executes the requested camera motion while preserving the reference "
-            "image identity, background, non-mutated regions, and perspective."
+            "Executes requested camera or viewpoint control while preserving "
+            "reference identity, perspective, background, and non-mutated "
+            "regions; applies static-video gating and region-isolated fidelity."
         ),
         "measurement": (
             "ViewpointMotionEstimator, StaticVideoGate, "
