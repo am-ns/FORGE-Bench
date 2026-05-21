@@ -18,6 +18,8 @@ CONFIG = {
     "ransac_min_inliers": 4,          # Minimum inlier count for a valid RANSAC estimate
     "target_tolerance_deg": 45.0,     # Error at or above this gets zero VFA fidelity
     "assumed_vertical_fov_deg": 60.0,  # Used to map crane translation to angle
+    "translation_target_tolerance": 0.35,
+    "direction_ratio_min": 1.25,
 }
 
 
@@ -96,6 +98,16 @@ def _estimate_affine_rotation_angle(prev_gray: np.ndarray, curr_gray: np.ndarray
 def _estimate_affine_translation(prev_gray: np.ndarray, curr_gray: np.ndarray,
                                   roi_center: bool = False) -> tuple[tuple[float, float] | None, int]:
     """Estimate robust x/y translation between two frames via RANSAC affine."""
+    result = _estimate_affine_motion(prev_gray, curr_gray, roi_center=roi_center)
+    if result is None:
+        return None, 0
+    dx, dy, _scale_ratio, n_inliers = result
+    return (dx, dy), n_inliers
+
+
+def _estimate_affine_motion(prev_gray: np.ndarray, curr_gray: np.ndarray,
+                            roi_center: bool = False) -> tuple[float, float, float, int] | None:
+    """Estimate robust translation and scale between two frames via RANSAC affine."""
     if roi_center:
         prev_gray = _roi_center_crop(prev_gray)
         curr_gray = _roi_center_crop(curr_gray)
@@ -124,9 +136,10 @@ def _estimate_affine_translation(prev_gray: np.ndarray, curr_gray: np.ndarray,
 
     num_inliers = int(inliers.sum())
     if num_inliers < CONFIG["ransac_min_inliers"]:
-        return None, 0
+        return None
 
-    return (float(M[0, 2]), float(M[1, 2])), num_inliers
+    scale_ratio = float(np.hypot(float(M[0, 0]), float(M[1, 0])))
+    return float(M[0, 2]), float(M[1, 2]), scale_ratio, num_inliers
 
 
 def _estimate_farneback_translation(prev_gray: np.ndarray, curr_gray: np.ndarray,
@@ -164,6 +177,37 @@ def _estimate_phase_translation(prev_gray: np.ndarray, curr_gray: np.ndarray,
     window = cv2.createHanningWindow((prev_edges.shape[1], prev_edges.shape[0]), cv2.CV_32F)
     (dx, dy), response = cv2.phaseCorrelate(prev_edges, curr_edges, window)
     return float(dx), float(dy), float(abs(response) * np.hypot(dx, dy))
+
+
+def _foreground_bbox(gray: np.ndarray) -> tuple[float, float, float, float] | None:
+    """Return an edge/foreground bounding box as x, y, w, h."""
+    _, mask = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    if float(np.mean(mask)) > 127.0:
+        mask = cv2.bitwise_not(mask)
+    points = cv2.findNonZero(mask)
+    if points is None or len(points) < CONFIG["ransac_min_inliers"]:
+        edges = cv2.Canny(gray, 50, 150)
+        points = cv2.findNonZero(edges)
+    if points is None or len(points) < CONFIG["ransac_min_inliers"]:
+        return None
+    x, y, w, h = cv2.boundingRect(points)
+    return float(x), float(y), float(w), float(h)
+
+
+def _estimate_bbox_motion(first_gray: np.ndarray, last_gray: np.ndarray) -> tuple[float, float, float] | None:
+    """Estimate centroid translation and scale from foreground bounding boxes."""
+    first_box = _foreground_bbox(first_gray)
+    last_box = _foreground_bbox(last_gray)
+    if first_box is None or last_box is None:
+        return None
+    x0, y0, w0, h0 = first_box
+    x1, y1, w1, h1 = last_box
+    dx = (x1 + w1 / 2.0) - (x0 + w0 / 2.0)
+    dy = (y1 + h1 / 2.0) - (y0 + h0 / 2.0)
+    area0 = max(w0 * h0, 1.0)
+    area1 = max(w1 * h1, 1.0)
+    scale_ratio = float(np.sqrt(area1 / area0))
+    return dx, dy, scale_ratio
 
 
 def _translation_to_crane_angle(dy_px: float, frame_height: int) -> float:
@@ -209,6 +253,92 @@ def _target_fidelity_score(actual_vfa: float | None, target_vfa: float | None) -
     error = abs(float(actual_vfa) - float(target_vfa))
     score = 100.0 * max(0.0, 1.0 - error / CONFIG["target_tolerance_deg"])
     return round(float(score), 4)
+
+
+def _parse_translation_target(vfa_target: float | str | None, motion_type: str | None) -> dict | None:
+    """Normalize symbolic pan/dolly/static targets into translation constraints."""
+    motion = (motion_type or "").lower()
+    if motion == "static":
+        return {"type": "static", "value": 0.0}
+    if not isinstance(vfa_target, str):
+        if motion == "dolly" and isinstance(vfa_target, (int, float)):
+            return {"type": "dolly", "value": float(vfa_target)}
+        return None
+    text = vfa_target.strip().lower()
+    if motion == "pan" or text.startswith("horizontal_pan"):
+        direction = "right" if text.endswith("_lr") else "left" if text.endswith("_rl") else "horizontal"
+        return {"type": "pan", "direction": direction}
+    if motion == "dolly":
+        try:
+            return {"type": "dolly", "value": float(text)}
+        except ValueError:
+            return {"type": "dolly", "value": None}
+    return None
+
+
+def _translation_fidelity_score(
+    dx: float,
+    dy: float,
+    scale_ratio: float,
+    mean_flow_mag: float,
+    target: dict | None,
+    dark_bg: bool,
+) -> float | None:
+    """Score pan/dolly/static motion constraints from robust translation and scale."""
+    if target is None:
+        return None
+    if target["type"] == "static":
+        return 100.0 if _is_static(mean_flow_mag, dark_bg) else 0.0
+    if target["type"] == "pan":
+        if _is_static(mean_flow_mag, dark_bg):
+            return 0.0
+        direction_score = 1.0
+        direction = target.get("direction")
+        if direction == "right" and dx <= 0:
+            direction_score = 0.0
+        elif direction == "left" and dx >= 0:
+            direction_score = 0.0
+        ratio = abs(dx) / max(abs(dy), 1e-6)
+        axis_score = min(1.0, ratio / CONFIG["direction_ratio_min"])
+        return round(100.0 * direction_score * axis_score, 4)
+    if target["type"] == "dolly":
+        if _is_static(mean_flow_mag, dark_bg):
+            return 0.0
+        requested = target.get("value")
+        if requested and requested > 0:
+            error = abs(float(scale_ratio) - float(requested))
+            score = 100.0 * max(0.0, 1.0 - error / CONFIG["translation_target_tolerance"])
+            return round(float(score), 4)
+        return 100.0 if abs(float(scale_ratio) - 1.0) > 0.03 else 50.0
+    return None
+
+
+def _estimate_translation_motion(first_gray: np.ndarray, last_gray: np.ndarray,
+                                 use_roi: bool) -> tuple[float, float, float, int, str, float]:
+    """Estimate first-to-last image translation and scale for pan/dolly scoring."""
+    affine = _estimate_affine_motion(first_gray, last_gray, roi_center=use_roi)
+    method = "anchor_to_final_translation"
+    if affine is not None:
+        dx, dy, scale_ratio, n_inliers = affine
+        bbox = _estimate_bbox_motion(first_gray, last_gray)
+        if bbox is not None and abs(scale_ratio - 1.0) < 0.03:
+            _bbox_dx, _bbox_dy, bbox_scale = bbox
+            scale_ratio = bbox_scale
+        mean_flow_mag = float(np.hypot(dx, dy))
+        return dx, dy, scale_ratio, n_inliers, method, mean_flow_mag
+
+    scale_ratio = 1.0
+    bbox = _estimate_bbox_motion(first_gray, last_gray)
+    if bbox is not None:
+        dx, dy, scale_ratio = bbox
+        return dx, dy, scale_ratio, 0, "foreground_bbox_translation", float(np.hypot(dx, dy))
+
+    dx, dy, phase_mag = _estimate_phase_translation(first_gray, last_gray, roi_center=use_roi)
+    method = "phase_correlation_translation"
+    if phase_mag <= 0.0:
+        dx, dy, phase_mag = _estimate_farneback_translation(first_gray, last_gray, roi_center=use_roi)
+        method = "farneback_translation"
+    return dx, dy, scale_ratio, 0, method, phase_mag
 
 
 def compute_vfa(frames: list[np.ndarray], vfa_target: float | str | None = None,
@@ -338,6 +468,42 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | str | None = None,
         mean_flow_mag = float(np.mean(np.sqrt(flow01[..., 0] ** 2 + flow01[..., 1] ** 2)))
     except cv2.error:
         pass
+
+    translation_target = _parse_translation_target(vfa_target, motion_type)
+    if translation_target is not None:
+        first_gray = cv2.cvtColor(bgr_frames[0], cv2.COLOR_BGR2GRAY)
+        last_gray = cv2.cvtColor(bgr_frames[-1], cv2.COLOR_BGR2GRAY)
+        if _is_static(mean_flow_mag, dark_bg):
+            dx = dy = 0.0
+            scale_ratio = 1.0
+            n_inliers = 0
+            method = "static_detected"
+            anchor_flow_mag = mean_flow_mag
+        else:
+            dx, dy, scale_ratio, n_inliers, method, anchor_flow_mag = _estimate_translation_motion(
+                first_gray, last_gray, use_roi=False,
+            )
+        score = _translation_fidelity_score(
+            dx, dy, scale_ratio, mean_flow_mag, translation_target, dark_bg,
+        )
+        result["vfa"] = round(float(np.hypot(dx, dy)), 4)
+        result["vfa_score"] = score
+        result["vfa_orbit_component"] = 0.0
+        result["vfa_crane_component"] = 0.0
+        result["num_frames_used"] = num_frames
+        result["vfa_estimation_method"] = method
+        result["vfa_detail"] = {
+            "horizontal_translation_px": round(float(dx), 4),
+            "vertical_translation_px": round(float(dy), 4),
+            "translation_magnitude_px": round(float(np.hypot(dx, dy)), 4),
+            "scale_ratio": round(float(scale_ratio), 4),
+            "ransac_inliers": n_inliers,
+            "mean_flow_magnitude_px_per_frame": round(float(mean_flow_mag), 4),
+            "anchor_flow_magnitude_px": round(float(anchor_flow_mag), 4),
+            "motion_constraint": translation_target,
+            "dark_background": dark_bg,
+        }
+        return result
 
     if _is_static(mean_flow_mag, dark_bg):
         result["vfa"] = 0.0

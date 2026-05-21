@@ -14,6 +14,8 @@ CONFIG = {
     "vfa_weight_when_present": 0.30,
 }
 
+MOTION_GATE_TASK_CATEGORIES = {"spatial_exploration_and_viewpoint"}
+
 
 from eval.axis_registry import (
     BASE_AXIS_WEIGHTS,
@@ -48,7 +50,8 @@ def score_sample(axis_scores: dict[str, float], vfa: float | None = None,
                  ic_score: float | None = None,
                  axis_weights: dict[str, float] | None = None,
                  axis_rubric: dict[str, str] | None = None,
-                 task_category: str | None = None) -> dict:
+                 task_category: str | None = None,
+                 motion_gate_required: bool | None = None) -> dict:
     """Compute a weighted per-sample score from individual axis scores.
 
     Args:
@@ -82,7 +85,14 @@ def score_sample(axis_scores: dict[str, float], vfa: float | None = None,
     axis_scores = canonicalize_axis_dict(dict(axis_scores))
 
     vfa_axis_score = axis_scores.pop(VIEWPOINT_MOTION_FIDELITY, None)
-    if vfa_axis_score is not None:
+    if motion_gate_required is None:
+        should_fold_vfa = (
+            task_category is None
+            or task_category in MOTION_GATE_TASK_CATEGORIES
+        )
+    else:
+        should_fold_vfa = bool(motion_gate_required)
+    if vfa_axis_score is not None and should_fold_vfa:
         vfa_axis_score = max(0.0, min(100.0, float(vfa_axis_score)))
         if REFERENCE_AND_MOTION_FIDELITY in axis_scores:
             axis_scores[REFERENCE_AND_MOTION_FIDELITY] = (
@@ -91,6 +101,8 @@ def score_sample(axis_scores: dict[str, float], vfa: float | None = None,
             )
         else:
             axis_scores[REFERENCE_AND_MOTION_FIDELITY] = vfa_axis_score
+    elif vfa_axis_score is not None:
+        vfa_axis_score = max(0.0, min(100.0, float(vfa_axis_score)))
 
     ic_axis_score = _normalize_ic_score(ic_score)
     if ic_axis_score is not None:
@@ -167,6 +179,8 @@ def score_sample(axis_scores: dict[str, float], vfa: float | None = None,
         out["vfa_crane_component"] = vfa_crane_component
     if vfa_axis_score is not None:
         out["viewpoint_motion_score"] = vfa_axis_score
+        out["motion_control_score"] = vfa_axis_score
+        out["motion_gate_applied"] = should_fold_vfa
     if ic_axis_score is not None:
         out["industrial_constraint_score"] = ic_axis_score
     return out

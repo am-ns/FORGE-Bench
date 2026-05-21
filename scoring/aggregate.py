@@ -37,6 +37,9 @@ CONFIG = {
     "strict_axis_threshold": 60.0,
 }
 
+MOTION_GATE_TASK_CATEGORIES = {"spatial_exploration_and_viewpoint"}
+MOTION_GATE_TYPES = {"static"}
+
 # RIF component weights — unvalidated defaults, intended for tuning.
 RIF_WEIGHT_SSIM = 0.5           # Weight for structural similarity in RIF blend
 RIF_WEIGHT_HIST = 0.5           # Weight for histogram correlation in RIF blend
@@ -168,6 +171,16 @@ def _sample_passes_strict(axis_scores: dict[str, float]) -> bool:
 def _vfa_gate_multiplier(result: dict) -> float:
     """Convert VFA target fidelity to a soft gate multiplier in [0, 1]."""
     scored = result.get("scored", {})
+    task_category = result.get("task_category") or scored.get("task_category")
+    motion_type = result.get("motion_type")
+    gate_applied = scored.get("motion_gate_applied")
+    if gate_applied is None:
+        gate_applied = (
+            task_category in MOTION_GATE_TASK_CATEGORIES
+            or motion_type in MOTION_GATE_TYPES
+        )
+    if not gate_applied:
+        return 1.0
     vfa_score = scored.get("viewpoint_motion_score", result.get("viewpoint_motion_score"))
     if vfa_score is None:
         vfa_score = scored.get("vfa_score", result.get("vfa_score"))

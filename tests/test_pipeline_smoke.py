@@ -205,6 +205,51 @@ class TestVFA:
         assert result["vfa_score"] < 40.0
         assert result["vfa_estimation_method"] == "static_detected"
 
+    def test_vfa_pan_translation_video(self):
+        """Pan prompts should be scored by horizontal translation, not rotation."""
+        frames = []
+        for i in range(8):
+            frame = np.zeros((360, 640, 3), dtype=np.uint8)
+            x = 120 + i * 24
+            cv2.rectangle(frame, (x, 130), (x + 180, 230), (255, 255, 255), -1)
+            cv2.circle(frame, (x + 40, 165), 12, (0, 0, 255), -1)
+            cv2.circle(frame, (x + 130, 190), 12, (0, 255, 0), -1)
+            frames.append(frame)
+
+        result = compute_vfa(frames, vfa_target="horizontal_pan_lr", motion_type="pan")
+        assert result["vfa_score"] is not None
+        assert result["vfa_score"] > 80.0
+        assert result["vfa_estimation_method"] in {
+            "anchor_to_final_translation",
+            "foreground_bbox_translation",
+            "phase_correlation_translation",
+            "farneback_translation",
+        }
+        assert "horizontal_translation_px" in result["vfa_detail"]
+
+    def test_vfa_dolly_scale_video(self):
+        """Dolly prompts should use scale change as the motion-control signal."""
+        frames = []
+        for i in range(8):
+            frame = np.zeros((360, 640, 3), dtype=np.uint8)
+            half_w = 70 + i * 6
+            half_h = 40 + i * 4
+            cv2.rectangle(
+                frame,
+                (320 - half_w, 180 - half_h),
+                (320 + half_w, 180 + half_h),
+                (255, 255, 255),
+                -1,
+            )
+            cv2.circle(frame, (300, 170), 8, (0, 0, 255), -1)
+            cv2.circle(frame, (350, 200), 8, (0, 255, 0), -1)
+            frames.append(frame)
+
+        result = compute_vfa(frames, vfa_target=1.5, motion_type="dolly")
+        assert result["vfa_score"] is not None
+        assert result["vfa_score"] > 40.0
+        assert "scale_ratio" in result["vfa_detail"]
+
 
 class TestGeometricIntegrity:
     def test_gi_surface(self):
@@ -288,6 +333,28 @@ class TestScoring:
         assert result["viewpoint_motion_score"] == 0.0
         assert result["weighted_score"] < 80.0
 
+    def test_per_sample_score_does_not_fold_vfa_for_non_viewpoint_task(self):
+        """Non-viewpoint tasks should keep motion as diagnostics, not lower VF."""
+        result = score_sample(
+            {"ika": 80, "tc": 70, "pp": 75, "vf": 85, "gi": 90, "vfa": 0},
+            vfa=0.0,
+            task_category="topology_mutation_and_failure",
+        )
+        assert result["axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == 85
+        assert result["motion_control_score"] == 0.0
+        assert result["motion_gate_applied"] is False
+
+    def test_per_sample_score_can_force_static_motion_gate(self):
+        """Static tasks can opt into the motion gate even outside viewpoint tasks."""
+        result = score_sample(
+            {"ika": 80, "tc": 70, "pp": 75, "vf": 85, "gi": 90, "vfa": 0},
+            vfa=12.0,
+            task_category="industrial_logic_and_compliance",
+            motion_gate_required=True,
+        )
+        assert result["motion_gate_applied"] is True
+        assert result["axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == pytest.approx(59.5)
+
     def test_per_sample_score_mixes_ic_into_gi(self):
         """Industrial constraints should lower GI without becoming an axis."""
         result = score_sample(
@@ -313,6 +380,7 @@ class TestScoring:
             {
                 "task_id": "ok",
                 "skipped": False,
+                "task_category": "spatial_exploration_and_viewpoint",
                 "viewpoint_motion": 60.0,
                 "vfa_score": 100.0,
                 "scored": {
@@ -324,6 +392,7 @@ class TestScoring:
             {
                 "task_id": "bad_vfa",
                 "skipped": False,
+                "task_category": "spatial_exploration_and_viewpoint",
                 "viewpoint_motion": 0.0,
                 "vfa_score": 0.0,
                 "scored": {
@@ -337,6 +406,45 @@ class TestScoring:
         assert result["strict_pass_rate"] == 1.0
         assert result["gated_score"] == 40.0
         assert result["overall"] == result["gated_score"]
+
+    def test_aggregate_ignores_motion_gate_for_non_viewpoint_non_static(self):
+        """Dolly/pan diagnostics should not gate non-viewpoint tasks."""
+        result = aggregate_sample_results([
+            {
+                "task_id": "local_defect",
+                "skipped": False,
+                "task_category": "topology_mutation_and_failure",
+                "motion_type": "dolly",
+                "viewpoint_motion": 0.0,
+                "vfa_score": 0.0,
+                "scored": {
+                    "weighted_score": 70.0,
+                    "axis_scores": {"ika": 80, "tc": 80, "pp": 80, "vf": 80, "gi": 80},
+                    "viewpoint_motion_score": 0.0,
+                    "motion_gate_applied": False,
+                },
+            },
+        ])
+        assert result["gated_score"] == 70.0
+
+    def test_aggregate_keeps_static_gate_for_static_tasks(self):
+        """Static tasks should still be gated when the output moves."""
+        result = aggregate_sample_results([
+            {
+                "task_id": "static_logic",
+                "skipped": False,
+                "task_category": "industrial_logic_and_compliance",
+                "motion_type": "static",
+                "viewpoint_motion": 12.0,
+                "vfa_score": 0.0,
+                "scored": {
+                    "weighted_score": 70.0,
+                    "axis_scores": {"ika": 80, "tc": 80, "pp": 80, "vf": 80, "gi": 80},
+                    "viewpoint_motion_score": 0.0,
+                },
+            },
+        ])
+        assert result["gated_score"] == 0.0
 
     def test_pp_parser_uses_native_0_100_scale(self):
         """PP parser should no longer use the legacy 1-5 scale."""

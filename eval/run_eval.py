@@ -338,6 +338,10 @@ def evaluate_sample(
         axis_weights=axis_weights,
         axis_rubric=axis_rubric,
         task_category=task_category,
+        motion_gate_required=(
+            task_category == "spatial_exploration_and_viewpoint"
+            or sample.get("motion_type") == "static"
+        ),
     )
 
     return {
