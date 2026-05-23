@@ -87,7 +87,7 @@ def _group_scores(results: list[dict], key: str) -> dict:
     }
 
 
-def _vfa_diagnostics(results: list[dict]) -> dict:
+def _viewpoint_motion_diagnostics(results: list[dict]) -> dict:
     completed = [r for r in results if not r.get("skipped")]
     target_errors = []
     uncalculable = 0
@@ -95,18 +95,18 @@ def _vfa_diagnostics(results: list[dict]) -> dict:
     low_fidelity = 0
 
     for result in completed:
-        vfa = result.get("viewpoint_motion", result.get("vfa"))
-        target = result.get("viewpoint_motion_target_degrees", result.get("vfa_target_degrees"))
-        score = result.get("viewpoint_motion_score", result.get("vfa_score"))
-        details = result.get("viewpoint_motion_details", result.get("vfa_details", {}))
-        if details.get("vfa_uncalculable"):
+        viewpoint_motion = result.get("viewpoint_motion", result.get("viewpoint_motion"))
+        target = result.get("viewpoint_motion_target_degrees", result.get("viewpoint_motion_target_degrees"))
+        score = result.get("viewpoint_motion_score", result.get("viewpoint_motion_score"))
+        details = result.get("viewpoint_motion_details", result.get("viewpoint_motion_details", {}))
+        if details.get("viewpoint_motion_uncalculable"):
             uncalculable += 1
-        if vfa is not None and float(vfa) < 0.05:
+        if viewpoint_motion is not None and float(viewpoint_motion) < 0.05:
             static_or_near_static += 1
         if score is not None and float(score) < CONFIG["low_axis_threshold"]:
             low_fidelity += 1
-        if vfa is not None and target is not None:
-            target_errors.append(abs(float(vfa) - float(target)))
+        if viewpoint_motion is not None and target is not None:
+            target_errors.append(abs(float(viewpoint_motion) - float(target)))
 
     return {
         "targeted_samples": len(target_errors),
@@ -118,19 +118,19 @@ def _vfa_diagnostics(results: list[dict]) -> dict:
     }
 
 
-def _ic_diagnostics(results: list[dict]) -> dict:
+def _industrial_constraint_diagnostics(results: list[dict]) -> dict:
     scores = []
     violation_counter: Counter[str] = Counter()
     checker_counter: Counter[str] = Counter()
 
     for result in results:
         scored = result.get("scored", {})
-        score = scored.get("industrial_constraint_score", scored.get("ic_score"))
+        score = scored.get("industrial_constraint_score", scored.get("industrial_constraint_score"))
         if score is None:
             score = canonicalize_axis_dict(scored.get("axis_scores", {})).get(INDUSTRIAL_CONSTRAINT_SCORE)
         if score is not None:
             scores.append(float(score))
-        details = result.get("industrial_constraint_details", result.get("ic_details")) or {}
+        details = result.get("industrial_constraint_details", result.get("industrial_constraint_details")) or {}
         for invariant in details.get("invariants_checked", []):
             checker_counter[invariant] += 1
         for violation in details.get("violations", []):
@@ -138,7 +138,7 @@ def _ic_diagnostics(results: list[dict]) -> dict:
             violation_counter[label] += 1
 
     return {
-        "mean_ic_score": _round_or_none(_mean(scores)),
+        "mean_industrial_constraint_score": _round_or_none(_mean(scores)),
         "samples_with_ic": len(scores),
         "violation_counts": dict(violation_counter.most_common()),
         "checker_counts": dict(checker_counter.most_common()),
@@ -152,7 +152,7 @@ def _industrial_logic_weakness_diagnostics(results: list[dict]) -> dict:
     for result in results:
         details = result.get(
             "industrial_logic_and_fact_alignment_details",
-            result.get("ika_details"),
+            result.get("industrial_logic_and_fact_alignment_details"),
         ) or {}
         for question in details.get("per_question", []):
             tag = question.get("weakness_target") or "untagged"
@@ -214,10 +214,10 @@ def _worst_samples(results: list[dict]) -> list[dict]:
             "weighted_score": _round_or_none(result.get("scored", {}).get("weighted_score")),
             "weakest_axis": weakest_axis,
             "weakest_axis_score": _round_or_none(axes.get(weakest_axis)) if weakest_axis else None,
-            "viewpoint_motion": result.get("viewpoint_motion", result.get("vfa")),
-            "viewpoint_motion_score": result.get("viewpoint_motion_score", result.get("vfa_score")),
+            "viewpoint_motion": result.get("viewpoint_motion", result.get("viewpoint_motion")),
+            "viewpoint_motion_score": result.get("viewpoint_motion_score", result.get("viewpoint_motion_score")),
             "industrial_constraint_violations": (
-                result.get("industrial_constraint_details", result.get("ic_details")) or {}
+                result.get("industrial_constraint_details", result.get("industrial_constraint_details")) or {}
             ).get("violations", []),
         })
     return out
@@ -292,8 +292,8 @@ def generate_diagnostic_report(model: str, aggregate: dict, sample_results: list
             "by_sub_topology": _group_scores(completed, "sub_topology"),
             "by_motion_type": _group_scores(completed, "motion_type"),
         },
-        "viewpoint_motion_diagnostics": _vfa_diagnostics(completed),
-        "industrial_constraint_diagnostics": _ic_diagnostics(completed),
+        "viewpoint_motion_diagnostics": _viewpoint_motion_diagnostics(completed),
+        "industrial_constraint_diagnostics": _industrial_constraint_diagnostics(completed),
         "industrial_logic_weakness_diagnostics": _industrial_logic_weakness_diagnostics(completed),
         "operator_evidence_diagnostics": _operator_evidence_diagnostics(completed),
         "ability_failure_report": _ability_failure_report(completed),

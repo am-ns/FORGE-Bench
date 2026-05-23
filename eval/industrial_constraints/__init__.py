@@ -159,7 +159,7 @@ def evaluate_industrial_constraints(
 
     Returns:
         dict with keys:
-            - ic_score: float 0.0–1.0 (mean of all checker scores)
+            - industrial_constraint_score: float 0.0–1.0 (mean of all checker scores)
             - violations: list of violation description strings
             - invariants_checked: list of checked invariant names
             - method: 'industrial_constraints'
@@ -195,7 +195,7 @@ def evaluate_industrial_constraints(
 
     if not checkers:
         return {
-            "ic_score": None,
+            "industrial_constraint_score": None,
             "violations": [],
             "invariants_checked": [],
             "method": "industrial_constraints",
@@ -249,10 +249,10 @@ def evaluate_industrial_constraints(
                 f"{result['merge_fraction'] * 100:.0f}% of frames"
             )
 
-    ic_score = float(np.mean(scores)) if scores else None
+    industrial_constraint_score = float(np.mean(scores)) if scores else None
 
     return {
-        "ic_score": round(max(0.0, min(1.0, ic_score)), 4) if ic_score is not None else None,
+        "industrial_constraint_score": round(max(0.0, min(1.0, industrial_constraint_score)), 4) if industrial_constraint_score is not None else None,
         "violations": violations,
         "invariants_checked": invariants_checked,
         "method": "industrial_constraints",

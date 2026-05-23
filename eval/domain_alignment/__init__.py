@@ -1,1 +1,1 @@
-"""Domain-alignment (IKA) evaluation package."""
+"""Domain-alignment (industrial logic and fact alignment) evaluation package."""

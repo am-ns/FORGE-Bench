@@ -8,10 +8,6 @@ from eval.calibration.floor_enforcer import enforce_score_floors
 # -- Tunable thresholds -------------------------------------------------------
 CONFIG = {
     "default_axis_weight": 1.0,       # Default weight for axes not in AXIS_WEIGHTS
-    "gi_weight_when_ic_present": 0.70,
-    "ic_weight_when_present": 0.30,
-    "vf_weight_when_vfa_present": 0.70,
-    "vfa_weight_when_present": 0.30,
 }
 
 MOTION_GATE_TASK_CATEGORIES = {"spatial_exploration_and_viewpoint"}
@@ -34,20 +30,20 @@ AXIS_WEIGHTS: dict[str, float] = {
 }
 
 
-def _normalize_ic_score(ic_score: float | None) -> float | None:
-    """Normalize IC checker score to the same 0-100 scale as other axes."""
-    if ic_score is None:
+def _normalize_industrial_constraint_score(industrial_constraint_score: float | None) -> float | None:
+    """Normalize industrial constraint checker score to the same 0-100 scale as other axes."""
+    if industrial_constraint_score is None:
         return None
-    score = float(ic_score)
+    score = float(industrial_constraint_score)
     if score <= 1.0:
         score *= 100.0
     return max(0.0, min(100.0, score))
 
 
-def score_sample(axis_scores: dict[str, float], vfa: float | None = None,
-                 vfa_orbit_component: float | None = None,
-                 vfa_crane_component: float | None = None,
-                 ic_score: float | None = None,
+def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None = None,
+                 viewpoint_motion_orbit_component: float | None = None,
+                 viewpoint_motion_crane_component: float | None = None,
+                 industrial_constraint_score: float | None = None,
                  axis_weights: dict[str, float] | None = None,
                  axis_rubric: dict[str, str] | None = None,
                  task_category: str | None = None,
@@ -57,67 +53,52 @@ def score_sample(axis_scores: dict[str, float], vfa: float | None = None,
     Args:
         axis_scores: Mapping of axis name to score, e.g.
                      using full-name public axes. Legacy short axis keys are
-                     accepted and normalized. Viewpoint motion fidelity is
-                     folded into reference and motion fidelity when present.
-        vfa: Optional View-point Fidelity Angle. When < 0.05 (essentially
-             static video), RIF is excluded from the output.
-        vfa_orbit_component: Optional orbit sub-component of VFA (passed
+                     accepted and normalized. Viewpoint motion fidelity remains
+                     diagnostic evidence and is not mechanically folded into a
+                     public axis.
+        viewpoint_motion: Optional viewpoint motion fidelity. When < 0.05 (essentially
+             static video), rotation integrity factor is excluded from the output.
+        viewpoint_motion_orbit_component: Optional orbit sub-component of viewpoint motion fidelity (passed
              through into per-sample result JSON).
-        vfa_crane_component: Optional crane sub-component of VFA (passed
+        viewpoint_motion_crane_component: Optional crane sub-component of viewpoint motion fidelity (passed
              through into per-sample result JSON).
-        ic_score: Optional industrial constraint score from the industrial
-                  constraint checkers. Values may be 0.0-1.0 or 0-100. This is
-                  folded into geometric integrity as a hard-constraint component
-                  when present.
+        industrial_constraint_score: Optional industrial constraint score from
+            evidence operators. It is reported as diagnostics and not folded
+            into a model-judged public axis.
         axis_weights: Optional per-sample dynamic weights keyed by axis.
         axis_rubric: Optional per-sample scoring rubric keyed by axis.
         task_category: Optional domain task category used to derive weights.
 
     Returns:
-        dict with keys: weighted_score, per_axis_weighted, num_axes, rif, rif_gated,
-        and optionally vfa_orbit_component, vfa_crane_component, ic_score.
+        dict with keys: weighted_score, per_axis_weighted, num_axes, rotation_integrity_factor, rotation_integrity_factor_gated,
+        and optionally viewpoint_motion_orbit_component, viewpoint_motion_crane_component, industrial_constraint_score.
     """
     if not isinstance(axis_scores, dict):
         print(f"WARNING: axis_scores is {type(axis_scores).__name__}, expected dict", file=sys.stderr)
         return {"weighted_score": 0.0, "per_axis_weighted": {}, "num_axes": 0,
-                "rif": None, "rif_gated": None}
+                "rotation_integrity_factor": None, "rotation_integrity_factor_gated": None}
 
     axis_scores = canonicalize_axis_dict(dict(axis_scores))
 
-    vfa_axis_score = axis_scores.pop(VIEWPOINT_MOTION_FIDELITY, None)
+    viewpoint_motion_axis_score = axis_scores.pop(VIEWPOINT_MOTION_FIDELITY, None)
     if motion_gate_required is None:
-        should_fold_vfa = (
+        motion_gate_applied = (
             task_category is None
             or task_category in MOTION_GATE_TASK_CATEGORIES
         )
     else:
-        should_fold_vfa = bool(motion_gate_required)
-    if vfa_axis_score is not None and should_fold_vfa:
-        vfa_axis_score = max(0.0, min(100.0, float(vfa_axis_score)))
-        if REFERENCE_AND_MOTION_FIDELITY in axis_scores:
-            axis_scores[REFERENCE_AND_MOTION_FIDELITY] = (
-                CONFIG["vf_weight_when_vfa_present"] * float(axis_scores[REFERENCE_AND_MOTION_FIDELITY])
-                + CONFIG["vfa_weight_when_present"] * vfa_axis_score
-            )
-        else:
-            axis_scores[REFERENCE_AND_MOTION_FIDELITY] = vfa_axis_score
-    elif vfa_axis_score is not None:
-        vfa_axis_score = max(0.0, min(100.0, float(vfa_axis_score)))
+        motion_gate_applied = bool(motion_gate_required)
+    if viewpoint_motion_axis_score is not None:
+        viewpoint_motion_axis_score = max(0.0, min(100.0, float(viewpoint_motion_axis_score)))
 
-    ic_axis_score = _normalize_ic_score(ic_score)
-    if ic_axis_score is not None:
-        if GEOMETRIC_INTEGRITY in axis_scores:
-            axis_scores[GEOMETRIC_INTEGRITY] = (
-                CONFIG["gi_weight_when_ic_present"] * float(axis_scores[GEOMETRIC_INTEGRITY])
-                + CONFIG["ic_weight_when_present"] * ic_axis_score
-            )
+    industrial_constraint_axis_score = _normalize_industrial_constraint_score(industrial_constraint_score)
 
     # Apply domain-specific score floors (never-zero enforcement).
     _floor_input = dict(axis_scores)
     _floored = enforce_score_floors(_floor_input)
     axis_scores = {k: _floored[k] for k in axis_scores}
-    if vfa is not None:
-        vfa = max(0.0, float(vfa))
+    if viewpoint_motion is not None:
+        viewpoint_motion = max(0.0, float(viewpoint_motion))
 
     weights = dict(AXIS_WEIGHTS or BASE_AXIS_WEIGHTS)
     if axis_weights:
@@ -136,7 +117,7 @@ def score_sample(axis_scores: dict[str, float], vfa: float | None = None,
 
     final_score = weighted_sum / total_weight if total_weight > 0 else 0.0
 
-    # RIF (Rotational Integrity Factor) from rotation-sensitive axes
+    # rotation integrity factor (Rotational Integrity Factor) from rotation-sensitive axes
     rot_axes = [
         axis_scores[a]
         for a in (
@@ -150,14 +131,14 @@ def score_sample(axis_scores: dict[str, float], vfa: float | None = None,
         product = 1.0
         for v in rot_axes:
             product *= max(v, 0.0)
-        rif = float(product ** (1.0 / len(rot_axes)))
+        rotation_integrity_factor = float(product ** (1.0 / len(rot_axes)))
     else:
-        rif = None
+        rotation_integrity_factor = None
 
-    if vfa is not None and vfa < 0.05:
-        rif_gated = None
+    if viewpoint_motion is not None and viewpoint_motion < 0.05:
+        rotation_integrity_factor_gated = None
     else:
-        rif_gated = rif
+        rotation_integrity_factor_gated = rotation_integrity_factor
 
     out = {
         "weighted_score": final_score,
@@ -166,21 +147,21 @@ def score_sample(axis_scores: dict[str, float], vfa: float | None = None,
         "axis_weights": {axis: weights.get(axis, CONFIG["default_axis_weight"])
                          for axis in axis_scores},
         "num_axes": len(axis_scores),
-        "rif": rif,
-        "rif_gated": rif_gated,
+        "rotation_integrity_factor": rotation_integrity_factor,
+        "rotation_integrity_factor_gated": rotation_integrity_factor_gated,
     }
     if task_category is not None:
         out["task_category"] = task_category
     if axis_rubric is not None:
         out["axis_rubric"] = canonicalize_axis_dict(axis_rubric)
-    if vfa_orbit_component is not None:
-        out["vfa_orbit_component"] = vfa_orbit_component
-    if vfa_crane_component is not None:
-        out["vfa_crane_component"] = vfa_crane_component
-    if vfa_axis_score is not None:
-        out["viewpoint_motion_score"] = vfa_axis_score
-        out["motion_control_score"] = vfa_axis_score
-        out["motion_gate_applied"] = should_fold_vfa
-    if ic_axis_score is not None:
-        out["industrial_constraint_score"] = ic_axis_score
+    if viewpoint_motion_orbit_component is not None:
+        out["viewpoint_motion_orbit_component"] = viewpoint_motion_orbit_component
+    if viewpoint_motion_crane_component is not None:
+        out["viewpoint_motion_crane_component"] = viewpoint_motion_crane_component
+    if viewpoint_motion_axis_score is not None:
+        out["viewpoint_motion_score"] = viewpoint_motion_axis_score
+        out["motion_control_score"] = viewpoint_motion_axis_score
+        out["motion_gate_applied"] = motion_gate_applied
+    if industrial_constraint_axis_score is not None:
+        out["industrial_constraint_score"] = industrial_constraint_axis_score
     return out

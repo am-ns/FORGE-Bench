@@ -10,7 +10,7 @@ import numpy as np
 CONFIG = {
     "score_floor": 0.10,          # Minimum result_score to prevent degenerate near-zero values
     "max_dist_default": 1.0,      # Default normalisation distance for score mapping
-    "vfa_orbit_caution_deg": 0.25,# VFA threshold above which perspective inflation is flagged
+    "viewpoint_motion_orbit_caution_deg": 0.25,# viewpoint motion fidelity threshold above which perspective inflation is flagged
     "max_contour_points": 2000,
 }
 
@@ -77,7 +77,7 @@ def evaluate_surface(
     source_points: np.ndarray,
     target_points: np.ndarray,
     max_dist: float | None = None,
-    vfa: float | None = None,
+    viewpoint_motion: float | None = None,
     frames: list[np.ndarray] | None = None,
 ) -> dict:
     """Evaluate surface geometric integrity between source and target point clouds.
@@ -86,13 +86,13 @@ def evaluate_surface(
         source_points: (N, 3) array of source surface points.
         target_points: (M, 3) array of target surface points.
         max_dist: Normalisation distance for score mapping.
-        vfa: View-point Fidelity Angle (degrees). When large, perspective
+        viewpoint_motion: viewpoint motion fidelity (degrees). When large, perspective
              changes inflate Chamfer Distance legitimately.
         frames: Optional list of per-frame point clouds for delta-CD scoring.
 
     Returns:
         dict with keys: chamfer_distance, raw_score, result_score,
-        gi_orbit_angle_caution, gi_orbit_conditioning,
+        geometric_integrity_orbit_angle_caution, geometric_integrity_orbit_conditioning,
         perspective_correction_applied.
     """
     chamfer_dist = compute_chamfer_distance(source_points, target_points)
@@ -107,18 +107,18 @@ def evaluate_surface(
         "perspective_correction_applied": False,
     }
 
-    if vfa is not None and vfa > CONFIG["vfa_orbit_caution_deg"]:
-        result["gi_orbit_angle_caution"] = True
+    if viewpoint_motion is not None and viewpoint_motion > CONFIG["viewpoint_motion_orbit_caution_deg"]:
+        result["geometric_integrity_orbit_angle_caution"] = True
 
     # Perspective-conditioned CD: use per-frame delta when orbit angle is large
-    if vfa is not None and vfa > 0.30 and frames is not None and len(frames) >= 2:
+    if viewpoint_motion is not None and viewpoint_motion > 0.30 and frames is not None and len(frames) >= 2:
         per_frame_cd = [compute_chamfer_distance(frames[i], frames[i + 1])
                         for i in range(len(frames) - 1)]
         conditioned_cd = float(np.mean(np.abs(np.diff(per_frame_cd))))
         threshold = max_dist if max_dist is not None else CONFIG["max_dist_default"]
         conditioned_raw = 1.0 - min(conditioned_cd / (threshold * 0.3), 1.0)
         conditioned_score = max(CONFIG["score_floor"], conditioned_raw)
-        result["gi_orbit_conditioning"] = True
+        result["geometric_integrity_orbit_conditioning"] = True
         result["conditioned_cd"] = conditioned_cd
         result["conditioned_score"] = conditioned_score
         result["result_score"] = conditioned_score

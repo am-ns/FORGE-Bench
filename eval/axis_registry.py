@@ -21,18 +21,12 @@ VIEWPOINT_MOTION_FIDELITY = "viewpoint_motion_fidelity"
 INDUSTRIAL_CONSTRAINT_SCORE = "industrial_constraint_score"
 
 AXIS_ALIASES: dict[str, str] = {
-    "ika": INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
     "industrial_knowledge_alignment": INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
     "domain_instruction_alignment": INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
-    "tc": TEMPORAL_CONSISTENCY,
     "temporal_structural_consistency": TEMPORAL_CONSISTENCY,
-    "pp": PHYSICAL_PLAUSIBILITY,
-    "vf": REFERENCE_AND_MOTION_FIDELITY,
     "reference_visual_fidelity": REFERENCE_AND_MOTION_FIDELITY,
-    "gi": GEOMETRIC_INTEGRITY,
-    "vfa": VIEWPOINT_MOTION_FIDELITY,
-    "ic": INDUSTRIAL_CONSTRAINT_SCORE,
-    "ic_score": INDUSTRIAL_CONSTRAINT_SCORE,
+    "viewpoint_motion": VIEWPOINT_MOTION_FIDELITY,
+    "industrial_constraint_score": INDUSTRIAL_CONSTRAINT_SCORE,
 }
 
 

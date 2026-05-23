@@ -14,7 +14,7 @@ if REPO_ROOT not in sys.path:
 import cv2
 import numpy as np
 
-from eval.geometric_integrity import augment_gi_result, normalize_frame
+from eval.geometric_integrity import augment_geometric_integrity_result, normalize_frame
 from eval.geometric_integrity.kinematic import detect_static_camera
 from eval.geometric_integrity.lattice import evaluate_lattice
 from eval.geometric_integrity.lattice_fourier import compute_spectral_peak_score
@@ -24,9 +24,9 @@ from eval.geometric_integrity.symmetry_mech import evaluate_bilateral_symmetry
 from eval.geometric_integrity.track_chain import evaluate_track_chain
 from eval.industrial_constraints import evaluate_industrial_constraints
 from eval.preflight import validate_frame_count
-from eval.temporal_coherence.eval import evaluate_tc
-from eval.visual_fidelity.eval import evaluate_vf
-from eval.vfa.eval import compute_vfa
+from eval.temporal_coherence.eval import evaluate_temporal_consistency
+from eval.visual_fidelity.eval import evaluate_reference_and_motion_fidelity
+from eval.viewpoint_motion_fidelity.eval import compute_viewpoint_motion_fidelity
 from eval.operator_evidence import evaluate_operator_evidence
 from eval.axis_registry import (
     GEOMETRIC_INTEGRITY,
@@ -63,15 +63,15 @@ def extract_frames(video_path: str) -> list[np.ndarray]:
     return frames
 
 
-# GI routing by sub_topology
+# Geometric integrity operator routing by sub_topology
 
-def evaluate_gi(
+def evaluate_geometric_integrity_operator_evidence(
     primary_topology: str,
     sub_topology: str,
     frames: list[np.ndarray],
     sample_meta: dict | None = None,
 ) -> dict:
-    """Route to the correct GI sub-evaluator based on (primary, sub) topology.
+    """Route to the correct geometric integrity sub-evaluator.
 
     Sub-topology dispatch:
       kinematic/articulated  -> kinematic chain + bilateral symmetry
@@ -86,7 +86,7 @@ def evaluate_gi(
         return {"result_score": 0.0, "error": "no_frames"}
 
     # Fluid/thermodynamic tasks: background is rigid but the main subject (smoke/fire/fluid)
-    # has no stable geometry. SIFT/lattice metrics measure background stability, not subject GI.
+    # has no stable geometry. SIFT/lattice metrics measure background stability, not subject geometric integrity.
     # Use optical-flow continuity (kinematic proxy) instead.
     task_category = (sample_meta or {}).get("task_category", "")
     if task_category == "fluid_dynamics_and_thermodynamics":
@@ -148,7 +148,7 @@ def evaluate_gi(
             return {"result_score": float(score), "rotary_details": result,
                     "method": "rotational_symmetry"}
 
-        # Flexible: optical flow continuity is the primary GI signal.
+        # Flexible: optical flow continuity is the primary geometric integrity signal.
         if sub == "cable_hose":
             kin = detect_static_camera(frames)
             return {"result_score": kin.get("kinematic_score", 0.0),
@@ -167,39 +167,60 @@ def evaluate_gi(
             return {"result_score": result.get("result_score", 0.0), "method": "surface_proxy_fallback"}
 
     except Exception as exc:
-        logger.warning("GI evaluation failed for sub=%s: %s", sub, exc)
+        logger.warning("Geometric integrity operator evaluation failed for sub=%s: %s", sub, exc)
 
     return {"result_score": 0.0, "error": f"unknown_topology_{primary}/{sub}"}
+
 
 
 # LLM judge factory
 
 def _make_llm_judges(use_llm: bool):
-    """Return (judge_ika, judge_tc, judge_pp, judge_vf) or None for each."""
+    """Return model judges for the five public axes, or None for each."""
     if not use_llm:
-        return None, None, None, None
+        return None, None, None, None, None
     try:
         from eval.llm_judge import (
-            judge_sample_ika, judge_sample_tc, judge_sample_pp, judge_sample_vf,
+            judge_sample_industrial_logic_and_fact_alignment,
+            judge_sample_geometric_integrity,
+            judge_sample_temporal_consistency,
+            judge_sample_physical_plausibility,
+            judge_sample_reference_and_motion_fidelity,
         )
-        return judge_sample_ika, judge_sample_tc, judge_sample_pp, judge_sample_vf
+        return (
+            judge_sample_industrial_logic_and_fact_alignment,
+            judge_sample_geometric_integrity,
+            judge_sample_temporal_consistency,
+            judge_sample_physical_plausibility,
+            judge_sample_reference_and_motion_fidelity,
+        )
     except Exception as exc:
         logger.warning("Could not load LLM judges: %s - running CV-only", exc)
-        return None, None, None, None
+        return None, None, None, None, None
 
 
 def _make_llm_judges_openai(use_llm: bool):
     """Return OpenAI-compat judges or None for each."""
     if not use_llm:
-        return None, None, None, None
+        return None, None, None, None, None
     try:
         from eval.llm_judge_openai import (
-            judge_sample_ika, judge_sample_tc, judge_sample_pp, judge_sample_vf,
+            judge_sample_industrial_logic_and_fact_alignment,
+            judge_sample_geometric_integrity,
+            judge_sample_temporal_consistency,
+            judge_sample_physical_plausibility,
+            judge_sample_reference_and_motion_fidelity,
         )
-        return judge_sample_ika, judge_sample_tc, judge_sample_pp, judge_sample_vf
+        return (
+            judge_sample_industrial_logic_and_fact_alignment,
+            judge_sample_geometric_integrity,
+            judge_sample_temporal_consistency,
+            judge_sample_physical_plausibility,
+            judge_sample_reference_and_motion_fidelity,
+        )
     except Exception as exc:
         logger.warning("Could not load OpenAI-compat judges: %s - running CV-only", exc)
-        return None, None, None, None
+        return None, None, None, None, None
 
 
 # Single-sample evaluation
@@ -209,7 +230,11 @@ def evaluate_sample(
     video_dir: str,
     model_name: str,
     model_answers: dict[str, str] | None,
-    judge_ika, judge_tc, judge_pp, judge_vf,
+    judge_industrial_logic_and_fact_alignment,
+    judge_geometric_integrity,
+    judge_temporal_consistency,
+    judge_physical_plausibility,
+    judge_reference_and_motion_fidelity,
 ) -> dict:
     task_id = sample["task_id"]
     domain = sample["domain"]
@@ -235,18 +260,21 @@ def evaluate_sample(
 
     fc = validate_frame_count(video_path)
 
-    # GI
-    gi_result = evaluate_gi(primary_topology, sub_topology, frames, sample_meta=sample)
-
-    # IC (augments gi_result)
-    gi_result = augment_gi_result(
-        gi_result, domain, primary_topology, frames, sample_meta=sample,
+    # Geometric integrity operator evidence. This is evidence for the model
+    # judge, not the final public axis score.
+    geometric_integrity_result = evaluate_geometric_integrity_operator_evidence(
+        primary_topology, sub_topology, frames, sample_meta=sample
     )
 
-    # VFA
-    vfa_result = compute_vfa(
+    # Industrial constraint evidence augments geometric integrity operator evidence
+    geometric_integrity_result = augment_geometric_integrity_result(
+        geometric_integrity_result, domain, primary_topology, frames, sample_meta=sample,
+    )
+
+    # viewpoint motion fidelity
+    viewpoint_motion_result = compute_viewpoint_motion_fidelity(
         frames,
-        vfa_target=sample.get("viewpoint_motion_target", sample.get("vfa_target")),
+        viewpoint_motion_target=sample.get("viewpoint_motion_target"),
         motion_type=sample.get("motion_type") or sample.get("constraint_annotations", {}).get("motion_type"),
     )
 
@@ -282,101 +310,114 @@ def evaluate_sample(
         logger.warning("Operator evidence failed for %s: %s", task_id, exc)
         operator_evidence = {"error": str(exc), "operators": {}, "risk_flags": []}
     sample_for_judge["operator_evidence"] = operator_evidence
+    sample_for_judge["geometric_integrity_operator_evidence"] = geometric_integrity_result
     sample_for_judge["task_category"] = task_category
 
-    # IKA: LLM-based if judge available, else use pre-computed answers.
-    ika_score = None
-    ika_details = None
+    # industrial logic and fact alignment: LLM-based if judge available, else use pre-computed answers.
+    industrial_logic_and_fact_alignment_score = None
+    industrial_logic_and_fact_alignment_details = None
     cot_map: dict[str, str] = {}
     questions = sample.get(
         "industrial_logic_questions",
-        sample.get("ika_questions", sample.get("questions", [])),
+        sample.get("questions", []),
     )
 
-    if judge_ika is not None and questions:
+    if judge_industrial_logic_and_fact_alignment is not None and questions:
         try:
-            ika_llm = judge_ika(frames, questions, sample_meta=sample_for_judge)
-            answers = ika_llm.get("answers", {})
-            cot_map = ika_llm.get("chain_of_thought", {})
-            from eval.domain_alignment.eval import evaluate_ika
-            ika_result = evaluate_ika(
+            industrial_logic_and_fact_alignment_model_judgment = judge_industrial_logic_and_fact_alignment(frames, questions, sample_meta=sample_for_judge)
+            answers = industrial_logic_and_fact_alignment_model_judgment.get("answers", {})
+            cot_map = industrial_logic_and_fact_alignment_model_judgment.get("chain_of_thought", {})
+            from eval.domain_alignment.eval import evaluate_industrial_logic_and_fact_alignment
+            industrial_logic_and_fact_alignment_result = evaluate_industrial_logic_and_fact_alignment(
                 questions, answers, sample_id=task_id, model_name=model_name,
                 chain_of_thought=cot_map,
             )
-            ika_score = ika_result["score"]
-            ika_details = {**ika_result, "llm_raw": ika_llm.get("raw_response", "")}
+            industrial_logic_and_fact_alignment_score = industrial_logic_and_fact_alignment_result["score"]
+            industrial_logic_and_fact_alignment_details = {**industrial_logic_and_fact_alignment_result, "llm_raw": industrial_logic_and_fact_alignment_model_judgment.get("raw_response", "")}
         except Exception as exc:
-            logger.warning("IKA LLM failed for %s: %s", task_id, exc)
+            logger.warning("industrial logic and fact alignment LLM failed for %s: %s", task_id, exc)
     elif model_answers is not None and questions:
-        from eval.domain_alignment.eval import evaluate_ika
+        from eval.domain_alignment.eval import evaluate_industrial_logic_and_fact_alignment
         answer_map = {q["id"]: model_answers.get(f"{task_id}:{q['id']}", "") for q in questions}
-        ika_result = evaluate_ika(
+        industrial_logic_and_fact_alignment_result = evaluate_industrial_logic_and_fact_alignment(
             questions, answer_map, sample_id=task_id, model_name=model_name,
         )
-        ika_score = ika_result["score"]
-        ika_details = ika_result
+        industrial_logic_and_fact_alignment_score = industrial_logic_and_fact_alignment_result["score"]
+        industrial_logic_and_fact_alignment_details = industrial_logic_and_fact_alignment_result
 
-    # TC
-    tc_result: dict = {}
-    if judge_tc is not None:
+    # Geometric integrity
+    geometric_integrity_model_score = None
+    geometric_integrity_model_details: dict = {}
+    if judge_geometric_integrity is not None:
         try:
-            r = judge_tc(frames, sample_meta=sample_for_judge)
-            tc_result = {"tc_score": r.get("score"), "reasoning": r.get("reasoning", ""),
+            r = judge_geometric_integrity(frames, sample_meta=sample_for_judge)
+            geometric_integrity_model_score = r.get("score")
+            geometric_integrity_model_details = r
+        except Exception as exc:
+            logger.warning("geometric integrity LLM failed for %s: %s", task_id, exc)
+
+    # Temporal consistency
+    temporal_consistency_result: dict = {}
+    if judge_temporal_consistency is not None:
+        try:
+            r = judge_temporal_consistency(frames, sample_meta=sample_for_judge)
+            temporal_consistency_result = {"temporal_consistency_score": r.get("score"), "reasoning": r.get("reasoning", ""),
                          "raw_response": r.get("raw_response", ""),
                          "tokens_used": r.get("tokens_used"),
                          "method": "vlm_direct"}
         except Exception as exc:
-            logger.warning("TC LLM failed for %s: %s", task_id, exc)
-    if not tc_result:
-        tc_result = evaluate_tc(frames, model_name=model_name, sample_id=task_id)
+            logger.warning("temporal consistency LLM failed for %s: %s", task_id, exc)
+    if not temporal_consistency_result:
+        temporal_consistency_result = evaluate_temporal_consistency(frames, model_name=model_name, sample_id=task_id)
 
-    # PP
-    pp_score = None
-    pp_details: dict = {}
-    if judge_pp is not None:
+    # Physical plausibility
+    physical_plausibility_score = None
+    physical_plausibility_details: dict = {}
+    if judge_physical_plausibility is not None:
         try:
-            r = judge_pp(frames, prompt=sample.get("prompt", ""), sample_meta=sample_for_judge)
-            pp_score = r.get("score")
-            pp_details = r
+            r = judge_physical_plausibility(frames, prompt=sample.get("prompt", ""), sample_meta=sample_for_judge)
+            physical_plausibility_score = r.get("score")
+            physical_plausibility_details = r
         except Exception as exc:
-            logger.warning("PP LLM failed for %s: %s", task_id, exc)
+            logger.warning("physical plausibility LLM failed for %s: %s", task_id, exc)
 
-    # VF
-    vf_result: dict = {}
-    if judge_vf is not None and reference_image is not None:
+    # Reference and motion fidelity
+    reference_and_motion_fidelity_result: dict = {}
+    if judge_reference_and_motion_fidelity is not None and reference_image is not None:
         try:
-            r = judge_vf(frames, reference_image=reference_image, sample_meta=sample_for_judge)
-            vf_result = {"vf_score": r.get("score"), "reasoning": r.get("reasoning", ""),
+            r = judge_reference_and_motion_fidelity(frames, reference_image=reference_image, sample_meta=sample_for_judge)
+            reference_and_motion_fidelity_result = {"reference_and_motion_fidelity_score": r.get("score"), "reasoning": r.get("reasoning", ""),
                          "raw_response": r.get("raw_response", ""),
                          "tokens_used": r.get("tokens_used"),
                          "method": "vlm_direct"}
         except Exception as exc:
-            logger.warning("VF LLM failed for %s: %s", task_id, exc)
-    if not vf_result and reference_image is not None:
-        vf_result = evaluate_vf(frames, reference_image, sample_id=task_id, model_name=model_name)
-    elif not vf_result:
-        vf_result = {"vf_score": None, "cv_ssim": None, "cv_hist_corr": None}
+            logger.warning("reference and motion fidelity LLM failed for %s: %s", task_id, exc)
+    if not reference_and_motion_fidelity_result and reference_image is not None:
+        reference_and_motion_fidelity_result = evaluate_reference_and_motion_fidelity(frames, reference_image, sample_id=task_id, model_name=model_name)
+    elif not reference_and_motion_fidelity_result:
+        reference_and_motion_fidelity_result = {"reference_and_motion_fidelity_score": None, "computer_vision_structural_similarity": None, "computer_vision_histogram_correlation": None}
 
     # Build public full-name axis scores for per-sample scoring.
     axis_scores: dict[str, float] = {}
-    if ika_score is not None:
-        axis_scores[INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT] = float(ika_score) * 100.0
-    if tc_result.get("tc_score") is not None:
-        axis_scores[TEMPORAL_CONSISTENCY] = float(tc_result["tc_score"])
-    if pp_score is not None:
-        axis_scores[PHYSICAL_PLAUSIBILITY] = float(pp_score)
-    if vf_result.get("vf_score") is not None:
-        axis_scores[REFERENCE_AND_MOTION_FIDELITY] = float(vf_result["vf_score"])
-    if vfa_result.get("vfa_score") is not None:
-        axis_scores[VIEWPOINT_MOTION_FIDELITY] = float(vfa_result["vfa_score"])
-    axis_scores[GEOMETRIC_INTEGRITY] = gi_result["result_score"] * 100.0
+    if industrial_logic_and_fact_alignment_score is not None:
+        axis_scores[INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT] = float(industrial_logic_and_fact_alignment_score) * 100.0
+    if temporal_consistency_result.get("temporal_consistency_score") is not None:
+        axis_scores[TEMPORAL_CONSISTENCY] = float(temporal_consistency_result["temporal_consistency_score"])
+    if physical_plausibility_score is not None:
+        axis_scores[PHYSICAL_PLAUSIBILITY] = float(physical_plausibility_score)
+    if reference_and_motion_fidelity_result.get("reference_and_motion_fidelity_score") is not None:
+        axis_scores[REFERENCE_AND_MOTION_FIDELITY] = float(reference_and_motion_fidelity_result["reference_and_motion_fidelity_score"])
+    if viewpoint_motion_result.get("viewpoint_motion_score") is not None:
+        axis_scores[VIEWPOINT_MOTION_FIDELITY] = float(viewpoint_motion_result["viewpoint_motion_score"])
+    if geometric_integrity_model_score is not None:
+        axis_scores[GEOMETRIC_INTEGRITY] = float(geometric_integrity_model_score)
 
     scored = score_sample(
         axis_scores,
-        vfa=vfa_result.get("vfa"),
-        vfa_orbit_component=vfa_result.get("vfa_orbit_component"),
-        vfa_crane_component=vfa_result.get("vfa_crane_component"),
-        ic_score=gi_result.get("ic_score"),
+        viewpoint_motion=viewpoint_motion_result.get("viewpoint_motion"),
+        viewpoint_motion_orbit_component=viewpoint_motion_result.get("viewpoint_motion_orbit_component"),
+        viewpoint_motion_crane_component=viewpoint_motion_result.get("viewpoint_motion_crane_component"),
+        industrial_constraint_score=geometric_integrity_result.get("industrial_constraint_score"),
         axis_weights=axis_weights,
         axis_rubric=axis_rubric,
         task_category=task_category,
@@ -402,23 +443,32 @@ def evaluate_sample(
         "skipped": False,
         "frame_count_reported": fc.get("reported_count"),
         "frame_count_actual": fc.get("actual_count"),
-        "geometric_integrity_score": gi_result["result_score"],
-        "geometric_integrity_method": gi_result.get("method"),
-        "industrial_constraint_score": gi_result.get("ic_score"),
-        "industrial_constraint_details": gi_result.get("ic_details"),
-        "viewpoint_motion": vfa_result.get("vfa"),
-        "viewpoint_motion_score": vfa_result.get("vfa_score"),
-        "viewpoint_motion_target_degrees": vfa_result.get("vfa_target_degrees"),
-        "viewpoint_motion_details": {k: v for k, v in vfa_result.items() if k != "vfa_detail"},
-        "temporal_consistency_score": tc_result.get("tc_score"),
-        "temporal_consistency_details": tc_result,
-        "physical_plausibility_score": pp_score,
-        "physical_plausibility_details": pp_details,
-        "reference_and_motion_fidelity_score": vf_result.get("vf_score"),
-        "reference_and_motion_fidelity_details": vf_result,
-        "industrial_logic_and_fact_alignment_score": ika_score,
-        "industrial_logic_and_fact_alignment_details": ika_details,
+        "geometric_integrity_score": geometric_integrity_result["result_score"],
+        "geometric_integrity_method": geometric_integrity_result.get("method"),
+        "geometric_integrity_model_score": geometric_integrity_model_score,
+        "geometric_integrity_model_details": geometric_integrity_model_details,
+        "industrial_constraint_score": geometric_integrity_result.get("industrial_constraint_score"),
+        "industrial_constraint_details": geometric_integrity_result.get("industrial_constraint_details"),
+        "viewpoint_motion": viewpoint_motion_result.get("viewpoint_motion"),
+        "viewpoint_motion_score": viewpoint_motion_result.get("viewpoint_motion_score"),
+        "viewpoint_motion_target_degrees": viewpoint_motion_result.get("viewpoint_motion_target_degrees"),
+        "viewpoint_motion_details": {k: v for k, v in viewpoint_motion_result.items() if k != "viewpoint_motion_detail"},
+        "temporal_consistency_score": temporal_consistency_result.get("temporal_consistency_score"),
+        "temporal_consistency_details": temporal_consistency_result,
+        "physical_plausibility_score": physical_plausibility_score,
+        "physical_plausibility_details": physical_plausibility_details,
+        "reference_and_motion_fidelity_score": reference_and_motion_fidelity_result.get("reference_and_motion_fidelity_score"),
+        "reference_and_motion_fidelity_details": reference_and_motion_fidelity_result,
+        "industrial_logic_and_fact_alignment_score": industrial_logic_and_fact_alignment_score,
+        "industrial_logic_and_fact_alignment_details": industrial_logic_and_fact_alignment_details,
         "scored": scored,
+        "scoring_complete": set(axis_scores) >= {
+            INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
+            GEOMETRIC_INTEGRITY,
+            PHYSICAL_PLAUSIBILITY,
+            TEMPORAL_CONSISTENCY,
+            REFERENCE_AND_MOTION_FIDELITY,
+        },
     }
 
 
@@ -472,12 +522,24 @@ def main() -> None:
         use_llm = not args.no_llm and bool(os.environ.get("OPENAI_COMPAT_API_KEY"))
         if not use_llm and not args.no_llm:
             logger.warning("OPENAI_COMPAT_API_KEY not set - running CV-only")
-        judge_ika, judge_tc, judge_pp, judge_vf = _make_llm_judges_openai(use_llm)
+        (
+            judge_industrial_logic_and_fact_alignment,
+            judge_geometric_integrity,
+            judge_temporal_consistency,
+            judge_physical_plausibility,
+            judge_reference_and_motion_fidelity,
+        ) = _make_llm_judges_openai(use_llm)
     else:
         use_llm = not args.no_llm and bool(os.environ.get("ANTHROPIC_API_KEY"))
         if not use_llm and not args.no_llm:
             logger.warning("ANTHROPIC_API_KEY not set - running CV-only (use --no_llm to silence)")
-        judge_ika, judge_tc, judge_pp, judge_vf = _make_llm_judges(use_llm)
+        (
+            judge_industrial_logic_and_fact_alignment,
+            judge_geometric_integrity,
+            judge_temporal_consistency,
+            judge_physical_plausibility,
+            judge_reference_and_motion_fidelity,
+        ) = _make_llm_judges(use_llm)
 
     out_dir = os.path.join(args.output_dir, args.model)
     os.makedirs(out_dir, exist_ok=True)
@@ -494,7 +556,11 @@ def main() -> None:
         try:
             result = evaluate_sample(
                 sample, args.video_dir, args.model, model_answers,
-                judge_ika, judge_tc, judge_pp, judge_vf,
+                judge_industrial_logic_and_fact_alignment,
+                judge_geometric_integrity,
+                judge_temporal_consistency,
+                judge_physical_plausibility,
+                judge_reference_and_motion_fidelity,
             )
         except Exception:
             logger.exception("Error evaluating %s", task_id)

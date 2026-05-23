@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""View-point Fidelity Angle (VFA) evaluation from video frame sequences."""
+"""viewpoint motion fidelity (viewpoint motion fidelity) evaluation from video frame sequences."""
 
 import sys
 
@@ -11,12 +11,12 @@ from eval.geometric_integrity import normalize_frame
 # -- Tunable thresholds -------------------------------------------------------
 CONFIG = {
     "min_frames": 2,                  # Minimum frames needed for any flow computation
-    "ideal_frames": 8,                # Ideal number of frames for stable VFA estimation
-    "vfa_default": 0.0,               # Default VFA when computation is not possible
+    "ideal_frames": 8,                # Ideal number of frames for stable viewpoint motion fidelity estimation
+    "viewpoint_motion_default": 0.0,               # Default viewpoint motion fidelity when computation is not possible
     "static_threshold": 0.8,          # px/frame — below this, motion is considered static
     "static_threshold_dark_bg": 0.5,  # px/frame — lower threshold for dark backgrounds
     "ransac_min_inliers": 4,          # Minimum inlier count for a valid RANSAC estimate
-    "target_tolerance_deg": 45.0,     # Error at or above this gets zero VFA fidelity
+    "target_tolerance_deg": 45.0,     # Error at or above this gets zero viewpoint motion fidelity fidelity
     "assumed_vertical_fov_deg": 60.0,  # Used to map crane translation to angle
     "translation_target_tolerance": 0.35,
     "direction_ratio_min": 1.25,
@@ -223,15 +223,15 @@ def _is_static(mean_flow_mag: float, dark_bg: bool) -> bool:
     return mean_flow_mag < thresh
 
 
-def _parse_vfa_target(vfa_target: float | str | None) -> float | None:
-    """Normalize numeric and legacy symbolic VFA targets to degrees."""
-    if vfa_target is None:
+def _parse_viewpoint_motion_target(viewpoint_motion_target: float | str | None) -> float | None:
+    """Normalize numeric and legacy symbolic viewpoint motion fidelity targets to degrees."""
+    if viewpoint_motion_target is None:
         return None
-    if isinstance(vfa_target, (int, float)):
-        return float(vfa_target)
-    if not isinstance(vfa_target, str):
+    if isinstance(viewpoint_motion_target, (int, float)):
+        return float(viewpoint_motion_target)
+    if not isinstance(viewpoint_motion_target, str):
         return None
-    text = vfa_target.strip().lower()
+    text = viewpoint_motion_target.strip().lower()
     if text.startswith(("orbit_cw_", "orbit_ccw_", "crane_up_")) and text.endswith("deg"):
         try:
             return float(text.rsplit("_", 1)[-1][:-3])
@@ -241,30 +241,30 @@ def _parse_vfa_target(vfa_target: float | str | None) -> float | None:
     return None
 
 
-def _target_fidelity_score(actual_vfa: float | None, target_vfa: float | None) -> float | None:
+def _target_fidelity_score(actual_viewpoint_motion: float | None, target_viewpoint_motion: float | None) -> float | None:
     """Score camera-motion fidelity against the requested target angle.
 
     The score is intentionally strict: a 45 degree miss receives 0, while
     smaller errors decay linearly.  Other axes still retain their floors, so
-    a failed VFA does not collapse the whole sample to an all-zero result.
+    a failed viewpoint motion fidelity does not collapse the whole sample to an all-zero result.
     """
-    if actual_vfa is None or target_vfa is None:
+    if actual_viewpoint_motion is None or target_viewpoint_motion is None:
         return None
-    error = abs(float(actual_vfa) - float(target_vfa))
+    error = abs(float(actual_viewpoint_motion) - float(target_viewpoint_motion))
     score = 100.0 * max(0.0, 1.0 - error / CONFIG["target_tolerance_deg"])
     return round(float(score), 4)
 
 
-def _parse_translation_target(vfa_target: float | str | None, motion_type: str | None) -> dict | None:
+def _parse_translation_target(viewpoint_motion_target: float | str | None, motion_type: str | None) -> dict | None:
     """Normalize symbolic pan/dolly/static targets into translation constraints."""
     motion = (motion_type or "").lower()
     if motion == "static":
         return {"type": "static", "value": 0.0}
-    if not isinstance(vfa_target, str):
-        if motion == "dolly" and isinstance(vfa_target, (int, float)):
-            return {"type": "dolly", "value": float(vfa_target)}
+    if not isinstance(viewpoint_motion_target, str):
+        if motion == "dolly" and isinstance(viewpoint_motion_target, (int, float)):
+            return {"type": "dolly", "value": float(viewpoint_motion_target)}
         return None
-    text = vfa_target.strip().lower()
+    text = viewpoint_motion_target.strip().lower()
     if motion == "pan" or text.startswith("horizontal_pan"):
         direction = "right" if text.endswith("_lr") else "left" if text.endswith("_rl") else "horizontal"
         return {"type": "pan", "direction": direction}
@@ -341,15 +341,15 @@ def _estimate_translation_motion(first_gray: np.ndarray, last_gray: np.ndarray,
     return dx, dy, scale_ratio, 0, method, phase_mag
 
 
-def compute_vfa(frames: list[np.ndarray], vfa_target: float | str | None = None,
+def compute_viewpoint_motion_fidelity(frames: list[np.ndarray], viewpoint_motion_target: float | str | None = None,
                 motion_type: str | None = None) -> dict:
-    """Compute View-point Fidelity Angle from a sequence of video frames.
+    """Compute viewpoint motion fidelity from a sequence of video frames.
 
     Uses anchor-to-final RANSAC affine estimation (first frame to last frame)
     instead of pairwise accumulation to avoid error amplification.
 
     Handles edge cases:
-    - Missing vfa_target: defaults to None (no target comparison).
+    - Missing viewpoint_motion_target: defaults to None (no target comparison).
     - Video shorter than 8 frames: computes on available frames with a warning.
     - Grayscale video: converts to BGR before optical flow computation.
     - Dark background: applies center-ROI crop and lower static threshold.
@@ -357,37 +357,37 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | str | None = None,
 
     Args:
         frames: List of video frames (BGR or grayscale).
-        vfa_target: Optional target VFA for comparison. Defaults to None.
+        viewpoint_motion_target: Optional target viewpoint motion fidelity for comparison. Defaults to None.
         motion_type: Optional motion classification ('orbit', 'crane', etc.).
 
     Returns:
-        dict with keys: vfa, num_frames_used, vfa_target, vfa_estimation_method,
-        dark_background, and optionally 'warning', 'vfa_uncalculable', 'vfa_detail'.
+        dict with keys: viewpoint_motion, num_frames_used, viewpoint_motion_target, viewpoint_motion_estimation_method,
+        dark_background, and optionally 'warning', 'viewpoint_motion_uncalculable', 'viewpoint_motion_detail'.
     """
     # -- Sweep blend weights (orbit vs crane) ------------------------------------
     ORBIT_WEIGHT = 0.6
     CRANE_WEIGHT = 0.4
 
-    target_vfa = _parse_vfa_target(vfa_target)
+    target_viewpoint_motion = _parse_viewpoint_motion_target(viewpoint_motion_target)
 
     result: dict = {
-        "vfa": CONFIG["vfa_default"],
-        "vfa_score": None,
-        "vfa_orbit_component": 0.0,
-        "vfa_crane_component": 0.0,
+        "viewpoint_motion": CONFIG["viewpoint_motion_default"],
+        "viewpoint_motion_score": None,
+        "viewpoint_motion_orbit_component": 0.0,
+        "viewpoint_motion_crane_component": 0.0,
         "num_frames_used": 0,
-        "vfa_target": vfa_target,
-        "vfa_target_degrees": target_vfa,
-        "vfa_estimation_method": None,
+        "viewpoint_motion_target": viewpoint_motion_target,
+        "viewpoint_motion_target_degrees": target_viewpoint_motion,
+        "viewpoint_motion_estimation_method": None,
         "dark_background": False,
     }
 
-    if vfa_target is None:
-        result["vfa_target"] = None
+    if viewpoint_motion_target is None:
+        result["viewpoint_motion_target"] = None
 
     if not frames or len(frames) < CONFIG["min_frames"]:
         result["warning"] = f"too few frames ({len(frames) if frames else 0}), need at least {CONFIG['min_frames']}"
-        result["vfa_estimation_method"] = "static_detected"
+        result["viewpoint_motion_estimation_method"] = "static_detected"
         print(f"WARNING: {result['warning']}", file=sys.stderr)
         return result
 
@@ -437,13 +437,13 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | str | None = None,
             crane_angle = _translation_to_crane_angle(dy, first_gray.shape[0])
 
         horizontal_ratio = abs(dx) / max(abs(dy), 1e-6)
-        result["vfa"] = round(float(crane_angle), 4)
-        result["vfa_score"] = _target_fidelity_score(crane_angle, target_vfa)
-        result["vfa_orbit_component"] = 0.0
-        result["vfa_crane_component"] = round(float(crane_angle), 4)
+        result["viewpoint_motion"] = round(float(crane_angle), 4)
+        result["viewpoint_motion_score"] = _target_fidelity_score(crane_angle, target_viewpoint_motion)
+        result["viewpoint_motion_orbit_component"] = 0.0
+        result["viewpoint_motion_crane_component"] = round(float(crane_angle), 4)
         result["num_frames_used"] = num_frames
-        result["vfa_estimation_method"] = method
-        result["vfa_detail"] = {
+        result["viewpoint_motion_estimation_method"] = method
+        result["viewpoint_motion_detail"] = {
             "vertical_translation_px": round(float(dy), 4),
             "horizontal_translation_px": round(float(dx), 4),
             "horizontal_to_vertical_ratio": round(float(horizontal_ratio), 4),
@@ -469,7 +469,7 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | str | None = None,
     except cv2.error:
         pass
 
-    translation_target = _parse_translation_target(vfa_target, motion_type)
+    translation_target = _parse_translation_target(viewpoint_motion_target, motion_type)
     if translation_target is not None:
         first_gray = cv2.cvtColor(bgr_frames[0], cv2.COLOR_BGR2GRAY)
         last_gray = cv2.cvtColor(bgr_frames[-1], cv2.COLOR_BGR2GRAY)
@@ -486,13 +486,13 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | str | None = None,
         score = _translation_fidelity_score(
             dx, dy, scale_ratio, mean_flow_mag, translation_target, dark_bg,
         )
-        result["vfa"] = round(float(np.hypot(dx, dy)), 4)
-        result["vfa_score"] = score
-        result["vfa_orbit_component"] = 0.0
-        result["vfa_crane_component"] = 0.0
+        result["viewpoint_motion"] = round(float(np.hypot(dx, dy)), 4)
+        result["viewpoint_motion_score"] = score
+        result["viewpoint_motion_orbit_component"] = 0.0
+        result["viewpoint_motion_crane_component"] = 0.0
         result["num_frames_used"] = num_frames
-        result["vfa_estimation_method"] = method
-        result["vfa_detail"] = {
+        result["viewpoint_motion_estimation_method"] = method
+        result["viewpoint_motion_detail"] = {
             "horizontal_translation_px": round(float(dx), 4),
             "vertical_translation_px": round(float(dy), 4),
             "translation_magnitude_px": round(float(np.hypot(dx, dy)), 4),
@@ -506,13 +506,13 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | str | None = None,
         return result
 
     if _is_static(mean_flow_mag, dark_bg):
-        result["vfa"] = 0.0
-        result["vfa_score"] = _target_fidelity_score(0.0, target_vfa)
-        result["vfa_orbit_component"] = 0.0
-        result["vfa_crane_component"] = 0.0
+        result["viewpoint_motion"] = 0.0
+        result["viewpoint_motion_score"] = _target_fidelity_score(0.0, target_viewpoint_motion)
+        result["viewpoint_motion_orbit_component"] = 0.0
+        result["viewpoint_motion_crane_component"] = 0.0
         result["num_frames_used"] = num_frames
-        result["vfa_estimation_method"] = "static_detected"
-        result["vfa_detail"] = {
+        result["viewpoint_motion_estimation_method"] = "static_detected"
+        result["viewpoint_motion_detail"] = {
             "mean_flow_magnitude_px_per_frame": round(mean_flow_mag, 4),
             "dark_background": dark_bg,
         }
@@ -534,30 +534,30 @@ def compute_vfa(frames: list[np.ndarray], vfa_target: float | str | None = None,
                                                                 roi_center=use_roi)
 
     if angle_deg is None:
-        # All RANSAC attempts failed — cannot calculate VFA
-        result["vfa"] = None
-        result["vfa_score"] = None
-        result["vfa_orbit_component"] = None
-        result["vfa_crane_component"] = 0.0
-        result["vfa_uncalculable"] = True
-        result["vfa_estimation_method"] = "anchor_to_final_ransac"
+        # All RANSAC attempts failed — cannot calculate viewpoint motion fidelity
+        result["viewpoint_motion"] = None
+        result["viewpoint_motion_score"] = None
+        result["viewpoint_motion_orbit_component"] = None
+        result["viewpoint_motion_crane_component"] = 0.0
+        result["viewpoint_motion_uncalculable"] = True
+        result["viewpoint_motion_estimation_method"] = "anchor_to_final_ransac"
         result["num_frames_used"] = 0
-        result["vfa_detail"] = {
+        result["viewpoint_motion_detail"] = {
             "dark_background": dark_bg,
             "note": "ransac_affine_failed_insufficient_inliers",
         }
         return result
 
-    vfa = abs(angle_deg)
-    orbit_component = round(float(vfa * ORBIT_WEIGHT), 4)
-    crane_component = round(float(vfa * CRANE_WEIGHT), 4)
-    result["vfa"] = round(float(vfa), 4)
-    result["vfa_score"] = _target_fidelity_score(vfa, target_vfa)
-    result["vfa_orbit_component"] = orbit_component
-    result["vfa_crane_component"] = crane_component
+    viewpoint_motion = abs(angle_deg)
+    orbit_component = round(float(viewpoint_motion * ORBIT_WEIGHT), 4)
+    crane_component = round(float(viewpoint_motion * CRANE_WEIGHT), 4)
+    result["viewpoint_motion"] = round(float(viewpoint_motion), 4)
+    result["viewpoint_motion_score"] = _target_fidelity_score(viewpoint_motion, target_viewpoint_motion)
+    result["viewpoint_motion_orbit_component"] = orbit_component
+    result["viewpoint_motion_crane_component"] = crane_component
     result["num_frames_used"] = num_frames
-    result["vfa_estimation_method"] = "anchor_to_final_ransac"
-    result["vfa_detail"] = {
+    result["viewpoint_motion_estimation_method"] = "anchor_to_final_ransac"
+    result["viewpoint_motion_detail"] = {
         "anchor_to_final_angle_deg": round(float(angle_deg), 4),
         "ransac_inliers": n_inliers,
         "mean_flow_magnitude_px_per_frame": round(mean_flow_mag, 4),

@@ -16,7 +16,7 @@ CONFIG = {
     "min_frames_for_llm": 2,
 }
 
-TC_LLM_PROMPT = (
+TEMPORAL_CONSISTENCY_MODEL_PROMPT = (
     "Rate temporal coherence of this industrial video on a scale 0-100. "
     "Criteria: (1) smooth motion without abrupt jumps or flickering, "
     "(2) consistent lighting and exposure across frames, "
@@ -64,20 +64,20 @@ def _build_frame_descriptions(frames: list[np.ndarray], indices: list[int]) -> s
     return "\n".join(lines)
 
 
-def parse_tc_score(response: str) -> int:
+def parse_temporal_consistency_score(response: str) -> int:
     """Extract a 0-100 integer score from an LLM response string."""
     if not response:
-        print("WARNING: empty LLM response in parse_tc_score, using fallback", file=sys.stderr)
+        print("WARNING: empty LLM response in parse_temporal_consistency_score, using fallback", file=sys.stderr)
         return CONFIG["fallback_llm_score"]
     for token in response.strip().split():
         clean = token.rstrip(".,;:)")
         if clean.isdigit() and 0 <= int(clean) <= 100:
             return int(clean)
-    print(f"WARNING: could not parse TC score from response: {response!r}", file=sys.stderr)
+    print(f"WARNING: could not parse temporal consistency score from response: {response!r}", file=sys.stderr)
     return CONFIG["fallback_llm_score"]
 
 
-def evaluate_tc(
+def evaluate_temporal_consistency(
     frames: list[np.ndarray],
     model_name: str = "",
     sample_id: str = "",
@@ -98,21 +98,21 @@ def evaluate_tc(
         llm_fn: Optional callable(prompt: str) -> str for LLM scoring.
 
     Returns:
-        dict with keys: tc_score, cv_ssim, llm_score, num_frames_sampled, method.
-        When fewer than 2 frames are provided, tc_score is None.
+        dict with keys: temporal_consistency_score, computer_vision_structural_similarity, llm_score, num_frames_sampled, method.
+        When fewer than 2 frames are provided, temporal_consistency_score is None.
     """
     if len(frames) < 2:
         print(
-            f"WARNING: TC evaluation requires >=2 frames, got {len(frames)} "
+            f"WARNING: temporal consistency evaluation requires >=2 frames, got {len(frames)} "
             f"(sample={sample_id})",
             file=sys.stderr,
         )
         return {
-            "tc_score": None,
-            "cv_ssim": None,
+            "temporal_consistency_score": None,
+            "computer_vision_structural_similarity": None,
             "llm_score": None,
             "num_frames_sampled": len(frames),
-            "method": "tc_hybrid",
+            "method": "temporal_consistency_hybrid",
         }
 
     # -- CV component: frame-to-frame SSIM consistency --
@@ -129,8 +129,8 @@ def evaluate_tc(
         ssim_val = _compute_ssim(gray_frames[i], gray_frames[i + 1])
         ssim_values.append(ssim_val)
 
-    cv_ssim_score = float(np.mean(ssim_values)) * 100.0 if ssim_values else 0.0
-    cv_ssim_score = max(0.0, min(100.0, cv_ssim_score))
+    computer_vision_structural_similarity_score = float(np.mean(ssim_values)) * 100.0 if ssim_values else 0.0
+    computer_vision_structural_similarity_score = max(0.0, min(100.0, computer_vision_structural_similarity_score))
 
     # -- LLM component --
     llm_score = None
@@ -147,25 +147,28 @@ def evaluate_tc(
                 unique_indices.append(idx)
 
         frame_desc = _build_frame_descriptions(frames, unique_indices)
-        prompt = TC_LLM_PROMPT.format(frame_descriptions=frame_desc)
+        prompt = TEMPORAL_CONSISTENCY_MODEL_PROMPT.format(frame_descriptions=frame_desc)
 
         try:
             raw_response = llm_fn(prompt)
         except (RuntimeError, OSError, ValueError) as exc:
             print(f"ERROR: LLM call failed in evaluate_tc: {exc}", file=sys.stderr)
             raw_response = ""
-        llm_score = parse_tc_score(raw_response)
+        llm_score = parse_temporal_consistency_score(raw_response)
 
     # -- Blend --
     if llm_score is not None:
-        tc_score = CONFIG["cv_weight"] * cv_ssim_score + CONFIG["llm_weight"] * llm_score
+        temporal_consistency_score = CONFIG["cv_weight"] * computer_vision_structural_similarity_score + CONFIG["llm_weight"] * llm_score
     else:
-        tc_score = cv_ssim_score
+        temporal_consistency_score = computer_vision_structural_similarity_score
 
     return {
-        "tc_score": round(tc_score, 2),
-        "cv_ssim": round(cv_ssim_score, 2),
+        "temporal_consistency_score": round(temporal_consistency_score, 2),
+        "computer_vision_structural_similarity": round(computer_vision_structural_similarity_score, 2),
         "llm_score": llm_score,
         "num_frames_sampled": len(sampled_indices),
-        "method": "tc_hybrid",
+        "method": "temporal_consistency_hybrid",
     }
+
+
+evaluate_tc = evaluate_temporal_consistency

@@ -26,36 +26,36 @@ def normalize_frame(frame: np.ndarray) -> np.ndarray:
     return cv2.resize(frame, (target_w, target_h), interpolation=interp)
 
 
-def augment_gi_result(
-    gi_result: dict,
+def augment_geometric_integrity_result(
+    geometric_integrity_result: dict,
     domain: str,
     topology_type: str,
     frames: list[np.ndarray],
     sample_meta: dict | None = None,
 ) -> dict:
-    """Augment a GI result dict with industrial constraint scores.
+    """Augment a geometric integrity result dict with industrial constraint scores.
 
-    Calls ``evaluate_industrial_constraints()`` and merges the ``ic_score``
-    into *gi_result*.  If industrial constraints are not applicable for the
-    given (domain, topology_type) pair, ``ic_score`` is set to ``None``.
+    Calls ``evaluate_industrial_constraints()`` and merges the ``industrial_constraint_score``
+    into *geometric_integrity_result*.  If industrial constraints are not applicable for the
+    given (domain, topology_type) pair, ``industrial_constraint_score`` is set to ``None``.
 
     Args:
-        gi_result: Existing GI evaluation result dict.
+        geometric_integrity_result: Existing geometric integrity evaluation result dict.
         domain: Industrial domain (e.g. 'aerospace').
         topology_type: Topology type ('surface', 'kinematic', 'lattice').
         frames: List of BGR frames.
         sample_meta: Optional sample metadata.
 
     Returns:
-        The *gi_result* dict with ``ic_score`` and ``ic_details`` added.
+        The *geometric_integrity_result* dict with ``industrial_constraint_score`` and ``industrial_constraint_details`` added.
     """
     from eval.industrial_constraints import evaluate_industrial_constraints
 
-    ic = evaluate_industrial_constraints(domain, topology_type, frames, sample_meta)
-    gi_result["ic_score"] = ic["ic_score"]
-    gi_result["ic_details"] = {
-        "violations": ic["violations"],
-        "invariants_checked": ic["invariants_checked"],
-        "method": ic["method"],
+    industrial_constraint = evaluate_industrial_constraints(domain, topology_type, frames, sample_meta)
+    geometric_integrity_result["industrial_constraint_score"] = industrial_constraint["industrial_constraint_score"]
+    geometric_integrity_result["industrial_constraint_details"] = {
+        "violations": industrial_constraint["violations"],
+        "invariants_checked": industrial_constraint["invariants_checked"],
+        "method": industrial_constraint["method"],
     }
-    return gi_result
+    return geometric_integrity_result

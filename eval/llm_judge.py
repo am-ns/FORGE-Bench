@@ -23,10 +23,11 @@ CONFIG = {
     "max_retries": 3,
     "base_delay": 1.0,             # seconds, doubles each retry
     "default_model": "claude-opus-4-7",
-    "ika_max_frames": 8,
-    "tc_max_frames": 6,
-    "pp_max_frames": 6,
-    "vf_max_frames": 3,
+    "industrial_logic_and_fact_alignment_max_frames": 8,
+    "temporal_consistency_max_frames": 6,
+    "physical_plausibility_max_frames": 6,
+    "reference_and_motion_fidelity_max_frames": 3,
+    "geometric_integrity_max_frames": 6,
     "jpeg_quality": 80,
 }
 
@@ -109,7 +110,7 @@ def _format_sample_context(sample_meta: dict | None) -> str:
         "motion_type": sample_meta.get("motion_type"),
         "viewpoint_motion_target": sample_meta.get(
             "viewpoint_motion_target",
-            sample_meta.get("vfa_target"),
+            sample_meta.get("viewpoint_motion_target"),
         ),
     }
     lines = ["Sample context:"]
@@ -151,12 +152,12 @@ def _format_operator_evidence(operator_evidence: dict | None) -> str:
 
 
 # ---------------------------------------------------------------------------
-# IKA judge
+# industrial logic and fact alignment judge
 # ---------------------------------------------------------------------------
 
 
-# IKA system prompt — strict industrial forensics framing (Optimization 2)
-_IKA_SYSTEM = """\
+# industrial logic and fact alignment system prompt — strict industrial forensics framing (Optimization 2)
+_INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT_SYSTEM = """\
 You are a rigorous industrial video forensics evaluator with deep expertise in \
 mechanical engineering, aerospace, electronics manufacturing, and structural \
 integrity assessment.
@@ -215,7 +216,7 @@ def _annotate_keypoints(frame: np.ndarray, n_top: int = 25) -> np.ndarray:
     return annotated
 
 
-def _parse_ika_json_line(line: str) -> dict | None:
+def _parse_industrial_logic_and_fact_alignment_json_line(line: str) -> dict | None:
     """Extract chain_of_thought and answer from a CoT JSON line."""
     import json
     # strip leading "N. " prefix
@@ -244,14 +245,14 @@ def _parse_ika_json_line(line: str) -> dict | None:
     return None
 
 
-def judge_sample_ika(
+def judge_sample_industrial_logic_and_fact_alignment(
     frames: list[np.ndarray],
     questions: list[dict],
     sample_meta: dict,
     model: str = CONFIG["default_model"],
     annotate_frames: bool = True,
 ) -> dict:
-    """Use an LLM to answer IKA yes/no questions about a video.
+    """Use an LLM to answer industrial logic and fact alignment yes/no questions about a video.
 
     Three improvements over naive yes/no prompting:
       1. CoT JSON output  — model reasons frame-by-frame before answering,
@@ -274,7 +275,7 @@ def judge_sample_ika(
         chain_of_thought ({q_id: str}), raw_response, model, tokens_used.
     """
     client = _get_client()
-    indices = _sample_indices(len(frames), CONFIG["ika_max_frames"])
+    indices = _sample_indices(len(frames), CONFIG["industrial_logic_and_fact_alignment_max_frames"])
 
     # Visual prompting: annotate frames with SIFT keypoints
     if annotate_frames:
@@ -314,7 +315,7 @@ def judge_sample_ika(
         client,
         model=model,
         max_tokens=1024,
-        system=[{"type": "text", "text": _IKA_SYSTEM,
+        system=[{"type": "text", "text": _INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT_SYSTEM,
                  "cache_control": {"type": "ephemeral"}}],
         messages=[{"role": "user", "content": message_content}],
     )
@@ -327,7 +328,7 @@ def judge_sample_ika(
     lines = [l for l in raw.strip().splitlines() if l.strip()]
     for i, q in enumerate(questions):
         qid = q["id"]
-        parsed = _parse_ika_json_line(lines[i]) if i < len(lines) else None
+        parsed = _parse_industrial_logic_and_fact_alignment_json_line(lines[i]) if i < len(lines) else None
         if parsed:
             answers[qid] = parsed["answer"]
             chain_of_thought[qid] = parsed["chain_of_thought"]
@@ -345,18 +346,18 @@ def judge_sample_ika(
 
 
 # ---------------------------------------------------------------------------
-# TC judge
+# temporal consistency judge
 # ---------------------------------------------------------------------------
 
 
-def judge_sample_tc(
+def judge_sample_temporal_consistency(
     frames: list[np.ndarray],
     sample_meta: dict | None = None,
     model: str = CONFIG["default_model"],
 ) -> dict:
     """Use an LLM to rate temporal coherence on a 0-100 scale.
 
-    Shows 6 sampled frames and asks for a TC score with brief reasoning.
+    Shows 6 sampled frames and asks for a temporal consistency score with brief reasoning.
 
     Args:
         frames: BGR numpy arrays from the video.
@@ -367,7 +368,7 @@ def judge_sample_tc(
         model, tokens_used.
     """
     client = _get_client()
-    indices = _sample_indices(len(frames), CONFIG["tc_max_frames"])
+    indices = _sample_indices(len(frames), CONFIG["temporal_consistency_max_frames"])
 
     system_text = (
         "You are an industrial video evaluation judge. Score temporal "
@@ -418,12 +419,57 @@ def judge_sample_tc(
     }
 
 
+def judge_sample_geometric_integrity(
+    frames: list[np.ndarray],
+    sample_meta: dict | None = None,
+    model: str = CONFIG["default_model"],
+) -> dict:
+    """Use an LLM to rate geometric integrity on a 0-100 scale."""
+    client = _get_client()
+    indices = _sample_indices(len(frames), CONFIG["geometric_integrity_max_frames"])
+    system_text = (
+        "You are a strict industrial geometry and topology judge. Score "
+        "geometric integrity on a 0-100 scale from the visible video frames. "
+        "Use operator evidence as observations, but make the final score from "
+        "the frames. Penalize topology merges, disappearing parts, warped rigid "
+        "links, unstable joint centers, changing component counts, periodic "
+        "structure collapse, invalid local defect boundaries, and global scene "
+        "regeneration. Reply with a single integer score on the first line, "
+        "then concise evidence."
+    )
+    image_blocks = [_make_image_content(frames[i]) for i in indices]
+    prompt_text = (
+        "Rate geometric integrity of this generated industrial video (0-100).\n"
+        f"Shown frames: {', '.join(f'frame {i}/{len(frames)}' for i in indices)}\n\n"
+        f"{_format_sample_context(sample_meta)}\n\n"
+        "Geometric integrity operator evidence:\n"
+        f"{json.dumps((sample_meta or {}).get('geometric_integrity_operator_evidence', {}), ensure_ascii=True, sort_keys=True)[:2000]}\n\n"
+        "Reply with a single integer 0-100 on the first line, then brief evidence."
+    )
+    response = _call_with_backoff(
+        client,
+        model=model,
+        max_tokens=512,
+        system=[{"type": "text", "text": system_text, "cache_control": {"type": "ephemeral"}}],
+        messages=[{"role": "user", "content": image_blocks + [{"type": "text", "text": prompt_text}]}],
+    )
+    raw = response.content[0].text if response.content else ""
+    score = _parse_score_0_100(raw)
+    return {
+        "score": score,
+        "reasoning": raw,
+        "raw_response": raw,
+        "model": model,
+        "tokens_used": _count_tokens(response),
+    }
+
+
 # ---------------------------------------------------------------------------
-# PP judge
+# physical plausibility judge
 # ---------------------------------------------------------------------------
 
 
-def judge_sample_pp(
+def judge_sample_physical_plausibility(
     frames: list[np.ndarray],
     prompt: str,
     sample_meta: dict,
@@ -442,7 +488,7 @@ def judge_sample_pp(
         model, tokens_used.
     """
     client = _get_client()
-    indices = _sample_indices(len(frames), CONFIG["pp_max_frames"])
+    indices = _sample_indices(len(frames), CONFIG["physical_plausibility_max_frames"])
 
     system_text = (
         "You are a strict industrial physics and engineering judge. Score "
@@ -463,7 +509,7 @@ def judge_sample_pp(
     context = _format_sample_context(sample_meta)
     constraints_text = "\n".join(f"- {c}" for c in hard_constraints) or "- none listed"
     failures_text = "\n".join(f"- {c}" for c in failure_modes) or "- none listed"
-    pp_text = (
+    physical_plausibility_text = (
         "Evaluate physical plausibility of the generated industrial video.\n\n"
         f"Generation prompt:\n{prompt}\n\n"
         f"{context}\n\n"
@@ -480,7 +526,7 @@ def judge_sample_pp(
         "Reply with a single integer 0-100 on the first line, then brief evidence."
     )
 
-    message_content = image_blocks + [{"type": "text", "text": pp_text}]
+    message_content = image_blocks + [{"type": "text", "text": physical_plausibility_text}]
 
     response = _call_with_backoff(
         client,
@@ -509,11 +555,11 @@ def judge_sample_pp(
 
 
 # ---------------------------------------------------------------------------
-# VF judge
+# reference and motion fidelity judge
 # ---------------------------------------------------------------------------
 
 
-def judge_sample_vf(
+def judge_sample_reference_and_motion_fidelity(
     frames: list[np.ndarray],
     reference_image: np.ndarray,
     sample_meta: dict | None = None,
@@ -522,7 +568,7 @@ def judge_sample_vf(
     """Use an LLM to rate visual fidelity against a reference image.
 
     Compares the reference image to 3 evenly-sampled video frames and asks
-    for a VF score 0-100.
+    for a reference and motion fidelity score 0-100.
 
     Args:
         frames: BGR numpy arrays from the video.
@@ -534,7 +580,7 @@ def judge_sample_vf(
         model, tokens_used.
     """
     client = _get_client()
-    indices = _sample_indices(len(frames), CONFIG["vf_max_frames"])
+    indices = _sample_indices(len(frames), CONFIG["reference_and_motion_fidelity_max_frames"])
 
     system_text = (
         "You are a strict industrial visual-fidelity judge. Compare the "
@@ -624,3 +670,5 @@ def _parse_score_0_100(response: str) -> int:
             return int(clean)
     print(f"WARNING: could not parse 0-100 score from response: {response!r}", file=sys.stderr)
     return 50
+
+

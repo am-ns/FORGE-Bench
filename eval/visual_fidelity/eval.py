@@ -12,7 +12,7 @@ from eval.geometric_integrity import EVAL_RESOLUTION, normalize_frame
 CONFIG = {
     "cv_weight": 0.5,
     "llm_weight": 0.5,
-    "cv_ssim_weight": 0.6,            # Within CV component
+    "computer_vision_structural_similarity_weight": 0.6,            # Within CV component
     "cv_hist_weight": 0.4,            # Within CV component
     "fallback_llm_score": 50,         # Conservative fallback when LLM parsing fails
     "hist_channels": [0, 1, 2],       # B, G, R channels for histogram
@@ -20,7 +20,7 @@ CONFIG = {
     "hist_ranges": [0, 256, 0, 256, 0, 256],
 }
 
-VF_LLM_PROMPT = (
+REFERENCE_AND_MOTION_FIDELITY_MODEL_PROMPT = (
     "Compare this reference image to frames from a generated video. "
     "Rate visual fidelity 0-100 based on: "
     "(1) preservation of main subject identity and structure, "
@@ -84,20 +84,20 @@ def _compute_hist_correlation(ref: np.ndarray, frame: np.ndarray) -> float:
     return float(corr)
 
 
-def parse_vf_score(response: str) -> int:
+def parse_reference_and_motion_fidelity_score(response: str) -> int:
     """Extract a 0-100 integer score from an LLM response string."""
     if not response:
-        print("WARNING: empty LLM response in parse_vf_score, using fallback", file=sys.stderr)
+        print("WARNING: empty LLM response in parse_reference_and_motion_fidelity_score, using fallback", file=sys.stderr)
         return CONFIG["fallback_llm_score"]
     for token in response.strip().split():
         clean = token.rstrip(".,;:)")
         if clean.isdigit() and 0 <= int(clean) <= 100:
             return int(clean)
-    print(f"WARNING: could not parse VF score from response: {response!r}", file=sys.stderr)
+    print(f"WARNING: could not parse reference and motion fidelity score from response: {response!r}", file=sys.stderr)
     return CONFIG["fallback_llm_score"]
 
 
-def evaluate_vf(
+def evaluate_reference_and_motion_fidelity(
     frames: list[np.ndarray],
     reference_image: np.ndarray,
     sample_id: str = "",
@@ -119,20 +119,20 @@ def evaluate_vf(
         llm_fn: Optional callable(prompt: str) -> str for LLM scoring.
 
     Returns:
-        dict with keys: vf_score, cv_ssim, cv_hist_corr, llm_score, method.
+        dict with keys: reference_and_motion_fidelity_score, computer_vision_structural_similarity, computer_vision_histogram_correlation, llm_score, method.
     """
     if not frames:
         print(
-            f"WARNING: VF evaluation requires at least 1 frame, got 0 "
+            f"WARNING: reference and motion fidelity evaluation requires at least 1 frame, got 0 "
             f"(sample={sample_id})",
             file=sys.stderr,
         )
         return {
-            "vf_score": None,
-            "cv_ssim": None,
-            "cv_hist_corr": None,
+            "reference_and_motion_fidelity_score": None,
+            "computer_vision_structural_similarity": None,
+            "computer_vision_histogram_correlation": None,
             "llm_score": None,
-            "method": "vf_hybrid",
+            "method": "reference_and_motion_fidelity_hybrid",
         }
 
     # -- CV component: compare reference to first, middle, last frame --
@@ -159,7 +159,7 @@ def evaluate_vf(
     hist_corr_raw = float(np.mean(hist_values)) if hist_values else 0.0
     hist_score = max(0.0, min(100.0, (hist_corr_raw + 1.0) / 2.0 * 100.0))
 
-    cv_vf = CONFIG["cv_ssim_weight"] * ssim_score + CONFIG["cv_hist_weight"] * hist_score
+    computer_vision_reference_and_motion_fidelity = CONFIG["computer_vision_structural_similarity_weight"] * ssim_score + CONFIG["cv_hist_weight"] * hist_score
 
     # -- LLM component --
     llm_score = None
@@ -182,24 +182,27 @@ def evaluate_vf(
         frame_desc_lines.insert(0, f"Reference image: {ref_w}x{ref_h} BGR")
         frame_desc = "\n".join(frame_desc_lines)
 
-        prompt = VF_LLM_PROMPT.format(frame_descriptions=frame_desc)
+        prompt = REFERENCE_AND_MOTION_FIDELITY_MODEL_PROMPT.format(frame_descriptions=frame_desc)
         try:
             raw_response = llm_fn(prompt)
         except (RuntimeError, OSError, ValueError) as exc:
             print(f"ERROR: LLM call failed in evaluate_vf: {exc}", file=sys.stderr)
             raw_response = ""
-        llm_score = parse_vf_score(raw_response)
+        llm_score = parse_reference_and_motion_fidelity_score(raw_response)
 
     # -- Blend --
     if llm_score is not None:
-        vf_score = CONFIG["cv_weight"] * cv_vf + CONFIG["llm_weight"] * llm_score
+        reference_and_motion_fidelity_score = CONFIG["cv_weight"] * computer_vision_reference_and_motion_fidelity + CONFIG["llm_weight"] * llm_score
     else:
-        vf_score = cv_vf
+        reference_and_motion_fidelity_score = computer_vision_reference_and_motion_fidelity
 
     return {
-        "vf_score": round(vf_score, 2),
-        "cv_ssim": round(ssim_score, 2),
-        "cv_hist_corr": round(hist_corr_raw, 4),
+        "reference_and_motion_fidelity_score": round(reference_and_motion_fidelity_score, 2),
+        "computer_vision_structural_similarity": round(ssim_score, 2),
+        "computer_vision_histogram_correlation": round(hist_corr_raw, 4),
         "llm_score": llm_score,
-        "method": "vf_hybrid",
+        "method": "reference_and_motion_fidelity_hybrid",
     }
+
+
+evaluate_vf = evaluate_reference_and_motion_fidelity

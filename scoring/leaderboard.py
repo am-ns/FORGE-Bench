@@ -46,8 +46,8 @@ def _load_model_results(results_dir: str) -> list[dict]:
             "overall": data.get("overall", 0.0),
             "axis_scores": data.get("axis_scores", {}),
             "viewpoint_motion_tier": data.get("viewpoint_motion_tier", "unknown"),
-            "rif": data.get("rif"),
-            "rif_gated": data.get("rif_gated"),
+            "rotation_integrity_factor": data.get("rotation_integrity_factor"),
+            "rotation_integrity_factor_gated": data.get("rotation_integrity_factor_gated"),
             "num_samples_completed": data.get("num_samples_completed"),
             "num_samples_total": data.get("num_samples_total"),
             "raw": data,
@@ -83,14 +83,14 @@ def _generate_markdown(models: list[dict]) -> str:
 
     for rank, item in enumerate(models, 1):
         axis_scores = item["axis_scores"]
-        rif_str = f"{float(item['rif']):.1f}" if item["rif"] is not None else "-"
+        rotation_integrity_factor_string = f"{float(item['rotation_integrity_factor']):.1f}" if item["rotation_integrity_factor"] is not None else "-"
         row = [
             str(rank),
             item["model"],
             f"{float(item['overall']):.1f}",
             *[_format_axis(axis_scores, axis) for axis in LEADERBOARD_AXES],
             item["viewpoint_motion_tier"],
-            rif_str,
+            rotation_integrity_factor_string,
         ]
         lines.append("| " + " | ".join(row) + " |")
 

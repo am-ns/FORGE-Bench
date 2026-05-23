@@ -60,7 +60,7 @@ def compute_bucket_scores(
     Args:
         samples: task_id -> sample dict (must have difficulty_profile).
         results: task_id -> result dict (must have axis_scores or overall).
-        axis: Which axis to extract ('overall' for composite, or 'ika', etc.).
+        axis: Which axis to extract ('overall' for composite, or a full public axis name).
 
     Returns:
         Mapping of bucket name to list of scores.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Industrial Knowledge Alignment (IKA) evaluation.
+"""Industrial Knowledge Alignment (industrial logic and fact alignment) evaluation.
 
 Compares model-generated answers against expected answers from samples.json,
 with superlative-pass handling for failure-predictive questions where a model
@@ -153,9 +153,9 @@ def evaluate_answer(expected_answer: str, model_answer: str,
     }
 
 
-def evaluate_ika(sample_questions: list[dict], model_answers: dict[str, str],
+def evaluate_industrial_logic_and_fact_alignment(sample_questions: list[dict], model_answers: dict[str, str],
                  sample_id: str = "", model_name: str = "", **kwargs) -> dict:
-    """Evaluate all questions for a single IKA sample.
+    """Evaluate all questions for a single industrial logic and fact alignment sample.
 
     Args:
         sample_questions: List of question dicts from samples.json, each with
@@ -209,3 +209,4 @@ def evaluate_ika(sample_questions: list[dict], model_answers: dict[str, str],
         "superlative_passes": superlative_count,
         "per_question": per_question,
     }
+

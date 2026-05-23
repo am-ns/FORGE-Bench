@@ -18,20 +18,21 @@ import pytest
 from eval.calibration.floor_enforcer import enforce_score_floors
 from eval.axis_registry import (
     GEOMETRIC_INTEGRITY,
+    INDUSTRIAL_CONSTRAINT_SCORE,
     INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
     PHYSICAL_PLAUSIBILITY,
     REFERENCE_AND_MOTION_FIDELITY,
     TEMPORAL_CONSISTENCY,
     VIEWPOINT_MOTION_FIDELITY,
 )
-from eval.physical_plausibility.eval import parse_pp_score
-from eval.run_eval import evaluate_gi, evaluate_sample
+from eval.physical_plausibility.eval import parse_physical_plausibility_score
+from eval.run_eval import evaluate_geometric_integrity_operator_evidence, evaluate_sample
 from eval.geometric_integrity.lattice import evaluate_lattice
 from eval.geometric_integrity.surface import evaluate_surface
 from eval.industrial_constraints.count_invariant import check_count_invariant
 from eval.operator_evidence import evaluate_operator_evidence
 from eval.preflight import check_dataset_integrity, validate_frame_count
-from eval.vfa.eval import compute_vfa
+from eval.viewpoint_motion_fidelity.eval import compute_viewpoint_motion_fidelity
 from scoring.aggregate import aggregate_sample_results, aggregate_scores
 from scoring.per_sample import score_sample
 from scoring.report import generate_diagnostic_report, generate_report
@@ -145,35 +146,35 @@ class TestPreflight:
         assert result["found"] == 1
 
 
-class TestVFA:
-    def test_vfa_static_video(self):
-        """Identical frames should produce VFA == 0.0 (static detected)."""
+class TestViewpointMotionFidelity:
+    def test_viewpoint_motion_static_video(self):
+        """Identical frames should produce viewpoint motion fidelity == 0.0 (static detected)."""
         base = np.zeros((720, 1280, 3), dtype=np.uint8)
         cv2.circle(base, (640, 360), 150, (255, 255, 255), -1)
         frames = [base.copy() for _ in range(8)]
 
-        result = compute_vfa(frames)
-        assert result["vfa"] == 0.0
+        result = compute_viewpoint_motion_fidelity(frames)
+        assert result["viewpoint_motion"] == 0.0
 
-    def test_vfa_static_video_misses_orbit_target(self):
-        """Static video against an orbit target should get zero VFA fidelity."""
+    def test_viewpoint_motion_static_video_misses_orbit_target(self):
+        """Static video against an orbit target should get zero viewpoint motion fidelity fidelity."""
         base = np.zeros((720, 1280, 3), dtype=np.uint8)
         cv2.circle(base, (640, 360), 150, (255, 255, 255), -1)
         frames = [base.copy() for _ in range(8)]
 
-        result = compute_vfa(frames, vfa_target=90.0, motion_type="orbit")
-        assert result["vfa"] == 0.0
-        assert result["vfa_score"] == 0.0
+        result = compute_viewpoint_motion_fidelity(frames, viewpoint_motion_target=90.0, motion_type="orbit")
+        assert result["viewpoint_motion"] == 0.0
+        assert result["viewpoint_motion_score"] == 0.0
 
-    def test_vfa_rotating_video(self):
-        """Frames with progressive rotation should produce VFA > 0 via RANSAC."""
+    def test_viewpoint_motion_rotating_video(self):
+        """Frames with progressive rotation should produce viewpoint motion fidelity > 0 via RANSAC."""
         frames = generate_synthetic_frames(n=8)
-        result = compute_vfa(frames)
-        assert result["vfa"] is not None
-        assert result["vfa"] > 0
-        assert result["vfa_estimation_method"] == "anchor_to_final_ransac"
+        result = compute_viewpoint_motion_fidelity(frames)
+        assert result["viewpoint_motion"] is not None
+        assert result["viewpoint_motion"] > 0
+        assert result["viewpoint_motion_estimation_method"] == "anchor_to_final_ransac"
 
-    def test_vfa_crane_translation_video(self):
+    def test_viewpoint_motion_crane_translation_video(self):
         """Crane motion should estimate vertical travel instead of being uncalculable."""
         frames = []
         for i in range(8):
@@ -184,29 +185,29 @@ class TestVFA:
             cv2.circle(frame, (380, y + 50), 12, (0, 255, 0), -1)
             frames.append(frame)
 
-        result = compute_vfa(frames, vfa_target="crane_up_30deg", motion_type="crane")
-        assert result["vfa"] is not None
-        assert result["vfa"] > 0
-        assert result["vfa_score"] is not None
-        assert result["vfa_estimation_method"] in {
+        result = compute_viewpoint_motion_fidelity(frames, viewpoint_motion_target="crane_up_30deg", motion_type="crane")
+        assert result["viewpoint_motion"] is not None
+        assert result["viewpoint_motion"] > 0
+        assert result["viewpoint_motion_score"] is not None
+        assert result["viewpoint_motion_estimation_method"] in {
             "anchor_to_final_crane_translation",
             "phase_correlation_crane_translation",
             "farneback_crane_translation",
         }
-        assert "vfa_uncalculable" not in result
+        assert "viewpoint_motion_uncalculable" not in result
 
-    def test_vfa_static_crane_misses_target(self):
+    def test_viewpoint_motion_static_crane_misses_target(self):
         """Static crane prompt should be penalized against a nonzero crane target."""
         base = np.zeros((360, 640, 3), dtype=np.uint8)
         cv2.rectangle(base, (180, 160), (460, 240), (255, 255, 255), -1)
         frames = [base.copy() for _ in range(8)]
 
-        result = compute_vfa(frames, vfa_target="crane_up_30deg", motion_type="crane")
-        assert result["vfa"] == 0.0
-        assert result["vfa_score"] < 40.0
-        assert result["vfa_estimation_method"] == "static_detected"
+        result = compute_viewpoint_motion_fidelity(frames, viewpoint_motion_target="crane_up_30deg", motion_type="crane")
+        assert result["viewpoint_motion"] == 0.0
+        assert result["viewpoint_motion_score"] < 40.0
+        assert result["viewpoint_motion_estimation_method"] == "static_detected"
 
-    def test_vfa_pan_translation_video(self):
+    def test_viewpoint_motion_pan_translation_video(self):
         """Pan prompts should be scored by horizontal translation, not rotation."""
         frames = []
         for i in range(8):
@@ -217,18 +218,18 @@ class TestVFA:
             cv2.circle(frame, (x + 130, 190), 12, (0, 255, 0), -1)
             frames.append(frame)
 
-        result = compute_vfa(frames, vfa_target="horizontal_pan_lr", motion_type="pan")
-        assert result["vfa_score"] is not None
-        assert result["vfa_score"] > 80.0
-        assert result["vfa_estimation_method"] in {
+        result = compute_viewpoint_motion_fidelity(frames, viewpoint_motion_target="horizontal_pan_lr", motion_type="pan")
+        assert result["viewpoint_motion_score"] is not None
+        assert result["viewpoint_motion_score"] > 80.0
+        assert result["viewpoint_motion_estimation_method"] in {
             "anchor_to_final_translation",
             "foreground_bbox_translation",
             "phase_correlation_translation",
             "farneback_translation",
         }
-        assert "horizontal_translation_px" in result["vfa_detail"]
+        assert "horizontal_translation_px" in result["viewpoint_motion_detail"]
 
-    def test_vfa_dolly_scale_video(self):
+    def test_viewpoint_motion_dolly_scale_video(self):
         """Dolly prompts should use scale change as the motion-control signal."""
         frames = []
         for i in range(8):
@@ -246,14 +247,14 @@ class TestVFA:
             cv2.circle(frame, (350, 200), 8, (0, 255, 0), -1)
             frames.append(frame)
 
-        result = compute_vfa(frames, vfa_target=1.5, motion_type="dolly")
-        assert result["vfa_score"] is not None
-        assert result["vfa_score"] > 40.0
-        assert "scale_ratio" in result["vfa_detail"]
+        result = compute_viewpoint_motion_fidelity(frames, viewpoint_motion_target=1.5, motion_type="dolly")
+        assert result["viewpoint_motion_score"] is not None
+        assert result["viewpoint_motion_score"] > 40.0
+        assert "scale_ratio" in result["viewpoint_motion_detail"]
 
 
 class TestGeometricIntegrity:
-    def test_gi_surface(self):
+    def test_geometric_integrity_surface(self):
         """evaluate_surface on similar point clouds should return score in [0, 1]."""
         rng = np.random.RandomState(42)
         src = rng.rand(500, 3).astype(np.float32)
@@ -263,7 +264,7 @@ class TestGeometricIntegrity:
         assert isinstance(score, float)
         assert 0 <= score <= 1
 
-    def test_gi_surface_accepts_image_frames(self):
+    def test_geometric_integrity_surface_accepts_image_frames(self):
         """evaluate_surface should compare frame contours for aerodynamic routing."""
         img_a = np.zeros((240, 320, 3), dtype=np.uint8)
         img_b = np.zeros((240, 320, 3), dtype=np.uint8)
@@ -274,17 +275,17 @@ class TestGeometricIntegrity:
         assert result["chamfer_distance"] != float("inf")
         assert 0 <= result["result_score"] <= 1
 
-    def test_gi_lattice(self):
+    def test_geometric_integrity_lattice(self):
         """evaluate_lattice on two similar textured images should score >= 0.10."""
         img_a = _make_textured_image(seed=42)
         img_b = _make_textured_image(seed=43)
         result = evaluate_lattice(img_a, img_b)
         assert result["result_score"] >= 0.10
 
-    def test_gi_articulated_accepts_frame_sequence(self):
-        """Articulated GI routing should evaluate symmetry per frame."""
+    def test_geometric_integrity_articulated_accepts_frame_sequence(self):
+        """Articulated geometric integrity routing should evaluate symmetry per frame."""
         frames = _make_stable_count_frames(n=4, h=240, w=320)
-        result = evaluate_gi("kinematic", "articulated", frames)
+        result = evaluate_geometric_integrity_operator_evidence("kinematic", "articulated", frames)
         assert result["method"] == "kinematic_articulated"
         assert 0 <= result["result_score"] <= 1
         assert result["symmetry_details"]["num_frames_scored"] > 0
@@ -355,36 +356,36 @@ class TestOperatorEvidence:
 class TestFloorEnforcer:
     def test_floor_enforcer(self):
         """Floor enforcer should clamp axes to their domain-specific minimums."""
-        assert enforce_score_floors({"ika": 1.0})[INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT] == 5.0
-        assert enforce_score_floors({"gi": 5.0})[GEOMETRIC_INTEGRITY] == 8.0
-        assert enforce_score_floors({"vfa": -1.0})[VIEWPOINT_MOTION_FIDELITY] == 0.0
+        assert enforce_score_floors({INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 1.0})[INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT] == 5.0
+        assert enforce_score_floors({GEOMETRIC_INTEGRITY: 5.0})[GEOMETRIC_INTEGRITY] == 8.0
+        assert enforce_score_floors({"viewpoint_motion": -1.0})[VIEWPOINT_MOTION_FIDELITY] == 0.0
 
 
 class TestScoring:
     def test_per_sample_score(self):
-        """score_sample should return a valid weighted score and RIF."""
+        """score_sample should return a valid weighted score and rotation integrity factor."""
         result = score_sample(
-            {"ika": 80, "tc": 70, "pp": 75, "vf": 85, "gi": 90}
+            {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 70, PHYSICAL_PLAUSIBILITY: 75, REFERENCE_AND_MOTION_FIDELITY: 85, GEOMETRIC_INTEGRITY: 90}
         )
         assert 0 < result["weighted_score"] <= 100
-        assert result["rif"] is not None
+        assert result["rotation_integrity_factor"] is not None
 
-    def test_per_sample_score_folds_vfa_into_vf(self):
-        """VFA target fidelity should fold into the VF axis."""
+    def test_per_sample_score_reports_viewpoint_motion_without_folding(self):
+        """Viewpoint motion fidelity is diagnostic evidence, not a folded axis score."""
         result = score_sample(
-            {"ika": 80, "tc": 70, "pp": 75, "vf": 85, "gi": 90, "vfa": 0},
-            vfa=0.0,
+            {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 70, PHYSICAL_PLAUSIBILITY: 75, REFERENCE_AND_MOTION_FIDELITY: 85, GEOMETRIC_INTEGRITY: 90, "viewpoint_motion": 0},
+            viewpoint_motion=0.0,
         )
         assert VIEWPOINT_MOTION_FIDELITY not in result["axis_scores"]
-        assert result["axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == pytest.approx(59.5)
+        assert result["axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == pytest.approx(85.0)
         assert result["viewpoint_motion_score"] == 0.0
-        assert result["weighted_score"] < 80.0
+        assert result["weighted_score"] == pytest.approx(80.0)
 
-    def test_per_sample_score_does_not_fold_vfa_for_non_viewpoint_task(self):
-        """Non-viewpoint tasks should keep motion as diagnostics, not lower VF."""
+    def test_per_sample_score_does_not_fold_viewpoint_motion_for_non_viewpoint_task(self):
+        """Non-viewpoint tasks should keep motion as diagnostics, not lower reference and motion fidelity."""
         result = score_sample(
-            {"ika": 80, "tc": 70, "pp": 75, "vf": 85, "gi": 90, "vfa": 0},
-            vfa=0.0,
+            {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 70, PHYSICAL_PLAUSIBILITY: 75, REFERENCE_AND_MOTION_FIDELITY: 85, GEOMETRIC_INTEGRITY: 90, "viewpoint_motion": 0},
+            viewpoint_motion=0.0,
             task_category="topology_mutation_and_failure",
         )
         assert result["axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == 85
@@ -394,29 +395,29 @@ class TestScoring:
     def test_per_sample_score_can_force_static_motion_gate(self):
         """Static tasks can opt into the motion gate even outside viewpoint tasks."""
         result = score_sample(
-            {"ika": 80, "tc": 70, "pp": 75, "vf": 85, "gi": 90, "vfa": 0},
-            vfa=12.0,
+            {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 70, PHYSICAL_PLAUSIBILITY: 75, REFERENCE_AND_MOTION_FIDELITY: 85, GEOMETRIC_INTEGRITY: 90, "viewpoint_motion": 0},
+            viewpoint_motion=12.0,
             task_category="industrial_logic_and_compliance",
             motion_gate_required=True,
         )
         assert result["motion_gate_applied"] is True
-        assert result["axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == pytest.approx(59.5)
+        assert result["axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == pytest.approx(85.0)
 
-    def test_per_sample_score_mixes_ic_into_gi(self):
-        """Industrial constraints should lower GI without becoming an axis."""
+    def test_per_sample_score_reports_industrial_constraints_without_folding(self):
+        """Industrial constraints are diagnostic evidence, not a folded axis score."""
         result = score_sample(
-            {"ika": 80, "tc": 70, "pp": 75, "vf": 85, "gi": 90},
-            ic_score=0.20,
+            {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 70, PHYSICAL_PLAUSIBILITY: 75, REFERENCE_AND_MOTION_FIDELITY: 85, GEOMETRIC_INTEGRITY: 90},
+            industrial_constraint_score=0.20,
         )
-        assert "ic" not in result["axis_scores"]
-        assert result["axis_scores"][GEOMETRIC_INTEGRITY] == 69.0
+        assert INDUSTRIAL_CONSTRAINT_SCORE not in result["axis_scores"]
+        assert result["axis_scores"][GEOMETRIC_INTEGRITY] == 90.0
         assert result["industrial_constraint_score"] == 20.0
-        assert result["weighted_score"] < 80.0
+        assert result["weighted_score"] == pytest.approx(80.0)
 
     def test_aggregate(self):
-        """aggregate_scores should classify VFA tier and produce overall > 0."""
+        """aggregate_scores should classify viewpoint motion fidelity tier and produce overall > 0."""
         result = aggregate_scores(
-            {"ika": 80, "tc": 70, "pp": 75, "vf": 85, "gi": 90}, vfa=15.0
+            {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 70, PHYSICAL_PLAUSIBILITY: 75, REFERENCE_AND_MOTION_FIDELITY: 85, GEOMETRIC_INTEGRITY: 90}, viewpoint_motion=15.0
         )
         assert result["viewpoint_motion_tier"] == "weak"
         assert result["overall"] > 0
@@ -429,29 +430,29 @@ class TestScoring:
                 "skipped": False,
                 "task_category": "spatial_exploration_and_viewpoint",
                 "viewpoint_motion": 60.0,
-                "vfa_score": 100.0,
+                "viewpoint_motion_score": 100.0,
                 "scored": {
                     "weighted_score": 80.0,
-                    "axis_scores": {"ika": 80, "tc": 80, "pp": 80, "vf": 80, "gi": 80},
+                    "axis_scores": {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 80, PHYSICAL_PLAUSIBILITY: 80, REFERENCE_AND_MOTION_FIDELITY: 80, GEOMETRIC_INTEGRITY: 80},
                     "viewpoint_motion_score": 100.0,
                 },
             },
             {
-                "task_id": "bad_vfa",
+                "task_id": "bad_viewpoint_motion",
                 "skipped": False,
                 "task_category": "spatial_exploration_and_viewpoint",
                 "viewpoint_motion": 0.0,
-                "vfa_score": 0.0,
+                "viewpoint_motion_score": 0.0,
                 "scored": {
                     "weighted_score": 70.0,
-                    "axis_scores": {"ika": 80, "tc": 80, "pp": 80, "vf": 80, "gi": 80},
+                    "axis_scores": {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 80, PHYSICAL_PLAUSIBILITY: 80, REFERENCE_AND_MOTION_FIDELITY: 80, GEOMETRIC_INTEGRITY: 80},
                     "viewpoint_motion_score": 0.0,
                 },
             },
         ])
         assert result["relax_score"] == 75.0
         assert result["strict_pass_rate"] == 1.0
-        assert result["gated_score"] == 40.0
+        assert result["gated_score"] == 48.75
         assert result["overall"] == result["gated_score"]
 
     def test_aggregate_ignores_motion_gate_for_non_viewpoint_non_static(self):
@@ -463,10 +464,10 @@ class TestScoring:
                 "task_category": "topology_mutation_and_failure",
                 "motion_type": "dolly",
                 "viewpoint_motion": 0.0,
-                "vfa_score": 0.0,
+                "viewpoint_motion_score": 0.0,
                 "scored": {
                     "weighted_score": 70.0,
-                    "axis_scores": {"ika": 80, "tc": 80, "pp": 80, "vf": 80, "gi": 80},
+                    "axis_scores": {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 80, PHYSICAL_PLAUSIBILITY: 80, REFERENCE_AND_MOTION_FIDELITY: 80, GEOMETRIC_INTEGRITY: 80},
                     "viewpoint_motion_score": 0.0,
                     "motion_gate_applied": False,
                 },
@@ -483,10 +484,10 @@ class TestScoring:
                 "task_category": "industrial_logic_and_compliance",
                 "motion_type": "static",
                 "viewpoint_motion": 12.0,
-                "vfa_score": 0.0,
+                "viewpoint_motion_score": 0.0,
                 "scored": {
                     "weighted_score": 70.0,
-                    "axis_scores": {"ika": 80, "tc": 80, "pp": 80, "vf": 80, "gi": 80},
+                    "axis_scores": {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 80, PHYSICAL_PLAUSIBILITY: 80, REFERENCE_AND_MOTION_FIDELITY: 80, GEOMETRIC_INTEGRITY: 80},
                     "viewpoint_motion_score": 0.0,
                 },
             },
@@ -503,7 +504,7 @@ class TestScoring:
                 "motion_type": "dolly",
                 "scored": {
                     "weighted_score": 80.0,
-                    "axis_scores": {"ika": 80, "tc": 80, "pp": 80, "vf": 80, "gi": 80},
+                    "axis_scores": {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 80, PHYSICAL_PLAUSIBILITY: 80, REFERENCE_AND_MOTION_FIDELITY: 80, GEOMETRIC_INTEGRITY: 80},
                 },
                 "operator_evidence": {
                     "operators": {
@@ -522,10 +523,10 @@ class TestScoring:
         assert result["motion_gated_score"] == 80.0
         assert result["gated_score"] < 40.0
 
-    def test_pp_parser_uses_native_0_100_scale(self):
-        """PP parser should no longer use the legacy 1-5 scale."""
-        assert parse_pp_score("82\nminor localized issue") == 82
-        assert parse_pp_score("5 severe issues") == 5
+    def test_physical_plausibility_parser_uses_native_0_100_scale(self):
+        """physical plausibility parser should no longer use the legacy 1-5 scale."""
+        assert parse_physical_plausibility_score("82\nminor localized issue") == 82
+        assert parse_physical_plausibility_score("5 severe issues") == 5
 
 
 class TestReport:
@@ -538,7 +539,7 @@ class TestReport:
         assert parsed["val"] is None
 
     def test_diagnostic_report_summarizes_failures(self):
-        """Diagnostic report should expose axis, VFA, IC, and weakness failures."""
+        """Diagnostic report should expose axis, viewpoint motion fidelity, industrial constraint, and weakness failures."""
         samples = [
             {
                 "task_id": "bad",
@@ -551,7 +552,7 @@ class TestReport:
                 "viewpoint_motion_score": 0.0,
                 "viewpoint_motion_target_degrees": 90.0,
                 "viewpoint_motion_details": {},
-                "ic_details": {
+                "industrial_constraint_details": {
                     "violations": ["check_count_invariant: element count varied"],
                     "invariants_checked": ["check_count_invariant"],
                 },
@@ -563,7 +564,7 @@ class TestReport:
                 },
                 "scored": {
                     "weighted_score": 30.0,
-                    "axis_scores": {"ika": 50, "gi": 27},
+                    "axis_scores": {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 50, GEOMETRIC_INTEGRITY: 27},
                     "industrial_constraint_score": 20,
                     "viewpoint_motion_score": 0,
                 },
@@ -590,8 +591,8 @@ class TestDatasetValidation:
 
 
 class TestRunEvalCLI:
-    def test_evaluate_sample_uses_vlm_pp_0_100_without_remap(self, tmp_path):
-        """VLM PP scores are already 0-100 and must not be remapped as 1-5."""
+    def test_evaluate_sample_uses_model_physical_plausibility_0_100_without_remap(self, tmp_path):
+        """VLM physical plausibility scores are already 0-100 and must not be remapped as 1-5."""
         video_dir = tmp_path / "videos"
         video_dir.mkdir()
         frames = generate_synthetic_frames(n=8, h=360, w=640)
@@ -615,19 +616,25 @@ class TestRunEvalCLI:
             "industrial_logic_questions": [],
         }
 
-        def judge_tc(frames, sample_meta=None):
+        def judge_temporal_consistency(frames, sample_meta=None):
             assert sample_meta is not None
             assert "operator_evidence" in sample_meta
-            return {"score": 70, "reasoning": "mock tc", "raw_response": "70"}
+            return {"score": 70, "reasoning": "mock temporal consistency", "raw_response": "70"}
 
-        def judge_pp(frames, prompt="", sample_meta=None):
+        def judge_geometric_integrity(frames, sample_meta=None):
+            assert sample_meta is not None
+            assert "geometric_integrity_operator_evidence" in sample_meta
+            return {"score": 75, "reasoning": "mock geometric integrity", "raw_response": "75"}
+
+        def judge_physical_plausibility(frames, prompt="", sample_meta=None):
             assert sample_meta is not None
             assert "operator_evidence" in sample_meta
-            return {"score": 80, "justification": "mock pp", "raw_response": "80"}
+            return {"score": 80, "justification": "mock physical plausibility", "raw_response": "80"}
 
         result = evaluate_sample(
             sample, str(video_dir), "mock_model", None,
-            None, judge_tc, judge_pp, None,
+            None, judge_geometric_integrity, judge_temporal_consistency,
+            judge_physical_plausibility, None,
         )
         assert result["physical_plausibility_score"] == 80
         assert "operator_evidence" in result

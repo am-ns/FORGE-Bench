@@ -70,9 +70,10 @@ not use them.
 | `temporal_consistency` | Long-horizon temporal consistency | Identity, material, state, anti-deformation, anti-melting, and anti-flicker checks across sampled frames. |
 | `reference_and_motion_fidelity` | Reference and motion fidelity | Spatial mapping, camera-control execution, static-video gating for required camera motion, and region-isolated fidelity where only the requested defect/failure region may change. |
 
-`viewpoint_motion_fidelity` is retained as a motion gate component and is folded
-into `reference_and_motion_fidelity` for per-sample scoring. The industrial
-constraint score is folded into `geometric_integrity`.
+`viewpoint_motion_fidelity` is retained as a motion gate component and operator
+evidence for the model judge. The industrial constraint score is reported as
+operator evidence for `geometric_integrity`; neither diagnostic score is
+mechanically folded into a public axis.
 
 ## Prompt Standard
 

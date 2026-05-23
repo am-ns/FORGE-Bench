@@ -231,7 +231,7 @@ def evaluate_safety_compliance_motion(frames: list[np.ndarray]) -> dict:
 
 
 def evaluate_temporal_break(frames: list[np.ndarray]) -> dict:
-    """Detect abrupt late-stage frame discontinuities as evidence for TC/VF judges."""
+    """Detect abrupt late-stage frame discontinuities as evidence for temporal consistency/reference and motion fidelity judges."""
     if len(frames) < 3:
         return {"operator": "temporal_break", "status": "insufficient_frames"}
     indices = _sample_indices(len(frames), max(CONFIG["sample_frames"], 8))
