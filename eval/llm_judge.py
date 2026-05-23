@@ -23,11 +23,11 @@ CONFIG = {
     "max_retries": 3,
     "base_delay": 1.0,             # seconds, doubles each retry
     "default_model": "claude-opus-4-7",
-    "industrial_logic_and_fact_alignment_max_frames": 8,
-    "temporal_consistency_max_frames": 6,
-    "physical_plausibility_max_frames": 6,
-    "reference_and_motion_fidelity_max_frames": 3,
-    "geometric_integrity_max_frames": 6,
+    "industrial_logic_and_fact_alignment_max_frames": 12,
+    "temporal_consistency_max_frames": 12,
+    "physical_plausibility_max_frames": 12,
+    "reference_and_motion_fidelity_max_frames": 6,
+    "geometric_integrity_max_frames": 12,
     "jpeg_quality": 80,
 }
 
@@ -47,8 +47,10 @@ def _sample_indices(n_frames: int, n_sample: int) -> list[int]:
     """Return up to *n_sample* evenly-spaced indices over *n_frames*."""
     if n_frames <= n_sample:
         return list(range(n_frames))
-    step = (n_frames - 1) / (n_sample - 1)
-    return [int(round(i * step)) for i in range(n_sample)]
+    indices = np.linspace(0, n_frames - 1, n_sample, dtype=int).tolist()
+    indices[0] = 0
+    indices[-1] = n_frames - 1
+    return sorted(dict.fromkeys(indices))
 
 
 def _make_image_content(frame: np.ndarray) -> dict:
@@ -342,6 +344,7 @@ def judge_sample_industrial_logic_and_fact_alignment(
         "raw_response": raw,
         "model": model,
         "tokens_used": _count_tokens(response),
+        "sampled_frame_indices": indices,
     }
 
 
@@ -412,10 +415,12 @@ def judge_sample_temporal_consistency(
 
     return {
         "score": score,
+        "llm_parse_valid": score is not None,
         "reasoning": raw,
         "raw_response": raw,
         "model": model,
         "tokens_used": _count_tokens(response),
+        "sampled_frame_indices": indices,
     }
 
 
@@ -457,10 +462,12 @@ def judge_sample_geometric_integrity(
     score = _parse_score_0_100(raw)
     return {
         "score": score,
+        "llm_parse_valid": score is not None,
         "reasoning": raw,
         "raw_response": raw,
         "model": model,
         "tokens_used": _count_tokens(response),
+        "sampled_frame_indices": indices,
     }
 
 
@@ -547,10 +554,12 @@ def judge_sample_physical_plausibility(
 
     return {
         "score": score,
+        "llm_parse_valid": score is not None,
         "justification": raw,
         "raw_response": raw,
         "model": model,
         "tokens_used": _count_tokens(response),
+        "sampled_frame_indices": indices,
     }
 
 
@@ -641,10 +650,12 @@ def judge_sample_reference_and_motion_fidelity(
 
     return {
         "score": score,
+        "llm_parse_valid": score is not None,
         "reasoning": raw,
         "raw_response": raw,
         "model": model,
         "tokens_used": _count_tokens(response),
+        "sampled_frame_indices": indices,
     }
 
 
@@ -653,11 +664,16 @@ def judge_sample_reference_and_motion_fidelity(
 # ---------------------------------------------------------------------------
 
 
-def _parse_score_0_100(response: str) -> int:
-    """Extract a 0-100 integer score from the first line of a response."""
+def _parse_score_0_100(response: str) -> int | None:
+    """Extract a 0-100 integer score from the first line of a response.
+
+    Invalid or unparsable judge outputs are treated as missing scores. A
+    benchmark run should surface missing judge data explicitly rather than
+    assigning a neutral fallback that can change model rankings.
+    """
     if not response:
-        print("WARNING: empty LLM response in _parse_score_0_100, using fallback 50", file=sys.stderr)
-        return 50
+        print("WARNING: empty LLM response in _parse_score_0_100", file=sys.stderr)
+        return None
     first_line = response.strip().splitlines()[0].strip()
     for token in first_line.split():
         clean = token.rstrip(".,;:)%")
@@ -669,6 +685,6 @@ def _parse_score_0_100(response: str) -> int:
         if clean.isdigit() and 0 <= int(clean) <= 100:
             return int(clean)
     print(f"WARNING: could not parse 0-100 score from response: {response!r}", file=sys.stderr)
-    return 50
+    return None
 
 

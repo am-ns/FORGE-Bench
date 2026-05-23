@@ -42,6 +42,7 @@ from eval.axis_registry import (
 from scoring.per_sample import score_sample
 from scoring.aggregate import aggregate_sample_results
 from scoring.report import generate_diagnostic_report, generate_report
+from eval.metadata import build_run_metadata
 
 logger = logging.getLogger("forge_eval")
 
@@ -223,6 +224,33 @@ def _make_llm_judges_openai(use_llm: bool):
         return None, None, None, None, None
 
 
+def _sample_scoring_validity(axis_scores: dict[str, float], detail_blocks: dict[str, dict]) -> dict:
+    """Return per-sample scoring completeness and judge parse validity."""
+    required = {
+        INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
+        GEOMETRIC_INTEGRITY,
+        PHYSICAL_PLAUSIBILITY,
+        TEMPORAL_CONSISTENCY,
+        REFERENCE_AND_MOTION_FIDELITY,
+    }
+    missing = sorted(required - set(axis_scores))
+    invalid_judges = []
+    for name, details in detail_blocks.items():
+        if not isinstance(details, dict):
+            continue
+        if details.get("llm_parse_valid") is False:
+            invalid_judges.append(name)
+        elif details.get("raw_response") and details.get("score") is None:
+            invalid_judges.append(name)
+    return {
+        "required_axes": sorted(required),
+        "present_axes": sorted(axis_scores),
+        "missing_required_axes": missing,
+        "complete_required_axes": not missing,
+        "invalid_judge_outputs": sorted(set(invalid_judges)),
+    }
+
+
 # Single-sample evaluation
 
 def evaluate_sample(
@@ -281,8 +309,10 @@ def evaluate_sample(
     # Load reference image: prefer HQ PNG (dataset/images_hq/), fall back to 720p JPEG.
     # normalize_frame() will resize to EVAL_RESOLUTION (1080p) before metric computation.
     reference_image = None
+    reference_image_status = "not_requested"
     image_path = sample.get("image_path")
     if image_path:
+        reference_image_status = "missing"
         repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         abs_path = image_path if os.path.isabs(image_path) else os.path.join(repo_root, image_path)
         hq_png = abs_path.replace("dataset/images/", "dataset/images_hq/").rsplit(".", 1)[0] + ".png"
@@ -292,6 +322,7 @@ def evaluate_sample(
                 ref = cv2.imread(candidate)
                 if ref is not None:
                     reference_image = normalize_frame(ref)  # to 1080p
+                    reference_image_status = "loaded"
                     break
         if reference_image is None:
             logger.warning("Reference image missing: %s", abs_path)
@@ -364,6 +395,8 @@ def evaluate_sample(
             temporal_consistency_result = {"temporal_consistency_score": r.get("score"), "reasoning": r.get("reasoning", ""),
                          "raw_response": r.get("raw_response", ""),
                          "tokens_used": r.get("tokens_used"),
+                         "llm_parse_valid": r.get("llm_parse_valid"),
+                         "sampled_frame_indices": r.get("sampled_frame_indices"),
                          "method": "vlm_direct"}
         except Exception as exc:
             logger.warning("temporal consistency LLM failed for %s: %s", task_id, exc)
@@ -389,6 +422,8 @@ def evaluate_sample(
             reference_and_motion_fidelity_result = {"reference_and_motion_fidelity_score": r.get("score"), "reasoning": r.get("reasoning", ""),
                          "raw_response": r.get("raw_response", ""),
                          "tokens_used": r.get("tokens_used"),
+                         "llm_parse_valid": r.get("llm_parse_valid"),
+                         "sampled_frame_indices": r.get("sampled_frame_indices"),
                          "method": "vlm_direct"}
         except Exception as exc:
             logger.warning("reference and motion fidelity LLM failed for %s: %s", task_id, exc)
@@ -411,6 +446,14 @@ def evaluate_sample(
         axis_scores[VIEWPOINT_MOTION_FIDELITY] = float(viewpoint_motion_result["viewpoint_motion_score"])
     if geometric_integrity_model_score is not None:
         axis_scores[GEOMETRIC_INTEGRITY] = float(geometric_integrity_model_score)
+
+    detail_blocks = {
+        "temporal_consistency": temporal_consistency_result,
+        "physical_plausibility": physical_plausibility_details,
+        "reference_and_motion_fidelity": reference_and_motion_fidelity_result,
+        "geometric_integrity": geometric_integrity_model_details,
+    }
+    sample_validity = _sample_scoring_validity(axis_scores, detail_blocks)
 
     scored = score_sample(
         axis_scores,
@@ -440,6 +483,8 @@ def evaluate_sample(
             q.get("weakness_target") for q in questions if q.get("weakness_target")
         ],
         "operator_evidence": operator_evidence,
+        "scoring_validity": sample_validity,
+        "reference_image_status": reference_image_status,
         "skipped": False,
         "frame_count_reported": fc.get("reported_count"),
         "frame_count_actual": fc.get("actual_count"),
@@ -462,13 +507,7 @@ def evaluate_sample(
         "industrial_logic_and_fact_alignment_score": industrial_logic_and_fact_alignment_score,
         "industrial_logic_and_fact_alignment_details": industrial_logic_and_fact_alignment_details,
         "scored": scored,
-        "scoring_complete": set(axis_scores) >= {
-            INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
-            GEOMETRIC_INTEGRITY,
-            PHYSICAL_PLAUSIBILITY,
-            TEMPORAL_CONSISTENCY,
-            REFERENCE_AND_MOTION_FIDELITY,
-        },
+        "scoring_complete": sample_validity["complete_required_axes"],
     }
 
 
@@ -543,6 +582,15 @@ def main() -> None:
 
     out_dir = os.path.join(args.output_dir, args.model)
     os.makedirs(out_dir, exist_ok=True)
+    run_metadata = build_run_metadata(
+        model_name=args.model,
+        video_dir=args.video_dir,
+        samples_json=args.samples_json,
+        output_dir=out_dir,
+        llm_provider=args.llm_provider,
+        use_llm=use_llm,
+        model_answers_path=args.model_answers,
+    )
 
     try:
         from tqdm import tqdm
@@ -572,6 +620,7 @@ def main() -> None:
         all_results.append(result)
 
     aggregate = aggregate_sample_results(all_results)
+    aggregate["run_metadata"] = run_metadata
 
     completed = [r for r in all_results if not r.get("skipped")]
     if completed:
@@ -602,6 +651,9 @@ def main() -> None:
 
     with open(os.path.join(out_dir, "aggregate.json"), "w") as f:
         json.dump(aggregate, f, indent=2, default=str)
+
+    with open(os.path.join(out_dir, "run_metadata.json"), "w") as f:
+        json.dump(run_metadata, f, indent=2, default=str)
 
     report = generate_report(generate_diagnostic_report(args.model, aggregate, all_results))
     with open(os.path.join(out_dir, "report.json"), "w") as f:

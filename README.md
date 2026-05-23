@@ -107,7 +107,7 @@ video frames
   |     safety response motion, and camera-control measurements
   |
   +-- five core evaluation axes
-  |     model judges with structured operator evidence
+  |     model judges with structured operator evidence and audited frame indices
   |
   |     +-- industrial_logic_and_fact_alignment
   |     |     adversarial state-machine QA
@@ -134,16 +134,17 @@ video frames
   |           region-isolated fidelity for local defects/failures
   |
   +-- single sample scoring
-  |     dynamic task weights, score floors, task-aware constraint evidence
+  |     dynamic task weights, raw axis scores, task-aware constraint evidence
   |     operator evidence is reported and supplied to judges, not used as a
   |     standalone replacement for model-led axis scoring
   |
   +-- matrix aggregation engine
-        model-led ability score
+        model-led ability score with bootstrap confidence intervals
         constraint-adjusted ranking score
         strict pass rate
         motion/static and operator-risk diagnostics
         Domain x Task cross-analysis report
+        Stratified bootstrap confidence intervals
         low-level physical/common-sense and micro-geometry diagnostics
 ```
 
@@ -291,6 +292,7 @@ For each model, outputs are written under:
   per_sample.json
   aggregate.json
   report.json
+  run_metadata.json
 ```
 
 Important aggregate fields:
@@ -298,21 +300,40 @@ Important aggregate fields:
 | Field | Meaning |
 |---|---|
 | `relax_score` | Mean per-sample model-judged weighted axis score. |
+| `relax_score_ci95` | Deterministic bootstrap 95% confidence interval for `relax_score`. |
+| `complete_case_relax_score` | Mean weighted score restricted to samples with all five required public axes present. |
+| `complete_case_relax_score_ci95` | Bootstrap 95% confidence interval for the complete-case score. |
 | `strict_pass_rate` | Fraction of completed samples where all present axes pass thresholds. |
 | `constraint_adjusted_score` | Penalty-only score combining the model-led axis score with task constraints and hard caps. |
+| `constraint_adjusted_score_ci95` | Deterministic bootstrap 95% confidence interval for the ranking score. |
 | `ranking_score` | Leaderboard sorting score, currently equal to `constraint_adjusted_score`. |
 | `motion_gated_score` | Legacy diagnostic score after heuristic task-aware motion gating; not used as `overall` or `ranking_score`. |
 | `operator_risk_adjusted_score` | Legacy diagnostic score after heuristic operator-risk adjustment; not used as `overall` or `ranking_score`. |
 | `gated_score` | Legacy diagnostic alias for `operator_risk_adjusted_score`; uncalibrated. |
 | `overall` | Model-led ability score, currently aligned to `relax_score`. |
 | `score_calibration` | Records that heuristic gates are excluded from `overall` and that ranking uses the prespecified constraint-adjusted formula. |
-| `axis_scores` | Mean floored full-name axis scores. |
+| `axis_scores` | Mean raw full-name axis scores used by headline reporting. |
+| `floored_axis_scores` | Diagnostic compatibility view of axis means after applying historical score floors. The headline and ranking scores use raw valid axis scores. |
+| `axis_score_ci95` | Per-axis deterministic bootstrap 95% confidence intervals. |
+| `stratified_score_ci95` | Bootstrap confidence intervals by domain, task category, motion type, primary topology, and sub-topology. |
+| `scoring_validity` | Counts missing required axes, invalid judge parses, and whether score floors were applied. |
+| `run_metadata` | Reproducibility metadata: sample hash, eval/scoring code hashes, judge provider/model, config hash, Python/OpenCV/NumPy versions. |
 | `domain_breakdown` | Scores and low-fidelity flags by the five scenario domains. |
 | `task_breakdown` | Scores and low-fidelity flags by abstract task category. |
 | `low_fidelity_summary` | Domains with low physical plausibility or geometric integrity. |
 
 `report.json` also includes `operator_evidence_diagnostics`, summarizing which
 evidence operators ran and which risk flags they produced.
+
+For paired model comparisons, use:
+
+```bash
+python scoring/compare.py results/model_a results/model_b --score-key weighted_score
+```
+
+The comparison script uses matched task ids and reports paired-sample coverage,
+a paired bootstrap confidence interval, and a two-sided bootstrap p-value for
+the score difference.
 
 ## Validation
 

@@ -37,6 +37,9 @@ CONFIG = {
     "strict_axis_threshold": 60.0,
     "operator_gate_min": 0.35,
     "headline_score_policy": "model_axis_weighted_mean",
+    "bootstrap_iterations": 1000,
+    "bootstrap_seed": 1729,
+    "apply_axis_floors": False,
 }
 
 MOTION_GATE_TASK_CATEGORIES = {"spatial_exploration_and_viewpoint"}
@@ -121,7 +124,7 @@ def aggregate_scores(axis_scores: dict[str, float], viewpoint_motion: float | No
         viewpoint_motion: Viewpoint motion value. If provided, a motion tier is included.
 
     Returns:
-        dict with per-axis floored scores, overall mean, optional viewpoint_motion_tier,
+        dict with per-axis scores, raw/floored diagnostic views, overall mean, optional viewpoint_motion_tier,
         and rotation integrity factor with viewpoint motion fidelity-gating.
     """
     if not isinstance(axis_scores, dict):
@@ -129,19 +132,26 @@ def aggregate_scores(axis_scores: dict[str, float], viewpoint_motion: float | No
         axis_scores = {}
     axis_scores = canonicalize_axis_dict(axis_scores)
 
+    raw: dict[str, float] = {}
     floored: dict[str, float] = {}
     for axis, score in axis_scores.items():
-        floored[canonical_axis(axis)] = enforce_floor(axis, score)
+        canonical = canonical_axis(axis)
+        raw[canonical] = float(score)
+        floored[canonical] = enforce_floor(axis, score)
+    reported_scores = floored if CONFIG["apply_axis_floors"] else raw
 
     result = {
-        "axis_scores": floored,
-        "overall": float(np.mean(list(floored.values()))) if floored else 0.0,
+        "axis_scores": reported_scores,
+        "raw_axis_scores": raw,
+        "floored_axis_scores": floored,
+        "score_floor_applied": CONFIG["apply_axis_floors"],
+        "overall": float(np.mean(list(reported_scores.values()))) if reported_scores else 0.0,
     }
 
     if viewpoint_motion is not None:
         result["viewpoint_motion_tier"] = viewpoint_motion_tier(viewpoint_motion)
 
-    rotation_integrity_factor = compute_rotation_integrity_factor(floored)
+    rotation_integrity_factor = compute_rotation_integrity_factor(reported_scores)
     result["rotation_integrity_factor"] = rotation_integrity_factor
     if viewpoint_motion is not None and viewpoint_motion < 0.05:
         result["rotation_integrity_factor_gated"] = None
@@ -309,6 +319,113 @@ def _operator_constraint(result: dict) -> tuple[float, float | None, list[str]]:
     return reliability_score, cap, reasons
 
 
+def _mean_confidence_interval(
+    values: list[float],
+    *,
+    iterations: int = CONFIG["bootstrap_iterations"],
+    seed: int = CONFIG["bootstrap_seed"],
+) -> dict:
+    """Return a deterministic bootstrap 95% CI for a sample mean."""
+    vals = np.array([float(v) for v in values], dtype=float)
+    vals = vals[np.isfinite(vals)]
+    if vals.size == 0:
+        return {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0}
+    mean = float(np.mean(vals))
+    if vals.size == 1:
+        return {"mean": mean, "ci95_low": mean, "ci95_high": mean, "n": 1}
+    rng = np.random.default_rng(seed)
+    boot = rng.choice(vals, size=(iterations, vals.size), replace=True).mean(axis=1)
+    return {
+        "mean": mean,
+        "ci95_low": float(np.percentile(boot, 2.5)),
+        "ci95_high": float(np.percentile(boot, 97.5)),
+        "n": int(vals.size),
+        "bootstrap_iterations": int(iterations),
+        "bootstrap_seed": int(seed),
+    }
+
+
+def _group_confidence_intervals(results: list[dict], group_key: str) -> dict:
+    """Bootstrap CIs for weighted scores grouped by a result field."""
+    grouped: dict[str, list[float]] = {}
+    for result in results:
+        group = result.get(group_key)
+        if group is None:
+            continue
+        score = result.get("scored", {}).get("weighted_score")
+        if score is None:
+            continue
+        grouped.setdefault(str(group), []).append(float(score))
+    return {
+        group: _mean_confidence_interval(values)
+        for group, values in sorted(grouped.items())
+    }
+
+
+def _scoring_validity_summary(completed: list[dict], axis_keys: set[str]) -> dict:
+    """Summarize missing axes and parse/fallback status for transparency."""
+    required_axes = {
+        INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
+        GEOMETRIC_INTEGRITY,
+        PHYSICAL_PLAUSIBILITY,
+        TEMPORAL_CONSISTENCY,
+        REFERENCE_AND_MOTION_FIDELITY,
+    }
+    missing_by_axis = {axis: 0 for axis in sorted(required_axes)}
+    present_by_axis = {axis: 0 for axis in sorted(axis_keys | required_axes)}
+    incomplete_samples = 0
+    floor_applied_count = 0
+    parse_invalid_count = 0
+
+    for result in completed:
+        scored = result.get("scored", {})
+        scores = scored.get("axis_scores", {})
+        if scored.get("score_floor_applied"):
+            floor_applied_count += 1
+        missing = required_axes - set(scores)
+        if missing:
+            incomplete_samples += 1
+        for axis in missing:
+            missing_by_axis[axis] += 1
+        for axis in scores:
+            present_by_axis[axis] = present_by_axis.get(axis, 0) + 1
+
+        detail_fields = (
+            "temporal_consistency_details",
+            "physical_plausibility_details",
+            "reference_and_motion_fidelity_details",
+            "geometric_integrity_model_details",
+        )
+        for field in detail_fields:
+            details = result.get(field) or {}
+            if details.get("llm_parse_valid") is False:
+                parse_invalid_count += 1
+            if details.get("score") is None and details.get("raw_response"):
+                parse_invalid_count += 1
+
+    return {
+        "required_axes": sorted(required_axes),
+        "samples_complete_all_required_axes": len(completed) - incomplete_samples,
+        "samples_incomplete_required_axes": incomplete_samples,
+        "missing_required_axis_counts": missing_by_axis,
+        "present_axis_counts": present_by_axis,
+        "score_floor_applied_samples": floor_applied_count,
+        "invalid_or_unparsed_judge_outputs": parse_invalid_count,
+    }
+
+
+def _has_required_axes(result: dict) -> bool:
+    required_axes = {
+        INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
+        GEOMETRIC_INTEGRITY,
+        PHYSICAL_PLAUSIBILITY,
+        TEMPORAL_CONSISTENCY,
+        REFERENCE_AND_MOTION_FIDELITY,
+    }
+    scores = result.get("scored", {}).get("axis_scores", {})
+    return required_axes <= set(scores)
+
+
 def _constraint_adjustment(result: dict) -> dict:
     """Compute a label-free constraint-adjusted score for engineering ranking.
 
@@ -355,16 +472,38 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
             "axis_scores": {},
             "overall": 0.0,
             "relax_score": 0.0,
+            "relax_score_ci95": {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0},
+            "complete_case_relax_score": None,
+            "complete_case_relax_score_ci95": {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0},
             "strict_pass_rate": 0.0,
             "motion_gated_score": 0.0,
             "gated_score": 0.0,
             "operator_risk_adjusted_score": 0.0,
             "constraint_adjusted_score": 0.0,
+            "constraint_adjusted_score_ci95": {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0},
             "ranking_score": 0.0,
             "constraint_adjustment_summary": {},
+            "axis_score_ci95": {},
+            "stratified_score_ci95": {},
             "num_samples_total": len(sample_results),
             "num_samples_completed": 0,
+            "num_samples_complete_required_axes": 0,
             "num_samples_skipped": len(sample_results),
+            "scoring_validity": {
+                "required_axes": sorted({
+                    INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
+                    GEOMETRIC_INTEGRITY,
+                    PHYSICAL_PLAUSIBILITY,
+                    TEMPORAL_CONSISTENCY,
+                    REFERENCE_AND_MOTION_FIDELITY,
+                }),
+                "samples_complete_all_required_axes": 0,
+                "samples_incomplete_required_axes": 0,
+                "missing_required_axis_counts": {},
+                "present_axis_counts": {},
+                "score_floor_applied_samples": 0,
+                "invalid_or_unparsed_judge_outputs": 0,
+            },
             "score_calibration": {
                 "headline_score_policy": CONFIG["headline_score_policy"],
                 "ranking_score_policy": "constraint_adjusted_score",
@@ -401,6 +540,11 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         float(r["scored"].get("weighted_score", 0.0))
         for r in completed
     ]
+    complete_case_results = [r for r in completed if _has_required_axes(r)]
+    complete_case_weighted_scores = [
+        float(r["scored"].get("weighted_score", 0.0))
+        for r in complete_case_results
+    ]
     strict_flags = [
         _sample_passes_strict(r["scored"].get("axis_scores", {}))
         for r in completed
@@ -426,11 +570,18 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
             cap_reason_counts[reason] = cap_reason_counts.get(reason, 0) + 1
 
     aggregate["relax_score"] = float(np.mean(weighted_scores))
+    aggregate["relax_score_ci95"] = _mean_confidence_interval(weighted_scores)
+    aggregate["complete_case_relax_score"] = (
+        float(np.mean(complete_case_weighted_scores))
+        if complete_case_weighted_scores else None
+    )
+    aggregate["complete_case_relax_score_ci95"] = _mean_confidence_interval(complete_case_weighted_scores)
     aggregate["strict_pass_rate"] = float(np.mean(strict_flags))
     aggregate["motion_gated_score"] = float(np.mean(motion_gated_scores))
     aggregate["gated_score"] = float(np.mean(gated_scores))
     aggregate["operator_risk_adjusted_score"] = aggregate["gated_score"]
     aggregate["constraint_adjusted_score"] = float(np.mean(constraint_adjusted_scores))
+    aggregate["constraint_adjusted_score_ci95"] = _mean_confidence_interval(constraint_adjusted_scores)
     aggregate["ranking_score"] = aggregate["constraint_adjusted_score"]
     aggregate["constraint_adjustment_summary"] = {
         "formula": "min(axis_score, constraint_score, hard_constraint_cap)",
@@ -450,11 +601,38 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     aggregate["uncalibrated_operator_risk_adjusted_score"] = aggregate["operator_risk_adjusted_score"]
     aggregate["num_samples_total"] = len(sample_results)
     aggregate["num_samples_completed"] = len(completed)
+    aggregate["num_samples_complete_required_axes"] = len(complete_case_results)
     aggregate["num_samples_skipped"] = len(sample_results) - len(completed)
+    aggregate["scoring_validity"] = _scoring_validity_summary(completed, axis_keys)
+    aggregate["axis_score_ci95"] = {
+        axis: _mean_confidence_interval([
+            result["scored"]["axis_scores"][axis]
+            for result in completed
+            if axis in result["scored"].get("axis_scores", {})
+        ])
+        for axis in sorted(axis_keys)
+    }
+    aggregate["stratified_score_ci95"] = {
+        "domain": _group_confidence_intervals(completed, "domain"),
+        "task_category": _group_confidence_intervals(completed, "task_category"),
+        "motion_type": _group_confidence_intervals(completed, "motion_type"),
+        "primary_topology": _group_confidence_intervals(completed, "primary_topology"),
+        "sub_topology": _group_confidence_intervals(completed, "sub_topology"),
+    }
+    aggregate["floored_axis_scores"] = {
+        axis: float(np.mean([
+            result["scored"].get("floored_axis_scores", {}).get(axis)
+            for result in completed
+            if result["scored"].get("floored_axis_scores", {}).get(axis) is not None
+        ]))
+        for axis in sorted(axis_keys)
+        if any(result["scored"].get("floored_axis_scores", {}).get(axis) is not None for result in completed)
+    }
     aggregate["score_calibration"] = {
         "headline_score_policy": CONFIG["headline_score_policy"],
         "ranking_score_policy": "constraint_adjusted_score",
         "heuristic_gates_in_overall": False,
+        "score_floors_in_headline": False,
         "status": "constraint_adjusted_score_uses_prespecified_no_label_formula",
         "constraint_adjusted_score_formula": "min(axis_score, constraint_score, hard_constraint_cap)",
         "scores_excluded_from_overall": [

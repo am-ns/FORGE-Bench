@@ -12,7 +12,6 @@ from eval.geometric_integrity import EVAL_RESOLUTION, normalize_frame
 CONFIG = {
     "cv_weight": 0.4,
     "llm_weight": 0.6,
-    "fallback_llm_score": 50,         # Conservative fallback when LLM parsing fails
     "min_frames_for_llm": 2,
 }
 
@@ -64,17 +63,17 @@ def _build_frame_descriptions(frames: list[np.ndarray], indices: list[int]) -> s
     return "\n".join(lines)
 
 
-def parse_temporal_consistency_score(response: str) -> int:
+def parse_temporal_consistency_score(response: str) -> int | None:
     """Extract a 0-100 integer score from an LLM response string."""
     if not response:
-        print("WARNING: empty LLM response in parse_temporal_consistency_score, using fallback", file=sys.stderr)
-        return CONFIG["fallback_llm_score"]
+        print("WARNING: empty LLM response in parse_temporal_consistency_score", file=sys.stderr)
+        return None
     for token in response.strip().split():
         clean = token.rstrip(".,;:)")
         if clean.isdigit() and 0 <= int(clean) <= 100:
             return int(clean)
     print(f"WARNING: could not parse temporal consistency score from response: {response!r}", file=sys.stderr)
-    return CONFIG["fallback_llm_score"]
+    return None
 
 
 def evaluate_temporal_consistency(
@@ -166,6 +165,7 @@ def evaluate_temporal_consistency(
         "temporal_consistency_score": round(temporal_consistency_score, 2),
         "computer_vision_structural_similarity": round(computer_vision_structural_similarity_score, 2),
         "llm_score": llm_score,
+        "llm_parse_valid": llm_score is not None if llm_fn is not None else None,
         "num_frames_sampled": len(sampled_indices),
         "method": "temporal_consistency_hybrid",
     }

@@ -15,7 +15,7 @@ from eval.geometric_integrity import normalize_frame
 
 
 CONFIG = {
-    "sample_frames": 6,
+    "sample_frames": 12,
     "local_change_low": 0.08,
     "global_change_high": 0.35,
     "fluid_area_growth_min": 0.12,
@@ -29,8 +29,10 @@ CONFIG = {
 def _sample_indices(n_frames: int, n_sample: int) -> list[int]:
     if n_frames <= n_sample:
         return list(range(n_frames))
-    step = (n_frames - 1) / max(n_sample - 1, 1)
-    return [int(round(i * step)) for i in range(n_sample)]
+    indices = np.linspace(0, n_frames - 1, n_sample, dtype=int).tolist()
+    indices[0] = 0
+    indices[-1] = n_frames - 1
+    return sorted(dict.fromkeys(indices))
 
 
 def _gray(frame: np.ndarray) -> np.ndarray:

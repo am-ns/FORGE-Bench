@@ -369,6 +369,8 @@ class TestScoring:
         )
         assert 0 < result["weighted_score"] <= 100
         assert result["rotation_integrity_factor"] is not None
+        assert result["score_floor_applied"] is False
+        assert result["raw_axis_scores"] == result["axis_scores"]
 
     def test_per_sample_score_reports_viewpoint_motion_without_folding(self):
         """Viewpoint motion fidelity is diagnostic evidence, not a folded axis score."""
@@ -459,6 +461,13 @@ class TestScoring:
         assert result["constraint_adjustment_summary"]["samples_with_cap"] == 1
         assert result["constraint_adjustment_summary"]["cap_reason_counts"]["viewpoint_motion_constraint_severe_failure"] == 1
         assert result["score_calibration"]["heuristic_gates_in_overall"] is False
+        assert result["score_calibration"]["score_floors_in_headline"] is False
+        assert result["relax_score_ci95"]["n"] == 2
+        assert result["complete_case_relax_score"] == 75.0
+        assert result["complete_case_relax_score_ci95"]["n"] == 2
+        assert result["num_samples_complete_required_axes"] == 2
+        assert result["axis_score_ci95"][GEOMETRIC_INTEGRITY]["n"] == 2
+        assert result["scoring_validity"]["samples_complete_all_required_axes"] == 2
         assert "gated_score" in result["score_calibration"]["diagnostic_scores_excluded_from_overall"]
         assert "constraint_adjusted_score" in result["score_calibration"]["scores_excluded_from_overall"]
 
@@ -541,6 +550,7 @@ class TestScoring:
         """physical plausibility parser should no longer use the legacy 1-5 scale."""
         assert parse_physical_plausibility_score("82\nminor localized issue") == 82
         assert parse_physical_plausibility_score("5 severe issues") == 5
+        assert parse_physical_plausibility_score("no score available") is None
 
 
 class TestReport:
@@ -703,7 +713,7 @@ class TestRunEvalCLI:
         assert result.returncode == 0, result.stderr
 
         model_dir = out_dir / "smoke_model"
-        for name in ("smoke_001.json", "per_sample.json", "aggregate.json", "report.json"):
+        for name in ("smoke_001.json", "per_sample.json", "aggregate.json", "report.json", "run_metadata.json"):
             assert (model_dir / name).exists()
 
         aggregate = json.loads((model_dir / "aggregate.json").read_text())
@@ -713,6 +723,12 @@ class TestRunEvalCLI:
         assert "gated_score" in aggregate
         assert "constraint_adjusted_score" in aggregate
         assert "ranking_score" in aggregate
+        assert aggregate["run_metadata"]["schema_version"] == "forge-bench-result-v2"
+        assert aggregate["run_metadata"]["samples_json_sha256"]
+        assert aggregate["run_metadata"]["config_sha256"]
         assert report["summary"]["num_samples_completed"] == 1
         assert "viewpoint_motion_diagnostics" in report
         assert "constraint_adjustment_diagnostics" in report
+        assert "statistical_uncertainty" in report
+        assert "scoring_validity" in report
+        assert "run_metadata" in report

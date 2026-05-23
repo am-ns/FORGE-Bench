@@ -207,6 +207,18 @@ def _constraint_adjustment_diagnostics(aggregate: dict) -> dict:
     }
 
 
+def _statistical_uncertainty_report(aggregate: dict) -> dict:
+    """Expose confidence intervals and complete-case metrics in report.json."""
+    return {
+        "relax_score_ci95": aggregate.get("relax_score_ci95"),
+        "constraint_adjusted_score_ci95": aggregate.get("constraint_adjusted_score_ci95"),
+        "complete_case_relax_score": aggregate.get("complete_case_relax_score"),
+        "complete_case_relax_score_ci95": aggregate.get("complete_case_relax_score_ci95"),
+        "axis_score_ci95": aggregate.get("axis_score_ci95", {}),
+        "stratified_score_ci95": aggregate.get("stratified_score_ci95", {}),
+    }
+
+
 def _worst_samples(results: list[dict]) -> list[dict]:
     completed = [r for r in results if not r.get("skipped") and r.get("scored")]
 
@@ -309,6 +321,9 @@ def generate_diagnostic_report(model: str, aggregate: dict, sample_results: list
         "industrial_logic_weakness_diagnostics": _industrial_logic_weakness_diagnostics(completed),
         "operator_evidence_diagnostics": _operator_evidence_diagnostics(completed),
         "constraint_adjustment_diagnostics": _constraint_adjustment_diagnostics(aggregate),
+        "statistical_uncertainty": _statistical_uncertainty_report(aggregate),
+        "scoring_validity": aggregate.get("scoring_validity", {}),
+        "run_metadata": aggregate.get("run_metadata", {}),
         "ability_failure_report": _ability_failure_report(completed),
         "worst_samples": _worst_samples(completed),
     }

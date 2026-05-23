@@ -8,6 +8,7 @@ from eval.calibration.floor_enforcer import enforce_score_floors
 # -- Tunable thresholds -------------------------------------------------------
 CONFIG = {
     "default_axis_weight": 1.0,       # Default weight for axes not in AXIS_WEIGHTS
+    "apply_score_floors": False,      # Floors are diagnostic only; ranking uses raw valid scores.
 }
 
 MOTION_GATE_TASK_CATEGORIES = {"spatial_exploration_and_viewpoint"}
@@ -93,10 +94,10 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
 
     industrial_constraint_axis_score = _normalize_industrial_constraint_score(industrial_constraint_score)
 
-    # Apply domain-specific score floors (never-zero enforcement).
-    _floor_input = dict(axis_scores)
-    _floored = enforce_score_floors(_floor_input)
-    axis_scores = {k: _floored[k] for k in axis_scores}
+    raw_axis_scores = dict(axis_scores)
+    floored_axis_scores = enforce_score_floors(dict(axis_scores))
+    if CONFIG["apply_score_floors"]:
+        axis_scores = {k: floored_axis_scores[k] for k in axis_scores}
     if viewpoint_motion is not None:
         viewpoint_motion = max(0.0, float(viewpoint_motion))
 
@@ -143,6 +144,9 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
     out = {
         "weighted_score": final_score,
         "axis_scores": axis_scores,
+        "raw_axis_scores": raw_axis_scores,
+        "floored_axis_scores": floored_axis_scores,
+        "score_floor_applied": CONFIG["apply_score_floors"],
         "per_axis_weighted": per_axis_weighted,
         "axis_weights": {axis: weights.get(axis, CONFIG["default_axis_weight"])
                          for axis in axis_scores},

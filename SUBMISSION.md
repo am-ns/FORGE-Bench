@@ -81,6 +81,7 @@ results/YOUR_MODEL_NAME/
   per_sample.json
   aggregate.json
   report.json
+  run_metadata.json
 ```
 
 ### Per-Sample JSON
@@ -103,10 +104,14 @@ Each per-sample file contains:
 
 Contains:
 
-- `axis_scores` - per-axis mean scores, floored
+- `axis_scores` - per-axis mean raw scores used by headline reporting
 - `relax_score` - mean per-sample model-led weighted score
+- `relax_score_ci95` - deterministic bootstrap 95% confidence interval for `relax_score`
+- `complete_case_relax_score` - mean score restricted to samples with all five required public axes
+- `complete_case_relax_score_ci95` - bootstrap 95% confidence interval for the complete-case score
 - `strict_pass_rate` - fraction of samples where all present axes clear threshold
 - `constraint_adjusted_score` - penalty-only score with task constraints and hard caps
+- `constraint_adjusted_score_ci95` - deterministic bootstrap 95% confidence interval for the ranking score
 - `ranking_score` - leaderboard sorting score, currently equal to `constraint_adjusted_score`
 - `gated_score` - legacy diagnostic task-aware motion/operator-risk score
 - `overall` - model-led ability score, currently aligned to `relax_score`
@@ -114,6 +119,9 @@ Contains:
 - `rotation_integrity_factor` - geometric mean of industrial logic and fact alignment, geometric integrity, and reference and motion fidelity
 - `rotation_integrity_factor_gated` - rotation integrity factor excluding static videos when viewpoint motion fidelity is effectively zero
 - `num_samples_completed`, `num_samples_total`, `num_samples_skipped`
+- `scoring_validity` - missing-axis counts, invalid judge parses, and score-floor usage
+- `stratified_score_ci95` - bootstrap confidence intervals by domain, task category, motion type, and topology
+- `run_metadata` - sample/config/code hashes, judge provider/model, and environment versions
 
 `report.json` also includes `operator_evidence_diagnostics`, which summarizes
 which evidence operators ran and what risk flags were emitted.
@@ -152,6 +160,22 @@ lower the model-led score, never raise it. The weights come from the abstract
 task category: mechanism tasks emphasize geometry and physics,
 periodic/local-defect tasks emphasize geometry and time, and viewpoint-
 inspection tasks emphasize reference/motion fidelity and geometry.
+
+Historical score floors are retained only as diagnostic compatibility fields.
+Headline and ranking scores use raw valid axis scores; invalid or unparsable
+judge outputs are surfaced as missing/invalid in `scoring_validity` rather than
+being assigned a neutral fallback score.
+
+The VLM judge records the exact sampled frame indices in each axis detail block.
+The default frame budget is 12 frames for industrial logic, temporal,
+geometric, and physical judging, and 6 frames for reference-and-motion fidelity.
+Operator evidence also samples up to 12 frames with first/last-frame coverage.
+
+For paper-style model comparisons, run a paired bootstrap over matched task ids:
+
+```bash
+python scoring/compare.py results/MODEL_A results/MODEL_B --score-key weighted_score
+```
 
 ## Submitting to the Leaderboard
 

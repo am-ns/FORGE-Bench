@@ -44,13 +44,16 @@ def _load_model_results(results_dir: str) -> list[dict]:
         models.append({
             "model": entry,
             "overall": data.get("overall", 0.0),
+            "overall_ci95": data.get("relax_score_ci95", {}),
             "constraint_adjusted_score": data.get("constraint_adjusted_score", data.get("overall", 0.0)),
+            "constraint_adjusted_score_ci95": data.get("constraint_adjusted_score_ci95", {}),
             "ranking_score": data.get("ranking_score", data.get("constraint_adjusted_score", data.get("overall", 0.0))),
             "axis_scores": data.get("axis_scores", {}),
             "viewpoint_motion_tier": data.get("viewpoint_motion_tier", "unknown"),
             "rotation_integrity_factor": data.get("rotation_integrity_factor"),
             "rotation_integrity_factor_gated": data.get("rotation_integrity_factor_gated"),
             "num_samples_completed": data.get("num_samples_completed"),
+            "num_samples_complete_required_axes": data.get("num_samples_complete_required_axes"),
             "num_samples_total": data.get("num_samples_total"),
             "raw": data,
         })
@@ -73,7 +76,9 @@ def _generate_markdown(models: list[dict]) -> str:
         "Model",
         "Ranking Score",
         "Overall",
+        "Overall 95% CI",
         "Constraint Adjusted",
+        "Ranking 95% CI",
         *LEADERBOARD_AXES,
         "viewpoint_motion_tier",
         "rotation_integrity_factor",
@@ -88,12 +93,24 @@ def _generate_markdown(models: list[dict]) -> str:
     for rank, item in enumerate(models, 1):
         axis_scores = item["axis_scores"]
         rotation_integrity_factor_string = f"{float(item['rotation_integrity_factor']):.1f}" if item["rotation_integrity_factor"] is not None else "-"
+        overall_ci = item.get("overall_ci95") or {}
+        ranking_ci = item.get("constraint_adjusted_score_ci95") or {}
+        overall_ci_string = (
+            f"[{float(overall_ci['ci95_low']):.1f}, {float(overall_ci['ci95_high']):.1f}]"
+            if overall_ci.get("ci95_low") is not None and overall_ci.get("ci95_high") is not None else "-"
+        )
+        ranking_ci_string = (
+            f"[{float(ranking_ci['ci95_low']):.1f}, {float(ranking_ci['ci95_high']):.1f}]"
+            if ranking_ci.get("ci95_low") is not None and ranking_ci.get("ci95_high") is not None else "-"
+        )
         row = [
             str(rank),
             item["model"],
             f"{float(item['ranking_score']):.1f}",
             f"{float(item['overall']):.1f}",
+            overall_ci_string,
             f"{float(item['constraint_adjusted_score']):.1f}",
+            ranking_ci_string,
             *[_format_axis(axis_scores, axis) for axis in LEADERBOARD_AXES],
             item["viewpoint_motion_tier"],
             rotation_integrity_factor_string,

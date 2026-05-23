@@ -7,7 +7,6 @@ import sys
 CONFIG = {
     "score_min": 0,               # Minimum valid physical plausibility score
     "score_max": 100,             # Maximum valid physical plausibility score
-    "fallback_score": 50,         # Conservative fallback when parsing fails
 }
 
 PHYSICAL_PLAUSIBILITY_SYSTEM_PROMPT = (
@@ -100,16 +99,16 @@ def build_physical_plausibility_prompt(content: str, constraint_annotations: dic
     )
 
 
-def parse_physical_plausibility_score(response: str) -> int:
+def parse_physical_plausibility_score(response: str) -> int | None:
     """Extract a 0-100 integer score from an LMM response string."""
     if not response:
-        print("WARNING: empty LLM response in parse_physical_plausibility_score, using fallback", file=sys.stderr)
-        return CONFIG["fallback_score"]
+        print("WARNING: empty LLM response in parse_physical_plausibility_score", file=sys.stderr)
+        return None
     for token in response.strip().split():
         if token.isdigit() and CONFIG["score_min"] <= int(token) <= CONFIG["score_max"]:
             return int(token)
     print(f"WARNING: could not parse physical plausibility score from response: {response!r}", file=sys.stderr)
-    return CONFIG["fallback_score"]
+    return None
 
 
 def evaluate_physical_plausibility(content: str, llm_fn,
@@ -139,4 +138,5 @@ def evaluate_physical_plausibility(content: str, llm_fn,
         "score": score,
         "justification": raw_response,
         "raw_response": raw_response,
+        "llm_parse_valid": score is not None,
     }

@@ -14,7 +14,6 @@ CONFIG = {
     "llm_weight": 0.5,
     "computer_vision_structural_similarity_weight": 0.6,            # Within CV component
     "cv_hist_weight": 0.4,            # Within CV component
-    "fallback_llm_score": 50,         # Conservative fallback when LLM parsing fails
     "hist_channels": [0, 1, 2],       # B, G, R channels for histogram
     "hist_bins": [64, 64, 64],        # Bin counts per channel
     "hist_ranges": [0, 256, 0, 256, 0, 256],
@@ -84,17 +83,17 @@ def _compute_hist_correlation(ref: np.ndarray, frame: np.ndarray) -> float:
     return float(corr)
 
 
-def parse_reference_and_motion_fidelity_score(response: str) -> int:
+def parse_reference_and_motion_fidelity_score(response: str) -> int | None:
     """Extract a 0-100 integer score from an LLM response string."""
     if not response:
-        print("WARNING: empty LLM response in parse_reference_and_motion_fidelity_score, using fallback", file=sys.stderr)
-        return CONFIG["fallback_llm_score"]
+        print("WARNING: empty LLM response in parse_reference_and_motion_fidelity_score", file=sys.stderr)
+        return None
     for token in response.strip().split():
         clean = token.rstrip(".,;:)")
         if clean.isdigit() and 0 <= int(clean) <= 100:
             return int(clean)
     print(f"WARNING: could not parse reference and motion fidelity score from response: {response!r}", file=sys.stderr)
-    return CONFIG["fallback_llm_score"]
+    return None
 
 
 def evaluate_reference_and_motion_fidelity(
@@ -201,6 +200,7 @@ def evaluate_reference_and_motion_fidelity(
         "computer_vision_structural_similarity": round(ssim_score, 2),
         "computer_vision_histogram_correlation": round(hist_corr_raw, 4),
         "llm_score": llm_score,
+        "llm_parse_valid": llm_score is not None if llm_fn is not None else None,
         "method": "reference_and_motion_fidelity_hybrid",
     }
 
