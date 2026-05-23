@@ -14,6 +14,7 @@ import csv
 import hashlib
 import json
 import math
+import os
 import re
 import time
 import urllib.parse
@@ -36,6 +37,7 @@ DEFAULT_MANIFEST = ROOT / "reports" / "strict_reference_image_candidates.csv"
 COMMONS_API = "https://commons.wikimedia.org/w/api.php"
 OPENVERSE_API = "https://api.openverse.engineering/v1/images/"
 USER_AGENT = "FORGE-Bench reference image finder/1.0 (open-license research dataset)"
+REQUEST_TIMEOUT_SECONDS = float(os.environ.get("IMAGE_SEARCH_TIMEOUT", "10"))
 
 MIN_WIDTH = 1280
 MIN_HEIGHT = 720
@@ -62,7 +64,17 @@ BLOCKED_TITLE_TERMS = (
     "logo", "icon", "diagram", "drawing", "render", "rendering", "map",
     "chart", "graph", "poster", "sign", "symbol", "flag", "animation",
     "cartoon", "model", "toy", "miniature", "screenshot", "blueprint",
+    "book", "cover", "volume", "monthly", "weekly", "annual", "journal",
+    "magazine", "newspaper", "register", "press", "gazette", "bulletin",
+    "proceedings", "transactions", "handbook", "manual", "catalogue",
+    "catalog", "encyclopedia", "dictionary", "atlas", "album", "yearbook",
+    "page", "plate", "fig.", "figure", ".pdf", ".djvu", ".epub",
 )
+BLOCKED_URL_TERMS = (
+    "archive.org", "books.google", "hathitrust", "/pdf/", ".pdf",
+    ".djvu", ".epub",
+)
+ALLOWED_MIME_HINTS = ("image/jpeg", "image/png", "image/webp", "image/tiff", "")
 STOPWORDS = {
     "the", "and", "for", "with", "from", "into", "that", "this", "must",
     "show", "real", "photo", "high", "resolution", "industrial", "image",
@@ -94,7 +106,7 @@ def _tokenize(text: str) -> set[str]:
 def _url_json(url: str, params: dict, sleep_s: float) -> dict:
     query = urllib.parse.urlencode(params)
     req = urllib.request.Request(f"{url}?{query}", headers={"User-Agent": USER_AGENT})
-    with urllib.request.urlopen(req, timeout=30) as response:
+    with urllib.request.urlopen(req, timeout=REQUEST_TIMEOUT_SECONDS) as response:
         payload = response.read()
     if sleep_s:
         time.sleep(sleep_s)
@@ -190,6 +202,16 @@ def _title_ok(title: str) -> bool:
     return not any(term in lowered for term in BLOCKED_TITLE_TERMS)
 
 
+def _url_ok(url: str) -> bool:
+    lowered = url.lower()
+    return not any(term in lowered for term in BLOCKED_URL_TERMS)
+
+
+def _mime_ok(mime: str) -> bool:
+    lowered = (mime or "").lower()
+    return any(hint == lowered or (hint and hint in lowered) for hint in ALLOWED_MIME_HINTS)
+
+
 def _topic_score(row: dict, title: str) -> int:
     query_tokens = _tokenize(" ".join([
         row["reference_subject"],
@@ -217,8 +239,9 @@ def _query_variants(row: dict) -> list[str]:
         f"{subject} industrial",
         f"{subject} factory",
         f"{subject} {' '.join(domain_terms[:2])}",
-        " ".join([subject, *scenario_tokens[:3]]),
-        " ".join([subject, *task_tokens[:3]]),
+        " ".join([subject, *domain_terms[:2]]),
+        " ".join([*domain_terms[:2], *task_tokens[:2]]),
+        " ".join([subject, *scenario_tokens[:2]]),
     ]
     cleaned = []
     for query in variants:
@@ -230,7 +253,7 @@ def _query_variants(row: dict) -> list[str]:
 
 def _download(url: str, path: Path) -> None:
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    with urllib.request.urlopen(req, timeout=45) as response:
+    with urllib.request.urlopen(req, timeout=max(REQUEST_TIMEOUT_SECONDS, 15)) as response:
         path.write_bytes(response.read())
 
 
@@ -428,6 +451,16 @@ def run(args: argparse.Namespace) -> None:
                         continue
                     if not _title_ok(candidate.title):
                         status["reason"] = "blocked_title_term"
+                        rejected += 1
+                        selected.append(status)
+                        continue
+                    if not _url_ok(status["source_url"]) or not _url_ok(status["image_url"]):
+                        status["reason"] = "blocked_source_or_image_url"
+                        rejected += 1
+                        selected.append(status)
+                        continue
+                    if not _mime_ok(info.get("mime", "")):
+                        status["reason"] = "blocked_mime_type"
                         rejected += 1
                         selected.append(status)
                         continue
