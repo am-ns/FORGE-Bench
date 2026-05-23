@@ -40,7 +40,7 @@ python eval/run_eval.py \
   --output_dir results/
 ```
 
-### Optional: Model Answers for IKA
+### Optional: Model Answers for Industrial Logic and Fact Alignment
 
 If your model can answer yes/no questions about its own outputs, provide an
 answers file:
@@ -65,7 +65,8 @@ The answers file is a JSON object mapping `"task_id:question_id"` to `"yes"` or
 }
 ```
 
-Without this file and without the LLM judge, IKA scores are excluded. The
+Without this file and without the large language model judge,
+industrial_logic_and_fact_alignment scores are excluded. The
 benchmark still runs the other available axes and emits operator evidence.
 
 ## Output Structure
@@ -93,23 +94,25 @@ Each per-sample file contains:
 - `viewpoint_motion`, `viewpoint_motion_score` - camera/static motion evidence
 - `temporal_consistency_score` - temporal consistency score, 0-100
 - `reference_and_motion_fidelity_score` - reference and motion fidelity score, 0-100
-- `industrial_logic_and_fact_alignment_score` - IKA score, 0-1 when questions are available
+- `industrial_logic_and_fact_alignment_score` - industrial logic and fact alignment score, 0-1 when questions are available
 - `physical_plausibility_score` - physical plausibility score, 0-100 when LLM judge is enabled
 - `operator_evidence` - structured CV evidence supplied to model judges
-- `scored` - per-sample weighted result with RIF and motion-gate metadata
+- `scored` - per-sample weighted result with rotation integrity factor and motion-control metadata
 
 ### aggregate.json
 
 Contains:
 
 - `axis_scores` - per-axis mean scores, floored
-- `relax_score` - mean per-sample weighted score before motion gating
+- `relax_score` - mean per-sample model-led weighted score
 - `strict_pass_rate` - fraction of samples where all present axes clear threshold
-- `gated_score` - task-aware motion-gated score
-- `overall` - leaderboard headline score, currently aligned to `gated_score`
+- `constraint_adjusted_score` - penalty-only score with task constraints and hard caps
+- `ranking_score` - leaderboard sorting score, currently equal to `constraint_adjusted_score`
+- `gated_score` - legacy diagnostic task-aware motion/operator-risk score
+- `overall` - model-led ability score, currently aligned to `relax_score`
 - `viewpoint_motion_tier` - one of `none`, `weak`, `moderate`, `full`
-- `rif` - Rotational Integrity Factor, geometric mean of IKA, GI, and VF
-- `rif_gated` - RIF excluding static videos when VFA is effectively zero
+- `rotation_integrity_factor` - geometric mean of industrial logic and fact alignment, geometric integrity, and reference and motion fidelity
+- `rotation_integrity_factor_gated` - rotation integrity factor excluding static videos when viewpoint motion fidelity is effectively zero
 - `num_samples_completed`, `num_samples_total`, `num_samples_skipped`
 
 `report.json` also includes `operator_evidence_diagnostics`, which summarizes
@@ -131,16 +134,24 @@ operators include `local_region_lock`, `fluid_diffusion`,
 `rigid_joint_tracking`, `safety_compliance_motion`, and
 `viewpoint_motion_fidelity`.
 
-`viewpoint_motion_fidelity` is folded into `reference_and_motion_fidelity` only
-for `spatial_exploration_and_viewpoint` tasks and for `static` tasks. For other
-task categories, `pan` and `dolly` motion evidence is reported as diagnostics
-without independently gating the final score. Industrial constraint checks are
-folded into `geometric_integrity`.
+`viewpoint_motion_fidelity` and industrial constraint checks are not public
+axes and are not mechanically folded into public axes. They are supplied as
+evidence to the model judge and also feed the penalty-only
+`constraint_adjusted_score` used for leaderboard ranking.
 
-The final FORGE score is a dynamic weighted average of the five axes. The
-weights come from the abstract task category: mechanism tasks emphasize geometry
-and physics, periodic/local-defect tasks emphasize geometry and time, and
-viewpoint-inspection tasks emphasize reference/motion fidelity and geometry.
+The model-led ability score is a dynamic weighted average of the five axes. The
+ranking score is:
+
+```text
+constraint_adjusted_score =
+  min(axis_score, constraint_score, hard_constraint_cap)
+```
+
+The adjustment treats task constraints as necessary upper bounds, so it can only
+lower the model-led score, never raise it. The weights come from the abstract
+task category: mechanism tasks emphasize geometry and physics,
+periodic/local-defect tasks emphasize geometry and time, and viewpoint-
+inspection tasks emphasize reference/motion fidelity and geometry.
 
 ## Submitting to the Leaderboard
 
@@ -157,9 +168,11 @@ This produces `results/leaderboard.md` and `results/leaderboard.json`.
 
 ## LLM Judge Integration
 
-The benchmark uses Claude as the model-led judge for the TC, PP, VF, and IKA
-paths when available. CV operators provide structured evidence to the judge; the
-five public axes remain model-led. To enable LLM judging, set
+The benchmark uses Claude as the model-led judge for temporal consistency,
+physical plausibility, reference and motion fidelity, and industrial logic and
+fact alignment when available. Computer-vision operators provide structured
+evidence to the judge; the five public axes remain model-led. To enable large
+language model judging, set
 `ANTHROPIC_API_KEY` before running evaluation:
 
 ```bash
@@ -167,6 +180,7 @@ export ANTHROPIC_API_KEY="sk-ant-..."
 python eval/run_eval.py --model YOUR_MODEL --video_dir ... --output_dir results/
 ```
 
-Without the API key, TC and VF fall back to CV scoring and operator evidence is
-still emitted for diagnostics. The PP axis requires LLM judging to produce a
-model-led physical-plausibility score.
+Without the API key, temporal consistency and reference and motion fidelity fall
+back to computer-vision scoring and operator evidence is still emitted for
+diagnostics. The physical plausibility axis requires large language model
+judging to produce a model-led physical-plausibility score.

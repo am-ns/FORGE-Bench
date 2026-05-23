@@ -195,6 +195,18 @@ def _operator_evidence_diagnostics(results: list[dict]) -> dict:
     }
 
 
+def _constraint_adjustment_diagnostics(aggregate: dict) -> dict:
+    """Expose constraint-adjusted ranking metadata from aggregate results."""
+    return {
+        "overall": aggregate.get("overall"),
+        "relax_score": aggregate.get("relax_score"),
+        "constraint_adjusted_score": aggregate.get("constraint_adjusted_score"),
+        "ranking_score": aggregate.get("ranking_score"),
+        "summary": aggregate.get("constraint_adjustment_summary", {}),
+        "score_calibration": aggregate.get("score_calibration", {}),
+    }
+
+
 def _worst_samples(results: list[dict]) -> list[dict]:
     completed = [r for r in results if not r.get("skipped") and r.get("scored")]
 
@@ -296,6 +308,7 @@ def generate_diagnostic_report(model: str, aggregate: dict, sample_results: list
         "industrial_constraint_diagnostics": _industrial_constraint_diagnostics(completed),
         "industrial_logic_weakness_diagnostics": _industrial_logic_weakness_diagnostics(completed),
         "operator_evidence_diagnostics": _operator_evidence_diagnostics(completed),
+        "constraint_adjustment_diagnostics": _constraint_adjustment_diagnostics(aggregate),
         "ability_failure_report": _ability_failure_report(completed),
         "worst_samples": _worst_samples(completed),
     }

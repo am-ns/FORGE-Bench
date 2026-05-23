@@ -36,6 +36,7 @@ CONFIG = {
     "motion_tier_moderate": 60,
     "strict_axis_threshold": 60.0,
     "operator_gate_min": 0.35,
+    "headline_score_policy": "model_axis_weighted_mean",
 }
 
 MOTION_GATE_TASK_CATEGORIES = {"spatial_exploration_and_viewpoint"}
@@ -230,13 +231,123 @@ def _operator_risk_multiplier(result: dict) -> float:
     return max(CONFIG["operator_gate_min"], min(1.0, float(multiplier)))
 
 
+def _viewpoint_motion_constraint(result: dict) -> tuple[float | None, float | None, list[str]]:
+    """Return motion-control constraint score, optional hard cap, and reasons."""
+    scored = result.get("scored", {})
+    task_category = result.get("task_category") or scored.get("task_category")
+    motion_type = result.get("motion_type")
+    gate_applied = scored.get("motion_gate_applied")
+    if gate_applied is None:
+        gate_applied = (
+            task_category in MOTION_GATE_TASK_CATEGORIES
+            or motion_type in MOTION_GATE_TYPES
+        )
+    if not gate_applied:
+        return None, None, []
+
+    viewpoint_motion_score = scored.get("viewpoint_motion_score", result.get("viewpoint_motion_score"))
+    if viewpoint_motion_score is None:
+        viewpoint_motion_score = canonicalize_axis_dict(scored.get("axis_scores", {})).get(VIEWPOINT_MOTION_FIDELITY)
+    if viewpoint_motion_score is None:
+        return None, None, []
+
+    score = max(0.0, min(100.0, float(viewpoint_motion_score)))
+    reasons: list[str] = []
+    cap: float | None = None
+    if motion_type == "static":
+        if score < 20.0:
+            cap = 60.0
+            reasons.append("static_motion_constraint_severe_failure")
+        elif score < 60.0:
+            cap = 70.0
+            reasons.append("static_motion_constraint_partial_failure")
+    else:
+        if score < 20.0:
+            cap = 60.0
+            reasons.append("viewpoint_motion_constraint_severe_failure")
+        elif score < 60.0:
+            cap = 75.0
+            reasons.append("viewpoint_motion_constraint_partial_failure")
+    return score, cap, reasons
+
+
+def _operator_constraint(result: dict) -> tuple[float, float | None, list[str]]:
+    """Return operator reliability score, optional hard cap, and reasons."""
+    evidence = result.get("operator_evidence") or {}
+    operators = evidence.get("operators") or {}
+    reliability_score = _operator_risk_multiplier(result) * 100.0
+    reasons: list[str] = []
+    severe_count = 0
+    cap: float | None = None
+
+    local = operators.get("local_region_lock") or {}
+    if local.get("risk") == "global_regeneration":
+        severe_count += 1
+        reasons.append("operator_global_regeneration")
+
+    temporal = operators.get("temporal_break") or {}
+    if temporal.get("abrupt_transition") is True:
+        severe_count += 1
+        reasons.append("operator_abrupt_temporal_transition")
+
+    rigid = operators.get("rigid_joint_tracking") or {}
+    if rigid.get("risk") == "rigid_drift":
+        cap = 80.0 if cap is None else min(cap, 80.0)
+        reasons.append("operator_rigid_drift")
+
+    fluid = operators.get("fluid_diffusion") or {}
+    if fluid.get("plausible_continuity") is False:
+        cap = 80.0 if cap is None else min(cap, 80.0)
+        reasons.append("operator_fluid_discontinuity")
+
+    if severe_count >= 2:
+        cap = 60.0 if cap is None else min(cap, 60.0)
+        reasons.append("operator_multiple_severe_failures")
+    elif severe_count == 1:
+        cap = 70.0 if cap is None else min(cap, 70.0)
+
+    return reliability_score, cap, reasons
+
+
+def _constraint_adjustment(result: dict) -> dict:
+    """Compute a label-free constraint-adjusted score for engineering ranking.
+
+    The adjustment is penalty-only: constraints can lower the model-judged axis
+    score or cap it, but cannot improve it.
+    """
+    axis_score = float(result.get("scored", {}).get("weighted_score", 0.0))
+    viewpoint_score, viewpoint_cap, viewpoint_reasons = _viewpoint_motion_constraint(result)
+    operator_score, operator_cap, operator_reasons = _operator_constraint(result)
+
+    constraint_components = [operator_score]
+    if viewpoint_score is not None:
+        constraint_components.append(viewpoint_score)
+    constraint_score = float(np.mean(constraint_components)) if constraint_components else 100.0
+
+    caps = [cap for cap in (viewpoint_cap, operator_cap) if cap is not None]
+    hard_cap = min(caps) if caps else 100.0
+    adjusted_score = min(axis_score, constraint_score, hard_cap)
+
+    return {
+        "axis_score": axis_score,
+        "constraint_score": constraint_score,
+        "constraint_adjusted_score": float(adjusted_score),
+        "hard_constraint_cap": float(hard_cap),
+        "cap_reasons": viewpoint_reasons + operator_reasons,
+        "viewpoint_motion_constraint_score": viewpoint_score,
+        "operator_reliability_score": operator_score,
+    }
+
+
 def aggregate_sample_results(sample_results: list[dict]) -> dict:
     """Aggregate completed per-sample results into benchmark-level metrics.
 
-    Produces the three public metrics described in the README:
+    Produces public metrics described in the README:
     - relax_score: mean per-sample weighted score.
     - strict_pass_rate: fraction of samples where every present axis passes.
-    - gated_score: mean per-sample score after applying the viewpoint motion fidelity fidelity gate.
+    - constraint_adjusted_score: penalty-only engineering ranking score.
+    - motion_gated_score/operator_risk_adjusted_score: uncalibrated diagnostic
+      scores after applying heuristic gates. They are not the headline score.
     """
     completed = [r for r in sample_results if not r.get("skipped") and r.get("scored")]
     if not completed:
@@ -245,10 +356,21 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
             "overall": 0.0,
             "relax_score": 0.0,
             "strict_pass_rate": 0.0,
+            "motion_gated_score": 0.0,
             "gated_score": 0.0,
+            "operator_risk_adjusted_score": 0.0,
+            "constraint_adjusted_score": 0.0,
+            "ranking_score": 0.0,
+            "constraint_adjustment_summary": {},
             "num_samples_total": len(sample_results),
             "num_samples_completed": 0,
             "num_samples_skipped": len(sample_results),
+            "score_calibration": {
+                "headline_score_policy": CONFIG["headline_score_policy"],
+                "ranking_score_policy": "constraint_adjusted_score",
+                "heuristic_gates_in_overall": False,
+                "status": "no_completed_samples",
+            },
             "note": "no_completed_samples",
         }
 
@@ -294,15 +416,60 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         * _operator_risk_multiplier(r)
         for r in completed
     ]
+    constraint_adjustments = [_constraint_adjustment(r) for r in completed]
+    constraint_adjusted_scores = [
+        item["constraint_adjusted_score"] for item in constraint_adjustments
+    ]
+    cap_reason_counts: dict[str, int] = {}
+    for item in constraint_adjustments:
+        for reason in item["cap_reasons"]:
+            cap_reason_counts[reason] = cap_reason_counts.get(reason, 0) + 1
 
     aggregate["relax_score"] = float(np.mean(weighted_scores))
     aggregate["strict_pass_rate"] = float(np.mean(strict_flags))
     aggregate["motion_gated_score"] = float(np.mean(motion_gated_scores))
     aggregate["gated_score"] = float(np.mean(gated_scores))
     aggregate["operator_risk_adjusted_score"] = aggregate["gated_score"]
+    aggregate["constraint_adjusted_score"] = float(np.mean(constraint_adjusted_scores))
+    aggregate["ranking_score"] = aggregate["constraint_adjusted_score"]
+    aggregate["constraint_adjustment_summary"] = {
+        "formula": "min(axis_score, constraint_score, hard_constraint_cap)",
+        "policy": "conservative_necessary_constraint_upper_bound",
+        "mean_constraint_score": float(np.mean([
+            item["constraint_score"] for item in constraint_adjustments
+        ])),
+        "mean_hard_constraint_cap": float(np.mean([
+            item["hard_constraint_cap"] for item in constraint_adjustments
+        ])),
+        "samples_with_cap": sum(
+            1 for item in constraint_adjustments if item["hard_constraint_cap"] < 100.0
+        ),
+        "cap_reason_counts": cap_reason_counts,
+    }
+    aggregate["uncalibrated_motion_gated_score"] = aggregate["motion_gated_score"]
+    aggregate["uncalibrated_operator_risk_adjusted_score"] = aggregate["operator_risk_adjusted_score"]
     aggregate["num_samples_total"] = len(sample_results)
     aggregate["num_samples_completed"] = len(completed)
     aggregate["num_samples_skipped"] = len(sample_results) - len(completed)
-    # Keep overall as the leaderboard-compatible headline score.
-    aggregate["overall"] = aggregate["gated_score"]
+    aggregate["score_calibration"] = {
+        "headline_score_policy": CONFIG["headline_score_policy"],
+        "ranking_score_policy": "constraint_adjusted_score",
+        "heuristic_gates_in_overall": False,
+        "status": "constraint_adjusted_score_uses_prespecified_no_label_formula",
+        "constraint_adjusted_score_formula": "min(axis_score, constraint_score, hard_constraint_cap)",
+        "scores_excluded_from_overall": [
+            "motion_gated_score",
+            "operator_risk_adjusted_score",
+            "gated_score",
+            "constraint_adjusted_score",
+        ],
+        "diagnostic_scores_excluded_from_overall": [
+            "motion_gated_score",
+            "operator_risk_adjusted_score",
+            "gated_score",
+        ],
+    }
+    # The headline score remains the model-judged weighted axis mean until
+    # motion/operator gates are calibrated against human acceptability labels.
+    aggregate["overall"] = aggregate["relax_score"]
     return aggregate

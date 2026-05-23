@@ -423,7 +423,7 @@ class TestScoring:
         assert result["overall"] > 0
 
     def test_aggregate_sample_results_outputs_public_metrics(self):
-        """Aggregate engine should expose relax, strict-pass, and gated scores."""
+        """Aggregate engine should expose calibrated headline and diagnostic scores."""
         result = aggregate_sample_results([
             {
                 "task_id": "ok",
@@ -453,7 +453,14 @@ class TestScoring:
         assert result["relax_score"] == 75.0
         assert result["strict_pass_rate"] == 1.0
         assert result["gated_score"] == 48.75
-        assert result["overall"] == result["gated_score"]
+        assert result["overall"] == result["relax_score"]
+        assert result["constraint_adjusted_score"] == pytest.approx(65.0)
+        assert result["ranking_score"] == result["constraint_adjusted_score"]
+        assert result["constraint_adjustment_summary"]["samples_with_cap"] == 1
+        assert result["constraint_adjustment_summary"]["cap_reason_counts"]["viewpoint_motion_constraint_severe_failure"] == 1
+        assert result["score_calibration"]["heuristic_gates_in_overall"] is False
+        assert "gated_score" in result["score_calibration"]["diagnostic_scores_excluded_from_overall"]
+        assert "constraint_adjusted_score" in result["score_calibration"]["scores_excluded_from_overall"]
 
     def test_aggregate_ignores_motion_gate_for_non_viewpoint_non_static(self):
         """Dolly/pan diagnostics should not gate non-viewpoint tasks."""
@@ -474,6 +481,8 @@ class TestScoring:
             },
         ])
         assert result["gated_score"] == 70.0
+        assert result["overall"] == 70.0
+        assert result["constraint_adjusted_score"] == 70.0
 
     def test_aggregate_keeps_static_gate_for_static_tasks(self):
         """Static tasks should still be gated when the output moves."""
@@ -493,6 +502,8 @@ class TestScoring:
             },
         ])
         assert result["gated_score"] == 0.0
+        assert result["overall"] == 70.0
+        assert result["constraint_adjusted_score"] == 50.0
 
     def test_aggregate_applies_operator_risk_gate(self):
         """Operator evidence should lower fallback scores for abrupt breaks."""
@@ -522,6 +533,9 @@ class TestScoring:
         ])
         assert result["motion_gated_score"] == 80.0
         assert result["gated_score"] < 40.0
+        assert result["overall"] == 80.0
+        assert result["constraint_adjusted_score"] == 35.0
+        assert result["constraint_adjustment_summary"]["cap_reason_counts"]["operator_multiple_severe_failures"] == 1
 
     def test_physical_plausibility_parser_uses_native_0_100_scale(self):
         """physical plausibility parser should no longer use the legacy 1-5 scale."""
@@ -575,6 +589,7 @@ class TestReport:
         assert report["viewpoint_motion_diagnostics"]["static_or_near_static_count"] == 1
         assert report["industrial_constraint_diagnostics"]["violation_counts"]["check_count_invariant"] == 1
         assert report["industrial_logic_weakness_diagnostics"]["W3"]["accuracy"] == 0.0
+        assert "constraint_adjustment_diagnostics" in report
         assert report["worst_samples"][0]["task_id"] == "bad"
 
 
@@ -696,5 +711,8 @@ class TestRunEvalCLI:
         assert "relax_score" in aggregate
         assert "strict_pass_rate" in aggregate
         assert "gated_score" in aggregate
+        assert "constraint_adjusted_score" in aggregate
+        assert "ranking_score" in aggregate
         assert report["summary"]["num_samples_completed"] == 1
         assert "viewpoint_motion_diagnostics" in report
+        assert "constraint_adjustment_diagnostics" in report

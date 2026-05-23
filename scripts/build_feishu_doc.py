@@ -366,7 +366,7 @@ ARCHITECTURE_HTML = """
         <tr><td>五个场景域</td><td>visual_security, embodied_robotics, heavy_load_construction, precision_defect_gen, extreme_emergency</td><td>覆盖安防合规、机器人、重载施工、精密缺陷、极端事故五类工业能力边界。</td></tr>
         <tr><td>五类抽象任务</td><td>刚体运动、拓扑失效、流体热力、空间视角、工业逻辑合规</td><td>决定样本的主要难点、最高权重评分轴和报告分组。</td></tr>
         <tr><td>参考图与 Prompt</td><td>每个样本绑定参考图、短生成 Prompt、完整评测 Prompt</td><td>参考图提供首帧和几何锚点，Prompt 明确动作、物理、逻辑、视角和约束。</td></tr>
-        <tr><td>评分流水线</td><td>几何/工业约束算子 + 视角运动门控 + 多轴模型裁判 + per-sample 加权 + aggregate 汇总</td><td>输出 relax_score、strict_pass_rate、gated_score、domain_breakdown、task_breakdown 和低保真摘要。</td></tr>
+        <tr><td>评分流水线</td><td>几何/工业约束算子 + 视角运动证据 + 五轴模型裁判 + 单样本加权 + 约束调整汇总</td><td>输出 overall、constraint_adjusted_score、ranking_score、strict_pass_rate、domain_breakdown、task_breakdown 和低保真摘要。</td></tr>
       </tbody>
     </table>
   </section>
@@ -383,7 +383,7 @@ ARCHITECTURE_HTML = """
         <tr><td>reference_and_motion_fidelity</td><td>是否保留参考图主体、布局和非变化区域，并执行指定视角运动。</td><td>移动镜头任务提交静态视频；局部缺陷导致全局背景重绘；参考透视漂移。</td></tr>
       </tbody>
     </table>
-    <p class="note-text">补充规则：viewpoint_motion_fidelity 作为运动门控并入 reference_and_motion_fidelity；industrial_constraint_score 作为硬约束成分并入 geometric_integrity。单样本得分按任务权重加权，空间视角任务还会被静态视频门控拉低。</p>
+    <p class="note-text">补充规则：viewpoint_motion_fidelity 和 industrial_constraint_score 作为证据供模型裁判参考，并进入 penalty-only 的 constraint_adjusted_score；它们不再机械并入公开五轴。单样本能力分按任务权重加权，排行榜使用带硬上限的 ranking_score。</p>
   </section>
 
   <section class="overview-card">
@@ -459,7 +459,7 @@ TASK_SCORING_CARDS = {
     },
     "spatial_exploration_and_viewpoint": {
         "title": "空间探索与视角运动评分标准",
-        "priority": "门控轴：reference_and_motion_fidelity；静态替代会被 viewpoint_motion_fidelity 明显拉低。",
+        "priority": "重点轴：reference_and_motion_fidelity；静态替代会通过 viewpoint_motion_fidelity 进入约束调整分和硬上限。",
         "weights": "逻辑 1.00 / 几何 1.35 / 物理 1.00 / 时序 1.25 / 参考运动 1.75",
         "criteria": [
             "必须执行指定 orbit、pan、dolly、crane、内窥镜、无人机或机器人第一视角运动。",

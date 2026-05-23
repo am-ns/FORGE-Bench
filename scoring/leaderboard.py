@@ -44,6 +44,8 @@ def _load_model_results(results_dir: str) -> list[dict]:
         models.append({
             "model": entry,
             "overall": data.get("overall", 0.0),
+            "constraint_adjusted_score": data.get("constraint_adjusted_score", data.get("overall", 0.0)),
+            "ranking_score": data.get("ranking_score", data.get("constraint_adjusted_score", data.get("overall", 0.0))),
             "axis_scores": data.get("axis_scores", {}),
             "viewpoint_motion_tier": data.get("viewpoint_motion_tier", "unknown"),
             "rotation_integrity_factor": data.get("rotation_integrity_factor"),
@@ -69,7 +71,9 @@ def _generate_markdown(models: list[dict]) -> str:
     header = [
         "Rank",
         "Model",
+        "Ranking Score",
         "Overall",
+        "Constraint Adjusted",
         *LEADERBOARD_AXES,
         "viewpoint_motion_tier",
         "rotation_integrity_factor",
@@ -87,7 +91,9 @@ def _generate_markdown(models: list[dict]) -> str:
         row = [
             str(rank),
             item["model"],
+            f"{float(item['ranking_score']):.1f}",
             f"{float(item['overall']):.1f}",
+            f"{float(item['constraint_adjusted_score']):.1f}",
             *[_format_axis(axis_scores, axis) for axis in LEADERBOARD_AXES],
             item["viewpoint_motion_tier"],
             rotation_integrity_factor_string,
@@ -103,7 +109,7 @@ def _generate_markdown(models: list[dict]) -> str:
 def build_leaderboard(results_dir: str) -> dict:
     """Build a ranked leaderboard from all model aggregate files."""
     models = _load_model_results(results_dir)
-    models.sort(key=lambda m: m["overall"], reverse=True)
+    models.sort(key=lambda m: m["ranking_score"], reverse=True)
 
     for index, item in enumerate(models, 1):
         item["rank"] = index

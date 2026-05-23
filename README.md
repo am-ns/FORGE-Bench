@@ -134,14 +134,15 @@ video frames
   |           region-isolated fidelity for local defects/failures
   |
   +-- single sample scoring
-  |     dynamic task weights, score floors, task-aware motion gate
+  |     dynamic task weights, score floors, task-aware constraint evidence
   |     operator evidence is reported and supplied to judges, not used as a
   |     standalone replacement for model-led axis scoring
   |
   +-- matrix aggregation engine
-        loose mean score
+        model-led ability score
+        constraint-adjusted ranking score
         strict pass rate
-        motion/static gate interception rate
+        motion/static and operator-risk diagnostics
         Domain x Task cross-analysis report
         low-level physical/common-sense and micro-geometry diagnostics
 ```
@@ -149,7 +150,7 @@ video frames
 Core formula:
 
 ```text
-FORGE_final =
+overall =
   WeightedAverage(
     industrial_logic_and_fact_alignment,
     temporal_consistency,
@@ -164,6 +165,28 @@ emphasize `geometric_integrity` and `physical_plausibility`; periodic or local
 defect tasks emphasize `geometric_integrity` and `temporal_consistency`;
 viewpoint-inspection tasks emphasize `reference_and_motion_fidelity` and
 `geometric_integrity`.
+
+The engineering ranking score is a penalty-only constraint adjustment:
+
+```text
+constraint_adjusted_score =
+  min(
+    axis_score,
+    constraint_score,
+    hard_constraint_cap
+  )
+
+ranking_score = constraint_adjusted_score
+```
+
+`axis_score` is the model-led five-axis sample score. `constraint_score`
+combines task-aware viewpoint motion fidelity and operator reliability when
+available. The ranking score is deliberately conservative: a necessary
+constraint failure acts as an upper bound, so severe failures such as static
+output for required camera motion, global regeneration, abrupt temporal breaks,
+rigid drift, or fluid discontinuity cannot be hidden by strong scores on other
+axes. The adjustment can only lower a score; it cannot raise the model-led axis
+score.
 
 ### Operator Evidence
 
@@ -274,10 +297,15 @@ Important aggregate fields:
 
 | Field | Meaning |
 |---|---|
-| `relax_score` | Mean per-sample weighted score. |
+| `relax_score` | Mean per-sample model-judged weighted axis score. |
 | `strict_pass_rate` | Fraction of completed samples where all present axes pass thresholds. |
-| `gated_score` | Per-sample weighted score after task-aware motion gating. |
-| `overall` | Leaderboard headline score, currently aligned to `gated_score`. |
+| `constraint_adjusted_score` | Penalty-only score combining the model-led axis score with task constraints and hard caps. |
+| `ranking_score` | Leaderboard sorting score, currently equal to `constraint_adjusted_score`. |
+| `motion_gated_score` | Legacy diagnostic score after heuristic task-aware motion gating; not used as `overall` or `ranking_score`. |
+| `operator_risk_adjusted_score` | Legacy diagnostic score after heuristic operator-risk adjustment; not used as `overall` or `ranking_score`. |
+| `gated_score` | Legacy diagnostic alias for `operator_risk_adjusted_score`; uncalibrated. |
+| `overall` | Model-led ability score, currently aligned to `relax_score`. |
+| `score_calibration` | Records that heuristic gates are excluded from `overall` and that ranking uses the prespecified constraint-adjusted formula. |
 | `axis_scores` | Mean floored full-name axis scores. |
 | `domain_breakdown` | Scores and low-fidelity flags by the five scenario domains. |
 | `task_breakdown` | Scores and low-fidelity flags by abstract task category. |
