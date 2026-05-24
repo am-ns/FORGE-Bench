@@ -58,6 +58,15 @@ def _event_spec(sample: dict) -> str:
     return " ".join(lines)
 
 
+def _event_loop_spec(sample: dict) -> str:
+    return (
+        "Complete event loop: 1) initial stable industrial state; "
+        "2) trigger or abnormal condition; 3) visible event progression; "
+        "4) correct industrial consequence or response; "
+        "5) final state consistent with the scenario."
+    )
+
+
 def _application_spec(sample: dict) -> str:
     sample = enrich_application_fields(sample)
     events = sample.get("required_observable_events") or []
@@ -108,6 +117,7 @@ def build_prompt(sample: dict) -> str:
         f"[SCENE] {scene}\n\n"
         f"[APPLICATION] {_application_spec(sample)}\n\n"
         f"[CAMERA] {_camera_spec(sample)}\n\n"
+        f"[EVENT_LOOP] {_event_loop_spec(sample)}\n\n"
         f"[EVENT] {_event_spec(sample)}\n\n"
         f"[PRESERVE] {_preserve_spec(sample)}\n\n"
         f"[PROHIBIT] {PROHIBIT}"

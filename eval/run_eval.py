@@ -446,11 +446,13 @@ def evaluate_sample(
 
     # Application usefulness: VLM-based, deliberately separate from the five technical axes.
     application_usefulness_score = None
+    observable_event_coverage = None
     application_usefulness_details: dict = {}
     if judge_application_usefulness is not None:
         try:
             r = judge_application_usefulness(frames, sample_meta=sample_for_judge)
             application_usefulness_score = r.get("score")
+            observable_event_coverage = r.get("observable_event_coverage")
             application_usefulness_details = r
         except Exception as exc:
             logger.warning("application usefulness LLM failed for %s: %s", task_id, exc)
@@ -487,6 +489,7 @@ def evaluate_sample(
         viewpoint_motion_orbit_component=viewpoint_motion_result.get("viewpoint_motion_orbit_component"),
         viewpoint_motion_crane_component=viewpoint_motion_result.get("viewpoint_motion_crane_component"),
         industrial_constraint_score=geometric_integrity_result.get("industrial_constraint_score"),
+        observable_event_coverage=observable_event_coverage,
         axis_weights=axis_weights,
         axis_rubric=axis_rubric,
         task_category=task_category,
@@ -500,6 +503,8 @@ def evaluate_sample(
         "task_id": task_id,
         "domain": domain,
         "task_category": task_category,
+        "scene_id": sample.get("scene_id"),
+        "image_path": sample.get("image_path"),
         "application_value": sample.get("application_value") or task_profile.get("application_value"),
         "application_type": sample.get("application_type"),
         "application_objective": sample.get("application_objective"),
@@ -537,6 +542,7 @@ def evaluate_sample(
         "reference_and_motion_fidelity_score": reference_and_motion_fidelity_result.get("reference_and_motion_fidelity_score"),
         "reference_and_motion_fidelity_details": reference_and_motion_fidelity_result,
         "application_usefulness_score": application_usefulness_score,
+        "observable_event_coverage": observable_event_coverage,
         "application_usefulness_details": application_usefulness_details,
         "industrial_logic_and_fact_alignment_score": industrial_logic_and_fact_alignment_score,
         "industrial_logic_and_fact_alignment_details": industrial_logic_and_fact_alignment_details,

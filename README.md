@@ -164,6 +164,11 @@ task_conditioned_score =
   )
 
 overall = task_conditioned_score
+technical_score = task_conditioned_score
+
+application_score =
+  0.7 * application_usefulness
+  + 0.3 * observable_event_coverage
 ```
 
 The weights and bottleneck axes are dynamic by abstract task category. Robot
@@ -186,8 +191,10 @@ constraint_adjusted_score =
 ranking_score = constraint_adjusted_score
 ```
 
-`task_conditioned_score` is the bottleneck-sensitive five-axis technical score.
-`application_score` is the model-judged industrial usefulness score; it lowers
+`technical_score` / `task_conditioned_score` is the bottleneck-sensitive
+five-axis technical score. `application_score` blends model-judged industrial
+usefulness with per-event observable coverage when the application judge returns
+event checks; otherwise it falls back to application usefulness. It lowers
 ranking when the clip is not useful for the target workflow, but it does not
 hide which technical axis failed.
 `constraint_score` combines task-aware viewpoint motion fidelity and operator
@@ -253,8 +260,10 @@ The finder writes candidates under `dataset/images_candidates/strict_open_licens
 and a rejection/acceptance manifest at
 `reports/strict_reference_image_candidates.csv`. It enforces open-license
 metadata, minimum 1280x720 resolution, minimum 900-pixel short side, blur
-rejection, topic-title overlap, near-duplicate filtering, and background edge
-density limits to avoid overly cluttered images.
+rejection, topic-title overlap, task-anchor quality, near-duplicate filtering,
+and background edge density limits to avoid overly cluttered images. The
+task-anchor filter rejects candidates that are clear but cannot support the
+sample's industrial subject, required events, decision elements, or event space.
 
 Use `reports/prompts.jsonl` when batch-submitting tasks to a video generation
 model. Each row contains `task_id`, `image_path`, `video_generation_prompt`,
@@ -313,18 +322,24 @@ Important aggregate fields:
 | `relax_score_ci95` | Deterministic bootstrap 95% confidence interval for `relax_score`. |
 | `task_conditioned_score` | Bottleneck-sensitive headline score using arithmetic/harmonic blending plus task-critical penalties. |
 | `task_conditioned_score_ci95` | Deterministic bootstrap 95% confidence interval for `task_conditioned_score`. |
+| `technical_score` | Formal three-layer report alias for `task_conditioned_score`. |
+| `technical_score_ci95` | Bootstrap 95% confidence interval for `technical_score`. |
 | `complete_case_relax_score` | Mean weighted score restricted to samples with all five technical axes plus application usefulness present. |
 | `complete_case_relax_score_ci95` | Bootstrap 95% confidence interval for the complete-case score. |
 | `strict_pass_rate` | Fraction of completed samples where all present axes pass thresholds. |
 | `functional_pass_rate` | Task-conditioned pass rate: critical axes must clear 60, non-critical axes must clear 45. |
 | `axis_pass_rates` | Per-axis pass counts and rates at the strict threshold. |
+| `application_score` | Industrial application score: `0.7 * application_usefulness + 0.3 * observable_event_coverage` when event coverage is available; otherwise application usefulness. |
+| `application_score_ci95` | Bootstrap 95% confidence interval for `application_score`. |
 | `application_usefulness_score` | Mean industrial application-usefulness score when the application judge is enabled. |
+| `observable_event_coverage` | Mean coverage of required observable events returned by the application judge. |
 | `application_pass_rate` | Fraction of application-judged samples at or above the strict threshold. |
 | `application_type_breakdown` | Application-usefulness scores split by safety training, emergency rehearsal, robotics operation, inspection/maintenance, heavy-operation risk, and defect/QC generation. |
 | `reference_motion_decomposition` | Separates reference preservation, motion control, and coupled reference-motion fidelity diagnostics. |
 | `constraint_adjusted_score` | Penalty-adjusted score combining `task_conditioned_score` with application usefulness, task constraints, and hard-cap severity multipliers. |
 | `constraint_adjusted_score_ci95` | Deterministic bootstrap 95% confidence interval for the ranking score. |
 | `ranking_score` | Leaderboard sorting score, currently equal to `constraint_adjusted_score`. |
+| `ranking_score_ci95` | Bootstrap 95% confidence interval for `ranking_score`. |
 | `motion_gated_score` | Legacy diagnostic score after heuristic task-aware motion gating; not used as `overall` or `ranking_score`. |
 | `operator_risk_adjusted_score` | Legacy diagnostic score after heuristic operator-risk adjustment; not used as `overall` or `ranking_score`. |
 | `gated_score` | Legacy diagnostic alias for `operator_risk_adjusted_score`; uncalibrated. |
@@ -335,6 +350,8 @@ Important aggregate fields:
 | `axis_score_ci95` | Per-axis deterministic bootstrap 95% confidence intervals. |
 | `stratified_score_ci95` | Bootstrap confidence intervals by domain, task category, motion type, primary topology, and sub-topology. |
 | `scoring_validity` | Counts missing required axes, invalid judge parses, and whether score floors were applied. |
+| `application_coverage_summary` | Counts application types, scene coverage per application, and required-event coverage. |
+| `dataset_coverage_report` | Report-level coverage summary for application types, scenes, referenced images, scene image-count shortfalls, and event coverage. |
 | `run_metadata` | Reproducibility metadata: sample hash, eval/scoring code hashes, judge provider/model, config hash, Python/OpenCV/NumPy versions. |
 | `domain_breakdown` | Scores and low-fidelity flags by the five scenario domains. |
 | `task_breakdown` | Scores and low-fidelity flags by abstract task category. |

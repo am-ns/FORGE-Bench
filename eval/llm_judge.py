@@ -706,7 +706,12 @@ def judge_sample_application_usefulness(
         "50-69: partially useful but missing important evidence for a real decision or training case.\n"
         "25-49: weak usefulness; core application objective is ambiguous or misleading.\n"
         "0-24: not usable; missing the decision-critical event or contradicting the intended industrial workflow.\n\n"
-        "Reply with a single integer 0-100 on the first line, then brief evidence."
+        "Reply with JSON only: {\"score\": <integer 0-100>, "
+        "\"observable_event_coverage\": <integer 0-100>, "
+        "\"required_event_checks\": [{\"event\": \"short event text\", \"present\": <true|false>, \"evidence\": \"brief visible evidence\"}], "
+        "\"reasoning\": \"brief evidence\", "
+        "\"failure_modes\": [\"one or more of: missing_required_event, unclear_hazard_source, unobservable_decision_element, misleading_safety_response, incomplete_event_loop, ambiguous_spatial_relationship, application_objective_not_supported\"], "
+        "\"confidence\": <number 0-1>, \"evidence_frames\": [<frame indices>]}"
     )
 
     response = _call_with_backoff(
@@ -718,16 +723,61 @@ def judge_sample_application_usefulness(
     )
 
     raw = response.content[0].text if response.content else ""
-    score = _parse_score_0_100(raw)
+    parsed = _parse_application_json(raw)
+    score = parsed.get("score") if parsed else _parse_score_0_100(raw)
     return {
         "score": score,
-        "llm_parse_valid": score is not None,
-        "reasoning": raw,
+        "observable_event_coverage": parsed.get("observable_event_coverage") if parsed else None,
+        "required_event_checks": parsed.get("required_event_checks", []) if parsed else [],
+        "llm_parse_valid": parsed is not None and score is not None,
+        "reasoning": parsed.get("reasoning", raw) if parsed else raw,
+        "failure_modes": parsed.get("failure_modes", []) if parsed else [],
+        "confidence": parsed.get("confidence") if parsed else None,
+        "evidence_frames": parsed.get("evidence_frames", []) if parsed else [],
         "raw_response": raw,
         "model": model,
         "tokens_used": _count_tokens(response),
         "sampled_frame_indices": indices,
     }
+
+
+def _parse_application_json(response: str) -> dict | None:
+    if not response:
+        return None
+    text = response.strip()
+    if text.startswith("```"):
+        text = text.strip("`")
+        if text.lower().startswith("json"):
+            text = text[4:].strip()
+    try:
+        payload = json.loads(text)
+    except Exception:
+        start = text.find("{")
+        end = text.rfind("}")
+        if start < 0 or end <= start:
+            return None
+        try:
+            payload = json.loads(text[start:end + 1])
+        except Exception:
+            return None
+    if not isinstance(payload, dict):
+        return None
+    try:
+        payload["score"] = max(0, min(100, int(payload.get("score"))))
+    except Exception:
+        return None
+    if payload.get("observable_event_coverage") is not None:
+        try:
+            payload["observable_event_coverage"] = max(0, min(100, int(payload["observable_event_coverage"])))
+        except Exception:
+            payload["observable_event_coverage"] = None
+    if not isinstance(payload.get("required_event_checks", []), list):
+        payload["required_event_checks"] = []
+    if not isinstance(payload.get("failure_modes", []), list):
+        payload["failure_modes"] = [str(payload["failure_modes"])]
+    if not isinstance(payload.get("evidence_frames", []), list):
+        payload["evidence_frames"] = []
+    return payload
 
 
 # ---------------------------------------------------------------------------

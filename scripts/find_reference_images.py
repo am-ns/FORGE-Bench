@@ -69,6 +69,8 @@ BLOCKED_TITLE_TERMS = (
     "proceedings", "transactions", "handbook", "manual", "catalogue",
     "catalog", "encyclopedia", "dictionary", "atlas", "album", "yearbook",
     "page", "plate", "fig.", "figure", ".pdf", ".djvu", ".epub",
+    "product shot", "packshot", "booth", "expo", "trade show",
+    "advertisement", "brochure", "mockup", "studio shot",
 )
 BLOCKED_URL_TERMS = (
     "archive.org", "books.google", "hathitrust", "/pdf/", ".pdf",
@@ -222,6 +224,44 @@ def _topic_score(row: dict, title: str) -> int:
     return len(query_tokens & title_tokens)
 
 
+def _candidate_text(candidate: Candidate) -> str:
+    info = candidate.imageinfo
+    return " ".join([
+        candidate.title,
+        str(info.get("descriptionurl", "")),
+        str(info.get("url", "")),
+        str(info.get("creator", "")),
+        str(info.get("provider", "")),
+    ])
+
+
+def _task_anchor_quality(row: dict, candidate: Candidate) -> tuple[int, str]:
+    candidate_tokens = _tokenize(_candidate_text(candidate))
+    anchor_tokens = _tokenize(" ".join([
+        row.get("reference_subject", ""),
+        row.get("core_scenario", ""),
+        row.get("task_visual_requirement", ""),
+        row.get("application_type", ""),
+        row.get("application_objective", ""),
+        " ".join(row.get("required_observable_events") or []),
+        " ".join(row.get("decision_relevant_elements") or []),
+    ]))
+    overlap = candidate_tokens & anchor_tokens
+    score = min(6, len(overlap))
+    text = _candidate_text(candidate).lower()
+    if any(term in text for term in (
+        "factory", "plant", "workshop", "construction", "site", "warehouse",
+        "inspection", "maintenance", "machine", "worker", "vehicle",
+        "equipment", "robot", "crane", "pipe", "valve", "panel", "pcb",
+        "defect", "leak", "fire", "safety", "industrial",
+    )):
+        score += 2
+    decision_tokens = _tokenize(" ".join(row.get("decision_relevant_elements") or []))
+    if candidate_tokens & decision_tokens:
+        score += 2
+    return score, ",".join(sorted(overlap)[:10]) or "no_anchor_overlap"
+
+
 def _query_variants(row: dict) -> list[str]:
     subject = row["reference_subject"].strip()
     scenario_tokens = [t for t in _tokenize(row["core_scenario"]) if t not in _tokenize(subject)]
@@ -372,6 +412,12 @@ def run(args: argparse.Namespace) -> None:
 
     for sample in samples:
         row = build_prompt_row(sample)
+        row.update({
+            "application_type": sample.get("application_type", ""),
+            "application_objective": sample.get("application_objective", ""),
+            "required_observable_events": sample.get("required_observable_events", []),
+            "decision_relevant_elements": sample.get("decision_relevant_elements", []),
+        })
         if args.resume and row["task_id"] in accepted_task_ids:
             continue
         if accepted >= args.target:
@@ -436,6 +482,8 @@ def run(args: argparse.Namespace) -> None:
                         "width": str(info.get("width", "")),
                         "height": str(info.get("height", "")),
                         "topic_score": str(_topic_score(row, candidate.title)),
+                        "task_anchor_quality": "",
+                        "task_anchor_reason": "",
                         "edge_density": "",
                         "background_edge_density": "",
                         "laplacian_var": "",
@@ -471,6 +519,14 @@ def run(args: argparse.Namespace) -> None:
                         continue
                     if _topic_score(row, candidate.title) < args.min_topic_score:
                         status["reason"] = "topic_score_too_low"
+                        rejected += 1
+                        selected.append(status)
+                        continue
+                    anchor_score, anchor_reason = _task_anchor_quality(row, candidate)
+                    status["task_anchor_quality"] = str(anchor_score)
+                    status["task_anchor_reason"] = anchor_reason
+                    if anchor_score < args.min_task_anchor_score:
+                        status["reason"] = "task_anchor_quality_too_low"
                         rejected += 1
                         selected.append(status)
                         continue
@@ -538,6 +594,7 @@ def main() -> None:
     parser.add_argument("--target", type=int, default=500)
     parser.add_argument("--search-limit", type=int, default=25)
     parser.add_argument("--min-topic-score", type=int, default=2)
+    parser.add_argument("--min-task-anchor-score", type=int, default=3)
     parser.add_argument("--duplicate-hamming-distance", type=int, default=4)
     parser.add_argument("--sleep", type=float, default=0.25)
     parser.add_argument("--sources", default="openverse,commons")

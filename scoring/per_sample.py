@@ -46,6 +46,7 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
                  viewpoint_motion_orbit_component: float | None = None,
                  viewpoint_motion_crane_component: float | None = None,
                  industrial_constraint_score: float | None = None,
+                 observable_event_coverage: float | None = None,
                  axis_weights: dict[str, float] | None = None,
                  axis_rubric: dict[str, str] | None = None,
                  task_category: str | None = None,
@@ -84,6 +85,8 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
     application_usefulness_score = axis_scores.pop(APPLICATION_USEFULNESS, None)
     if application_usefulness_score is not None:
         application_usefulness_score = max(0.0, min(100.0, float(application_usefulness_score)))
+    if observable_event_coverage is not None:
+        observable_event_coverage = max(0.0, min(100.0, float(observable_event_coverage)))
 
     viewpoint_motion_axis_score = axis_scores.pop(VIEWPOINT_MOTION_FIDELITY, None)
     if motion_gate_required is None:
@@ -187,6 +190,13 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
     if industrial_constraint_axis_score is not None:
         out["industrial_constraint_score"] = industrial_constraint_axis_score
     if application_usefulness_score is not None:
+        application_score = (
+            0.7 * application_usefulness_score + 0.3 * observable_event_coverage
+            if observable_event_coverage is not None
+            else application_usefulness_score
+        )
         out["application_usefulness_score"] = application_usefulness_score
+        out["observable_event_coverage"] = observable_event_coverage
+        out["application_score"] = float(application_score)
         out["application_axis_scores"] = {APPLICATION_USEFULNESS: application_usefulness_score}
     return out

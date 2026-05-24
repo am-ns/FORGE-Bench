@@ -3,6 +3,7 @@
 
 import json
 import math
+from pathlib import Path
 import sys
 from collections import Counter, defaultdict
 
@@ -17,6 +18,16 @@ from eval.axis_registry import (
     VIEWPOINT_MOTION_FIDELITY,
     canonicalize_axis_dict,
 )
+
+APPLICATION_FAILURE_LABELS = {
+    "missing_required_event",
+    "unclear_hazard_source",
+    "unobservable_decision_element",
+    "misleading_safety_response",
+    "incomplete_event_loop",
+    "ambiguous_spatial_relationship",
+    "application_objective_not_supported",
+}
 
 # -- Tunable thresholds -------------------------------------------------------
 CONFIG = {
@@ -203,10 +214,64 @@ def _operator_evidence_diagnostics(results: list[dict]) -> dict:
 
 def _application_score(result: dict) -> float | None:
     scored = result.get("scored", {})
-    score = scored.get("application_usefulness_score", result.get("application_usefulness_score"))
+    score = scored.get("application_score")
     if score is None:
-        score = (scored.get("application_axis_scores") or {}).get(APPLICATION_USEFULNESS)
+        usefulness = scored.get("application_usefulness_score", result.get("application_usefulness_score"))
+        if usefulness is None:
+            usefulness = (scored.get("application_axis_scores") or {}).get(APPLICATION_USEFULNESS)
+        coverage = scored.get("observable_event_coverage", result.get("observable_event_coverage"))
+        if usefulness is not None:
+            score = 0.7 * float(usefulness) + 0.3 * float(coverage) if coverage is not None else usefulness
     return float(score) if score is not None else None
+
+
+def _observable_event_coverage(result: dict) -> float | None:
+    scored = result.get("scored", {})
+    score = scored.get("observable_event_coverage", result.get("observable_event_coverage"))
+    if score is not None:
+        return float(score)
+    checks = (result.get("application_usefulness_details") or {}).get("required_event_checks") or []
+    if checks:
+        return 100.0 * sum(1 for item in checks if item.get("present") is True) / len(checks)
+    return None
+
+
+def _canonical_application_failure(label: str) -> str:
+    raw = str(label).strip().lower().replace(" ", "_").replace("-", "_")
+    if raw in APPLICATION_FAILURE_LABELS:
+        return raw
+    if "missing" in raw and "event" in raw:
+        return "missing_required_event"
+    if "hazard" in raw or "source" in raw:
+        return "unclear_hazard_source"
+    if "decision" in raw or "element" in raw or "object" in raw:
+        return "unobservable_decision_element"
+    if "safety" in raw or "response" in raw or "alarm" in raw or "brak" in raw:
+        return "misleading_safety_response"
+    if "loop" in raw or "incomplete" in raw or "progression" in raw:
+        return "incomplete_event_loop"
+    if "spatial" in raw or "relationship" in raw or "distance" in raw:
+        return "ambiguous_spatial_relationship"
+    if "objective" in raw or "unsupported" in raw or "application" in raw:
+        return "application_objective_not_supported"
+    return "application_objective_not_supported"
+
+
+def _infer_application_failures(result: dict) -> list[str]:
+    labels: set[str] = set()
+    details = result.get("application_usefulness_details") or {}
+    for mode in details.get("failure_modes", []) or []:
+        labels.add(_canonical_application_failure(str(mode)))
+    checks = details.get("required_event_checks") or []
+    if any(item.get("present") is False for item in checks):
+        labels.add("missing_required_event")
+    coverage = _observable_event_coverage(result)
+    if coverage is not None and coverage < CONFIG["low_axis_threshold"]:
+        labels.add("incomplete_event_loop")
+    score = _application_score(result)
+    if score is not None and score < CONFIG["low_axis_threshold"] and not labels:
+        labels.add("application_objective_not_supported")
+    return sorted(labels)
 
 
 def _application_value_report(aggregate: dict, results: list[dict]) -> dict:
@@ -225,8 +290,8 @@ def _application_value_report(aggregate: dict, results: list[dict]) -> dict:
         app_type = result.get("application_type") or "unknown"
         by_type[str(app_type)].append(score)
         details = result.get("application_usefulness_details") or {}
-        for mode in details.get("failure_modes", []) or []:
-            failure_modes[str(mode)] += 1
+        for mode in _infer_application_failures(result):
+            failure_modes[mode] += 1
         item = {
             "task_id": result.get("task_id"),
             "domain": result.get("domain"),
@@ -236,8 +301,12 @@ def _application_value_report(aggregate: dict, results: list[dict]) -> dict:
         worst.append(item)
         best.append(item)
     return {
+        "overall_application_score": aggregate.get("application_score"),
+        "application_score": aggregate.get("application_score"),
+        "application_score_ci95": aggregate.get("application_score_ci95"),
         "application_usefulness_score": aggregate.get("application_usefulness_score"),
         "application_usefulness_score_ci95": aggregate.get("application_usefulness_score_ci95"),
+        "event_coverage_summary": aggregate.get("application_coverage_summary", {}).get("required_event_coverage", {}),
         "application_pass_rate": aggregate.get("application_pass_rate"),
         "application_type_breakdown": aggregate.get("application_type_breakdown", {
             app_type: {
@@ -247,6 +316,7 @@ def _application_value_report(aggregate: dict, results: list[dict]) -> dict:
             }
             for app_type, scores in sorted(by_type.items())
         }),
+        "application_failure_taxonomy": dict(failure_modes.most_common()),
         "common_application_failure_modes": dict(failure_modes.most_common(12)),
         "least_useful_samples": sorted(worst, key=lambda item: item["score"] if item["score"] is not None else 101)[:8],
         "most_useful_samples": sorted(best, key=lambda item: item["score"] if item["score"] is not None else -1, reverse=True)[:8],
@@ -269,6 +339,9 @@ def _constraint_adjustment_diagnostics(aggregate: dict) -> dict:
 def _statistical_uncertainty_report(aggregate: dict) -> dict:
     """Expose confidence intervals and complete-case metrics in report.json."""
     return {
+        "technical_score_ci95": aggregate.get("technical_score_ci95"),
+        "application_score_ci95": aggregate.get("application_score_ci95"),
+        "ranking_score_ci95": aggregate.get("ranking_score_ci95"),
         "relax_score_ci95": aggregate.get("relax_score_ci95"),
         "task_conditioned_score_ci95": aggregate.get("task_conditioned_score_ci95"),
         "constraint_adjusted_score_ci95": aggregate.get("constraint_adjusted_score_ci95"),
@@ -289,6 +362,69 @@ def _pass_rate_report(aggregate: dict) -> dict:
 
 def _reference_motion_decomposition_report(aggregate: dict) -> dict:
     return aggregate.get("reference_motion_decomposition", {})
+
+
+def _dataset_coverage_report(results: list[dict], aggregate: dict) -> dict:
+    app_counts: Counter[str] = Counter()
+    scene_by_app: dict[str, set[str]] = defaultdict(set)
+    image_paths = []
+    scene_image_counts: dict[str, int] = {}
+    repo_root = Path(__file__).resolve().parents[1]
+
+    for result in results:
+        if result.get("skipped"):
+            continue
+        app_type = str(result.get("application_type") or "unknown")
+        app_counts[app_type] += 1
+        scene_id = result.get("scene_id") or result.get("failure_target") or result.get("task_id")
+        if scene_id:
+            scene_by_app[app_type].add(str(scene_id))
+        image_path = result.get("image_path")
+        if image_path:
+            image_paths.append(str(image_path))
+            path = Path(image_path)
+            abs_path = path if path.is_absolute() else repo_root / path
+            scene_dir = abs_path.parent
+            if scene_dir.exists() and scene_dir.is_dir():
+                key = scene_dir.name
+                scene_image_counts[key] = sum(
+                    1 for p in scene_dir.iterdir()
+                    if p.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"}
+                )
+
+    unique_image_paths = sorted(set(image_paths))
+    existing_images = []
+    missing_images = []
+    for image_path in unique_image_paths:
+        path = Path(image_path)
+        abs_path = path if path.is_absolute() else repo_root / path
+        if abs_path.exists():
+            existing_images.append(image_path)
+        else:
+            missing_images.append(image_path)
+
+    target_shortfalls = {
+        scene: {"image_count": count, "target_min": 8}
+        for scene, count in sorted(scene_image_counts.items())
+        if count < 8
+    }
+
+    return {
+        "application_type_count": dict(app_counts.most_common()),
+        "scene_count_per_application": {
+            app_type: len(scenes)
+            for app_type, scenes in sorted(scene_by_app.items())
+        },
+        "image_quality_coverage": {
+            "unique_referenced_images": len(unique_image_paths),
+            "existing_referenced_images": len(existing_images),
+            "missing_referenced_images": len(missing_images),
+            "missing_image_examples": missing_images[:12],
+            "scene_image_count_target": "at least 8 images per scene directory",
+            "scene_image_count_shortfalls": target_shortfalls,
+        },
+        "required_event_coverage": aggregate.get("application_coverage_summary", {}).get("required_event_coverage", {}),
+    }
 
 
 def _failure_taxonomy(results: list[dict]) -> dict:
@@ -323,8 +459,7 @@ def _failure_taxonomy(results: list[dict]) -> dict:
         app_score = _application_score(result)
         if app_score is not None and app_score < CONFIG["low_axis_threshold"]:
             add("low_industrial_application_usefulness", task_id)
-            details = result.get("application_usefulness_details") or {}
-            for mode in (details.get("failure_modes") or [])[:3]:
+            for mode in _infer_application_failures(result):
                 add(f"application_failure:{mode}", task_id)
 
         operators = (result.get("operator_evidence") or {}).get("operators") or {}
@@ -431,6 +566,12 @@ def generate_diagnostic_report(model: str, aggregate: dict, sample_results: list
             "num_samples_total": len(sample_results),
             "num_samples_completed": len(completed),
             "num_samples_skipped": len(sample_results) - len(completed),
+            "technical_score": aggregate.get("technical_score"),
+            "application_score": aggregate.get("application_score"),
+            "ranking_score": aggregate.get("ranking_score"),
+            "strict_pass_rate": aggregate.get("strict_pass_rate"),
+            "functional_pass_rate": aggregate.get("functional_pass_rate"),
+            "application_pass_rate": aggregate.get("application_pass_rate"),
             "weakest_axes": weakest_axes[:5],
         },
         "axis_statistics": axis_stats,
@@ -449,6 +590,7 @@ def generate_diagnostic_report(model: str, aggregate: dict, sample_results: list
         "statistical_uncertainty": _statistical_uncertainty_report(aggregate),
         "pass_rate_report": _pass_rate_report(aggregate),
         "application_value_report": _application_value_report(aggregate, completed),
+        "dataset_coverage_report": _dataset_coverage_report(completed, aggregate),
         "reference_motion_decomposition": _reference_motion_decomposition_report(aggregate),
         "scoring_validity": aggregate.get("scoring_validity", {}),
         "run_metadata": aggregate.get("run_metadata", {}),

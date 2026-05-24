@@ -431,7 +431,23 @@ class TestScoring:
         )
         assert APPLICATION_USEFULNESS not in result["axis_scores"]
         assert result["application_usefulness_score"] == 30.0
+        assert result["application_score"] == 30.0
         assert result["weighted_score"] == pytest.approx(80.0)
+
+    def test_per_sample_score_blends_application_usefulness_and_event_coverage(self):
+        result = score_sample(
+            {
+                INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80,
+                TEMPORAL_CONSISTENCY: 80,
+                PHYSICAL_PLAUSIBILITY: 80,
+                REFERENCE_AND_MOTION_FIDELITY: 80,
+                GEOMETRIC_INTEGRITY: 80,
+                APPLICATION_USEFULNESS: 50,
+            },
+            observable_event_coverage=90,
+        )
+        assert result["application_score"] == pytest.approx(62.0)
+        assert result["observable_event_coverage"] == 90.0
 
     def test_aggregate(self):
         """aggregate_scores should classify viewpoint motion fidelity tier and produce overall > 0."""
@@ -475,6 +491,9 @@ class TestScoring:
         assert result["strict_pass_rate"] == 1.0
         assert result["gated_score"] == 48.75
         assert result["overall"] == result["task_conditioned_score"]
+        assert result["technical_score"] == result["task_conditioned_score"]
+        assert result["application_score"] == 100.0
+        assert result["ranking_score_ci95"]["n"] == 2
         assert result["overall"] < 80.0
         assert result["functional_pass_rate"] == 1.0
         assert result["axis_pass_rates"][GEOMETRIC_INTEGRITY]["pass_rate"] == 1.0
@@ -513,6 +532,7 @@ class TestScoring:
         ])
         assert result["overall"] == pytest.approx(80.0)
         assert result["application_usefulness_score"] == 20.0
+        assert result["application_score"] == 20.0
         assert result["application_pass_rate"]["pass_rate"] == 0.0
         assert result["ranking_score"] == pytest.approx(48.0)
         assert result["application_type_breakdown"]["inspection_and_maintenance"]["count"] == 1

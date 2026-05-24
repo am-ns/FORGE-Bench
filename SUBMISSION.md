@@ -109,6 +109,11 @@ Contains:
 - `relax_score_ci95` - deterministic bootstrap 95% confidence interval for `relax_score`
 - `task_conditioned_score` - bottleneck-sensitive headline score using arithmetic/harmonic blending plus task-critical penalties
 - `task_conditioned_score_ci95` - deterministic bootstrap 95% confidence interval for `task_conditioned_score`
+- `technical_score` - formal three-layer score alias for the five-axis task-conditioned technical score
+- `technical_score_ci95` - bootstrap 95% confidence interval for `technical_score`
+- `application_score` - application value score, combining application usefulness and observable event coverage when available
+- `application_score_ci95` - bootstrap 95% confidence interval for `application_score`
+- `observable_event_coverage` - mean coverage of required observable events returned by the application judge
 - `complete_case_relax_score` - mean score restricted to samples with all five required public axes
 - `complete_case_relax_score_ci95` - bootstrap 95% confidence interval for the complete-case score
 - `strict_pass_rate` - fraction of samples where all present axes clear threshold
@@ -118,6 +123,7 @@ Contains:
 - `constraint_adjusted_score` - penalty-adjusted score with task constraints and hard-cap severity multipliers
 - `constraint_adjusted_score_ci95` - deterministic bootstrap 95% confidence interval for the ranking score
 - `ranking_score` - leaderboard sorting score, currently equal to `constraint_adjusted_score`
+- `ranking_score_ci95` - bootstrap 95% confidence interval for `ranking_score`
 - `gated_score` - legacy diagnostic task-aware motion/operator-risk score
 - `overall` - paper-facing model ability score, currently aligned to `task_conditioned_score`
 - `viewpoint_motion_tier` - one of `none`, `weak`, `moderate`, `full`
@@ -161,9 +167,14 @@ ranking score is a penalty-adjusted composite:
 ```text
 constraint_adjusted_score =
   task_conditioned_score
+  * (0.50 + 0.50 * application_score / 100)
   * (0.50 + 0.50 * constraint_score / 100)
   * (0.50 + 0.50 * hard_constraint_cap / 100)
 ```
+
+`application_score = 0.7 * application_usefulness + 0.3 * observable_event_coverage`
+when event coverage is returned by the application judge; otherwise it falls
+back to application usefulness.
 
 The adjustment treats task constraints as multiplicative penalties, so it can
 only lower the model-led score, never raise it. The weights come from the

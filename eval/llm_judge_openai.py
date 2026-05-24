@@ -108,6 +108,19 @@ def _count_tokens(response) -> int:
 
 
 def _json_output_instruction(axis: str) -> str:
+    if axis == "application usefulness":
+        return (
+            "Return exactly one JSON object and no markdown. "
+            "Schema: {\"score\": <integer 0-100>, "
+            "\"observable_event_coverage\": <integer 0-100>, "
+            "\"required_event_checks\": [{\"event\": \"short event text\", \"present\": <true|false>, \"evidence\": \"brief visible evidence\"}], "
+            "\"reasoning\": \"concise application evidence\", "
+            "\"failure_modes\": [\"one or more of: missing_required_event, unclear_hazard_source, "
+            "unobservable_decision_element, misleading_safety_response, incomplete_event_loop, "
+            "ambiguous_spatial_relationship, application_objective_not_supported\"], "
+            "\"confidence\": <number 0-1>, \"evidence_frames\": [<frame indices>]}. "
+            "Scores above 80 require all decision-critical events to be visible; scores below 60 should name the blocking application failure."
+        )
     return (
         "Return exactly one JSON object and no markdown. "
         f"Schema: {{\"score\": <integer 0-100>, \"reasoning\": \"concise evidence for {axis}\", "
@@ -359,9 +372,12 @@ def judge_sample_temporal_consistency(
     raw = _extract_text(response)
     parsed = _parse_judge_json(raw)
     score = parsed.get("score") if parsed else _parse_score_0_100(raw)
+    event_coverage = parsed.get("observable_event_coverage") if parsed else None
 
     return {
         "score": score,
+        "observable_event_coverage": event_coverage,
+        "required_event_checks": parsed.get("required_event_checks", []) if parsed else [],
         "llm_parse_valid": parsed is not None and score is not None,
         "reasoning": parsed.get("reasoning", raw) if parsed else raw,
         "failure_modes": parsed.get("failure_modes", []) if parsed else [],
@@ -684,6 +700,13 @@ def _parse_judge_json(response: str) -> dict | None:
         payload["failure_modes"] = [str(payload["failure_modes"])]
     if not isinstance(payload.get("evidence_frames", []), list):
         payload["evidence_frames"] = []
+    if payload.get("observable_event_coverage") is not None:
+        try:
+            payload["observable_event_coverage"] = max(0, min(100, int(payload["observable_event_coverage"])))
+        except Exception:
+            payload["observable_event_coverage"] = None
+    if not isinstance(payload.get("required_event_checks", []), list):
+        payload["required_event_checks"] = []
     return payload
 
 

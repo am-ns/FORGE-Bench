@@ -287,12 +287,43 @@ def _axis_pass_rates(completed: list[dict]) -> dict:
 
 def _application_score(result: dict) -> float | None:
     scored = result.get("scored", {})
-    score = scored.get("application_usefulness_score", result.get("application_usefulness_score"))
+    score = scored.get("application_score")
     if score is None:
-        score = (scored.get("application_axis_scores") or {}).get(APPLICATION_USEFULNESS)
+        usefulness = scored.get("application_usefulness_score", result.get("application_usefulness_score"))
+        if usefulness is None:
+            usefulness = (scored.get("application_axis_scores") or {}).get(APPLICATION_USEFULNESS)
+        coverage = scored.get("observable_event_coverage", result.get("observable_event_coverage"))
+        if usefulness is not None:
+            score = (
+                0.7 * float(usefulness) + 0.3 * float(coverage)
+                if coverage is not None
+                else usefulness
+            )
     if score is None:
         return None
     return max(0.0, min(100.0, float(score)))
+
+
+def _application_usefulness_score(result: dict) -> float | None:
+    scored = result.get("scored", {})
+    score = scored.get("application_usefulness_score", result.get("application_usefulness_score"))
+    if score is None:
+        score = (scored.get("application_axis_scores") or {}).get(APPLICATION_USEFULNESS)
+    return max(0.0, min(100.0, float(score))) if score is not None else None
+
+
+def _observable_event_coverage(result: dict) -> float | None:
+    scored = result.get("scored", {})
+    score = scored.get("observable_event_coverage", result.get("observable_event_coverage"))
+    if score is not None:
+        return max(0.0, min(100.0, float(score)))
+    details = result.get("application_usefulness_details") or {}
+    checks = details.get("required_event_checks") or []
+    if checks:
+        total = len(checks)
+        present = sum(1 for item in checks if item.get("present") is True)
+        return 100.0 * present / total
+    return None
 
 
 def _application_pass_rate(completed: list[dict]) -> dict:
@@ -316,7 +347,7 @@ def _application_type_breakdown(completed: list[dict]) -> dict:
     return {
         app_type: {
             "count": len(values),
-            "application_usefulness_score": float(np.mean(values)),
+            "application_score": float(np.mean(values)),
             "pass_rate": float(np.mean([v >= CONFIG["strict_axis_threshold"] for v in values])),
             "ci95": _mean_confidence_interval(values),
         }
@@ -528,20 +559,56 @@ def _mean_confidence_interval(
     }
 
 
-def _group_confidence_intervals(results: list[dict], group_key: str) -> dict:
+def _group_confidence_intervals(results: list[dict], group_key: str, score_fn=None) -> dict:
     """Bootstrap CIs for weighted scores grouped by a result field."""
     grouped: dict[str, list[float]] = {}
     for result in results:
         group = result.get(group_key)
         if group is None:
             continue
-        score = result.get("scored", {}).get("weighted_score")
+        score = score_fn(result) if score_fn is not None else result.get("scored", {}).get("weighted_score")
         if score is None:
             continue
         grouped.setdefault(str(group), []).append(float(score))
     return {
         group: _mean_confidence_interval(values)
         for group, values in sorted(grouped.items())
+    }
+
+
+def _application_coverage_summary(completed: list[dict]) -> dict:
+    app_counts: dict[str, int] = {}
+    scenes_by_app: dict[str, set[str]] = {}
+    coverage_values = []
+    missing_event_count = 0
+    checked_event_count = 0
+    for result in completed:
+        app_type = str(result.get("application_type") or "unknown")
+        app_counts[app_type] = app_counts.get(app_type, 0) + 1
+        scene_id = result.get("scene_id") or result.get("failure_target") or result.get("task_id")
+        if scene_id:
+            scenes_by_app.setdefault(app_type, set()).add(str(scene_id))
+        coverage = _observable_event_coverage(result)
+        if coverage is not None:
+            coverage_values.append(coverage)
+        checks = (result.get("application_usefulness_details") or {}).get("required_event_checks") or []
+        for check in checks:
+            checked_event_count += 1
+            if check.get("present") is False:
+                missing_event_count += 1
+    return {
+        "application_type_count": dict(sorted(app_counts.items())),
+        "scene_count_per_application": {
+            app_type: len(scenes)
+            for app_type, scenes in sorted(scenes_by_app.items())
+        },
+        "required_event_coverage": {
+            "mean": float(np.mean(coverage_values)) if coverage_values else None,
+            "ci95": _mean_confidence_interval(coverage_values),
+            "samples_with_event_coverage": len(coverage_values),
+            "checked_required_events": checked_event_count,
+            "missing_required_events": missing_event_count,
+        },
     }
 
 
@@ -700,6 +767,8 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
             "relax_score_ci95": {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0},
             "task_conditioned_score": 0.0,
             "task_conditioned_score_ci95": {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0},
+            "technical_score": 0.0,
+            "technical_score_ci95": {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0},
             "complete_case_relax_score": None,
             "complete_case_relax_score_ci95": {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0},
             "strict_pass_rate": 0.0,
@@ -712,8 +781,12 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
             "constraint_adjusted_score_ci95": {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0},
             "ranking_score": 0.0,
             "application_usefulness_score": None,
+            "application_score": None,
+            "application_score_ci95": {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0},
+            "observable_event_coverage": None,
             "application_pass_rate": {"threshold": CONFIG["strict_axis_threshold"], "pass_count": 0, "total": 0, "pass_rate": None},
             "application_type_breakdown": {},
+            "application_coverage_summary": {},
             "constraint_adjustment_summary": {},
             "axis_score_ci95": {},
             "stratified_score_ci95": {},
@@ -777,6 +850,8 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     ]
     task_conditioned_scores = [_task_conditioned_score(r) for r in completed]
     application_scores = [score for score in (_application_score(r) for r in completed) if score is not None]
+    application_usefulness_scores = [score for score in (_application_usefulness_score(r) for r in completed) if score is not None]
+    event_coverage_scores = [score for score in (_observable_event_coverage(r) for r in completed) if score is not None]
     complete_case_results = [r for r in completed if _has_required_axes(r)]
     complete_case_weighted_scores = [
         float(r["scored"].get("weighted_score", 0.0))
@@ -811,6 +886,8 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     aggregate["relax_score_ci95"] = _mean_confidence_interval(weighted_scores)
     aggregate["task_conditioned_score"] = float(np.mean(task_conditioned_scores))
     aggregate["task_conditioned_score_ci95"] = _mean_confidence_interval(task_conditioned_scores)
+    aggregate["technical_score"] = aggregate["task_conditioned_score"]
+    aggregate["technical_score_ci95"] = aggregate["task_conditioned_score_ci95"]
     aggregate["complete_case_relax_score"] = (
         float(np.mean(complete_case_weighted_scores))
         if complete_case_weighted_scores else None
@@ -825,10 +902,16 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     aggregate["constraint_adjusted_score"] = float(np.mean(constraint_adjusted_scores))
     aggregate["constraint_adjusted_score_ci95"] = _mean_confidence_interval(constraint_adjusted_scores)
     aggregate["ranking_score"] = aggregate["constraint_adjusted_score"]
-    aggregate["application_usefulness_score"] = float(np.mean(application_scores)) if application_scores else None
-    aggregate["application_usefulness_score_ci95"] = _mean_confidence_interval(application_scores)
+    aggregate["ranking_score_ci95"] = aggregate["constraint_adjusted_score_ci95"]
+    aggregate["application_score"] = float(np.mean(application_scores)) if application_scores else None
+    aggregate["application_score_ci95"] = _mean_confidence_interval(application_scores)
+    aggregate["application_usefulness_score"] = float(np.mean(application_usefulness_scores)) if application_usefulness_scores else None
+    aggregate["application_usefulness_score_ci95"] = _mean_confidence_interval(application_usefulness_scores)
+    aggregate["observable_event_coverage"] = float(np.mean(event_coverage_scores)) if event_coverage_scores else None
+    aggregate["observable_event_coverage_ci95"] = _mean_confidence_interval(event_coverage_scores)
     aggregate["application_pass_rate"] = _application_pass_rate(completed)
     aggregate["application_type_breakdown"] = _application_type_breakdown(completed)
+    aggregate["application_coverage_summary"] = _application_coverage_summary(completed)
     aggregate["constraint_adjustment_summary"] = {
         "formula": "task_conditioned_score * (0.50 + 0.50*application_score/100) * (0.50 + 0.50*constraint_score/100) * (0.50 + 0.50*hard_constraint_cap/100)",
         "policy": "application_and_constraint_adjusted_composite_ranking",
@@ -872,6 +955,14 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         for axis in sorted(axis_keys)
     }
     aggregate["stratified_score_ci95"] = {
+        "technical_score_by_domain": _group_confidence_intervals(completed, "domain", _task_conditioned_score),
+        "technical_score_by_task_category": _group_confidence_intervals(completed, "task_category", _task_conditioned_score),
+        "technical_score_by_application_type": _group_confidence_intervals(completed, "application_type", _task_conditioned_score),
+        "application_score_by_application_type": _group_confidence_intervals(completed, "application_type", _application_score),
+        "application_score_by_domain": _group_confidence_intervals(completed, "domain", _application_score),
+        "ranking_score_by_domain": _group_confidence_intervals(
+            completed, "domain", lambda r: _constraint_adjustment(r)["constraint_adjusted_score"]
+        ),
         "domain": _group_confidence_intervals(completed, "domain"),
         "task_category": _group_confidence_intervals(completed, "task_category"),
         "application_type": _group_confidence_intervals(completed, "application_type"),
@@ -894,6 +985,8 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         "heuristic_gates_in_overall": False,
         "score_floors_in_headline": False,
         "status": "headline_uses_task_conditioned_bottleneck_sensitive_score",
+        "technical_score_formula": "technical_score = task_conditioned_score over the five technical axes",
+        "application_score_formula": "application_score = 0.7*application_usefulness + 0.3*observable_event_coverage when event coverage is available; otherwise application_usefulness",
         "task_conditioned_score_formula": "0.55*weighted_arithmetic_mean + 0.45*weighted_harmonic_mean, with task-critical bottleneck penalty",
         "constraint_adjusted_score_formula": "task_conditioned_score * (0.50 + 0.50*application_score/100) * (0.50 + 0.50*constraint_score/100) * (0.50 + 0.50*hard_constraint_cap/100)",
         "scores_excluded_from_overall": [
@@ -901,6 +994,7 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
             "operator_risk_adjusted_score",
             "gated_score",
             "constraint_adjusted_score",
+            "application_score",
             "application_usefulness_score",
         ],
         "diagnostic_scores_excluded_from_overall": [
