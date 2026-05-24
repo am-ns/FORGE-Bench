@@ -29,6 +29,7 @@ from eval.visual_fidelity.eval import evaluate_reference_and_motion_fidelity
 from eval.viewpoint_motion_fidelity.eval import compute_viewpoint_motion_fidelity
 from eval.operator_evidence import evaluate_operator_evidence
 from eval.axis_registry import (
+    APPLICATION_USEFULNESS,
     GEOMETRIC_INTEGRITY,
     INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
     PHYSICAL_PLAUSIBILITY,
@@ -39,6 +40,7 @@ from eval.axis_registry import (
     axis_weights_for,
     task_profile_for,
 )
+from eval.application_taxonomy import enrich_application_fields
 from scoring.per_sample import score_sample
 from scoring.aggregate import aggregate_sample_results
 from scoring.report import generate_diagnostic_report, generate_report
@@ -177,9 +179,9 @@ def evaluate_geometric_integrity_operator_evidence(
 # LLM judge factory
 
 def _make_llm_judges(use_llm: bool):
-    """Return model judges for the five public axes, or None for each."""
+    """Return model judges for public axes, or None for each."""
     if not use_llm:
-        return None, None, None, None, None
+        return None, None, None, None, None, None
     try:
         from eval.llm_judge import (
             judge_sample_industrial_logic_and_fact_alignment,
@@ -188,22 +190,27 @@ def _make_llm_judges(use_llm: bool):
             judge_sample_physical_plausibility,
             judge_sample_reference_and_motion_fidelity,
         )
+        try:
+            from eval.llm_judge import judge_sample_application_usefulness
+        except Exception:
+            judge_sample_application_usefulness = None
         return (
             judge_sample_industrial_logic_and_fact_alignment,
             judge_sample_geometric_integrity,
             judge_sample_temporal_consistency,
             judge_sample_physical_plausibility,
             judge_sample_reference_and_motion_fidelity,
+            judge_sample_application_usefulness,
         )
     except Exception as exc:
         logger.warning("Could not load LLM judges: %s - running CV-only", exc)
-        return None, None, None, None, None
+        return None, None, None, None, None, None
 
 
 def _make_llm_judges_openai(use_llm: bool):
     """Return OpenAI-compat judges or None for each."""
     if not use_llm:
-        return None, None, None, None, None
+        return None, None, None, None, None, None
     try:
         from eval.llm_judge_openai import (
             judge_sample_industrial_logic_and_fact_alignment,
@@ -211,6 +218,7 @@ def _make_llm_judges_openai(use_llm: bool):
             judge_sample_temporal_consistency,
             judge_sample_physical_plausibility,
             judge_sample_reference_and_motion_fidelity,
+            judge_sample_application_usefulness,
         )
         return (
             judge_sample_industrial_logic_and_fact_alignment,
@@ -218,10 +226,11 @@ def _make_llm_judges_openai(use_llm: bool):
             judge_sample_temporal_consistency,
             judge_sample_physical_plausibility,
             judge_sample_reference_and_motion_fidelity,
+            judge_sample_application_usefulness,
         )
     except Exception as exc:
         logger.warning("Could not load OpenAI-compat judges: %s - running CV-only", exc)
-        return None, None, None, None, None
+        return None, None, None, None, None, None
 
 
 def _sample_scoring_validity(axis_scores: dict[str, float], detail_blocks: dict[str, dict]) -> dict:
@@ -232,6 +241,7 @@ def _sample_scoring_validity(axis_scores: dict[str, float], detail_blocks: dict[
         PHYSICAL_PLAUSIBILITY,
         TEMPORAL_CONSISTENCY,
         REFERENCE_AND_MOTION_FIDELITY,
+        APPLICATION_USEFULNESS,
     }
     missing = sorted(required - set(axis_scores))
     invalid_judges = []
@@ -263,7 +273,9 @@ def evaluate_sample(
     judge_temporal_consistency,
     judge_physical_plausibility,
     judge_reference_and_motion_fidelity,
+    judge_application_usefulness,
 ) -> dict:
+    sample = enrich_application_fields(sample)
     task_id = sample["task_id"]
     domain = sample["domain"]
     primary_topology = sample.get("primary_topology") or sample.get("topology_type", "kinematic")
@@ -432,6 +444,17 @@ def evaluate_sample(
     elif not reference_and_motion_fidelity_result:
         reference_and_motion_fidelity_result = {"reference_and_motion_fidelity_score": None, "computer_vision_structural_similarity": None, "computer_vision_histogram_correlation": None}
 
+    # Application usefulness: VLM-based, deliberately separate from the five technical axes.
+    application_usefulness_score = None
+    application_usefulness_details: dict = {}
+    if judge_application_usefulness is not None:
+        try:
+            r = judge_application_usefulness(frames, sample_meta=sample_for_judge)
+            application_usefulness_score = r.get("score")
+            application_usefulness_details = r
+        except Exception as exc:
+            logger.warning("application usefulness LLM failed for %s: %s", task_id, exc)
+
     # Build public full-name axis scores for per-sample scoring.
     axis_scores: dict[str, float] = {}
     if industrial_logic_and_fact_alignment_score is not None:
@@ -446,12 +469,15 @@ def evaluate_sample(
         axis_scores[VIEWPOINT_MOTION_FIDELITY] = float(viewpoint_motion_result["viewpoint_motion_score"])
     if geometric_integrity_model_score is not None:
         axis_scores[GEOMETRIC_INTEGRITY] = float(geometric_integrity_model_score)
+    if application_usefulness_score is not None:
+        axis_scores[APPLICATION_USEFULNESS] = float(application_usefulness_score)
 
     detail_blocks = {
         "temporal_consistency": temporal_consistency_result,
         "physical_plausibility": physical_plausibility_details,
         "reference_and_motion_fidelity": reference_and_motion_fidelity_result,
         "geometric_integrity": geometric_integrity_model_details,
+        "application_usefulness": application_usefulness_details,
     }
     sample_validity = _sample_scoring_validity(axis_scores, detail_blocks)
 
@@ -475,6 +501,12 @@ def evaluate_sample(
         "domain": domain,
         "task_category": task_category,
         "application_value": sample.get("application_value") or task_profile.get("application_value"),
+        "application_type": sample.get("application_type"),
+        "application_objective": sample.get("application_objective"),
+        "required_observable_events": sample.get("required_observable_events", []),
+        "decision_relevant_elements": sample.get("decision_relevant_elements", []),
+        "application_success_criteria": sample.get("application_success_criteria", []),
+        "misleading_failure_modes": sample.get("misleading_failure_modes", []),
         "primary_topology": primary_topology,
         "sub_topology": sub_topology,
         "motion_type": sample.get("motion_type"),
@@ -504,6 +536,8 @@ def evaluate_sample(
         "physical_plausibility_details": physical_plausibility_details,
         "reference_and_motion_fidelity_score": reference_and_motion_fidelity_result.get("reference_and_motion_fidelity_score"),
         "reference_and_motion_fidelity_details": reference_and_motion_fidelity_result,
+        "application_usefulness_score": application_usefulness_score,
+        "application_usefulness_details": application_usefulness_details,
         "industrial_logic_and_fact_alignment_score": industrial_logic_and_fact_alignment_score,
         "industrial_logic_and_fact_alignment_details": industrial_logic_and_fact_alignment_details,
         "scored": scored,
@@ -567,6 +601,7 @@ def main() -> None:
             judge_temporal_consistency,
             judge_physical_plausibility,
             judge_reference_and_motion_fidelity,
+            judge_application_usefulness,
         ) = _make_llm_judges_openai(use_llm)
     else:
         use_llm = not args.no_llm and bool(os.environ.get("ANTHROPIC_API_KEY"))
@@ -578,6 +613,7 @@ def main() -> None:
             judge_temporal_consistency,
             judge_physical_plausibility,
             judge_reference_and_motion_fidelity,
+            judge_application_usefulness,
         ) = _make_llm_judges(use_llm)
 
     out_dir = os.path.join(args.output_dir, args.model)
@@ -609,6 +645,7 @@ def main() -> None:
                 judge_temporal_consistency,
                 judge_physical_plausibility,
                 judge_reference_and_motion_fidelity,
+                judge_application_usefulness,
             )
         except Exception:
             logger.exception("Error evaluating %s", task_id)

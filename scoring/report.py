@@ -7,6 +7,7 @@ import sys
 from collections import Counter, defaultdict
 
 from eval.axis_registry import (
+    APPLICATION_USEFULNESS,
     GEOMETRIC_INTEGRITY,
     INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
     PHYSICAL_PLAUSIBILITY,
@@ -200,6 +201,58 @@ def _operator_evidence_diagnostics(results: list[dict]) -> dict:
     }
 
 
+def _application_score(result: dict) -> float | None:
+    scored = result.get("scored", {})
+    score = scored.get("application_usefulness_score", result.get("application_usefulness_score"))
+    if score is None:
+        score = (scored.get("application_axis_scores") or {}).get(APPLICATION_USEFULNESS)
+    return float(score) if score is not None else None
+
+
+def _application_value_report(aggregate: dict, results: list[dict]) -> dict:
+    values = []
+    by_type: dict[str, list[float]] = defaultdict(list)
+    failure_modes: Counter[str] = Counter()
+    worst = []
+    best = []
+    for result in results:
+        if result.get("skipped"):
+            continue
+        score = _application_score(result)
+        if score is None:
+            continue
+        values.append(score)
+        app_type = result.get("application_type") or "unknown"
+        by_type[str(app_type)].append(score)
+        details = result.get("application_usefulness_details") or {}
+        for mode in details.get("failure_modes", []) or []:
+            failure_modes[str(mode)] += 1
+        item = {
+            "task_id": result.get("task_id"),
+            "domain": result.get("domain"),
+            "application_type": app_type,
+            "score": _round_or_none(score),
+        }
+        worst.append(item)
+        best.append(item)
+    return {
+        "application_usefulness_score": aggregate.get("application_usefulness_score"),
+        "application_usefulness_score_ci95": aggregate.get("application_usefulness_score_ci95"),
+        "application_pass_rate": aggregate.get("application_pass_rate"),
+        "application_type_breakdown": aggregate.get("application_type_breakdown", {
+            app_type: {
+                "count": len(scores),
+                "mean_application_score": _round_or_none(_mean(scores)),
+                "low_score_rate": _round_or_none(sum(s < CONFIG["low_axis_threshold"] for s in scores) / len(scores)),
+            }
+            for app_type, scores in sorted(by_type.items())
+        }),
+        "common_application_failure_modes": dict(failure_modes.most_common(12)),
+        "least_useful_samples": sorted(worst, key=lambda item: item["score"] if item["score"] is not None else 101)[:8],
+        "most_useful_samples": sorted(best, key=lambda item: item["score"] if item["score"] is not None else -1, reverse=True)[:8],
+    }
+
+
 def _constraint_adjustment_diagnostics(aggregate: dict) -> dict:
     """Expose constraint-adjusted ranking metadata from aggregate results."""
     return {
@@ -267,6 +320,12 @@ def _failure_taxonomy(results: list[dict]) -> dict:
             add("physical_implausibility", task_id)
         if axes.get(INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT, 100.0) < CONFIG["low_axis_threshold"]:
             add("industrial_causal_or_compliance_failure", task_id)
+        app_score = _application_score(result)
+        if app_score is not None and app_score < CONFIG["low_axis_threshold"]:
+            add("low_industrial_application_usefulness", task_id)
+            details = result.get("application_usefulness_details") or {}
+            for mode in (details.get("failure_modes") or [])[:3]:
+                add(f"application_failure:{mode}", task_id)
 
         operators = (result.get("operator_evidence") or {}).get("operators") or {}
         if (operators.get("local_region_lock") or {}).get("risk") == "global_regeneration":
@@ -377,6 +436,7 @@ def generate_diagnostic_report(model: str, aggregate: dict, sample_results: list
         "axis_statistics": axis_stats,
         "breakdowns": {
             "by_domain": _group_scores(completed, "domain"),
+            "by_application_type": _group_scores(completed, "application_type"),
             "by_primary_topology": _group_scores(completed, "primary_topology"),
             "by_sub_topology": _group_scores(completed, "sub_topology"),
             "by_motion_type": _group_scores(completed, "motion_type"),
@@ -388,6 +448,7 @@ def generate_diagnostic_report(model: str, aggregate: dict, sample_results: list
         "constraint_adjustment_diagnostics": _constraint_adjustment_diagnostics(aggregate),
         "statistical_uncertainty": _statistical_uncertainty_report(aggregate),
         "pass_rate_report": _pass_rate_report(aggregate),
+        "application_value_report": _application_value_report(aggregate, completed),
         "reference_motion_decomposition": _reference_motion_decomposition_report(aggregate),
         "scoring_validity": aggregate.get("scoring_validity", {}),
         "run_metadata": aggregate.get("run_metadata", {}),

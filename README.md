@@ -5,7 +5,8 @@ Factory-Oriented Reasoning and Generation Evaluation for Industrial Video Genera
 FORGE-Bench evaluates image-to-video models on industrial videos where a clip can
 look plausible but still be unsafe, physically wrong, or useless for inspection.
 The benchmark is now organized around five scenario domains, five abstract task
-categories, and five full-name evaluation axes.
+categories, five technical evaluation axes, and one separate industrial
+application-usefulness axis.
 
 ```text
 scenario domain -> abstract task -> reference image -> executable prompt
@@ -14,15 +15,15 @@ scenario domain -> abstract task -> reference image -> executable prompt
 
 ## Dataset
 
-The current annotation file contains 490 samples across five scenario domains.
+The current annotation file contains 528 samples across five scenario domains.
 
 | Domain | Samples | Coverage Focus |
 |---|---:|---|
-| `visual_security` | 100 | Security monitoring, restricted-zone intrusion, missing protective equipment, unsafe vehicle behavior, and compliance consequences. |
-| `embodied_robotics` | 90 | Robotic-arm manipulation, mobile or legged robot navigation, first-person robot viewpoint, and light-curtain emergency stops. |
-| `heavy_load_construction` | 100 | Excavators, crawler cranes, wire-rope load paths, muddy ground contact, gantry or bridge-segment alignment, and heavy-load failure. |
+| `visual_security` | 113 | Security monitoring, restricted-zone intrusion, missing protective equipment, unsafe vehicle behavior, and compliance consequences. |
+| `embodied_robotics` | 93 | Robotic-arm manipulation, mobile or legged robot navigation, first-person robot viewpoint, and light-curtain emergency stops. |
+| `heavy_load_construction` | 114 | Excavators, crawler cranes, wire-rope load paths, muddy ground contact, gantry or bridge-segment alignment, and heavy-load failure. |
 | `precision_defect_gen` | 100 | Circuit-board bridge defects, endoscopic crack inspection, gear damage, multi-axis machining, cutting-fluid spray, and tube-bundle viewpoint motion. |
-| `extreme_emergency` | 100 | High-pressure leakage, flash fire spread, dust explosion, tower icing collapse, and emergency-state causal evolution. |
+| `extreme_emergency` | 108 | High-pressure leakage, flash fire spread, dust explosion, tower icing collapse, and emergency-state causal evolution. |
 
 The benchmark uses existing repository images as reference anchors. The
 annotation layer is responsible for the new domain/task semantics, prompts,
@@ -69,6 +70,7 @@ not use them.
 | `physical_plausibility` | Physics and dynamics plausibility | Classical mechanics and dynamics checks for gravity, rigid-body contact, penetration, pressure diffusion direction, fluid flow, heat spread, and true load paths. |
 | `temporal_consistency` | Long-horizon temporal consistency | Identity, material, state, anti-deformation, anti-melting, and anti-flicker checks across sampled frames. |
 | `reference_and_motion_fidelity` | Reference and motion fidelity | Spatial mapping, camera-control execution, static-video gating for required camera motion, and region-isolated fidelity where only the requested defect/failure region may change. |
+| `application_usefulness` | Industrial application usefulness | Evaluates whether the video is practically usable for the stated workflow: safety training, emergency rehearsal, robotic operation, inspection/maintenance, heavy-operation risk assessment, or defect/QC data generation. This axis is reported separately and used as a ranking penalty, not folded into the five-axis technical mean. |
 
 `viewpoint_motion_fidelity` is retained as a motion gate component and operator
 evidence for the model judge. The industrial constraint score is reported as
@@ -94,7 +96,8 @@ The evaluation prompt follows this structure:
 7. `Physical plausibility check`: dynamics, loads, pressure, fluid, heat, and contact constraints.
 8. `Temporal consistency check`: identity, material, state, and event continuity.
 9. `Reference and motion fidelity check`: reference identity, perspective, background, and camera control.
-10. `Execution constraints` and `Scoring emphasis`.
+10. `Application objective`: required observable events, decision-relevant elements, success criteria, and misleading failure modes.
+11. `Execution constraints` and `Scoring emphasis`.
 
 ## Scoring Pipeline
 
@@ -106,7 +109,7 @@ video frames
   |     local-region locking, fluid/plume continuity, rigid-joint tracking,
   |     safety response motion, and camera-control measurements
   |
-  +-- five core evaluation axes
+  +-- five technical evaluation axes plus application usefulness
   |     model judges with structured operator evidence and audited frame indices
   |
   |     +-- industrial_logic_and_fact_alignment
@@ -134,7 +137,8 @@ video frames
   |           region-isolated fidelity for local defects/failures
   |
   +-- single sample scoring
-  |     dynamic task weights, raw axis scores, task-aware constraint evidence
+  |     dynamic task weights, raw technical axis scores, application score,
+  |     task-aware constraint evidence
   |     operator evidence is reported and supplied to judges, not used as a
   |     standalone replacement for model-led axis scoring
   |
@@ -151,7 +155,7 @@ video frames
 Core formula:
 
 ```text
-relax_score = task_weighted_arithmetic_mean(five public axes)
+relax_score = task_weighted_arithmetic_mean(five technical axes)
 
 task_conditioned_score =
   bottleneck_penalty(
@@ -175,13 +179,17 @@ The engineering ranking score is a penalty-adjusted composite:
 ```text
 constraint_adjusted_score =
   task_conditioned_score
+  * (0.50 + 0.50 * application_score / 100)
   * (0.50 + 0.50 * constraint_score / 100)
   * (0.50 + 0.50 * hard_constraint_cap / 100)
 
 ranking_score = constraint_adjusted_score
 ```
 
-`task_conditioned_score` is the bottleneck-sensitive five-axis sample score.
+`task_conditioned_score` is the bottleneck-sensitive five-axis technical score.
+`application_score` is the model-judged industrial usefulness score; it lowers
+ranking when the clip is not useful for the target workflow, but it does not
+hide which technical axis failed.
 `constraint_score` combines task-aware viewpoint motion fidelity and operator
 reliability when available. `hard_constraint_cap` is converted into a penalty
 multiplier rather than used as a direct min() replacement, so the ranking score
@@ -193,7 +201,7 @@ model-led axis score.
 
 ### Operator Evidence
 
-FORGE keeps the five public axes model-led: the final axis scores are assigned
+FORGE keeps the five technical axes model-led: the final axis scores are assigned
 by the judge pipeline, with CV operators exposed as structured evidence rather
 than as independent replacements for the judge. The current evidence layer
 includes:
@@ -238,7 +246,7 @@ reports/image_search_prompts.md
 To search for one strict open-license reference image per sample, run:
 
 ```bash
-python scripts/find_reference_images.py --target 490 --search-limit 25
+python scripts/find_reference_images.py --target 528 --search-limit 25
 ```
 
 The finder writes candidates under `dataset/images_candidates/strict_open_license/`
@@ -305,13 +313,16 @@ Important aggregate fields:
 | `relax_score_ci95` | Deterministic bootstrap 95% confidence interval for `relax_score`. |
 | `task_conditioned_score` | Bottleneck-sensitive headline score using arithmetic/harmonic blending plus task-critical penalties. |
 | `task_conditioned_score_ci95` | Deterministic bootstrap 95% confidence interval for `task_conditioned_score`. |
-| `complete_case_relax_score` | Mean weighted score restricted to samples with all five required public axes present. |
+| `complete_case_relax_score` | Mean weighted score restricted to samples with all five technical axes plus application usefulness present. |
 | `complete_case_relax_score_ci95` | Bootstrap 95% confidence interval for the complete-case score. |
 | `strict_pass_rate` | Fraction of completed samples where all present axes pass thresholds. |
 | `functional_pass_rate` | Task-conditioned pass rate: critical axes must clear 60, non-critical axes must clear 45. |
 | `axis_pass_rates` | Per-axis pass counts and rates at the strict threshold. |
+| `application_usefulness_score` | Mean industrial application-usefulness score when the application judge is enabled. |
+| `application_pass_rate` | Fraction of application-judged samples at or above the strict threshold. |
+| `application_type_breakdown` | Application-usefulness scores split by safety training, emergency rehearsal, robotics operation, inspection/maintenance, heavy-operation risk, and defect/QC generation. |
 | `reference_motion_decomposition` | Separates reference preservation, motion control, and coupled reference-motion fidelity diagnostics. |
-| `constraint_adjusted_score` | Penalty-adjusted score combining `task_conditioned_score` with task constraints and hard-cap severity multipliers. |
+| `constraint_adjusted_score` | Penalty-adjusted score combining `task_conditioned_score` with application usefulness, task constraints, and hard-cap severity multipliers. |
 | `constraint_adjusted_score_ci95` | Deterministic bootstrap 95% confidence interval for the ranking score. |
 | `ranking_score` | Leaderboard sorting score, currently equal to `constraint_adjusted_score`. |
 | `motion_gated_score` | Legacy diagnostic score after heuristic task-aware motion gating; not used as `overall` or `ranking_score`. |

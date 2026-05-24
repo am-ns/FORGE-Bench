@@ -4,6 +4,7 @@
 import sys
 
 from eval.axis_registry import (
+    APPLICATION_USEFULNESS,
     GEOMETRIC_INTEGRITY,
     INDUSTRIAL_CONSTRAINT_SCORE,
     INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
@@ -58,6 +59,7 @@ AXIS_FLOORS = {
     GEOMETRIC_INTEGRITY: CONFIG["axis_floor_geometric_integrity"],
     INDUSTRIAL_CONSTRAINT_SCORE: CONFIG["axis_floor_geometric_integrity"],
     VIEWPOINT_MOTION_FIDELITY: CONFIG["axis_floor_viewpoint_motion"],
+    APPLICATION_USEFULNESS: CONFIG["axis_floor_default"],
 }
 
 STRICT_AXIS_THRESHOLDS = {
@@ -67,6 +69,7 @@ STRICT_AXIS_THRESHOLDS = {
     REFERENCE_AND_MOTION_FIDELITY: CONFIG["strict_axis_threshold"],
     GEOMETRIC_INTEGRITY: CONFIG["strict_axis_threshold"],
     INDUSTRIAL_CONSTRAINT_SCORE: CONFIG["strict_axis_threshold"],
+    APPLICATION_USEFULNESS: CONFIG["strict_axis_threshold"],
 }
 
 TASK_CRITICAL_AXES = {
@@ -279,6 +282,45 @@ def _axis_pass_rates(completed: list[dict]) -> dict:
             "pass_rate": float(np.mean([v >= CONFIG["strict_axis_threshold"] for v in values])) if values else 0.0,
         }
         for axis, values in sorted(axis_values.items())
+    }
+
+
+def _application_score(result: dict) -> float | None:
+    scored = result.get("scored", {})
+    score = scored.get("application_usefulness_score", result.get("application_usefulness_score"))
+    if score is None:
+        score = (scored.get("application_axis_scores") or {}).get(APPLICATION_USEFULNESS)
+    if score is None:
+        return None
+    return max(0.0, min(100.0, float(score)))
+
+
+def _application_pass_rate(completed: list[dict]) -> dict:
+    values = [score for score in (_application_score(r) for r in completed) if score is not None]
+    return {
+        "threshold": CONFIG["strict_axis_threshold"],
+        "pass_count": sum(v >= CONFIG["strict_axis_threshold"] for v in values),
+        "total": len(values),
+        "pass_rate": float(np.mean([v >= CONFIG["strict_axis_threshold"] for v in values])) if values else None,
+    }
+
+
+def _application_type_breakdown(completed: list[dict]) -> dict:
+    groups: dict[str, list[float]] = {}
+    for result in completed:
+        score = _application_score(result)
+        if score is None:
+            continue
+        app_type = result.get("application_type") or "unknown"
+        groups.setdefault(str(app_type), []).append(score)
+    return {
+        app_type: {
+            "count": len(values),
+            "application_usefulness_score": float(np.mean(values)),
+            "pass_rate": float(np.mean([v >= CONFIG["strict_axis_threshold"] for v in values])),
+            "ci95": _mean_confidence_interval(values),
+        }
+        for app_type, values in sorted(groups.items())
     }
 
 
@@ -511,6 +553,7 @@ def _scoring_validity_summary(completed: list[dict], axis_keys: set[str]) -> dic
         PHYSICAL_PLAUSIBILITY,
         TEMPORAL_CONSISTENCY,
         REFERENCE_AND_MOTION_FIDELITY,
+        APPLICATION_USEFULNESS,
     }
     missing_by_axis = {axis: 0 for axis in sorted(required_axes)}
     present_by_axis = {axis: 0 for axis in sorted(axis_keys | required_axes)}
@@ -536,13 +579,18 @@ def _scoring_validity_summary(completed: list[dict], axis_keys: set[str]) -> dic
         scores = scored.get("axis_scores", {})
         if scored.get("score_floor_applied"):
             floor_applied_count += 1
-        missing = required_axes - set(scores)
+        present = set(scores)
+        if _application_score(result) is not None:
+            present.add(APPLICATION_USEFULNESS)
+        missing = required_axes - present
         if missing:
             incomplete_samples += 1
         for axis in missing:
             missing_by_axis[axis] += 1
         for axis in scores:
             present_by_axis[axis] = present_by_axis.get(axis, 0) + 1
+        if _application_score(result) is not None:
+            present_by_axis[APPLICATION_USEFULNESS] = present_by_axis.get(APPLICATION_USEFULNESS, 0) + 1
 
         detail_fields = (
             "industrial_logic_and_fact_alignment_details",
@@ -550,6 +598,7 @@ def _scoring_validity_summary(completed: list[dict], axis_keys: set[str]) -> dic
             "physical_plausibility_details",
             "reference_and_motion_fidelity_details",
             "geometric_integrity_model_details",
+            "application_usefulness_details",
         )
         for field in detail_fields:
             details = result.get(field) or {}
@@ -582,9 +631,13 @@ def _has_required_axes(result: dict) -> bool:
         PHYSICAL_PLAUSIBILITY,
         TEMPORAL_CONSISTENCY,
         REFERENCE_AND_MOTION_FIDELITY,
+        APPLICATION_USEFULNESS,
     }
     scores = result.get("scored", {}).get("axis_scores", {})
-    return required_axes <= set(scores)
+    present = set(scores)
+    if _application_score(result) is not None:
+        present.add(APPLICATION_USEFULNESS)
+    return required_axes <= present
 
 
 def _constraint_adjustment(result: dict) -> dict:
@@ -595,6 +648,9 @@ def _constraint_adjustment(result: dict) -> dict:
     multiplicative penalties instead of a hard min() score replacement.
     """
     axis_score = _task_conditioned_score(result)
+    application_score = _application_score(result)
+    if application_score is None:
+        application_score = 100.0
     viewpoint_score, viewpoint_cap, viewpoint_reasons = _viewpoint_motion_constraint(result)
     operator_score, operator_cap, operator_reasons = _operator_constraint(result)
 
@@ -607,14 +663,17 @@ def _constraint_adjustment(result: dict) -> dict:
     hard_cap = min(caps) if caps else 100.0
     constraint_multiplier = 0.50 + 0.50 * (constraint_score / 100.0)
     hard_constraint_multiplier = 0.50 + 0.50 * (hard_cap / 100.0)
-    adjusted_score = axis_score * constraint_multiplier * hard_constraint_multiplier
+    application_multiplier = 0.50 + 0.50 * (application_score / 100.0)
+    adjusted_score = axis_score * application_multiplier * constraint_multiplier * hard_constraint_multiplier
 
     return {
         "axis_score": axis_score,
         "constraint_score": constraint_score,
+        "application_score": float(application_score),
         "constraint_adjusted_score": float(adjusted_score),
         "hard_constraint_cap": float(hard_cap),
         "constraint_multiplier": float(constraint_multiplier),
+        "application_multiplier": float(application_multiplier),
         "hard_constraint_multiplier": float(hard_constraint_multiplier),
         "cap_reasons": viewpoint_reasons + operator_reasons,
         "viewpoint_motion_constraint_score": viewpoint_score,
@@ -652,6 +711,9 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
             "constraint_adjusted_score": 0.0,
             "constraint_adjusted_score_ci95": {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0},
             "ranking_score": 0.0,
+            "application_usefulness_score": None,
+            "application_pass_rate": {"threshold": CONFIG["strict_axis_threshold"], "pass_count": 0, "total": 0, "pass_rate": None},
+            "application_type_breakdown": {},
             "constraint_adjustment_summary": {},
             "axis_score_ci95": {},
             "stratified_score_ci95": {},
@@ -666,6 +728,7 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
                     PHYSICAL_PLAUSIBILITY,
                     TEMPORAL_CONSISTENCY,
                     REFERENCE_AND_MOTION_FIDELITY,
+                    APPLICATION_USEFULNESS,
                 }),
                 "samples_complete_all_required_axes": 0,
                 "samples_incomplete_required_axes": 0,
@@ -678,7 +741,7 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
             "reference_motion_decomposition": {},
             "score_calibration": {
                 "headline_score_policy": CONFIG["headline_score_policy"],
-                "ranking_score_policy": "constraint_adjusted_score",
+                "ranking_score_policy": "application_and_constraint_adjusted_score",
                 "heuristic_gates_in_overall": False,
                 "status": "no_completed_samples",
             },
@@ -713,6 +776,7 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         for r in completed
     ]
     task_conditioned_scores = [_task_conditioned_score(r) for r in completed]
+    application_scores = [score for score in (_application_score(r) for r in completed) if score is not None]
     complete_case_results = [r for r in completed if _has_required_axes(r)]
     complete_case_weighted_scores = [
         float(r["scored"].get("weighted_score", 0.0))
@@ -761,9 +825,19 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     aggregate["constraint_adjusted_score"] = float(np.mean(constraint_adjusted_scores))
     aggregate["constraint_adjusted_score_ci95"] = _mean_confidence_interval(constraint_adjusted_scores)
     aggregate["ranking_score"] = aggregate["constraint_adjusted_score"]
+    aggregate["application_usefulness_score"] = float(np.mean(application_scores)) if application_scores else None
+    aggregate["application_usefulness_score_ci95"] = _mean_confidence_interval(application_scores)
+    aggregate["application_pass_rate"] = _application_pass_rate(completed)
+    aggregate["application_type_breakdown"] = _application_type_breakdown(completed)
     aggregate["constraint_adjustment_summary"] = {
-        "formula": "task_conditioned_score * (0.50 + 0.50*constraint_score/100) * (0.50 + 0.50*hard_constraint_cap/100)",
-        "policy": "penalty_adjusted_composite_ranking",
+        "formula": "task_conditioned_score * (0.50 + 0.50*application_score/100) * (0.50 + 0.50*constraint_score/100) * (0.50 + 0.50*hard_constraint_cap/100)",
+        "policy": "application_and_constraint_adjusted_composite_ranking",
+        "mean_application_score": float(np.mean([
+            item["application_score"] for item in constraint_adjustments
+        ])),
+        "mean_application_multiplier": float(np.mean([
+            item["application_multiplier"] for item in constraint_adjustments
+        ])),
         "mean_constraint_score": float(np.mean([
             item["constraint_score"] for item in constraint_adjustments
         ])),
@@ -800,6 +874,7 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     aggregate["stratified_score_ci95"] = {
         "domain": _group_confidence_intervals(completed, "domain"),
         "task_category": _group_confidence_intervals(completed, "task_category"),
+        "application_type": _group_confidence_intervals(completed, "application_type"),
         "motion_type": _group_confidence_intervals(completed, "motion_type"),
         "primary_topology": _group_confidence_intervals(completed, "primary_topology"),
         "sub_topology": _group_confidence_intervals(completed, "sub_topology"),
@@ -815,17 +890,18 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     }
     aggregate["score_calibration"] = {
         "headline_score_policy": CONFIG["headline_score_policy"],
-        "ranking_score_policy": "constraint_adjusted_score",
+        "ranking_score_policy": "application_and_constraint_adjusted_score",
         "heuristic_gates_in_overall": False,
         "score_floors_in_headline": False,
         "status": "headline_uses_task_conditioned_bottleneck_sensitive_score",
         "task_conditioned_score_formula": "0.55*weighted_arithmetic_mean + 0.45*weighted_harmonic_mean, with task-critical bottleneck penalty",
-        "constraint_adjusted_score_formula": "task_conditioned_score * (0.50 + 0.50*constraint_score/100) * (0.50 + 0.50*hard_constraint_cap/100)",
+        "constraint_adjusted_score_formula": "task_conditioned_score * (0.50 + 0.50*application_score/100) * (0.50 + 0.50*constraint_score/100) * (0.50 + 0.50*hard_constraint_cap/100)",
         "scores_excluded_from_overall": [
             "motion_gated_score",
             "operator_risk_adjusted_score",
             "gated_score",
             "constraint_adjusted_score",
+            "application_usefulness_score",
         ],
         "diagnostic_scores_excluded_from_overall": [
             "motion_gated_score",

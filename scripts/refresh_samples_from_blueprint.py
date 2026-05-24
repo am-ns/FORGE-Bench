@@ -19,7 +19,9 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from eval.axis_registry import TASK_PROFILES
+from eval.application_taxonomy import enrich_application_fields, format_application_evaluation_context
 from scripts.build_scene_seed_samples import SUBJECT_HINTS, _parse_rows
+from scripts.rebuild_generation_prompts import build_prompt
 
 DEFAULT_BLUEPRINT = ROOT / "dataset" / "annotations" / "SCENE_BLUEPRINT.md"
 DEFAULT_OUT = ROOT / "dataset" / "annotations" / "samples.json"
@@ -286,7 +288,7 @@ def _sample(row: dict, image_path: str, number: int, variant: int) -> dict:
         "Do not add text overlays, subtitles, logos, watermarks, extra machines, or unrelated people. "
         "Avoid melting, flicker, identity swaps, component-count changes, impossible floating loads, rigid-body bending, and accidental global scene changes."
     )
-    return {
+    sample = {
         "task_id": task_id,
         "domain": row["domain"],
         "scene_id": scene_id,
@@ -333,6 +335,10 @@ def _sample(row: dict, image_path: str, number: int, variant: int) -> dict:
         "industrial_logic_questions": _questions(task_id, row["domain"], task_category, scenario),
         "sensitivity_variants": _sensitivity(task_id, motion_target),
     }
+    sample = enrich_application_fields(sample)
+    sample["prompt"] = f"{sample['prompt']} {format_application_evaluation_context(sample)}"
+    sample["video_generation_prompt"] = build_prompt(sample)
+    return sample
 
 
 def build_samples(blueprint: Path) -> list[dict]:

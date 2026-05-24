@@ -16,6 +16,7 @@ MOTION_GATE_TASK_CATEGORIES = {"spatial_exploration_and_viewpoint"}
 
 from eval.axis_registry import (
     BASE_AXIS_WEIGHTS,
+    APPLICATION_USEFULNESS,
     GEOMETRIC_INTEGRITY,
     INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
     INDUSTRIAL_CONSTRAINT_SCORE,
@@ -80,6 +81,9 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
                 "rotation_integrity_factor": None, "rotation_integrity_factor_gated": None}
 
     axis_scores = canonicalize_axis_dict(dict(axis_scores))
+    application_usefulness_score = axis_scores.pop(APPLICATION_USEFULNESS, None)
+    if application_usefulness_score is not None:
+        application_usefulness_score = max(0.0, min(100.0, float(application_usefulness_score)))
 
     viewpoint_motion_axis_score = axis_scores.pop(VIEWPOINT_MOTION_FIDELITY, None)
     if motion_gate_required is None:
@@ -182,4 +186,7 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
         out["reference_motion_coupled_score"] = reference_motion_coupled_score
     if industrial_constraint_axis_score is not None:
         out["industrial_constraint_score"] = industrial_constraint_axis_score
+    if application_usefulness_score is not None:
+        out["application_usefulness_score"] = application_usefulness_score
+        out["application_axis_scores"] = {APPLICATION_USEFULNESS: application_usefulness_score}
     return out

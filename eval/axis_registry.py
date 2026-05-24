@@ -17,6 +17,7 @@ GEOMETRIC_INTEGRITY = "geometric_integrity"
 PHYSICAL_PLAUSIBILITY = "physical_plausibility"
 TEMPORAL_CONSISTENCY = "temporal_consistency"
 REFERENCE_AND_MOTION_FIDELITY = "reference_and_motion_fidelity"
+APPLICATION_USEFULNESS = "application_usefulness"
 VIEWPOINT_MOTION_FIDELITY = "viewpoint_motion_fidelity"
 INDUSTRIAL_CONSTRAINT_SCORE = "industrial_constraint_score"
 
@@ -122,6 +123,22 @@ MODEL_EVALUATION_AXES: dict[str, dict] = {
             "a static clip is submitted for a moving-camera task",
             "a local defect causes the global background to collapse",
             "reference perspective or layout is not preserved during the move",
+        ],
+    },
+    APPLICATION_USEFULNESS: {
+        "name": "Application Usefulness",
+        "core_metric": "Industrial Decision Value",
+        "capability": (
+            "Checks whether the generated video is usable for the stated "
+            "industrial application: safety training, emergency rehearsal, "
+            "robotics operation, inspection, heavy-operation risk assessment, "
+            "or defect/QC data generation."
+        ),
+        "measurement": "ApplicationUsefulnessVLMJudge",
+        "typical_badcases": [
+            "the clip looks industrial but does not reveal the decision-critical event",
+            "required observable events are missing or too ambiguous for practice use",
+            "the video introduces misleading context that would produce wrong operational decisions",
         ],
     },
 }

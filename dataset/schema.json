@@ -14,6 +14,12 @@
     "viewpoint_motion_target",
     "difficulty_profile",
     "constraint_annotations",
+    "application_type",
+    "application_objective",
+    "required_observable_events",
+    "decision_relevant_elements",
+    "application_success_criteria",
+    "misleading_failure_modes",
     "industrial_logic_questions",
     "sensitivity_variants"
   ],
@@ -123,6 +129,53 @@
     "application_value": {
       "type": "string",
       "minLength": 20
+    },
+    "application_type": {
+      "type": "string",
+      "enum": [
+        "safety_training",
+        "emergency_rehearsal",
+        "robotic_operation",
+        "inspection_and_maintenance",
+        "heavy_operation_risk",
+        "defect_generation"
+      ]
+    },
+    "application_objective": {
+      "type": "string",
+      "minLength": 50
+    },
+    "required_observable_events": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "string",
+        "minLength": 10
+      }
+    },
+    "decision_relevant_elements": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "string",
+        "minLength": 10
+      }
+    },
+    "application_success_criteria": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "string",
+        "minLength": 10
+      }
+    },
+    "misleading_failure_modes": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "string",
+        "minLength": 10
+      }
     },
     "axis_weights": {
       "type": "object",

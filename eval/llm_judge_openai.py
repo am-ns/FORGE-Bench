@@ -26,6 +26,7 @@ CONFIG = {
     "physical_plausibility_max_frames": 12,
     "reference_and_motion_fidelity_max_frames": 6,
     "geometric_integrity_max_frames": 12,
+    "application_usefulness_max_frames": 12,
     "jpeg_quality": 80,
 }
 
@@ -141,6 +142,8 @@ def _format_sample_context(sample_meta: dict | None) -> str:
     fields = {
         "task_id": sample_meta.get("task_id"),
         "domain": sample_meta.get("domain"),
+        "application_type": sample_meta.get("application_type"),
+        "application_objective": sample_meta.get("application_objective"),
         "primary_topology": sample_meta.get("primary_topology") or sample_meta.get("topology_type"),
         "sub_topology": sample_meta.get("sub_topology"),
         "motion_type": sample_meta.get("motion_type"),
@@ -153,6 +156,15 @@ def _format_sample_context(sample_meta: dict | None) -> str:
     constraints = (sample_meta.get("constraint_annotations") or {}).get("hard_constraints", [])
     if constraints:
         lines.append("- hard_constraints: " + "; ".join(str(c) for c in constraints[:8]))
+    for key in (
+        "required_observable_events",
+        "decision_relevant_elements",
+        "application_success_criteria",
+        "misleading_failure_modes",
+    ):
+        values = sample_meta.get(key) or []
+        if values:
+            lines.append(f"- {key}: " + "; ".join(str(v) for v in values[:8]))
     evidence_text = _format_operator_evidence(sample_meta.get("operator_evidence") if sample_meta else None)
     if evidence_text:
         lines.append(evidence_text)
@@ -545,6 +557,64 @@ def judge_sample_reference_and_motion_fidelity(
     parsed = _parse_judge_json(raw)
     score = parsed.get("score") if parsed else _parse_score_0_100(raw)
 
+    return {
+        "score": score,
+        "llm_parse_valid": parsed is not None and score is not None,
+        "reasoning": parsed.get("reasoning", raw) if parsed else raw,
+        "failure_modes": parsed.get("failure_modes", []) if parsed else [],
+        "confidence": parsed.get("confidence") if parsed else None,
+        "evidence_frames": parsed.get("evidence_frames", []) if parsed else [],
+        "raw_response": raw,
+        "model": model,
+        "tokens_used": _count_tokens(response),
+        "sampled_frame_indices": indices,
+    }
+
+
+# ---------------------------------------------------------------------------
+# application usefulness judge
+# ---------------------------------------------------------------------------
+
+def judge_sample_application_usefulness(
+    frames: list[np.ndarray],
+    sample_meta: dict | None = None,
+    model: str = CONFIG["default_model"],
+) -> dict:
+    client = _get_client()
+    indices = _sample_indices(len(frames), CONFIG["application_usefulness_max_frames"])
+    system_text = (
+        "You are a strict industrial application-value judge for AI-generated "
+        "video. Score whether the clip is practically usable for the stated "
+        "industrial application, not whether it is merely photorealistic. "
+        "Penalize missing decision-critical events, ambiguous hazards or "
+        "defects, unusable inspection views, wrong operational consequences, "
+        "and any misleading context that would train or guide users toward a "
+        "wrong industrial decision. Return a structured JSON judgment."
+    )
+    image_blocks = [_make_image_block(frames[i]) for i in indices]
+    context = _format_sample_context(sample_meta)
+    prompt_text = (
+        "Rate industrial application usefulness of this generated video (0-100).\n"
+        f"Shown frames: {', '.join(f'frame {i}/{len(frames)}' for i in indices)}\n\n"
+        f"{context}\n\n"
+        "Rubric:\n"
+        "90-100: directly usable for the stated industrial workflow; all required observable events and decision elements are clear.\n"
+        "70-89: mostly usable; minor omissions do not change the operational conclusion.\n"
+        "50-69: partially useful but missing important evidence for a real decision or training case.\n"
+        "25-49: weak usefulness; core application objective is ambiguous or misleading.\n"
+        "0-24: not usable; missing the decision-critical event or contradicting the intended industrial workflow.\n\n"
+        + _json_output_instruction("application usefulness")
+    )
+    response = _call_with_backoff(
+        client,
+        model=model,
+        system=system_text,
+        messages=[{"role": "user", "content": image_blocks + [{"type": "text", "text": prompt_text}]}],
+        max_tokens=512,
+    )
+    raw = _extract_text(response)
+    parsed = _parse_judge_json(raw)
+    score = parsed.get("score") if parsed else _parse_score_0_100(raw)
     return {
         "score": score,
         "llm_parse_valid": parsed is not None and score is not None,

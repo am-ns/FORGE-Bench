@@ -17,6 +17,7 @@ import pytest
 
 from eval.calibration.floor_enforcer import enforce_score_floors
 from eval.axis_registry import (
+    APPLICATION_USEFULNESS,
     GEOMETRIC_INTEGRITY,
     INDUSTRIAL_CONSTRAINT_SCORE,
     INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
@@ -416,6 +417,22 @@ class TestScoring:
         assert result["industrial_constraint_score"] == 20.0
         assert result["weighted_score"] == pytest.approx(80.0)
 
+    def test_per_sample_score_reports_application_usefulness_without_folding(self):
+        """Application usefulness is reported separately from the five technical axes."""
+        result = score_sample(
+            {
+                INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80,
+                TEMPORAL_CONSISTENCY: 70,
+                PHYSICAL_PLAUSIBILITY: 75,
+                REFERENCE_AND_MOTION_FIDELITY: 85,
+                GEOMETRIC_INTEGRITY: 90,
+                APPLICATION_USEFULNESS: 30,
+            }
+        )
+        assert APPLICATION_USEFULNESS not in result["axis_scores"]
+        assert result["application_usefulness_score"] == 30.0
+        assert result["weighted_score"] == pytest.approx(80.0)
+
     def test_aggregate(self):
         """aggregate_scores should classify viewpoint motion fidelity tier and produce overall > 0."""
         result = aggregate_scores(
@@ -437,6 +454,7 @@ class TestScoring:
                     "weighted_score": 80.0,
                     "axis_scores": {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 80, PHYSICAL_PLAUSIBILITY: 80, REFERENCE_AND_MOTION_FIDELITY: 80, GEOMETRIC_INTEGRITY: 80},
                     "viewpoint_motion_score": 100.0,
+                    "application_usefulness_score": 100.0,
                 },
             },
             {
@@ -449,6 +467,7 @@ class TestScoring:
                     "weighted_score": 70.0,
                     "axis_scores": {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 80, PHYSICAL_PLAUSIBILITY: 80, REFERENCE_AND_MOTION_FIDELITY: 80, GEOMETRIC_INTEGRITY: 80},
                     "viewpoint_motion_score": 0.0,
+                    "application_usefulness_score": 100.0,
                 },
             },
         ])
@@ -474,6 +493,29 @@ class TestScoring:
         assert result["scoring_validity"]["samples_complete_all_required_axes"] == 2
         assert "gated_score" in result["score_calibration"]["diagnostic_scores_excluded_from_overall"]
         assert "constraint_adjusted_score" in result["score_calibration"]["scores_excluded_from_overall"]
+
+    def test_aggregate_application_usefulness_penalizes_ranking_not_technical_score(self):
+        """Low application usefulness should lower ranking while leaving technical score interpretable."""
+        result = aggregate_sample_results([
+            {
+                "task_id": "low_app",
+                "skipped": False,
+                "application_type": "inspection_and_maintenance",
+                "task_category": "spatial_exploration_and_viewpoint",
+                "viewpoint_motion_score": 100.0,
+                "scored": {
+                    "weighted_score": 80.0,
+                    "axis_scores": {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 80, PHYSICAL_PLAUSIBILITY: 80, REFERENCE_AND_MOTION_FIDELITY: 80, GEOMETRIC_INTEGRITY: 80},
+                    "viewpoint_motion_score": 100.0,
+                    "application_usefulness_score": 20.0,
+                },
+            }
+        ])
+        assert result["overall"] == pytest.approx(80.0)
+        assert result["application_usefulness_score"] == 20.0
+        assert result["application_pass_rate"]["pass_rate"] == 0.0
+        assert result["ranking_score"] == pytest.approx(48.0)
+        assert result["application_type_breakdown"]["inspection_and_maintenance"]["count"] == 1
 
     def test_aggregate_ignores_motion_gate_for_non_viewpoint_non_static(self):
         """Dolly/pan diagnostics should not gate non-viewpoint tasks."""
@@ -598,7 +640,10 @@ class TestReport:
                     "axis_scores": {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 50, GEOMETRIC_INTEGRITY: 27},
                     "industrial_constraint_score": 20,
                     "viewpoint_motion_score": 0,
+                    "application_usefulness_score": 25,
                 },
+                "application_type": "robotic_operation",
+                "application_usefulness_details": {"failure_modes": ["missing_decision_event"]},
             }
         ]
         report = generate_diagnostic_report("model", {"overall": 0.0}, samples)
@@ -607,6 +652,8 @@ class TestReport:
         assert report["industrial_constraint_diagnostics"]["violation_counts"]["check_count_invariant"] == 1
         assert report["industrial_logic_weakness_diagnostics"]["W3"]["accuracy"] == 0.0
         assert "constraint_adjustment_diagnostics" in report
+        assert report["application_value_report"]["application_usefulness_score"] is None
+        assert "low_industrial_application_usefulness" in report["failure_taxonomy"]
         assert report["worst_samples"][0]["task_id"] == "bad"
 
 
@@ -666,7 +713,7 @@ class TestRunEvalCLI:
         result = evaluate_sample(
             sample, str(video_dir), "mock_model", None,
             None, judge_geometric_integrity, judge_temporal_consistency,
-            judge_physical_plausibility, None,
+            judge_physical_plausibility, None, None,
         )
         assert result["physical_plausibility_score"] == 80
         assert "operator_evidence" in result
