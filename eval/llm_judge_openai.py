@@ -106,6 +106,16 @@ def _count_tokens(response) -> int:
         return 0
 
 
+def _json_output_instruction(axis: str) -> str:
+    return (
+        "Return exactly one JSON object and no markdown. "
+        f"Schema: {{\"score\": <integer 0-100>, \"reasoning\": \"concise evidence for {axis}\", "
+        "\"failure_modes\": [\"short labels\"], \"confidence\": <number 0-1>, "
+        "\"evidence_frames\": [<frame indices>]}}. "
+        "Scores above 80 require no visible functional failure; scores below 60 should name the blocking defect."
+    )
+
+
 def _format_operator_evidence(operator_evidence: dict | None) -> str:
     if not operator_evidence:
         return ""
@@ -310,8 +320,7 @@ def judge_sample_temporal_consistency(
         "You are an industrial video evaluation judge. Score temporal "
         "coherence on a strict 0-100 scale. Penalize frame-to-frame drift, "
         "flicker, morphing, disappearing components, topology merges, phase "
-        "jumps, and inconsistent camera motion. Reply with a single integer score "
-        "on the first line, then concise evidence."
+        "jumps, and inconsistent camera motion. Return a structured JSON judgment."
     )
 
     image_blocks = [_make_image_block(frames[i]) for i in indices]
@@ -322,7 +331,7 @@ def judge_sample_temporal_consistency(
         f"Rate the temporal coherence of this video (0-100).\n"
         f"Shown frames: {frame_desc}\n\n"
         f"{meta_text}\n\n"
-        "Reply with a single integer 0-100 on the first line, then brief reasoning."
+        + _json_output_instruction("temporal consistency")
     )
 
     user_content = image_blocks + [{"type": "text", "text": prompt_text}]
@@ -336,12 +345,16 @@ def judge_sample_temporal_consistency(
     )
 
     raw = _extract_text(response)
-    score = _parse_score_0_100(raw)
+    parsed = _parse_judge_json(raw)
+    score = parsed.get("score") if parsed else _parse_score_0_100(raw)
 
     return {
         "score": score,
-        "llm_parse_valid": score is not None,
-        "reasoning": raw,
+        "llm_parse_valid": parsed is not None and score is not None,
+        "reasoning": parsed.get("reasoning", raw) if parsed else raw,
+        "failure_modes": parsed.get("failure_modes", []) if parsed else [],
+        "confidence": parsed.get("confidence") if parsed else None,
+        "evidence_frames": parsed.get("evidence_frames", []) if parsed else [],
         "raw_response": raw,
         "model": model,
         "tokens_used": _count_tokens(response),
@@ -363,8 +376,7 @@ def judge_sample_geometric_integrity(
         "the frames. Penalize topology merges, disappearing parts, warped rigid "
         "links, unstable joint centers, changing component counts, periodic "
         "structure collapse, invalid local defect boundaries, and global scene "
-        "regeneration. Reply with a single integer score on the first line, "
-        "then concise evidence."
+        "regeneration. Return a structured JSON judgment."
     )
     image_blocks = [_make_image_block(frames[i]) for i in indices]
     prompt_text = (
@@ -373,7 +385,7 @@ def judge_sample_geometric_integrity(
         f"{_format_sample_context(sample_meta)}\n\n"
         "Geometric integrity operator evidence:\n"
         f"{json.dumps((sample_meta or {}).get('geometric_integrity_operator_evidence', {}), ensure_ascii=True, sort_keys=True)[:2000]}\n\n"
-        "Reply with a single integer 0-100 on the first line, then brief evidence."
+        + _json_output_instruction("geometric integrity")
     )
     response = _call_with_backoff(
         client,
@@ -383,11 +395,15 @@ def judge_sample_geometric_integrity(
         max_tokens=512,
     )
     raw = _extract_text(response)
-    score = _parse_score_0_100(raw)
+    parsed = _parse_judge_json(raw)
+    score = parsed.get("score") if parsed else _parse_score_0_100(raw)
     return {
         "score": score,
-        "llm_parse_valid": score is not None,
-        "reasoning": raw,
+        "llm_parse_valid": parsed is not None and score is not None,
+        "reasoning": parsed.get("reasoning", raw) if parsed else raw,
+        "failure_modes": parsed.get("failure_modes", []) if parsed else [],
+        "confidence": parsed.get("confidence") if parsed else None,
+        "evidence_frames": parsed.get("evidence_frames", []) if parsed else [],
         "raw_response": raw,
         "model": model,
         "tokens_used": _count_tokens(response),
@@ -414,7 +430,7 @@ def judge_sample_physical_plausibility(
         "Penalize impossible load paths, broken kinematic chains, non-rigid "
         "deformation of rigid parts, gravity violations, implausible support, "
         "component count changes, and physically impossible trajectories. "
-        "Reply with a single integer score on the first line, then concise evidence."
+        "Return a structured JSON judgment."
     )
 
     image_blocks = [_make_image_block(frames[i]) for i in indices]
@@ -438,7 +454,7 @@ def judge_sample_physical_plausibility(
         "50-69: noticeable but localized physical inconsistency.\n"
         "25-49: clear mechanical/physical violation affecting function.\n"
         "0-24: severe impossible motion, broken structure, or repeated violations.\n\n"
-        "Reply with a single integer 0-100 on the first line, then brief evidence."
+        + _json_output_instruction("physical plausibility")
     )
 
     user_content = image_blocks + [{"type": "text", "text": physical_plausibility_text}]
@@ -452,12 +468,16 @@ def judge_sample_physical_plausibility(
     )
 
     raw = _extract_text(response)
-    score = _parse_score_0_100(raw)
+    parsed = _parse_judge_json(raw)
+    score = parsed.get("score") if parsed else _parse_score_0_100(raw)
 
     return {
         "score": score,
-        "llm_parse_valid": score is not None,
-        "justification": raw,
+        "llm_parse_valid": parsed is not None and score is not None,
+        "justification": parsed.get("reasoning", raw) if parsed else raw,
+        "failure_modes": parsed.get("failure_modes", []) if parsed else [],
+        "confidence": parsed.get("confidence") if parsed else None,
+        "evidence_frames": parsed.get("evidence_frames", []) if parsed else [],
         "raw_response": raw,
         "model": model,
         "tokens_used": _count_tokens(response),
@@ -488,8 +508,8 @@ def judge_sample_reference_and_motion_fidelity(
         "the viewpoint will naturally differ from the reference image — do NOT "
         "penalize this expected viewpoint shift. Judge only whether the subject "
         "identity, non-mutating regions, and scene elements are faithfully preserved. "
-        "Photorealism without structural fidelity must score low. Reply with "
-        "a single integer score on the first line, then concise evidence."
+        "Photorealism without structural fidelity must score low. Return a "
+        "structured JSON judgment."
     )
 
     user_content = [
@@ -509,7 +529,7 @@ def judge_sample_reference_and_motion_fidelity(
         "Rate visual fidelity 0-100.\n\n"
         f"{motion_note}\n"
         f"{_format_sample_context(sample_meta)}\n\n"
-        "Reply with a single integer 0-100 on the first line, then brief justification."
+        + _json_output_instruction("reference preservation and motion fidelity")
     )
     user_content.append({"type": "text", "text": prompt_text})
 
@@ -522,12 +542,16 @@ def judge_sample_reference_and_motion_fidelity(
     )
 
     raw = _extract_text(response)
-    score = _parse_score_0_100(raw)
+    parsed = _parse_judge_json(raw)
+    score = parsed.get("score") if parsed else _parse_score_0_100(raw)
 
     return {
         "score": score,
-        "llm_parse_valid": score is not None,
-        "reasoning": raw,
+        "llm_parse_valid": parsed is not None and score is not None,
+        "reasoning": parsed.get("reasoning", raw) if parsed else raw,
+        "failure_modes": parsed.get("failure_modes", []) if parsed else [],
+        "confidence": parsed.get("confidence") if parsed else None,
+        "evidence_frames": parsed.get("evidence_frames", []) if parsed else [],
         "raw_response": raw,
         "model": model,
         "tokens_used": _count_tokens(response),
@@ -555,5 +579,41 @@ def _parse_score_0_100(response: str) -> int | None:
             return int(clean)
     print(f"WARNING: could not parse 0-100 score from: {response!r}", file=sys.stderr)
     return None
+
+
+def _parse_judge_json(response: str) -> dict | None:
+    if not response:
+        return None
+    text = response.strip()
+    if text.startswith("```"):
+        text = text.strip("`")
+        if text.lower().startswith("json"):
+            text = text[4:].strip()
+    try:
+        payload = json.loads(text)
+    except Exception:
+        start = text.find("{")
+        end = text.rfind("}")
+        if start < 0 or end <= start:
+            return None
+        try:
+            payload = json.loads(text[start:end + 1])
+        except Exception:
+            return None
+    if not isinstance(payload, dict):
+        return None
+    score = payload.get("score")
+    try:
+        score_int = int(score)
+    except Exception:
+        return None
+    if not 0 <= score_int <= 100:
+        return None
+    payload["score"] = score_int
+    if not isinstance(payload.get("failure_modes", []), list):
+        payload["failure_modes"] = [str(payload["failure_modes"])]
+    if not isinstance(payload.get("evidence_frames", []), list):
+        payload["evidence_frames"] = []
+    return payload
 
 

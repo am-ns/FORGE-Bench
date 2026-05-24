@@ -455,8 +455,12 @@ class TestScoring:
         assert result["relax_score"] == 75.0
         assert result["strict_pass_rate"] == 1.0
         assert result["gated_score"] == 48.75
-        assert result["overall"] == result["relax_score"]
-        assert result["constraint_adjusted_score"] == pytest.approx(65.0)
+        assert result["overall"] == result["task_conditioned_score"]
+        assert result["overall"] < 80.0
+        assert result["functional_pass_rate"] == 1.0
+        assert result["axis_pass_rates"][GEOMETRIC_INTEGRITY]["pass_rate"] == 1.0
+        assert "reference_motion_decomposition" in result
+        assert result["constraint_adjusted_score"] == pytest.approx(62.5)
         assert result["ranking_score"] == result["constraint_adjusted_score"]
         assert result["constraint_adjustment_summary"]["samples_with_cap"] == 1
         assert result["constraint_adjustment_summary"]["cap_reason_counts"]["viewpoint_motion_constraint_severe_failure"] == 1
@@ -490,8 +494,9 @@ class TestScoring:
             },
         ])
         assert result["gated_score"] == 70.0
-        assert result["overall"] == 70.0
-        assert result["constraint_adjusted_score"] == 70.0
+        assert result["relax_score"] == 70.0
+        assert result["overall"] == pytest.approx(74.5)
+        assert result["constraint_adjusted_score"] == pytest.approx(74.5)
 
     def test_aggregate_keeps_static_gate_for_static_tasks(self):
         """Static tasks should still be gated when the output moves."""
@@ -511,8 +516,9 @@ class TestScoring:
             },
         ])
         assert result["gated_score"] == 0.0
-        assert result["overall"] == 70.0
-        assert result["constraint_adjusted_score"] == 50.0
+        assert result["relax_score"] == 70.0
+        assert result["overall"] == pytest.approx(74.5)
+        assert result["constraint_adjusted_score"] == 45.0
 
     def test_aggregate_applies_operator_risk_gate(self):
         """Operator evidence should lower fallback scores for abrupt breaks."""
@@ -542,8 +548,9 @@ class TestScoring:
         ])
         assert result["motion_gated_score"] == 80.0
         assert result["gated_score"] < 40.0
+        assert result["relax_score"] == 80.0
         assert result["overall"] == 80.0
-        assert result["constraint_adjusted_score"] == 35.0
+        assert result["constraint_adjusted_score"] == pytest.approx(34.125)
         assert result["constraint_adjustment_summary"]["cap_reason_counts"]["operator_multiple_severe_failures"] == 1
 
     def test_physical_plausibility_parser_uses_native_0_100_scale(self):
@@ -720,6 +727,8 @@ class TestRunEvalCLI:
         report = json.loads((model_dir / "report.json").read_text())
         assert "relax_score" in aggregate
         assert "strict_pass_rate" in aggregate
+        assert "functional_pass_rate" in aggregate
+        assert "task_conditioned_score" in aggregate
         assert "gated_score" in aggregate
         assert "constraint_adjusted_score" in aggregate
         assert "ranking_score" in aggregate
@@ -730,5 +739,8 @@ class TestRunEvalCLI:
         assert "viewpoint_motion_diagnostics" in report
         assert "constraint_adjustment_diagnostics" in report
         assert "statistical_uncertainty" in report
+        assert "pass_rate_report" in report
+        assert "reference_motion_decomposition" in report
+        assert "failure_taxonomy" in report
         assert "scoring_validity" in report
         assert "run_metadata" in report

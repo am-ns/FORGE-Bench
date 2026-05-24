@@ -151,28 +151,31 @@ video frames
 Core formula:
 
 ```text
-overall =
-  WeightedAverage(
-    industrial_logic_and_fact_alignment,
-    temporal_consistency,
-    physical_plausibility,
-    reference_and_motion_fidelity,
-    geometric_integrity
+relax_score = task_weighted_arithmetic_mean(five public axes)
+
+task_conditioned_score =
+  bottleneck_penalty(
+    0.55 * task_weighted_arithmetic_mean
+    + 0.45 * task_weighted_harmonic_mean
   )
+
+overall = task_conditioned_score
 ```
 
-The weights are dynamic by abstract task category. Robot and mechanism tasks
-emphasize `geometric_integrity` and `physical_plausibility`; periodic or local
-defect tasks emphasize `geometric_integrity` and `temporal_consistency`;
-viewpoint-inspection tasks emphasize `reference_and_motion_fidelity` and
-`geometric_integrity`.
+The weights and bottleneck axes are dynamic by abstract task category. Robot
+and mechanism tasks emphasize `geometric_integrity` and
+`physical_plausibility`; periodic or local defect tasks emphasize
+`geometric_integrity` and `temporal_consistency`; viewpoint-inspection tasks
+emphasize `reference_and_motion_fidelity` and `geometric_integrity`. The
+harmonic component and task-critical bottleneck penalty prevent one strong axis
+from hiding a functional failure on a necessary axis.
 
 The engineering ranking score is a penalty-only constraint adjustment:
 
 ```text
 constraint_adjusted_score =
   min(
-    axis_score,
+    task_conditioned_score,
     constraint_score,
     hard_constraint_cap
   )
@@ -180,9 +183,9 @@ constraint_adjusted_score =
 ranking_score = constraint_adjusted_score
 ```
 
-`axis_score` is the model-led five-axis sample score. `constraint_score`
-combines task-aware viewpoint motion fidelity and operator reliability when
-available. The ranking score is deliberately conservative: a necessary
+`task_conditioned_score` is the bottleneck-sensitive five-axis sample score.
+`constraint_score` combines task-aware viewpoint motion fidelity and operator
+reliability when available. The ranking score is deliberately conservative: a necessary
 constraint failure acts as an upper bound, so severe failures such as static
 output for required camera motion, global regeneration, abrupt temporal breaks,
 rigid drift, or fluid discontinuity cannot be hidden by strong scores on other
@@ -301,17 +304,22 @@ Important aggregate fields:
 |---|---|
 | `relax_score` | Mean per-sample model-judged weighted axis score. |
 | `relax_score_ci95` | Deterministic bootstrap 95% confidence interval for `relax_score`. |
+| `task_conditioned_score` | Bottleneck-sensitive headline score using arithmetic/harmonic blending plus task-critical penalties. |
+| `task_conditioned_score_ci95` | Deterministic bootstrap 95% confidence interval for `task_conditioned_score`. |
 | `complete_case_relax_score` | Mean weighted score restricted to samples with all five required public axes present. |
 | `complete_case_relax_score_ci95` | Bootstrap 95% confidence interval for the complete-case score. |
 | `strict_pass_rate` | Fraction of completed samples where all present axes pass thresholds. |
-| `constraint_adjusted_score` | Penalty-only score combining the model-led axis score with task constraints and hard caps. |
+| `functional_pass_rate` | Task-conditioned pass rate: critical axes must clear 60, non-critical axes must clear 45. |
+| `axis_pass_rates` | Per-axis pass counts and rates at the strict threshold. |
+| `reference_motion_decomposition` | Separates reference preservation, motion control, and coupled reference-motion fidelity diagnostics. |
+| `constraint_adjusted_score` | Penalty-only score combining `task_conditioned_score` with task constraints and hard caps. |
 | `constraint_adjusted_score_ci95` | Deterministic bootstrap 95% confidence interval for the ranking score. |
 | `ranking_score` | Leaderboard sorting score, currently equal to `constraint_adjusted_score`. |
 | `motion_gated_score` | Legacy diagnostic score after heuristic task-aware motion gating; not used as `overall` or `ranking_score`. |
 | `operator_risk_adjusted_score` | Legacy diagnostic score after heuristic operator-risk adjustment; not used as `overall` or `ranking_score`. |
 | `gated_score` | Legacy diagnostic alias for `operator_risk_adjusted_score`; uncalibrated. |
-| `overall` | Model-led ability score, currently aligned to `relax_score`. |
-| `score_calibration` | Records that heuristic gates are excluded from `overall` and that ranking uses the prespecified constraint-adjusted formula. |
+| `overall` | Paper-facing model ability score, currently aligned to `task_conditioned_score`. |
+| `score_calibration` | Records the bottleneck-sensitive headline formula and the prespecified constraint-adjusted ranking formula. |
 | `axis_scores` | Mean raw full-name axis scores used by headline reporting. |
 | `floored_axis_scores` | Diagnostic compatibility view of axis means after applying historical score floors. The headline and ranking scores use raw valid axis scores. |
 | `axis_score_ci95` | Per-axis deterministic bootstrap 95% confidence intervals. |

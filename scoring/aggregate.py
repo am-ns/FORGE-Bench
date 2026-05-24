@@ -11,6 +11,7 @@ from eval.axis_registry import (
     REFERENCE_AND_MOTION_FIDELITY,
     TEMPORAL_CONSISTENCY,
     VIEWPOINT_MOTION_FIDELITY,
+    BASE_AXIS_WEIGHTS,
     canonical_axis,
     canonicalize_axis_dict,
 )
@@ -35,8 +36,11 @@ CONFIG = {
     "motion_tier_weak": 20,
     "motion_tier_moderate": 60,
     "strict_axis_threshold": 60.0,
-    "operator_gate_min": 0.35,
-    "headline_score_policy": "model_axis_weighted_mean",
+    "functional_key_axis_threshold": 60.0,
+    "functional_nonkey_axis_threshold": 45.0,
+    "severe_axis_failure_threshold": 25.0,
+    "operator_gate_min": 0.25,
+    "headline_score_policy": "task_conditioned_bottleneck_sensitive_score",
     "bootstrap_iterations": 1000,
     "bootstrap_seed": 1729,
     "apply_axis_floors": False,
@@ -63,6 +67,34 @@ STRICT_AXIS_THRESHOLDS = {
     REFERENCE_AND_MOTION_FIDELITY: CONFIG["strict_axis_threshold"],
     GEOMETRIC_INTEGRITY: CONFIG["strict_axis_threshold"],
     INDUSTRIAL_CONSTRAINT_SCORE: CONFIG["strict_axis_threshold"],
+}
+
+TASK_CRITICAL_AXES = {
+    "rigid_body_kinematics_and_coupling": {
+        GEOMETRIC_INTEGRITY,
+        PHYSICAL_PLAUSIBILITY,
+        TEMPORAL_CONSISTENCY,
+    },
+    "topology_mutation_and_failure": {
+        GEOMETRIC_INTEGRITY,
+        REFERENCE_AND_MOTION_FIDELITY,
+        TEMPORAL_CONSISTENCY,
+    },
+    "fluid_dynamics_and_thermodynamics": {
+        PHYSICAL_PLAUSIBILITY,
+        TEMPORAL_CONSISTENCY,
+        INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
+    },
+    "spatial_exploration_and_viewpoint": {
+        REFERENCE_AND_MOTION_FIDELITY,
+        GEOMETRIC_INTEGRITY,
+        TEMPORAL_CONSISTENCY,
+    },
+    "industrial_logic_and_compliance": {
+        INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
+        TEMPORAL_CONSISTENCY,
+        PHYSICAL_PLAUSIBILITY,
+    },
 }
 
 
@@ -173,6 +205,115 @@ def _sample_passes_strict(axis_scores: dict[str, float]) -> bool:
     return True
 
 
+def _critical_axes_for(result: dict, axis_scores: dict[str, float]) -> set[str]:
+    task_category = result.get("task_category") or result.get("scored", {}).get("task_category")
+    critical = set(TASK_CRITICAL_AXES.get(str(task_category), set()))
+    return {axis for axis in critical if axis in axis_scores} or set(axis_scores)
+
+
+def _sample_passes_functional(result: dict) -> bool:
+    """Task-conditioned pass: key axes must pass, non-key axes must be usable."""
+    scores = result.get("scored", {}).get("axis_scores", {})
+    if not scores:
+        return False
+    critical = _critical_axes_for(result, scores)
+    for axis, score in scores.items():
+        threshold = (
+            CONFIG["functional_key_axis_threshold"]
+            if axis in critical
+            else CONFIG["functional_nonkey_axis_threshold"]
+        )
+        if float(score) < threshold:
+            return False
+    return True
+
+
+def _weighted_harmonic_mean(scores: dict[str, float], weights: dict[str, float]) -> float:
+    total_weight = 0.0
+    denominator = 0.0
+    for axis, score in scores.items():
+        weight = float(weights.get(axis, BASE_AXIS_WEIGHTS.get(axis, 1.0)))
+        total_weight += weight
+        denominator += weight / max(float(score), 1e-6)
+    return float(total_weight / denominator) if denominator > 0 else 0.0
+
+
+def _task_conditioned_score(result: dict) -> float:
+    """Bottleneck-sensitive score for paper-facing headline reporting.
+
+    Arithmetic means hide single-axis failures. This blends the task-weighted
+    arithmetic score with a weighted harmonic mean, then applies a smooth
+    penalty when task-critical axes fall below the functional threshold.
+    """
+    scored = result.get("scored", {})
+    scores = canonicalize_axis_dict(scored.get("axis_scores", {}))
+    if not scores:
+        return 0.0
+    arithmetic = float(scored.get("weighted_score", 0.0))
+    weights = canonicalize_axis_dict(scored.get("axis_weights", {}))
+    harmonic = _weighted_harmonic_mean(scores, weights)
+    blended = 0.55 * arithmetic + 0.45 * harmonic
+
+    critical = _critical_axes_for(result, scores)
+    min_critical = min(float(scores[axis]) for axis in critical) if critical else min(map(float, scores.values()))
+    min_axis = min(float(v) for v in scores.values())
+    if min_critical < CONFIG["functional_key_axis_threshold"]:
+        blended *= 0.55 + 0.45 * (min_critical / CONFIG["functional_key_axis_threshold"])
+    if min_axis < CONFIG["severe_axis_failure_threshold"]:
+        blended = min(blended, 45.0)
+    if min_axis < 10.0:
+        blended = min(blended, 35.0)
+    return float(max(0.0, min(100.0, blended)))
+
+
+def _axis_pass_rates(completed: list[dict]) -> dict:
+    axis_values: dict[str, list[float]] = {}
+    for result in completed:
+        for axis, score in result.get("scored", {}).get("axis_scores", {}).items():
+            axis_values.setdefault(axis, []).append(float(score))
+    return {
+        axis: {
+            "threshold": CONFIG["strict_axis_threshold"],
+            "pass_count": sum(v >= CONFIG["strict_axis_threshold"] for v in values),
+            "total": len(values),
+            "pass_rate": float(np.mean([v >= CONFIG["strict_axis_threshold"] for v in values])) if values else 0.0,
+        }
+        for axis, values in sorted(axis_values.items())
+    }
+
+
+def _reference_motion_decomposition(completed: list[dict]) -> dict:
+    rows = []
+    for result in completed:
+        scored = result.get("scored", {})
+        scores = canonicalize_axis_dict(scored.get("axis_scores", {}))
+        ref = scored.get("reference_preservation_score", scores.get(REFERENCE_AND_MOTION_FIDELITY))
+        motion = scored.get("motion_control_score", scored.get("viewpoint_motion_score", result.get("viewpoint_motion_score")))
+        gate = scored.get("motion_gate_applied")
+        if gate is None:
+            gate = (
+                (result.get("task_category") or scored.get("task_category")) in MOTION_GATE_TASK_CATEGORIES
+                or result.get("motion_type") in MOTION_GATE_TYPES
+            )
+        coupled = None
+        if ref is not None:
+            coupled = min(float(ref), float(motion)) if gate and motion is not None else float(ref)
+        rows.append({"reference": ref, "motion": motion, "coupled": coupled, "gate": bool(gate)})
+
+    def mean_key(key: str) -> float | None:
+        values = [float(row[key]) for row in rows if row[key] is not None]
+        return float(np.mean(values)) if values else None
+
+    return {
+        "reference_preservation_mean": mean_key("reference"),
+        "motion_control_mean": mean_key("motion"),
+        "reference_motion_coupled_mean": mean_key("coupled"),
+        "motion_gated_samples": sum(row["gate"] for row in rows),
+        "low_reference_count": sum(row["reference"] is not None and float(row["reference"]) < CONFIG["strict_axis_threshold"] for row in rows),
+        "low_motion_control_count": sum(row["motion"] is not None and float(row["motion"]) < CONFIG["strict_axis_threshold"] for row in rows),
+    }
+
+
 def _viewpoint_motion_gate_multiplier(result: dict) -> float:
     """Convert viewpoint motion fidelity target fidelity to a soft gate multiplier in [0, 1]."""
     scored = result.get("scored", {})
@@ -266,17 +407,17 @@ def _viewpoint_motion_constraint(result: dict) -> tuple[float | None, float | No
     cap: float | None = None
     if motion_type == "static":
         if score < 20.0:
-            cap = 60.0
+            cap = 45.0
             reasons.append("static_motion_constraint_severe_failure")
         elif score < 60.0:
-            cap = 70.0
+            cap = 60.0
             reasons.append("static_motion_constraint_partial_failure")
     else:
         if score < 20.0:
-            cap = 60.0
+            cap = 45.0
             reasons.append("viewpoint_motion_constraint_severe_failure")
         elif score < 60.0:
-            cap = 75.0
+            cap = 65.0
             reasons.append("viewpoint_motion_constraint_partial_failure")
     return score, cap, reasons
 
@@ -311,10 +452,10 @@ def _operator_constraint(result: dict) -> tuple[float, float | None, list[str]]:
         reasons.append("operator_fluid_discontinuity")
 
     if severe_count >= 2:
-        cap = 60.0 if cap is None else min(cap, 60.0)
+        cap = 45.0 if cap is None else min(cap, 45.0)
         reasons.append("operator_multiple_severe_failures")
     elif severe_count == 1:
-        cap = 70.0 if cap is None else min(cap, 70.0)
+        cap = 60.0 if cap is None else min(cap, 60.0)
 
     return reliability_score, cap, reasons
 
@@ -376,6 +517,19 @@ def _scoring_validity_summary(completed: list[dict], axis_keys: set[str]) -> dic
     incomplete_samples = 0
     floor_applied_count = 0
     parse_invalid_count = 0
+    parse_recovered_count = 0
+
+    def detail_score(details: dict) -> object:
+        for key in (
+            "score",
+            "temporal_consistency_score",
+            "reference_and_motion_fidelity_score",
+            "physical_plausibility_score",
+            "geometric_integrity_model_score",
+        ):
+            if details.get(key) is not None:
+                return details.get(key)
+        return None
 
     for result in completed:
         scored = result.get("scored", {})
@@ -391,6 +545,7 @@ def _scoring_validity_summary(completed: list[dict], axis_keys: set[str]) -> dic
             present_by_axis[axis] = present_by_axis.get(axis, 0) + 1
 
         detail_fields = (
+            "industrial_logic_and_fact_alignment_details",
             "temporal_consistency_details",
             "physical_plausibility_details",
             "reference_and_motion_fidelity_details",
@@ -398,9 +553,14 @@ def _scoring_validity_summary(completed: list[dict], axis_keys: set[str]) -> dic
         )
         for field in detail_fields:
             details = result.get(field) or {}
+            if not details:
+                continue
+            score = detail_score(details)
             if details.get("llm_parse_valid") is False:
                 parse_invalid_count += 1
-            if details.get("score") is None and details.get("raw_response"):
+                if score is not None:
+                    parse_recovered_count += 1
+            elif details.get("raw_response") and score is None:
                 parse_invalid_count += 1
 
     return {
@@ -411,6 +571,7 @@ def _scoring_validity_summary(completed: list[dict], axis_keys: set[str]) -> dic
         "present_axis_counts": present_by_axis,
         "score_floor_applied_samples": floor_applied_count,
         "invalid_or_unparsed_judge_outputs": parse_invalid_count,
+        "parse_recovered_judge_outputs": parse_recovered_count,
     }
 
 
@@ -432,7 +593,7 @@ def _constraint_adjustment(result: dict) -> dict:
     The adjustment is penalty-only: constraints can lower the model-judged axis
     score or cap it, but cannot improve it.
     """
-    axis_score = float(result.get("scored", {}).get("weighted_score", 0.0))
+    axis_score = _task_conditioned_score(result)
     viewpoint_score, viewpoint_cap, viewpoint_reasons = _viewpoint_motion_constraint(result)
     operator_score, operator_cap, operator_reasons = _operator_constraint(result)
 
@@ -473,9 +634,13 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
             "overall": 0.0,
             "relax_score": 0.0,
             "relax_score_ci95": {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0},
+            "task_conditioned_score": 0.0,
+            "task_conditioned_score_ci95": {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0},
             "complete_case_relax_score": None,
             "complete_case_relax_score_ci95": {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0},
             "strict_pass_rate": 0.0,
+            "functional_pass_rate": 0.0,
+            "axis_pass_rates": {},
             "motion_gated_score": 0.0,
             "gated_score": 0.0,
             "operator_risk_adjusted_score": 0.0,
@@ -503,7 +668,9 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
                 "present_axis_counts": {},
                 "score_floor_applied_samples": 0,
                 "invalid_or_unparsed_judge_outputs": 0,
+                "parse_recovered_judge_outputs": 0,
             },
+            "reference_motion_decomposition": {},
             "score_calibration": {
                 "headline_score_policy": CONFIG["headline_score_policy"],
                 "ranking_score_policy": "constraint_adjusted_score",
@@ -540,6 +707,7 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         float(r["scored"].get("weighted_score", 0.0))
         for r in completed
     ]
+    task_conditioned_scores = [_task_conditioned_score(r) for r in completed]
     complete_case_results = [r for r in completed if _has_required_axes(r)]
     complete_case_weighted_scores = [
         float(r["scored"].get("weighted_score", 0.0))
@@ -549,6 +717,7 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         _sample_passes_strict(r["scored"].get("axis_scores", {}))
         for r in completed
     ]
+    functional_flags = [_sample_passes_functional(r) for r in completed]
     motion_gated_scores = [
         float(r["scored"].get("weighted_score", 0.0))
         * _viewpoint_motion_gate_multiplier(r)
@@ -571,12 +740,16 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
 
     aggregate["relax_score"] = float(np.mean(weighted_scores))
     aggregate["relax_score_ci95"] = _mean_confidence_interval(weighted_scores)
+    aggregate["task_conditioned_score"] = float(np.mean(task_conditioned_scores))
+    aggregate["task_conditioned_score_ci95"] = _mean_confidence_interval(task_conditioned_scores)
     aggregate["complete_case_relax_score"] = (
         float(np.mean(complete_case_weighted_scores))
         if complete_case_weighted_scores else None
     )
     aggregate["complete_case_relax_score_ci95"] = _mean_confidence_interval(complete_case_weighted_scores)
     aggregate["strict_pass_rate"] = float(np.mean(strict_flags))
+    aggregate["functional_pass_rate"] = float(np.mean(functional_flags))
+    aggregate["axis_pass_rates"] = _axis_pass_rates(completed)
     aggregate["motion_gated_score"] = float(np.mean(motion_gated_scores))
     aggregate["gated_score"] = float(np.mean(gated_scores))
     aggregate["operator_risk_adjusted_score"] = aggregate["gated_score"]
@@ -584,7 +757,7 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     aggregate["constraint_adjusted_score_ci95"] = _mean_confidence_interval(constraint_adjusted_scores)
     aggregate["ranking_score"] = aggregate["constraint_adjusted_score"]
     aggregate["constraint_adjustment_summary"] = {
-        "formula": "min(axis_score, constraint_score, hard_constraint_cap)",
+        "formula": "min(task_conditioned_score, constraint_score, hard_constraint_cap)",
         "policy": "conservative_necessary_constraint_upper_bound",
         "mean_constraint_score": float(np.mean([
             item["constraint_score"] for item in constraint_adjustments
@@ -604,6 +777,7 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     aggregate["num_samples_complete_required_axes"] = len(complete_case_results)
     aggregate["num_samples_skipped"] = len(sample_results) - len(completed)
     aggregate["scoring_validity"] = _scoring_validity_summary(completed, axis_keys)
+    aggregate["reference_motion_decomposition"] = _reference_motion_decomposition(completed)
     aggregate["axis_score_ci95"] = {
         axis: _mean_confidence_interval([
             result["scored"]["axis_scores"][axis]
@@ -633,8 +807,9 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         "ranking_score_policy": "constraint_adjusted_score",
         "heuristic_gates_in_overall": False,
         "score_floors_in_headline": False,
-        "status": "constraint_adjusted_score_uses_prespecified_no_label_formula",
-        "constraint_adjusted_score_formula": "min(axis_score, constraint_score, hard_constraint_cap)",
+        "status": "headline_uses_task_conditioned_bottleneck_sensitive_score",
+        "task_conditioned_score_formula": "0.55*weighted_arithmetic_mean + 0.45*weighted_harmonic_mean, with task-critical bottleneck penalty",
+        "constraint_adjusted_score_formula": "min(task_conditioned_score, constraint_score, hard_constraint_cap)",
         "scores_excluded_from_overall": [
             "motion_gated_score",
             "operator_risk_adjusted_score",
@@ -647,7 +822,5 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
             "gated_score",
         ],
     }
-    # The headline score remains the model-judged weighted axis mean until
-    # motion/operator gates are calibrated against human acceptability labels.
-    aggregate["overall"] = aggregate["relax_score"]
+    aggregate["overall"] = aggregate["task_conditioned_score"]
     return aggregate

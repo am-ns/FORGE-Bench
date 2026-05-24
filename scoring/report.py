@@ -7,6 +7,11 @@ import sys
 from collections import Counter, defaultdict
 
 from eval.axis_registry import (
+    GEOMETRIC_INTEGRITY,
+    INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
+    PHYSICAL_PLAUSIBILITY,
+    REFERENCE_AND_MOTION_FIDELITY,
+    TEMPORAL_CONSISTENCY,
     INDUSTRIAL_CONSTRAINT_SCORE,
     VIEWPOINT_MOTION_FIDELITY,
     canonicalize_axis_dict,
@@ -200,6 +205,7 @@ def _constraint_adjustment_diagnostics(aggregate: dict) -> dict:
     return {
         "overall": aggregate.get("overall"),
         "relax_score": aggregate.get("relax_score"),
+        "task_conditioned_score": aggregate.get("task_conditioned_score"),
         "constraint_adjusted_score": aggregate.get("constraint_adjusted_score"),
         "ranking_score": aggregate.get("ranking_score"),
         "summary": aggregate.get("constraint_adjustment_summary", {}),
@@ -211,11 +217,70 @@ def _statistical_uncertainty_report(aggregate: dict) -> dict:
     """Expose confidence intervals and complete-case metrics in report.json."""
     return {
         "relax_score_ci95": aggregate.get("relax_score_ci95"),
+        "task_conditioned_score_ci95": aggregate.get("task_conditioned_score_ci95"),
         "constraint_adjusted_score_ci95": aggregate.get("constraint_adjusted_score_ci95"),
         "complete_case_relax_score": aggregate.get("complete_case_relax_score"),
         "complete_case_relax_score_ci95": aggregate.get("complete_case_relax_score_ci95"),
         "axis_score_ci95": aggregate.get("axis_score_ci95", {}),
         "stratified_score_ci95": aggregate.get("stratified_score_ci95", {}),
+    }
+
+
+def _pass_rate_report(aggregate: dict) -> dict:
+    return {
+        "strict_pass_rate": aggregate.get("strict_pass_rate"),
+        "functional_pass_rate": aggregate.get("functional_pass_rate"),
+        "axis_pass_rates": aggregate.get("axis_pass_rates", {}),
+    }
+
+
+def _reference_motion_decomposition_report(aggregate: dict) -> dict:
+    return aggregate.get("reference_motion_decomposition", {})
+
+
+def _failure_taxonomy(results: list[dict]) -> dict:
+    """Label-free failure taxonomy from axis scores and operator diagnostics."""
+    counts: Counter[str] = Counter()
+    examples: dict[str, list[str]] = defaultdict(list)
+
+    def add(label: str, task_id: str | None) -> None:
+        counts[label] += 1
+        if task_id and len(examples[label]) < 8:
+            examples[label].append(task_id)
+
+    for result in results:
+        if result.get("skipped"):
+            continue
+        task_id = result.get("task_id")
+        scored = result.get("scored", {})
+        axes = canonicalize_axis_dict(scored.get("axis_scores", {}))
+        if axes.get(REFERENCE_AND_MOTION_FIDELITY, 100.0) < CONFIG["low_axis_threshold"]:
+            add("reference_drift_or_identity_loss", task_id)
+        motion_score = scored.get("motion_control_score", scored.get("viewpoint_motion_score", result.get("viewpoint_motion_score")))
+        if motion_score is not None and float(motion_score) < CONFIG["low_axis_threshold"]:
+            add("motion_under_execution", task_id)
+        if axes.get(TEMPORAL_CONSISTENCY, 100.0) < CONFIG["low_axis_threshold"]:
+            add("temporal_instability_or_identity_break", task_id)
+        if axes.get(GEOMETRIC_INTEGRITY, 100.0) < CONFIG["low_axis_threshold"]:
+            add("geometric_or_topological_failure", task_id)
+        if axes.get(PHYSICAL_PLAUSIBILITY, 100.0) < CONFIG["low_axis_threshold"]:
+            add("physical_implausibility", task_id)
+        if axes.get(INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT, 100.0) < CONFIG["low_axis_threshold"]:
+            add("industrial_causal_or_compliance_failure", task_id)
+
+        operators = (result.get("operator_evidence") or {}).get("operators") or {}
+        if (operators.get("local_region_lock") or {}).get("risk") == "global_regeneration":
+            add("global_scene_regeneration", task_id)
+        if (operators.get("temporal_break") or {}).get("abrupt_transition") is True:
+            add("abrupt_temporal_break", task_id)
+        if (operators.get("rigid_joint_tracking") or {}).get("risk") == "rigid_drift":
+            add("rigid_structure_drift", task_id)
+        if (operators.get("fluid_diffusion") or {}).get("plausible_continuity") is False:
+            add("fluid_or_defect_diffusion_discontinuity", task_id)
+
+    return {
+        label: {"count": count, "examples": examples.get(label, [])}
+        for label, count in counts.most_common()
     }
 
 
@@ -322,9 +387,12 @@ def generate_diagnostic_report(model: str, aggregate: dict, sample_results: list
         "operator_evidence_diagnostics": _operator_evidence_diagnostics(completed),
         "constraint_adjustment_diagnostics": _constraint_adjustment_diagnostics(aggregate),
         "statistical_uncertainty": _statistical_uncertainty_report(aggregate),
+        "pass_rate_report": _pass_rate_report(aggregate),
+        "reference_motion_decomposition": _reference_motion_decomposition_report(aggregate),
         "scoring_validity": aggregate.get("scoring_validity", {}),
         "run_metadata": aggregate.get("run_metadata", {}),
         "ability_failure_report": _ability_failure_report(completed),
+        "failure_taxonomy": _failure_taxonomy(completed),
         "worst_samples": _worst_samples(completed),
     }
 

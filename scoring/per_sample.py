@@ -141,6 +141,17 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
     else:
         rotation_integrity_factor_gated = rotation_integrity_factor
 
+    reference_preservation_score = axis_scores.get(REFERENCE_AND_MOTION_FIDELITY)
+    reference_motion_coupled_score = None
+    if reference_preservation_score is not None:
+        if motion_gate_applied and viewpoint_motion_axis_score is not None:
+            reference_motion_coupled_score = min(
+                float(reference_preservation_score),
+                float(viewpoint_motion_axis_score),
+            )
+        else:
+            reference_motion_coupled_score = float(reference_preservation_score)
+
     out = {
         "weighted_score": final_score,
         "axis_scores": axis_scores,
@@ -166,6 +177,9 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
         out["viewpoint_motion_score"] = viewpoint_motion_axis_score
         out["motion_control_score"] = viewpoint_motion_axis_score
         out["motion_gate_applied"] = motion_gate_applied
+    if reference_preservation_score is not None:
+        out["reference_preservation_score"] = float(reference_preservation_score)
+        out["reference_motion_coupled_score"] = reference_motion_coupled_score
     if industrial_constraint_axis_score is not None:
         out["industrial_constraint_score"] = industrial_constraint_axis_score
     return out

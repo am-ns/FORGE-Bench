@@ -107,14 +107,19 @@ Contains:
 - `axis_scores` - per-axis mean raw scores used by headline reporting
 - `relax_score` - mean per-sample model-led weighted score
 - `relax_score_ci95` - deterministic bootstrap 95% confidence interval for `relax_score`
+- `task_conditioned_score` - bottleneck-sensitive headline score using arithmetic/harmonic blending plus task-critical penalties
+- `task_conditioned_score_ci95` - deterministic bootstrap 95% confidence interval for `task_conditioned_score`
 - `complete_case_relax_score` - mean score restricted to samples with all five required public axes
 - `complete_case_relax_score_ci95` - bootstrap 95% confidence interval for the complete-case score
 - `strict_pass_rate` - fraction of samples where all present axes clear threshold
+- `functional_pass_rate` - task-conditioned pass rate: key axes clear 60 and non-key axes clear 45
+- `axis_pass_rates` - per-axis pass counts and rates at the strict threshold
+- `reference_motion_decomposition` - separate reference preservation, motion control, and coupled reference-motion diagnostics
 - `constraint_adjusted_score` - penalty-only score with task constraints and hard caps
 - `constraint_adjusted_score_ci95` - deterministic bootstrap 95% confidence interval for the ranking score
 - `ranking_score` - leaderboard sorting score, currently equal to `constraint_adjusted_score`
 - `gated_score` - legacy diagnostic task-aware motion/operator-risk score
-- `overall` - model-led ability score, currently aligned to `relax_score`
+- `overall` - paper-facing model ability score, currently aligned to `task_conditioned_score`
 - `viewpoint_motion_tier` - one of `none`, `weak`, `moderate`, `full`
 - `rotation_integrity_factor` - geometric mean of industrial logic and fact alignment, geometric integrity, and reference and motion fidelity
 - `rotation_integrity_factor_gated` - rotation integrity factor excluding static videos when viewpoint motion fidelity is effectively zero
@@ -147,12 +152,15 @@ axes and are not mechanically folded into public axes. They are supplied as
 evidence to the model judge and also feed the penalty-only
 `constraint_adjusted_score` used for leaderboard ranking.
 
-The model-led ability score is a dynamic weighted average of the five axes. The
+The diagnostic `relax_score` is a dynamic weighted average of the five axes.
+The paper-facing `overall` score is bottleneck-sensitive: it blends the
+task-weighted arithmetic mean with a weighted harmonic mean and applies a
+smooth penalty when task-critical axes fall below the functional threshold. The
 ranking score is:
 
 ```text
 constraint_adjusted_score =
-  min(axis_score, constraint_score, hard_constraint_cap)
+  min(task_conditioned_score, constraint_score, hard_constraint_cap)
 ```
 
 The adjustment treats task constraints as necessary upper bounds, so it can only
