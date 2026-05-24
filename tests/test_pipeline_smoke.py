@@ -460,7 +460,7 @@ class TestScoring:
         assert result["functional_pass_rate"] == 1.0
         assert result["axis_pass_rates"][GEOMETRIC_INTEGRITY]["pass_rate"] == 1.0
         assert "reference_motion_decomposition" in result
-        assert result["constraint_adjusted_score"] == pytest.approx(62.5)
+        assert result["constraint_adjusted_score"] == pytest.approx(60.2546875)
         assert result["ranking_score"] == result["constraint_adjusted_score"]
         assert result["constraint_adjustment_summary"]["samples_with_cap"] == 1
         assert result["constraint_adjustment_summary"]["cap_reason_counts"]["viewpoint_motion_constraint_severe_failure"] == 1
@@ -518,7 +518,7 @@ class TestScoring:
         assert result["gated_score"] == 0.0
         assert result["relax_score"] == 70.0
         assert result["overall"] == pytest.approx(74.5)
-        assert result["constraint_adjusted_score"] == 45.0
+        assert result["constraint_adjusted_score"] == pytest.approx(40.509375)
 
     def test_aggregate_applies_operator_risk_gate(self):
         """Operator evidence should lower fallback scores for abrupt breaks."""
@@ -550,7 +550,7 @@ class TestScoring:
         assert result["gated_score"] < 40.0
         assert result["relax_score"] == 80.0
         assert result["overall"] == 80.0
-        assert result["constraint_adjusted_score"] == pytest.approx(34.125)
+        assert result["constraint_adjusted_score"] == pytest.approx(38.89625)
         assert result["constraint_adjustment_summary"]["cap_reason_counts"]["operator_multiple_severe_failures"] == 1
 
     def test_physical_plausibility_parser_uses_native_0_100_scale(self):

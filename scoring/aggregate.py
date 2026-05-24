@@ -588,10 +588,11 @@ def _has_required_axes(result: dict) -> bool:
 
 
 def _constraint_adjustment(result: dict) -> dict:
-    """Compute a label-free constraint-adjusted score for engineering ranking.
+    """Compute a label-free penalty-adjusted score for engineering ranking.
 
-    The adjustment is penalty-only: constraints can lower the model-judged axis
-    score or cap it, but cannot improve it.
+    Ranking should reflect overall model ability while still penalizing
+    necessary industrial constraints. Constraint signals therefore become
+    multiplicative penalties instead of a hard min() score replacement.
     """
     axis_score = _task_conditioned_score(result)
     viewpoint_score, viewpoint_cap, viewpoint_reasons = _viewpoint_motion_constraint(result)
@@ -604,13 +605,17 @@ def _constraint_adjustment(result: dict) -> dict:
 
     caps = [cap for cap in (viewpoint_cap, operator_cap) if cap is not None]
     hard_cap = min(caps) if caps else 100.0
-    adjusted_score = min(axis_score, constraint_score, hard_cap)
+    constraint_multiplier = 0.50 + 0.50 * (constraint_score / 100.0)
+    hard_constraint_multiplier = 0.50 + 0.50 * (hard_cap / 100.0)
+    adjusted_score = axis_score * constraint_multiplier * hard_constraint_multiplier
 
     return {
         "axis_score": axis_score,
         "constraint_score": constraint_score,
         "constraint_adjusted_score": float(adjusted_score),
         "hard_constraint_cap": float(hard_cap),
+        "constraint_multiplier": float(constraint_multiplier),
+        "hard_constraint_multiplier": float(hard_constraint_multiplier),
         "cap_reasons": viewpoint_reasons + operator_reasons,
         "viewpoint_motion_constraint_score": viewpoint_score,
         "operator_reliability_score": operator_score,
@@ -757,13 +762,19 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     aggregate["constraint_adjusted_score_ci95"] = _mean_confidence_interval(constraint_adjusted_scores)
     aggregate["ranking_score"] = aggregate["constraint_adjusted_score"]
     aggregate["constraint_adjustment_summary"] = {
-        "formula": "min(task_conditioned_score, constraint_score, hard_constraint_cap)",
-        "policy": "conservative_necessary_constraint_upper_bound",
+        "formula": "task_conditioned_score * (0.50 + 0.50*constraint_score/100) * (0.50 + 0.50*hard_constraint_cap/100)",
+        "policy": "penalty_adjusted_composite_ranking",
         "mean_constraint_score": float(np.mean([
             item["constraint_score"] for item in constraint_adjustments
         ])),
         "mean_hard_constraint_cap": float(np.mean([
             item["hard_constraint_cap"] for item in constraint_adjustments
+        ])),
+        "mean_constraint_multiplier": float(np.mean([
+            item["constraint_multiplier"] for item in constraint_adjustments
+        ])),
+        "mean_hard_constraint_multiplier": float(np.mean([
+            item["hard_constraint_multiplier"] for item in constraint_adjustments
         ])),
         "samples_with_cap": sum(
             1 for item in constraint_adjustments if item["hard_constraint_cap"] < 100.0
@@ -809,7 +820,7 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         "score_floors_in_headline": False,
         "status": "headline_uses_task_conditioned_bottleneck_sensitive_score",
         "task_conditioned_score_formula": "0.55*weighted_arithmetic_mean + 0.45*weighted_harmonic_mean, with task-critical bottleneck penalty",
-        "constraint_adjusted_score_formula": "min(task_conditioned_score, constraint_score, hard_constraint_cap)",
+        "constraint_adjusted_score_formula": "task_conditioned_score * (0.50 + 0.50*constraint_score/100) * (0.50 + 0.50*hard_constraint_cap/100)",
         "scores_excluded_from_overall": [
             "motion_gated_score",
             "operator_risk_adjusted_score",

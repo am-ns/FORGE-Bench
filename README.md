@@ -170,27 +170,26 @@ emphasize `reference_and_motion_fidelity` and `geometric_integrity`. The
 harmonic component and task-critical bottleneck penalty prevent one strong axis
 from hiding a functional failure on a necessary axis.
 
-The engineering ranking score is a penalty-only constraint adjustment:
+The engineering ranking score is a penalty-adjusted composite:
 
 ```text
 constraint_adjusted_score =
-  min(
-    task_conditioned_score,
-    constraint_score,
-    hard_constraint_cap
-  )
+  task_conditioned_score
+  * (0.50 + 0.50 * constraint_score / 100)
+  * (0.50 + 0.50 * hard_constraint_cap / 100)
 
 ranking_score = constraint_adjusted_score
 ```
 
 `task_conditioned_score` is the bottleneck-sensitive five-axis sample score.
 `constraint_score` combines task-aware viewpoint motion fidelity and operator
-reliability when available. The ranking score is deliberately conservative: a necessary
-constraint failure acts as an upper bound, so severe failures such as static
-output for required camera motion, global regeneration, abrupt temporal breaks,
-rigid drift, or fluid discontinuity cannot be hidden by strong scores on other
-axes. The adjustment can only lower a score; it cannot raise the model-led axis
-score.
+reliability when available. `hard_constraint_cap` is converted into a penalty
+multiplier rather than used as a direct min() replacement, so the ranking score
+still reflects overall model ability while lowering samples with severe
+necessary-constraint failures such as static output for required camera motion,
+global regeneration, abrupt temporal breaks, rigid drift, or fluid
+discontinuity. The adjustment can only lower a score; it cannot raise the
+model-led axis score.
 
 ### Operator Evidence
 
@@ -312,7 +311,7 @@ Important aggregate fields:
 | `functional_pass_rate` | Task-conditioned pass rate: critical axes must clear 60, non-critical axes must clear 45. |
 | `axis_pass_rates` | Per-axis pass counts and rates at the strict threshold. |
 | `reference_motion_decomposition` | Separates reference preservation, motion control, and coupled reference-motion fidelity diagnostics. |
-| `constraint_adjusted_score` | Penalty-only score combining `task_conditioned_score` with task constraints and hard caps. |
+| `constraint_adjusted_score` | Penalty-adjusted score combining `task_conditioned_score` with task constraints and hard-cap severity multipliers. |
 | `constraint_adjusted_score_ci95` | Deterministic bootstrap 95% confidence interval for the ranking score. |
 | `ranking_score` | Leaderboard sorting score, currently equal to `constraint_adjusted_score`. |
 | `motion_gated_score` | Legacy diagnostic score after heuristic task-aware motion gating; not used as `overall` or `ranking_score`. |

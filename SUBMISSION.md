@@ -115,7 +115,7 @@ Contains:
 - `functional_pass_rate` - task-conditioned pass rate: key axes clear 60 and non-key axes clear 45
 - `axis_pass_rates` - per-axis pass counts and rates at the strict threshold
 - `reference_motion_decomposition` - separate reference preservation, motion control, and coupled reference-motion diagnostics
-- `constraint_adjusted_score` - penalty-only score with task constraints and hard caps
+- `constraint_adjusted_score` - penalty-adjusted score with task constraints and hard-cap severity multipliers
 - `constraint_adjusted_score_ci95` - deterministic bootstrap 95% confidence interval for the ranking score
 - `ranking_score` - leaderboard sorting score, currently equal to `constraint_adjusted_score`
 - `gated_score` - legacy diagnostic task-aware motion/operator-risk score
@@ -156,16 +156,18 @@ The diagnostic `relax_score` is a dynamic weighted average of the five axes.
 The paper-facing `overall` score is bottleneck-sensitive: it blends the
 task-weighted arithmetic mean with a weighted harmonic mean and applies a
 smooth penalty when task-critical axes fall below the functional threshold. The
-ranking score is:
+ranking score is a penalty-adjusted composite:
 
 ```text
 constraint_adjusted_score =
-  min(task_conditioned_score, constraint_score, hard_constraint_cap)
+  task_conditioned_score
+  * (0.50 + 0.50 * constraint_score / 100)
+  * (0.50 + 0.50 * hard_constraint_cap / 100)
 ```
 
-The adjustment treats task constraints as necessary upper bounds, so it can only
-lower the model-led score, never raise it. The weights come from the abstract
-task category: mechanism tasks emphasize geometry and physics,
+The adjustment treats task constraints as multiplicative penalties, so it can
+only lower the model-led score, never raise it. The weights come from the
+abstract task category: mechanism tasks emphasize geometry and physics,
 periodic/local-defect tasks emphasize geometry and time, and viewpoint-
 inspection tasks emphasize reference/motion fidelity and geometry.
 
