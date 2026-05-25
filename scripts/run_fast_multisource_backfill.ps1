@@ -1,14 +1,15 @@
 param(
   [int]$TargetNew = 0,
-  [int]$Shards = 4,
+  [int]$Shards = 3,
   [int]$PerScene = 12,
   [int]$SearchLimit = 24,
-  [string]$Providers = "commons,commons_category,openverse,loc,nara",
+  [string]$Providers = "commons,commons_category,openverse",
   [string]$ScenesFile = "reports\image_deficit_plan_current\selected_scenes.json",
   [string]$Domains = "",
   [string]$RunId = "",
-  [int]$ProviderWorkers = 16,
-  [int]$DownloadWorkers = 12,
+  [int]$ProviderWorkers = 2,
+  [int]$DownloadWorkers = 1,
+  [double]$MinHostInterval = 2.0,
   [bool]$LogSearchDiagnostics = $true
 )
 
@@ -35,9 +36,10 @@ for ($i = 0; $i -lt $Shards; $i++) {
     param(
       $repoRoot, $out, $manifest, $scenesFile, $providers, $domains,
       $targetNew, $perScene, $searchLimit, $providerWorkers, $downloadWorkers,
-      $shards, $idx, $logSearchDiagnostics
+      $minHostInterval, $shards, $idx, $logSearchDiagnostics
     )
     Set-Location $repoRoot
+    Start-Sleep -Seconds ([Math]::Min(30, $idx * 5))
     $args = @(
       "scripts\fast_multisource_image_backfill.py",
       "--output-dir", $out,
@@ -49,6 +51,7 @@ for ($i = 0; $i -lt $Shards; $i++) {
       "--search-limit", $searchLimit,
       "--provider-workers", $providerWorkers,
       "--download-workers", $downloadWorkers,
+      "--min-host-interval", $minHostInterval,
       "--shards", $shards,
       "--shard-index", $idx
     )
@@ -64,7 +67,7 @@ for ($i = 0; $i -lt $Shards; $i++) {
   $jobs += Start-Job -ScriptBlock $script -ArgumentList `
     $repoRoot, $out, $manifest, $ScenesFile, $Providers, $Domains, `
     $perWorkerTarget, $PerScene, $SearchLimit, $ProviderWorkers, `
-    $DownloadWorkers, $Shards, $i, $LogSearchDiagnostics
+    $DownloadWorkers, $MinHostInterval, $Shards, $i, $LogSearchDiagnostics
 }
 
 Write-Host "Started fast multisource jobs: $($jobs.Count)"
@@ -76,6 +79,7 @@ Write-Host "Providers: $Providers"
 Write-Host "ScenesFile: $ScenesFile"
 Write-Host "ProviderWorkers: $ProviderWorkers"
 Write-Host "DownloadWorkers: $DownloadWorkers"
+Write-Host "MinHostInterval: $MinHostInterval seconds"
 Write-Host "Staging root: $stagingRoot"
 Write-Host "Reports: $reportDir"
 

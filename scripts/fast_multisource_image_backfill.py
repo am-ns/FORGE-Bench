@@ -10,7 +10,10 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
+import os
+import random
 import re
 import sys
 import time
@@ -38,6 +41,8 @@ NARA_API = "https://catalog.archives.gov/api/v1/"
 USER_AGENT = "FORGE-Bench fast multisource image backfill/1.0"
 IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp"}
 WIKIMEDIA_THUMB_WIDTH = 1024
+HOST_RATE_LIMIT_SECONDS = 0.0
+HOST_RATE_LIMIT_DIR = REPO_ROOT / ".cache" / "fast_multisource_host_locks"
 
 BLOCKED_TERMS = {
     "book", "cover", "frontispiece", "page", "scan", "scanned", "diagram",
@@ -63,15 +68,75 @@ class Candidate:
 
 
 def _request_json(url: str, timeout: float) -> dict:
+    _rate_limit_host(url)
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     with urllib.request.urlopen(req, timeout=timeout) as response:
         return json.loads(response.read().decode("utf-8", errors="replace"))
 
 
 def _download(url: str, dest: Path, timeout: float) -> None:
+    _rate_limit_host(url)
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
     with urllib.request.urlopen(req, timeout=timeout) as response:
         dest.write_bytes(response.read())
+
+
+def _rate_limit_host(url: str) -> None:
+    if HOST_RATE_LIMIT_SECONDS <= 0:
+        return
+    host = urllib.parse.urlparse(url).netloc.lower() or "unknown"
+    if not host:
+        return
+    HOST_RATE_LIMIT_DIR.mkdir(parents=True, exist_ok=True)
+    digest = hashlib.sha1(host.encode("utf-8")).hexdigest()[:16]
+    lock_path = HOST_RATE_LIMIT_DIR / f"{digest}.lock"
+    lock_path.touch(exist_ok=True)
+    with lock_path.open("r+b") as handle:
+        if os.name == "nt":
+            _rate_limit_host_windows(handle)
+        else:
+            _rate_limit_host_posix(handle)
+
+
+def _rate_limit_host_windows(handle) -> None:
+    import msvcrt
+
+    while True:
+        try:
+            handle.seek(0)
+            msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+            break
+        except OSError:
+            time.sleep(0.1)
+    try:
+        _apply_rate_limit(handle)
+    finally:
+        handle.seek(0)
+        msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
+
+
+def _rate_limit_host_posix(handle) -> None:
+    import fcntl
+
+    fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+    try:
+        _apply_rate_limit(handle)
+    finally:
+        fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+
+
+def _apply_rate_limit(handle) -> None:
+    handle.seek(0)
+    raw = handle.read().decode("ascii", errors="ignore").strip()
+    last = float(raw) if raw else 0.0
+    now = time.time()
+    wait = last + HOST_RATE_LIMIT_SECONDS - now
+    if wait > 0:
+        time.sleep(wait + random.uniform(0.05, 0.25))
+    handle.seek(0)
+    handle.truncate()
+    handle.write(f"{time.time():.6f}".encode("ascii"))
+    handle.flush()
 
 
 def _wikimedia_thumb_url(url: str, width: int = WIKIMEDIA_THUMB_WIDTH) -> str:
@@ -426,6 +491,10 @@ def _write_manifest(rows: list[dict], path: Path) -> None:
 
 
 def run(args: argparse.Namespace) -> None:
+    global HOST_RATE_LIMIT_SECONDS, HOST_RATE_LIMIT_DIR
+
+    HOST_RATE_LIMIT_SECONDS = max(0.0, float(args.min_host_interval))
+    HOST_RATE_LIMIT_DIR = Path(args.host_lock_dir)
     samples = _load_samples(Path(args.samples))
     samples_by_scene = {}
     for sample in samples:
@@ -546,6 +615,8 @@ def main() -> None:
     parser.add_argument("--provider-workers", type=int, default=16)
     parser.add_argument("--download-workers", type=int, default=12)
     parser.add_argument("--log-search-diagnostics", action="store_true")
+    parser.add_argument("--min-host-interval", type=float, default=2.0)
+    parser.add_argument("--host-lock-dir", default=".cache/fast_multisource_host_locks")
     parser.add_argument("--timeout", type=float, default=12.0)
     parser.add_argument("--sleep-between-scenes", type=float, default=0.0)
     parser.add_argument("--shards", type=int, default=1)
