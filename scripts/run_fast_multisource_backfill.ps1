@@ -1,5 +1,5 @@
 param(
-  [int]$TargetNew = 240,
+  [int]$TargetNew = 0,
   [int]$Shards = 4,
   [int]$PerScene = 12,
   [int]$SearchLimit = 24,

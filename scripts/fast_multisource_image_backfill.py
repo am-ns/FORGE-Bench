@@ -448,6 +448,9 @@ def run(args: argparse.Namespace) -> None:
     accepted_by_scene: dict[str, int] = {}
     candidate_index = 0
 
+    def target_reached() -> bool:
+        return args.target_new > 0 and accepted_total >= args.target_new
+
     for scene in scenes:
         candidates, diagnostics = _collect_candidates(scene, samples_by_scene, args)
         rows.extend(diagnostics)
@@ -455,7 +458,7 @@ def run(args: argparse.Namespace) -> None:
         download_tasks = []
         with ThreadPoolExecutor(max_workers=args.download_workers) as executor:
             for candidate in candidates:
-                if accepted_total >= args.target_new or accepted_by_scene[scene] >= args.per_scene:
+                if target_reached() or accepted_by_scene[scene] >= args.per_scene:
                     break
                 safe_provider = re.sub(r"[^a-zA-Z0-9]+", "_", candidate.provider).strip("_")
                 candidate_index += 1
@@ -513,7 +516,7 @@ def run(args: argparse.Namespace) -> None:
                 if len(rows) % 20 == 0:
                     _write_manifest(rows, manifest)
         _write_manifest(rows, manifest)
-        if accepted_total >= args.target_new:
+        if target_reached():
             break
         time.sleep(args.sleep_between_scenes)
 
