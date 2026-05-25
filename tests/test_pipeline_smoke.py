@@ -498,7 +498,9 @@ class TestScoring:
         assert result["functional_pass_rate"] == 1.0
         assert result["axis_pass_rates"][GEOMETRIC_INTEGRITY]["pass_rate"] == 1.0
         assert "reference_motion_decomposition" in result
-        assert result["constraint_adjusted_score"] == pytest.approx(60.2546875)
+        assert result["application_score_strict"] == pytest.approx(70.0)
+        assert result["application_score_policy"]["leaderboard"] == "strict"
+        assert result["constraint_adjusted_score"] == pytest.approx(51.216484375)
         assert result["ranking_score"] == result["constraint_adjusted_score"]
         assert result["constraint_adjustment_summary"]["samples_with_cap"] == 1
         assert result["constraint_adjustment_summary"]["cap_reason_counts"]["viewpoint_motion_constraint_severe_failure"] == 1
@@ -533,8 +535,9 @@ class TestScoring:
         assert result["overall"] == pytest.approx(80.0)
         assert result["application_usefulness_score"] == 20.0
         assert result["application_score"] == 20.0
+        assert result["application_score_strict"] == pytest.approx(14.0)
         assert result["application_pass_rate"]["pass_rate"] == 0.0
-        assert result["ranking_score"] == pytest.approx(48.0)
+        assert result["ranking_score"] == pytest.approx(45.6)
         assert result["application_type_breakdown"]["inspection_and_maintenance"]["count"] == 1
 
     def test_aggregate_ignores_motion_gate_for_non_viewpoint_non_static(self):

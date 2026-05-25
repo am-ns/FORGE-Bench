@@ -59,6 +59,18 @@ def _event_spec(sample: dict) -> str:
 
 
 def _event_loop_spec(sample: dict) -> str:
+    graph = sample.get("event_graph") or {}
+    progression = graph.get("progression") or []
+    if graph:
+        return (
+            "Complete event loop: "
+            f"1) {graph.get('initial_state')}; "
+            f"2) trigger: {graph.get('trigger')}; "
+            f"3) progression: {'; '.join(str(item) for item in progression[:3])}; "
+            f"4) response: {graph.get('required_response')}; "
+            f"5) final state: {graph.get('terminal_state')}; "
+            f"critical industrial decision: {graph.get('critical_decision')}."
+        )
     return (
         "Complete event loop: 1) initial stable industrial state; "
         "2) trigger or abnormal condition; 3) visible event progression; "
@@ -106,6 +118,23 @@ PROHIBIT = (
     "No impossible physics: floating loads, rigid bodies bending, penetration, or unsupported motion. "
     "No global scene regeneration; changes must stay local to the specified event zone."
 )
+
+
+def build_evaluation_prompt(sample: dict) -> str:
+    """Build the judge-facing prompt with scoring context and hidden rubric.
+
+    Generation prompts must not expose dynamic scoring weights. This prompt is
+    kept separate so reports can audit what the judge saw without leaking it to
+    video generation models.
+    """
+    sample = enrich_application_fields(sample)
+    prompt = str(sample.get("prompt", "")).strip()
+    marker = "Application value layer:"
+    if marker in prompt:
+        prompt = prompt.split(marker, 1)[0].strip()
+    from eval.application_taxonomy import format_application_evaluation_context
+
+    return f"{prompt} {format_application_evaluation_context(sample)}".strip()
 
 
 def build_prompt(sample: dict) -> str:

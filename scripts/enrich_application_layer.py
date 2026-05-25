@@ -13,16 +13,12 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from eval.application_taxonomy import enrich_application_fields, format_application_evaluation_context
-from scripts.rebuild_generation_prompts import build_prompt
+from eval.application_taxonomy import enrich_application_fields
+from scripts.rebuild_generation_prompts import build_evaluation_prompt, build_prompt
 
 
 def _rebuild_evaluation_prompt(sample: dict) -> str:
-    prompt = str(sample.get("prompt", "")).strip()
-    marker = "Application value layer:"
-    if marker in prompt:
-        prompt = prompt.split(marker, 1)[0].strip()
-    return f"{prompt} {format_application_evaluation_context(sample)}".strip()
+    return build_evaluation_prompt(sample)
 
 
 def main() -> None:
@@ -42,8 +38,11 @@ def main() -> None:
     for sample in samples:
         item = enrich_application_fields(sample)
         if args.rebuild_prompts:
-            item["prompt"] = _rebuild_evaluation_prompt(item)
+            item["evaluation_prompt"] = _rebuild_evaluation_prompt(item)
+            item["prompt"] = item["evaluation_prompt"]
             item["video_generation_prompt"] = build_prompt(item)
+        elif "evaluation_prompt" not in item:
+            item["evaluation_prompt"] = _rebuild_evaluation_prompt(item)
         enriched.append(item)
     data["samples"] = enriched
 

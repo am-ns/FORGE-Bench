@@ -206,7 +206,54 @@ def application_profile_for(sample: dict) -> dict:
     )
     if requirement:
         profile["decision_relevant_elements"].append(f"reference-image requirement: {requirement}")
+    profile["event_graph"] = build_event_graph(sample, profile)
     return profile
+
+
+def build_event_graph(sample: dict, profile: dict | None = None) -> dict:
+    """Return a scene-specific industrial event loop for application scoring.
+
+    The graph is deterministic and intentionally compact: it gives generation
+    prompts and judges an auditable causal order instead of a loose list of
+    application keywords.
+    """
+    if profile is None:
+        profile = APPLICATION_TYPES[infer_application_type(sample)]
+    scenario = (sample.get("constraint_annotations") or {}).get("domain_scenario") or sample.get("task_title") or sample.get("task_id")
+    subject = sample.get("reference_subject") or "main industrial subject"
+    app_type = infer_application_type(sample)
+    first_event = (profile.get("required_observable_events") or ["the target event is visible"])[0]
+    response_event = (profile.get("required_observable_events") or ["", "the response is visible", ""])[1]
+    terminal_event = (profile.get("required_observable_events") or ["", "", "the final state is visible"])[2]
+    success = profile.get("application_success_criteria") or []
+
+    trigger_by_type = {
+        "safety_training": f"an unsafe act, violation, or hazardous proximity involving {subject}",
+        "emergency_rehearsal": f"an initiating emergency fault or release at {subject}",
+        "robotic_operation": f"a commanded robot motion, contact, grasp, clearance, or recovery step involving {subject}",
+        "inspection_and_maintenance": f"an inspection viewpoint change or localized anomaly discovery on {subject}",
+        "heavy_operation_risk": f"a load, support, clearance, ground, or structural-risk change involving {subject}",
+        "defect_generation": f"a localized defect appearance, growth, or persistence on {subject}",
+    }
+    decision_by_type = {
+        "safety_training": "whether the unsafe state and required safe response are clear enough for training or compliance review",
+        "emergency_rehearsal": "whether the hazard source, propagation path, and immediate response cues are clear enough for rehearsal planning",
+        "robotic_operation": "whether the robot action is feasible, collision-safe, and useful for deployment or recovery judgment",
+        "inspection_and_maintenance": "whether the defect or asset condition can be localized and compared across frames",
+        "heavy_operation_risk": "whether the worksite risk, load path, support state, and personnel distance can be judged",
+        "defect_generation": "whether the clip can serve as a valid localized defect example without corrupting normal regions",
+    }
+    return {
+        "initial_state": f"Reference-anchored stable industrial scene showing {subject} before the event.",
+        "trigger": trigger_by_type.get(app_type, f"the task-specific trigger involving {subject}"),
+        "progression": [
+            f"{first_event}: {scenario}",
+            f"visible event progression remains localized and causally ordered for {subject}",
+        ],
+        "required_response": response_event,
+        "terminal_state": terminal_event,
+        "critical_decision": decision_by_type.get(app_type, success[0] if success else "whether the target industrial task is supported"),
+    }
 
 
 def enrich_application_fields(sample: dict) -> dict:
@@ -216,6 +263,7 @@ def enrich_application_fields(sample: dict) -> dict:
     for key in (
         "application_type",
         "application_objective",
+        "event_graph",
         "required_observable_events",
         "decision_relevant_elements",
         "application_success_criteria",
@@ -228,10 +276,18 @@ def enrich_application_fields(sample: dict) -> dict:
 def format_application_evaluation_context(sample: dict) -> str:
     """Return a compact text block for long evaluation prompts and judge context."""
     enriched = enrich_application_fields(sample)
+    event_graph = enriched.get("event_graph") or {}
     return (
         "Application value layer: "
         f"application_type={enriched.get('application_type')}. "
         f"Application objective: {enriched.get('application_objective')} "
+        "Event graph: "
+        f"initial_state={event_graph.get('initial_state')}; "
+        f"trigger={event_graph.get('trigger')}; "
+        f"progression={' | '.join(event_graph.get('progression') or [])}; "
+        f"required_response={event_graph.get('required_response')}; "
+        f"terminal_state={event_graph.get('terminal_state')}; "
+        f"critical_decision={event_graph.get('critical_decision')}. "
         "Required observable events: "
         f"{'; '.join(enriched.get('required_observable_events', [])[:4])}. "
         "Decision-relevant elements: "

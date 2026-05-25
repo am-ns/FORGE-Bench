@@ -111,8 +111,11 @@ Contains:
 - `task_conditioned_score_ci95` - deterministic bootstrap 95% confidence interval for `task_conditioned_score`
 - `technical_score` - formal three-layer score alias for the five-axis task-conditioned technical score
 - `technical_score_ci95` - bootstrap 95% confidence interval for `technical_score`
-- `application_score` - application value score, combining application usefulness and observable event coverage when available
+- `application_score` - backward-compatible application value score, combining application usefulness and observable event coverage when available
 - `application_score_ci95` - bootstrap 95% confidence interval for `application_score`
+- `application_score_strict` - leaderboard application value score; missing event coverage contributes zero coverage
+- `application_score_strict_ci95` - bootstrap 95% confidence interval for `application_score_strict`
+- `application_score_available_case` - application score only where both usefulness and event coverage are returned
 - `observable_event_coverage` - mean coverage of required observable events returned by the application judge
 - `complete_case_relax_score` - mean score restricted to samples with all five required public axes
 - `complete_case_relax_score_ci95` - bootstrap 95% confidence interval for the complete-case score
@@ -167,20 +170,24 @@ ranking score is a penalty-adjusted composite:
 ```text
 constraint_adjusted_score =
   task_conditioned_score
-  * (0.50 + 0.50 * application_score / 100)
+  * (0.50 + 0.50 * application_score_strict / 100)
   * (0.50 + 0.50 * constraint_score / 100)
   * (0.50 + 0.50 * hard_constraint_cap / 100)
 ```
 
-`application_score = 0.7 * application_usefulness + 0.3 * observable_event_coverage`
-when event coverage is returned by the application judge; otherwise it falls
-back to application usefulness.
+`application_score_strict = 0.7 * application_usefulness + 0.3 * observable_event_coverage`.
+If event coverage is missing, the strict score counts the coverage term as
+zero. The report also exposes the legacy fallback application score and an
+available-case score so missing judge coverage is auditable.
 
 The adjustment treats task constraints as multiplicative penalties, so it can
 only lower the model-led score, never raise it. The weights come from the
 abstract task category: mechanism tasks emphasize geometry and physics,
 periodic/local-defect tasks emphasize geometry and time, and viewpoint-
 inspection tasks emphasize reference/motion fidelity and geometry.
+`ranking_sensitivity_report` recomputes the ranking under nearby application
+and reliability penalty floors and reports per-sample rank correlations against
+the prespecified baseline.
 
 Historical score floors are retained only as diagnostic compatibility fields.
 Headline and ranking scores use raw valid axis scores; invalid or unparsable

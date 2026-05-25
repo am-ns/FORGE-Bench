@@ -171,6 +171,12 @@ application_score =
   + 0.3 * observable_event_coverage
 ```
 
+FORGE-Bench reports three application-score views. `application_score_strict`
+is the leaderboard policy: missing event coverage counts as zero coverage
+instead of silently falling back to usefulness. `application_score` is the
+backward-compatible fallback score, and `application_score_available_case` is
+computed only where both usefulness and event coverage are present.
+
 The weights and bottleneck axes are dynamic by abstract task category. Robot
 and mechanism tasks emphasize `geometric_integrity` and
 `physical_plausibility`; periodic or local defect tasks emphasize
@@ -184,7 +190,7 @@ The engineering ranking score is a penalty-adjusted composite:
 ```text
 constraint_adjusted_score =
   task_conditioned_score
-  * (0.50 + 0.50 * application_score / 100)
+  * (0.50 + 0.50 * application_score_strict / 100)
   * (0.50 + 0.50 * constraint_score / 100)
   * (0.50 + 0.50 * hard_constraint_cap / 100)
 
@@ -192,11 +198,12 @@ ranking_score = constraint_adjusted_score
 ```
 
 `technical_score` / `task_conditioned_score` is the bottleneck-sensitive
-five-axis technical score. `application_score` blends model-judged industrial
-usefulness with per-event observable coverage when the application judge returns
-event checks; otherwise it falls back to application usefulness. It lowers
-ranking when the clip is not useful for the target workflow, but it does not
-hide which technical axis failed.
+five-axis technical score. `application_score_strict` blends model-judged
+industrial usefulness with per-event observable coverage and penalizes missing
+coverage. It lowers ranking when the clip is not useful for the target workflow,
+but it does not hide which technical axis failed. The report includes
+`ranking_sensitivity_report`, which recomputes per-sample ranking under nearby
+application/reliability penalty floors and reports rank correlations.
 `constraint_score` combines task-aware viewpoint motion fidelity and operator
 reliability when available. `hard_constraint_cap` is converted into a penalty
 multiplier rather than used as a direct min() replacement, so the ranking score
@@ -264,6 +271,9 @@ rejection, topic-title overlap, task-anchor quality, near-duplicate filtering,
 and background edge density limits to avoid overly cluttered images. The
 task-anchor filter rejects candidates that are clear but cannot support the
 sample's industrial subject, required events, decision elements, or event space.
+Candidate manifests also include auditable anchor evidence:
+`anchor_objects_present`, `spatial_context_present`, `event_support_level`, and
+`anchor_rejection_reason`.
 
 Use `reports/prompts.jsonl` when batch-submitting tasks to a video generation
 model. Each row contains `task_id`, `image_path`, `video_generation_prompt`,
@@ -329,8 +339,11 @@ Important aggregate fields:
 | `strict_pass_rate` | Fraction of completed samples where all present axes pass thresholds. |
 | `functional_pass_rate` | Task-conditioned pass rate: critical axes must clear 60, non-critical axes must clear 45. |
 | `axis_pass_rates` | Per-axis pass counts and rates at the strict threshold. |
-| `application_score` | Industrial application score: `0.7 * application_usefulness + 0.3 * observable_event_coverage` when event coverage is available; otherwise application usefulness. |
+| `application_score` | Backward-compatible industrial application score: `0.7 * application_usefulness + 0.3 * observable_event_coverage` when event coverage is available; otherwise application usefulness. |
 | `application_score_ci95` | Bootstrap 95% confidence interval for `application_score`. |
+| `application_score_strict` | Leaderboard application score. Missing event coverage contributes zero coverage. |
+| `application_score_strict_ci95` | Bootstrap 95% confidence interval for `application_score_strict`. |
+| `application_score_available_case` | Application score only over samples where both usefulness and event coverage are returned. |
 | `application_usefulness_score` | Mean industrial application-usefulness score when the application judge is enabled. |
 | `observable_event_coverage` | Mean coverage of required observable events returned by the application judge. |
 | `application_pass_rate` | Fraction of application-judged samples at or above the strict threshold. |
@@ -351,7 +364,8 @@ Important aggregate fields:
 | `stratified_score_ci95` | Bootstrap confidence intervals by domain, task category, motion type, primary topology, and sub-topology. |
 | `scoring_validity` | Counts missing required axes, invalid judge parses, and whether score floors were applied. |
 | `application_coverage_summary` | Counts application types, scene coverage per application, and required-event coverage. |
-| `dataset_coverage_report` | Report-level coverage summary for application types, scenes, referenced images, scene image-count shortfalls, and event coverage. |
+| `dataset_coverage_report` | Report-level coverage summary for application types, scenes, referenced images, scene image-count shortfalls, event coverage, and coverage matrices for domain/task/motion/risk by application type. |
+| `ranking_sensitivity_report` | Stability of ranking under nearby application and reliability penalty-floor variants. |
 | `run_metadata` | Reproducibility metadata: sample hash, eval/scoring code hashes, judge provider/model, config hash, Python/OpenCV/NumPy versions. |
 | `domain_breakdown` | Scores and low-fidelity flags by the five scenario domains. |
 | `task_breakdown` | Scores and low-fidelity flags by abstract task category. |

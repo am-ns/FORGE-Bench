@@ -286,6 +286,11 @@ def _axis_pass_rates(completed: list[dict]) -> dict:
 
 
 def _application_score(result: dict) -> float | None:
+    """Backward-compatible application score.
+
+    This is retained as the available fallback score: if event coverage is not
+    available, application usefulness carries the score by itself.
+    """
     scored = result.get("scored", {})
     score = scored.get("application_score")
     if score is None:
@@ -301,6 +306,38 @@ def _application_score(result: dict) -> float | None:
             )
     if score is None:
         return None
+    return max(0.0, min(100.0, float(score)))
+
+
+def _application_score_strict(result: dict) -> float | None:
+    """Application score with missing event coverage treated as incomplete.
+
+    A missing application-usefulness judge output remains missing. If the judge
+    gives usefulness but does not return required-event coverage, the coverage
+    term contributes zero instead of silently falling back to usefulness.
+    """
+    scored = result.get("scored", {})
+    usefulness = scored.get("application_usefulness_score", result.get("application_usefulness_score"))
+    if usefulness is None:
+        usefulness = (scored.get("application_axis_scores") or {}).get(APPLICATION_USEFULNESS)
+    if usefulness is None:
+        return None
+    coverage = _observable_event_coverage(result)
+    coverage_value = 0.0 if coverage is None else coverage
+    score = 0.7 * float(usefulness) + 0.3 * float(coverage_value)
+    return max(0.0, min(100.0, float(score)))
+
+
+def _application_score_available_case(result: dict) -> float | None:
+    """Application score only for samples with both usefulness and event coverage."""
+    scored = result.get("scored", {})
+    usefulness = scored.get("application_usefulness_score", result.get("application_usefulness_score"))
+    if usefulness is None:
+        usefulness = (scored.get("application_axis_scores") or {}).get(APPLICATION_USEFULNESS)
+    coverage = _observable_event_coverage(result)
+    if usefulness is None or coverage is None:
+        return None
+    score = 0.7 * float(usefulness) + 0.3 * float(coverage)
     return max(0.0, min(100.0, float(score)))
 
 
@@ -338,18 +375,23 @@ def _application_pass_rate(completed: list[dict]) -> dict:
 
 def _application_type_breakdown(completed: list[dict]) -> dict:
     groups: dict[str, list[float]] = {}
+    strict_groups: dict[str, list[float]] = {}
     for result in completed:
         score = _application_score(result)
-        if score is None:
-            continue
         app_type = result.get("application_type") or "unknown"
-        groups.setdefault(str(app_type), []).append(score)
+        if score is not None:
+            groups.setdefault(str(app_type), []).append(score)
+        strict_score = _application_score_strict(result)
+        if strict_score is not None:
+            strict_groups.setdefault(str(app_type), []).append(strict_score)
     return {
         app_type: {
             "count": len(values),
             "application_score": float(np.mean(values)),
+            "application_score_strict": float(np.mean(strict_groups.get(app_type, values))),
             "pass_rate": float(np.mean([v >= CONFIG["strict_axis_threshold"] for v in values])),
             "ci95": _mean_confidence_interval(values),
+            "strict_ci95": _mean_confidence_interval(strict_groups.get(app_type, [])),
         }
         for app_type, values in sorted(groups.items())
     }
@@ -612,6 +654,91 @@ def _application_coverage_summary(completed: list[dict]) -> dict:
     }
 
 
+def _rankdata(values: list[float]) -> list[float]:
+    """Return average ranks for Spearman correlation without scipy."""
+    order = sorted(range(len(values)), key=lambda idx: values[idx])
+    ranks = [0.0] * len(values)
+    i = 0
+    while i < len(order):
+        j = i + 1
+        while j < len(order) and values[order[j]] == values[order[i]]:
+            j += 1
+        rank = (i + j - 1) / 2.0 + 1.0
+        for k in range(i, j):
+            ranks[order[k]] = rank
+        i = j
+    return ranks
+
+
+def _pearson_corr(a: list[float], b: list[float]) -> float | None:
+    if len(a) < 2 or len(a) != len(b):
+        return None
+    av = np.array(a, dtype=float)
+    bv = np.array(b, dtype=float)
+    if float(np.std(av)) == 0.0 or float(np.std(bv)) == 0.0:
+        return None
+    return float(np.corrcoef(av, bv)[0, 1])
+
+
+def _spearman_corr(a: list[float], b: list[float]) -> float | None:
+    return _pearson_corr(_rankdata(a), _rankdata(b))
+
+
+def _ranking_score_variant(
+    result: dict,
+    *,
+    application_floor: float = 0.50,
+    constraint_floor: float = 0.50,
+    hard_cap_floor: float = 0.50,
+) -> float:
+    axis_score = _task_conditioned_score(result)
+    application_score = _application_score_strict(result)
+    if application_score is None:
+        application_score = 100.0
+    viewpoint_score, viewpoint_cap, _ = _viewpoint_motion_constraint(result)
+    operator_score, operator_cap, _ = _operator_constraint(result)
+    constraint_components = [operator_score]
+    if viewpoint_score is not None:
+        constraint_components.append(viewpoint_score)
+    constraint_score = float(np.mean(constraint_components)) if constraint_components else 100.0
+    caps = [cap for cap in (viewpoint_cap, operator_cap) if cap is not None]
+    hard_cap = min(caps) if caps else 100.0
+
+    def multiplier(floor: float, score: float) -> float:
+        floor = max(0.0, min(1.0, float(floor)))
+        return floor + (1.0 - floor) * (score / 100.0)
+
+    return float(
+        axis_score
+        * multiplier(application_floor, application_score)
+        * multiplier(constraint_floor, constraint_score)
+        * multiplier(hard_cap_floor, hard_cap)
+    )
+
+
+def _ranking_sensitivity_report(completed: list[dict], baseline_scores: list[float]) -> dict:
+    """Report how stable per-sample ranking is under penalty-floor variants."""
+    variants = {
+        "application_floor_0_40": {"application_floor": 0.40},
+        "application_floor_0_60": {"application_floor": 0.60},
+        "reliability_floor_0_40": {"constraint_floor": 0.40, "hard_cap_floor": 0.40},
+        "reliability_floor_0_60": {"constraint_floor": 0.60, "hard_cap_floor": 0.60},
+    }
+    out = {}
+    for name, params in variants.items():
+        scores = [_ranking_score_variant(result, **params) for result in completed]
+        out[name] = {
+            "mean": float(np.mean(scores)) if scores else None,
+            "spearman_vs_baseline": _spearman_corr(baseline_scores, scores),
+            "pearson_vs_baseline": _pearson_corr(baseline_scores, scores),
+        }
+    return {
+        "baseline_policy": "application_floor_0_50_reliability_floor_0_50",
+        "baseline_n": len(baseline_scores),
+        "variants": out,
+    }
+
+
 def _scoring_validity_summary(completed: list[dict], axis_keys: set[str]) -> dict:
     """Summarize missing axes and parse/fallback status for transparency."""
     required_axes = {
@@ -715,7 +842,7 @@ def _constraint_adjustment(result: dict) -> dict:
     multiplicative penalties instead of a hard min() score replacement.
     """
     axis_score = _task_conditioned_score(result)
-    application_score = _application_score(result)
+    application_score = _application_score_strict(result)
     if application_score is None:
         application_score = 100.0
     viewpoint_score, viewpoint_cap, viewpoint_reasons = _viewpoint_motion_constraint(result)
@@ -737,6 +864,7 @@ def _constraint_adjustment(result: dict) -> dict:
         "axis_score": axis_score,
         "constraint_score": constraint_score,
         "application_score": float(application_score),
+        "application_score_policy": "strict_missing_event_coverage_counts_as_zero_coverage",
         "constraint_adjusted_score": float(adjusted_score),
         "hard_constraint_cap": float(hard_cap),
         "constraint_multiplier": float(constraint_multiplier),
@@ -783,6 +911,11 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
             "application_usefulness_score": None,
             "application_score": None,
             "application_score_ci95": {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0},
+            "application_score_strict": None,
+            "application_score_strict_ci95": {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0},
+            "application_score_available_case": None,
+            "application_score_available_case_ci95": {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0},
+            "application_score_policy": {},
             "observable_event_coverage": None,
             "application_pass_rate": {"threshold": CONFIG["strict_axis_threshold"], "pass_count": 0, "total": 0, "pass_rate": None},
             "application_type_breakdown": {},
@@ -812,6 +945,7 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
                 "parse_recovered_judge_outputs": 0,
             },
             "reference_motion_decomposition": {},
+            "ranking_sensitivity_report": {},
             "score_calibration": {
                 "headline_score_policy": CONFIG["headline_score_policy"],
                 "ranking_score_policy": "application_and_constraint_adjusted_score",
@@ -850,6 +984,10 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     ]
     task_conditioned_scores = [_task_conditioned_score(r) for r in completed]
     application_scores = [score for score in (_application_score(r) for r in completed) if score is not None]
+    application_scores_strict = [score for score in (_application_score_strict(r) for r in completed) if score is not None]
+    application_scores_available_case = [
+        score for score in (_application_score_available_case(r) for r in completed) if score is not None
+    ]
     application_usefulness_scores = [score for score in (_application_usefulness_score(r) for r in completed) if score is not None]
     event_coverage_scores = [score for score in (_observable_event_coverage(r) for r in completed) if score is not None]
     complete_case_results = [r for r in completed if _has_required_axes(r)]
@@ -905,6 +1043,18 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     aggregate["ranking_score_ci95"] = aggregate["constraint_adjusted_score_ci95"]
     aggregate["application_score"] = float(np.mean(application_scores)) if application_scores else None
     aggregate["application_score_ci95"] = _mean_confidence_interval(application_scores)
+    aggregate["application_score_strict"] = float(np.mean(application_scores_strict)) if application_scores_strict else None
+    aggregate["application_score_strict_ci95"] = _mean_confidence_interval(application_scores_strict)
+    aggregate["application_score_available_case"] = (
+        float(np.mean(application_scores_available_case)) if application_scores_available_case else None
+    )
+    aggregate["application_score_available_case_ci95"] = _mean_confidence_interval(application_scores_available_case)
+    aggregate["application_score_policy"] = {
+        "leaderboard": "strict",
+        "strict": "0.7*application_usefulness + 0.3*observable_event_coverage, with missing event coverage counted as zero coverage",
+        "fallback": "0.7*application_usefulness + 0.3*observable_event_coverage when coverage is available, otherwise application_usefulness",
+        "available_case": "computed only when both application usefulness and event coverage are present",
+    }
     aggregate["application_usefulness_score"] = float(np.mean(application_usefulness_scores)) if application_usefulness_scores else None
     aggregate["application_usefulness_score_ci95"] = _mean_confidence_interval(application_usefulness_scores)
     aggregate["observable_event_coverage"] = float(np.mean(event_coverage_scores)) if event_coverage_scores else None
@@ -946,6 +1096,7 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     aggregate["num_samples_skipped"] = len(sample_results) - len(completed)
     aggregate["scoring_validity"] = _scoring_validity_summary(completed, axis_keys)
     aggregate["reference_motion_decomposition"] = _reference_motion_decomposition(completed)
+    aggregate["ranking_sensitivity_report"] = _ranking_sensitivity_report(completed, constraint_adjusted_scores)
     aggregate["axis_score_ci95"] = {
         axis: _mean_confidence_interval([
             result["scored"]["axis_scores"][axis]
@@ -986,9 +1137,9 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         "score_floors_in_headline": False,
         "status": "headline_uses_task_conditioned_bottleneck_sensitive_score",
         "technical_score_formula": "technical_score = task_conditioned_score over the five technical axes",
-        "application_score_formula": "application_score = 0.7*application_usefulness + 0.3*observable_event_coverage when event coverage is available; otherwise application_usefulness",
+        "application_score_formula": "application_score_strict = 0.7*application_usefulness + 0.3*observable_event_coverage, with missing event coverage counted as zero coverage",
         "task_conditioned_score_formula": "0.55*weighted_arithmetic_mean + 0.45*weighted_harmonic_mean, with task-critical bottleneck penalty",
-        "constraint_adjusted_score_formula": "task_conditioned_score * (0.50 + 0.50*application_score/100) * (0.50 + 0.50*constraint_score/100) * (0.50 + 0.50*hard_constraint_cap/100)",
+        "constraint_adjusted_score_formula": "task_conditioned_score * (0.50 + 0.50*application_score_strict/100) * (0.50 + 0.50*constraint_score/100) * (0.50 + 0.50*hard_constraint_cap/100)",
         "scores_excluded_from_overall": [
             "motion_gated_score",
             "operator_risk_adjusted_score",

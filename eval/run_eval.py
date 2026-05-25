@@ -508,6 +508,7 @@ def evaluate_sample(
         "application_value": sample.get("application_value") or task_profile.get("application_value"),
         "application_type": sample.get("application_type"),
         "application_objective": sample.get("application_objective"),
+        "event_graph": sample.get("event_graph", {}),
         "required_observable_events": sample.get("required_observable_events", []),
         "decision_relevant_elements": sample.get("decision_relevant_elements", []),
         "application_success_criteria": sample.get("application_success_criteria", []),

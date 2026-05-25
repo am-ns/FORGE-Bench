@@ -205,6 +205,41 @@ def _task_anchor_quality(scene: str, candidate: dict, sample_meta: dict | None) 
     return score, reason
 
 
+def _task_anchor_audit(scene: str, candidate: dict, sample_meta: dict | None) -> dict[str, str]:
+    """Return auditable task-anchor evidence for the candidate manifest."""
+    text = _source_text(candidate).lower()
+    anchor_score, anchor_reason = _task_anchor_quality(scene, candidate, sample_meta)
+    decision_tokens = _tokens(" ".join((sample_meta or {}).get("decision_relevant_elements") or []))
+    event_tokens = _tokens(" ".join((sample_meta or {}).get("required_observable_events") or []))
+    object_present = bool(decision_tokens and any(token in text for token in decision_tokens))
+    event_supported = bool(event_tokens and any(token in text for token in event_tokens))
+    spatial_terms = {
+        "factory", "plant", "workshop", "construction", "site", "warehouse",
+        "line", "cell", "zone", "aisle", "road", "bridge", "tunnel", "yard",
+        "worker", "vehicle", "machine", "equipment", "background",
+    }
+    blocked_terms = {
+        "product shot", "packshot", "booth", "expo", "trade show",
+        "advertisement", "brochure", "studio shot", "catalog", "catalogue",
+    }
+    spatial_context = any(term in text for term in spatial_terms)
+    blocked_context = next((term for term in sorted(blocked_terms) if term in text), "")
+    if anchor_score >= 8 and object_present and spatial_context:
+        support = "strong"
+    elif anchor_score >= 5 and (object_present or event_supported):
+        support = "partial"
+    else:
+        support = "weak"
+    return {
+        "task_anchor_quality": str(anchor_score),
+        "task_anchor_reason": anchor_reason,
+        "anchor_objects_present": str(object_present).lower(),
+        "spatial_context_present": str(spatial_context).lower(),
+        "event_support_level": support,
+        "anchor_rejection_reason": f"blocked_context:{blocked_context.replace(' ', '_')}" if blocked_context else "",
+    }
+
+
 def _good_existing_counts(args: argparse.Namespace) -> dict[str, int]:
     counts = {scene: 0 for scene in SCENE_BANK}
     roots = [ROOT / "dataset" / "images"]
@@ -393,6 +428,10 @@ def run(args: argparse.Namespace) -> None:
                 "topic_score": str(_score(scene, candidate)),
                 "task_anchor_quality": "",
                 "task_anchor_reason": "",
+                "anchor_objects_present": "",
+                "spatial_context_present": "",
+                "event_support_level": "",
+                "anchor_rejection_reason": "",
                 "local_path": "",
             }
             ok, reason = _source_clean(candidate)
@@ -404,11 +443,13 @@ def run(args: argparse.Namespace) -> None:
                 row["reason"] = "topic_score_below_min"
                 rows.append(row)
                 continue
-            anchor_score, anchor_reason = _task_anchor_quality(scene, candidate, sample_by_scene.get(scene))
-            row["task_anchor_quality"] = str(anchor_score)
-            row["task_anchor_reason"] = anchor_reason
+            anchor_audit = _task_anchor_audit(scene, candidate, sample_by_scene.get(scene))
+            row.update(anchor_audit)
+            anchor_score = int(anchor_audit["task_anchor_quality"])
             if anchor_score < args.min_task_anchor_score:
                 row["reason"] = "task_anchor_quality_below_min"
+                if row.get("anchor_rejection_reason"):
+                    row["reason"] += ";" + row["anchor_rejection_reason"]
                 rows.append(row)
                 continue
             license_ok, license_text = _license_ok(info)

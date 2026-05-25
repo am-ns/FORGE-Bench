@@ -170,13 +170,16 @@ def _format_sample_context(sample_meta: dict | None) -> str:
     if constraints:
         lines.append("- hard_constraints: " + "; ".join(str(c) for c in constraints[:8]))
     for key in (
+        "event_graph",
         "required_observable_events",
         "decision_relevant_elements",
         "application_success_criteria",
         "misleading_failure_modes",
     ):
         values = sample_meta.get(key) or []
-        if values:
+        if isinstance(values, dict):
+            lines.append(f"- {key}: " + json.dumps(values, ensure_ascii=True, sort_keys=True))
+        elif values:
             lines.append(f"- {key}: " + "; ".join(str(v) for v in values[:8]))
     evidence_text = _format_operator_evidence(sample_meta.get("operator_evidence") if sample_meta else None)
     if evidence_text:

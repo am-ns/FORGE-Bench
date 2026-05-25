@@ -225,6 +225,18 @@ def _application_score(result: dict) -> float | None:
     return float(score) if score is not None else None
 
 
+def _application_score_strict(result: dict) -> float | None:
+    scored = result.get("scored", {})
+    usefulness = scored.get("application_usefulness_score", result.get("application_usefulness_score"))
+    if usefulness is None:
+        usefulness = (scored.get("application_axis_scores") or {}).get(APPLICATION_USEFULNESS)
+    if usefulness is None:
+        return None
+    coverage = _observable_event_coverage(result)
+    coverage_value = 0.0 if coverage is None else coverage
+    return float(max(0.0, min(100.0, 0.7 * float(usefulness) + 0.3 * float(coverage_value))))
+
+
 def _observable_event_coverage(result: dict) -> float | None:
     scored = result.get("scored", {})
     score = scored.get("observable_event_coverage", result.get("observable_event_coverage"))
@@ -304,6 +316,11 @@ def _application_value_report(aggregate: dict, results: list[dict]) -> dict:
         "overall_application_score": aggregate.get("application_score"),
         "application_score": aggregate.get("application_score"),
         "application_score_ci95": aggregate.get("application_score_ci95"),
+        "application_score_strict": aggregate.get("application_score_strict"),
+        "application_score_strict_ci95": aggregate.get("application_score_strict_ci95"),
+        "application_score_available_case": aggregate.get("application_score_available_case"),
+        "application_score_available_case_ci95": aggregate.get("application_score_available_case_ci95"),
+        "application_score_policy": aggregate.get("application_score_policy", {}),
         "application_usefulness_score": aggregate.get("application_usefulness_score"),
         "application_usefulness_score_ci95": aggregate.get("application_usefulness_score_ci95"),
         "event_coverage_summary": aggregate.get("application_coverage_summary", {}).get("required_event_coverage", {}),
@@ -332,6 +349,7 @@ def _constraint_adjustment_diagnostics(aggregate: dict) -> dict:
         "constraint_adjusted_score": aggregate.get("constraint_adjusted_score"),
         "ranking_score": aggregate.get("ranking_score"),
         "summary": aggregate.get("constraint_adjustment_summary", {}),
+        "ranking_sensitivity_report": aggregate.get("ranking_sensitivity_report", {}),
         "score_calibration": aggregate.get("score_calibration", {}),
     }
 
@@ -341,6 +359,8 @@ def _statistical_uncertainty_report(aggregate: dict) -> dict:
     return {
         "technical_score_ci95": aggregate.get("technical_score_ci95"),
         "application_score_ci95": aggregate.get("application_score_ci95"),
+        "application_score_strict_ci95": aggregate.get("application_score_strict_ci95"),
+        "application_score_available_case_ci95": aggregate.get("application_score_available_case_ci95"),
         "ranking_score_ci95": aggregate.get("ranking_score_ci95"),
         "relax_score_ci95": aggregate.get("relax_score_ci95"),
         "task_conditioned_score_ci95": aggregate.get("task_conditioned_score_ci95"),
@@ -367,6 +387,10 @@ def _reference_motion_decomposition_report(aggregate: dict) -> dict:
 def _dataset_coverage_report(results: list[dict], aggregate: dict) -> dict:
     app_counts: Counter[str] = Counter()
     scene_by_app: dict[str, set[str]] = defaultdict(set)
+    domain_by_app: dict[str, Counter[str]] = defaultdict(Counter)
+    task_by_app: dict[str, Counter[str]] = defaultdict(Counter)
+    motion_by_app: dict[str, Counter[str]] = defaultdict(Counter)
+    risk_by_app: dict[str, Counter[str]] = defaultdict(Counter)
     image_paths = []
     scene_image_counts: dict[str, int] = {}
     repo_root = Path(__file__).resolve().parents[1]
@@ -376,6 +400,15 @@ def _dataset_coverage_report(results: list[dict], aggregate: dict) -> dict:
             continue
         app_type = str(result.get("application_type") or "unknown")
         app_counts[app_type] += 1
+        domain_by_app[app_type][str(result.get("domain") or "unknown")] += 1
+        task_by_app[app_type][str(result.get("task_category") or "unknown")] += 1
+        motion_by_app[app_type][str(result.get("motion_type") or "unknown")] += 1
+        difficulty = result.get("difficulty_profile") or {}
+        if isinstance(difficulty, dict) and difficulty:
+            risk = max(difficulty.values(), key=lambda value: ["easy", "medium", "hard", "adversarial"].index(value) if value in ["easy", "medium", "hard", "adversarial"] else -1)
+        else:
+            risk = "unknown"
+        risk_by_app[app_type][str(risk)] += 1
         scene_id = result.get("scene_id") or result.get("failure_target") or result.get("task_id")
         if scene_id:
             scene_by_app[app_type].add(str(scene_id))
@@ -414,6 +447,25 @@ def _dataset_coverage_report(results: list[dict], aggregate: dict) -> dict:
         "scene_count_per_application": {
             app_type: len(scenes)
             for app_type, scenes in sorted(scene_by_app.items())
+        },
+        "coverage_matrix": {
+            "domain_by_application_type": {
+                key: dict(counter)
+                for key, counter in sorted(domain_by_app.items())
+            },
+            "task_category_by_application_type": {
+                key: dict(counter)
+                for key, counter in sorted(task_by_app.items())
+            },
+            "motion_type_by_application_type": {
+                key: dict(counter)
+                for key, counter in sorted(motion_by_app.items())
+            },
+            "risk_intensity_by_application_type": {
+                key: dict(counter)
+                for key, counter in sorted(risk_by_app.items())
+            },
+            "scene_image_count_by_scene": dict(sorted(scene_image_counts.items())),
         },
         "image_quality_coverage": {
             "unique_referenced_images": len(unique_image_paths),
@@ -568,6 +620,7 @@ def generate_diagnostic_report(model: str, aggregate: dict, sample_results: list
             "num_samples_skipped": len(sample_results) - len(completed),
             "technical_score": aggregate.get("technical_score"),
             "application_score": aggregate.get("application_score"),
+            "application_score_strict": aggregate.get("application_score_strict"),
             "ranking_score": aggregate.get("ranking_score"),
             "strict_pass_rate": aggregate.get("strict_pass_rate"),
             "functional_pass_rate": aggregate.get("functional_pass_rate"),
