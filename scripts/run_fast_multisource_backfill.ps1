@@ -3,13 +3,13 @@ param(
   [int]$Shards = 3,
   [int]$PerScene = 12,
   [int]$SearchLimit = 24,
-  [string]$Providers = "commons,commons_category,openverse",
+  [string]$Providers = "commons,commons_category",
   [string]$ScenesFile = "reports\image_deficit_plan_current\selected_scenes.json",
   [string]$Domains = "",
   [string]$RunId = "",
   [int]$ProviderWorkers = 2,
   [int]$DownloadWorkers = 1,
-  [double]$MinHostInterval = 2.0,
+  [double]$MinHostInterval = 8.0,
   [bool]$LogSearchDiagnostics = $true
 )
 

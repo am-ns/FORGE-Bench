@@ -38,7 +38,7 @@ COMMONS_API = "https://commons.wikimedia.org/w/api.php"
 OPENVERSE_API = "https://api.openverse.engineering/v1/images/"
 LOC_API = "https://www.loc.gov/photos/"
 NARA_API = "https://catalog.archives.gov/api/v1/"
-USER_AGENT = "FORGE-Bench fast multisource image backfill/1.0"
+USER_AGENT = "FORGE-Bench/1.0 (research dataset image sourcing; local operator)"
 IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp"}
 WIKIMEDIA_THUMB_WIDTH = 1024
 HOST_RATE_LIMIT_SECONDS = 0.0
@@ -52,8 +52,35 @@ BLOCKED_TERMS = {
     "newspaper", "pdf", "djvu", "patent", "slide", "presentation",
     "infographic", "model", "toy", "miniature", "product shot",
     "packshot", "booth", "expo", "trade show", "advertisement",
-    "brochure", "mockup", "studio shot",
+    "brochure", "mockup", "studio shot", "clipart", "vector",
+    "silhouette", "template", "floor plan", "site plan", "cross section",
+    "cutaway", "animation", "3d model", "scale model", "diorama",
+    "lego", "simulation", "cad", "cfd", "finite element",
+    "residential", "house", "home", "apartment", "condominium",
+    "villa", "mansion", "cottage", "bedroom", "kitchen", "bathroom",
+    "living room", "real estate", "hotel", "church", "cathedral",
+    "castle", "palace", "school", "museum", "restaurant", "garden",
+    "park", "forest", "tree", "flower", "leaf", "botanical", "zoo",
+    "aquarium", "pet", "dog", "cat", "horse", "cow", "sheep", "goat",
+    "bird", "fish", "insect", "butterfly", "wildlife", "nature",
+    "portrait", "selfie", "wedding", "fashion", "artwork", "painting",
+    "sculpture", "statue", "coin", "stamp", "flag", "coat of arms",
 }
+
+REALWORLD_QUERY_SUFFIXES = [
+    "industrial site photo",
+    "factory floor photo",
+    "worksite equipment photo",
+    "field inspection photo",
+    "real world industrial equipment",
+]
+
+SOURCE_NEGATIVE_TERMS = [
+    "diagram", "schematic", "drawing", "illustration", "render", "rendering",
+    "cartoon", "logo", "icon", "map", "chart", "graph", "manual", "poster",
+    "toy", "model", "house", "home", "residential", "garden", "tree",
+    "flower", "bird", "cat", "dog", "wildlife",
+]
 
 
 @dataclass(frozen=True)
@@ -161,11 +188,36 @@ def _wikimedia_thumb_url(url: str, width: int = WIKIMEDIA_THUMB_WIDTH) -> str:
     ))
 
 
+def _wikimedia_original_url(url: str) -> str:
+    parsed = urllib.parse.urlparse(url)
+    if parsed.netloc.lower() != "upload.wikimedia.org":
+        return ""
+    path = parsed.path
+    if "/wikipedia/commons/thumb/" not in path:
+        return ""
+    prefix, rest = path.split("/wikipedia/commons/thumb/", 1)
+    parts = rest.split("/")
+    if len(parts) < 4:
+        return ""
+    original_rest = "/".join(parts[:-1])
+    return urllib.parse.urlunparse((
+        parsed.scheme,
+        parsed.netloc,
+        f"{prefix}/wikipedia/commons/{original_rest}",
+        "",
+        "",
+        "",
+    ))
+
+
 def _download_candidate(candidate: Candidate, dest: Path, timeout: float) -> str:
     urls = [candidate.image_url]
     thumb_url = _wikimedia_thumb_url(candidate.image_url)
     if thumb_url and thumb_url not in urls:
         urls.append(thumb_url)
+    original_url = _wikimedia_original_url(candidate.image_url)
+    if original_url and original_url not in urls:
+        urls.append(original_url)
     for idx, url in enumerate(urls):
         try:
             _download(url, dest, timeout)
@@ -179,10 +231,18 @@ def _download_candidate(candidate: Candidate, dest: Path, timeout: float) -> str
 
 def _source_clean(*texts: str) -> tuple[bool, str]:
     text = " ".join(texts).lower()
+    tokens = set(re.findall(r"[a-z0-9]+", text))
     for term in sorted(BLOCKED_TERMS, key=len, reverse=True):
-        if term in text:
+        if " " in term and term in text:
             return False, f"blocked_term:{term.replace(' ', '_')}"
+        if " " not in term and term in tokens:
+            return False, f"blocked_term:{term}"
     return True, "ok"
+
+
+def _search_query(query: str) -> str:
+    negatives = " ".join(f'-"{term}"' if " " in term else f"-{term}" for term in SOURCE_NEGATIVE_TERMS)
+    return f"{query} {negatives}".strip()
 
 
 def _upgrade_image_url(url: str) -> str:
@@ -198,7 +258,7 @@ def _commons_search(scene: str, query: str, limit: int, timeout: float) -> list[
         "action": "query",
         "format": "json",
         "generator": "search",
-        "gsrsearch": f"file:{query}",
+        "gsrsearch": f"file:{_search_query(query)}",
         "gsrnamespace": "6",
         "gsrlimit": str(limit),
         "prop": "imageinfo",
@@ -255,7 +315,7 @@ def _commons_category(scene: str, category: str, limit: int, timeout: float) -> 
 
 def _openverse(scene: str, query: str, limit: int, timeout: float) -> list[Candidate]:
     params = {
-        "q": query,
+        "q": _search_query(query),
         "page_size": str(limit),
         "mature": "false",
         "license_type": "all",
@@ -276,7 +336,7 @@ def _openverse(scene: str, query: str, limit: int, timeout: float) -> list[Candi
 
 
 def _loc(scene: str, query: str, limit: int, timeout: float) -> list[Candidate]:
-    params = {"fo": "json", "q": query, "c": str(limit)}
+    params = {"fo": "json", "q": _search_query(query), "c": str(limit)}
     data = _request_json(LOC_API + "?" + urllib.parse.urlencode(params), timeout)
     out = []
     for item in data.get("results", []) or []:
@@ -296,7 +356,7 @@ def _nara(scene: str, query: str, limit: int, timeout: float) -> list[Candidate]
     params = {
         "availableOnline": "true",
         "objectType": "Photographs and other Graphic Materials",
-        "q": query,
+        "q": _search_query(query),
         "rows": str(limit),
     }
     data = _request_json(NARA_API + "?" + urllib.parse.urlencode(params), timeout)
@@ -342,13 +402,23 @@ def _load_scenes(path: str, samples: list[dict]) -> list[str]:
 def _scene_queries(scene: str, samples_by_scene: dict[str, dict], max_queries: int) -> list[str]:
     bank = SCENE_BANK.get(scene, {})
     queries = [str(q) for q in bank.get("queries", [])]
+    tokens = str(bank.get("tokens") or "").strip()
+    if tokens:
+        queries.append(tokens)
     sample = samples_by_scene.get(scene) or {}
     for field in ("reference_subject", "image_requirement", "task_title"):
         value = str(sample.get(field) or "").strip()
         if value:
             queries.append(value)
-    compact = []
+    expanded = []
     for query in queries:
+        expanded.append(query)
+        words = query.lower()
+        if not any(term in words for term in ("photo", "factory", "industrial", "worksite", "site")):
+            for suffix in REALWORLD_QUERY_SUFFIXES:
+                expanded.append(f"{query} {suffix}")
+    compact = []
+    for query in expanded:
         query = re.sub(r"\s+", " ", query).strip()
         if query and query.lower() not in {q.lower() for q in compact}:
             compact.append(query)
@@ -604,21 +674,21 @@ def main() -> None:
     parser.add_argument("--image-root", default="dataset/images")
     parser.add_argument("--output-dir", default="dataset/images_candidates/fast_multisource")
     parser.add_argument("--manifest", default="reports/fast_multisource_image_backfill.csv")
-    parser.add_argument("--providers", default="commons,commons_category,openverse,loc,nara")
+    parser.add_argument("--providers", default="commons,commons_category,loc,nara")
     parser.add_argument("--domains", default="")
     parser.add_argument("--target-new", type=int, default=120)
     parser.add_argument("--per-scene", type=int, default=12)
     parser.add_argument("--max-scenes", type=int, default=0)
-    parser.add_argument("--search-limit", type=int, default=20)
-    parser.add_argument("--queries-per-scene", type=int, default=4)
+    parser.add_argument("--search-limit", type=int, default=40)
+    parser.add_argument("--queries-per-scene", type=int, default=8)
     parser.add_argument("--categories-per-scene", type=int, default=4)
-    parser.add_argument("--provider-workers", type=int, default=16)
-    parser.add_argument("--download-workers", type=int, default=12)
+    parser.add_argument("--provider-workers", type=int, default=4)
+    parser.add_argument("--download-workers", type=int, default=4)
     parser.add_argument("--log-search-diagnostics", action="store_true")
-    parser.add_argument("--min-host-interval", type=float, default=2.0)
+    parser.add_argument("--min-host-interval", type=float, default=4.0)
     parser.add_argument("--host-lock-dir", default=".cache/fast_multisource_host_locks")
     parser.add_argument("--timeout", type=float, default=12.0)
-    parser.add_argument("--sleep-between-scenes", type=float, default=0.0)
+    parser.add_argument("--sleep-between-scenes", type=float, default=1.0)
     parser.add_argument("--shards", type=int, default=1)
     parser.add_argument("--shard-index", type=int, default=0)
     parser.add_argument("--min-width", type=int, default=900)

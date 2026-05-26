@@ -636,6 +636,8 @@ def judge_sample_application_usefulness(
     score = parsed.get("score") if parsed else _parse_score_0_100(raw)
     return {
         "score": score,
+        "observable_event_coverage": parsed.get("observable_event_coverage") if parsed else None,
+        "required_event_checks": parsed.get("required_event_checks", []) if parsed else [],
         "llm_parse_valid": parsed is not None and score is not None,
         "reasoning": parsed.get("reasoning", raw) if parsed else raw,
         "failure_modes": parsed.get("failure_modes", []) if parsed else [],
