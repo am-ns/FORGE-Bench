@@ -154,8 +154,11 @@ def _rate_limit_host_posix(handle) -> None:
 
 def _apply_rate_limit(handle) -> None:
     handle.seek(0)
-    raw = handle.read().decode("ascii", errors="ignore").strip()
-    last = float(raw) if raw else 0.0
+    raw = handle.read().decode("ascii", errors="ignore").replace("\x00", "").strip()
+    try:
+        last = float(raw) if raw else 0.0
+    except ValueError:
+        last = 0.0
     now = time.time()
     wait = last + HOST_RATE_LIMIT_SECONDS - now
     if wait > 0:
@@ -474,6 +477,13 @@ def _existing_hashes(root: Path) -> list[str]:
     return hashes
 
 
+def _scene_image_count(image_root: Path, domain: str, scene: str) -> int:
+    scene_dir = image_root / domain / scene
+    if not scene_dir.exists():
+        return 0
+    return sum(1 for path in scene_dir.iterdir() if path.is_file() and path.suffix.lower() in IMAGE_SUFFIXES)
+
+
 def _passes_quality(metrics: dict, args: argparse.Namespace) -> tuple[bool, str]:
     if metrics["width"] < args.min_width or metrics["height"] < args.min_height:
         return False, "resolution_below_min"
@@ -573,6 +583,13 @@ def run(args: argparse.Namespace) -> None:
     if args.domains:
         domains = {item.strip() for item in args.domains.split(",") if item.strip()}
         scenes = [scene for scene in scenes if (samples_by_scene.get(scene) or {}).get("domain") in domains]
+    image_root = Path(args.image_root)
+    formal_counts: dict[str, int] = {}
+    if args.formal_target_per_scene > 0:
+        for scene in scenes:
+            domain = str((samples_by_scene.get(scene) or {}).get("domain") or "")
+            formal_counts[scene] = _scene_image_count(image_root, domain, scene) if domain else 0
+        scenes = [scene for scene in scenes if formal_counts.get(scene, 0) < args.formal_target_per_scene]
     if args.shards > 1:
         scenes = [scene for idx, scene in enumerate(scenes) if idx % args.shards == args.shard_index]
     if args.max_scenes > 0:
@@ -581,7 +598,7 @@ def run(args: argparse.Namespace) -> None:
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     manifest = Path(args.manifest)
-    existing_hashes = _existing_hashes(Path(args.image_root))
+    existing_hashes = _existing_hashes(image_root)
     rows = []
     accepted_total = 0
     accepted_by_scene: dict[str, int] = {}
@@ -591,13 +608,18 @@ def run(args: argparse.Namespace) -> None:
         return args.target_new > 0 and accepted_total >= args.target_new
 
     for scene in scenes:
+        scene_limit = args.per_scene
+        if args.formal_target_per_scene > 0:
+            scene_limit = max(0, min(args.per_scene, args.formal_target_per_scene - formal_counts.get(scene, 0)))
+        if scene_limit <= 0:
+            continue
         candidates, diagnostics = _collect_candidates(scene, samples_by_scene, args)
         rows.extend(diagnostics)
         accepted_by_scene.setdefault(scene, 0)
         download_tasks = []
         with ThreadPoolExecutor(max_workers=args.download_workers) as executor:
             for candidate in candidates:
-                if target_reached() or accepted_by_scene[scene] >= args.per_scene:
+                if target_reached() or accepted_by_scene[scene] >= scene_limit:
                     break
                 safe_provider = re.sub(r"[^a-zA-Z0-9]+", "_", candidate.provider).strip("_")
                 candidate_index += 1
@@ -672,6 +694,12 @@ def main() -> None:
     parser.add_argument("--samples", default="dataset/annotations/samples.json")
     parser.add_argument("--scenes-file", default="")
     parser.add_argument("--image-root", default="dataset/images")
+    parser.add_argument(
+        "--formal-target-per-scene",
+        type=int,
+        default=0,
+        help="Skip scenes already at this formal image count and cap accepted staged images to the remaining deficit.",
+    )
     parser.add_argument("--output-dir", default="dataset/images_candidates/fast_multisource")
     parser.add_argument("--manifest", default="reports/fast_multisource_image_backfill.csv")
     parser.add_argument("--providers", default="commons,commons_category,loc,nara")

@@ -2,6 +2,7 @@ param(
   [int]$TargetNew = 0,
   [int]$Shards = 3,
   [int]$PerScene = 12,
+  [int]$FormalTargetPerScene = 16,
   [int]$SearchLimit = 24,
   [string]$Providers = "commons,commons_category",
   [string]$ScenesFile = "reports\image_deficit_plan_current\selected_scenes.json",
@@ -36,7 +37,7 @@ for ($i = 0; $i -lt $Shards; $i++) {
     param(
       $repoRoot, $out, $manifest, $scenesFile, $providers, $domains,
       $targetNew, $perScene, $searchLimit, $providerWorkers, $downloadWorkers,
-      $minHostInterval, $shards, $idx, $logSearchDiagnostics
+      $formalTargetPerScene, $minHostInterval, $shards, $idx, $logSearchDiagnostics
     )
     Set-Location $repoRoot
     Start-Sleep -Seconds ([Math]::Min(30, $idx * 5))
@@ -48,6 +49,7 @@ for ($i = 0; $i -lt $Shards; $i++) {
       "--providers", $providers,
       "--target-new", $targetNew,
       "--per-scene", $perScene,
+      "--formal-target-per-scene", $formalTargetPerScene,
       "--search-limit", $searchLimit,
       "--provider-workers", $providerWorkers,
       "--download-workers", $downloadWorkers,
@@ -67,13 +69,14 @@ for ($i = 0; $i -lt $Shards; $i++) {
   $jobs += Start-Job -ScriptBlock $script -ArgumentList `
     $repoRoot, $out, $manifest, $ScenesFile, $Providers, $Domains, `
     $perWorkerTarget, $PerScene, $SearchLimit, $ProviderWorkers, `
-    $DownloadWorkers, $MinHostInterval, $Shards, $i, $LogSearchDiagnostics
+    $DownloadWorkers, $FormalTargetPerScene, $MinHostInterval, $Shards, $i, $LogSearchDiagnostics
 }
 
 Write-Host "Started fast multisource jobs: $($jobs.Count)"
 Write-Host "RunId: $RunId"
 Write-Host "TargetNew: $TargetNew (per worker target: $perWorkerTarget)"
 Write-Host "PerScene: $PerScene"
+Write-Host "FormalTargetPerScene: $FormalTargetPerScene"
 Write-Host "SearchLimit: $SearchLimit"
 Write-Host "Providers: $Providers"
 Write-Host "ScenesFile: $ScenesFile"

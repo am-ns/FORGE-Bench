@@ -1,0 +1,10 @@
+{
+  "scenes": [
+    "erob_amr_warehouse_navigation",
+    "erob_robot_arm_precision_grasp",
+    "hload_hoist_collision_near_structure",
+    "pdef_cutting_fluid_spray",
+    "pdef_tube_bundle_endoscopy",
+    "vsec_pedestrian_forklift_near_miss"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "scenes": [
+    "erob_light_curtain_emergency_stop",
+    "hload_dual_crawler_crane_lift",
+    "hload_wire_rope_overload_snap",
+    "pdef_pcb_solder_bridge_short",
+    "vsec_dangerous_goods_liquid_leak",
+    "vsec_surveillance_blind_spot_sweep"
+  ]
+}

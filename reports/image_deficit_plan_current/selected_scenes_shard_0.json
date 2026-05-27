@@ -1,0 +1,11 @@
+{
+  "scenes": [
+    "emerg_flange_high_pressure_leak",
+    "erob_multi_robot_coordination",
+    "hload_excavator_linkage_loading",
+    "pdef_cnc_curved_surface_cutting",
+    "pdef_precision_assembly_misalignment",
+    "vsec_guard_removed_conveyor",
+    "vsec_unregistered_vehicle_intrusion"
+  ]
+}
