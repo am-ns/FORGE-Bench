@@ -521,6 +521,16 @@ def _failure_taxonomy(results: list[dict]) -> dict:
             add("low_industrial_application_usefulness", task_id)
             for mode in _infer_application_failures(result):
                 add(f"application_failure:{mode}", task_id)
+        coverage = _observable_event_coverage(result)
+        if coverage is not None:
+            if float(coverage) <= 0.0:
+                add("required_event_absent_hard_failure", task_id)
+            elif float(coverage) < CONFIG["low_axis_threshold"]:
+                add("required_event_partially_observed", task_id)
+
+        conflict = result.get("geometric_integrity_conflict_details") or {}
+        if conflict.get("conflict") is True:
+            add("geometric_operator_vlm_conflict", task_id)
 
         operators = (result.get("operator_evidence") or {}).get("operators") or {}
         if (operators.get("local_region_lock") or {}).get("risk") == "global_regeneration":

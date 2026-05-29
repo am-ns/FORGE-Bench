@@ -42,7 +42,12 @@ CONFIG = {
     "severe_axis_failure_threshold": 25.0,
     "operator_gate_min": 0.25,
     "hard_application_failure_penalty": 0.50,
-    "headline_score_policy": "task_conditioned_bottleneck_sensitive_score",
+    "zero_event_coverage_cap": 30.0,
+    "partial_event_coverage_cap": 60.0,
+    "geometric_conflict_delta": 40.0,
+    "geometric_conflict_operator_threshold": 60.0,
+    "geometric_conflict_cap": 60.0,
+    "headline_score_policy": "application_and_constraint_adjusted_ranking_score",
     "bootstrap_iterations": 1000,
     "bootstrap_seed": 1729,
     "apply_axis_floors": False,
@@ -394,6 +399,45 @@ def _application_hard_failure_penalty(result: dict) -> tuple[float, list[str]]:
     if hard_modes:
         return float(CONFIG["hard_application_failure_penalty"]), hard_modes
     return 1.0, []
+
+
+def _application_event_coverage_cap(result: dict) -> tuple[float | None, list[str]]:
+    """Hard cap for samples that do not visibly realize required events."""
+    coverage = _observable_event_coverage(result)
+    if coverage is None:
+        return None, []
+    if float(coverage) <= 0.0:
+        return float(CONFIG["zero_event_coverage_cap"]), ["zero_observable_event_coverage"]
+    if float(coverage) < CONFIG["strict_axis_threshold"]:
+        return float(CONFIG["partial_event_coverage_cap"]), ["partial_observable_event_coverage"]
+    return None, []
+
+
+def _geometric_conflict_cap(result: dict) -> tuple[float | None, list[str]]:
+    """Cap ranking when CV geometry evidence strongly contradicts VLM geometry."""
+    conflict_details = result.get("geometric_integrity_conflict_details") or {}
+    if conflict_details.get("conflict") is True:
+        operator_score = conflict_details.get("operator_score")
+        if operator_score is not None:
+            cap = min(float(CONFIG["geometric_conflict_cap"]), max(10.0, float(operator_score)))
+            return cap, ["geometric_operator_vlm_conflict"]
+    scored = result.get("scored", {})
+    axis_scores = canonicalize_axis_dict(scored.get("axis_scores", {}))
+    model_score = axis_scores.get(GEOMETRIC_INTEGRITY)
+    operator_score = result.get("geometric_integrity_score")
+    if model_score is None or operator_score is None:
+        return None, []
+    operator_score = float(operator_score)
+    if operator_score <= 1.0:
+        operator_score *= 100.0
+    delta = float(model_score) - operator_score
+    if (
+        operator_score < CONFIG["geometric_conflict_operator_threshold"]
+        and delta >= CONFIG["geometric_conflict_delta"]
+    ):
+        cap = min(float(CONFIG["geometric_conflict_cap"]), max(10.0, operator_score))
+        return cap, ["geometric_operator_vlm_conflict"]
+    return None, []
 
 
 def _application_pass_rate(completed: list[dict]) -> dict:
@@ -756,18 +800,22 @@ def _ranking_score_variant(
     caps = [cap for cap in (viewpoint_cap, operator_cap) if cap is not None]
     hard_cap = min(caps) if caps else 100.0
     hard_application_penalty, _ = _application_hard_failure_penalty(result)
+    application_cap, _ = _application_event_coverage_cap(result)
+    geometry_cap, _ = _geometric_conflict_cap(result)
 
     def multiplier(floor: float, score: float) -> float:
         floor = max(0.0, min(1.0, float(floor)))
         return floor + (1.0 - floor) * (score / 100.0)
 
-    return float(
+    score = float(
         axis_score
         * multiplier(application_floor, application_score)
         * multiplier(constraint_floor, constraint_score)
         * multiplier(hard_cap_floor, hard_cap)
         * hard_application_penalty
     )
+    caps = [cap for cap in (application_cap, geometry_cap) if cap is not None]
+    return min(score, min(caps)) if caps else score
 
 
 def _ranking_sensitivity_report(completed: list[dict], baseline_scores: list[float]) -> dict:
@@ -937,6 +985,8 @@ def _constraint_adjustment(result: dict) -> dict:
     hard_constraint_multiplier = 0.50 + 0.50 * (hard_cap / 100.0)
     application_multiplier = 0.50 + 0.50 * (application_score / 100.0)
     hard_application_penalty, hard_application_reasons = _application_hard_failure_penalty(result)
+    application_cap, application_cap_reasons = _application_event_coverage_cap(result)
+    geometry_cap, geometry_cap_reasons = _geometric_conflict_cap(result)
     adjusted_score = (
         axis_score
         * application_multiplier
@@ -944,6 +994,9 @@ def _constraint_adjustment(result: dict) -> dict:
         * hard_constraint_multiplier
         * hard_application_penalty
     )
+    score_caps = [cap for cap in (application_cap, geometry_cap) if cap is not None]
+    if score_caps:
+        adjusted_score = min(adjusted_score, min(score_caps))
 
     return {
         "axis_score": axis_score,
@@ -956,10 +1009,12 @@ def _constraint_adjustment(result: dict) -> dict:
         "application_multiplier": float(application_multiplier),
         "hard_constraint_multiplier": float(hard_constraint_multiplier),
         "hard_application_penalty": float(hard_application_penalty),
+        "application_event_coverage_cap": application_cap,
+        "geometric_conflict_cap": geometry_cap,
         "hard_application_failure_reasons": hard_application_reasons,
         "cap_reasons": viewpoint_reasons + operator_reasons + [
             f"hard_application_failure:{reason}" for reason in hard_application_reasons
-        ],
+        ] + application_cap_reasons + geometry_cap_reasons,
         "viewpoint_motion_constraint_score": viewpoint_score,
         "operator_reliability_score": operator_score,
     }
@@ -1192,6 +1247,12 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         "samples_with_hard_application_failure": sum(
             1 for item in constraint_adjustments if item["hard_application_penalty"] < 1.0
         ),
+        "samples_with_application_event_cap": sum(
+            1 for item in constraint_adjustments if item["application_event_coverage_cap"] is not None
+        ),
+        "samples_with_geometric_conflict_cap": sum(
+            1 for item in constraint_adjustments if item["geometric_conflict_cap"] is not None
+        ),
         "cap_reason_counts": cap_reason_counts,
         "hard_application_failure_counts": hard_application_failure_counts,
     }
@@ -1242,19 +1303,21 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         "ranking_score_policy": "application_and_constraint_adjusted_score",
         "heuristic_gates_in_overall": False,
         "score_floors_in_headline": False,
-        "status": "headline_uses_task_conditioned_bottleneck_sensitive_score",
+        "status": "headline_uses_application_and_constraint_adjusted_ranking_score",
         "technical_score_formula": "technical_score = task_conditioned_score over the five technical axes",
         "application_score_formula": "application_score_strict = 0.7*application_usefulness + 0.3*observable_event_coverage, with missing event coverage counted as zero coverage",
         "task_conditioned_score_formula": "0.55*weighted_arithmetic_mean + 0.45*weighted_harmonic_mean, with task-critical bottleneck penalty",
         "constraint_adjusted_score_formula": "task_conditioned_score * (0.50 + 0.50*application_score_strict/100) * (0.50 + 0.50*constraint_score/100) * (0.50 + 0.50*hard_constraint_cap/100) * hard_application_failure_penalty",
         "hard_application_failure_penalty": f"ranking_score is multiplied by {CONFIG['hard_application_failure_penalty']:.2f} when severe misleading application failures are detected",
+        "application_event_cap_policy": f"ranking_score is capped at {CONFIG['zero_event_coverage_cap']:.0f} when observable_event_coverage is zero and at {CONFIG['partial_event_coverage_cap']:.0f} when it is below the strict threshold",
+        "geometric_conflict_cap_policy": "ranking_score is capped when low CV geometric evidence strongly contradicts a high VLM geometric score",
         "scores_excluded_from_overall": [
             "motion_gated_score",
             "operator_risk_adjusted_score",
             "gated_score",
-            "constraint_adjusted_score",
             "application_score",
             "application_usefulness_score",
+            "technical_score",
         ],
         "diagnostic_scores_excluded_from_overall": [
             "motion_gated_score",
@@ -1262,5 +1325,6 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
             "gated_score",
         ],
     }
-    aggregate["overall"] = aggregate["task_conditioned_score"]
+    aggregate["paper_score"] = aggregate["ranking_score"]
+    aggregate["overall"] = aggregate["ranking_score"]
     return aggregate

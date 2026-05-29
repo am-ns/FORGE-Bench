@@ -261,6 +261,33 @@ def _sample_scoring_validity(axis_scores: dict[str, float], detail_blocks: dict[
     }
 
 
+def _conservative_geometric_score(
+    model_score: float | None,
+    operator_result: dict,
+) -> tuple[float | None, dict]:
+    """Use CV geometry evidence as a conservative cap for large VLM disagreements."""
+    if model_score is None:
+        return None, {"policy": "missing_model_score"}
+    operator_score = operator_result.get("result_score")
+    if operator_score is None:
+        return float(model_score), {"policy": "model_score_no_operator_score"}
+    operator_score = float(operator_score)
+    if operator_score <= 1.0:
+        operator_score *= 100.0
+    delta = float(model_score) - operator_score
+    conflict = operator_score < 60.0 and delta >= 40.0
+    final_score = min(float(model_score), max(10.0, operator_score)) if conflict else float(model_score)
+    return final_score, {
+        "policy": "cv_operator_caps_vlm_on_large_conflict",
+        "model_score": float(model_score),
+        "operator_score": operator_score,
+        "delta": delta,
+        "conflict": conflict,
+        "cap_applied": conflict,
+        "final_score": final_score,
+    }
+
+
 # Single-sample evaluation
 
 def evaluate_sample(
@@ -359,7 +386,7 @@ def evaluate_sample(
     # industrial logic and fact alignment: LLM-based if judge available, else use pre-computed answers.
     industrial_logic_and_fact_alignment_score = None
     industrial_logic_and_fact_alignment_details = None
-    cot_map: dict[str, str] = {}
+    visible_evidence_map: dict[str, str] = {}
     questions = sample.get(
         "industrial_logic_questions",
         sample.get("questions", []),
@@ -369,11 +396,14 @@ def evaluate_sample(
         try:
             industrial_logic_and_fact_alignment_model_judgment = judge_industrial_logic_and_fact_alignment(frames, questions, sample_meta=sample_for_judge)
             answers = industrial_logic_and_fact_alignment_model_judgment.get("answers", {})
-            cot_map = industrial_logic_and_fact_alignment_model_judgment.get("chain_of_thought", {})
+            visible_evidence_map = industrial_logic_and_fact_alignment_model_judgment.get(
+                "visible_evidence",
+                industrial_logic_and_fact_alignment_model_judgment.get("chain_of_thought", {}),
+            )
             from eval.domain_alignment.eval import evaluate_industrial_logic_and_fact_alignment
             industrial_logic_and_fact_alignment_result = evaluate_industrial_logic_and_fact_alignment(
                 questions, answers, sample_id=task_id, model_name=model_name,
-                chain_of_thought=cot_map,
+                visible_evidence=visible_evidence_map,
             )
             industrial_logic_and_fact_alignment_score = industrial_logic_and_fact_alignment_result["score"]
             industrial_logic_and_fact_alignment_details = {**industrial_logic_and_fact_alignment_result, "llm_raw": industrial_logic_and_fact_alignment_model_judgment.get("raw_response", "")}
@@ -390,6 +420,8 @@ def evaluate_sample(
 
     # Geometric integrity
     geometric_integrity_model_score = None
+    geometric_integrity_final_score = None
+    geometric_integrity_conflict_details: dict = {}
     geometric_integrity_model_details: dict = {}
     if judge_geometric_integrity is not None:
         try:
@@ -398,6 +430,10 @@ def evaluate_sample(
             geometric_integrity_model_details = r
         except Exception as exc:
             logger.warning("geometric integrity LLM failed for %s: %s", task_id, exc)
+    geometric_integrity_final_score, geometric_integrity_conflict_details = _conservative_geometric_score(
+        geometric_integrity_model_score,
+        geometric_integrity_result,
+    )
 
     # Temporal consistency
     temporal_consistency_result: dict = {}
@@ -469,8 +505,8 @@ def evaluate_sample(
         axis_scores[REFERENCE_AND_MOTION_FIDELITY] = float(reference_and_motion_fidelity_result["reference_and_motion_fidelity_score"])
     if viewpoint_motion_result.get("viewpoint_motion_score") is not None:
         axis_scores[VIEWPOINT_MOTION_FIDELITY] = float(viewpoint_motion_result["viewpoint_motion_score"])
-    if geometric_integrity_model_score is not None:
-        axis_scores[GEOMETRIC_INTEGRITY] = float(geometric_integrity_model_score)
+    if geometric_integrity_final_score is not None:
+        axis_scores[GEOMETRIC_INTEGRITY] = float(geometric_integrity_final_score)
     if application_usefulness_score is not None:
         axis_scores[APPLICATION_USEFULNESS] = float(application_usefulness_score)
 
@@ -529,6 +565,8 @@ def evaluate_sample(
         "geometric_integrity_score": geometric_integrity_result["result_score"],
         "geometric_integrity_method": geometric_integrity_result.get("method"),
         "geometric_integrity_model_score": geometric_integrity_model_score,
+        "geometric_integrity_final_score": geometric_integrity_final_score,
+        "geometric_integrity_conflict_details": geometric_integrity_conflict_details,
         "geometric_integrity_model_details": geometric_integrity_model_details,
         "industrial_constraint_score": geometric_integrity_result.get("industrial_constraint_score"),
         "industrial_constraint_details": geometric_integrity_result.get("industrial_constraint_details"),

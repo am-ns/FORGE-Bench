@@ -85,25 +85,24 @@ def evaluate_answer(expected_answer: str, model_answer: str,
                     question_text: str = "",
                     sample_id: str = "", question_id: str = "",
                     model_name: str = "",
+                    visible_evidence: str = "",
                     chain_of_thought: str = "") -> dict:
     """Compare a model answer against the expected answer.
 
     Standard path: exact (case-insensitive) match => correct.
 
     Superlative-pass path: when ``expected_answer`` is 'no' and the model
-    answers 'yes', both the question and the model's *chain_of_thought* (when
+    answers 'yes', both the question and the model's visible evidence (when
     available) or *model_answer* are checked for structural-correctness
-    evidence.  Using chain_of_thought is more reliable because the CoT
-    contains explicit frame-by-frame reasoning rather than a bare yes/no.
+    evidence.
 
     Args:
-        chain_of_thought: The model's reasoning string from CoT JSON output.
-            When provided, used instead of model_answer for superlative-pass
-            detection (more signal, less noise).
+        visible_evidence: Brief visible evidence from the judge JSON output.
+        chain_of_thought: Legacy field accepted only for backward compatibility.
 
     Returns:
         dict with keys: correct (bool), superlative_pass (bool),
-        expected, model_answer, chain_of_thought.
+        expected, model_answer, visible_evidence.
     """
     expected_norm = _normalize_answer(expected_answer)
     model_norm = _normalize_answer(model_answer)
@@ -118,14 +117,12 @@ def evaluate_answer(expected_answer: str, model_answer: str,
             "superlative_pass": False,
             "expected": expected_answer,
             "model_answer": model_answer,
-            "chain_of_thought": chain_of_thought,
+            "visible_evidence": visible_evidence or chain_of_thought,
         }
 
     # Superlative-pass: expected 'no', model says 'yes'
     if ev == "no" and mv == "yes":
-        # Prefer chain_of_thought for structural correctness evidence;
-        # fall back to model_answer for legacy callers.
-        evidence_text = chain_of_thought if chain_of_thought else model_answer
+        evidence_text = visible_evidence or chain_of_thought or model_answer
         if (_contains_failure_predictive_language(question_text) and
                 _confirms_structural_correctness(evidence_text)):
             _log_superlative_pass(
@@ -141,7 +138,7 @@ def evaluate_answer(expected_answer: str, model_answer: str,
                 "superlative_pass": True,
                 "expected": expected_answer,
                 "model_answer": model_answer,
-                "chain_of_thought": chain_of_thought,
+                "visible_evidence": visible_evidence or chain_of_thought,
             }
 
     return {
@@ -149,7 +146,7 @@ def evaluate_answer(expected_answer: str, model_answer: str,
         "superlative_pass": False,
         "expected": expected_answer,
         "model_answer": model_answer,
-        "chain_of_thought": chain_of_thought,
+        "visible_evidence": visible_evidence or chain_of_thought,
     }
 
 
@@ -177,7 +174,7 @@ def evaluate_industrial_logic_and_fact_alignment(sample_questions: list[dict], m
     superlative_count = 0
     per_question = []
 
-    cot_map = kwargs.get("chain_of_thought", {})
+    evidence_map = kwargs.get("visible_evidence", kwargs.get("chain_of_thought", {}))
 
     for q in sample_questions:
         qid = q["id"]
@@ -190,7 +187,7 @@ def evaluate_industrial_logic_and_fact_alignment(sample_questions: list[dict], m
             sample_id=sample_id,
             question_id=qid,
             model_name=model_name,
-            chain_of_thought=cot_map.get(qid, ""),
+            visible_evidence=evidence_map.get(qid, ""),
         )
         if result["correct"]:
             correct_count += 1

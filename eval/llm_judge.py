@@ -197,13 +197,13 @@ uncertain, lean toward "no".
 must be penalized.
 
 Output format — for each question, output a JSON object on its own line:
-{"chain_of_thought": "<frame-by-frame forensic reasoning>", "answer": "<yes or no>"}
+{"visible_evidence": "<brief visible evidence with frame references only>", "answer": "<yes or no>"}
 
 Prefix each line with the question number. Example:
-1. {"chain_of_thought": "Frames 1-3 show four engine nacelles clearly. Frame 5 \
+1. {"visible_evidence": "Frames 1-3 show four engine nacelles clearly. Frame 5 \
 after orbit shows only three — leftmost nacelle merged with wing root.", \
 "answer": "no"}
-2. {"chain_of_thought": "Scissor mechanism extends symmetrically in all 8 \
+2. {"visible_evidence": "Scissor mechanism extends symmetrically in all 8 \
 frames. No lateral drift or asymmetric deformation observed.", "answer": "yes"}
 """
 
@@ -234,7 +234,7 @@ def _annotate_keypoints(frame: np.ndarray, n_top: int = 25) -> np.ndarray:
 
 
 def _parse_industrial_logic_and_fact_alignment_json_line(line: str) -> dict | None:
-    """Extract chain_of_thought and answer from a CoT JSON line."""
+    """Extract visible evidence and answer from a JSON line."""
     import json
     # strip leading "N. " prefix
     line = line.strip()
@@ -246,19 +246,19 @@ def _parse_industrial_logic_and_fact_alignment_json_line(line: str) -> dict | No
     try:
         obj = json.loads(line)
         answer = str(obj.get("answer", "")).strip().lower()
-        cot = str(obj.get("chain_of_thought", "")).strip()
+        evidence = str(obj.get("visible_evidence", obj.get("chain_of_thought", ""))).strip()
         if answer.startswith("y"):
-            return {"answer": "yes", "chain_of_thought": cot}
+            return {"answer": "yes", "visible_evidence": evidence}
         if answer.startswith("n"):
-            return {"answer": "no", "chain_of_thought": cot}
+            return {"answer": "no", "visible_evidence": evidence}
     except Exception:
         pass
     # Fallback: plain yes/no in the line
     ll = line.lower()
     if "yes" in ll:
-        return {"answer": "yes", "chain_of_thought": ""}
+        return {"answer": "yes", "visible_evidence": ""}
     if "no" in ll:
-        return {"answer": "no", "chain_of_thought": ""}
+        return {"answer": "no", "visible_evidence": ""}
     return None
 
 
@@ -272,8 +272,7 @@ def judge_sample_industrial_logic_and_fact_alignment(
     """Use an LLM to answer industrial logic and fact alignment yes/no questions about a video.
 
     Three improvements over naive yes/no prompting:
-      1. CoT JSON output  — model reasons frame-by-frame before answering,
-         chain_of_thought is returned for diagnostic reports.
+      1. Evidence JSON output - model cites visible frame evidence before answering.
       2. Strict system prompt — zero-tolerance industrial forensics framing
          prevents the model from compensating for structural failures.
       3. Visual prompting — SIFT keypoints drawn as red circles on each frame
@@ -289,7 +288,7 @@ def judge_sample_industrial_logic_and_fact_alignment(
 
     Returns:
         dict with keys: answers ({q_id: 'yes'/'no'}),
-        chain_of_thought ({q_id: str}), raw_response, model, tokens_used.
+        visible_evidence ({q_id: str}), raw_response, model, tokens_used.
     """
     client = _get_client()
     indices = _sample_indices(len(frames), CONFIG["industrial_logic_and_fact_alignment_max_frames"])
@@ -339,23 +338,23 @@ def judge_sample_industrial_logic_and_fact_alignment(
 
     raw = response.content[0].text if response.content else ""
 
-    # Parse CoT JSON answers
+    # Parse evidence JSON answers
     answers: dict[str, str] = {}
-    chain_of_thought: dict[str, str] = {}
+    visible_evidence: dict[str, str] = {}
     lines = [l for l in raw.strip().splitlines() if l.strip()]
     for i, q in enumerate(questions):
         qid = q["id"]
         parsed = _parse_industrial_logic_and_fact_alignment_json_line(lines[i]) if i < len(lines) else None
         if parsed:
             answers[qid] = parsed["answer"]
-            chain_of_thought[qid] = parsed["chain_of_thought"]
+            visible_evidence[qid] = parsed["visible_evidence"]
         else:
             answers[qid] = "no"  # conservative default
-            chain_of_thought[qid] = ""
+            visible_evidence[qid] = ""
 
     return {
         "answers": answers,
-        "chain_of_thought": chain_of_thought,
+        "visible_evidence": visible_evidence,
         "raw_response": raw,
         "model": model,
         "tokens_used": _count_tokens(response),
