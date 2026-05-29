@@ -356,6 +356,22 @@ SCENES = [
 ]
 
 
+def _apply_image_task_alignment() -> None:
+    from scripts.clean_image_task_alignment import SCENE_ALIGNMENTS
+
+    by_scene = {row["scene_id"]: row for row in SCENES}
+    for scene_id, alignment in SCENE_ALIGNMENTS.items():
+        row = by_scene.get(scene_id)
+        if not row:
+            continue
+        for key in ("task_category", "image_requirement", "example_task", "image_path", "application_override"):
+            if key in alignment:
+                row[key] = alignment[key]
+
+
+_apply_image_task_alignment()
+
+
 def _next_numbers(samples: list[dict]) -> dict[str, int]:
     next_by_domain: dict[str, int] = {}
     for sample in samples:
