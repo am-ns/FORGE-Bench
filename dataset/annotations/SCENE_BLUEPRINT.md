@@ -30,6 +30,8 @@ task category, the reference-image requirement, and an example task. A complete
 | `vsec_pedestrian_forklift_near_miss` | `industrial_logic_and_compliance` | 10 | Warehouse aisle or yard intersection with forklifts/pedestrian route and readable right-of-way context. | Pedestrian enters forklift lane; show warning, braking, and near-miss avoidance without identity swaps. |
 | `vsec_smoke_alarm_evacuation` | `fluid_dynamics_and_thermodynamics` | 10 | Industrial corridor, workshop, battery room, or equipment bay with alarm/exit context. | Smoke emerges from equipment, alarm triggers, and workers evacuate following a plausible causal chain. |
 | `vsec_guard_removed_conveyor` | `topology_mutation_and_failure` | 10 | Conveyor, rotating machinery, guard cover, or exposed pinch-point area. | A machine guard is missing or displaced near a conveyor; preserve machine topology and show the unsafe exposed zone. |
+| `vsec_conveyor_jam_loto_clearance` | `industrial_logic_and_compliance` | 10 | Conveyor belt, package line, mining conveyor, or sorting line with emergency stop and accessible jam point. | Conveyor jam is detected; emergency stop and lockout are applied before a worker clears the obstruction. |
+| `vsec_electrical_cabinet_smoke_isolation` | `industrial_logic_and_compliance` | 10 | Industrial electrical cabinet, control panel, MCC room, or switchgear bay with access boundary and extinguisher context. | Electrical cabinet starts smoking; power is isolated, warning area is established, and firefighting response begins. |
 
 ## Embodied Robotics
 
@@ -44,6 +46,8 @@ task category, the reference-image requirement, and an example task. A complete
 | `erob_robot_tool_contact_force` | `rigid_body_kinematics_and_coupling` | 10 | Robot sanding, welding, drilling, or polishing tool in contact with surface. | Robot applies tool contact force to a workpiece; avoid tool penetration, floating force, and surface drift. |
 | `erob_multi_robot_coordination` | `rigid_body_kinematics_and_coupling` | 10 | Multiple AMRs, robotic arms, or coordinated automation stations with clear spacing. | Two robots coordinate handoff or avoidance; maintain identities, paths, and collision-free timing. |
 | `erob_gripper_failure_recovery` | `topology_mutation_and_failure` | 10 | Gripper, suction cup, end effector, or robot tool with visible grasped object. | Gripper partially slips or one suction cup fails; local failure appears while the robot structure remains rigid. |
+| `erob_agv_rollup_door_interlock` | `industrial_logic_and_compliance` | 10 | Warehouse AGV, forklift, roll-up door, dock gate, or automated barrier with clear travel path. | AGV approaches a closed roll-up door; interlock holds the vehicle until the door opens and the path is clear. |
+| `erob_cobot_safety_scanner_slowdown` | `industrial_logic_and_compliance` | 10 | Collaborative robot cell, safety scanner zone, hand-guiding station, or shared workstation with human proximity. | Cobot slows or stops when a worker enters the scanner zone, then resumes only after the zone is clear. |
 
 ## Heavy Load Construction
 
@@ -59,6 +63,7 @@ task category, the reference-image requirement, and an example task. A complete
 | `hload_tunnel_pipe_burst_mud_surge` | `fluid_dynamics_and_thermodynamics` | 10 | Construction trench, tunnel, underground pipe, muddy water source, or excavation pit. | Broken underground pipe causes muddy water surge with pressure direction, gravity, and containment boundaries. |
 | `hload_hoist_collision_near_structure` | `industrial_logic_and_compliance` | 10 | Hoist, hook, lifted load, scaffold, formwork, or nearby structure with exclusion zone. | Lifted load approaches a structure; signaler triggers stop and load stabilizes before collision. |
 | `hload_formwork_collapse_local` | `topology_mutation_and_failure` | 10 | Formwork, scaffold, temporary support, shoring tower, or concrete pouring support. | Local formwork support fails under load; collapse remains localized and follows support topology. |
+| `hload_sling_angle_center_of_gravity` | `rigid_body_kinematics_and_coupling` | 10 | Crane rigging, sling set, spreader bar, steel module, precast element, or lifted load with visible center-of-gravity cues. | Unequal sling angle shifts the load center of gravity; load tilts plausibly while hooks, slings, and rigging remain coupled. |
 
 ## Precision Defect Generation
 
@@ -74,6 +79,8 @@ task category, the reference-image requirement, and an example task. A complete
 | `pdef_tube_bundle_endoscopy` | `spatial_exploration_and_viewpoint` | 10 | Heat exchanger tube bundle, borescope tunnel, dense repeated circular pipes. | Endoscope navigates through tube bundle; repeated pipe openings keep count and perspective consistency. |
 | `pdef_connector_pin_bent` | `topology_mutation_and_failure` | 10 | Dense electrical connector, pins, sockets, wire bond pads, or terminal block. | One connector pin bends or bridges adjacent pins; nearby pins remain aligned and count-stable. |
 | `pdef_precision_assembly_misalignment` | `rigid_body_kinematics_and_coupling` | 10 | Bearing, shaft, fixture, precision assembly jig, or robotic inspection station. | Precision component is slightly misaligned during assembly; evaluate small pose error without changing part identity. |
+| `pdef_gauge_level_valve_anomaly` | `spatial_exploration_and_viewpoint` | 10 | Pressure gauge, level indicator, valve station, sight glass, or control panel with readable instrument context. | Inspection camera moves from abnormal gauge or level reading to the corresponding valve state while preserving instrument identity. |
+| `pdef_flange_seal_micro_leak` | `topology_mutation_and_failure` | 10 | Pipe flange, gasket seam, bolted joint, pump seal, or valve packing close-up with localized wetness or residue area. | Tiny seal leak appears and grows locally at the gasket or packing while bolts, pipe geometry, and surrounding metal remain stable. |
 
 ## Extreme Emergency
 
@@ -89,3 +96,4 @@ task category, the reference-image requirement, and an example task. A complete
 | `emerg_crane_load_drop_evacuation` | `industrial_logic_and_compliance` | 10 | Crane lift zone, suspended load, hook block, exclusion area, or construction yard. | Load begins to drop or swing dangerously; alarms trigger evacuation and exclusion-zone response. |
 | `emerg_cooling_tower_plume_failure` | `fluid_dynamics_and_thermodynamics` | 10 | Cooling tower, steam plume, industrial HVAC/thermal plant, or condenser equipment. | Cooling plume changes due to fan or flow failure; vapor expansion follows airflow and temperature gradient. |
 | `emerg_dam_or_retaining_wall_breach` | `topology_mutation_and_failure` | 10 | Industrial retaining wall, tailings dam face, containment berm, or flood barrier. | Local breach forms in containment wall and water/slurry escapes through the opening with plausible erosion. |
+| `emerg_hot_work_spark_combustible_fire` | `industrial_logic_and_compliance` | 10 | Welding or grinding hot-work area near combustible material, gas cylinder, insulation, packaging, or fire watch equipment. | Hot-work sparks ignite nearby combustible material; fire watch raises alarm, isolates the area, and starts first response. |

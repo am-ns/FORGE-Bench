@@ -260,6 +260,9 @@ def enrich_application_fields(sample: dict) -> dict:
     """Return *sample* with deterministic industrial-application fields populated."""
     enriched = dict(sample)
     profile = application_profile_for(enriched)
+    override = enriched.get("application_override")
+    if isinstance(override, dict):
+        profile.update(deepcopy(override))
     for key in (
         "application_type",
         "application_objective",

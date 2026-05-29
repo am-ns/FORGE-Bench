@@ -32,6 +32,8 @@ SUBJECT_HINTS = {
     "vsec_pedestrian_forklift_near_miss": "warehouse forklift pedestrian lane",
     "vsec_smoke_alarm_evacuation": "industrial corridor smoke alarm",
     "vsec_guard_removed_conveyor": "conveyor machine guard",
+    "vsec_conveyor_jam_loto_clearance": "conveyor belt jam emergency stop lockout",
+    "vsec_electrical_cabinet_smoke_isolation": "industrial electrical cabinet smoke",
     "erob_robot_arm_precision_grasp": "industrial robot arm gripper",
     "erob_cobot_human_handover": "collaborative robot workstation",
     "erob_tracked_robot_rubble": "tracked inspection robot rubble",
@@ -41,6 +43,8 @@ SUBJECT_HINTS = {
     "erob_robot_tool_contact_force": "robot sanding welding tool contact",
     "erob_multi_robot_coordination": "multiple mobile robots warehouse",
     "erob_gripper_failure_recovery": "robot gripper suction cup",
+    "erob_agv_rollup_door_interlock": "warehouse agv roll up door safety interlock",
+    "erob_cobot_safety_scanner_slowdown": "collaborative robot safety scanner workstation",
     "hload_dual_crawler_crane_lift": "dual crawler crane heavy lift",
     "hload_wire_rope_overload_snap": "crane wire rope hook block",
     "hload_mining_truck_muddy_slope": "mining haul truck muddy road",
@@ -51,6 +55,7 @@ SUBJECT_HINTS = {
     "hload_tunnel_pipe_burst_mud_surge": "construction trench broken pipe",
     "hload_hoist_collision_near_structure": "hoist suspended load construction",
     "hload_formwork_collapse_local": "construction formwork shoring scaffold",
+    "hload_sling_angle_center_of_gravity": "crane sling angle center of gravity rigging",
     "pdef_pcb_solder_bridge_short": "pcb circuit board solder joints",
     "pdef_engine_endoscope_crack": "borescope turbine blade pipe crack",
     "pdef_gear_tooth_missing_wear": "industrial gear teeth close up",
@@ -61,6 +66,8 @@ SUBJECT_HINTS = {
     "pdef_tube_bundle_endoscopy": "heat exchanger tube bundle",
     "pdef_connector_pin_bent": "electrical connector pins close up",
     "pdef_precision_assembly_misalignment": "bearing shaft precision assembly fixture",
+    "pdef_gauge_level_valve_anomaly": "industrial pressure gauge level indicator valve station",
+    "pdef_flange_seal_micro_leak": "pipe flange gasket seal micro leak close up",
     "emerg_flange_high_pressure_leak": "pipe flange valve chemical plant",
     "emerg_storage_tank_flash_fire": "storage tank farm refinery piping",
     "emerg_transmission_tower_icing_collapse": "transmission tower ice snow",
@@ -71,6 +78,7 @@ SUBJECT_HINTS = {
     "emerg_crane_load_drop_evacuation": "crane suspended load construction yard",
     "emerg_cooling_tower_plume_failure": "cooling tower steam plume",
     "emerg_dam_or_retaining_wall_breach": "industrial retaining wall containment berm",
+    "emerg_hot_work_spark_combustible_fire": "industrial welding hot work combustible material",
 }
 
 
