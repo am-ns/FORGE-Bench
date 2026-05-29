@@ -48,6 +48,7 @@ task category, the reference-image requirement, and an example task. A complete
 | `erob_gripper_failure_recovery` | `topology_mutation_and_failure` | 10 | Gripper, suction cup, end effector, or robot tool with visible grasped object. | Gripper partially slips or one suction cup fails; local failure appears while the robot structure remains rigid. |
 | `erob_agv_rollup_door_interlock` | `industrial_logic_and_compliance` | 10 | Warehouse AGV, forklift, roll-up door, dock gate, or automated barrier with clear travel path. | AGV approaches a closed roll-up door; interlock holds the vehicle until the door opens and the path is clear. |
 | `erob_cobot_safety_scanner_slowdown` | `industrial_logic_and_compliance` | 10 | Collaborative robot cell, safety scanner zone, hand-guiding station, or shared workstation with human proximity. | Cobot slows or stops when a worker enters the scanner zone, then resumes only after the zone is clear. |
+| `erob_amr_charger_smoke_abort` | `fluid_dynamics_and_thermodynamics` | 10 | AMR, AGV, charging dock, battery swap station, or robot charging bay with clear dock geometry. | Smoke or vapor begins at the AMR charging interface; docking is aborted and the robot or station enters a safe stopped state. |
 
 ## Heavy Load Construction
 
@@ -64,6 +65,7 @@ task category, the reference-image requirement, and an example task. A complete
 | `hload_hoist_collision_near_structure` | `industrial_logic_and_compliance` | 10 | Hoist, hook, lifted load, scaffold, formwork, or nearby structure with exclusion zone. | Lifted load approaches a structure; signaler triggers stop and load stabilizes before collision. |
 | `hload_formwork_collapse_local` | `topology_mutation_and_failure` | 10 | Formwork, scaffold, temporary support, shoring tower, or concrete pouring support. | Local formwork support fails under load; collapse remains localized and follows support topology. |
 | `hload_sling_angle_center_of_gravity` | `rigid_body_kinematics_and_coupling` | 10 | Crane rigging, sling set, spreader bar, steel module, precast element, or lifted load with visible center-of-gravity cues. | Unequal sling angle shifts the load center of gravity; load tilts plausibly while hooks, slings, and rigging remain coupled. |
+| `hload_blind_lift_spotter_view` | `spatial_exploration_and_viewpoint` | 10 | Crane lift, telehandler, excavator, blind corner, spotter position, or suspended load with partial occlusion. | Camera or spotter view reveals an initially hidden worker or obstacle in the lift path before the load is allowed to continue. |
 
 ## Precision Defect Generation
 
@@ -97,3 +99,4 @@ task category, the reference-image requirement, and an example task. A complete
 | `emerg_cooling_tower_plume_failure` | `fluid_dynamics_and_thermodynamics` | 10 | Cooling tower, steam plume, industrial HVAC/thermal plant, or condenser equipment. | Cooling plume changes due to fan or flow failure; vapor expansion follows airflow and temperature gradient. |
 | `emerg_dam_or_retaining_wall_breach` | `topology_mutation_and_failure` | 10 | Industrial retaining wall, tailings dam face, containment berm, or flood barrier. | Local breach forms in containment wall and water/slurry escapes through the opening with plausible erosion. |
 | `emerg_hot_work_spark_combustible_fire` | `industrial_logic_and_compliance` | 10 | Welding or grinding hot-work area near combustible material, gas cylinder, insulation, packaging, or fire watch equipment. | Hot-work sparks ignite nearby combustible material; fire watch raises alarm, isolates the area, and starts first response. |
+| `emerg_smoke_evacuation_route_visibility` | `spatial_exploration_and_viewpoint` | 10 | Tunnel, plant corridor, stairwell, battery room, or process area with smoke layer, exits, doors, or evacuation route landmarks. | Camera pans through smoke to reveal whether the evacuation path, exit landmark, and blocked or clear route remain visible. |

@@ -45,6 +45,7 @@ SUBJECT_HINTS = {
     "erob_gripper_failure_recovery": "robot gripper suction cup",
     "erob_agv_rollup_door_interlock": "warehouse agv roll up door safety interlock",
     "erob_cobot_safety_scanner_slowdown": "collaborative robot safety scanner workstation",
+    "erob_amr_charger_smoke_abort": "autonomous mobile robot charging dock smoke",
     "hload_dual_crawler_crane_lift": "dual crawler crane heavy lift",
     "hload_wire_rope_overload_snap": "crane wire rope hook block",
     "hload_mining_truck_muddy_slope": "mining haul truck muddy road",
@@ -56,6 +57,7 @@ SUBJECT_HINTS = {
     "hload_hoist_collision_near_structure": "hoist suspended load construction",
     "hload_formwork_collapse_local": "construction formwork shoring scaffold",
     "hload_sling_angle_center_of_gravity": "crane sling angle center of gravity rigging",
+    "hload_blind_lift_spotter_view": "crane blind lift spotter suspended load",
     "pdef_pcb_solder_bridge_short": "pcb circuit board solder joints",
     "pdef_engine_endoscope_crack": "borescope turbine blade pipe crack",
     "pdef_gear_tooth_missing_wear": "industrial gear teeth close up",
@@ -79,6 +81,7 @@ SUBJECT_HINTS = {
     "emerg_cooling_tower_plume_failure": "cooling tower steam plume",
     "emerg_dam_or_retaining_wall_breach": "industrial retaining wall containment berm",
     "emerg_hot_work_spark_combustible_fire": "industrial welding hot work combustible material",
+    "emerg_smoke_evacuation_route_visibility": "industrial tunnel smoke evacuation route",
 }
 
 

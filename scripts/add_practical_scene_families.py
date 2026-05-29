@@ -142,6 +142,36 @@ SCENES = [
         },
     },
     {
+        "scene_id": "erob_amr_charger_smoke_abort",
+        "domain": "embodied_robotics",
+        "task_category": "fluid_dynamics_and_thermodynamics",
+        "image_requirement": "AMR, AGV, charging dock, battery swap station, or robot charging bay with clear dock geometry.",
+        "example_task": "Smoke or vapor begins at the AMR charging interface; docking is aborted and the robot or station enters a safe stopped state.",
+        "image_path": "dataset/images/embodied_robotics/erob_amr_warehouse_navigation/ref_01.jpg",
+        "application_override": {
+            "required_observable_events": [
+                "localized smoke or vapor begins at the charging contact or battery area",
+                "docking is aborted or the robot/station reaches a visibly safe stopped state",
+                "AMR, charging dock, and charging interface remain identifiable through the final state",
+            ],
+            "decision_relevant_elements": [
+                "charging contact, robot pose, dock boundary, and smoke origin",
+                "robot motion state before and after the smoke trigger",
+                "clearance to nearby workers, racks, cables, or other robots",
+            ],
+            "application_success_criteria": [
+                "a robotics operator can localize the thermal or electrical warning source",
+                "smoke evolves from the interface instead of appearing globally",
+                "robot and dock geometry remain stable while the safe stop is shown",
+            ],
+            "misleading_failure_modes": [
+                "smoke appears away from the charging interface",
+                "robot keeps docking through a visible smoke event",
+                "the dock, robot body, or warehouse layout changes during the abort",
+            ],
+        },
+    },
+    {
         "scene_id": "hload_sling_angle_center_of_gravity",
         "domain": "heavy_load_construction",
         "task_category": "rigid_body_kinematics_and_coupling",
@@ -168,6 +198,36 @@ SCENES = [
                 "load tilts without sling tension or hook movement",
                 "rigging disappears, duplicates, or detaches without cause",
                 "camera motion hides the load path at the critical moment",
+            ],
+        },
+    },
+    {
+        "scene_id": "hload_blind_lift_spotter_view",
+        "domain": "heavy_load_construction",
+        "task_category": "spatial_exploration_and_viewpoint",
+        "image_requirement": "Crane lift, telehandler, excavator, blind corner, spotter position, or suspended load with partial occlusion.",
+        "example_task": "Camera or spotter view reveals an initially hidden worker or obstacle in the lift path before the load is allowed to continue.",
+        "image_path": "dataset/images/heavy_load_construction/hload_hoist_collision_near_structure/ref_01.jpg",
+        "application_override": {
+            "required_observable_events": [
+                "lifted load, blind zone, and partial occlusion are visible before viewpoint change",
+                "camera or spotter view reveals the hidden worker, obstacle, or exclusion-zone conflict",
+                "load motion is stopped or held until the path is visibly clear",
+            ],
+            "decision_relevant_elements": [
+                "load path, occluding structure, spotter line of sight, and worker or obstacle position",
+                "hook/load clearance relative to nearby structure and exclusion zone",
+                "whether the final route is blocked, clear, or still uncertain",
+            ],
+            "application_success_criteria": [
+                "a lift supervisor can judge why the first viewpoint was insufficient",
+                "the viewpoint motion adds spatial evidence rather than decorative camera drift",
+                "load, obstacle, and occluder identities remain stable across the reveal",
+            ],
+            "misleading_failure_modes": [
+                "the hidden obstacle appears without being tied to the changed viewpoint",
+                "camera motion hides the load at the decision point",
+                "the load continues through an unresolved blind-zone conflict",
             ],
         },
     },
@@ -230,6 +290,36 @@ SCENES = [
                 "the leak becomes a global texture or unrelated stain",
                 "flange bolts, pipe edges, or gasket topology mutate outside the defect",
                 "the scene escalates into a large spray rather than a micro-leak defect",
+            ],
+        },
+    },
+    {
+        "scene_id": "emerg_smoke_evacuation_route_visibility",
+        "domain": "extreme_emergency",
+        "task_category": "spatial_exploration_and_viewpoint",
+        "image_requirement": "Tunnel, plant corridor, stairwell, battery room, or process area with smoke layer, exits, doors, or evacuation route landmarks.",
+        "example_task": "Camera pans through smoke to reveal whether the evacuation path, exit landmark, and blocked or clear route remain visible.",
+        "image_path": "dataset/images/extreme_emergency/emerg_tunnel_fire_smoke_layering/ref_01.jpg",
+        "application_override": {
+            "required_observable_events": [
+                "smoke layer, corridor or tunnel geometry, and evacuation landmark are visible",
+                "camera motion reveals whether the route ahead is blocked, partially obscured, or clear",
+                "final frame preserves enough landmark context to judge evacuation direction",
+            ],
+            "decision_relevant_elements": [
+                "smoke height, exit or door landmark, route boundary, and obstruction position",
+                "camera path relative to walls, floor, stairs, or corridor perspective",
+                "visibility of the safe direction versus the hazard source",
+            ],
+            "application_success_criteria": [
+                "an emergency planner can infer whether the evacuation route remains usable",
+                "smoke opacity changes are physically plausible and do not erase geometry globally",
+                "viewpoint motion preserves orientation cues needed for route choice",
+            ],
+            "misleading_failure_modes": [
+                "smoke becomes a full-screen texture that destroys spatial judgment",
+                "exit or route landmarks move, duplicate, or disappear without cause",
+                "camera motion creates a new corridor instead of exploring the reference space",
             ],
         },
     },
