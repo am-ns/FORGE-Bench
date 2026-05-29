@@ -496,9 +496,12 @@ class TestScoring:
         assert result["ranking_score_ci95"]["n"] == 2
         assert result["overall"] < 80.0
         assert result["functional_pass_rate"] == 1.0
+        assert result["application_pass_rate"]["policy"] == "strict_application_score"
         assert result["axis_pass_rates"][GEOMETRIC_INTEGRITY]["pass_rate"] == 1.0
         assert "reference_motion_decomposition" in result
         assert result["application_score_strict"] == pytest.approx(70.0)
+        assert result["application_macro_micro_summary"]["micro_application_score_strict"] == pytest.approx(70.0)
+        assert result["application_macro_micro_summary"]["macro_application_score_strict"] == pytest.approx(70.0)
         assert result["application_score_policy"]["leaderboard"] == "strict"
         assert result["constraint_adjusted_score"] == pytest.approx(51.216484375)
         assert result["ranking_score"] == result["constraint_adjusted_score"]
@@ -537,8 +540,34 @@ class TestScoring:
         assert result["application_score"] == 20.0
         assert result["application_score_strict"] == pytest.approx(14.0)
         assert result["application_pass_rate"]["pass_rate"] == 0.0
-        assert result["ranking_score"] == pytest.approx(45.6)
+        assert result["ranking_score"] == pytest.approx(22.8)
         assert result["application_type_breakdown"]["inspection_and_maintenance"]["count"] == 1
+        assert result["constraint_adjustment_summary"]["samples_with_hard_application_failure"] == 1
+        assert result["constraint_adjustment_summary"]["hard_application_failure_counts"]["application_objective_not_supported"] == 1
+
+    def test_aggregate_applies_misleading_application_hard_failure_penalty(self):
+        """Misleading application outputs should receive an explicit ranking penalty."""
+        result = aggregate_sample_results([
+            {
+                "task_id": "misleading_app",
+                "skipped": False,
+                "application_type": "safety_training",
+                "task_category": "industrial_logic_and_compliance",
+                "scored": {
+                    "weighted_score": 80.0,
+                    "axis_scores": {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 80, PHYSICAL_PLAUSIBILITY: 80, REFERENCE_AND_MOTION_FIDELITY: 80, GEOMETRIC_INTEGRITY: 80},
+                    "application_usefulness_score": 90.0,
+                    "observable_event_coverage": 90.0,
+                },
+                "application_usefulness_details": {
+                    "failure_modes": ["misleading_safety_response"],
+                    "required_event_checks": [{"event": "response", "present": True}],
+                },
+            }
+        ])
+        assert result["application_score_strict"] == pytest.approx(90.0)
+        assert result["constraint_adjustment_summary"]["mean_hard_application_penalty"] == pytest.approx(0.5)
+        assert result["ranking_score"] == pytest.approx(38.0)
 
     def test_aggregate_ignores_motion_gate_for_non_viewpoint_non_static(self):
         """Dolly/pan diagnostics should not gate non-viewpoint tasks."""

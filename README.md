@@ -193,6 +193,7 @@ constraint_adjusted_score =
   * (0.50 + 0.50 * application_score_strict / 100)
   * (0.50 + 0.50 * constraint_score / 100)
   * (0.50 + 0.50 * hard_constraint_cap / 100)
+  * hard_application_failure_penalty
 
 ranking_score = constraint_adjusted_score
 ```
@@ -210,8 +211,10 @@ multiplier rather than used as a direct min() replacement, so the ranking score
 still reflects overall model ability while lowering samples with severe
 necessary-constraint failures such as static output for required camera motion,
 global regeneration, abrupt temporal breaks, rigid drift, or fluid
-discontinuity. The adjustment can only lower a score; it cannot raise the
-model-led axis score.
+discontinuity. Severe misleading application failures, such as a misleading
+safety response or an application objective that is not supported, apply an
+additional hard application penalty. The adjustment can only lower a score; it
+cannot raise the model-led axis score.
 
 ### Operator Evidence
 
@@ -346,12 +349,13 @@ Important aggregate fields:
 | `application_score_available_case` | Application score only over samples where both usefulness and event coverage are returned. |
 | `application_usefulness_score` | Mean industrial application-usefulness score when the application judge is enabled. |
 | `observable_event_coverage` | Mean coverage of required observable events returned by the application judge. |
-| `application_pass_rate` | Fraction of application-judged samples at or above the strict threshold. |
+| `application_pass_rate` | Fraction of application-judged samples whose strict application score is at or above the threshold. |
 | `application_type_breakdown` | Application-usefulness scores split by safety training, emergency rehearsal, robotics operation, inspection/maintenance, heavy-operation risk, and defect/QC generation. |
+| `application_macro_micro_summary` | Reports sample-weighted micro application score and type-balanced macro application score across application types. |
 | `reference_motion_decomposition` | Separates reference preservation, motion control, and coupled reference-motion fidelity diagnostics. |
-| `constraint_adjusted_score` | Penalty-adjusted score combining `task_conditioned_score` with application usefulness, task constraints, and hard-cap severity multipliers. |
+| `constraint_adjusted_score` | Backward-compatible alias for the penalty-adjusted `ranking_score`, combining `task_conditioned_score` with application usefulness, task constraints, hard-cap severity multipliers, and hard application failures. |
 | `constraint_adjusted_score_ci95` | Deterministic bootstrap 95% confidence interval for the ranking score. |
-| `ranking_score` | Leaderboard sorting score, currently equal to `constraint_adjusted_score`. |
+| `ranking_score` | Leaderboard sorting score. `constraint_adjusted_score` is retained as a backward-compatible alias. |
 | `ranking_score_ci95` | Bootstrap 95% confidence interval for `ranking_score`. |
 | `motion_gated_score` | Legacy diagnostic score after heuristic task-aware motion gating; not used as `overall` or `ranking_score`. |
 | `operator_risk_adjusted_score` | Legacy diagnostic score after heuristic operator-risk adjustment; not used as `overall` or `ranking_score`. |

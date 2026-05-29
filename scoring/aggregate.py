@@ -41,6 +41,7 @@ CONFIG = {
     "functional_nonkey_axis_threshold": 45.0,
     "severe_axis_failure_threshold": 25.0,
     "operator_gate_min": 0.25,
+    "hard_application_failure_penalty": 0.50,
     "headline_score_policy": "task_conditioned_bottleneck_sensitive_score",
     "bootstrap_iterations": 1000,
     "bootstrap_seed": 1729,
@@ -49,6 +50,10 @@ CONFIG = {
 
 MOTION_GATE_TASK_CATEGORIES = {"spatial_exploration_and_viewpoint"}
 MOTION_GATE_TYPES = {"static"}
+HARD_APPLICATION_FAILURE_MODES = {
+    "misleading_safety_response",
+    "application_objective_not_supported",
+}
 
 
 AXIS_FLOORS = {
@@ -363,13 +368,42 @@ def _observable_event_coverage(result: dict) -> float | None:
     return None
 
 
+def _application_failure_modes(result: dict) -> set[str]:
+    details = result.get("application_usefulness_details") or {}
+    modes = {
+        str(mode)
+        for mode in (details.get("failure_modes") or [])
+        if mode is not None
+    }
+    checks = details.get("required_event_checks") or []
+    if any(item.get("present") is False for item in checks):
+        modes.add("missing_required_event")
+    coverage = _observable_event_coverage(result)
+    if coverage is not None and coverage < CONFIG["strict_axis_threshold"]:
+        modes.add("incomplete_event_loop")
+    app_score = _application_score_strict(result)
+    if app_score is not None and app_score < CONFIG["severe_axis_failure_threshold"]:
+        modes.add("application_objective_not_supported")
+    return modes
+
+
+def _application_hard_failure_penalty(result: dict) -> tuple[float, list[str]]:
+    """Return a multiplier for application failures that are unsafe to rank softly."""
+    modes = _application_failure_modes(result)
+    hard_modes = sorted(modes & HARD_APPLICATION_FAILURE_MODES)
+    if hard_modes:
+        return float(CONFIG["hard_application_failure_penalty"]), hard_modes
+    return 1.0, []
+
+
 def _application_pass_rate(completed: list[dict]) -> dict:
-    values = [score for score in (_application_score(r) for r in completed) if score is not None]
+    values = [score for score in (_application_score_strict(r) for r in completed) if score is not None]
     return {
         "threshold": CONFIG["strict_axis_threshold"],
         "pass_count": sum(v >= CONFIG["strict_axis_threshold"] for v in values),
         "total": len(values),
         "pass_rate": float(np.mean([v >= CONFIG["strict_axis_threshold"] for v in values])) if values else None,
+        "policy": "strict_application_score",
     }
 
 
@@ -394,6 +428,24 @@ def _application_type_breakdown(completed: list[dict]) -> dict:
             "strict_ci95": _mean_confidence_interval(strict_groups.get(app_type, [])),
         }
         for app_type, values in sorted(groups.items())
+    }
+
+
+def _application_macro_micro_summary(completed: list[dict]) -> dict:
+    """Report application value as both sample-weighted and type-balanced means."""
+    micro_values = [score for score in (_application_score_strict(r) for r in completed) if score is not None]
+    by_type = _application_type_breakdown(completed)
+    type_values = [
+        float(item["application_score_strict"])
+        for item in by_type.values()
+        if item.get("application_score_strict") is not None
+    ]
+    return {
+        "micro_application_score_strict": float(np.mean(micro_values)) if micro_values else None,
+        "micro_application_score_strict_ci95": _mean_confidence_interval(micro_values),
+        "macro_application_score_strict": float(np.mean(type_values)) if type_values else None,
+        "macro_application_type_count": len(type_values),
+        "policy": "micro is sample-weighted; macro is the unweighted mean across application_type means",
     }
 
 
@@ -703,6 +755,7 @@ def _ranking_score_variant(
     constraint_score = float(np.mean(constraint_components)) if constraint_components else 100.0
     caps = [cap for cap in (viewpoint_cap, operator_cap) if cap is not None]
     hard_cap = min(caps) if caps else 100.0
+    hard_application_penalty, _ = _application_hard_failure_penalty(result)
 
     def multiplier(floor: float, score: float) -> float:
         floor = max(0.0, min(1.0, float(floor)))
@@ -713,6 +766,7 @@ def _ranking_score_variant(
         * multiplier(application_floor, application_score)
         * multiplier(constraint_floor, constraint_score)
         * multiplier(hard_cap_floor, hard_cap)
+        * hard_application_penalty
     )
 
 
@@ -755,6 +809,10 @@ def _scoring_validity_summary(completed: list[dict], axis_keys: set[str]) -> dic
     floor_applied_count = 0
     parse_invalid_count = 0
     parse_recovered_count = 0
+    application_event_check_samples = 0
+    application_event_check_count = 0
+    application_missing_event_coverage_samples = 0
+    application_confidences = []
 
     def detail_score(details: dict) -> object:
         for key in (
@@ -786,6 +844,20 @@ def _scoring_validity_summary(completed: list[dict], axis_keys: set[str]) -> dic
         if _application_score(result) is not None:
             present_by_axis[APPLICATION_USEFULNESS] = present_by_axis.get(APPLICATION_USEFULNESS, 0) + 1
 
+        app_details = result.get("application_usefulness_details") or {}
+        if _application_usefulness_score(result) is not None and _observable_event_coverage(result) is None:
+            application_missing_event_coverage_samples += 1
+        checks = app_details.get("required_event_checks") or []
+        if checks:
+            application_event_check_samples += 1
+            application_event_check_count += len(checks)
+        confidence = app_details.get("confidence")
+        if confidence is not None:
+            try:
+                application_confidences.append(float(confidence))
+            except (TypeError, ValueError):
+                pass
+
         detail_fields = (
             "industrial_logic_and_fact_alignment_details",
             "temporal_consistency_details",
@@ -815,6 +887,12 @@ def _scoring_validity_summary(completed: list[dict], axis_keys: set[str]) -> dic
         "score_floor_applied_samples": floor_applied_count,
         "invalid_or_unparsed_judge_outputs": parse_invalid_count,
         "parse_recovered_judge_outputs": parse_recovered_count,
+        "application_required_event_check_samples": application_event_check_samples,
+        "application_required_event_check_count": application_event_check_count,
+        "application_missing_event_coverage_samples": application_missing_event_coverage_samples,
+        "application_judge_confidence_mean": (
+            float(np.mean(application_confidences)) if application_confidences else None
+        ),
     }
 
 
@@ -858,7 +936,14 @@ def _constraint_adjustment(result: dict) -> dict:
     constraint_multiplier = 0.50 + 0.50 * (constraint_score / 100.0)
     hard_constraint_multiplier = 0.50 + 0.50 * (hard_cap / 100.0)
     application_multiplier = 0.50 + 0.50 * (application_score / 100.0)
-    adjusted_score = axis_score * application_multiplier * constraint_multiplier * hard_constraint_multiplier
+    hard_application_penalty, hard_application_reasons = _application_hard_failure_penalty(result)
+    adjusted_score = (
+        axis_score
+        * application_multiplier
+        * constraint_multiplier
+        * hard_constraint_multiplier
+        * hard_application_penalty
+    )
 
     return {
         "axis_score": axis_score,
@@ -870,7 +955,11 @@ def _constraint_adjustment(result: dict) -> dict:
         "constraint_multiplier": float(constraint_multiplier),
         "application_multiplier": float(application_multiplier),
         "hard_constraint_multiplier": float(hard_constraint_multiplier),
-        "cap_reasons": viewpoint_reasons + operator_reasons,
+        "hard_application_penalty": float(hard_application_penalty),
+        "hard_application_failure_reasons": hard_application_reasons,
+        "cap_reasons": viewpoint_reasons + operator_reasons + [
+            f"hard_application_failure:{reason}" for reason in hard_application_reasons
+        ],
         "viewpoint_motion_constraint_score": viewpoint_score,
         "operator_reliability_score": operator_score,
     }
@@ -917,8 +1006,15 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
             "application_score_available_case_ci95": {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0},
             "application_score_policy": {},
             "observable_event_coverage": None,
-            "application_pass_rate": {"threshold": CONFIG["strict_axis_threshold"], "pass_count": 0, "total": 0, "pass_rate": None},
+            "application_pass_rate": {
+                "threshold": CONFIG["strict_axis_threshold"],
+                "pass_count": 0,
+                "total": 0,
+                "pass_rate": None,
+                "policy": "strict_application_score",
+            },
             "application_type_breakdown": {},
+            "application_macro_micro_summary": {},
             "application_coverage_summary": {},
             "constraint_adjustment_summary": {},
             "axis_score_ci95": {},
@@ -1016,9 +1112,12 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         item["constraint_adjusted_score"] for item in constraint_adjustments
     ]
     cap_reason_counts: dict[str, int] = {}
+    hard_application_failure_counts: dict[str, int] = {}
     for item in constraint_adjustments:
         for reason in item["cap_reasons"]:
             cap_reason_counts[reason] = cap_reason_counts.get(reason, 0) + 1
+        for reason in item.get("hard_application_failure_reasons", []):
+            hard_application_failure_counts[reason] = hard_application_failure_counts.get(reason, 0) + 1
 
     aggregate["relax_score"] = float(np.mean(weighted_scores))
     aggregate["relax_score_ci95"] = _mean_confidence_interval(weighted_scores)
@@ -1061,9 +1160,10 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     aggregate["observable_event_coverage_ci95"] = _mean_confidence_interval(event_coverage_scores)
     aggregate["application_pass_rate"] = _application_pass_rate(completed)
     aggregate["application_type_breakdown"] = _application_type_breakdown(completed)
+    aggregate["application_macro_micro_summary"] = _application_macro_micro_summary(completed)
     aggregate["application_coverage_summary"] = _application_coverage_summary(completed)
     aggregate["constraint_adjustment_summary"] = {
-        "formula": "task_conditioned_score * (0.50 + 0.50*application_score/100) * (0.50 + 0.50*constraint_score/100) * (0.50 + 0.50*hard_constraint_cap/100)",
+        "formula": "task_conditioned_score * (0.50 + 0.50*application_score/100) * (0.50 + 0.50*constraint_score/100) * (0.50 + 0.50*hard_constraint_cap/100) * hard_application_failure_penalty",
         "policy": "application_and_constraint_adjusted_composite_ranking",
         "mean_application_score": float(np.mean([
             item["application_score"] for item in constraint_adjustments
@@ -1083,10 +1183,17 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         "mean_hard_constraint_multiplier": float(np.mean([
             item["hard_constraint_multiplier"] for item in constraint_adjustments
         ])),
+        "mean_hard_application_penalty": float(np.mean([
+            item["hard_application_penalty"] for item in constraint_adjustments
+        ])),
         "samples_with_cap": sum(
             1 for item in constraint_adjustments if item["hard_constraint_cap"] < 100.0
         ),
+        "samples_with_hard_application_failure": sum(
+            1 for item in constraint_adjustments if item["hard_application_penalty"] < 1.0
+        ),
         "cap_reason_counts": cap_reason_counts,
+        "hard_application_failure_counts": hard_application_failure_counts,
     }
     aggregate["uncalibrated_motion_gated_score"] = aggregate["motion_gated_score"]
     aggregate["uncalibrated_operator_risk_adjusted_score"] = aggregate["operator_risk_adjusted_score"]
@@ -1139,7 +1246,8 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         "technical_score_formula": "technical_score = task_conditioned_score over the five technical axes",
         "application_score_formula": "application_score_strict = 0.7*application_usefulness + 0.3*observable_event_coverage, with missing event coverage counted as zero coverage",
         "task_conditioned_score_formula": "0.55*weighted_arithmetic_mean + 0.45*weighted_harmonic_mean, with task-critical bottleneck penalty",
-        "constraint_adjusted_score_formula": "task_conditioned_score * (0.50 + 0.50*application_score_strict/100) * (0.50 + 0.50*constraint_score/100) * (0.50 + 0.50*hard_constraint_cap/100)",
+        "constraint_adjusted_score_formula": "task_conditioned_score * (0.50 + 0.50*application_score_strict/100) * (0.50 + 0.50*constraint_score/100) * (0.50 + 0.50*hard_constraint_cap/100) * hard_application_failure_penalty",
+        "hard_application_failure_penalty": f"ranking_score is multiplied by {CONFIG['hard_application_failure_penalty']:.2f} when severe misleading application failures are detected",
         "scores_excluded_from_overall": [
             "motion_gated_score",
             "operator_risk_adjusted_score",

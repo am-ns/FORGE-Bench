@@ -73,7 +73,7 @@ The report exposes:
 - `application_score_available_case`: application score only where event
   coverage is available.
 - `ranking_score`: technical score multiplied by application and reliability
-  penalties.
+  penalties, plus a hard penalty for severe misleading application failures.
 
 ## Validity And Uncertainty
 

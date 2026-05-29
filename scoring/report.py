@@ -321,6 +321,7 @@ def _application_value_report(aggregate: dict, results: list[dict]) -> dict:
         "application_score_available_case": aggregate.get("application_score_available_case"),
         "application_score_available_case_ci95": aggregate.get("application_score_available_case_ci95"),
         "application_score_policy": aggregate.get("application_score_policy", {}),
+        "application_macro_micro_summary": aggregate.get("application_macro_micro_summary", {}),
         "application_usefulness_score": aggregate.get("application_usefulness_score"),
         "application_usefulness_score_ci95": aggregate.get("application_usefulness_score_ci95"),
         "event_coverage_summary": aggregate.get("application_coverage_summary", {}).get("required_event_coverage", {}),
@@ -393,6 +394,7 @@ def _dataset_coverage_report(results: list[dict], aggregate: dict) -> dict:
     risk_by_app: dict[str, Counter[str]] = defaultdict(Counter)
     image_paths = []
     scene_image_counts: dict[str, int] = {}
+    scene_sample_counts: Counter[str] = Counter()
     repo_root = Path(__file__).resolve().parents[1]
 
     for result in results:
@@ -412,6 +414,7 @@ def _dataset_coverage_report(results: list[dict], aggregate: dict) -> dict:
         scene_id = result.get("scene_id") or result.get("failure_target") or result.get("task_id")
         if scene_id:
             scene_by_app[app_type].add(str(scene_id))
+            scene_sample_counts[str(scene_id)] += 1
         image_path = result.get("image_path")
         if image_path:
             image_paths.append(str(image_path))
@@ -437,9 +440,13 @@ def _dataset_coverage_report(results: list[dict], aggregate: dict) -> dict:
             missing_images.append(image_path)
 
     target_shortfalls = {
-        scene: {"image_count": count, "target_min": 8}
+        scene: {
+            "image_count": count,
+            "sample_count": scene_sample_counts.get(scene, 0),
+            "target_min": max(scene_sample_counts.get(scene, 0), 8),
+        }
         for scene, count in sorted(scene_image_counts.items())
-        if count < 8
+        if count < max(scene_sample_counts.get(scene, 0), 8)
     }
 
     return {
@@ -466,13 +473,14 @@ def _dataset_coverage_report(results: list[dict], aggregate: dict) -> dict:
                 for key, counter in sorted(risk_by_app.items())
             },
             "scene_image_count_by_scene": dict(sorted(scene_image_counts.items())),
+            "sample_count_by_scene": dict(sorted(scene_sample_counts.items())),
         },
         "image_quality_coverage": {
             "unique_referenced_images": len(unique_image_paths),
             "existing_referenced_images": len(existing_images),
             "missing_referenced_images": len(missing_images),
             "missing_image_examples": missing_images[:12],
-            "scene_image_count_target": "at least 8 images per scene directory",
+            "scene_image_count_target": "at least max(number of evaluated samples in the scene, 8) images per scene directory",
             "scene_image_count_shortfalls": target_shortfalls,
         },
         "required_event_coverage": aggregate.get("application_coverage_summary", {}).get("required_event_coverage", {}),

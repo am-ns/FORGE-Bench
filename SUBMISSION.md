@@ -123,9 +123,9 @@ Contains:
 - `functional_pass_rate` - task-conditioned pass rate: key axes clear 60 and non-key axes clear 45
 - `axis_pass_rates` - per-axis pass counts and rates at the strict threshold
 - `reference_motion_decomposition` - separate reference preservation, motion control, and coupled reference-motion diagnostics
-- `constraint_adjusted_score` - penalty-adjusted score with task constraints and hard-cap severity multipliers
+- `constraint_adjusted_score` - backward-compatible alias for the penalty-adjusted ranking score with task constraints, hard-cap severity multipliers, and hard application-failure penalties
 - `constraint_adjusted_score_ci95` - deterministic bootstrap 95% confidence interval for the ranking score
-- `ranking_score` - leaderboard sorting score, currently equal to `constraint_adjusted_score`
+- `ranking_score` - leaderboard sorting score; `constraint_adjusted_score` is retained as a compatibility alias
 - `ranking_score_ci95` - bootstrap 95% confidence interval for `ranking_score`
 - `gated_score` - legacy diagnostic task-aware motion/operator-risk score
 - `overall` - paper-facing model ability score, currently aligned to `task_conditioned_score`
@@ -173,6 +173,7 @@ constraint_adjusted_score =
   * (0.50 + 0.50 * application_score_strict / 100)
   * (0.50 + 0.50 * constraint_score / 100)
   * (0.50 + 0.50 * hard_constraint_cap / 100)
+  * hard_application_failure_penalty
 ```
 
 `application_score_strict = 0.7 * application_usefulness + 0.3 * observable_event_coverage`.
