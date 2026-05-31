@@ -13,6 +13,7 @@ from scripts import audit_image_library_duplicates
 from scripts import clean_image_candidates_strict
 from scripts import fast_multisource_image_backfill
 from scripts import import_screened_image_candidates
+from scripts import rollback_imported_candidate_samples
 
 
 def _backfill_args(tmp_path, *, per_scene, target_new):
@@ -140,6 +141,40 @@ def test_deficit_plan_removes_stale_shards(tmp_path):
     assert (out_dir / "selected_scenes_shard_1.json").exists()
 
 
+def test_deficit_plan_prioritizes_empty_and_low_count_scenes(tmp_path):
+    samples = tmp_path / "samples.json"
+    samples.write_text(
+        json.dumps({
+            "samples": [
+                {"scene_id": "scene_full", "domain": "visual_security"},
+                {"scene_id": "scene_low", "domain": "visual_security"},
+                {"scene_id": "scene_empty", "domain": "visual_security"},
+            ]
+        }),
+        encoding="utf-8",
+    )
+    for scene, count in (("scene_full", 2), ("scene_low", 1)):
+        scene_dir = tmp_path / "images" / "visual_security" / scene
+        scene_dir.mkdir(parents=True)
+        for index in range(count):
+            Image.new("RGB", (16, 16), (index, 80, 40)).save(scene_dir / f"ref_{index + 1:02d}.jpg")
+    out_dir = tmp_path / "plan"
+    args = argparse.Namespace(
+        samples=str(samples),
+        image_root=str(tmp_path / "images"),
+        out_dir=str(out_dir),
+        target_per_scene=2,
+        shards=1,
+        max_scenes=0,
+        lock_stale_seconds=3600.0,
+    )
+
+    build_image_deficit_plan.run(args)
+
+    selected = json.loads((out_dir / "selected_scenes.json").read_text(encoding="utf-8"))
+    assert selected["scenes"] == ["scene_empty", "scene_low"]
+
+
 def test_clean_pool_rejects_output_outside_candidate_root(tmp_path):
     with pytest.raises(ValueError):
         clean_image_candidates_strict._require_within(tmp_path / "outside", tmp_path / "candidates", "output-root")
@@ -162,6 +197,49 @@ def test_import_lock_reclaims_stale_lock(tmp_path):
         assert lock.exists()
 
     assert not lock.exists()
+
+
+def test_images_only_import_does_not_exceed_formal_scene_target(monkeypatch, tmp_path):
+    monkeypatch.setattr(import_screened_image_candidates, "REPO_ROOT", tmp_path)
+    image_root = tmp_path / "dataset" / "images"
+    scene_dir = image_root / "visual_security" / "scene_one"
+    scene_dir.mkdir(parents=True)
+    Image.new("RGB", (32, 32), (120, 80, 40)).save(scene_dir / "ref_01.jpg")
+    candidates = tmp_path / "dataset" / "images_candidates" / "batch"
+    candidates.mkdir(parents=True)
+    Image.new("RGB", (32, 32), (20, 160, 220)).save(candidates / "scene_one__candidate.jpg")
+    samples = tmp_path / "dataset" / "annotations" / "samples.json"
+    samples.parent.mkdir(parents=True)
+    samples.write_text(
+        json.dumps({"samples": [{"task_id": "vsec_001", "scene_id": "scene_one", "domain": "visual_security"}]}),
+        encoding="utf-8",
+    )
+    report = tmp_path / "report.csv"
+    args = argparse.Namespace(
+        candidate_root=str(candidates),
+        image_root=str(image_root),
+        samples=str(samples),
+        report=str(report),
+        dry_run=True,
+        delete_rejected=False,
+        images_only=True,
+        max_per_scene=0,
+        formal_target_per_scene=1,
+        min_width=0,
+        min_height=0,
+        min_short_side=0,
+        min_pixels=0,
+        min_laplacian=0,
+        max_edge_density=1,
+        max_background_edge_density=1,
+        ahash_distance=0,
+        dhash_distance=0,
+    )
+
+    import_screened_image_candidates.run(args)
+
+    rows = list(csv.DictReader(report.open(encoding="utf-8")))
+    assert rows[0]["reason"] == "formal_scene_target_reached"
 
 
 def test_duplicate_audit_allows_reuse_across_scenes(tmp_path):
@@ -201,3 +279,31 @@ def test_duplicate_audit_rejects_reuse_within_scene(tmp_path):
     rows = list(csv.DictReader(report.open(encoding="utf-8")))
     assert len(rows) == 1
     assert rows[0]["image_path"].endswith("scene_one/ref_02.jpg")
+
+
+def test_images_only_rollback_dry_run_does_not_move_files(tmp_path):
+    image = tmp_path / "dataset" / "images" / "visual_security" / "scene_one" / "ref_01.jpg"
+    image.parent.mkdir(parents=True)
+    Image.new("RGB", (16, 16), (120, 80, 40)).save(image)
+    samples = tmp_path / "dataset" / "annotations" / "samples.json"
+    samples.parent.mkdir(parents=True)
+    samples.write_text(json.dumps({"samples": []}), encoding="utf-8")
+    manifest = tmp_path / "manifest.csv"
+    manifest.write_text(
+        "status,dest_path,task_id,source_path,scene_id,domain\n"
+        "accepted,dataset/images/visual_security/scene_one/ref_01.jpg,,candidate.jpg,scene_one,visual_security\n",
+        encoding="utf-8",
+    )
+    args = argparse.Namespace(
+        repo_root=str(tmp_path),
+        samples="dataset/annotations/samples.json",
+        manifests=["manifest.csv"],
+        review_root="reports/quarantine",
+        report="reports/rollback.csv",
+        dry_run=True,
+    )
+
+    rollback_imported_candidate_samples.run(args)
+
+    assert image.exists()
+    assert not (tmp_path / "reports" / "quarantine" / "dataset" / "images" / "visual_security" / "scene_one" / "ref_01.jpg").exists()

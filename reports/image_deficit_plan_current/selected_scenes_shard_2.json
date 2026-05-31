@@ -1,10 +1,20 @@
 {
   "scenes": [
-    "erob_amr_warehouse_navigation",
-    "erob_robot_arm_precision_grasp",
-    "hload_hoist_collision_near_structure",
+    "erob_agv_rollup_door_interlock",
+    "hload_blind_lift_spotter_view",
+    "pdef_gauge_level_valve_anomaly",
+    "erob_multi_robot_coordination",
+    "pdef_engine_endoscope_crack",
+    "emerg_flange_high_pressure_leak",
     "pdef_cutting_fluid_spray",
-    "pdef_tube_bundle_endoscopy",
-    "vsec_pedestrian_forklift_near_miss"
+    "vsec_unregistered_vehicle_intrusion",
+    "hload_wire_rope_overload_snap",
+    "erob_light_curtain_emergency_stop",
+    "vsec_missing_ppe_at_height",
+    "vsec_crane_unsafe_swing_near_people",
+    "hload_excavator_linkage_loading",
+    "emerg_transmission_tower_icing_collapse",
+    "pdef_surface_scratch_inspection",
+    "pdef_pcb_solder_bridge_short"
   ]
 }

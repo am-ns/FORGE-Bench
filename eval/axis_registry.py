@@ -264,12 +264,14 @@ DOMAIN_TASKS: dict[str, list[str]] = {
         "rigid_body_kinematics_and_coupling",
         "spatial_exploration_and_viewpoint",
         "industrial_logic_and_compliance",
+        "topology_mutation_and_failure",
     ],
     "heavy_load_construction": [
         "rigid_body_kinematics_and_coupling",
         "topology_mutation_and_failure",
         "fluid_dynamics_and_thermodynamics",
         "spatial_exploration_and_viewpoint",
+        "industrial_logic_and_compliance",
     ],
     "precision_defect_gen": [
         "topology_mutation_and_failure",
@@ -281,6 +283,7 @@ DOMAIN_TASKS: dict[str, list[str]] = {
         "fluid_dynamics_and_thermodynamics",
         "topology_mutation_and_failure",
         "industrial_logic_and_compliance",
+        "spatial_exploration_and_viewpoint",
     ],
 }
 
@@ -387,9 +390,12 @@ def task_profile_for(sample: dict) -> dict:
 
 
 def axis_weights_for(sample: dict) -> dict[str, float]:
-    """Return dynamic full-name axis weights for a sample."""
+    """Return full-name axis weights for a sample.
+
+    Precedence (highest wins): per-sample axis_weights > task-profile axis_weights > BASE_AXIS_WEIGHTS.
+    """
     profile = task_profile_for(sample)
     weights = dict(BASE_AXIS_WEIGHTS)
-    weights.update(canonicalize_axis_dict(sample.get("axis_weights")))
     weights.update(profile.get("axis_weights", {}))
+    weights.update(canonicalize_axis_dict(sample.get("axis_weights")))
     return weights

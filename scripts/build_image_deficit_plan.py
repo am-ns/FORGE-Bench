@@ -68,7 +68,10 @@ def run(args: argparse.Namespace) -> None:
         item["selected"] = deficit > 0
         rows.append(item)
 
-    selected = [row for row in rows if row["selected"]]
+    selected = sorted(
+        (row for row in rows if row["selected"]),
+        key=lambda row: (-int(row["deficit"]), int(row["image_count"]), str(row["scene_id"])),
+    )
     if args.max_scenes > 0:
         selected = selected[:args.max_scenes]
 

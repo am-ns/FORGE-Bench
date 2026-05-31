@@ -138,13 +138,21 @@ def build_evaluation_prompt(sample: dict) -> str:
 
 
 def build_prompt(sample: dict) -> str:
+    """Build the generation-facing prompt.
+
+    [APPLICATION] is deliberately omitted: it contains required_observable_events,
+    decision_relevant_elements, and success criteria that are part of the scoring
+    rubric. Exposing them to the video generator creates information leakage — the
+    model would effectively know the exact criteria it is being judged on.
+    [EVENT_LOOP], [EVENT], [PRESERVE], and [PROHIBIT] are legitimate generation
+    guidance that do not reveal scoring weights or axis definitions.
+    """
     sample = enrich_application_fields(sample)
     scene = (sample.get("constraint_annotations") or {}).get("domain_scenario") or sample.get("task_title") or sample["task_id"]
     return (
         "Use the reference image as the exact first frame and visual anchor. "
         "Generate a 5-second photorealistic industrial video.\n\n"
         f"[SCENE] {scene}\n\n"
-        f"[APPLICATION] {_application_spec(sample)}\n\n"
         f"[CAMERA] {_camera_spec(sample)}\n\n"
         f"[EVENT_LOOP] {_event_loop_spec(sample)}\n\n"
         f"[EVENT] {_event_spec(sample)}\n\n"

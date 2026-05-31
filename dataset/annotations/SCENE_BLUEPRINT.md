@@ -2,8 +2,9 @@
 
 This blueprint expands the benchmark from repeated sample variants into
 practical scenario families. Each row defines a scene family, the intended
-task category, the reference-image requirement, and an example task. A complete
-490-sample dataset should allocate roughly 10 samples to each scene family.
+task category, the reference-image requirement, and an example task. The current
+dataset contains 60 scenes and 902 samples; sample counts per scene range from
+10 to 49 (mean 15).
 
 ## Design Rules
 

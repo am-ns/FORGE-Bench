@@ -309,7 +309,7 @@ def evaluate_sample(
     sub_topology = sample.get("sub_topology", "")
     task_profile = task_profile_for(sample)
     task_category = sample.get("task_category") or task_profile["task_category"]
-    axis_weights = sample.get("axis_weights") or axis_weights_for(sample)
+    axis_weights = axis_weights_for(sample)
     axis_rubric = sample.get("axis_rubric") or task_profile.get("rubric", {})
 
     # video loading

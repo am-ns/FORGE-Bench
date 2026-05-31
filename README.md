@@ -52,10 +52,10 @@ interaction, not only as a single averaged score.
 | Domain | Rigid Kinematics | Topology Failure | Fluid and Thermo | Spatial Viewpoint | Logic and Compliance |
 |---|---|---|---|---|---|
 | `visual_security` | Forklift overspeed and crane swing | Fence breach and missing guards | Dangerous-goods leak and smoke alarm | CCTV blind-spot sweep | Intrusion, PPE, near-miss, alarm response |
-| `embodied_robotics` | Robot grasp, AMR path, tool contact | Gripper local failure | Safety-cell event dynamics | Tracked/quadruped robot viewpoint | Cobot handover and light-curtain stop |
+| `embodied_robotics` | Robot grasp, AMR path, tool contact | Gripper local failure | *(no samples)* | Tracked/quadruped robot viewpoint | Cobot handover and light-curtain stop |
 | `heavy_load_construction` | Crane, excavator, truck, gantry load paths | Wire rope, outrigger, formwork failure | Tunnel pipe burst and mud surge | Bridge/drone alignment inspection | Hoist stop before collision |
-| `precision_defect_gen` | CNC cutting and assembly misalignment | PCB bridge, gear wear, weld/scratch/pin defects | Cutting-fluid spray | Endoscope and tube-bundle navigation | Inspection logic through localized constraints |
-| `extreme_emergency` | Emergency crane/load dynamics | Tower icing and wall breach | Flange leak, flash fire, reactor, battery, tunnel, plume | Emergency spatial continuity | Dust explosion, evacuation, response chain |
+| `precision_defect_gen` | CNC cutting and assembly misalignment | PCB bridge, gear wear, weld/scratch/pin defects | Cutting-fluid spray | Endoscope and tube-bundle navigation | *(no samples)* |
+| `extreme_emergency` | *(no samples)* | Tower icing and wall breach | Flange leak, flash fire, reactor, battery, tunnel, plume | Emergency spatial continuity | Dust explosion, evacuation, response chain |
 
 ## Evaluation Axes
 
@@ -97,7 +97,8 @@ The evaluation prompt follows this structure:
 8. `Temporal consistency check`: identity, material, state, and event continuity.
 9. `Reference and motion fidelity check`: reference identity, perspective, background, and camera control.
 10. `Application objective`: required observable events, decision-relevant elements, success criteria, and misleading failure modes.
-11. `Execution constraints` and `Scoring emphasis`.
+11. `Execution constraints`: prohibited artifacts, geometry changes, and identity swaps.
+12. `Dynamic scoring weights`: per-task-category axis weights shown to the judge, currently uniform within each task category.
 
 ## Scoring Pipeline
 
@@ -381,7 +382,7 @@ evidence operators ran and which risk flags they produced.
 For paired model comparisons, use:
 
 ```bash
-python scoring/compare.py results/model_a results/model_b --score-key weighted_score
+python scoring/compare.py results/model_a results/model_b --score-key ranking_score
 ```
 
 The comparison script uses matched task ids and reports paired-sample coverage,

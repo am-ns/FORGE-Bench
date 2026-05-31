@@ -136,14 +136,18 @@ def enforce_floor(axis: str, score: float) -> float:
     return max(floor, score)
 
 
-def compute_rotation_integrity_factor(axis_scores: dict[str, float]) -> float | None:
-    """Compute Rotational Integrity Factor from axis scores.
+def compute_cross_axis_integrity_factor(axis_scores: dict[str, float]) -> float | None:
+    """Compute the cross-axis integrity factor from axis scores.
 
-    The factor is the geometric mean of rotation-sensitive public axes.
-    Returns None if fewer than 2 of those axes are present.
+    The factor is the geometric mean of the three axes that jointly capture
+    causal correctness, structural geometry, and spatial fidelity:
+    industrial_logic_and_fact_alignment, geometric_integrity, and
+    reference_and_motion_fidelity. A geometric mean penalises outlier failures
+    more aggressively than an arithmetic mean. Returns None if fewer than 2 of
+    the three axes are present.
     """
     axis_scores = canonicalize_axis_dict(axis_scores)
-    rot_axes = [
+    factor_axes = [
         axis_scores[a]
         for a in (
             INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
@@ -152,12 +156,16 @@ def compute_rotation_integrity_factor(axis_scores: dict[str, float]) -> float | 
         )
         if a in axis_scores
     ]
-    if len(rot_axes) < 2:
+    if len(factor_axes) < 2:
         return None
     product = 1.0
-    for v in rot_axes:
+    for v in factor_axes:
         product *= max(v, 0.0)
-    return float(product ** (1.0 / len(rot_axes)))
+    return float(product ** (1.0 / len(factor_axes)))
+
+
+# Backward-compatible alias retained for any callers still using the old name.
+compute_rotation_integrity_factor = compute_cross_axis_integrity_factor
 
 
 def aggregate_scores(axis_scores: dict[str, float], viewpoint_motion: float | None = None) -> dict:
@@ -196,13 +204,16 @@ def aggregate_scores(axis_scores: dict[str, float], viewpoint_motion: float | No
     if viewpoint_motion is not None:
         result["viewpoint_motion_tier"] = viewpoint_motion_tier(viewpoint_motion)
 
-    rotation_integrity_factor = compute_rotation_integrity_factor(reported_scores)
-    result["rotation_integrity_factor"] = rotation_integrity_factor
+    cross_axis_integrity_factor = compute_cross_axis_integrity_factor(reported_scores)
+    result["cross_axis_integrity_factor"] = cross_axis_integrity_factor
+    result["rotation_integrity_factor"] = cross_axis_integrity_factor  # backward-compatible alias
     if viewpoint_motion is not None and viewpoint_motion < 0.05:
+        result["cross_axis_integrity_factor_gated"] = None
         result["rotation_integrity_factor_gated"] = None
-        result["rotation_integrity_factor_note"] = "rotation_integrity_factor_excluded_static_video"
+        result["cross_axis_integrity_factor_note"] = "cross_axis_integrity_factor_excluded_static_video"
     else:
-        result["rotation_integrity_factor_gated"] = rotation_integrity_factor
+        result["cross_axis_integrity_factor_gated"] = cross_axis_integrity_factor
+        result["rotation_integrity_factor_gated"] = cross_axis_integrity_factor
 
     return result
 
@@ -540,8 +551,6 @@ def _viewpoint_motion_gate_multiplier(result: dict) -> float:
         return 1.0
     viewpoint_motion_score = scored.get("viewpoint_motion_score", result.get("viewpoint_motion_score"))
     if viewpoint_motion_score is None:
-        viewpoint_motion_score = scored.get("viewpoint_motion_score", result.get("viewpoint_motion_score"))
-    if viewpoint_motion_score is None:
         viewpoint_motion_score = canonicalize_axis_dict(scored.get("axis_scores", {})).get(VIEWPOINT_MOTION_FIDELITY)
     if viewpoint_motion_score is None:
         return 1.0
@@ -677,7 +686,12 @@ def _mean_confidence_interval(
     iterations: int = CONFIG["bootstrap_iterations"],
     seed: int = CONFIG["bootstrap_seed"],
 ) -> dict:
-    """Return a deterministic bootstrap 95% CI for a sample mean."""
+    """Return a deterministic bootstrap 95% CI for a sample mean.
+
+    Standard i.i.d. bootstrap. When samples are clustered (e.g. multiple
+    per scene), use _cluster_mean_confidence_interval instead, which resamples
+    at the cluster level and produces properly calibrated intervals.
+    """
     vals = np.array([float(v) for v in values], dtype=float)
     vals = vals[np.isfinite(vals)]
     if vals.size == 0:
@@ -694,6 +708,62 @@ def _mean_confidence_interval(
         "n": int(vals.size),
         "bootstrap_iterations": int(iterations),
         "bootstrap_seed": int(seed),
+    }
+
+
+def _cluster_mean_confidence_interval(
+    values: list[float],
+    cluster_ids: list[str],
+    *,
+    iterations: int = CONFIG["bootstrap_iterations"],
+    seed: int = CONFIG["bootstrap_seed"],
+) -> dict:
+    """Cluster bootstrap 95% CI that accounts for within-scene correlations.
+
+    Samples from the same scene share the same reference image, scenario
+    description, and question set, so they are not independent observations.
+    Standard bootstrap underestimates variance in clustered data, producing CIs
+    that are too narrow. Cluster bootstrap corrects for this by resampling
+    whole clusters (scenes) with replacement, then computing the mean over all
+    samples in the resampled clusters.
+
+    Args:
+        values: Per-sample scores in the same order as cluster_ids.
+        cluster_ids: Scene or group identifier for each sample.
+    """
+    if len(values) != len(cluster_ids):
+        return _mean_confidence_interval(values, iterations=iterations, seed=seed)
+    from collections import defaultdict
+    cluster_map: dict[str, list[float]] = defaultdict(list)
+    for v, cid in zip(values, cluster_ids):
+        if np.isfinite(float(v)):
+            cluster_map[str(cid)].append(float(v))
+    unique_clusters = sorted(cluster_map.keys())
+    n_clusters = len(unique_clusters)
+    if n_clusters == 0:
+        return {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0,
+                "n_clusters": 0, "bootstrap_type": "cluster"}
+    all_vals = [v for vs in cluster_map.values() for v in vs]
+    mean = float(np.mean(all_vals))
+    if n_clusters == 1:
+        return {"mean": mean, "ci95_low": mean, "ci95_high": mean,
+                "n": len(all_vals), "n_clusters": 1, "bootstrap_type": "cluster"}
+    rng = np.random.default_rng(seed)
+    boot_means = []
+    for _ in range(iterations):
+        sampled_clusters = rng.choice(unique_clusters, size=n_clusters, replace=True)
+        boot_vals = [v for cid in sampled_clusters for v in cluster_map[cid]]
+        boot_means.append(float(np.mean(boot_vals)))
+    boot_arr = np.array(boot_means)
+    return {
+        "mean": mean,
+        "ci95_low": float(np.percentile(boot_arr, 2.5)),
+        "ci95_high": float(np.percentile(boot_arr, 97.5)),
+        "n": len(all_vals),
+        "n_clusters": n_clusters,
+        "bootstrap_iterations": int(iterations),
+        "bootstrap_seed": int(seed),
+        "bootstrap_type": "cluster",
     }
 
 
@@ -1174,17 +1244,26 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         for reason in item.get("hard_application_failure_reasons", []):
             hard_application_failure_counts[reason] = hard_application_failure_counts.get(reason, 0) + 1
 
+    # Cluster IDs (scene_id) for cluster-aware bootstrap CI.
+    # Samples from the same scene share reference images and scenario context, so
+    # they are not independent: cluster bootstrap resamples whole scenes and
+    # produces correctly calibrated intervals.
+    cluster_ids = [str(r.get("scene_id") or r.get("task_id", "")) for r in completed]
+    cc_cluster_ids = [str(r.get("scene_id") or r.get("task_id", "")) for r in complete_case_results]
+
     aggregate["relax_score"] = float(np.mean(weighted_scores))
-    aggregate["relax_score_ci95"] = _mean_confidence_interval(weighted_scores)
+    aggregate["relax_score_ci95"] = _cluster_mean_confidence_interval(weighted_scores, cluster_ids)
     aggregate["task_conditioned_score"] = float(np.mean(task_conditioned_scores))
-    aggregate["task_conditioned_score_ci95"] = _mean_confidence_interval(task_conditioned_scores)
+    aggregate["task_conditioned_score_ci95"] = _cluster_mean_confidence_interval(task_conditioned_scores, cluster_ids)
     aggregate["technical_score"] = aggregate["task_conditioned_score"]
     aggregate["technical_score_ci95"] = aggregate["task_conditioned_score_ci95"]
     aggregate["complete_case_relax_score"] = (
         float(np.mean(complete_case_weighted_scores))
         if complete_case_weighted_scores else None
     )
-    aggregate["complete_case_relax_score_ci95"] = _mean_confidence_interval(complete_case_weighted_scores)
+    aggregate["complete_case_relax_score_ci95"] = _cluster_mean_confidence_interval(
+        complete_case_weighted_scores, cc_cluster_ids
+    )
     aggregate["strict_pass_rate"] = float(np.mean(strict_flags))
     aggregate["functional_pass_rate"] = float(np.mean(functional_flags))
     aggregate["axis_pass_rates"] = _axis_pass_rates(completed)
@@ -1192,17 +1271,35 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     aggregate["gated_score"] = float(np.mean(gated_scores))
     aggregate["operator_risk_adjusted_score"] = aggregate["gated_score"]
     aggregate["constraint_adjusted_score"] = float(np.mean(constraint_adjusted_scores))
-    aggregate["constraint_adjusted_score_ci95"] = _mean_confidence_interval(constraint_adjusted_scores)
+    aggregate["constraint_adjusted_score_ci95"] = _cluster_mean_confidence_interval(
+        constraint_adjusted_scores, cluster_ids
+    )
     aggregate["ranking_score"] = aggregate["constraint_adjusted_score"]
     aggregate["ranking_score_ci95"] = aggregate["constraint_adjusted_score_ci95"]
     aggregate["application_score"] = float(np.mean(application_scores)) if application_scores else None
-    aggregate["application_score_ci95"] = _mean_confidence_interval(application_scores)
+    app_cluster_ids = [
+        str(r.get("scene_id") or r.get("task_id", ""))
+        for r in completed if _application_score(r) is not None
+    ]
+    aggregate["application_score_ci95"] = _cluster_mean_confidence_interval(application_scores, app_cluster_ids)
     aggregate["application_score_strict"] = float(np.mean(application_scores_strict)) if application_scores_strict else None
-    aggregate["application_score_strict_ci95"] = _mean_confidence_interval(application_scores_strict)
+    app_strict_cluster_ids = [
+        str(r.get("scene_id") or r.get("task_id", ""))
+        for r in completed if _application_score_strict(r) is not None
+    ]
+    aggregate["application_score_strict_ci95"] = _cluster_mean_confidence_interval(
+        application_scores_strict, app_strict_cluster_ids
+    )
     aggregate["application_score_available_case"] = (
         float(np.mean(application_scores_available_case)) if application_scores_available_case else None
     )
-    aggregate["application_score_available_case_ci95"] = _mean_confidence_interval(application_scores_available_case)
+    app_avail_cluster_ids = [
+        str(r.get("scene_id") or r.get("task_id", ""))
+        for r in completed if _application_score_available_case(r) is not None
+    ]
+    aggregate["application_score_available_case_ci95"] = _cluster_mean_confidence_interval(
+        application_scores_available_case, app_avail_cluster_ids
+    )
     aggregate["application_score_policy"] = {
         "leaderboard": "strict",
         "strict": "0.7*application_usefulness + 0.3*observable_event_coverage, with missing event coverage counted as zero coverage",
@@ -1210,9 +1307,21 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         "available_case": "computed only when both application usefulness and event coverage are present",
     }
     aggregate["application_usefulness_score"] = float(np.mean(application_usefulness_scores)) if application_usefulness_scores else None
-    aggregate["application_usefulness_score_ci95"] = _mean_confidence_interval(application_usefulness_scores)
+    app_use_cluster_ids = [
+        str(r.get("scene_id") or r.get("task_id", ""))
+        for r in completed if _application_usefulness_score(r) is not None
+    ]
+    aggregate["application_usefulness_score_ci95"] = _cluster_mean_confidence_interval(
+        application_usefulness_scores, app_use_cluster_ids
+    )
     aggregate["observable_event_coverage"] = float(np.mean(event_coverage_scores)) if event_coverage_scores else None
-    aggregate["observable_event_coverage_ci95"] = _mean_confidence_interval(event_coverage_scores)
+    ev_cov_cluster_ids = [
+        str(r.get("scene_id") or r.get("task_id", ""))
+        for r in completed if _observable_event_coverage(r) is not None
+    ]
+    aggregate["observable_event_coverage_ci95"] = _cluster_mean_confidence_interval(
+        event_coverage_scores, ev_cov_cluster_ids
+    )
     aggregate["application_pass_rate"] = _application_pass_rate(completed)
     aggregate["application_type_breakdown"] = _application_type_breakdown(completed)
     aggregate["application_macro_micro_summary"] = _application_macro_micro_summary(completed)
@@ -1266,11 +1375,14 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     aggregate["reference_motion_decomposition"] = _reference_motion_decomposition(completed)
     aggregate["ranking_sensitivity_report"] = _ranking_sensitivity_report(completed, constraint_adjusted_scores)
     aggregate["axis_score_ci95"] = {
-        axis: _mean_confidence_interval([
-            result["scored"]["axis_scores"][axis]
-            for result in completed
-            if axis in result["scored"].get("axis_scores", {})
-        ])
+        axis: _cluster_mean_confidence_interval(
+            [result["scored"]["axis_scores"][axis]
+             for result in completed
+             if axis in result["scored"].get("axis_scores", {})],
+            [str(result.get("scene_id") or result.get("task_id", ""))
+             for result in completed
+             if axis in result["scored"].get("axis_scores", {})]
+        )
         for axis in sorted(axis_keys)
     }
     aggregate["stratified_score_ci95"] = {

@@ -208,21 +208,21 @@ def _questions(task_id: str, domain: str, task_category: str, scenario: str) -> 
     return [
         {
             "id": "q1",
-            "text": f"Does the video preserve the cause-and-effect chain for this scenario: {scenario}?",
+            "text": f"Does the video preserve the complete cause-and-effect chain for this industrial scenario: {scenario}?",
             "answer": "yes",
-            "weakness_target": "W3",
+            "weakness_target": "causal_chain_completeness",
         },
         {
             "id": "q2",
-            "text": "Does any core equipment, person, vehicle, defect region, or emergency state change role without a visible causal trigger?",
-            "answer": "no",
-            "weakness_target": "W4",
+            "text": f"Is the required observable industrial event for domain {domain} clearly visible and unambiguous in the generated video?",
+            "answer": "yes",
+            "weakness_target": "required_observable_event_presence",
         },
         {
             "id": "q3",
-            "text": f"Does the generated event remain consistent with domain {domain} and task category {task_category}?",
-            "answer": "yes",
-            "weakness_target": "W5",
+            "text": f"Does the generated video exhibit a misleading failure that could cause incorrect industrial decisions for a {task_category} application?",
+            "answer": "no",
+            "weakness_target": "misleading_failure_mode_absence",
         },
     ]
 

@@ -1,11 +1,13 @@
 param(
   [int]$TargetNew = 0,
-  [int]$PerScene = 12,
+  [int]$PerScene = 16,
   [int]$FormalTargetPerScene = 16,
   [int]$SearchLimit = 50,
   [int]$QueriesPerScene = 10,
   [string]$Providers = "commons,commons_category,openverse,loc,nara",
   [string]$ScenesFile = "reports\image_deficit_plan_current\selected_scenes.json",
+  [string]$DeficitPlanDir = "reports\image_deficit_plan_current",
+  [bool]$RefreshDeficitPlan = $true,
   [string]$Domains = "",
   [string]$RunId = "",
   [int]$ProviderWorkers = 3,
@@ -31,6 +33,18 @@ if ((Test-Path -LiteralPath $stagingRoot) -or (Test-Path -LiteralPath $reportDir
   throw "RunId already exists: $RunId"
 }
 New-Item -ItemType Directory -Force -Path $stagingRoot, $reportDir | Out-Null
+
+if ($RefreshDeficitPlan) {
+  if ($FormalTargetPerScene -le 0) {
+    throw "FormalTargetPerScene must be greater than zero when RefreshDeficitPlan is enabled"
+  }
+  python scripts\build_image_deficit_plan.py `
+    --out-dir $DeficitPlanDir `
+    --target-per-scene $FormalTargetPerScene
+  if ($LASTEXITCODE -ne 0) {
+    throw "Failed to refresh image deficit plan"
+  }
+}
 
 $argsList = @(
   "scripts\fast_multisource_image_backfill.py",
@@ -62,6 +76,7 @@ Write-Host "FormalTargetPerScene: $FormalTargetPerScene"
 Write-Host "SearchLimit: $SearchLimit"
 Write-Host "QueriesPerScene: $QueriesPerScene"
 Write-Host "Providers: $Providers"
+Write-Host "RefreshDeficitPlan: $RefreshDeficitPlan"
 Write-Host "ProviderWorkers: $ProviderWorkers"
 Write-Host "DownloadWorkers: $DownloadWorkers"
 Write-Host "MinHostInterval: $MinHostInterval seconds"

@@ -73,7 +73,8 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
         task_category: Optional domain task category used to derive weights.
 
     Returns:
-        dict with keys: weighted_score, per_axis_weighted, num_axes, rotation_integrity_factor, rotation_integrity_factor_gated,
+        dict with keys: weighted_score, per_axis_weighted, num_axes, cross_axis_integrity_factor, cross_axis_integrity_factor_gated,
+        rotation_integrity_factor (backward-compatible alias for cross_axis_integrity_factor),
         and optionally viewpoint_motion_orbit_component, viewpoint_motion_crane_component, industrial_constraint_score.
     """
     if not isinstance(axis_scores, dict):
@@ -125,8 +126,10 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
 
     final_score = weighted_sum / total_weight if total_weight > 0 else 0.0
 
-    # rotation integrity factor (Rotational Integrity Factor) from rotation-sensitive axes
-    rot_axes = [
+    # Cross-axis integrity factor: geometric mean of the three axes that jointly capture
+    # causal correctness (industrial_logic_and_fact_alignment), structural topology
+    # (geometric_integrity), and spatial fidelity (reference_and_motion_fidelity).
+    factor_axes = [
         axis_scores[a]
         for a in (
             INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
@@ -135,18 +138,18 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
         )
         if a in axis_scores
     ]
-    if len(rot_axes) >= 2:
+    if len(factor_axes) >= 2:
         product = 1.0
-        for v in rot_axes:
+        for v in factor_axes:
             product *= max(v, 0.0)
-        rotation_integrity_factor = float(product ** (1.0 / len(rot_axes)))
+        cross_axis_integrity_factor = float(product ** (1.0 / len(factor_axes)))
     else:
-        rotation_integrity_factor = None
+        cross_axis_integrity_factor = None
 
     if viewpoint_motion is not None and viewpoint_motion < 0.05:
-        rotation_integrity_factor_gated = None
+        cross_axis_integrity_factor_gated = None
     else:
-        rotation_integrity_factor_gated = rotation_integrity_factor
+        cross_axis_integrity_factor_gated = cross_axis_integrity_factor
 
     reference_preservation_score = axis_scores.get(REFERENCE_AND_MOTION_FIDELITY)
     reference_motion_coupled_score = None
@@ -169,8 +172,10 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
         "axis_weights": {axis: weights.get(axis, CONFIG["default_axis_weight"])
                          for axis in axis_scores},
         "num_axes": len(axis_scores),
-        "rotation_integrity_factor": rotation_integrity_factor,
-        "rotation_integrity_factor_gated": rotation_integrity_factor_gated,
+        "cross_axis_integrity_factor": cross_axis_integrity_factor,
+        "cross_axis_integrity_factor_gated": cross_axis_integrity_factor_gated,
+        "rotation_integrity_factor": cross_axis_integrity_factor,           # backward-compatible alias
+        "rotation_integrity_factor_gated": cross_axis_integrity_factor_gated,  # backward-compatible alias
     }
     if task_category is not None:
         out["task_category"] = task_category

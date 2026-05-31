@@ -120,6 +120,11 @@ def _image_metrics(path: Path) -> dict:
     }
 
 
+def _formal_image_count(image_root: Path, domain: str, scene: str) -> int:
+    scene_dir = image_root / domain / scene
+    return len(_iter_images(scene_dir))
+
+
 def _average_hash(path: Path, hash_size: int = 8) -> str:
     with Image.open(path) as image:
         image = image.convert("L").resize((hash_size, hash_size), Image.Resampling.LANCZOS)
@@ -271,6 +276,10 @@ def _run_locked(args: argparse.Namespace, candidate_root: Path, image_root: Path
 
     rows: list[dict] = []
     accepted_by_scene: Counter[str] = Counter()
+    formal_counts = {
+        scene: _formal_image_count(image_root, domain, scene)
+        for scene, domain in scene_domain.items()
+    }
     task_counters: dict[str, int] = {}
     imported_samples: list[dict] = []
     accepted_hashes = {scene: list(hashes) for scene, hashes in existing_hashes.items()}
@@ -308,8 +317,15 @@ def _run_locked(args: argparse.Namespace, candidate_root: Path, image_root: Path
             row["deleted"] = str(delete_rejected(source)).lower()
             rows.append(row)
             continue
-        if accepted_by_scene[scene] >= args.max_per_scene:
+        if args.max_per_scene > 0 and accepted_by_scene[scene] >= args.max_per_scene:
             row["reason"] = "scene_import_limit_reached"
+            rows.append(row)
+            continue
+        if (
+            args.formal_target_per_scene > 0
+            and formal_counts.get(scene, 0) + accepted_by_scene[scene] >= args.formal_target_per_scene
+        ):
+            row["reason"] = "formal_scene_target_reached"
             rows.append(row)
             continue
         try:
@@ -360,13 +376,15 @@ def _run_locked(args: argparse.Namespace, candidate_root: Path, image_root: Path
                 image.convert("RGB").save(tmp, "JPEG", quality=92, optimize=True)
             os.replace(tmp, dest)
             source.unlink()
-        task_id = _next_task_id(samples, domain, task_counters)
         rel_dest = dest.relative_to(REPO_ROOT).as_posix()
-        base = scene_samples[scene][0]
-        new_sample = _clone_sample(base, task_id, rel_dest)
-        samples.append(new_sample)
-        scene_samples[scene].append(new_sample)
-        imported_samples.append(new_sample)
+        task_id = ""
+        if not args.images_only:
+            task_id = _next_task_id(samples, domain, task_counters)
+            base = scene_samples[scene][0]
+            new_sample = _clone_sample(base, task_id, rel_dest)
+            samples.append(new_sample)
+            scene_samples[scene].append(new_sample)
+            imported_samples.append(new_sample)
         accepted_by_scene[scene] += 1
         accepted_hashes.setdefault(scene, []).append((ahash, dhash, dest))
         row.update({
@@ -388,6 +406,8 @@ def _run_locked(args: argparse.Namespace, candidate_root: Path, image_root: Path
     print(f"accepted={counts.get('accepted', 0)}")
     print(f"rejected={counts.get('rejected', 0)}")
     print(f"report={Path(args.report).as_posix()}")
+    if args.images_only:
+        print(f"images_imported={counts.get('accepted', 0)}")
     if imported_samples:
         print(f"samples_added={len(imported_samples)}")
 
@@ -398,7 +418,13 @@ def main() -> None:
     parser.add_argument("--image-root", default="dataset/images")
     parser.add_argument("--samples", default="dataset/annotations/samples.json")
     parser.add_argument("--report", default="reports/screened_image_candidate_import.csv")
-    parser.add_argument("--max-per-scene", type=int, default=3)
+    parser.add_argument("--max-per-scene", type=int, default=3, help="Maximum accepted images per scene; 0 disables the cap.")
+    parser.add_argument(
+        "--formal-target-per-scene",
+        type=int,
+        default=16,
+        help="Do not import beyond this formal image count per scene; 0 disables the cap.",
+    )
     parser.add_argument("--min-width", type=int, default=640)
     parser.add_argument("--min-height", type=int, default=480)
     parser.add_argument("--min-short-side", type=int, default=420)
@@ -409,6 +435,7 @@ def main() -> None:
     parser.add_argument("--ahash-distance", type=int, default=4)
     parser.add_argument("--dhash-distance", type=int, default=6)
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--images-only", action="store_true", help="Import screened images without creating samples.")
     parser.add_argument(
         "--delete-rejected",
         action="store_true",

@@ -1,10 +1,20 @@
 {
   "scenes": [
-    "emerg_transmission_tower_icing_collapse",
-    "erob_quadruped_stairs_rubble_fpv",
-    "hload_ground_settlement_outrigger",
+    "emerg_smoke_evacuation_route_visibility",
+    "erob_cobot_safety_scanner_slowdown",
+    "pdef_flange_seal_micro_leak",
+    "vsec_electrical_cabinet_smoke_isolation",
+    "vsec_smoke_alarm_evacuation",
+    "vsec_perimeter_fence_breach",
+    "erob_tracked_robot_rubble",
+    "pdef_gear_tooth_missing_wear",
+    "erob_robot_arm_precision_grasp",
+    "erob_cobot_human_handover",
     "pdef_connector_pin_bent",
-    "pdef_surface_scratch_inspection",
-    "vsec_missing_ppe_at_height"
+    "pdef_tube_bundle_endoscopy",
+    "hload_tunnel_pipe_burst_mud_surge",
+    "vsec_pedestrian_forklift_near_miss",
+    "pdef_cnc_curved_surface_cutting",
+    "hload_dual_crawler_crane_lift"
   ]
 }

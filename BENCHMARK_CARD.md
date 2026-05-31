@@ -75,12 +75,60 @@ The report exposes:
 - `ranking_score`: technical score multiplied by application and reliability
   penalties, plus a hard penalty for severe misleading application failures.
 
+## Axis Weights
+
+Each sample carries an `axis_weights` field and a task-category profile also
+defines `axis_weights`. The effective weight for an axis follows the precedence
+chain: per-sample `axis_weights` > task-profile `axis_weights` > `BASE_AXIS_WEIGHTS`.
+
+In the current dataset all 902 samples have `axis_weights` identical to their
+task-profile defaults, so the effective weights are uniform within each of the
+five task categories. Per-sample customization is supported by the pipeline but
+not used in the v1 release. When describing results, axis weights should be
+characterized as **per-task-category** rather than per-sample dynamic.
+
 ## Validity And Uncertainty
 
 Reports include bootstrap confidence intervals for main metrics, stratified
 confidence intervals by domain/task/application groups, parsing-validity
 statistics for judge outputs, coverage matrices, application failure taxonomy,
 and ranking sensitivity under nearby penalty-floor variants.
+
+## Dataset Distribution
+
+Current dataset: 60 scenes, 902 samples.
+
+**Domain sample counts** (non-uniform by design — domain breadth varies):
+
+| Domain | Samples |
+|---|---:|
+| `extreme_emergency` | 289 |
+| `heavy_load_construction` | 212 |
+| `visual_security` | 140 |
+| `embodied_robotics` | 134 |
+| `precision_defect_gen` | 127 |
+
+**Application type sample counts**:
+
+| Application Type | Samples |
+|---|---:|
+| `emergency_rehearsal` | 321 |
+| `heavy_operation_risk` | 212 |
+| `robotic_operation` | 134 |
+| `safety_training` | 118 |
+| `inspection_and_maintenance` | 73 |
+| `defect_generation` | 44 |
+
+Three domain × task category cells have no samples in the current dataset:
+`embodied_robotics` × `fluid_dynamics_and_thermodynamics`,
+`extreme_emergency` × `rigid_body_kinematics_and_coupling`, and
+`precision_defect_gen` × `industrial_logic_and_compliance`. These cells
+are marked in the README coverage matrix; stratified scores for those cells
+should not be compared across models.
+
+When comparing models, weight results accordingly or use the stratified
+confidence intervals by domain and application type, which reflect the
+non-uniform distribution.
 
 ## Known Limitations
 

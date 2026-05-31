@@ -35,6 +35,12 @@ STRUCTURAL_CORRECTNESS_PHRASES = [
     "maintains structural", "intact structure", "correct structure",
 ]
 
+# Minimum number of distinct structural-correctness phrases that must appear
+# in the evidence before a superlative pass is granted. A single matching phrase
+# is insufficient because a model could inject boilerplate; requiring two or more
+# independent confirmations reduces the false-positive rate.
+_SUPERLATIVE_MIN_PHRASE_COUNT = 2
+
 
 def _normalize_answer(answer: str) -> str:
     """Normalize an answer string for comparison."""
@@ -47,10 +53,34 @@ def _contains_failure_predictive_language(question: str) -> bool:
     return any(kw in q_lower for kw in FAILURE_PREDICTIVE_KEYWORDS)
 
 
-def _confirms_structural_correctness(model_answer: str) -> bool:
-    """Check whether *model_answer* contains structural correctness reasoning."""
+def _extract_failure_keyword(question: str) -> str | None:
+    """Return the first failure-predictive keyword found in *question*, or None."""
+    q_lower = question.lower()
+    for kw in FAILURE_PREDICTIVE_KEYWORDS:
+        if kw in q_lower:
+            return kw
+    return None
+
+
+def _confirms_structural_correctness(model_answer: str, question: str = "") -> bool:
+    """Check whether *model_answer* contains credible structural-correctness evidence.
+
+    Stricter than a single-phrase match: requires both a minimum phrase count
+    and, when a failure keyword is extractable from the question, that the
+    evidence explicitly mentions the negation of that specific keyword. This
+    prevents models from gaming the check with generic boilerplate phrases.
+    """
     a_lower = model_answer.lower()
-    return any(phrase in a_lower for phrase in STRUCTURAL_CORRECTNESS_PHRASES)
+    matched_phrases = [p for p in STRUCTURAL_CORRECTNESS_PHRASES if p in a_lower]
+    if len(matched_phrases) < _SUPERLATIVE_MIN_PHRASE_COUNT:
+        return False
+    failure_kw = _extract_failure_keyword(question)
+    if failure_kw:
+        negation_forms = [f"no {failure_kw}", f"no {failure_kw[:-3]}", f"without {failure_kw}",
+                          f"not {failure_kw}", f"{failure_kw} is absent", f"no visible {failure_kw}"]
+        if not any(neg in a_lower for neg in negation_forms):
+            return False
+    return True
 
 
 def _log_superlative_pass(model_name: str, sample_id: str, question_id: str,

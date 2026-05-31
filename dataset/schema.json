@@ -244,7 +244,15 @@
           },
           "weakness_target": {
             "type": "string",
-            "pattern": "^W[2-7]$"
+            "enum": [
+              "causal_chain_completeness",
+              "required_observable_event_presence",
+              "misleading_failure_mode_absence",
+              "geometric_topology_preservation",
+              "physical_plausibility",
+              "temporal_consistency",
+              "reference_fidelity"
+            ]
           }
         },
         "additionalProperties": false

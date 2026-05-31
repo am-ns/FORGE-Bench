@@ -1,7 +1,7 @@
 param(
   [int]$TargetNew = 0,
   [int]$Shards = 3,
-  [int]$PerScene = 12,
+  [int]$PerScene = 16,
   [int]$FormalTargetPerScene = 16,
   [int]$SearchLimit = 24,
   [string]$Providers = "commons,commons_category",

@@ -726,8 +726,8 @@ class TestReport:
                 },
                 "industrial_logic_and_fact_alignment_details": {
                     "per_question": [
-                        {"weakness_target": "W3", "correct": False},
-                        {"weakness_target": "W5", "correct": True},
+                        {"weakness_target": "causal_chain_completeness", "correct": False},
+                        {"weakness_target": "misleading_failure_mode_absence", "correct": True},
                     ]
                 },
                 "scored": {
@@ -745,7 +745,7 @@ class TestReport:
         assert report["summary"]["weakest_axes"][0]["axis"] == GEOMETRIC_INTEGRITY
         assert report["viewpoint_motion_diagnostics"]["static_or_near_static_count"] == 1
         assert report["industrial_constraint_diagnostics"]["violation_counts"]["check_count_invariant"] == 1
-        assert report["industrial_logic_weakness_diagnostics"]["W3"]["accuracy"] == 0.0
+        assert report["industrial_logic_weakness_diagnostics"]["causal_chain_completeness"]["accuracy"] == 0.0
         assert "constraint_adjustment_diagnostics" in report
         assert report["application_value_report"]["application_usefulness_score"] is None
         assert "low_industrial_application_usefulness" in report["failure_taxonomy"]
