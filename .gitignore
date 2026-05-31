@@ -23,3 +23,12 @@ deploy_lobster.py
 update_lobster.py
 .claude/
 dataset/imagesforloss/
+.cache/
+dataset/images_candidates/fast_multisource_*/
+dataset/images_candidates/accurate_multisource_*/
+dataset/wan_batch/
+reports/fast_multisource_*/
+reports/accurate_multisource_*/
+reports/wan_eval_results*/
+reports/wan_eval_rerun_*/
+reports/wan_eval_retry/

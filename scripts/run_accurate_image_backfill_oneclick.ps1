@@ -19,11 +19,17 @@ $ErrorActionPreference = "Stop"
 if (-not $RunId) {
   $RunId = Get-Date -Format "yyyyMMdd_HHmmss"
 }
+if ($RunId -notmatch "^[A-Za-z0-9_-]+$") {
+  throw "RunId may only contain letters, numbers, underscores, and hyphens"
+}
 
 $repoRoot = (Resolve-Path ".").Path
 $stagingRoot = Join-Path $repoRoot "dataset\images_candidates\accurate_multisource_$RunId"
 $reportDir = Join-Path $repoRoot "reports\accurate_multisource_$RunId"
 $manifest = Join-Path $reportDir "accurate_multisource.csv"
+if ((Test-Path -LiteralPath $stagingRoot) -or (Test-Path -LiteralPath $reportDir)) {
+  throw "RunId already exists: $RunId"
+}
 New-Item -ItemType Directory -Force -Path $stagingRoot, $reportDir | Out-Null
 
 $argsList = @(

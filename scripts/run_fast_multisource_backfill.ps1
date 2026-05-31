@@ -6,6 +6,8 @@ param(
   [int]$SearchLimit = 24,
   [string]$Providers = "commons,commons_category",
   [string]$ScenesFile = "reports\image_deficit_plan_current\selected_scenes.json",
+  [string]$DeficitPlanDir = "reports\image_deficit_plan_current",
+  [bool]$RefreshDeficitPlan = $true,
   [string]$Domains = "",
   [string]$RunId = "",
   [int]$ProviderWorkers = 2,
@@ -19,19 +21,40 @@ $ErrorActionPreference = "Stop"
 if (-not $RunId) {
   $RunId = Get-Date -Format "yyyyMMdd_HHmmss"
 }
+if ($RunId -notmatch "^[A-Za-z0-9_-]+$") {
+  throw "RunId may only contain letters, numbers, underscores, and hyphens"
+}
+if ($Shards -le 0) {
+  throw "Shards must be greater than zero"
+}
 
 $repoRoot = (Resolve-Path ".").Path
 $stagingRoot = Join-Path $repoRoot "dataset\images_candidates\fast_multisource_$RunId"
 $reportDir = Join-Path $repoRoot "reports\fast_multisource_$RunId"
+if ((Test-Path -LiteralPath $stagingRoot) -or (Test-Path -LiteralPath $reportDir)) {
+  throw "RunId already exists: $RunId"
+}
 New-Item -ItemType Directory -Force -Path $stagingRoot, $reportDir | Out-Null
+
+if ($RefreshDeficitPlan) {
+  if ($FormalTargetPerScene -le 0) {
+    throw "FormalTargetPerScene must be greater than zero when RefreshDeficitPlan is enabled"
+  }
+  python scripts\build_image_deficit_plan.py `
+    --out-dir $DeficitPlanDir `
+    --target-per-scene $FormalTargetPerScene `
+    --shards $Shards
+  if ($LASTEXITCODE -ne 0) {
+    throw "Failed to refresh image deficit plan"
+  }
+}
 
 $perWorkerTarget = [Math]::Ceiling($TargetNew / [Math]::Max(1, $Shards))
 $jobs = @()
 
 for ($i = 0; $i -lt $Shards; $i++) {
-  $out = Join-Path $stagingRoot "worker_$i"
+  $out = $stagingRoot
   $manifest = Join-Path $reportDir "fast_multisource_worker_$i.csv"
-  New-Item -ItemType Directory -Force -Path $out | Out-Null
 
   $script = {
     param(
@@ -80,6 +103,7 @@ Write-Host "FormalTargetPerScene: $FormalTargetPerScene"
 Write-Host "SearchLimit: $SearchLimit"
 Write-Host "Providers: $Providers"
 Write-Host "ScenesFile: $ScenesFile"
+Write-Host "RefreshDeficitPlan: $RefreshDeficitPlan"
 Write-Host "ProviderWorkers: $ProviderWorkers"
 Write-Host "DownloadWorkers: $DownloadWorkers"
 Write-Host "MinHostInterval: $MinHostInterval seconds"

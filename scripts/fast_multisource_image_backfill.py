@@ -15,12 +15,14 @@ import json
 import os
 import random
 import re
+import shutil
 import sys
 import time
 import urllib.parse
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
+from itertools import islice
 from pathlib import Path
 
 import cv2
@@ -466,15 +468,50 @@ def _hamming(a: str, b: str) -> int:
     return int.bit_count(int(a, 16) ^ int(b, 16))
 
 
-def _existing_hashes(root: Path) -> list[str]:
-    hashes = []
+def _existing_hashes(root: Path) -> dict[str, list[str]]:
+    hashes: dict[str, list[str]] = {}
     for path in root.rglob("*"):
         if path.is_file() and path.suffix.lower() in IMAGE_SUFFIXES:
             try:
-                hashes.append(_average_hash(path))
+                scene = path.stem.split("__", 1)[0] if "__" in path.stem else path.parent.name
+                hashes.setdefault(scene, []).append(_average_hash(path))
             except Exception:
                 pass
     return hashes
+
+
+def _claim_scene(root: Path, scene: str, stale_seconds: float = 86400.0) -> Path | None:
+    root.mkdir(parents=True, exist_ok=True)
+    digest = hashlib.sha1(scene.encode("utf-8")).hexdigest()[:16]
+    claim = root / f"{digest}.claim"
+    completed = root / f"{digest}.done"
+    if completed.exists():
+        if time.time() - completed.stat().st_mtime <= stale_seconds:
+            return None
+        completed.unlink()
+    try:
+        claim.mkdir()
+    except FileExistsError:
+        if time.time() - claim.stat().st_mtime <= stale_seconds:
+            return None
+        shutil.rmtree(claim, ignore_errors=True)
+        try:
+            claim.mkdir()
+        except FileExistsError:
+            return None
+    (claim / "scene.txt").write_text(scene + "\n", encoding="utf-8")
+    return claim
+
+
+def _release_scene_claim(claim: Path, *, completed: bool = True) -> None:
+    if not claim.exists():
+        return
+    for child in claim.iterdir():
+        child.unlink()
+    if completed:
+        os.replace(claim, claim.with_suffix(".done"))
+    else:
+        claim.rmdir()
 
 
 def _scene_image_count(image_root: Path, domain: str, scene: str) -> int:
@@ -599,6 +636,9 @@ def run(args: argparse.Namespace) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     manifest = Path(args.manifest)
     existing_hashes = _existing_hashes(image_root)
+    for scene, hashes in _existing_hashes(output_dir).items():
+        existing_hashes.setdefault(scene, []).extend(hashes)
+    scene_claim_dir = Path(args.scene_claim_dir)
     rows = []
     accepted_total = 0
     accepted_by_scene: dict[str, int] = {}
@@ -608,75 +648,97 @@ def run(args: argparse.Namespace) -> None:
         return args.target_new > 0 and accepted_total >= args.target_new
 
     for scene in scenes:
-        scene_limit = args.per_scene
-        if args.formal_target_per_scene > 0:
-            scene_limit = max(0, min(args.per_scene, args.formal_target_per_scene - formal_counts.get(scene, 0)))
-        if scene_limit <= 0:
+        claim = _claim_scene(scene_claim_dir, scene, args.scene_claim_stale_seconds)
+        if claim is None:
+            rows.append({
+                "status": "skipped",
+                "reason": "scene_claimed_by_another_process",
+                "scene": scene,
+            })
+            _write_manifest(rows, manifest)
             continue
-        candidates, diagnostics = _collect_candidates(scene, samples_by_scene, args)
-        rows.extend(diagnostics)
-        accepted_by_scene.setdefault(scene, 0)
-        download_tasks = []
-        with ThreadPoolExecutor(max_workers=args.download_workers) as executor:
-            for candidate in candidates:
-                if target_reached() or accepted_by_scene[scene] >= scene_limit:
-                    break
-                safe_provider = re.sub(r"[^a-zA-Z0-9]+", "_", candidate.provider).strip("_")
-                candidate_index += 1
-                filename = f"{scene}__{safe_provider}__{candidate_index:04d}{_suffix(candidate.image_url)}"
-                dest = output_dir / filename
-                download_tasks.append((candidate, dest, executor.submit(_download_candidate, candidate, dest, args.timeout)))
-            for candidate, dest, task in download_tasks:
-                row = {
-                    "status": "rejected",
-                    "reason": "",
-                    "scene": scene,
-                    "domain": (samples_by_scene.get(scene) or {}).get("domain", ""),
-                    "provider": candidate.provider,
-                    "query": candidate.query,
-                    "source_title": candidate.title,
-                    "source_url": candidate.source_url,
-                    "image_url": candidate.image_url,
-                    "downloaded_url": "",
-                    "license": candidate.license,
-                    "local_path": dest.as_posix(),
-                }
-                try:
-                    row["downloaded_url"] = task.result()
-                    with Image.open(dest) as image:
-                        image.verify()
-                    metrics = _image_metrics(dest)
-                    row.update({
-                        "width": metrics["width"],
-                        "height": metrics["height"],
-                        "short_side": metrics["short_side"],
-                        "pixels": metrics["pixels"],
-                        "laplacian_var": f"{metrics['laplacian_var']:.2f}",
-                        "edge_density": f"{metrics['edge_density']:.4f}",
-                        "white_ratio": f"{metrics['white_ratio']:.4f}",
-                    })
-                    ok, reason = _passes_quality(metrics, args)
-                    if not ok:
-                        dest.unlink(missing_ok=True)
-                        row["reason"] = reason
-                    else:
-                        ahash = _average_hash(dest)
-                        if any(_hamming(ahash, old) <= args.duplicate_hamming_distance for old in existing_hashes):
+        scene_limit = args.per_scene
+        try:
+            if args.formal_target_per_scene > 0:
+                scene_limit = max(0, min(args.per_scene, args.formal_target_per_scene - formal_counts.get(scene, 0)))
+            if scene_limit <= 0:
+                continue
+            candidates, diagnostics = _collect_candidates(scene, samples_by_scene, args)
+            rows.extend(diagnostics)
+            accepted_by_scene.setdefault(scene, 0)
+            candidate_iter = iter(candidates)
+            with ThreadPoolExecutor(max_workers=args.download_workers) as executor:
+                while not target_reached() and accepted_by_scene[scene] < scene_limit:
+                    remaining = scene_limit - accepted_by_scene[scene]
+                    if args.target_new > 0:
+                        remaining = min(remaining, args.target_new - accepted_total)
+                    batch = list(islice(candidate_iter, min(args.download_workers, remaining)))
+                    if not batch:
+                        break
+                    download_tasks = []
+                    for candidate in batch:
+                        safe_provider = re.sub(r"[^a-zA-Z0-9]+", "_", candidate.provider).strip("_")
+                        while True:
+                            candidate_index += 1
+                            filename = f"{scene}__{safe_provider}__{candidate_index:04d}{_suffix(candidate.image_url)}"
+                            dest = output_dir / filename
+                            if not dest.exists():
+                                break
+                        download_tasks.append((candidate, dest, executor.submit(_download_candidate, candidate, dest, args.timeout)))
+                    for candidate, dest, task in download_tasks:
+                        row = {
+                            "status": "rejected",
+                            "reason": "",
+                            "scene": scene,
+                            "domain": (samples_by_scene.get(scene) or {}).get("domain", ""),
+                            "provider": candidate.provider,
+                            "query": candidate.query,
+                            "source_title": candidate.title,
+                            "source_url": candidate.source_url,
+                            "image_url": candidate.image_url,
+                            "downloaded_url": "",
+                            "license": candidate.license,
+                            "local_path": dest.as_posix(),
+                        }
+                        try:
+                            row["downloaded_url"] = task.result()
+                            with Image.open(dest) as image:
+                                image.verify()
+                            metrics = _image_metrics(dest)
+                            row.update({
+                                "width": metrics["width"],
+                                "height": metrics["height"],
+                                "short_side": metrics["short_side"],
+                                "pixels": metrics["pixels"],
+                                "laplacian_var": f"{metrics['laplacian_var']:.2f}",
+                                "edge_density": f"{metrics['edge_density']:.4f}",
+                                "white_ratio": f"{metrics['white_ratio']:.4f}",
+                            })
+                            ok, reason = _passes_quality(metrics, args)
+                            if not ok:
+                                dest.unlink(missing_ok=True)
+                                row["reason"] = reason
+                            else:
+                                ahash = _average_hash(dest)
+                                scene_hashes = existing_hashes.setdefault(scene, [])
+                                if any(_hamming(ahash, old) <= args.duplicate_hamming_distance for old in scene_hashes):
+                                    dest.unlink(missing_ok=True)
+                                    row["reason"] = "near_duplicate"
+                                else:
+                                    scene_hashes.append(ahash)
+                                    accepted_total += 1
+                                    accepted_by_scene[scene] += 1
+                                    row["status"] = "accepted"
+                                    row["reason"] = "accepted"
+                        except Exception as exc:
                             dest.unlink(missing_ok=True)
-                            row["reason"] = "near_duplicate"
-                        else:
-                            existing_hashes.append(ahash)
-                            accepted_total += 1
-                            accepted_by_scene[scene] += 1
-                            row["status"] = "accepted"
-                            row["reason"] = "accepted"
-                except Exception as exc:
-                    dest.unlink(missing_ok=True)
-                    row["reason"] = f"download_or_read_error:{exc}"
-                rows.append(row)
-                if len(rows) % 20 == 0:
-                    _write_manifest(rows, manifest)
-        _write_manifest(rows, manifest)
+                            row["reason"] = f"download_or_read_error:{exc}"
+                        rows.append(row)
+                        if len(rows) % 20 == 0:
+                            _write_manifest(rows, manifest)
+            _write_manifest(rows, manifest)
+        finally:
+            _release_scene_claim(claim)
         if target_reached():
             break
         time.sleep(args.sleep_between_scenes)
@@ -715,6 +777,8 @@ def main() -> None:
     parser.add_argument("--log-search-diagnostics", action="store_true")
     parser.add_argument("--min-host-interval", type=float, default=4.0)
     parser.add_argument("--host-lock-dir", default=".cache/fast_multisource_host_locks")
+    parser.add_argument("--scene-claim-dir", default=".cache/fast_multisource_scene_claims")
+    parser.add_argument("--scene-claim-stale-seconds", type=float, default=86400.0)
     parser.add_argument("--timeout", type=float, default=12.0)
     parser.add_argument("--sleep-between-scenes", type=float, default=1.0)
     parser.add_argument("--shards", type=int, default=1)
