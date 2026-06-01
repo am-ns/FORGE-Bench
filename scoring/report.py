@@ -7,6 +7,8 @@ from pathlib import Path
 import sys
 from collections import Counter, defaultdict
 
+from scoring.failure_heatmap import failure_heatmap_report as _failure_heatmap_report
+
 from eval.axis_registry import (
     APPLICATION_USEFULNESS,
     GEOMETRIC_INTEGRITY,
@@ -668,6 +670,7 @@ def generate_diagnostic_report(model: str, aggregate: dict, sample_results: list
         "ability_failure_report": _ability_failure_report(completed),
         "failure_taxonomy": _failure_taxonomy(completed),
         "worst_samples": _worst_samples(completed),
+        "failure_heatmap": _failure_heatmap_report(completed),
     }
 
 
