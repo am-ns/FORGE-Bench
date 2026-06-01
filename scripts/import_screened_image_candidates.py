@@ -84,11 +84,10 @@ def _candidate_scene(path: Path, root: Path, scene_domain: dict[str, str]) -> tu
         if scene_domain.get(scene) == domain:
             return scene, domain
         return None, None
-    if len(parts) == 1:
-        stem = re.sub(r"^worker_\d+__", "", path.stem)
-        for scene, domain in sorted(scene_domain.items(), key=lambda item: len(item[0]), reverse=True):
-            if stem == scene or stem.startswith(scene + "__"):
-                return scene, domain
+    stem = re.sub(r"^worker_\d+__", "", path.stem)
+    for scene, domain in sorted(scene_domain.items(), key=lambda item: len(item[0]), reverse=True):
+        if stem == scene or stem.startswith(scene + "__"):
+            return scene, domain
     return None, None
 
 
@@ -283,6 +282,7 @@ def _run_locked(args: argparse.Namespace, candidate_root: Path, image_root: Path
     task_counters: dict[str, int] = {}
     imported_samples: list[dict] = []
     accepted_hashes = {scene: list(hashes) for scene, hashes in existing_hashes.items()}
+    accepted_hashes_global = [item for hashes in existing_hashes.values() for item in hashes]
     candidates = _iter_images(candidate_root)
 
     candidate_root_resolved = candidate_root.resolve()
@@ -349,9 +349,9 @@ def _run_locked(args: argparse.Namespace, candidate_root: Path, image_root: Path
             dhash = _dhash(source)
             duplicate = next(
                 (
-                    path for old_a, old_d, path in accepted_hashes.get(scene, [])
+                    path for old_a, old_d, path in accepted_hashes_global
                     if _hamming(ahash, old_a) <= args.ahash_distance
-                    or _hamming(dhash, old_d) <= args.dhash_distance
+                    and _hamming(dhash, old_d) <= args.dhash_distance
                 ),
                 None,
             )
@@ -387,6 +387,7 @@ def _run_locked(args: argparse.Namespace, candidate_root: Path, image_root: Path
             imported_samples.append(new_sample)
         accepted_by_scene[scene] += 1
         accepted_hashes.setdefault(scene, []).append((ahash, dhash, dest))
+        accepted_hashes_global.append((ahash, dhash, dest))
         row.update({
             "status": "accepted",
             "reason": "accepted",

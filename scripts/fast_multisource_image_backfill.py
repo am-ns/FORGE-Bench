@@ -258,7 +258,7 @@ def _upgrade_image_url(url: str) -> str:
     return url
 
 
-def _commons_search(scene: str, query: str, limit: int, timeout: float) -> list[Candidate]:
+def _commons_search(scene: str, query: str, limit: int, pages: int, timeout: float) -> list[Candidate]:
     params = {
         "action": "query",
         "format": "json",
@@ -270,25 +270,30 @@ def _commons_search(scene: str, query: str, limit: int, timeout: float) -> list[
         "iiprop": "url|mime|size|extmetadata",
         "iiurlwidth": str(WIKIMEDIA_THUMB_WIDTH),
     }
-    data = _request_json(COMMONS_API + "?" + urllib.parse.urlencode(params), timeout)
     out = []
-    for page in (data.get("query", {}).get("pages") or {}).values():
-        info = (page.get("imageinfo") or [{}])[0]
-        image_url = str(info.get("thumburl") or info.get("url") or "")
-        mime = str(info.get("mime") or "")
-        if not image_url or not mime.startswith("image/") or image_url.lower().endswith(".svg"):
-            continue
-        title = str(page.get("title") or "")
-        ext = info.get("extmetadata") or {}
-        license_name = str((ext.get("LicenseShortName") or {}).get("value") or "")
-        source_url = str(info.get("descriptionurl") or "")
-        ok, _ = _source_clean(title, source_url, image_url, query)
-        if ok:
-            out.append(Candidate("commons", scene, title, image_url, source_url, license_name, query))
+    continuation: dict[str, str] = {}
+    for _ in range(max(1, pages)):
+        data = _request_json(COMMONS_API + "?" + urllib.parse.urlencode({**params, **continuation}), timeout)
+        for page in (data.get("query", {}).get("pages") or {}).values():
+            info = (page.get("imageinfo") or [{}])[0]
+            image_url = str(info.get("thumburl") or info.get("url") or "")
+            mime = str(info.get("mime") or "")
+            if not image_url or not mime.startswith("image/") or image_url.lower().endswith(".svg"):
+                continue
+            title = str(page.get("title") or "")
+            ext = info.get("extmetadata") or {}
+            license_name = str((ext.get("LicenseShortName") or {}).get("value") or "")
+            source_url = str(info.get("descriptionurl") or "")
+            ok, _ = _source_clean(title, source_url, image_url, query)
+            if ok:
+                out.append(Candidate("commons", scene, title, image_url, source_url, license_name, query))
+        continuation = data.get("continue") or {}
+        if not continuation:
+            break
     return out
 
 
-def _commons_category(scene: str, category: str, limit: int, timeout: float) -> list[Candidate]:
+def _commons_category(scene: str, category: str, limit: int, pages: int, timeout: float) -> list[Candidate]:
     params = {
         "action": "query",
         "format": "json",
@@ -300,21 +305,26 @@ def _commons_category(scene: str, category: str, limit: int, timeout: float) -> 
         "iiprop": "url|mime|size|extmetadata",
         "iiurlwidth": str(WIKIMEDIA_THUMB_WIDTH),
     }
-    data = _request_json(COMMONS_API + "?" + urllib.parse.urlencode(params), timeout)
     out = []
-    for page in (data.get("query", {}).get("pages") or {}).values():
-        info = (page.get("imageinfo") or [{}])[0]
-        image_url = str(info.get("thumburl") or info.get("url") or "")
-        mime = str(info.get("mime") or "")
-        if not image_url or not mime.startswith("image/") or image_url.lower().endswith(".svg"):
-            continue
-        title = str(page.get("title") or "")
-        ext = info.get("extmetadata") or {}
-        license_name = str((ext.get("LicenseShortName") or {}).get("value") or "")
-        source_url = str(info.get("descriptionurl") or "")
-        ok, _ = _source_clean(title, source_url, image_url, category)
-        if ok:
-            out.append(Candidate("commons_category", scene, title, image_url, source_url, license_name, category))
+    continuation: dict[str, str] = {}
+    for _ in range(max(1, pages)):
+        data = _request_json(COMMONS_API + "?" + urllib.parse.urlencode({**params, **continuation}), timeout)
+        for page in (data.get("query", {}).get("pages") or {}).values():
+            info = (page.get("imageinfo") or [{}])[0]
+            image_url = str(info.get("thumburl") or info.get("url") or "")
+            mime = str(info.get("mime") or "")
+            if not image_url or not mime.startswith("image/") or image_url.lower().endswith(".svg"):
+                continue
+            title = str(page.get("title") or "")
+            ext = info.get("extmetadata") or {}
+            license_name = str((ext.get("LicenseShortName") or {}).get("value") or "")
+            source_url = str(info.get("descriptionurl") or "")
+            ok, _ = _source_clean(title, source_url, image_url, category)
+            if ok:
+                out.append(Candidate("commons_category", scene, title, image_url, source_url, license_name, category))
+        continuation = data.get("continue") or {}
+        if not continuation:
+            break
     return out
 
 
@@ -468,27 +478,106 @@ def _hamming(a: str, b: str) -> int:
     return int.bit_count(int(a, 16) ^ int(b, 16))
 
 
-def _existing_hashes(root: Path) -> dict[str, list[str]]:
-    hashes: dict[str, list[str]] = {}
+def _dhash(path: Path, hash_size: int = 8) -> str:
+    with Image.open(path) as image:
+        image = image.convert("L").resize((hash_size + 1, hash_size), Image.Resampling.LANCZOS)
+        arr = np.array(image, dtype=np.int16)
+    value = 0
+    for bit in (arr[:, 1:] > arr[:, :-1]).flatten():
+        value = (value << 1) | int(bool(bit))
+    return f"{value:0{hash_size * hash_size // 4}x}"
+
+
+def _existing_hashes(root: Path) -> dict[str, list[tuple[str, str]]]:
+    hashes: dict[str, list[tuple[str, str]]] = {}
     for path in root.rglob("*"):
         if path.is_file() and path.suffix.lower() in IMAGE_SUFFIXES:
             try:
                 scene = path.stem.split("__", 1)[0] if "__" in path.stem else path.parent.name
-                hashes.setdefault(scene, []).append(_average_hash(path))
+                hashes.setdefault(scene, []).append((_average_hash(path), _dhash(path)))
             except Exception:
                 pass
     return hashes
+
+
+def _historical_candidate_hashes(root: Path, current_output: Path) -> dict[str, list[tuple[str, str]]]:
+    hashes: dict[str, list[tuple[str, str]]] = {}
+    if not root.exists():
+        return hashes
+    current_output = current_output.resolve()
+    for batch in root.glob("*multisource*"):
+        if not batch.is_dir() or batch.resolve() == current_output:
+            continue
+        for scene, items in _existing_hashes(batch).items():
+            hashes.setdefault(scene, []).extend(items)
+    return hashes
+
+
+def _normalized_candidate_url(url: str) -> str:
+    url = _wikimedia_original_url(url) or url
+    parsed = urllib.parse.urlparse(url)
+    return urllib.parse.urlunparse((
+        parsed.scheme.lower(),
+        parsed.netloc.lower(),
+        parsed.path,
+        "",
+        parsed.query,
+        "",
+    ))
+
+
+def _historical_candidate_urls(root: Path) -> set[str]:
+    urls: set[str] = set()
+    if not root.exists():
+        return urls
+    for path in root.glob("*multisource*/*.csv"):
+        try:
+            with path.open(encoding="utf-8-sig", newline="") as handle:
+                for row in csv.DictReader(handle):
+                    if row.get("status") != "accepted":
+                        continue
+                    for field in ("image_url", "downloaded_url"):
+                        url = str(row.get(field) or "").strip()
+                        if url:
+                            urls.add(_normalized_candidate_url(url))
+        except Exception:
+            continue
+    return urls
+
+
+def _reserve_candidate_url(root: Path, url: str, stale_seconds: float) -> Path | None:
+    root.mkdir(parents=True, exist_ok=True)
+    digest = hashlib.sha256(_normalized_candidate_url(url).encode("utf-8")).hexdigest()
+    seen = root / f"{digest}.seen"
+    claim = root / f"{digest}.claim"
+    if seen.exists():
+        return None
+    try:
+        claim.mkdir()
+    except FileExistsError:
+        if time.time() - claim.stat().st_mtime <= stale_seconds:
+            return None
+        shutil.rmtree(claim, ignore_errors=True)
+        try:
+            claim.mkdir()
+        except FileExistsError:
+            return None
+    return claim
+
+
+def _finish_candidate_url(claim: Path, *, keep: bool) -> None:
+    if not claim.exists():
+        return
+    if keep:
+        os.replace(claim, claim.with_suffix(".seen"))
+    else:
+        claim.rmdir()
 
 
 def _claim_scene(root: Path, scene: str, stale_seconds: float = 86400.0) -> Path | None:
     root.mkdir(parents=True, exist_ok=True)
     digest = hashlib.sha1(scene.encode("utf-8")).hexdigest()[:16]
     claim = root / f"{digest}.claim"
-    completed = root / f"{digest}.done"
-    if completed.exists():
-        if time.time() - completed.stat().st_mtime <= stale_seconds:
-            return None
-        completed.unlink()
     try:
         claim.mkdir()
     except FileExistsError:
@@ -508,10 +597,7 @@ def _release_scene_claim(claim: Path, *, completed: bool = True) -> None:
         return
     for child in claim.iterdir():
         child.unlink()
-    if completed:
-        os.replace(claim, claim.with_suffix(".done"))
-    else:
-        claim.rmdir()
+    claim.rmdir()
 
 
 def _scene_image_count(image_root: Path, domain: str, scene: str) -> int:
@@ -546,32 +632,37 @@ def _collect_candidates(
     scene: str,
     samples_by_scene: dict[str, dict],
     args: argparse.Namespace,
+    remaining_needed: int,
 ) -> tuple[list[Candidate], list[dict]]:
     providers = {item.strip().lower() for item in args.providers.split(",") if item.strip()}
-    queries = _scene_queries(scene, samples_by_scene, args.queries_per_scene)
+    query_budget = min(args.queries_per_scene, max(2, remaining_needed))
+    category_budget = min(args.categories_per_scene, max(1, (remaining_needed + 3) // 4))
+    search_limit = min(args.search_limit, max(8, remaining_needed * 3))
+    search_pages = min(args.search_pages, max(1, (remaining_needed + 5) // 6))
+    queries = _scene_queries(scene, samples_by_scene, query_budget)
     tasks = []
     diagnostics = []
     with ThreadPoolExecutor(max_workers=args.provider_workers) as executor:
         for query in queries:
             if "commons" in providers:
-                tasks.append(("commons", query, executor.submit(_commons_search, scene, query, args.search_limit, args.timeout)))
+                tasks.append(("commons", query, executor.submit(_commons_search, scene, query, search_limit, search_pages, args.timeout)))
             if "openverse" in providers:
-                tasks.append(("openverse", query, executor.submit(_openverse, scene, query, args.search_limit, args.timeout)))
+                tasks.append(("openverse", query, executor.submit(_openverse, scene, query, search_limit, args.timeout)))
             if "loc" in providers:
-                tasks.append(("loc", query, executor.submit(_loc, scene, query, args.search_limit, args.timeout)))
+                tasks.append(("loc", query, executor.submit(_loc, scene, query, search_limit, args.timeout)))
             if "nara" in providers:
-                tasks.append(("nara", query, executor.submit(_nara, scene, query, args.search_limit, args.timeout)))
+                tasks.append(("nara", query, executor.submit(_nara, scene, query, search_limit, args.timeout)))
         if "commons_category" in providers or "commons-categories" in providers:
-            for category in (SCENE_BANK.get(scene, {}).get("categories") or [])[: args.categories_per_scene]:
+            for category in (SCENE_BANK.get(scene, {}).get("categories") or [])[:category_budget]:
                 query = str(category)
-                tasks.append(("commons_category", query, executor.submit(_commons_category, scene, query, args.search_limit, args.timeout)))
-        out = []
-        future_meta = {future: (provider, query) for provider, query, future in tasks}
+                tasks.append(("commons_category", query, executor.submit(_commons_category, scene, query, search_limit, search_pages, args.timeout)))
+        results: dict[int, list[Candidate]] = {}
+        future_meta = {future: (index, provider, query) for index, (provider, query, future) in enumerate(tasks)}
         for task in as_completed(future_meta):
-            provider, query = future_meta[task]
+            index, provider, query = future_meta[task]
             try:
                 found = task.result()
-                out.extend(found)
+                results[index] = found
                 if args.log_search_diagnostics:
                     diagnostics.append({
                         "status": "search_ok",
@@ -588,9 +679,10 @@ def _collect_candidates(
                     "provider": provider,
                     "query": query,
                 })
+        out = [candidate for index in range(len(tasks)) for candidate in results.get(index, [])]
     dedup = {}
     for candidate in out:
-        dedup.setdefault(candidate.image_url, candidate)
+        dedup.setdefault(_normalized_candidate_url(candidate.image_url), candidate)
     return list(dedup.values()), diagnostics
 
 
@@ -638,7 +730,13 @@ def run(args: argparse.Namespace) -> None:
     existing_hashes = _existing_hashes(image_root)
     for scene, hashes in _existing_hashes(output_dir).items():
         existing_hashes.setdefault(scene, []).extend(hashes)
+    history_candidate_root = Path(getattr(args, "history_candidate_root", "dataset/images_candidates"))
+    for scene, hashes in _historical_candidate_hashes(history_candidate_root, output_dir).items():
+        existing_hashes.setdefault(scene, []).extend(hashes)
+    existing_hashes_global = [item for hashes in existing_hashes.values() for item in hashes]
     scene_claim_dir = Path(args.scene_claim_dir)
+    candidate_url_claim_dir = Path(getattr(args, "candidate_url_claim_dir", ".cache/fast_multisource_candidate_urls"))
+    historical_urls = _historical_candidate_urls(Path(getattr(args, "history_reports_root", "reports")))
     rows = []
     accepted_total = 0
     accepted_by_scene: dict[str, int] = {}
@@ -663,7 +761,7 @@ def run(args: argparse.Namespace) -> None:
                 scene_limit = max(0, min(args.per_scene, args.formal_target_per_scene - formal_counts.get(scene, 0)))
             if scene_limit <= 0:
                 continue
-            candidates, diagnostics = _collect_candidates(scene, samples_by_scene, args)
+            candidates, diagnostics = _collect_candidates(scene, samples_by_scene, args, scene_limit)
             rows.extend(diagnostics)
             accepted_by_scene.setdefault(scene, 0)
             candidate_iter = iter(candidates)
@@ -677,6 +775,36 @@ def run(args: argparse.Namespace) -> None:
                         break
                     download_tasks = []
                     for candidate in batch:
+                        normalized_url = _normalized_candidate_url(candidate.image_url)
+                        if normalized_url in historical_urls:
+                            rows.append({
+                                "status": "skipped",
+                                "reason": "historical_duplicate_url",
+                                "scene": scene,
+                                "provider": candidate.provider,
+                                "query": candidate.query,
+                                "source_title": candidate.title,
+                                "source_url": candidate.source_url,
+                                "image_url": candidate.image_url,
+                            })
+                            continue
+                        url_claim = _reserve_candidate_url(
+                            candidate_url_claim_dir,
+                            candidate.image_url,
+                            getattr(args, "candidate_url_claim_stale_seconds", 86400.0),
+                        )
+                        if url_claim is None:
+                            rows.append({
+                                "status": "skipped",
+                                "reason": "candidate_url_already_seen_or_claimed",
+                                "scene": scene,
+                                "provider": candidate.provider,
+                                "query": candidate.query,
+                                "source_title": candidate.title,
+                                "source_url": candidate.source_url,
+                                "image_url": candidate.image_url,
+                            })
+                            continue
                         safe_provider = re.sub(r"[^a-zA-Z0-9]+", "_", candidate.provider).strip("_")
                         while True:
                             candidate_index += 1
@@ -684,8 +812,8 @@ def run(args: argparse.Namespace) -> None:
                             dest = output_dir / filename
                             if not dest.exists():
                                 break
-                        download_tasks.append((candidate, dest, executor.submit(_download_candidate, candidate, dest, args.timeout)))
-                    for candidate, dest, task in download_tasks:
+                        download_tasks.append((candidate, dest, url_claim, executor.submit(_download_candidate, candidate, dest, args.timeout)))
+                    for candidate, dest, url_claim, task in download_tasks:
                         row = {
                             "status": "rejected",
                             "reason": "",
@@ -720,18 +848,26 @@ def run(args: argparse.Namespace) -> None:
                                 row["reason"] = reason
                             else:
                                 ahash = _average_hash(dest)
+                                dhash = _dhash(dest)
                                 scene_hashes = existing_hashes.setdefault(scene, [])
-                                if any(_hamming(ahash, old) <= args.duplicate_hamming_distance for old in scene_hashes):
+                                if any(
+                                    _hamming(ahash, old_a) <= args.duplicate_hamming_distance
+                                    and _hamming(dhash, old_d) <= getattr(args, "duplicate_dhash_distance", 6)
+                                    for old_a, old_d in existing_hashes_global
+                                ):
                                     dest.unlink(missing_ok=True)
                                     row["reason"] = "near_duplicate"
                                 else:
-                                    scene_hashes.append(ahash)
+                                    scene_hashes.append((ahash, dhash))
+                                    existing_hashes_global.append((ahash, dhash))
                                     accepted_total += 1
                                     accepted_by_scene[scene] += 1
                                     row["status"] = "accepted"
                                     row["reason"] = "accepted"
+                            _finish_candidate_url(url_claim, keep=True)
                         except Exception as exc:
                             dest.unlink(missing_ok=True)
+                            _finish_candidate_url(url_claim, keep=False)
                             row["reason"] = f"download_or_read_error:{exc}"
                         rows.append(row)
                         if len(rows) % 20 == 0:
@@ -770,6 +906,7 @@ def main() -> None:
     parser.add_argument("--per-scene", type=int, default=12)
     parser.add_argument("--max-scenes", type=int, default=0)
     parser.add_argument("--search-limit", type=int, default=40)
+    parser.add_argument("--search-pages", type=int, default=3)
     parser.add_argument("--queries-per-scene", type=int, default=8)
     parser.add_argument("--categories-per-scene", type=int, default=4)
     parser.add_argument("--provider-workers", type=int, default=4)
@@ -779,6 +916,10 @@ def main() -> None:
     parser.add_argument("--host-lock-dir", default=".cache/fast_multisource_host_locks")
     parser.add_argument("--scene-claim-dir", default=".cache/fast_multisource_scene_claims")
     parser.add_argument("--scene-claim-stale-seconds", type=float, default=86400.0)
+    parser.add_argument("--candidate-url-claim-dir", default=".cache/fast_multisource_candidate_urls")
+    parser.add_argument("--candidate-url-claim-stale-seconds", type=float, default=86400.0)
+    parser.add_argument("--history-reports-root", default="reports")
+    parser.add_argument("--history-candidate-root", default="dataset/images_candidates")
     parser.add_argument("--timeout", type=float, default=12.0)
     parser.add_argument("--sleep-between-scenes", type=float, default=1.0)
     parser.add_argument("--shards", type=int, default=1)
@@ -791,6 +932,7 @@ def main() -> None:
     parser.add_argument("--max-edge-density", type=float, default=0.24)
     parser.add_argument("--max-white-ratio", type=float, default=0.72)
     parser.add_argument("--duplicate-hamming-distance", type=int, default=4)
+    parser.add_argument("--duplicate-dhash-distance", type=int, default=6)
     run(parser.parse_args())
 
 

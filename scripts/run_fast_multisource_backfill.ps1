@@ -4,7 +4,8 @@ param(
   [int]$PerScene = 16,
   [int]$FormalTargetPerScene = 16,
   [int]$SearchLimit = 24,
-  [string]$Providers = "commons,commons_category",
+  [int]$SearchPages = 3,
+  [string]$Providers = "commons,commons_category,loc,nara",
   [string]$ScenesFile = "reports\image_deficit_plan_current\selected_scenes.json",
   [string]$DeficitPlanDir = "reports\image_deficit_plan_current",
   [bool]$RefreshDeficitPlan = $true,
@@ -59,7 +60,7 @@ for ($i = 0; $i -lt $Shards; $i++) {
   $script = {
     param(
       $repoRoot, $out, $manifest, $scenesFile, $providers, $domains,
-      $targetNew, $perScene, $searchLimit, $providerWorkers, $downloadWorkers,
+      $targetNew, $perScene, $searchLimit, $searchPages, $providerWorkers, $downloadWorkers,
       $formalTargetPerScene, $minHostInterval, $shards, $idx, $logSearchDiagnostics
     )
     Set-Location $repoRoot
@@ -74,6 +75,7 @@ for ($i = 0; $i -lt $Shards; $i++) {
       "--per-scene", $perScene,
       "--formal-target-per-scene", $formalTargetPerScene,
       "--search-limit", $searchLimit,
+      "--search-pages", $searchPages,
       "--provider-workers", $providerWorkers,
       "--download-workers", $downloadWorkers,
       "--min-host-interval", $minHostInterval,
@@ -91,7 +93,7 @@ for ($i = 0; $i -lt $Shards; $i++) {
 
   $jobs += Start-Job -ScriptBlock $script -ArgumentList `
     $repoRoot, $out, $manifest, $ScenesFile, $Providers, $Domains, `
-    $perWorkerTarget, $PerScene, $SearchLimit, $ProviderWorkers, `
+    $perWorkerTarget, $PerScene, $SearchLimit, $SearchPages, $ProviderWorkers, `
     $DownloadWorkers, $FormalTargetPerScene, $MinHostInterval, $Shards, $i, $LogSearchDiagnostics
 }
 
@@ -101,6 +103,7 @@ Write-Host "TargetNew: $TargetNew (per worker target: $perWorkerTarget)"
 Write-Host "PerScene: $PerScene"
 Write-Host "FormalTargetPerScene: $FormalTargetPerScene"
 Write-Host "SearchLimit: $SearchLimit"
+Write-Host "SearchPages: $SearchPages"
 Write-Host "Providers: $Providers"
 Write-Host "ScenesFile: $ScenesFile"
 Write-Host "RefreshDeficitPlan: $RefreshDeficitPlan"

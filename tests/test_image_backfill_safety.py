@@ -38,6 +38,10 @@ def _backfill_args(tmp_path, *, per_scene, target_new):
         host_lock_dir=str(tmp_path / "host_locks"),
         scene_claim_dir=str(tmp_path / "scene_claims"),
         scene_claim_stale_seconds=86400.0,
+        candidate_url_claim_dir=str(tmp_path / "candidate_url_claims"),
+        candidate_url_claim_stale_seconds=86400.0,
+        history_reports_root=str(tmp_path / "reports"),
+        history_candidate_root=str(tmp_path / "history_candidates"),
         min_host_interval=0.0,
         target_new=target_new,
         per_scene=per_scene,
@@ -45,6 +49,7 @@ def _backfill_args(tmp_path, *, per_scene, target_new):
         timeout=1.0,
         sleep_between_scenes=0.0,
         duplicate_hamming_distance=0,
+        duplicate_dhash_distance=0,
     )
 
 
@@ -74,12 +79,85 @@ def test_fast_backfill_respects_accept_limits(monkeypatch, tmp_path, per_scene, 
 
     monkeypatch.setattr(fast_multisource_image_backfill, "_download_candidate", fake_download)
     monkeypatch.setattr(fast_multisource_image_backfill, "_average_hash", fake_hash)
+    monkeypatch.setattr(fast_multisource_image_backfill, "_dhash", fake_hash)
 
     fast_multisource_image_backfill.run(args)
 
     rows = list(csv.DictReader(open(args.manifest, encoding="utf-8")))
     assert sum(row["status"] == "accepted" for row in rows) == expected
     assert len(list((tmp_path / "candidates").iterdir())) == expected
+
+
+def test_fast_backfill_skips_historical_url_but_keeps_searching_for_new_image(monkeypatch, tmp_path):
+    args = _backfill_args(tmp_path, per_scene=1, target_new=0)
+    reports = tmp_path / "reports" / "fast_multisource_old"
+    reports.mkdir(parents=True)
+    (reports / "worker.csv").write_text(
+        "status,image_url\naccepted,https://example.test/old.jpg\n",
+        encoding="utf-8",
+    )
+    candidates = [
+        fast_multisource_image_backfill.Candidate(
+            "commons", "scene_one", "old", "https://example.test/old.jpg", "", "", "query"
+        ),
+        fast_multisource_image_backfill.Candidate(
+            "commons", "scene_one", "new", "https://example.test/new.jpg", "", "", "query"
+        ),
+    ]
+
+    monkeypatch.setattr(fast_multisource_image_backfill, "_collect_candidates", lambda *unused: (candidates, []))
+    monkeypatch.setattr(fast_multisource_image_backfill, "_passes_quality", lambda *unused: (True, "accepted"))
+
+    def fake_download(candidate, dest, timeout):
+        Image.new("RGB", (8, 8), (120, 80, 40)).save(dest)
+        return candidate.image_url
+
+    monkeypatch.setattr(fast_multisource_image_backfill, "_download_candidate", fake_download)
+    fast_multisource_image_backfill.run(args)
+
+    rows = list(csv.DictReader(open(args.manifest, encoding="utf-8")))
+    assert any(row["reason"] == "historical_duplicate_url" for row in rows)
+    assert sum(row["status"] == "accepted" for row in rows) == 1
+    assert next(row for row in rows if row["status"] == "accepted")["image_url"] == "https://example.test/new.jpg"
+
+
+def test_collect_candidates_prioritizes_queries_and_scales_request_budget(monkeypatch):
+    args = argparse.Namespace(
+        providers="commons,commons_category",
+        queries_per_scene=8,
+        categories_per_scene=4,
+        search_limit=24,
+        search_pages=3,
+        provider_workers=2,
+        timeout=1.0,
+        log_search_diagnostics=False,
+    )
+    monkeypatch.setattr(
+        fast_multisource_image_backfill,
+        "SCENE_BANK",
+        {"scene_one": {"queries": ["specific"], "categories": ["broad", "unused"]}},
+    )
+    calls = []
+
+    def fake_search(scene, query, limit, pages, timeout):
+        calls.append(("query", query, limit, pages))
+        return [fast_multisource_image_backfill.Candidate("commons", scene, query, f"https://example.test/{query}.jpg", "", "", query)]
+
+    def fake_category(scene, query, limit, pages, timeout):
+        calls.append(("category", query, limit, pages))
+        return [fast_multisource_image_backfill.Candidate("commons_category", scene, query, f"https://example.test/{query}.jpg", "", "", query)]
+
+    monkeypatch.setattr(fast_multisource_image_backfill, "_commons_search", fake_search)
+    monkeypatch.setattr(fast_multisource_image_backfill, "_commons_category", fake_category)
+
+    candidates, _ = fast_multisource_image_backfill._collect_candidates("scene_one", {}, args, remaining_needed=1)
+
+    assert [candidate.query for candidate in candidates] == ["specific", "specific industrial site photo", "broad"]
+    assert sorted(calls) == [
+        ("category", "broad", 8, 1),
+        ("query", "specific", 8, 1),
+        ("query", "specific industrial site photo", 8, 1),
+    ]
 
 
 def test_scene_claim_is_exclusive_until_released(tmp_path):
@@ -91,12 +169,12 @@ def test_scene_claim_is_exclusive_until_released(tmp_path):
     assert fast_multisource_image_backfill._claim_scene(root, "scene_one") is not None
 
 
-def test_scene_claim_keeps_recent_completion_marker(tmp_path):
+def test_scene_claim_is_released_after_completion(tmp_path):
     root = tmp_path / "claims"
     claim = fast_multisource_image_backfill._claim_scene(root, "scene_one")
     fast_multisource_image_backfill._release_scene_claim(claim)
 
-    assert fast_multisource_image_backfill._claim_scene(root, "scene_one") is None
+    assert fast_multisource_image_backfill._claim_scene(root, "scene_one") is not None
 
 
 def test_scene_claim_reclaims_stale_lock(tmp_path):

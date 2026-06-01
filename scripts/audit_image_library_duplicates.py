@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 from pathlib import Path
 
 import numpy as np
@@ -42,21 +43,30 @@ def _hamming(a: str, b: str) -> int:
     return int.bit_count(int(a, 16) ^ int(b, 16))
 
 
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
 def run(args: argparse.Namespace) -> None:
     root = Path(args.image_root)
     rows = []
-    seen: dict[str, list[tuple[str, str, Path]]] = {}
+    seen: dict[str, list[tuple[str, str, str, Path]]] = {}
     image_count = 0
     for path in _iter_images(root):
         image_count += 1
         scene = path.parent.name
         ahash = _average_hash(path)
         dhash = _dhash(path)
+        sha256 = _sha256(path)
+        bucket = "*" if getattr(args, "global_scope", False) else scene
         duplicate = next(
             (
-                old_path for old_a, old_d, old_path in seen.get(scene, [])
-                if _hamming(ahash, old_a) <= args.ahash_distance
-                or _hamming(dhash, old_d) <= args.dhash_distance
+                old_path for old_a, old_d, old_sha, old_path in seen.get(bucket, [])
+                if sha256 == old_sha
+                or (
+                    _hamming(ahash, old_a) <= args.ahash_distance
+                    and _hamming(dhash, old_d) <= args.dhash_distance
+                )
             ),
             None,
         )
@@ -65,7 +75,7 @@ def run(args: argparse.Namespace) -> None:
                 "image_path": path.as_posix(),
                 "near_duplicate_of": duplicate.as_posix(),
             })
-        seen.setdefault(scene, []).append((ahash, dhash, path))
+        seen.setdefault(bucket, []).append((ahash, dhash, sha256, path))
 
     report = Path(args.report)
     report.parent.mkdir(parents=True, exist_ok=True)
@@ -84,6 +94,7 @@ def main() -> None:
     parser.add_argument("--report", default="reports/image_library_duplicate_audit.csv")
     parser.add_argument("--ahash-distance", type=int, default=4)
     parser.add_argument("--dhash-distance", type=int, default=6)
+    parser.add_argument("--global-scope", action="store_true")
     run(parser.parse_args())
 
 

@@ -549,6 +549,72 @@ SCENE_BANK: dict[str, dict[str, object]] = {
         "queries": ["retaining wall industrial", "containment berm wall", "dam retaining wall"],
         "categories": ["Retaining walls", "Dams", "Earthworks"],
     },
+    "emerg_hot_work_spark_combustible_fire": {
+        "domain": "extreme_emergency",
+        "tokens": "industrial welding hot work sparks workshop combustible fire safety",
+        "queries": ["industrial welding sparks workshop", "hot work welding sparks factory", "welder sparks industrial site"],
+        "categories": ["Welding", "Welders", "Hot work", "Industrial fires"],
+    },
+    "emerg_smoke_evacuation_route_visibility": {
+        "domain": "extreme_emergency",
+        "tokens": "industrial corridor tunnel stairwell emergency exit smoke evacuation passage",
+        "queries": ["industrial corridor emergency exit", "tunnel evacuation passage", "factory stairwell emergency exit"],
+        "categories": ["Emergency exits", "Tunnels", "Industrial corridors", "Stairwells"],
+    },
+    "erob_agv_rollup_door_interlock": {
+        "domain": "embodied_robotics",
+        "tokens": "warehouse agv automated guided vehicle roll up door loading dock barrier",
+        "queries": ["warehouse agv loading dock door", "automated guided vehicle warehouse door", "warehouse roll up door forklift"],
+        "categories": ["Automated guided vehicles", "Loading docks", "Warehouse doors", "Warehouses"],
+    },
+    "erob_amr_charger_smoke_abort": {
+        "domain": "embodied_robotics",
+        "tokens": "warehouse autonomous mobile robot agv charging station battery charger",
+        "queries": ["warehouse amr charging station", "agv battery charging station factory", "mobile robot charger warehouse"],
+        "categories": ["Automated guided vehicles", "Battery chargers", "Warehouse robots", "Warehouses"],
+    },
+    "erob_cobot_safety_scanner_slowdown": {
+        "domain": "embodied_robotics",
+        "tokens": "collaborative robot cobot worker safety scanner factory workstation",
+        "queries": ["collaborative robot worker safety scanner", "cobot factory workstation worker", "robot workcell safety scanner"],
+        "categories": ["Collaborative robots", "Machine safety", "Industrial robots", "Assembly lines"],
+    },
+    "hload_blind_lift_spotter_view": {
+        "domain": "heavy_load_construction",
+        "tokens": "crane suspended load spotter signal worker blind lift construction",
+        "queries": ["crane lift spotter signal worker", "construction crane suspended load worker", "rigger signaling crane lift"],
+        "categories": ["Cranes", "Riggers", "Construction workers", "Hand signals"],
+    },
+    "hload_sling_angle_center_of_gravity": {
+        "domain": "heavy_load_construction",
+        "tokens": "crane sling spreader beam rigging suspended load lifting",
+        "queries": ["crane sling suspended load rigging", "spreader beam lifting sling", "construction lift rigging slings"],
+        "categories": ["Rigging", "Cranes", "Slings", "Lifting equipment"],
+    },
+    "pdef_flange_seal_micro_leak": {
+        "domain": "precision_defect_gen",
+        "tokens": "industrial pipe flange gasket bolted joint valve close up",
+        "queries": ["industrial pipe flange gasket close up", "bolted pipe flange valve", "pipeline flange joint close up"],
+        "categories": ["Flanges", "Industrial piping", "Valves", "Gaskets"],
+    },
+    "pdef_gauge_level_valve_anomaly": {
+        "domain": "precision_defect_gen",
+        "tokens": "industrial pressure gauge level gauge valve tank instrumentation close up",
+        "queries": ["industrial pressure gauge valve close up", "tank level gauge valve", "industrial instrumentation gauge piping"],
+        "categories": ["Pressure gauges", "Valves", "Industrial instrumentation", "Storage tanks"],
+    },
+    "vsec_conveyor_jam_loto_clearance": {
+        "domain": "visual_security",
+        "tokens": "industrial conveyor belt roller machine guard factory maintenance lockout",
+        "queries": ["industrial conveyor belt roller guard", "factory conveyor maintenance", "belt conveyor machine guard"],
+        "categories": ["Conveyor belts", "Industrial conveyors", "Machine guards", "Machine safety"],
+    },
+    "vsec_electrical_cabinet_smoke_isolation": {
+        "domain": "visual_security",
+        "tokens": "industrial electrical cabinet switchgear control panel factory close up",
+        "queries": ["industrial electrical cabinet switchgear", "factory electrical control panel cabinet", "electrical switchgear room cabinet"],
+        "categories": ["Electrical cabinets", "Switchgear", "Control panels", "Electrical rooms"],
+    },
 }
 
 

@@ -1,20 +1,20 @@
 {
   "scenes": [
-    "emerg_smoke_evacuation_route_visibility",
-    "erob_cobot_safety_scanner_slowdown",
-    "pdef_flange_seal_micro_leak",
-    "vsec_electrical_cabinet_smoke_isolation",
-    "vsec_smoke_alarm_evacuation",
-    "vsec_perimeter_fence_breach",
-    "erob_tracked_robot_rubble",
-    "pdef_gear_tooth_missing_wear",
-    "erob_robot_arm_precision_grasp",
-    "erob_cobot_human_handover",
+    "hload_sling_angle_center_of_gravity",
+    "emerg_hot_work_spark_combustible_fire",
+    "erob_amr_warehouse_navigation",
+    "pdef_gauge_level_valve_anomaly",
     "pdef_connector_pin_bent",
-    "pdef_tube_bundle_endoscopy",
-    "hload_tunnel_pipe_burst_mud_surge",
-    "vsec_pedestrian_forklift_near_miss",
+    "vsec_missing_ppe_at_height",
+    "emerg_smoke_evacuation_route_visibility",
+    "hload_excavator_linkage_loading",
+    "hload_hoist_collision_near_structure",
     "pdef_cnc_curved_surface_cutting",
-    "hload_dual_crawler_crane_lift"
+    "pdef_surface_scratch_inspection",
+    "erob_cobot_human_handover",
+    "vsec_surveillance_blind_spot_sweep",
+    "hload_dual_crawler_crane_lift",
+    "pdef_pcb_solder_bridge_short",
+    "vsec_unregistered_vehicle_intrusion"
   ]
 }
