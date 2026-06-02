@@ -100,12 +100,19 @@ def _application_spec(sample: dict) -> str:
 def _preserve_spec(sample: dict) -> str:
     constraint_annotations = sample.get("constraint_annotations") or {}
     subject = sample.get("reference_subject") or "main industrial subject"
+    motion_type = (sample.get("motion_type") or "static").lower()
     hard_constraints = constraint_annotations.get("hard_constraints") or []
     parts = [f"Subject identity: {subject}."]
     if "preserve_component_counts_outside_requested_change" in hard_constraints:
         parts.append("Component counts must remain constant in all non-failure regions.")
     if "keep_unaffected_background_stable" in hard_constraints or "preserve_reference_identity" in hard_constraints:
-        parts.append("Background, lighting, and layout must stay identical to the reference image.")
+        if motion_type == "static":
+            parts.append("Background, lighting, and layout must stay identical to the reference image.")
+        else:
+            parts.append(
+                "Background objects, lighting, and scene layout must remain consistent with the "
+                "reference image while perspective changes naturally with the requested camera motion."
+            )
     parts.append("Material textures, surface markings, and color must not drift between frames.")
     return " ".join(parts)
 
