@@ -1,10 +1,11 @@
 # Dataset Annotations
 
-`samples.json` contains 490 benchmark samples across the five scenario domains.
+`samples.json` contains 902 benchmark samples from 60 scenes across the five
+scenario domains.
 The schema is enforced by `dataset/schema.json`.
 
-`SCENE_BLUEPRINT.md` lists the target 49 scene families used to broaden future
-sample refreshes beyond repeated variants.
+`SCENE_BLUEPRINT.md` lists the 60 scene families used for domain and task
+coverage.
 
 ## Required Fields
 

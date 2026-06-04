@@ -1,15 +1,15 @@
 # FORGE-Bench Dataset Notes
 
 The annotation file `samples.json` is the authoritative task list for the
-benchmark. It currently contains 490 samples arranged as:
+benchmark. It currently contains 902 samples from 60 scenes arranged as:
 
 | Domain | Count |
 |---|---:|
-| `visual_security` | 100 |
-| `embodied_robotics` | 90 |
-| `heavy_load_construction` | 100 |
-| `precision_defect_gen` | 100 |
-| `extreme_emergency` | 100 |
+| `visual_security` | 140 |
+| `embodied_robotics` | 134 |
+| `heavy_load_construction` | 212 |
+| `precision_defect_gen` | 127 |
+| `extreme_emergency` | 289 |
 
 ## Axis Names
 
@@ -41,15 +41,14 @@ determines the scenario family and the report breakdown.
 
 ## Scenario Blueprint
 
-`SCENE_BLUEPRINT.md` defines the target scenario coverage before the annotation
-file is regenerated. It expands the benchmark to 49 practical scene families:
-10 scene families for most domains, 9 for `embodied_robotics`, and roughly 10
-samples per scene family. Each scene family has a task category,
-reference-image requirement, and example task statement.
+`SCENE_BLUEPRINT.md` defines the scenario coverage used by the current
+annotation file. It covers 60 practical scene families across the five domains.
+Each scene family has a task category, reference-image requirement, and example
+task statement.
 
-The current `samples.json` remains the executable dataset, while
-`SCENE_BLUEPRINT.md` is the planning source for the next full refresh of image
-search, prompt generation, and per-sample scene replacement.
+The current `samples.json` is the executable dataset, while
+`SCENE_BLUEPRINT.md` is the scene-level coverage reference for image search,
+prompt generation, and per-sample scene replacement.
 
 ## Motion Target
 

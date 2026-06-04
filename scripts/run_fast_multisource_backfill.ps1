@@ -5,15 +5,15 @@ param(
   [int]$FormalTargetPerScene = 16,
   [int]$SearchLimit = 24,
   [int]$SearchPages = 3,
-  [string]$Providers = "commons,commons_category,loc,nara",
+  [string]$Providers = "commons,commons_category,openverse,loc",
   [string]$ScenesFile = "reports\image_deficit_plan_current\selected_scenes.json",
   [string]$DeficitPlanDir = "reports\image_deficit_plan_current",
-  [bool]$RefreshDeficitPlan = $true,
+  [int]$RefreshDeficitPlan = 1,
   [string]$Domains = "",
   [string]$RunId = "",
   [int]$ProviderWorkers = 2,
-  [int]$DownloadWorkers = 1,
-  [double]$MinHostInterval = 8.0,
+  [int]$DownloadWorkers = 3,
+  [double]$MinHostInterval = 2.0,
   [bool]$LogSearchDiagnostics = $true
 )
 
@@ -50,18 +50,23 @@ if ($RefreshDeficitPlan) {
   }
 }
 
-$perWorkerTarget = [Math]::Ceiling($TargetNew / [Math]::Max(1, $Shards))
+$perWorkerTarget = 0
+if ($TargetNew -gt 0) {
+  $perWorkerTarget = [Math]::Ceiling($TargetNew / [Math]::Max(1, $Shards))
+}
 $jobs = @()
 
 for ($i = 0; $i -lt $Shards; $i++) {
   $out = $stagingRoot
   $manifest = Join-Path $reportDir "fast_multisource_worker_$i.csv"
+  $progressLog = Join-Path $reportDir "fast_multisource_worker_$i.progress.log"
 
   $script = {
     param(
       $repoRoot, $out, $manifest, $scenesFile, $providers, $domains,
       $targetNew, $perScene, $searchLimit, $searchPages, $providerWorkers, $downloadWorkers,
-      $formalTargetPerScene, $minHostInterval, $shards, $idx, $logSearchDiagnostics
+      $formalTargetPerScene, $minHostInterval, $shards, $idx, $logSearchDiagnostics,
+      $progressLog
     )
     Set-Location $repoRoot
     Start-Sleep -Seconds ([Math]::Min(30, $idx * 5))
@@ -80,7 +85,8 @@ for ($i = 0; $i -lt $Shards; $i++) {
       "--download-workers", $downloadWorkers,
       "--min-host-interval", $minHostInterval,
       "--shards", $shards,
-      "--shard-index", $idx
+      "--shard-index", $idx,
+      "--progress-log", $progressLog
     )
     if ($domains) {
       $args += @("--domains", $domains)
@@ -94,12 +100,17 @@ for ($i = 0; $i -lt $Shards; $i++) {
   $jobs += Start-Job -ScriptBlock $script -ArgumentList `
     $repoRoot, $out, $manifest, $ScenesFile, $Providers, $Domains, `
     $perWorkerTarget, $PerScene, $SearchLimit, $SearchPages, $ProviderWorkers, `
-    $DownloadWorkers, $FormalTargetPerScene, $MinHostInterval, $Shards, $i, $LogSearchDiagnostics
+    $DownloadWorkers, $FormalTargetPerScene, $MinHostInterval, $Shards, $i, $LogSearchDiagnostics, `
+    $progressLog
 }
 
 Write-Host "Started fast multisource jobs: $($jobs.Count)"
 Write-Host "RunId: $RunId"
-Write-Host "TargetNew: $TargetNew (per worker target: $perWorkerTarget)"
+if ($TargetNew -gt 0) {
+  Write-Host "TargetNew: $TargetNew (per worker target: $perWorkerTarget)"
+} else {
+  Write-Host "TargetNew: 0 (no global cap; each scene is capped by PerScene/FormalTargetPerScene)"
+}
 Write-Host "PerScene: $PerScene"
 Write-Host "FormalTargetPerScene: $FormalTargetPerScene"
 Write-Host "SearchLimit: $SearchLimit"
@@ -112,6 +123,7 @@ Write-Host "DownloadWorkers: $DownloadWorkers"
 Write-Host "MinHostInterval: $MinHostInterval seconds"
 Write-Host "Staging root: $stagingRoot"
 Write-Host "Reports: $reportDir"
+Write-Host "Worker progress logs: $reportDir\fast_multisource_worker_*.progress.log"
 
 while (($jobs | Where-Object { $_.State -in @("Running", "NotStarted") }).Count -gt 0) {
   $states = $jobs | Group-Object State | ForEach-Object { "$($_.Name)=$($_.Count)" }

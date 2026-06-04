@@ -203,12 +203,12 @@ Operator evidence also samples up to 12 frames with first/last-frame coverage.
 For paper-style model comparisons, run a paired bootstrap over matched task ids:
 
 ```bash
-python scoring/compare.py results/MODEL_A results/MODEL_B --score-key weighted_score
+python scoring/compare.py results/MODEL_A results/MODEL_B --score-key ranking_score
 ```
 
 ## Submitting to the Leaderboard
 
-1. Run the evaluation pipeline on all 490 samples.
+1. Run the evaluation pipeline on all 902 samples.
 2. Verify that `results/YOUR_MODEL_NAME/aggregate.json` exists and `num_samples_skipped` is 0.
 3. Open a pull request adding your results directory to the repository, or email the results to the benchmark maintainers.
 4. Generate the leaderboard:

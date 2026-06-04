@@ -1,20 +1,16 @@
 {
   "scenes": [
-    "erob_amr_charger_smoke_abort",
-    "erob_robot_tool_contact_force",
+    "hload_sling_angle_center_of_gravity",
     "hload_blind_lift_spotter_view",
+    "erob_robot_tool_contact_force",
     "erob_robot_arm_precision_grasp",
-    "erob_light_curtain_emergency_stop",
+    "vsec_crane_unsafe_swing_near_people",
     "vsec_guard_removed_conveyor",
-    "pdef_engine_endoscope_crack",
-    "vsec_electrical_cabinet_smoke_isolation",
-    "vsec_smoke_alarm_evacuation",
-    "hload_wire_rope_overload_snap",
-    "pdef_precision_assembly_misalignment",
-    "vsec_perimeter_fence_breach",
-    "pdef_tube_bundle_endoscopy",
-    "erob_agv_rollup_door_interlock",
-    "pdef_gear_tooth_missing_wear",
-    "vsec_pedestrian_forklift_near_miss"
+    "pdef_gauge_level_valve_anomaly",
+    "vsec_dangerous_goods_liquid_leak",
+    "pdef_connector_pin_bent",
+    "vsec_surveillance_blind_spot_sweep",
+    "hload_dual_crawler_crane_lift",
+    "pdef_weld_porosity_crack"
   ]
 }

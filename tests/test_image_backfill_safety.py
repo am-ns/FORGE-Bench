@@ -121,6 +121,20 @@ def test_fast_backfill_skips_historical_url_but_keeps_searching_for_new_image(mo
     assert next(row for row in rows if row["status"] == "accepted")["image_url"] == "https://example.test/new.jpg"
 
 
+def test_historical_candidate_hashes_include_previous_run_folders(tmp_path):
+    history_root = tmp_path / "images_candidates"
+    previous = history_root / "fast_multisource_previous"
+    current = history_root / "fast_multisource_current"
+    previous.mkdir(parents=True)
+    current.mkdir()
+    Image.new("RGB", (16, 16), (120, 80, 40)).save(previous / "scene_one__commons__0001.jpg")
+
+    hashes = fast_multisource_image_backfill._historical_candidate_hashes(history_root, current)
+
+    assert list(hashes) == ["scene_one"]
+    assert len(hashes["scene_one"]) == 1
+
+
 def test_collect_candidates_prioritizes_queries_and_scales_request_budget(monkeypatch):
     args = argparse.Namespace(
         providers="commons,commons_category",
@@ -131,6 +145,8 @@ def test_collect_candidates_prioritizes_queries_and_scales_request_budget(monkey
         provider_workers=2,
         timeout=1.0,
         log_search_diagnostics=False,
+        min_semantic_score=3,
+        progress_log="",
     )
     monkeypatch.setattr(
         fast_multisource_image_backfill,
@@ -158,6 +174,60 @@ def test_collect_candidates_prioritizes_queries_and_scales_request_budget(monkey
         ("query", "specific", 8, 1),
         ("query", "specific industrial site photo", 8, 1),
     ]
+
+
+def test_collect_candidates_rejects_category_drift(monkeypatch):
+    args = argparse.Namespace(
+        providers="commons_category",
+        queries_per_scene=2,
+        categories_per_scene=1,
+        search_limit=40,
+        search_pages=3,
+        provider_workers=1,
+        timeout=1.0,
+        log_search_diagnostics=True,
+        min_semantic_score=3,
+        progress_log="",
+    )
+
+    def fake_category(scene, category, limit, pages, timeout):
+        return [
+            fast_multisource_image_backfill.Candidate(
+                "commons_category",
+                scene,
+                "File:Italian automotive engineering Alfa Romeo carbon fiber chassis.jpg",
+                "https://upload.wikimedia.org/example/alfa_chassis.jpg",
+                "https://commons.wikimedia.org/wiki/File:Alfa_chassis.jpg",
+                "cc-by",
+                category,
+            ),
+            fast_multisource_image_backfill.Candidate(
+                "commons_category",
+                scene,
+                "File:Acetylene torch cutting pipe at industrial worksite.jpg",
+                "https://upload.wikimedia.org/example/acetylene_cutting_pipe.jpg",
+                "https://commons.wikimedia.org/wiki/File:Acetylene_cutting_pipe.jpg",
+                "cc-by",
+                category,
+            ),
+        ]
+
+    monkeypatch.setattr(fast_multisource_image_backfill, "_commons_category", fake_category)
+
+    candidates, diagnostics = fast_multisource_image_backfill._collect_candidates(
+        "emerg_hot_work_spark_combustible_fire",
+        {},
+        args,
+        remaining_needed=2,
+    )
+
+    assert [candidate.title for candidate in candidates] == [
+        "File:Acetylene torch cutting pipe at industrial worksite.jpg"
+    ]
+    assert any(
+        row["reason"].startswith("semantic_mismatch") and "Alfa Romeo" in row["source_title"]
+        for row in diagnostics
+    )
 
 
 def test_scene_claim_is_exclusive_until_released(tmp_path):
@@ -190,6 +260,24 @@ def test_scene_claim_reclaims_stale_lock(tmp_path):
     reclaimed = fast_multisource_image_backfill._claim_scene(root, "scene_one", stale_seconds=1.0)
 
     assert reclaimed == digest_claim
+    fast_multisource_image_backfill._release_scene_claim(reclaimed)
+
+
+def test_scene_claim_reclaims_dead_owner_without_waiting(monkeypatch, tmp_path):
+    root = tmp_path / "claims"
+    digest = hashlib.sha1(b"scene_one").hexdigest()[:16]
+    claim = root / f"{digest}.claim"
+    claim.mkdir(parents=True)
+    (claim / "scene.txt").write_text("scene_one\n", encoding="utf-8")
+    (claim / fast_multisource_image_backfill.CLAIM_OWNER_FILENAME).write_text(
+        json.dumps({"pid": 12345}),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(fast_multisource_image_backfill, "_process_is_alive", lambda unused: False)
+
+    reclaimed = fast_multisource_image_backfill._claim_scene(root, "scene_one")
+
+    assert reclaimed == claim
     fast_multisource_image_backfill._release_scene_claim(reclaimed)
 
 

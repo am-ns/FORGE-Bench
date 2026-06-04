@@ -1,19 +1,15 @@
 {
   "scenes": [
-    "erob_multi_robot_coordination",
     "erob_cobot_safety_scanner_slowdown",
-    "erob_gripper_failure_recovery",
-    "erob_tracked_robot_rubble",
-    "vsec_crane_unsafe_swing_near_people",
+    "vsec_missing_ppe_at_height",
+    "erob_light_curtain_emergency_stop",
     "erob_quadruped_stairs_rubble_fpv",
-    "hload_tunnel_pipe_burst_mud_surge",
-    "pdef_weld_porosity_crack",
+    "erob_tracked_robot_rubble",
     "hload_ground_settlement_outrigger",
-    "pdef_flange_seal_micro_leak",
-    "vsec_dangerous_goods_liquid_leak",
-    "pdef_cutting_fluid_spray",
-    "emerg_transmission_tower_icing_collapse",
-    "hload_mining_truck_muddy_slope",
-    "vsec_conveyor_jam_loto_clearance"
+    "pdef_surface_scratch_inspection",
+    "hload_tunnel_pipe_burst_mud_surge",
+    "pdef_tube_bundle_endoscopy",
+    "erob_gripper_failure_recovery",
+    "hload_mining_truck_muddy_slope"
   ]
 }

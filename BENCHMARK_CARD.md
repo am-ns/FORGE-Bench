@@ -98,7 +98,7 @@ and ranking sensitivity under nearby penalty-floor variants.
 
 Current dataset: 60 scenes, 902 samples.
 
-**Domain sample counts** (non-uniform by design — domain breadth varies):
+**Domain sample counts** (non-uniform by design - domain breadth varies):
 
 | Domain | Samples |
 |---|---:|
@@ -119,10 +119,10 @@ Current dataset: 60 scenes, 902 samples.
 | `inspection_and_maintenance` | 73 |
 | `defect_generation` | 44 |
 
-Three domain × task category cells have no samples in the current dataset:
-`embodied_robotics` × `fluid_dynamics_and_thermodynamics`,
-`extreme_emergency` × `rigid_body_kinematics_and_coupling`, and
-`precision_defect_gen` × `industrial_logic_and_compliance`. These cells
+Three domain x task category cells have no samples in the current dataset:
+`embodied_robotics` x `fluid_dynamics_and_thermodynamics`,
+`extreme_emergency` x `rigid_body_kinematics_and_coupling`, and
+`precision_defect_gen` x `industrial_logic_and_compliance`. These cells
 are marked in the README coverage matrix; stratified scores for those cells
 should not be compared across models.
 

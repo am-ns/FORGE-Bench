@@ -15,15 +15,16 @@ scenario domain -> abstract task -> reference image -> executable prompt
 
 ## Dataset
 
-The current annotation file contains 528 samples across five scenario domains.
+The current annotation file contains 902 samples from 60 scenes across five
+scenario domains.
 
 | Domain | Samples | Coverage Focus |
 |---|---:|---|
-| `visual_security` | 113 | Security monitoring, restricted-zone intrusion, missing protective equipment, unsafe vehicle behavior, and compliance consequences. |
-| `embodied_robotics` | 93 | Robotic-arm manipulation, mobile or legged robot navigation, first-person robot viewpoint, and light-curtain emergency stops. |
-| `heavy_load_construction` | 114 | Excavators, crawler cranes, wire-rope load paths, muddy ground contact, gantry or bridge-segment alignment, and heavy-load failure. |
-| `precision_defect_gen` | 100 | Circuit-board bridge defects, endoscopic crack inspection, gear damage, multi-axis machining, cutting-fluid spray, and tube-bundle viewpoint motion. |
-| `extreme_emergency` | 108 | High-pressure leakage, flash fire spread, dust explosion, tower icing collapse, and emergency-state causal evolution. |
+| `visual_security` | 140 | Security monitoring, restricted-zone intrusion, missing protective equipment, unsafe vehicle behavior, and compliance consequences. |
+| `embodied_robotics` | 134 | Robotic-arm manipulation, mobile or legged robot navigation, first-person robot viewpoint, and light-curtain emergency stops. |
+| `heavy_load_construction` | 212 | Excavators, crawler cranes, wire-rope load paths, muddy ground contact, gantry or bridge-segment alignment, and heavy-load failure. |
+| `precision_defect_gen` | 127 | Circuit-board bridge defects, endoscopic crack inspection, gear damage, multi-axis machining, cutting-fluid spray, and tube-bundle viewpoint motion. |
+| `extreme_emergency` | 289 | High-pressure leakage, flash fire spread, dust explosion, tower icing collapse, and emergency-state causal evolution. |
 
 The benchmark uses existing repository images as reference anchors. The
 annotation layer is responsible for the new domain/task semantics, prompts,
@@ -264,7 +265,7 @@ reports/image_search_prompts.md
 To search for one strict open-license reference image per sample, run:
 
 ```bash
-python scripts/find_reference_images.py --target 528 --search-limit 25
+python scripts/find_reference_images.py --target 902 --search-limit 25
 ```
 
 The finder writes candidates under `dataset/images_candidates/strict_open_license/`

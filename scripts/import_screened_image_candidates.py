@@ -119,32 +119,69 @@ def _image_metrics(path: Path) -> dict:
     }
 
 
+def _hash_values_from_luma(image: Image.Image, hash_size: int = 8) -> tuple[str, str]:
+    ahash_arr = np.array(image.resize((hash_size, hash_size), Image.Resampling.LANCZOS), dtype=np.float32)
+    avg = float(ahash_arr.mean())
+    ahash_bits = (ahash_arr > avg).flatten()
+    ahash_value = 0
+    for bit in ahash_bits:
+        ahash_value = (ahash_value << 1) | int(bool(bit))
+
+    dhash_arr = np.array(image.resize((hash_size + 1, hash_size), Image.Resampling.LANCZOS), dtype=np.int16)
+    dhash_bits = (dhash_arr[:, 1:] > dhash_arr[:, :-1]).flatten()
+    dhash_value = 0
+    for bit in dhash_bits:
+        dhash_value = (dhash_value << 1) | int(bool(bit))
+
+    width = hash_size * hash_size // 4
+    return f"{ahash_value:0{width}x}", f"{dhash_value:0{width}x}"
+
+
+def _image_hashes(path: Path, hash_size: int = 8) -> tuple[str, str]:
+    with Image.open(path) as image:
+        return _hash_values_from_luma(image.convert("L"), hash_size)
+
+
+def _image_metrics_and_hashes(path: Path) -> tuple[dict, str, str]:
+    with Image.open(path) as image:
+        rgb = image.convert("RGB")
+        width, height = rgb.size
+        arr = np.array(rgb)
+        ahash, dhash = _hash_values_from_luma(image.convert("L"))
+    gray = cv2.cvtColor(arr, cv2.COLOR_RGB2GRAY)
+    laplacian_var = float(cv2.Laplacian(gray, cv2.CV_64F).var())
+    edges = cv2.Canny(gray, 80, 160)
+    edge_density = float(np.mean(edges > 0))
+    h, w = gray.shape
+    border = max(8, min(h, w) // 10)
+    mask = np.zeros_like(gray, dtype=bool)
+    mask[:border, :] = True
+    mask[-border:, :] = True
+    mask[:, :border] = True
+    mask[:, -border:] = True
+    background_edge_density = float(np.mean(edges[mask] > 0)) if np.any(mask) else edge_density
+    return {
+        "width": width,
+        "height": height,
+        "pixels": width * height,
+        "short_side": min(width, height),
+        "laplacian_var": laplacian_var,
+        "edge_density": edge_density,
+        "background_edge_density": background_edge_density,
+    }, ahash, dhash
+
+
 def _formal_image_count(image_root: Path, domain: str, scene: str) -> int:
     scene_dir = image_root / domain / scene
     return len(_iter_images(scene_dir))
 
 
 def _average_hash(path: Path, hash_size: int = 8) -> str:
-    with Image.open(path) as image:
-        image = image.convert("L").resize((hash_size, hash_size), Image.Resampling.LANCZOS)
-        arr = np.array(image, dtype=np.float32)
-    avg = float(arr.mean())
-    bits = (arr > avg).flatten()
-    value = 0
-    for bit in bits:
-        value = (value << 1) | int(bool(bit))
-    return f"{value:0{hash_size * hash_size // 4}x}"
+    return _image_hashes(path, hash_size)[0]
 
 
 def _dhash(path: Path, hash_size: int = 8) -> str:
-    with Image.open(path) as image:
-        image = image.convert("L").resize((hash_size + 1, hash_size), Image.Resampling.LANCZOS)
-        arr = np.array(image, dtype=np.int16)
-    bits = (arr[:, 1:] > arr[:, :-1]).flatten()
-    value = 0
-    for bit in bits:
-        value = (value << 1) | int(bool(bit))
-    return f"{value:0{hash_size * hash_size // 4}x}"
+    return _image_hashes(path, hash_size)[1]
 
 
 def _hamming(a: str, b: str) -> int:
@@ -213,6 +250,96 @@ def _write_report(rows: list[dict], path: Path) -> None:
         writer.writerows(rows)
 
 
+def _load_scene_plan(path: Path | None) -> dict[str, dict[str, int]]:
+    if path is None or not path.exists():
+        return {}
+    plan: dict[str, dict[str, int]] = {}
+    with path.open("r", encoding="utf-8", newline="") as handle:
+        for row in csv.DictReader(handle):
+            scene = str(row.get("scene_id") or "").strip()
+            if not scene:
+                continue
+            try:
+                deficit = max(0, int(float(str(row.get("deficit") or "0"))))
+            except ValueError:
+                deficit = 0
+            try:
+                image_count = max(0, int(float(str(row.get("image_count") or "0"))))
+            except ValueError:
+                image_count = 0
+            plan[scene] = {"deficit": deficit, "image_count": image_count}
+    return plan
+
+
+def _parse_scene_caps(values: list[str]) -> dict[str, int]:
+    caps: dict[str, int] = {}
+    for value in values:
+        if "=" not in value:
+            raise ValueError(f"scene cap must be formatted as scene_id=N: {value}")
+        scene, raw_cap = value.split("=", 1)
+        scene = scene.strip()
+        if not scene:
+            raise ValueError(f"scene cap has an empty scene id: {value}")
+        caps[scene] = max(0, int(raw_cap))
+    return caps
+
+
+def _cache_key(path: Path) -> str:
+    try:
+        return path.resolve().relative_to(REPO_ROOT).as_posix()
+    except ValueError:
+        return path.resolve().as_posix()
+
+
+def _hash_cache_signature(path: Path) -> dict[str, int]:
+    stat = path.stat()
+    return {"size": int(stat.st_size), "mtime_ns": int(stat.st_mtime_ns)}
+
+
+def _load_hash_cache(path: Path | None) -> dict:
+    if path is None or not path.exists():
+        return {"version": 1, "files": {}}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return {"version": 1, "files": {}}
+    if not isinstance(data, dict) or data.get("version") != 1 or not isinstance(data.get("files"), dict):
+        return {"version": 1, "files": {}}
+    return data
+
+
+def _write_hash_cache(path: Path | None, data: dict) -> None:
+    if path is None:
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    os.replace(tmp, path)
+
+
+def _cached_image_hashes(path: Path, cache: dict) -> tuple[str, str]:
+    files = cache.setdefault("files", {})
+    key = _cache_key(path)
+    signature = _hash_cache_signature(path)
+    entry = files.get(key)
+    if (
+        isinstance(entry, dict)
+        and entry.get("size") == signature["size"]
+        and entry.get("mtime_ns") == signature["mtime_ns"]
+        and isinstance(entry.get("ahash"), str)
+        and isinstance(entry.get("dhash"), str)
+    ):
+        return str(entry["ahash"]), str(entry["dhash"])
+    ahash, dhash = _image_hashes(path)
+    files[key] = {
+        "size": signature["size"],
+        "mtime_ns": signature["mtime_ns"],
+        "ahash": ahash,
+        "dhash": dhash,
+    }
+    return ahash, dhash
+
+
 def _require_within(path: Path, root: Path, label: str, *, allow_equal: bool = False) -> None:
     resolved = path.resolve()
     resolved_root = root.resolve()
@@ -266,12 +393,18 @@ def _run_locked(args: argparse.Namespace, candidate_root: Path, image_root: Path
             scene_samples[str(scene)].append(sample)
             scene_domain[str(scene)] = str(domain)
 
+    hash_cache_path = Path(args.hash_cache) if args.hash_cache else None
+    if hash_cache_path and not hash_cache_path.is_absolute():
+        hash_cache_path = REPO_ROOT / hash_cache_path
+    hash_cache = _load_hash_cache(hash_cache_path)
     existing_hashes: dict[str, list[tuple[str, str, Path]]] = defaultdict(list)
     for path in _iter_images(image_root):
         try:
-            existing_hashes[path.parent.name].append((_average_hash(path), _dhash(path), path))
+            ahash, dhash = _cached_image_hashes(path, hash_cache)
+            existing_hashes[path.parent.name].append((ahash, dhash, path))
         except Exception:
             continue
+    _write_hash_cache(hash_cache_path, hash_cache)
 
     rows: list[dict] = []
     accepted_by_scene: Counter[str] = Counter()
@@ -279,6 +412,11 @@ def _run_locked(args: argparse.Namespace, candidate_root: Path, image_root: Path
         scene: _formal_image_count(image_root, domain, scene)
         for scene, domain in scene_domain.items()
     }
+    deficit_plan = Path(args.deficit_plan) if args.deficit_plan else None
+    if deficit_plan and not deficit_plan.is_absolute():
+        deficit_plan = REPO_ROOT / deficit_plan
+    scene_plan = _load_scene_plan(deficit_plan)
+    scene_caps = _parse_scene_caps(args.scene_import_cap)
     task_counters: dict[str, int] = {}
     imported_samples: list[dict] = []
     accepted_hashes = {scene: list(hashes) for scene, hashes in existing_hashes.items()}
@@ -317,7 +455,20 @@ def _run_locked(args: argparse.Namespace, candidate_root: Path, image_root: Path
             row["deleted"] = str(delete_rejected(source)).lower()
             rows.append(row)
             continue
-        if args.max_per_scene > 0 and accepted_by_scene[scene] >= args.max_per_scene:
+        scene_limit = args.max_per_scene
+        if scene_plan:
+            scene_limit = min(scene_limit, scene_plan.get(scene, {}).get("deficit", 0)) if scene_limit > 0 else scene_plan.get(scene, {}).get("deficit", 0)
+        if scene in scene_caps:
+            planned_count = scene_plan.get(scene, {}).get("image_count", formal_counts.get(scene, 0))
+            already_imported_since_plan = max(0, formal_counts.get(scene, 0) - planned_count)
+            remaining_scene_cap = max(0, scene_caps[scene] - already_imported_since_plan)
+            scene_limit = min(scene_limit, remaining_scene_cap) if scene_limit > 0 else remaining_scene_cap
+        row["scene_import_limit"] = str(scene_limit)
+        if scene_limit == 0:
+            row["reason"] = "scene_deficit_filled"
+            rows.append(row)
+            continue
+        if scene_limit > 0 and accepted_by_scene[scene] >= scene_limit:
             row["reason"] = "scene_import_limit_reached"
             rows.append(row)
             continue
@@ -329,7 +480,7 @@ def _run_locked(args: argparse.Namespace, candidate_root: Path, image_root: Path
             rows.append(row)
             continue
         try:
-            metrics = _image_metrics(source)
+            metrics, ahash, dhash = _image_metrics_and_hashes(source)
             row.update({
                 "width": str(metrics["width"]),
                 "height": str(metrics["height"]),
@@ -345,8 +496,6 @@ def _run_locked(args: argparse.Namespace, candidate_root: Path, image_root: Path
                 row["deleted"] = str(delete_rejected(source)).lower()
                 rows.append(row)
                 continue
-            ahash = _average_hash(source)
-            dhash = _dhash(source)
             duplicate = next(
                 (
                     path for old_a, old_d, path in accepted_hashes_global
@@ -419,6 +568,22 @@ def main() -> None:
     parser.add_argument("--image-root", default="dataset/images")
     parser.add_argument("--samples", default="dataset/annotations/samples.json")
     parser.add_argument("--report", default="reports/screened_image_candidate_import.csv")
+    parser.add_argument(
+        "--deficit-plan",
+        default="reports/image_deficit_plan_current/image_deficit_plan.csv",
+        help="Scene deficit CSV; when present, only import up to each scene's remaining deficit.",
+    )
+    parser.add_argument(
+        "--scene-import-cap",
+        action="append",
+        default=[],
+        help="Per-scene import cap formatted as scene_id=N. Can be passed multiple times.",
+    )
+    parser.add_argument(
+        "--hash-cache",
+        default=".cache/import_screened_image_hashes.json",
+        help="Cache aHash/dHash values for existing dataset images. Disable with an empty value.",
+    )
     parser.add_argument("--max-per-scene", type=int, default=3, help="Maximum accepted images per scene; 0 disables the cap.")
     parser.add_argument(
         "--formal-target-per-scene",

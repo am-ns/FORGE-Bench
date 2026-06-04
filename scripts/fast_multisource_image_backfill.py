@@ -37,14 +37,16 @@ if str(SCRIPT_DIR) not in sys.path:
 from targeted_candidate_backfill_v2 import SCENE_BANK  # noqa: E402
 
 COMMONS_API = "https://commons.wikimedia.org/w/api.php"
-OPENVERSE_API = "https://api.openverse.engineering/v1/images/"
+OPENVERSE_API = "https://api.openverse.org/v1/images/"
 LOC_API = "https://www.loc.gov/photos/"
 NARA_API = "https://catalog.archives.gov/api/v1/"
+PIXABAY_API = "https://pixabay.com/api/"
 USER_AGENT = "FORGE-Bench/1.0 (research dataset image sourcing; local operator)"
 IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp"}
 WIKIMEDIA_THUMB_WIDTH = 1024
 HOST_RATE_LIMIT_SECONDS = 0.0
 HOST_RATE_LIMIT_DIR = REPO_ROOT / ".cache" / "fast_multisource_host_locks"
+CLAIM_OWNER_FILENAME = "owner.json"
 
 BLOCKED_TERMS = {
     "book", "cover", "frontispiece", "page", "scan", "scanned", "diagram",
@@ -84,6 +86,23 @@ SOURCE_NEGATIVE_TERMS = [
     "flower", "bird", "cat", "dog", "wildlife",
 ]
 
+QUERY_STOPWORDS = {
+    "a", "an", "and", "area", "bay", "close", "control", "equipment", "factory",
+    "field", "floor", "for", "industrial", "inspection", "photo", "real", "site",
+    "system", "the", "with", "worksite", "world",
+}
+WEAK_MATCH_TERMS = {
+    "access", "bay", "building", "construction", "corridor", "emergency",
+    "equipment", "floor", "hazard", "inspection", "plant", "safety", "site",
+    "worker", "workshop", "yard",
+}
+SCENE_TERM_OVERRIDES = {
+    "emerg_hot_work_spark_combustible_fire": {
+        "acetylene", "arc", "burner", "cutting", "grinder", "grinding", "spark",
+        "sparks", "torch", "weld", "welder", "welders", "welding",
+    },
+}
+
 
 @dataclass(frozen=True)
 class Candidate:
@@ -97,15 +116,30 @@ class Candidate:
 
 
 def _request_json(url: str, timeout: float) -> dict:
+    import urllib.error as _uerr
     _rate_limit_host(url)
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    with urllib.request.urlopen(req, timeout=timeout) as response:
-        return json.loads(response.read().decode("utf-8", errors="replace"))
+    for attempt in range(3):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as response:
+                raw = response.read()
+            if not raw or not raw.strip():
+                return {}
+            return json.loads(raw.decode("utf-8", errors="replace"))
+        except _uerr.HTTPError as exc:
+            if exc.code == 429 and attempt < 2:
+                time.sleep(30 * (attempt + 1))
+                continue
+            raise
+    return {}
 
 
 def _download(url: str, dest: Path, timeout: float) -> None:
     _rate_limit_host(url)
-    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    headers = {"User-Agent": USER_AGENT}
+    if "staticflickr.com" in url or "flickr.com" in url:
+        headers["Referer"] = "https://www.flickr.com/"
+    req = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(req, timeout=timeout) as response:
         dest.write_bytes(response.read())
 
@@ -216,6 +250,7 @@ def _wikimedia_original_url(url: str) -> str:
 
 
 def _download_candidate(candidate: Candidate, dest: Path, timeout: float) -> str:
+    import urllib.error as _uerr
     urls = [candidate.image_url]
     thumb_url = _wikimedia_thumb_url(candidate.image_url)
     if thumb_url and thumb_url not in urls:
@@ -224,14 +259,22 @@ def _download_candidate(candidate: Candidate, dest: Path, timeout: float) -> str
     if original_url and original_url not in urls:
         urls.append(original_url)
     for idx, url in enumerate(urls):
-        try:
-            _download(url, dest, timeout)
+        for attempt in range(3):
+            try:
+                _download(url, dest, timeout)
+                return url
+            except _uerr.HTTPError as exc:
+                if exc.code == 429:
+                    time.sleep(20 * (attempt + 1))
+                    continue
+                break
+            except Exception:
+                break
+        if dest.exists() and dest.stat().st_size > 0:
             return url
-        except Exception:
-            if idx + 1 < len(urls):
-                continue
-            raise
-    raise RuntimeError("no download url")
+        if idx + 1 < len(urls):
+            continue
+    raise RuntimeError(f"download failed for all url variants: {candidate.image_url}")
 
 
 def _source_clean(*texts: str) -> tuple[bool, str]:
@@ -248,6 +291,48 @@ def _source_clean(*texts: str) -> tuple[bool, str]:
 def _search_query(query: str) -> str:
     negatives = " ".join(f'-"{term}"' if " " in term else f"-{term}" for term in SOURCE_NEGATIVE_TERMS)
     return f"{query} {negatives}".strip()
+
+
+def _semantic_tokens(text: str) -> set[str]:
+    tokens = set()
+    for token in re.findall(r"[a-z][a-z0-9]{2,}", text.lower()):
+        if token in QUERY_STOPWORDS:
+            continue
+        tokens.add(token)
+        if token.endswith("ies") and len(token) > 4:
+            tokens.add(token[:-3] + "y")
+        elif token.endswith("es") and len(token) > 4:
+            tokens.add(token[:-2])
+        elif token.endswith("s") and len(token) > 3:
+            tokens.add(token[:-1])
+    return tokens
+
+
+def _scene_semantic_terms(scene: str, samples_by_scene: dict[str, dict]) -> set[str]:
+    bank = SCENE_BANK.get(scene, {})
+    sample = samples_by_scene.get(scene) or {}
+    texts = [
+        str(bank.get("tokens") or ""),
+        " ".join(str(q) for q in bank.get("queries", []) or []),
+        " ".join(str(c) for c in bank.get("categories", []) or []),
+        str(sample.get("reference_subject") or ""),
+        str(sample.get("image_requirement") or ""),
+    ]
+    terms = _semantic_tokens(" ".join(texts))
+    terms.update(SCENE_TERM_OVERRIDES.get(scene, set()))
+    return terms - QUERY_STOPWORDS
+
+
+def _candidate_semantic_score(candidate: Candidate, scene_terms: set[str]) -> tuple[int, str]:
+    text = " ".join([candidate.title, candidate.source_url, candidate.image_url])
+    candidate_terms = _semantic_tokens(urllib.parse.unquote(text))
+    matches = candidate_terms & scene_terms
+    strong_matches = matches - WEAK_MATCH_TERMS
+    if strong_matches:
+        return 3 + min(4, len(strong_matches)), ",".join(sorted(strong_matches)[:8])
+    if len(matches) >= 2:
+        return 2, ",".join(sorted(matches)[:8])
+    return 0, ",".join(sorted(matches)[:8])
 
 
 def _upgrade_image_url(url: str) -> str:
@@ -397,6 +482,31 @@ def _nara(scene: str, query: str, limit: int, timeout: float) -> list[Candidate]
     return out
 
 
+def _pixabay(scene: str, query: str, limit: int, timeout: float, api_key: str = "") -> list[Candidate]:
+    if not api_key:
+        return []
+    params = {
+        "key": api_key,
+        "q": query,
+        "image_type": "photo",
+        "per_page": str(min(limit, 50)),
+        "safesearch": "true",
+        "order": "relevant",
+    }
+    data = _request_json(PIXABAY_API + "?" + urllib.parse.urlencode(params), timeout)
+    out = []
+    for hit in data.get("hits", []) or []:
+        image_url = str(hit.get("largeImageURL") or hit.get("webformatURL") or "")
+        if not image_url:
+            continue
+        title = str(hit.get("tags") or "")
+        source_url = str(hit.get("pageURL") or "")
+        ok, _ = _source_clean(title, source_url, image_url, query)
+        if ok:
+            out.append(Candidate("pixabay", scene, title, image_url, source_url, "pixabay", query))
+    return out
+
+
 def _load_samples(path: Path) -> list[dict]:
     data = json.loads(path.read_text(encoding="utf-8"))
     return data.get("samples", data) if isinstance(data, dict) else data
@@ -425,18 +535,30 @@ def _scene_queries(scene: str, samples_by_scene: dict[str, dict], max_queries: i
         value = str(sample.get(field) or "").strip()
         if value:
             queries.append(value)
-    expanded = []
-    for query in queries:
-        expanded.append(query)
+
+    # Deduplicate base queries first, preserving order.
+    seen: set[str] = set()
+    base: list[str] = []
+    for q in queries:
+        q = re.sub(r"\s+", " ", q).strip()
+        if q and q.lower() not in seen:
+            seen.add(q.lower())
+            base.append(q)
+
+    # Emit all base queries first so none are dropped by the budget cap.
+    # Then add a single "industrial site photo" suffix for short queries to
+    # improve real-photo recall — but only up to the budget.
+    compact = list(base)
+    for query in base:
+        if len(compact) >= max_queries:
+            break
         words = query.lower()
-        if not any(term in words for term in ("photo", "factory", "industrial", "worksite", "site")):
-            for suffix in REALWORLD_QUERY_SUFFIXES:
-                expanded.append(f"{query} {suffix}")
-    compact = []
-    for query in expanded:
-        query = re.sub(r"\s+", " ", query).strip()
-        if query and query.lower() not in {q.lower() for q in compact}:
-            compact.append(query)
+        if len(query) <= 55 and not any(t in words for t in ("photo", "factory", "industrial", "worksite", "site")):
+            expanded = f"{query} industrial site photo"
+            if expanded.lower() not in seen:
+                seen.add(expanded.lower())
+                compact.append(expanded)
+
     return compact[:max_queries]
 
 
@@ -545,6 +667,35 @@ def _historical_candidate_urls(root: Path) -> set[str]:
     return urls
 
 
+def _process_is_alive(pid: int) -> bool:
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True
+    except OSError:
+        return False
+    return True
+
+
+def _write_claim_owner(claim: Path) -> None:
+    (claim / CLAIM_OWNER_FILENAME).write_text(
+        json.dumps({"pid": os.getpid()}) + "\n",
+        encoding="utf-8",
+    )
+
+
+def _claim_is_active(claim: Path, stale_seconds: float) -> bool:
+    owner_path = claim / CLAIM_OWNER_FILENAME
+    try:
+        owner = json.loads(owner_path.read_text(encoding="utf-8"))
+        pid = int(owner["pid"])
+    except (FileNotFoundError, KeyError, TypeError, ValueError, json.JSONDecodeError):
+        return time.time() - claim.stat().st_mtime <= stale_seconds
+    return _process_is_alive(pid)
+
+
 def _reserve_candidate_url(root: Path, url: str, stale_seconds: float) -> Path | None:
     root.mkdir(parents=True, exist_ok=True)
     digest = hashlib.sha256(_normalized_candidate_url(url).encode("utf-8")).hexdigest()
@@ -555,13 +706,14 @@ def _reserve_candidate_url(root: Path, url: str, stale_seconds: float) -> Path |
     try:
         claim.mkdir()
     except FileExistsError:
-        if time.time() - claim.stat().st_mtime <= stale_seconds:
+        if _claim_is_active(claim, stale_seconds):
             return None
         shutil.rmtree(claim, ignore_errors=True)
         try:
             claim.mkdir()
         except FileExistsError:
             return None
+    _write_claim_owner(claim)
     return claim
 
 
@@ -569,9 +721,11 @@ def _finish_candidate_url(claim: Path, *, keep: bool) -> None:
     if not claim.exists():
         return
     if keep:
+        for child in claim.iterdir():
+            child.unlink(missing_ok=True)
         os.replace(claim, claim.with_suffix(".seen"))
     else:
-        claim.rmdir()
+        shutil.rmtree(claim, ignore_errors=True)
 
 
 def _claim_scene(root: Path, scene: str, stale_seconds: float = 86400.0) -> Path | None:
@@ -581,13 +735,14 @@ def _claim_scene(root: Path, scene: str, stale_seconds: float = 86400.0) -> Path
     try:
         claim.mkdir()
     except FileExistsError:
-        if time.time() - claim.stat().st_mtime <= stale_seconds:
+        if _claim_is_active(claim, stale_seconds):
             return None
         shutil.rmtree(claim, ignore_errors=True)
         try:
             claim.mkdir()
         except FileExistsError:
             return None
+    _write_claim_owner(claim)
     (claim / "scene.txt").write_text(scene + "\n", encoding="utf-8")
     return claim
 
@@ -640,9 +795,11 @@ def _collect_candidates(
     search_limit = min(args.search_limit, max(8, remaining_needed * 3))
     search_pages = min(args.search_pages, max(1, (remaining_needed + 5) // 6))
     queries = _scene_queries(scene, samples_by_scene, query_budget)
+    scene_terms = _scene_semantic_terms(scene, samples_by_scene)
     tasks = []
     diagnostics = []
     with ThreadPoolExecutor(max_workers=args.provider_workers) as executor:
+        pixabay_key = getattr(args, "pixabay_key", "") or ""
         for query in queries:
             if "commons" in providers:
                 tasks.append(("commons", query, executor.submit(_commons_search, scene, query, search_limit, search_pages, args.timeout)))
@@ -652,17 +809,24 @@ def _collect_candidates(
                 tasks.append(("loc", query, executor.submit(_loc, scene, query, search_limit, args.timeout)))
             if "nara" in providers:
                 tasks.append(("nara", query, executor.submit(_nara, scene, query, search_limit, args.timeout)))
+            if "pixabay" in providers and pixabay_key:
+                tasks.append(("pixabay", query, executor.submit(_pixabay, scene, query, search_limit, args.timeout, pixabay_key)))
         if "commons_category" in providers or "commons-categories" in providers:
             for category in (SCENE_BANK.get(scene, {}).get("categories") or [])[:category_budget]:
                 query = str(category)
                 tasks.append(("commons_category", query, executor.submit(_commons_category, scene, query, search_limit, search_pages, args.timeout)))
         results: dict[int, list[Candidate]] = {}
         future_meta = {future: (index, provider, query) for index, (provider, query, future) in enumerate(tasks)}
+        _progress(args.progress_log, f"search_tasks scene={scene} count={len(tasks)}")
         for task in as_completed(future_meta):
             index, provider, query = future_meta[task]
             try:
                 found = task.result()
                 results[index] = found
+                _progress(
+                    args.progress_log,
+                    f"search_ok scene={scene} provider={provider} candidates={len(found)} query={query}",
+                )
                 if args.log_search_diagnostics:
                     diagnostics.append({
                         "status": "search_ok",
@@ -672,6 +836,10 @@ def _collect_candidates(
                         "query": query,
                     })
             except Exception as exc:
+                _progress(
+                    args.progress_log,
+                    f"search_error scene={scene} provider={provider} error={exc} query={query}",
+                )
                 diagnostics.append({
                     "status": "search_error",
                     "reason": str(exc),
@@ -683,7 +851,31 @@ def _collect_candidates(
     dedup = {}
     for candidate in out:
         dedup.setdefault(_normalized_candidate_url(candidate.image_url), candidate)
-    return list(dedup.values()), diagnostics
+    scored = []
+    for order, candidate in enumerate(dedup.values()):
+        # commons_category results come from an explicitly relevant category —
+        # bypass semantic scoring so generic filenames (IMG_xxx.jpg) are not
+        # filtered out; give them a baseline score of 3.
+        if candidate.provider in ("commons_category",):
+            score, matches = 3, "category_match"
+        else:
+            score, matches = _candidate_semantic_score(candidate, scene_terms)
+        if score < args.min_semantic_score:
+            if args.log_search_diagnostics:
+                diagnostics.append({
+                    "status": "skipped",
+                    "reason": f"semantic_mismatch:score={score}:matches={matches}",
+                    "scene": scene,
+                    "provider": candidate.provider,
+                    "query": candidate.query,
+                    "source_title": candidate.title,
+                    "source_url": candidate.source_url,
+                    "image_url": candidate.image_url,
+                })
+            continue
+        scored.append((score, order, candidate))
+    scored.sort(key=lambda item: (-item[0], item[1]))
+    return [candidate for _, _, candidate in scored], diagnostics
 
 
 def _write_manifest(rows: list[dict], path: Path) -> None:
@@ -699,11 +891,22 @@ def _write_manifest(rows: list[dict], path: Path) -> None:
         writer.writerows(rows)
 
 
+def _progress(path: str, message: str) -> None:
+    if not path:
+        return
+    progress_path = Path(path)
+    progress_path.parent.mkdir(parents=True, exist_ok=True)
+    timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+    with progress_path.open("a", encoding="utf-8") as handle:
+        handle.write(f"{timestamp} {message}\n")
+
+
 def run(args: argparse.Namespace) -> None:
     global HOST_RATE_LIMIT_SECONDS, HOST_RATE_LIMIT_DIR
 
     HOST_RATE_LIMIT_SECONDS = max(0.0, float(args.min_host_interval))
     HOST_RATE_LIMIT_DIR = Path(args.host_lock_dir)
+    _progress(args.progress_log, f"start pid={os.getpid()} shard={args.shard_index}/{args.shards}")
     samples = _load_samples(Path(args.samples))
     samples_by_scene = {}
     for sample in samples:
@@ -723,6 +926,7 @@ def run(args: argparse.Namespace) -> None:
         scenes = [scene for idx, scene in enumerate(scenes) if idx % args.shards == args.shard_index]
     if args.max_scenes > 0:
         scenes = scenes[: args.max_scenes]
+    _progress(args.progress_log, f"selected_scenes={len(scenes)}")
 
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -746,8 +950,10 @@ def run(args: argparse.Namespace) -> None:
         return args.target_new > 0 and accepted_total >= args.target_new
 
     for scene in scenes:
+        _progress(args.progress_log, f"scene_start scene={scene}")
         claim = _claim_scene(scene_claim_dir, scene, args.scene_claim_stale_seconds)
         if claim is None:
+            _progress(args.progress_log, f"scene_skipped scene={scene} reason=scene_claimed_by_another_process")
             rows.append({
                 "status": "skipped",
                 "reason": "scene_claimed_by_another_process",
@@ -760,8 +966,14 @@ def run(args: argparse.Namespace) -> None:
             if args.formal_target_per_scene > 0:
                 scene_limit = max(0, min(args.per_scene, args.formal_target_per_scene - formal_counts.get(scene, 0)))
             if scene_limit <= 0:
+                _progress(args.progress_log, f"scene_skipped scene={scene} reason=formal_target_satisfied")
                 continue
+            _progress(args.progress_log, f"collect_start scene={scene} remaining={scene_limit}")
             candidates, diagnostics = _collect_candidates(scene, samples_by_scene, args, scene_limit)
+            _progress(
+                args.progress_log,
+                f"collect_done scene={scene} candidates={len(candidates)} diagnostics={len(diagnostics)}",
+            )
             rows.extend(diagnostics)
             accepted_by_scene.setdefault(scene, 0)
             candidate_iter = iter(candidates)
@@ -846,6 +1058,9 @@ def run(args: argparse.Namespace) -> None:
                             if not ok:
                                 dest.unlink(missing_ok=True)
                                 row["reason"] = reason
+                                # Quality failures are not permanently blocked so
+                                # they can be retried if thresholds change.
+                                _finish_candidate_url(url_claim, keep=False)
                             else:
                                 ahash = _average_hash(dest)
                                 dhash = _dhash(dest)
@@ -857,6 +1072,7 @@ def run(args: argparse.Namespace) -> None:
                                 ):
                                     dest.unlink(missing_ok=True)
                                     row["reason"] = "near_duplicate"
+                                    _finish_candidate_url(url_claim, keep=True)
                                 else:
                                     scene_hashes.append((ahash, dhash))
                                     existing_hashes_global.append((ahash, dhash))
@@ -864,7 +1080,7 @@ def run(args: argparse.Namespace) -> None:
                                     accepted_by_scene[scene] += 1
                                     row["status"] = "accepted"
                                     row["reason"] = "accepted"
-                            _finish_candidate_url(url_claim, keep=True)
+                                    _finish_candidate_url(url_claim, keep=True)
                         except Exception as exc:
                             dest.unlink(missing_ok=True)
                             _finish_candidate_url(url_claim, keep=False)
@@ -872,7 +1088,15 @@ def run(args: argparse.Namespace) -> None:
                         rows.append(row)
                         if len(rows) % 20 == 0:
                             _write_manifest(rows, manifest)
+                            _progress(
+                                args.progress_log,
+                                f"manifest_update rows={len(rows)} accepted={accepted_total}",
+                            )
             _write_manifest(rows, manifest)
+            _progress(
+                args.progress_log,
+                f"scene_done scene={scene} accepted_scene={accepted_by_scene.get(scene, 0)} accepted_total={accepted_total}",
+            )
         finally:
             _release_scene_claim(claim)
         if target_reached():
@@ -885,6 +1109,7 @@ def run(args: argparse.Namespace) -> None:
     print(f"accepted={accepted_total}")
     print(f"output_dir={output_dir.as_posix()}")
     print(f"manifest={manifest.as_posix()}")
+    _progress(args.progress_log, f"done rows={len(rows)} accepted={accepted_total}")
 
 
 def main() -> None:
@@ -900,19 +1125,26 @@ def main() -> None:
     )
     parser.add_argument("--output-dir", default="dataset/images_candidates/fast_multisource")
     parser.add_argument("--manifest", default="reports/fast_multisource_image_backfill.csv")
-    parser.add_argument("--providers", default="commons,commons_category,loc,nara")
+    parser.add_argument("--providers", default="commons,commons_category,openverse,loc")
     parser.add_argument("--domains", default="")
     parser.add_argument("--target-new", type=int, default=120)
     parser.add_argument("--per-scene", type=int, default=12)
     parser.add_argument("--max-scenes", type=int, default=0)
     parser.add_argument("--search-limit", type=int, default=40)
     parser.add_argument("--search-pages", type=int, default=3)
-    parser.add_argument("--queries-per-scene", type=int, default=8)
+    parser.add_argument("--queries-per-scene", type=int, default=14)
     parser.add_argument("--categories-per-scene", type=int, default=4)
+    parser.add_argument(
+        "--min-semantic-score",
+        type=int,
+        default=2,
+        help="Minimum metadata relevance score before downloading a candidate; 2 = weak multi-term match, 3 = strong match.",
+    )
     parser.add_argument("--provider-workers", type=int, default=4)
     parser.add_argument("--download-workers", type=int, default=4)
     parser.add_argument("--log-search-diagnostics", action="store_true")
-    parser.add_argument("--min-host-interval", type=float, default=4.0)
+    parser.add_argument("--progress-log", default="")
+    parser.add_argument("--min-host-interval", type=float, default=1.5)
     parser.add_argument("--host-lock-dir", default=".cache/fast_multisource_host_locks")
     parser.add_argument("--scene-claim-dir", default=".cache/fast_multisource_scene_claims")
     parser.add_argument("--scene-claim-stale-seconds", type=float, default=86400.0)
@@ -921,6 +1153,7 @@ def main() -> None:
     parser.add_argument("--history-reports-root", default="reports")
     parser.add_argument("--history-candidate-root", default="dataset/images_candidates")
     parser.add_argument("--timeout", type=float, default=12.0)
+    parser.add_argument("--pixabay-key", default="", help="Pixabay API key (register free at pixabay.com/api/docs/)")
     parser.add_argument("--sleep-between-scenes", type=float, default=1.0)
     parser.add_argument("--shards", type=int, default=1)
     parser.add_argument("--shard-index", type=int, default=0)

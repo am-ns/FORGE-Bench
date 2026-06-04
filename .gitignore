@@ -6,12 +6,17 @@ __pycache__/
 dist/
 build/
 .DS_Store
+.aiderignore
+.codexignore
+config/
 results/**/*
 !results/.gitkeep
 dataset/videos/**/*.mp4
 dataset/videos_preview/
 *.log
 logs/
+crash.txt
+logs.txt
 .pytest_cache/
 .pytest_tmp*/
 .tmp_*/
@@ -24,6 +29,7 @@ update_lobster.py
 .claude/
 dataset/imagesforloss/
 .cache/
+dataset/images_candidates/
 dataset/images_candidates/fast_multisource_*/
 dataset/images_candidates/accurate_multisource_*/
 dataset/wan_batch/
@@ -32,3 +38,7 @@ reports/accurate_multisource_*/
 reports/wan_eval_results*/
 reports/wan_eval_rerun_*/
 reports/wan_eval_retry/
+reports/paper_reproduction/
+reports/video_gen_package/
+
+logs/
