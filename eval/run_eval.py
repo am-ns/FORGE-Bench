@@ -606,7 +606,7 @@ def _aggregate_group(results: list[dict]) -> dict:
     return aggregate
 
 
-# ── CLI ───────────────────────────────────────────────────────────────────────
+# CLI
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="FORGE-Bench evaluation runner")

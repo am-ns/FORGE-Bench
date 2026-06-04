@@ -35,12 +35,12 @@ def main():
             violations.append(f"  [{sample.get('task_id', i)}] {path}: {err.message}")
 
     if violations:
-        print(f"FAIL — {len(violations)} violation(s) found:\n")
+        print(f"FAIL - {len(violations)} violation(s) found:\n")
         for v in violations:
             print(v)
         sys.exit(1)
     else:
-        print(f"PASS — {len(samples)} sample(s) validated, zero errors.")
+        print(f"PASS - {len(samples)} sample(s) validated, zero errors.")
         sys.exit(0)
 
 

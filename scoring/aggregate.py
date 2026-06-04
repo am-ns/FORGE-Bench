@@ -1090,6 +1090,20 @@ def _constraint_adjustment(result: dict) -> dict:
     }
 
 
+def compute_sample_technical_score(result: dict) -> float:
+    """Return the paper-facing per-sample technical score.
+
+    This public wrapper keeps comparison scripts aligned with the aggregate
+    implementation instead of duplicating the task-conditioned formula.
+    """
+    return _task_conditioned_score(result)
+
+
+def compute_sample_ranking_score(result: dict) -> float:
+    """Return the per-sample ranking score used by aggregate leaderboard means."""
+    return _constraint_adjustment(result)["constraint_adjusted_score"]
+
+
 def aggregate_sample_results(sample_results: list[dict]) -> dict:
     """Aggregate completed per-sample results into benchmark-level metrics.
 

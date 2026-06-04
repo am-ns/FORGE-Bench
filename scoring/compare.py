@@ -5,9 +5,22 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 
 import numpy as np
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from scoring.aggregate import compute_sample_ranking_score, compute_sample_technical_score
+
+
+SCORED_KEYS = {
+    "weighted_score",
+    "relax_score",
+}
 
 
 def _load_scores(result_dir: Path, score_key: str) -> dict[str, float]:
@@ -22,7 +35,11 @@ def _load_scores(result_dir: Path, score_key: str) -> dict[str, float]:
         if not task_id:
             continue
         scored = row.get("scored") or {}
-        if score_key == "weighted_score":
+        if score_key in {"ranking_score", "constraint_adjusted_score"}:
+            value = compute_sample_ranking_score(row)
+        elif score_key in {"technical_score", "task_conditioned_score"}:
+            value = compute_sample_technical_score(row)
+        elif score_key in SCORED_KEYS:
             value = scored.get("weighted_score")
         else:
             value = scored.get("axis_scores", {}).get(score_key)
@@ -71,7 +88,14 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Paired bootstrap comparison for FORGE-Bench results")
     parser.add_argument("model_a_dir", type=Path)
     parser.add_argument("model_b_dir", type=Path)
-    parser.add_argument("--score-key", default="weighted_score")
+    parser.add_argument(
+        "--score-key",
+        default="ranking_score",
+        help=(
+            "Score to compare. Supports ranking_score, technical_score, "
+            "weighted_score/relax_score, or any per-axis score key."
+        ),
+    )
     parser.add_argument("--iterations", type=int, default=10000)
     parser.add_argument("--seed", type=int, default=1729)
     args = parser.parse_args()

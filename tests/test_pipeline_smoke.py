@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """End-to-end smoke tests covering the full FORGE-Bench eval pipeline.
 
-Each test uses synthetic data — no real videos or LLM calls required.
+Each test uses synthetic data; no real videos or LLM calls required.
 """
 
 import json
