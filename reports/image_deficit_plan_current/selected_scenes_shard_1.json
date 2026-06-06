@@ -1,16 +1,8 @@
 {
   "scenes": [
-    "emerg_hot_work_spark_combustible_fire",
-    "erob_amr_charger_smoke_abort",
     "erob_amr_warehouse_navigation",
-    "emerg_smoke_evacuation_route_visibility",
-    "vsec_electrical_cabinet_smoke_isolation",
-    "hload_excavator_linkage_loading",
-    "pdef_precision_assembly_misalignment",
-    "erob_multi_robot_coordination",
-    "pdef_flange_seal_micro_leak",
-    "emerg_transmission_tower_icing_collapse",
-    "hload_hoist_collision_near_structure",
-    "vsec_unregistered_vehicle_intrusion"
+    "hload_blind_lift_spotter_view",
+    "erob_tracked_robot_rubble",
+    "erob_gripper_failure_recovery"
   ]
 }

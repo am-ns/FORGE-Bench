@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Fast multi-source image candidate backfill into a flat staging folder.
 
 This script does not import images into dataset/images. It only stages screened
@@ -69,6 +69,14 @@ BLOCKED_TERMS = {
     "bird", "fish", "insect", "butterfly", "wildlife", "nature",
     "portrait", "selfie", "wedding", "fashion", "artwork", "painting",
     "sculpture", "statue", "coin", "stamp", "flag", "coat of arms",
+    "face", "headshot", "profile photo", "people portrait", "family",
+    "crowd", "ceremony", "award", "conference", "meeting", "classroom",
+    "uniform", "soldier", "army", "navy", "air force", "marine",
+    "abstract", "background", "texture", "pattern", "seamless",
+    "wallpaper", "ornament", "decorative", "mandala", "fabric",
+    "textile", "tile", "tiles", "mosaic", "fractal", "clip art",
+    "bookplate", "manuscript", "leaflet", "flyer", "program",
+    "certificate", "sign", "signage", "label",
 }
 
 REALWORLD_QUERY_SUFFIXES = [
@@ -83,8 +91,20 @@ SOURCE_NEGATIVE_TERMS = [
     "diagram", "schematic", "drawing", "illustration", "render", "rendering",
     "cartoon", "logo", "icon", "map", "chart", "graph", "manual", "poster",
     "toy", "model", "house", "home", "residential", "garden", "tree",
-    "flower", "bird", "cat", "dog", "wildlife",
+    "flower", "bird", "cat", "dog", "wildlife", "book", "page", "scan",
+    "scanned", "portrait", "headshot", "face", "ceremony", "conference",
+    "meeting", "pattern", "texture", "background", "wallpaper", "fabric",
+    "textile", "clipart", "signage", "certificate",
 ]
+
+CATEGORY_METADATA_REQUIRED_TERMS = {
+    "photo", "factory", "industrial", "plant", "workshop", "warehouse",
+    "construction", "crane", "robot", "machine", "machinery", "equipment",
+    "process", "pipe", "piping", "tank", "valve", "conveyor", "truck",
+    "excavator", "hoist", "weld", "welding", "sling", "load", "inspection",
+    "defect", "bearing", "gear", "connector", "cabinet", "panel", "fire",
+    "smoke", "leak", "battery", "tunnel", "tower", "site", "worksite",
+}
 
 QUERY_STOPWORDS = {
     "a", "an", "and", "area", "bay", "close", "control", "equipment", "factory",
@@ -100,6 +120,224 @@ SCENE_TERM_OVERRIDES = {
     "emerg_hot_work_spark_combustible_fire": {
         "acetylene", "arc", "burner", "cutting", "grinder", "grinding", "spark",
         "sparks", "torch", "weld", "welder", "welders", "welding",
+    },
+}
+
+SCENE_REQUIRED_TERMS = {
+    "emerg_hot_work_spark_combustible_fire": {
+        "action": {
+            "acetylene", "arc", "cut", "cutting", "grind", "grinder", "grinding",
+            "hot", "spark", "sparks", "torch", "weld", "welder", "welders", "welding",
+        },
+        "context": {
+            "combustible", "factory", "fire", "industrial", "pipe", "plant",
+            "safety", "shop", "steel", "workshop",
+        },
+    },
+    "emerg_transmission_tower_icing_collapse": {
+        "tower": {"lattice", "pylon", "tower", "transmission"},
+        "weather": {"ice", "icing", "snow", "storm", "winter"},
+    },
+    "erob_amr_warehouse_navigation": {
+        "robot": {"agv", "amr", "autonomous", "mobile", "robot", "robotic"},
+        "warehouse": {"aisle", "logistics", "pallet", "shelf", "shelves", "warehouse"},
+    },
+    "erob_gripper_failure_recovery": {
+        "robot": {"arm", "robot", "robotic"},
+        "gripper": {"cup", "effector", "gripper", "suction", "vacuum"},
+    },
+    "erob_light_curtain_emergency_stop": {
+        "safety": {"barrier", "curtain", "fence", "guarding", "light", "safety", "scanner"},
+        "machine": {"cell", "factory", "industrial", "machine", "robot", "workcell"},
+    },
+    "erob_quadruped_stairs_rubble_fpv": {
+        "robot": {"legged", "quadruped", "robot", "spot"},
+        "terrain": {"construction", "inspection", "rubble", "stairs", "tunnel"},
+    },
+    "erob_robot_arm_precision_grasp": {
+        "robot": {"abb", "arm", "fanuc", "kuka", "robot", "robotic"},
+        "grasp": {"effector", "gripper", "grasp", "holding", "picking", "workpiece"},
+    },
+    "erob_tracked_robot_rubble": {
+        "robot": {"crawler", "robot", "tracked"},
+        "terrain": {"debris", "inspection", "pipe", "rescue", "rubble", "terrain", "tunnel"},
+    },
+    "hload_blind_lift_spotter_view": {
+        "lift": {"crane", "hoist", "lift", "lifting", "load", "rigging"},
+        "spotter": {"hand", "rigger", "signal", "signaling", "spotter", "worker"},
+    },
+    "hload_sling_angle_center_of_gravity": {
+        "rigging": {"crane", "hoist", "lift", "lifting", "rigging", "sling", "slings", "spreader"},
+        "load": {"beam", "construction", "heavy", "load", "module", "suspended"},
+    },
+    "pdef_surface_scratch_inspection": {
+        "surface": {"bearing", "machined", "metal", "polished", "steel", "surface", "wafer"},
+        "defect": {"scratch", "scratched", "scratches"},
+    },
+    "pdef_weld_porosity_crack": {
+        "weld": {"bead", "joint", "pipe", "seam", "steel", "weld", "welded", "welding"},
+        "defect": {"crack", "cracked", "defect", "inspection", "porosity"},
+    },
+}
+
+SCENE_NEGATIVE_TERMS = {
+    "emerg_hot_work_spark_combustible_fire": {
+        "army", "ceremony", "navy", "portrait", "seabee", "seabees", "soldier",
+    },
+    "erob_amr_warehouse_navigation": {
+        "aircraft", "car", "drone", "forklift", "toy",
+    },
+    "erob_gripper_failure_recovery": {
+        "claw", "hand", "toy",
+    },
+    "erob_quadruped_stairs_rubble_fpv": {
+        "animal", "toy",
+    },
+    "erob_tracked_robot_rubble": {
+        "tank", "toy", "tractor",
+    },
+    "hload_blind_lift_spotter_view": {
+        "baseball", "portrait", "signalman", "traffic",
+    },
+    "pdef_surface_scratch_inspection": {
+        "art", "phone", "screen", "wood",
+    },
+}
+
+SCENE_QUERY_REPLACEMENTS = {
+    "emerg_hot_work_spark_combustible_fire": {
+        "queries": [
+            "hot work sparks combustible materials industrial fire hazard",
+            "welding sparks near flammable material factory fire watch",
+            "grinding sparks combustible dust industrial fire prevention",
+            "torch cutting sparks industrial fire safety",
+            "hot work permit welding sparks fire watch industrial",
+            "industrial welding sparks fire prevention combustible",
+        ],
+        "categories": ["Hot work", "Industrial fires", "Fire prevention", "Industrial safety"],
+    },
+    "emerg_transmission_tower_icing_collapse": {
+        "queries": [
+            "ice covered transmission tower power line",
+            "high voltage lattice pylon ice storm",
+            "transmission tower snow ice high voltage corridor",
+            "power line tower icing winter storm",
+            "electric transmission pylon snow ice",
+            "lattice transmission tower winter snow",
+        ],
+        "categories": ["Transmission towers", "Power lines in snow", "Ice storms", "Electric power transmission"],
+    },
+    "erob_amr_warehouse_navigation": {
+        "queries": [
+            "autonomous mobile robot warehouse aisle pallets",
+            "AMR robot warehouse shelves logistics",
+            "automated guided vehicle warehouse aisle pallets",
+            "mobile robot navigating warehouse floor shelves",
+            "warehouse robot pallet station AMR",
+            "MiR mobile robot warehouse aisle",
+            "Fetch robotics warehouse robot aisle",
+        ],
+        "categories": ["Autonomous mobile robots", "Automated guided vehicles", "Warehouse robots", "Mobile robots", "Logistics robots"],
+    },
+    "erob_gripper_failure_recovery": {
+        "queries": [
+            "industrial robot vacuum gripper holding workpiece",
+            "robot suction cup gripper picking part",
+            "robot end effector gripper workpiece close up",
+            "robot arm gripper holding component factory",
+            "pneumatic robot gripper industrial part",
+            "vacuum end effector robot pick place",
+        ],
+        "categories": ["Robot grippers", "End effectors", "Vacuum grippers", "Industrial robots", "Robotic arms"],
+    },
+    "erob_light_curtain_emergency_stop": {
+        "queries": [
+            "industrial robot cell light curtain safety fence",
+            "machine safety light curtain factory robot",
+            "robot workcell safety scanner emergency stop",
+            "robot cell safety barrier light curtain",
+            "industrial machine guarding safety light barrier",
+            "SICK safety scanner robot cell",
+        ],
+        "categories": ["Light curtains", "Machine safety", "Robot safety", "Machine guarding", "Safety fences"],
+    },
+    "erob_quadruped_stairs_rubble_fpv": {
+        "queries": [
+            "quadruped robot stairs industrial inspection",
+            "legged robot rubble construction site",
+            "Boston Dynamics Spot robot industrial inspection stairs",
+            "quadruped robot tunnel inspection rubble",
+            "legged robot walking stairs inspection",
+            "robot dog industrial stairs inspection",
+        ],
+        "categories": ["Quadrupedal robots", "Legged robots", "Inspection robots", "Boston Dynamics"],
+    },
+    "erob_robot_arm_precision_grasp": {
+        "queries": [
+            "industrial robot arm gripper holding workpiece",
+            "robot arm precision grasp factory part",
+            "robot gripper assembly cell workpiece",
+            "robot end effector picking component",
+            "ABB robot arm gripper workcell",
+            "KUKA robot gripper manufacturing cell",
+            "Fanuc robot arm gripper factory",
+        ],
+        "categories": ["Industrial robots", "Robotic arms", "Robot grippers", "End effectors", "KUKA robots", "ABB robots"],
+    },
+    "erob_tracked_robot_rubble": {
+        "queries": [
+            "tracked inspection robot rubble debris",
+            "search rescue tracked robot debris",
+            "crawler inspection robot pipe tunnel",
+            "tracked robot uneven terrain industrial inspection",
+            "tracked rescue robot rubble",
+            "bomb disposal tracked robot debris",
+        ],
+        "categories": ["Tracked robots", "Search and rescue robots", "Inspection robots", "Robots"],
+    },
+    "hload_blind_lift_spotter_view": {
+        "queries": [
+            "crane lift spotter hand signal suspended load",
+            "rigger signaling crane lift construction",
+            "construction crane suspended load signal worker",
+            "crane operator spotter rigger lifting load",
+            "tower crane hook block spotter construction",
+            "mobile crane lift rigger hand signal",
+        ],
+        "categories": ["Cranes", "Riggers", "Construction workers", "Hand signals", "Suspended loads"],
+    },
+    "hload_sling_angle_center_of_gravity": {
+        "queries": [
+            "crane sling angle suspended load rigging",
+            "spreader beam lifting slings heavy load",
+            "construction lift rigging slings suspended load",
+            "crane hook slings center of gravity load",
+            "heavy lift rigging spreader bar slings",
+            "mobile crane rigging suspended module slings",
+        ],
+        "categories": ["Rigging", "Cranes", "Slings", "Lifting equipment", "Suspended loads"],
+    },
+    "pdef_surface_scratch_inspection": {
+        "queries": [
+            "polished metal surface scratch close up inspection",
+            "machined metal surface scratch macro defect",
+            "bearing race scratch inspection close up",
+            "wafer surface scratch inspection macro",
+            "steel surface scratch defect closeup",
+            "metal scratch defect inspection macro",
+        ],
+        "categories": ["Scratches", "Surface finishing", "Metal surfaces", "Bearings"],
+    },
+    "pdef_weld_porosity_crack": {
+        "queries": [
+            "pipe weld seam crack close up inspection",
+            "weld bead porosity defect macro",
+            "steel weld joint crack inspection closeup",
+            "welding defect porosity close up",
+            "pipe welding bead inspection defect",
+            "welded joint crack porosity macro",
+        ],
+        "categories": ["Weld defects", "Welded joints", "Pipe welding", "Welding inspection"],
     },
 }
 
@@ -323,9 +561,29 @@ def _scene_semantic_terms(scene: str, samples_by_scene: dict[str, dict]) -> set[
     return terms - QUERY_STOPWORDS
 
 
-def _candidate_semantic_score(candidate: Candidate, scene_terms: set[str]) -> tuple[int, str]:
+def _candidate_terms(candidate: Candidate) -> set[str]:
     text = " ".join([candidate.title, candidate.source_url, candidate.image_url])
-    candidate_terms = _semantic_tokens(urllib.parse.unquote(text))
+    return _semantic_tokens(urllib.parse.unquote(text))
+
+
+def _scene_specific_relevance(scene: str, candidate_terms: set[str], *, enforce_required: bool = True) -> tuple[bool, str]:
+    negatives = SCENE_NEGATIVE_TERMS.get(scene, set())
+    blocked = sorted(candidate_terms & negatives)
+    if blocked:
+        return False, "scene_negative:" + ",".join(blocked[:6])
+    if not enforce_required:
+        return True, "ok"
+    required_groups = SCENE_REQUIRED_TERMS.get(scene)
+    if not required_groups:
+        return True, "ok"
+    missing = [name for name, terms in required_groups.items() if not (candidate_terms & terms)]
+    if missing:
+        return False, "scene_required_missing:" + ",".join(missing)
+    return True, "ok"
+
+
+def _candidate_semantic_score(candidate: Candidate, scene_terms: set[str]) -> tuple[int, str]:
+    candidate_terms = _candidate_terms(candidate)
     matches = candidate_terms & scene_terms
     strong_matches = matches - WEAK_MATCH_TERMS
     if strong_matches:
@@ -526,12 +784,17 @@ def _load_scenes(path: str, samples: list[dict]) -> list[str]:
 
 def _scene_queries(scene: str, samples_by_scene: dict[str, dict], max_queries: int) -> list[str]:
     bank = SCENE_BANK.get(scene, {})
-    queries = [str(q) for q in bank.get("queries", [])]
-    tokens = str(bank.get("tokens") or "").strip()
-    if tokens:
-        queries.append(tokens)
+    replacement = SCENE_QUERY_REPLACEMENTS.get(scene, {})
+    if replacement:
+        queries = [str(q) for q in replacement.get("queries", [])]
+    else:
+        queries = [str(q) for q in bank.get("queries", [])]
+        tokens = str(bank.get("tokens") or "").strip()
+        if tokens:
+            queries.append(tokens)
     sample = samples_by_scene.get(scene) or {}
-    for field in ("reference_subject", "image_requirement", "task_title"):
+    sample_fields = ("task_title",) if replacement else ("reference_subject", "image_requirement", "task_title")
+    for field in sample_fields:
         value = str(sample.get(field) or "").strip()
         if value:
             queries.append(value)
@@ -547,7 +810,7 @@ def _scene_queries(scene: str, samples_by_scene: dict[str, dict], max_queries: i
 
     # Emit all base queries first so none are dropped by the budget cap.
     # Then add a single "industrial site photo" suffix for short queries to
-    # improve real-photo recall — but only up to the budget.
+    # improve real-photo recall 鈥?but only up to the budget.
     compact = list(base)
     for query in base:
         if len(compact) >= max_queries:
@@ -571,8 +834,27 @@ def _image_metrics(path: Path) -> dict:
     edges = cv2.Canny(gray, 80, 160)
     lap = float(cv2.Laplacian(gray, cv2.CV_64F).var())
     hsv = cv2.cvtColor(arr, cv2.COLOR_RGB2HSV)
+    sat = hsv[:, :, 1]
     white_ratio = float(np.mean(gray > 235))
+    dark_ratio = float(np.mean(gray < 25))
     edge_density = float(np.mean(edges > 0))
+    h, w = gray.shape
+    y0, y1 = h // 4, (h * 3) // 4
+    x0, x1 = w // 4, (w * 3) // 4
+    center = gray[y0:y1, x0:x1] if y1 > y0 and x1 > x0 else gray
+    rgb = arr.astype(np.int16)
+    r = rgb[:, :, 0]
+    g = rgb[:, :, 1]
+    b = rgb[:, :, 2]
+    skin = (
+        (r > 95)
+        & (g > 40)
+        & (b > 20)
+        & ((np.maximum.reduce([r, g, b]) - np.minimum.reduce([r, g, b])) > 15)
+        & (np.abs(r - g) > 15)
+        & (r > g)
+        & (r > b)
+    )
     return {
         "width": width,
         "height": height,
@@ -581,8 +863,27 @@ def _image_metrics(path: Path) -> dict:
         "laplacian_var": lap,
         "edge_density": edge_density,
         "white_ratio": white_ratio,
-        "mean_saturation": float(np.mean(hsv[:, :, 1])),
+        "dark_ratio": dark_ratio,
+        "center_white_ratio": float(np.mean(center > 235)),
+        "mean_saturation": float(np.mean(sat)),
+        "skin_ratio": float(np.mean(skin)),
+        "face_area_ratio": _face_area_ratio(gray),
     }
+
+
+def _face_area_ratio(gray: np.ndarray) -> float:
+    cascade_path = Path(cv2.data.haarcascades) / "haarcascade_frontalface_default.xml"
+    if not cascade_path.exists():
+        return 0.0
+    classifier = cv2.CascadeClassifier(str(cascade_path))
+    if classifier.empty():
+        return 0.0
+    small = cv2.resize(gray, (0, 0), fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
+    faces = classifier.detectMultiScale(small, scaleFactor=1.1, minNeighbors=5, minSize=(40, 40))
+    if len(faces) == 0:
+        return 0.0
+    image_area = float(gray.shape[0] * gray.shape[1])
+    return float(sum(w * h * 4.0 for _, _, w, h in faces) / image_area)
 
 
 def _average_hash(path: Path, hash_size: int = 8) -> str:
@@ -775,6 +1076,27 @@ def _passes_quality(metrics: dict, args: argparse.Namespace) -> tuple[bool, str]
         return False, "too_many_edges"
     if metrics["white_ratio"] > args.max_white_ratio and metrics["mean_saturation"] < 55:
         return False, "page_or_diagram_like"
+    if (
+        metrics["white_ratio"] > args.max_document_white_ratio
+        and metrics["mean_saturation"] < args.max_document_saturation
+        and metrics["edge_density"] > args.min_document_edge_density
+    ):
+        return False, "document_or_book_page_like"
+    if (
+        metrics["center_white_ratio"] > args.max_center_white_ratio
+        and metrics["mean_saturation"] < args.max_document_saturation
+    ):
+        return False, "center_white_page_like"
+    if (
+        metrics["edge_density"] > args.min_pattern_edge_density
+        and metrics["mean_saturation"] > args.min_pattern_saturation
+        and metrics["white_ratio"] < 0.35
+    ):
+        return False, "pattern_or_texture_like"
+    if metrics["face_area_ratio"] > args.max_face_area_ratio:
+        return False, "large_face_or_portrait_like"
+    if metrics["skin_ratio"] > args.max_skin_ratio and metrics["face_area_ratio"] > 0.006:
+        return False, "human_portrait_or_group_like"
     return True, "accepted"
 
 
@@ -790,10 +1112,10 @@ def _collect_candidates(
     remaining_needed: int,
 ) -> tuple[list[Candidate], list[dict]]:
     providers = {item.strip().lower() for item in args.providers.split(",") if item.strip()}
-    query_budget = min(args.queries_per_scene, max(2, remaining_needed))
-    category_budget = min(args.categories_per_scene, max(1, (remaining_needed + 3) // 4))
-    search_limit = min(args.search_limit, max(8, remaining_needed * 3))
-    search_pages = min(args.search_pages, max(1, (remaining_needed + 5) // 6))
+    query_budget = min(args.queries_per_scene, max(4, min(18, remaining_needed // 2)))
+    category_budget = min(args.categories_per_scene, max(2, min(8, (remaining_needed + 5) // 6)))
+    search_limit = min(args.search_limit, max(12, min(48, remaining_needed * 2)))
+    search_pages = min(args.search_pages, max(2, min(5, (remaining_needed + 7) // 8)))
     queries = _scene_queries(scene, samples_by_scene, query_budget)
     scene_terms = _scene_semantic_terms(scene, samples_by_scene)
     tasks = []
@@ -812,7 +1134,12 @@ def _collect_candidates(
             if "pixabay" in providers and pixabay_key:
                 tasks.append(("pixabay", query, executor.submit(_pixabay, scene, query, search_limit, args.timeout, pixabay_key)))
         if "commons_category" in providers or "commons-categories" in providers:
-            for category in (SCENE_BANK.get(scene, {}).get("categories") or [])[:category_budget]:
+            category_source = (
+                SCENE_QUERY_REPLACEMENTS.get(scene, {}).get("categories")
+                or SCENE_BANK.get(scene, {}).get("categories")
+                or []
+            )
+            for category in category_source[:category_budget]:
                 query = str(category)
                 tasks.append(("commons_category", query, executor.submit(_commons_category, scene, query, search_limit, search_pages, args.timeout)))
         results: dict[int, list[Candidate]] = {}
@@ -853,13 +1180,44 @@ def _collect_candidates(
         dedup.setdefault(_normalized_candidate_url(candidate.image_url), candidate)
     scored = []
     for order, candidate in enumerate(dedup.values()):
-        # commons_category results come from an explicitly relevant category —
-        # bypass semantic scoring so generic filenames (IMG_xxx.jpg) are not
-        # filtered out; give them a baseline score of 3.
+        candidate_terms = _candidate_terms(candidate)
+        scene_ok, scene_reason = _scene_specific_relevance(
+            scene,
+            candidate_terms,
+            enforce_required=True,
+        )
+        if not scene_ok:
+            if args.log_search_diagnostics:
+                diagnostics.append({
+                    "status": "skipped",
+                    "reason": scene_reason,
+                    "scene": scene,
+                    "provider": candidate.provider,
+                    "query": candidate.query,
+                    "source_title": candidate.title,
+                    "source_url": candidate.source_url,
+                    "image_url": candidate.image_url,
+                })
+            continue
+        # Broad Commons categories need extra metadata anchors to avoid books,
+        # diagrams, event photos, and unrelated people.
+        score, matches = _candidate_semantic_score(candidate, scene_terms)
         if candidate.provider in ("commons_category",):
-            score, matches = 3, "category_match"
-        else:
-            score, matches = _candidate_semantic_score(candidate, scene_terms)
+            if not (candidate_terms & CATEGORY_METADATA_REQUIRED_TERMS):
+                if args.log_search_diagnostics:
+                    diagnostics.append({
+                        "status": "skipped",
+                        "reason": "category_without_industrial_metadata_anchor",
+                        "scene": scene,
+                        "provider": candidate.provider,
+                        "query": candidate.query,
+                        "source_title": candidate.title,
+                        "source_url": candidate.source_url,
+                        "image_url": candidate.image_url,
+                    })
+                continue
+            score += 1
+            matches = "category_match," + matches if matches else "category_match"
         if score < args.min_semantic_score:
             if args.log_search_diagnostics:
                 diagnostics.append({
@@ -964,7 +1322,9 @@ def run(args: argparse.Namespace) -> None:
         scene_limit = args.per_scene
         try:
             if args.formal_target_per_scene > 0:
-                scene_limit = max(0, min(args.per_scene, args.formal_target_per_scene - formal_counts.get(scene, 0)))
+                deficit = max(0, args.formal_target_per_scene - formal_counts.get(scene, 0))
+                review_target = max(args.min_review_candidates, deficit * args.review_overfetch) if deficit > 0 else 0
+                scene_limit = review_target if args.per_scene <= 0 else min(args.per_scene, review_target)
             if scene_limit <= 0:
                 _progress(args.progress_log, f"scene_skipped scene={scene} reason=formal_target_satisfied")
                 continue
@@ -1053,6 +1413,10 @@ def run(args: argparse.Namespace) -> None:
                                 "laplacian_var": f"{metrics['laplacian_var']:.2f}",
                                 "edge_density": f"{metrics['edge_density']:.4f}",
                                 "white_ratio": f"{metrics['white_ratio']:.4f}",
+                                "center_white_ratio": f"{metrics['center_white_ratio']:.4f}",
+                                "mean_saturation": f"{metrics['mean_saturation']:.2f}",
+                                "skin_ratio": f"{metrics['skin_ratio']:.4f}",
+                                "face_area_ratio": f"{metrics['face_area_ratio']:.4f}",
                             })
                             ok, reason = _passes_quality(metrics, args)
                             if not ok:
@@ -1123,12 +1487,24 @@ def main() -> None:
         default=0,
         help="Skip scenes already at this formal image count and cap accepted staged images to the remaining deficit.",
     )
-    parser.add_argument("--output-dir", default="dataset/images_candidates/fast_multisource")
+    parser.add_argument("--output-dir", default="dataset/images_candidates")
     parser.add_argument("--manifest", default="reports/fast_multisource_image_backfill.csv")
-    parser.add_argument("--providers", default="commons,commons_category,openverse,loc")
+    parser.add_argument("--providers", default="commons,commons_category,loc")
     parser.add_argument("--domains", default="")
-    parser.add_argument("--target-new", type=int, default=120)
-    parser.add_argument("--per-scene", type=int, default=12)
+    parser.add_argument("--target-new", type=int, default=0)
+    parser.add_argument("--per-scene", type=int, default=80)
+    parser.add_argument(
+        "--review-overfetch",
+        type=int,
+        default=5,
+        help="Stage this many times the formal image deficit so manual screening can delete aggressively.",
+    )
+    parser.add_argument(
+        "--min-review-candidates",
+        type=int,
+        default=18,
+        help="Minimum staged candidates to attempt for every scene that still has any deficit.",
+    )
     parser.add_argument("--max-scenes", type=int, default=0)
     parser.add_argument("--search-limit", type=int, default=40)
     parser.add_argument("--search-pages", type=int, default=3)
@@ -1164,6 +1540,14 @@ def main() -> None:
     parser.add_argument("--min-laplacian", type=float, default=70.0)
     parser.add_argument("--max-edge-density", type=float, default=0.24)
     parser.add_argument("--max-white-ratio", type=float, default=0.72)
+    parser.add_argument("--max-document-white-ratio", type=float, default=0.52)
+    parser.add_argument("--max-document-saturation", type=float, default=70.0)
+    parser.add_argument("--min-document-edge-density", type=float, default=0.035)
+    parser.add_argument("--max-center-white-ratio", type=float, default=0.82)
+    parser.add_argument("--min-pattern-edge-density", type=float, default=0.18)
+    parser.add_argument("--min-pattern-saturation", type=float, default=90.0)
+    parser.add_argument("--max-face-area-ratio", type=float, default=0.035)
+    parser.add_argument("--max-skin-ratio", type=float, default=0.32)
     parser.add_argument("--duplicate-hamming-distance", type=int, default=4)
     parser.add_argument("--duplicate-dhash-distance", type=int, default=6)
     run(parser.parse_args())

@@ -1,20 +1,23 @@
 param(
   [int]$TargetNew = 0,
   [int]$Shards = 3,
-  [int]$PerScene = 16,
+  [int]$PerScene = 80,
+  [int]$ReviewOverfetch = 5,
+  [int]$MinReviewCandidates = 18,
   [int]$FormalTargetPerScene = 16,
-  [int]$SearchLimit = 24,
-  [int]$SearchPages = 3,
-  [string]$Providers = "commons,commons_category,openverse,loc",
+  [int]$SearchLimit = 48,
+  [int]$SearchPages = 5,
+  [string]$Providers = "commons,commons_category,loc",
   [string]$ScenesFile = "reports\image_deficit_plan_current\selected_scenes.json",
   [string]$DeficitPlanDir = "reports\image_deficit_plan_current",
   [int]$RefreshDeficitPlan = 1,
   [string]$Domains = "",
   [string]$RunId = "",
-  [int]$ProviderWorkers = 2,
-  [int]$DownloadWorkers = 3,
-  [double]$MinHostInterval = 2.0,
-  [bool]$LogSearchDiagnostics = $true
+  [int]$ProviderWorkers = 3,
+  [int]$DownloadWorkers = 5,
+  [double]$MinHostInterval = 0.8,
+  [bool]$LogSearchDiagnostics = $true,
+  [bool]$Detached = $true
 )
 
 $ErrorActionPreference = "Stop"
@@ -30,9 +33,9 @@ if ($Shards -le 0) {
 }
 
 $repoRoot = (Resolve-Path ".").Path
-$stagingRoot = Join-Path $repoRoot "dataset\images_candidates\fast_multisource_$RunId"
+$stagingRoot = Join-Path $repoRoot "dataset\images_candidates"
 $reportDir = Join-Path $repoRoot "reports\fast_multisource_$RunId"
-if ((Test-Path -LiteralPath $stagingRoot) -or (Test-Path -LiteralPath $reportDir)) {
+if (Test-Path -LiteralPath $reportDir) {
   throw "RunId already exists: $RunId"
 }
 New-Item -ItemType Directory -Force -Path $stagingRoot, $reportDir | Out-Null
@@ -55,16 +58,21 @@ if ($TargetNew -gt 0) {
   $perWorkerTarget = [Math]::Ceiling($TargetNew / [Math]::Max(1, $Shards))
 }
 $jobs = @()
+$workerScripts = @()
 
 for ($i = 0; $i -lt $Shards; $i++) {
   $out = $stagingRoot
   $manifest = Join-Path $reportDir "fast_multisource_worker_$i.csv"
   $progressLog = Join-Path $reportDir "fast_multisource_worker_$i.progress.log"
+  $consoleLog = Join-Path $reportDir "fast_multisource_worker_$i.console.log"
+  $workerScript = Join-Path $reportDir "fast_multisource_worker_$i.ps1"
+  $workerScripts += $workerScript
 
   $script = {
     param(
       $repoRoot, $out, $manifest, $scenesFile, $providers, $domains,
-      $targetNew, $perScene, $searchLimit, $searchPages, $providerWorkers, $downloadWorkers,
+      $targetNew, $perScene, $reviewOverfetch, $minReviewCandidates,
+      $searchLimit, $searchPages, $providerWorkers, $downloadWorkers,
       $formalTargetPerScene, $minHostInterval, $shards, $idx, $logSearchDiagnostics,
       $progressLog
     )
@@ -78,6 +86,8 @@ for ($i = 0; $i -lt $Shards; $i++) {
       "--providers", $providers,
       "--target-new", $targetNew,
       "--per-scene", $perScene,
+      "--review-overfetch", $reviewOverfetch,
+      "--min-review-candidates", $minReviewCandidates,
       "--formal-target-per-scene", $formalTargetPerScene,
       "--search-limit", $searchLimit,
       "--search-pages", $searchPages,
@@ -97,14 +107,35 @@ for ($i = 0; $i -lt $Shards; $i++) {
     python @args
   }
 
-  $jobs += Start-Job -ScriptBlock $script -ArgumentList `
-    $repoRoot, $out, $manifest, $ScenesFile, $Providers, $Domains, `
-    $perWorkerTarget, $PerScene, $SearchLimit, $SearchPages, $ProviderWorkers, `
-    $DownloadWorkers, $FormalTargetPerScene, $MinHostInterval, $Shards, $i, $LogSearchDiagnostics, `
-    $progressLog
+  if ($Detached) {
+    $logSearchDiagnosticsLiteral = if ($LogSearchDiagnostics) { '$true' } else { '$false' }
+    $workerContent = @"
+`$ErrorActionPreference = "Continue"
+& {
+$(($script.ToString()) -replace '\r?\n', "`r`n")
+} "$repoRoot" "$out" "$manifest" "$ScenesFile" "$Providers" "$Domains" $perWorkerTarget $PerScene $ReviewOverfetch $MinReviewCandidates $SearchLimit $SearchPages $ProviderWorkers $DownloadWorkers $FormalTargetPerScene $MinHostInterval $Shards $i $logSearchDiagnosticsLiteral "$progressLog" *>> "$progressLog"
+exit `$LASTEXITCODE
+"@
+    $workerContent = $workerContent.Replace(" *>> `"$progressLog`"", " *>> `"$consoleLog`"")
+    Set-Content -LiteralPath $workerScript -Value $workerContent -Encoding UTF8
+    Start-Process -FilePath "powershell.exe" -WindowStyle Hidden -ArgumentList @(
+      "-NoProfile",
+      "-ExecutionPolicy", "Bypass",
+      "-File", $workerScript
+    ) | Out-Null
+  } else {
+    $jobs += Start-Job -ScriptBlock $script -ArgumentList `
+      $repoRoot, $out, $manifest, $ScenesFile, $Providers, $Domains, `
+      $perWorkerTarget, $PerScene, $ReviewOverfetch, $MinReviewCandidates, $SearchLimit, $SearchPages, $ProviderWorkers, `
+      $DownloadWorkers, $FormalTargetPerScene, $MinHostInterval, $Shards, $i, $LogSearchDiagnostics, `
+      $progressLog
+  }
 }
 
 Write-Host "Started fast multisource jobs: $($jobs.Count)"
+if ($Detached) {
+  Write-Host "Started detached worker processes: $Shards"
+}
 Write-Host "RunId: $RunId"
 if ($TargetNew -gt 0) {
   Write-Host "TargetNew: $TargetNew (per worker target: $perWorkerTarget)"
@@ -112,6 +143,8 @@ if ($TargetNew -gt 0) {
   Write-Host "TargetNew: 0 (no global cap; each scene is capped by PerScene/FormalTargetPerScene)"
 }
 Write-Host "PerScene: $PerScene"
+Write-Host "ReviewOverfetch: $ReviewOverfetch"
+Write-Host "MinReviewCandidates: $MinReviewCandidates"
 Write-Host "FormalTargetPerScene: $FormalTargetPerScene"
 Write-Host "SearchLimit: $SearchLimit"
 Write-Host "SearchPages: $SearchPages"
@@ -121,9 +154,16 @@ Write-Host "RefreshDeficitPlan: $RefreshDeficitPlan"
 Write-Host "ProviderWorkers: $ProviderWorkers"
 Write-Host "DownloadWorkers: $DownloadWorkers"
 Write-Host "MinHostInterval: $MinHostInterval seconds"
+Write-Host "Detached: $Detached"
 Write-Host "Staging root: $stagingRoot"
 Write-Host "Reports: $reportDir"
 Write-Host "Worker progress logs: $reportDir\fast_multisource_worker_*.progress.log"
+Write-Host "Worker scripts: $reportDir\fast_multisource_worker_*.ps1"
+
+if ($Detached) {
+  Write-Host "Detached workers are running independently. Monitor progress logs or CSV manifests in the report directory."
+  exit 0
+}
 
 while (($jobs | Where-Object { $_.State -in @("Running", "NotStarted") }).Count -gt 0) {
   $states = $jobs | Group-Object State | ForEach-Object { "$($_.Name)=$($_.Count)" }
@@ -148,5 +188,4 @@ if ($failed -gt 0) {
 Write-Host "Done."
 Write-Host "Review candidates under: $stagingRoot"
 Write-Host "Review manifests under: $reportDir"
-Write-Host "To delete all staged candidates from this run:"
-Write-Host "  Remove-Item -LiteralPath `"$stagingRoot`" -Recurse -Force"
+Write-Host "Candidates are written flat into dataset\images_candidates; use the manifest to identify files from this run."

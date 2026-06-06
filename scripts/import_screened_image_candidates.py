@@ -108,6 +108,25 @@ def _image_metrics(path: Path) -> dict:
     mask[:, :border] = True
     mask[:, -border:] = True
     background_edge_density = float(np.mean(edges[mask] > 0)) if np.any(mask) else edge_density
+    hsv = cv2.cvtColor(arr, cv2.COLOR_RGB2HSV)
+    sat = hsv[:, :, 1]
+    white_ratio = float(np.mean(gray > 235))
+    y0, y1 = h // 4, (h * 3) // 4
+    x0, x1 = w // 4, (w * 3) // 4
+    center = gray[y0:y1, x0:x1] if y1 > y0 and x1 > x0 else gray
+    rgb = arr.astype(np.int16)
+    r = rgb[:, :, 0]
+    g = rgb[:, :, 1]
+    b = rgb[:, :, 2]
+    skin = (
+        (r > 95)
+        & (g > 40)
+        & (b > 20)
+        & ((np.maximum.reduce([r, g, b]) - np.minimum.reduce([r, g, b])) > 15)
+        & (np.abs(r - g) > 15)
+        & (r > g)
+        & (r > b)
+    )
     return {
         "width": width,
         "height": height,
@@ -116,7 +135,27 @@ def _image_metrics(path: Path) -> dict:
         "laplacian_var": laplacian_var,
         "edge_density": edge_density,
         "background_edge_density": background_edge_density,
+        "white_ratio": white_ratio,
+        "center_white_ratio": float(np.mean(center > 235)),
+        "mean_saturation": float(np.mean(sat)),
+        "skin_ratio": float(np.mean(skin)),
+        "face_area_ratio": _face_area_ratio(gray),
     }
+
+
+def _face_area_ratio(gray: np.ndarray) -> float:
+    cascade_path = Path(cv2.data.haarcascades) / "haarcascade_frontalface_default.xml"
+    if not cascade_path.exists():
+        return 0.0
+    classifier = cv2.CascadeClassifier(str(cascade_path))
+    if classifier.empty():
+        return 0.0
+    small = cv2.resize(gray, (0, 0), fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
+    faces = classifier.detectMultiScale(small, scaleFactor=1.1, minNeighbors=5, minSize=(40, 40))
+    if len(faces) == 0:
+        return 0.0
+    image_area = float(gray.shape[0] * gray.shape[1])
+    return float(sum(w * h * 4.0 for _, _, w, h in faces) / image_area)
 
 
 def _hash_values_from_luma(image: Image.Image, hash_size: int = 8) -> tuple[str, str]:
@@ -160,6 +199,25 @@ def _image_metrics_and_hashes(path: Path) -> tuple[dict, str, str]:
     mask[:, :border] = True
     mask[:, -border:] = True
     background_edge_density = float(np.mean(edges[mask] > 0)) if np.any(mask) else edge_density
+    hsv = cv2.cvtColor(arr, cv2.COLOR_RGB2HSV)
+    sat = hsv[:, :, 1]
+    white_ratio = float(np.mean(gray > 235))
+    y0, y1 = h // 4, (h * 3) // 4
+    x0, x1 = w // 4, (w * 3) // 4
+    center = gray[y0:y1, x0:x1] if y1 > y0 and x1 > x0 else gray
+    rgb = arr.astype(np.int16)
+    r = rgb[:, :, 0]
+    g = rgb[:, :, 1]
+    b = rgb[:, :, 2]
+    skin = (
+        (r > 95)
+        & (g > 40)
+        & (b > 20)
+        & ((np.maximum.reduce([r, g, b]) - np.minimum.reduce([r, g, b])) > 15)
+        & (np.abs(r - g) > 15)
+        & (r > g)
+        & (r > b)
+    )
     return {
         "width": width,
         "height": height,
@@ -168,6 +226,11 @@ def _image_metrics_and_hashes(path: Path) -> tuple[dict, str, str]:
         "laplacian_var": laplacian_var,
         "edge_density": edge_density,
         "background_edge_density": background_edge_density,
+        "white_ratio": white_ratio,
+        "center_white_ratio": float(np.mean(center > 235)),
+        "mean_saturation": float(np.mean(sat)),
+        "skin_ratio": float(np.mean(skin)),
+        "face_area_ratio": _face_area_ratio(gray),
     }, ahash, dhash
 
 
@@ -197,6 +260,15 @@ def _next_ref_path(scene_dir: Path) -> Path:
     return scene_dir / f"ref_{max_idx + 1:02d}.jpg"
 
 
+def _next_ref_path_with_offset(scene_dir: Path, offset: int) -> Path:
+    max_idx = 0
+    for path in scene_dir.glob("ref_*.*"):
+        match = re.match(r"ref_(\d+)$", path.stem)
+        if match:
+            max_idx = max(max_idx, int(match.group(1)))
+    return scene_dir / f"ref_{max_idx + offset + 1:02d}.jpg"
+
+
 def _next_task_id(samples: list[dict], domain: str, counters: dict[str, int]) -> str:
     prefix = DOMAIN_PREFIX[domain]
     if prefix not in counters:
@@ -223,6 +295,27 @@ def _passes_quality(metrics: dict, args: argparse.Namespace) -> tuple[bool, str]
         return False, "too_many_edges"
     if metrics["background_edge_density"] > args.max_background_edge_density:
         return False, "background_too_cluttered"
+    if (
+        metrics["white_ratio"] > args.max_document_white_ratio
+        and metrics["mean_saturation"] < args.max_document_saturation
+        and metrics["edge_density"] > args.min_document_edge_density
+    ):
+        return False, "document_or_book_page_like"
+    if (
+        metrics["center_white_ratio"] > args.max_center_white_ratio
+        and metrics["mean_saturation"] < args.max_document_saturation
+    ):
+        return False, "center_white_page_like"
+    if (
+        metrics["edge_density"] > args.min_pattern_edge_density
+        and metrics["mean_saturation"] > args.min_pattern_saturation
+        and metrics["white_ratio"] < 0.35
+    ):
+        return False, "pattern_or_texture_like"
+    if metrics["face_area_ratio"] > args.max_face_area_ratio:
+        return False, "large_face_or_portrait_like"
+    if metrics["skin_ratio"] > args.max_skin_ratio and metrics["face_area_ratio"] > 0.006:
+        return False, "human_portrait_or_group_like"
     return True, "accepted"
 
 
@@ -489,6 +582,11 @@ def _run_locked(args: argparse.Namespace, candidate_root: Path, image_root: Path
                 "laplacian_var": f"{metrics['laplacian_var']:.2f}",
                 "edge_density": f"{metrics['edge_density']:.4f}",
                 "background_edge_density": f"{metrics['background_edge_density']:.4f}",
+                "white_ratio": f"{metrics['white_ratio']:.4f}",
+                "center_white_ratio": f"{metrics['center_white_ratio']:.4f}",
+                "mean_saturation": f"{metrics['mean_saturation']:.2f}",
+                "skin_ratio": f"{metrics['skin_ratio']:.4f}",
+                "face_area_ratio": f"{metrics['face_area_ratio']:.4f}",
             })
             ok, reason = _passes_quality(metrics, args)
             if not ok:
@@ -517,7 +615,7 @@ def _run_locked(args: argparse.Namespace, candidate_root: Path, image_root: Path
             continue
 
         scene_dir = image_root / domain / scene
-        dest = _next_ref_path(scene_dir)
+        dest = _next_ref_path_with_offset(scene_dir, accepted_by_scene[scene]) if args.dry_run else _next_ref_path(scene_dir)
         if not args.dry_run:
             scene_dir.mkdir(parents=True, exist_ok=True)
             tmp = dest.with_suffix(dest.suffix + ".tmp")
@@ -559,7 +657,8 @@ def _run_locked(args: argparse.Namespace, candidate_root: Path, image_root: Path
     if args.images_only:
         print(f"images_imported={counts.get('accepted', 0)}")
     if imported_samples:
-        print(f"samples_added={len(imported_samples)}")
+        label = "samples_would_add" if args.dry_run else "samples_added"
+        print(f"{label}={len(imported_samples)}")
 
 
 def main() -> None:
@@ -584,7 +683,12 @@ def main() -> None:
         default=".cache/import_screened_image_hashes.json",
         help="Cache aHash/dHash values for existing dataset images. Disable with an empty value.",
     )
-    parser.add_argument("--max-per-scene", type=int, default=3, help="Maximum accepted images per scene; 0 disables the cap.")
+    parser.add_argument(
+        "--max-per-scene",
+        type=int,
+        default=0,
+        help="Maximum accepted images per scene; 0 disables this extra cap and imports up to the deficit plan.",
+    )
     parser.add_argument(
         "--formal-target-per-scene",
         type=int,
@@ -598,6 +702,14 @@ def main() -> None:
     parser.add_argument("--min-laplacian", type=float, default=35.0)
     parser.add_argument("--max-edge-density", type=float, default=0.24)
     parser.add_argument("--max-background-edge-density", type=float, default=0.30)
+    parser.add_argument("--max-document-white-ratio", type=float, default=0.52)
+    parser.add_argument("--max-document-saturation", type=float, default=70.0)
+    parser.add_argument("--min-document-edge-density", type=float, default=0.035)
+    parser.add_argument("--max-center-white-ratio", type=float, default=0.82)
+    parser.add_argument("--min-pattern-edge-density", type=float, default=0.18)
+    parser.add_argument("--min-pattern-saturation", type=float, default=90.0)
+    parser.add_argument("--max-face-area-ratio", type=float, default=0.035)
+    parser.add_argument("--max-skin-ratio", type=float, default=0.32)
     parser.add_argument("--ahash-distance", type=int, default=4)
     parser.add_argument("--dhash-distance", type=int, default=6)
     parser.add_argument("--dry-run", action="store_true")
