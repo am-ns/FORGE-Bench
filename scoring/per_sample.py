@@ -20,7 +20,10 @@ from eval.axis_registry import (
     GEOMETRIC_INTEGRITY,
     INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
     INDUSTRIAL_CONSTRAINT_SCORE,
+    PHYSICAL_PLAUSIBILITY,
     REFERENCE_AND_MOTION_FIDELITY,
+    TECHNICAL_AXES,
+    TEMPORAL_CONSISTENCY,
     VIEWPOINT_MOTION_FIDELITY,
     canonicalize_axis_dict,
 )
@@ -47,6 +50,7 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
                  viewpoint_motion_crane_component: float | None = None,
                  industrial_constraint_score: float | None = None,
                  observable_event_coverage: float | None = None,
+                 operator_evidence: dict | None = None,
                  axis_weights: dict[str, float] | None = None,
                  axis_rubric: dict[str, str] | None = None,
                  task_category: str | None = None,
@@ -102,7 +106,67 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
 
     industrial_constraint_axis_score = _normalize_industrial_constraint_score(industrial_constraint_score)
 
-    raw_axis_scores = dict(axis_scores)
+    raw_axis_scores = dict(axis_scores)  # VLM judge scores before operator caps
+
+    axis_adjustments: dict[str, list[dict]] = {}
+
+    def cap_axis(axis: str, cap: float, reason: str, source: str) -> None:
+        if axis not in axis_scores:
+            return
+        old = float(axis_scores[axis])
+        new = min(old, max(0.0, min(100.0, float(cap))))
+        if new < old:
+            axis_scores[axis] = new
+            axis_adjustments.setdefault(axis, []).append({
+                "source": source,
+                "reason": reason,
+                "old_score": old,
+                "new_score": new,
+                "cap": float(cap),
+            })
+
+    if (
+        motion_gate_applied
+        and viewpoint_motion_axis_score is not None
+        and REFERENCE_AND_MOTION_FIDELITY in axis_scores
+    ):
+        cap_axis(
+            REFERENCE_AND_MOTION_FIDELITY,
+            viewpoint_motion_axis_score,
+            "viewpoint_motion_fidelity_integrated_as_reference_motion_cap",
+            VIEWPOINT_MOTION_FIDELITY,
+        )
+
+    if industrial_constraint_axis_score is not None:
+        cap_axis(
+            GEOMETRIC_INTEGRITY,
+            industrial_constraint_axis_score,
+            "industrial_constraint_score_integrated_as_geometric_integrity_cap",
+            INDUSTRIAL_CONSTRAINT_SCORE,
+        )
+
+    operators = (operator_evidence or {}).get("operators") or {}
+    local = operators.get("local_region_lock") or {}
+    if local.get("risk") == "global_regeneration":
+        cap_axis(REFERENCE_AND_MOTION_FIDELITY, 60.0, "operator_global_regeneration", "operator_evidence")
+        cap_axis(TEMPORAL_CONSISTENCY, 65.0, "operator_global_regeneration", "operator_evidence")
+    elif local.get("changed_fraction") is not None and float(local.get("changed_fraction")) > 0.25:
+        cap_axis(REFERENCE_AND_MOTION_FIDELITY, 80.0, "operator_large_nonlocal_change", "operator_evidence")
+
+    temporal = operators.get("temporal_break") or {}
+    if temporal.get("abrupt_transition") is True:
+        cap_axis(TEMPORAL_CONSISTENCY, 60.0, "operator_abrupt_temporal_transition", "operator_evidence")
+    if temporal.get("late_break") is True and temporal.get("abrupt_transition") is True:
+        cap_axis(TEMPORAL_CONSISTENCY, 50.0, "operator_late_abrupt_temporal_break", "operator_evidence")
+
+    rigid = operators.get("rigid_joint_tracking") or {}
+    if rigid.get("risk") == "rigid_drift":
+        cap_axis(GEOMETRIC_INTEGRITY, 80.0, "operator_rigid_drift", "operator_evidence")
+
+    fluid = operators.get("fluid_diffusion") or {}
+    if fluid.get("plausible_continuity") is False:
+        cap_axis(PHYSICAL_PLAUSIBILITY, 80.0, "operator_fluid_discontinuity", "operator_evidence")
+
     floored_axis_scores = enforce_score_floors(dict(axis_scores))
     if CONFIG["apply_score_floors"]:
         axis_scores = {k: floored_axis_scores[k] for k in axis_scores}
@@ -113,18 +177,17 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
     if axis_weights:
         weights.update({k: float(v) for k, v in canonicalize_axis_dict(axis_weights).items()})
 
-    per_axis_weighted: dict[str, float] = {}
-    total_weight = 0.0
-    weighted_sum = 0.0
+    per_axis_weighted: dict[str, float] = {
+        axis: float(score) * weights.get(axis, CONFIG["default_axis_weight"])
+        for axis, score in axis_scores.items()
+    }
 
-    for axis, score in axis_scores.items():
-        weight = weights.get(axis, CONFIG["default_axis_weight"])
-        weighted = score * weight
-        per_axis_weighted[axis] = weighted
-        weighted_sum += weighted
-        total_weight += weight
-
-    final_score = weighted_sum / total_weight if total_weight > 0 else 0.0
+    technical_values = [
+        float(axis_scores[axis])
+        for axis in TECHNICAL_AXES
+        if axis in axis_scores
+    ]
+    final_score = sum(technical_values) / len(technical_values) if technical_values else 0.0
 
     # Cross-axis integrity factor: geometric mean of the three axes that jointly capture
     # causal correctness (industrial_logic_and_fact_alignment), structural topology
@@ -172,6 +235,9 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
         "axis_weights": {axis: weights.get(axis, CONFIG["default_axis_weight"])
                          for axis in axis_scores},
         "num_axes": len(axis_scores),
+        "technical_score": final_score,
+        "technical_score_formula": "arithmetic_mean_of_five_technical_axes",
+        "constraint_axis_adjustments": axis_adjustments,
         "cross_axis_integrity_factor": cross_axis_integrity_factor,
         "cross_axis_integrity_factor_gated": cross_axis_integrity_factor_gated,
         "rotation_integrity_factor": cross_axis_integrity_factor,           # backward-compatible alias
@@ -195,13 +261,8 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
     if industrial_constraint_axis_score is not None:
         out["industrial_constraint_score"] = industrial_constraint_axis_score
     if application_usefulness_score is not None:
-        application_score = (
-            0.7 * application_usefulness_score + 0.3 * observable_event_coverage
-            if observable_event_coverage is not None
-            else application_usefulness_score
-        )
         out["application_usefulness_score"] = application_usefulness_score
         out["observable_event_coverage"] = observable_event_coverage
-        out["application_score"] = float(application_score)
+        out["application_score"] = float(application_usefulness_score)
         out["application_axis_scores"] = {APPLICATION_USEFULNESS: application_usefulness_score}
     return out

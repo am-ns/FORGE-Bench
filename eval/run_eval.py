@@ -526,6 +526,7 @@ def evaluate_sample(
         viewpoint_motion_crane_component=viewpoint_motion_result.get("viewpoint_motion_crane_component"),
         industrial_constraint_score=geometric_integrity_result.get("industrial_constraint_score"),
         observable_event_coverage=observable_event_coverage,
+        operator_evidence=operator_evidence,
         axis_weights=axis_weights,
         axis_rubric=axis_rubric,
         task_category=task_category,

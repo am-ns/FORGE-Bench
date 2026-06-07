@@ -344,7 +344,7 @@ def _application_value_report(aggregate: dict, results: list[dict]) -> dict:
 
 
 def _constraint_adjustment_diagnostics(aggregate: dict) -> dict:
-    """Expose constraint-adjusted ranking metadata from aggregate results."""
+    """Expose 5+1 ranking metadata and removed-penalty diagnostics."""
     return {
         "overall": aggregate.get("overall"),
         "relax_score": aggregate.get("relax_score"),

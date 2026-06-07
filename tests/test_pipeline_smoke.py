@@ -373,16 +373,18 @@ class TestScoring:
         assert result["score_floor_applied"] is False
         assert result["raw_axis_scores"] == result["axis_scores"]
 
-    def test_per_sample_score_reports_viewpoint_motion_without_folding(self):
-        """Viewpoint motion fidelity is diagnostic evidence, not a folded axis score."""
+    def test_per_sample_score_integrates_viewpoint_motion_as_cap(self):
+        """Viewpoint motion caps reference_and_motion_fidelity; raw VLM score is preserved in raw_axis_scores."""
         result = score_sample(
             {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 70, PHYSICAL_PLAUSIBILITY: 75, REFERENCE_AND_MOTION_FIDELITY: 85, GEOMETRIC_INTEGRITY: 90, "viewpoint_motion": 0},
             viewpoint_motion=0.0,
         )
         assert VIEWPOINT_MOTION_FIDELITY not in result["axis_scores"]
-        assert result["axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == pytest.approx(85.0)
+        assert result["axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == pytest.approx(0.0)
+        assert result["raw_axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == pytest.approx(85.0)
         assert result["viewpoint_motion_score"] == 0.0
-        assert result["weighted_score"] == pytest.approx(80.0)
+        assert result["weighted_score"] == pytest.approx(63.0)
+        assert REFERENCE_AND_MOTION_FIDELITY in result["constraint_axis_adjustments"]
 
     def test_per_sample_score_does_not_fold_viewpoint_motion_for_non_viewpoint_task(self):
         """Non-viewpoint tasks should keep motion as diagnostics, not lower reference and motion fidelity."""
@@ -396,7 +398,7 @@ class TestScoring:
         assert result["motion_gate_applied"] is False
 
     def test_per_sample_score_can_force_static_motion_gate(self):
-        """Static tasks can opt into the motion gate even outside viewpoint tasks."""
+        """Forcing the motion gate caps reference_and_motion_fidelity to the viewpoint score."""
         result = score_sample(
             {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 70, PHYSICAL_PLAUSIBILITY: 75, REFERENCE_AND_MOTION_FIDELITY: 85, GEOMETRIC_INTEGRITY: 90, "viewpoint_motion": 0},
             viewpoint_motion=12.0,
@@ -404,18 +406,21 @@ class TestScoring:
             motion_gate_required=True,
         )
         assert result["motion_gate_applied"] is True
-        assert result["axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == pytest.approx(85.0)
+        assert result["axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == pytest.approx(0.0)
+        assert result["raw_axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == pytest.approx(85.0)
 
-    def test_per_sample_score_reports_industrial_constraints_without_folding(self):
-        """Industrial constraints are diagnostic evidence, not a folded axis score."""
+    def test_per_sample_score_integrates_industrial_constraint_as_cap(self):
+        """Industrial constraint caps geometric_integrity; raw VLM score is preserved in raw_axis_scores."""
         result = score_sample(
             {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 70, PHYSICAL_PLAUSIBILITY: 75, REFERENCE_AND_MOTION_FIDELITY: 85, GEOMETRIC_INTEGRITY: 90},
             industrial_constraint_score=0.20,
         )
         assert INDUSTRIAL_CONSTRAINT_SCORE not in result["axis_scores"]
-        assert result["axis_scores"][GEOMETRIC_INTEGRITY] == 90.0
+        assert result["axis_scores"][GEOMETRIC_INTEGRITY] == pytest.approx(20.0)
+        assert result["raw_axis_scores"][GEOMETRIC_INTEGRITY] == pytest.approx(90.0)
         assert result["industrial_constraint_score"] == 20.0
-        assert result["weighted_score"] == pytest.approx(80.0)
+        assert result["weighted_score"] == pytest.approx(66.0)
+        assert GEOMETRIC_INTEGRITY in result["constraint_axis_adjustments"]
 
     def test_per_sample_score_reports_application_usefulness_without_folding(self):
         """Application usefulness is reported separately from the five technical axes."""
@@ -434,7 +439,8 @@ class TestScoring:
         assert result["application_score"] == 30.0
         assert result["weighted_score"] == pytest.approx(80.0)
 
-    def test_per_sample_score_blends_application_usefulness_and_event_coverage(self):
+    def test_per_sample_score_application_score_equals_usefulness(self):
+        """application_score is now application_usefulness only; event coverage is stored separately."""
         result = score_sample(
             {
                 INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80,
@@ -446,7 +452,8 @@ class TestScoring:
             },
             observable_event_coverage=90,
         )
-        assert result["application_score"] == pytest.approx(62.0)
+        assert result["application_score"] == pytest.approx(50.0)
+        assert result["application_usefulness_score"] == pytest.approx(50.0)
         assert result["observable_event_coverage"] == 90.0
 
     def test_aggregate(self):
@@ -495,7 +502,7 @@ class TestScoring:
         assert result["technical_score"] == result["task_conditioned_score"]
         assert result["application_score"] == 100.0
         assert result["ranking_score_ci95"]["n"] == 2
-        assert result["overall"] < 80.0
+        assert result["overall"] == pytest.approx(84.0)
         assert result["functional_pass_rate"] == 1.0
         assert result["application_pass_rate"]["policy"] == "strict_application_score"
         assert result["axis_pass_rates"][GEOMETRIC_INTEGRITY]["pass_rate"] == 1.0
@@ -504,7 +511,7 @@ class TestScoring:
         assert result["application_macro_micro_summary"]["micro_application_score_strict"] == pytest.approx(70.0)
         assert result["application_macro_micro_summary"]["macro_application_score_strict"] == pytest.approx(70.0)
         assert result["application_score_policy"]["leaderboard"] == "strict"
-        assert result["constraint_adjusted_score"] == pytest.approx(51.216484375)
+        assert result["constraint_adjusted_score"] == pytest.approx(84.0)
         assert result["ranking_score"] == result["constraint_adjusted_score"]
         assert result["constraint_adjustment_summary"]["samples_with_cap"] == 1
         assert result["constraint_adjustment_summary"]["cap_reason_counts"]["viewpoint_motion_constraint_severe_failure"] == 1
@@ -517,7 +524,7 @@ class TestScoring:
         assert result["axis_score_ci95"][GEOMETRIC_INTEGRITY]["n"] == 2
         assert result["scoring_validity"]["samples_complete_all_required_axes"] == 2
         assert "gated_score" in result["score_calibration"]["diagnostic_scores_excluded_from_overall"]
-        assert "technical_score" in result["score_calibration"]["scores_excluded_from_overall"]
+        assert "legacy_penalty_adjusted_score" in result["score_calibration"]["scores_excluded_from_overall"]
 
     def test_aggregate_application_usefulness_penalizes_ranking_not_technical_score(self):
         """Low application usefulness should lower ranking while leaving technical score interpretable."""
@@ -542,13 +549,13 @@ class TestScoring:
         assert result["application_score"] == 20.0
         assert result["application_score_strict"] == pytest.approx(14.0)
         assert result["application_pass_rate"]["pass_rate"] == 0.0
-        assert result["ranking_score"] == pytest.approx(22.8)
+        assert result["ranking_score"] == pytest.approx(68.0)
         assert result["application_type_breakdown"]["inspection_and_maintenance"]["count"] == 1
         assert result["constraint_adjustment_summary"]["samples_with_hard_application_failure"] == 1
         assert result["constraint_adjustment_summary"]["hard_application_failure_counts"]["application_objective_not_supported"] == 1
 
-    def test_aggregate_applies_misleading_application_hard_failure_penalty(self):
-        """Misleading application outputs should receive an explicit ranking penalty."""
+    def test_aggregate_misleading_application_is_diagnostic_only(self):
+        """Hard application failures are now diagnostic evidence; headline ranking uses 5+1 linear formula."""
         result = aggregate_sample_results([
             {
                 "task_id": "misleading_app",
@@ -568,11 +575,12 @@ class TestScoring:
             }
         ])
         assert result["application_score_strict"] == pytest.approx(90.0)
-        assert result["constraint_adjustment_summary"]["mean_hard_application_penalty"] == pytest.approx(0.5)
-        assert result["ranking_score"] == pytest.approx(38.0)
+        assert result["constraint_adjustment_summary"]["mean_hard_application_penalty"] == pytest.approx(1.0)
+        assert result["ranking_score"] == pytest.approx(82.0)
+        assert result["constraint_adjustment_summary"]["mean_legacy_penalty_adjusted_score"] == pytest.approx(38.0)
 
     def test_aggregate_caps_zero_observable_event_coverage(self):
-        """A missing required event should hard-cap the paper-facing score."""
+        """Zero event coverage is diagnostic; legacy penalty is tracked but does not affect headline ranking."""
         result = aggregate_sample_results([
             {
                 "task_id": "missing_event",
@@ -587,13 +595,14 @@ class TestScoring:
                 },
             }
         ])
-        assert result["ranking_score"] == pytest.approx(30.0)
+        assert result["ranking_score"] == pytest.approx(84.0)
         assert result["overall"] == result["ranking_score"]
         assert result["constraint_adjustment_summary"]["samples_with_application_event_cap"] == 1
         assert result["constraint_adjustment_summary"]["cap_reason_counts"]["zero_observable_event_coverage"] == 1
+        assert result["constraint_adjustment_summary"]["mean_legacy_penalty_adjusted_score"] == pytest.approx(30.0)
 
     def test_aggregate_caps_geometric_operator_vlm_conflict(self):
-        """Low CV geometry evidence should cap a high VLM geometry score."""
+        """Geometric VLM/operator conflict is diagnostic; legacy penalty is tracked but does not affect headline ranking."""
         result = aggregate_sample_results([
             {
                 "task_id": "geometry_conflict",
@@ -608,9 +617,10 @@ class TestScoring:
                 },
             }
         ])
-        assert result["ranking_score"] == pytest.approx(10.0)
+        assert result["ranking_score"] == pytest.approx(92.0)
         assert result["constraint_adjustment_summary"]["samples_with_geometric_conflict_cap"] == 1
         assert result["constraint_adjustment_summary"]["cap_reason_counts"]["geometric_operator_vlm_conflict"] == 1
+        assert result["constraint_adjustment_summary"]["mean_legacy_penalty_adjusted_score"] == pytest.approx(10.0)
 
     def test_aggregate_ignores_motion_gate_for_non_viewpoint_non_static(self):
         """Dolly/pan diagnostics should not gate non-viewpoint tasks."""
@@ -632,8 +642,8 @@ class TestScoring:
         ])
         assert result["gated_score"] == 70.0
         assert result["relax_score"] == 70.0
-        assert result["overall"] == pytest.approx(74.5)
-        assert result["constraint_adjusted_score"] == pytest.approx(74.5)
+        assert result["overall"] == pytest.approx(80.0)
+        assert result["constraint_adjusted_score"] == pytest.approx(80.0)
 
     def test_aggregate_keeps_static_gate_for_static_tasks(self):
         """Static tasks should still be gated when the output moves."""
@@ -654,8 +664,8 @@ class TestScoring:
         ])
         assert result["gated_score"] == 0.0
         assert result["relax_score"] == 70.0
-        assert result["overall"] == pytest.approx(40.509375)
-        assert result["constraint_adjusted_score"] == pytest.approx(40.509375)
+        assert result["overall"] == pytest.approx(80.0)
+        assert result["constraint_adjusted_score"] == pytest.approx(80.0)
 
     def test_aggregate_applies_operator_risk_gate(self):
         """Operator evidence should lower fallback scores for abrupt breaks."""
@@ -686,9 +696,10 @@ class TestScoring:
         assert result["motion_gated_score"] == 80.0
         assert result["gated_score"] < 40.0
         assert result["relax_score"] == 80.0
-        assert result["overall"] == pytest.approx(38.89625)
-        assert result["constraint_adjusted_score"] == pytest.approx(38.89625)
+        assert result["overall"] == pytest.approx(80.0)
+        assert result["constraint_adjusted_score"] == pytest.approx(80.0)
         assert result["constraint_adjustment_summary"]["cap_reason_counts"]["operator_multiple_severe_failures"] == 1
+        assert result["constraint_adjustment_summary"]["mean_legacy_penalty_adjusted_score"] == pytest.approx(38.89625)
 
     def test_physical_plausibility_parser_uses_native_0_100_scale(self):
         """physical plausibility parser should no longer use the legacy 1-5 scale."""
