@@ -18,6 +18,7 @@ from typing import Any
 
 DEFAULT_METRICS = [
     "ranking_score",
+    "linear_ranking_score",
     "technical_score",
     "application_score_strict",
     "strict_pass_rate",
@@ -65,7 +66,10 @@ def _row_from_aggregate(model_dir: Path, aggregate: dict[str, Any], metrics: lis
         "num_samples_total": aggregate.get("num_samples_total"),
         "num_samples_skipped": aggregate.get("num_samples_skipped"),
         "num_samples_complete_required_axes": aggregate.get("num_samples_complete_required_axes"),
+        "generator_model": (aggregate.get("run_metadata") or {}).get("generator_model"),
+        "evaluated_model_name": (aggregate.get("run_metadata") or {}).get("evaluated_model_name"),
         "judge_model": (aggregate.get("run_metadata") or {}).get("judge_model"),
+        "judge_provider": (aggregate.get("run_metadata") or {}).get("judge_provider"),
         "llm_provider": (aggregate.get("run_metadata") or {}).get("llm_provider"),
         "samples_json_sha256": (aggregate.get("run_metadata") or {}).get("samples_json_sha256"),
         "eval_code_sha256": (aggregate.get("run_metadata") or {}).get("eval_code_sha256"),
@@ -97,6 +101,9 @@ def build_tables(results_dir: Path, metrics: list[str]) -> dict[str, Any]:
             warnings.append(f"{row['model']}:incomplete_run:{completed}/{total}")
         if skipped not in (None, 0):
             warnings.append(f"{row['model']}:skipped_samples:{skipped}")
+        complete_axes = row.get("num_samples_complete_required_axes")
+        if complete_axes is not None and completed is not None and complete_axes != completed:
+            warnings.append(f"{row['model']}:incomplete_required_axes:{complete_axes}/{completed}")
 
     return {
         "schema_version": "forge-paper-tables-v1",
@@ -119,7 +126,10 @@ def _write_csv(rows: list[dict[str, Any]], path: Path) -> None:
         "technical_score_ci95",
         "application_score_strict",
         "application_score_strict_ci95",
+        "linear_ranking_score",
+        "linear_ranking_score_ci95",
         "num_samples_completed",
+        "num_samples_complete_required_axes",
         "num_samples_total",
         "num_samples_skipped",
     ]

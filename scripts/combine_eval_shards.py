@@ -15,6 +15,7 @@ if str(REPO_ROOT) not in sys.path:
 from eval.axis_registry import MODEL_EVALUATION_AXES, PHYSICAL_PLAUSIBILITY, GEOMETRIC_INTEGRITY
 from scoring.aggregate import aggregate_sample_results
 from scoring.report import generate_diagnostic_report, generate_report
+from eval.metadata import build_run_metadata
 
 
 SPECIAL = {"aggregate", "per_sample", "report", "run_metadata"}
@@ -31,6 +32,17 @@ def load_sample_results(shard_dirs: list[Path]) -> dict[str, dict]:
             task_id = result.get("task_id") or path.stem
             results[task_id] = result
     return results
+
+
+def load_shard_metadata(shard_dirs: list[Path]) -> list[dict]:
+    metadata = []
+    for shard_dir in shard_dirs:
+        path = shard_dir / "run_metadata.json"
+        if not path.is_file():
+            continue
+        with path.open(encoding="utf-8") as f:
+            metadata.append(json.load(f))
+    return metadata
 
 
 def aggregate_group(results: list[dict]) -> dict:
@@ -67,6 +79,20 @@ def main() -> None:
             json.dump(result, f, indent=2, default=str)
 
     aggregate = aggregate_sample_results(all_results)
+    shard_metadata = load_shard_metadata(shard_dirs)
+    base_metadata = shard_metadata[0] if shard_metadata else {}
+    run_metadata = build_run_metadata(
+        model_name=args.model,
+        video_dir=base_metadata.get("video_dir", ""),
+        samples_json=args.samples_json,
+        output_dir=str(output_dir),
+        llm_provider=base_metadata.get("llm_provider", "openai_compat"),
+        use_llm=bool(base_metadata.get("llm_enabled", True)),
+        model_answers_path=base_metadata.get("model_answers_path"),
+    )
+    run_metadata["combined_from_shards"] = [str(p) for p in shard_dirs]
+    run_metadata["source_shard_metadata"] = shard_metadata
+    aggregate["run_metadata"] = run_metadata
     completed = [r for r in all_results if not r.get("skipped")]
     if completed:
         aggregate["domain_breakdown"] = {
@@ -98,6 +124,8 @@ def main() -> None:
         json.dump(all_results, f, indent=2, default=str)
     with (output_dir / "aggregate.json").open("w", encoding="utf-8") as f:
         json.dump(aggregate, f, indent=2, default=str)
+    with (output_dir / "run_metadata.json").open("w", encoding="utf-8") as f:
+        json.dump(run_metadata, f, indent=2, default=str)
     report = generate_report(generate_diagnostic_report(args.model, aggregate, all_results))
     with (output_dir / "report.json").open("w", encoding="utf-8") as f:
         f.write(report)

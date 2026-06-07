@@ -6,6 +6,7 @@ import json
 import logging
 import os
 import sys
+from pathlib import Path
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if REPO_ROOT not in sys.path:
@@ -47,6 +48,7 @@ from scoring.report import generate_diagnostic_report, generate_report
 from eval.metadata import build_run_metadata
 
 logger = logging.getLogger("forge_eval")
+IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp"}
 
 
 # Frame extraction
@@ -64,6 +66,42 @@ def extract_frames(video_path: str) -> list[np.ndarray]:
         frames.append(frame)
     cap.release()
     return frames
+
+
+def _candidate_reference_paths(image_path: str) -> list[Path]:
+    """Return ordered fallback paths for a sample reference image.
+
+    Samples sometimes point at ``ref_01.jpg`` while the curated image library
+    contains ``ref_01.png`` or starts at ``ref_02`` after pruning. Evaluation
+    should use the requested file when available, then fall back within the
+    same scene directory instead of silently dropping the reference axis.
+    """
+    repo_root = Path(__file__).resolve().parents[1]
+    requested = Path(image_path)
+    abs_path = requested if requested.is_absolute() else repo_root / requested
+    candidates: list[Path] = []
+
+    def add(path: Path) -> None:
+        if path not in candidates:
+            candidates.append(path)
+
+    hq_base = Path(str(abs_path).replace(str(repo_root / "dataset" / "images"), str(repo_root / "dataset" / "images_hq")))
+    add(hq_base.with_suffix(".png"))
+    add(hq_base)
+    add(abs_path)
+    for suffix in IMAGE_SUFFIXES:
+        add(abs_path.with_suffix(suffix))
+        add(hq_base.with_suffix(suffix))
+
+    for parent in (abs_path.parent, hq_base.parent):
+        if parent.is_dir():
+            for path in sorted(parent.glob("ref_*")):
+                if path.is_file() and path.suffix.lower() in IMAGE_SUFFIXES:
+                    add(path)
+            for path in sorted(parent.iterdir()):
+                if path.is_file() and path.suffix.lower() in IMAGE_SUFFIXES:
+                    add(path)
+    return candidates
 
 
 # Geometric integrity operator routing by sub_topology
@@ -345,26 +383,24 @@ def evaluate_sample(
         motion_type=sample.get("motion_type") or sample.get("constraint_annotations", {}).get("motion_type"),
     )
 
-    # Load reference image: prefer HQ PNG (dataset/images_hq/), fall back to 720p JPEG.
-    # normalize_frame() will resize to EVAL_RESOLUTION (1080p) before metric computation.
+    # Load reference image: prefer the requested path/HQ variant, then fall back
+    # within the same scene directory so pruned ref numbering does not drop an axis.
     reference_image = None
     reference_image_status = "not_requested"
+    reference_image_resolved_path = None
     image_path = sample.get("image_path")
     if image_path:
         reference_image_status = "missing"
-        repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        abs_path = image_path if os.path.isabs(image_path) else os.path.join(repo_root, image_path)
-        hq_png = abs_path.replace("dataset/images/", "dataset/images_hq/").rsplit(".", 1)[0] + ".png"
-        hq_jpg = abs_path.replace("dataset/images/", "dataset/images_hq/")
-        for candidate in (hq_png, hq_jpg, abs_path):
-            if os.path.exists(candidate):
-                ref = cv2.imread(candidate)
+        for candidate in _candidate_reference_paths(image_path):
+            if candidate.exists():
+                ref = cv2.imread(str(candidate))
                 if ref is not None:
                     reference_image = normalize_frame(ref)  # to 1080p
                     reference_image_status = "loaded"
+                    reference_image_resolved_path = str(candidate)
                     break
         if reference_image is None:
-            logger.warning("Reference image missing: %s", abs_path)
+            logger.warning("Reference image missing: %s", image_path)
 
     sample_for_judge = dict(sample)
     try:
@@ -478,7 +514,12 @@ def evaluate_sample(
     if not reference_and_motion_fidelity_result and reference_image is not None:
         reference_and_motion_fidelity_result = evaluate_reference_and_motion_fidelity(frames, reference_image, sample_id=task_id, model_name=model_name)
     elif not reference_and_motion_fidelity_result:
-        reference_and_motion_fidelity_result = {"reference_and_motion_fidelity_score": None, "computer_vision_structural_similarity": None, "computer_vision_histogram_correlation": None}
+        reference_and_motion_fidelity_result = {
+            "reference_and_motion_fidelity_score": None,
+            "computer_vision_structural_similarity": None,
+            "computer_vision_histogram_correlation": None,
+            "reason": "missing_reference_image",
+        }
 
     # Application usefulness: VLM-based, deliberately separate from the five technical axes.
     application_usefulness_score = None
@@ -560,6 +601,7 @@ def evaluate_sample(
         "operator_evidence": operator_evidence,
         "scoring_validity": sample_validity,
         "reference_image_status": reference_image_status,
+        "reference_image_resolved_path": reference_image_resolved_path,
         "skipped": False,
         "frame_count_reported": fc.get("reported_count"),
         "frame_count_actual": fc.get("actual_count"),

@@ -85,6 +85,8 @@ def build_run_metadata(
         "schema_version": "forge-bench-result-v2",
         "created_utc": datetime.now(timezone.utc).isoformat(),
         "model_name": model_name,
+        "evaluated_model_name": model_name,
+        "generator_model": model_name,
         "video_dir": video_dir,
         "samples_json": samples_json,
         "samples_json_sha256": file_sha256(samples_json),
@@ -96,6 +98,7 @@ def build_run_metadata(
         "llm_provider": llm_provider,
         "llm_enabled": bool(use_llm),
         "judge_model": judge_model,
+        "judge_provider": llm_provider,
         "judge_base_url": judge_base_url,
         "environment": {
             "python": sys.version.split()[0],
