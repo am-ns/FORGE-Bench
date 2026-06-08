@@ -84,6 +84,20 @@ BLOCKED_TERMS = {
     "pcb", "electronics kit", "robot kit", "children", "child",
 }
 
+HUMAN_SUBJECT_TERMS = {
+    "apprentice", "employee", "employees", "face", "facial", "group photo",
+    "helmet", "human", "laborer", "labourer", "man", "operator",
+    "person", "people", "portrait", "selfie", "staff", "team", "welder",
+    "welders", "woman", "worker", "workers",
+}
+
+HUMAN_SUBJECT_PHRASES = {
+    "man welding", "person welding", "welder working", "worker welding",
+    "workers welding", "welding operator", "operator welding",
+    "man cutting", "worker cutting", "workers cutting", "man grinding",
+    "worker grinding", "workers grinding", "people working",
+}
+
 REALWORLD_QUERY_SUFFIXES = [
     "industrial site photo",
     "factory floor photo",
@@ -102,6 +116,8 @@ SOURCE_NEGATIVE_TERMS = [
     "textile", "clipart", "signage", "certificate", "fighter jet", "jet",
     "aircraft", "airplane", "aeroplane", "airport", "airfield", "airshow",
     "air show", "f-16", "f16", "air force",
+    "person", "people", "man", "woman", "worker", "workers", "portrait",
+    "welder portrait", "operator portrait", "group photo",
 ]
 
 CATEGORY_METADATA_REQUIRED_TERMS = {
@@ -126,7 +142,7 @@ QUERY_STOPWORDS = {
 WEAK_MATCH_TERMS = {
     "access", "bay", "building", "construction", "corridor", "emergency",
     "equipment", "floor", "hazard", "inspection", "plant", "safety", "site",
-    "worker", "workshop", "yard",
+    "workshop", "yard",
 }
 SHORT_QUERY_DROP_TERMS = {
     "around", "context", "field", "hazard", "inspection", "near", "permit",
@@ -144,7 +160,7 @@ SCENE_REQUIRED_TERMS = {
     "emerg_hot_work_spark_combustible_fire": {
         "action": {
             "acetylene", "arc", "cut", "cutting", "grind", "grinder", "grinding",
-            "hot", "spark", "sparks", "torch", "weld", "welder", "welders", "welding",
+            "hot", "spark", "sparks", "torch", "weld", "welding",
         },
         "context": {
             "combustible", "factory", "industrial", "pipe", "plant",
@@ -181,7 +197,7 @@ SCENE_REQUIRED_TERMS = {
     },
     "hload_blind_lift_spotter_view": {
         "lift": {"crane", "hoist", "lift", "lifting", "load", "rigging"},
-        "spotter": {"hand", "rigger", "signal", "signaling", "spotter", "worker"},
+        "scene": {"blind", "blocked", "clearance", "construction", "hook", "jib", "obstruction", "site"},
     },
     "hload_sling_angle_center_of_gravity": {
         "rigging": {"crane", "hoist", "lift", "lifting", "rigging", "sling", "slings", "spreader"},
@@ -232,16 +248,18 @@ SCENE_NEGATIVE_TERMS = {
 SCENE_QUERY_REPLACEMENTS = {
     "emerg_hot_work_spark_combustible_fire": {
         "queries": [
-            "industrial welding sparks factory floor",
-            "arc welding sparks metal fabrication shop",
-            "angle grinder sparks steel workshop",
-            "torch cutting sparks industrial steel",
-            "hot work welding sparks industrial plant",
-            "welder grinding sparks factory workshop",
-            "metal cutting sparks industrial worksite",
-            "welding sparks near industrial equipment",
+            "welding sparks steel pipe close up",
+            "arc welding sparks metal workpiece",
+            "angle grinder sparks steel beam close up",
+            "torch cutting sparks steel plate",
+            "hot work sparks industrial pipe",
+            "metal cutting sparks workpiece closeup",
+            "welding sparks industrial equipment close up",
+            "grinding sparks steel surface close up",
+            "oxy acetylene cutting sparks steel",
+            "weld arc sparks pipe joint close up",
         ],
-        "categories": ["Welding", "Arc welding", "Welders", "Metalworking", "Grinding", "Industrial safety"],
+        "categories": ["Welding", "Arc welding", "Metalworking", "Grinding", "Welded joints", "Metal fabrication"],
     },
     "emerg_transmission_tower_icing_collapse": {
         "queries": [
@@ -290,12 +308,14 @@ SCENE_QUERY_REPLACEMENTS = {
     },
     "erob_quadruped_stairs_rubble_fpv": {
         "queries": [
-            "quadruped robot stairs industrial inspection",
-            "legged robot rubble construction site",
+            "quadruped robot stairs inspection",
+            "legged robot rubble debris inspection",
             "Boston Dynamics Spot robot industrial inspection stairs",
             "quadruped robot tunnel inspection rubble",
-            "legged robot walking stairs inspection",
-            "robot dog industrial stairs inspection",
+            "legged robot stairs close up",
+            "robot dog stairs inspection",
+            "quadruped robot construction site debris",
+            "legged inspection robot industrial stairs",
         ],
         "categories": ["Quadrupedal robots", "Legged robots", "Inspection robots", "Boston Dynamics"],
     },
@@ -326,14 +346,17 @@ SCENE_QUERY_REPLACEMENTS = {
         "queries": [
             "tower crane hook block jib construction",
             "mobile crane suspended load construction site",
-            "crane operator cab lattice boom construction",
+            "crane hook block suspended load close up",
             "tower crane mast jib hook construction",
             "crawler crane construction site suspended",
             "lattice boom crane construction hook block",
             "crane hook block suspended load rigging",
             "tower crane construction clearance jib",
+            "overhead crane hook block load",
+            "construction crane load obstruction clearance",
+            "mobile crane hook suspended load rigging close up",
         ],
-        "categories": ["Tower cranes", "Mobile cranes", "Cranes", "Crane operators", "Construction cranes", "Riggers"],
+        "categories": ["Tower cranes", "Mobile cranes", "Cranes", "Construction cranes", "Crane hooks", "Lifting equipment"],
     },
     "hload_sling_angle_center_of_gravity": {
         "queries": [
@@ -367,8 +390,11 @@ SCENE_QUERY_REPLACEMENTS = {
             "weld defect inspection macro",
             "steel weld crack close up",
             "pipe weld seam bead macro",
+            "weld cross section porosity macro",
+            "weld bead crack closeup",
+            "welding defect porosity metal macro",
         ],
-        "categories": ["Pipe welding", "Welding", "Arc welding", "Non-destructive testing", "Metallography", "Welded joints"],
+        "categories": ["Welded joints", "Welding defects", "Metallography", "Non-destructive testing", "Pipe welding"],
     },
 }
 
@@ -556,6 +582,12 @@ def _source_clean(*texts: str) -> tuple[bool, str]:
             return False, f"blocked_term:{term.replace(' ', '_')}"
         if " " not in term and term in tokens:
             return False, f"blocked_term:{term}"
+    for phrase in sorted(HUMAN_SUBJECT_PHRASES, key=len, reverse=True):
+        if phrase in text:
+            return False, f"human_subject_phrase:{phrase.replace(' ', '_')}"
+    blocked_human = sorted(tokens & HUMAN_SUBJECT_TERMS)
+    if blocked_human:
+        return False, "human_subject_term:" + ",".join(blocked_human[:4])
     return True, "ok"
 
 
@@ -1015,6 +1047,7 @@ def _image_metrics(path: Path) -> dict:
     y0, y1 = h // 4, (h * 3) // 4
     x0, x1 = w // 4, (w * 3) // 4
     center = gray[y0:y1, x0:x1] if y1 > y0 and x1 > x0 else gray
+    center_rgb = arr[y0:y1, x0:x1] if y1 > y0 and x1 > x0 else arr
     rgb = arr.astype(np.int16)
     r = rgb[:, :, 0]
     g = rgb[:, :, 1]
@@ -1028,6 +1061,19 @@ def _image_metrics(path: Path) -> dict:
         & (r > g)
         & (r > b)
     )
+    center_i16 = center_rgb.astype(np.int16)
+    cr = center_i16[:, :, 0]
+    cg = center_i16[:, :, 1]
+    cb = center_i16[:, :, 2]
+    center_skin = (
+        (cr > 95)
+        & (cg > 40)
+        & (cb > 20)
+        & ((np.maximum.reduce([cr, cg, cb]) - np.minimum.reduce([cr, cg, cb])) > 15)
+        & (np.abs(cr - cg) > 15)
+        & (cr > cg)
+        & (cr > cb)
+    )
     return {
         "width": width,
         "height": height,
@@ -1040,6 +1086,7 @@ def _image_metrics(path: Path) -> dict:
         "center_white_ratio": float(np.mean(center > 235)),
         "mean_saturation": float(np.mean(sat)),
         "skin_ratio": float(np.mean(skin)),
+        "center_skin_ratio": float(np.mean(center_skin)),
         "face_area_ratio": _face_area_ratio(gray),
     }
 
@@ -1270,6 +1317,16 @@ def _passes_quality(metrics: dict, args: argparse.Namespace) -> tuple[bool, str]
         return False, "large_face_or_portrait_like"
     if metrics["skin_ratio"] > args.max_skin_ratio and metrics["face_area_ratio"] > 0.006:
         return False, "human_portrait_or_group_like"
+    if metrics["skin_ratio"] > args.max_skin_ratio:
+        return False, "human_skin_dominant"
+    if metrics["center_skin_ratio"] > args.max_center_skin_ratio:
+        return False, "center_human_subject"
+    if (
+        metrics["skin_ratio"] > args.max_skin_ratio_soft
+        and metrics["center_skin_ratio"] > args.max_center_skin_ratio_soft
+        and metrics["edge_density"] < args.max_human_subject_edge_density
+    ):
+        return False, "human_subject_dominant"
     return True, "accepted"
 
 
@@ -1299,10 +1356,10 @@ def _collect_candidates(
             })
         else:
             active_providers.add(provider)
-    query_budget = min(args.queries_per_scene, max(5, (remaining_needed + 4) // 5))
-    category_budget = min(args.categories_per_scene, max(6, (remaining_needed + 4) // 5))
-    search_limit = min(args.search_limit, max(24, min(40, remaining_needed + 16)))
-    search_pages = min(args.search_pages, max(1, min(2, (remaining_needed + 19) // 20)))
+    query_budget = min(args.queries_per_scene, max(8, (remaining_needed + 3) // 4))
+    category_budget = min(args.categories_per_scene, max(8, (remaining_needed + 3) // 4))
+    search_limit = max(args.search_limit, min(80, remaining_needed + 24))
+    search_pages = max(args.search_pages, min(4, max(2, (remaining_needed + 24) // 25)))
     queries = _scene_queries(scene, samples_by_scene, query_budget)
     scene_terms = _scene_semantic_terms(scene, samples_by_scene)
     tasks = []
@@ -1649,6 +1706,7 @@ def run(args: argparse.Namespace) -> None:
                                 "center_white_ratio": f"{metrics['center_white_ratio']:.4f}",
                                 "mean_saturation": f"{metrics['mean_saturation']:.2f}",
                                 "skin_ratio": f"{metrics['skin_ratio']:.4f}",
+                                "center_skin_ratio": f"{metrics['center_skin_ratio']:.4f}",
                                 "face_area_ratio": f"{metrics['face_area_ratio']:.4f}",
                             })
                             ok, reason = _passes_quality(metrics, args)
@@ -1730,24 +1788,24 @@ def main() -> None:
     parser.add_argument("--providers", default="commons_category,commons,loc")
     parser.add_argument("--domains", default="")
     parser.add_argument("--target-new", type=int, default=0)
-    parser.add_argument("--per-scene", type=int, default=80)
+    parser.add_argument("--per-scene", type=int, default=240)
     parser.add_argument(
         "--review-overfetch",
         type=int,
-        default=5,
+        default=20,
         help="Stage this many times the formal image deficit so manual screening can delete aggressively.",
     )
     parser.add_argument(
         "--min-review-candidates",
         type=int,
-        default=18,
+        default=60,
         help="Minimum staged candidates to attempt for every scene that still has any deficit.",
     )
     parser.add_argument("--max-scenes", type=int, default=0)
-    parser.add_argument("--search-limit", type=int, default=32)
-    parser.add_argument("--search-pages", type=int, default=2)
-    parser.add_argument("--queries-per-scene", type=int, default=6)
-    parser.add_argument("--categories-per-scene", type=int, default=4)
+    parser.add_argument("--search-limit", type=int, default=100)
+    parser.add_argument("--search-pages", type=int, default=4)
+    parser.add_argument("--queries-per-scene", type=int, default=14)
+    parser.add_argument("--categories-per-scene", type=int, default=10)
     parser.add_argument(
         "--min-semantic-score",
         type=int,
@@ -1789,8 +1847,12 @@ def main() -> None:
     parser.add_argument("--max-center-white-ratio", type=float, default=0.82)
     parser.add_argument("--min-pattern-edge-density", type=float, default=0.18)
     parser.add_argument("--min-pattern-saturation", type=float, default=90.0)
-    parser.add_argument("--max-face-area-ratio", type=float, default=0.035)
-    parser.add_argument("--max-skin-ratio", type=float, default=0.32)
+    parser.add_argument("--max-face-area-ratio", type=float, default=0.018)
+    parser.add_argument("--max-skin-ratio", type=float, default=0.18)
+    parser.add_argument("--max-center-skin-ratio", type=float, default=0.16)
+    parser.add_argument("--max-skin-ratio-soft", type=float, default=0.10)
+    parser.add_argument("--max-center-skin-ratio-soft", type=float, default=0.08)
+    parser.add_argument("--max-human-subject-edge-density", type=float, default=0.12)
     parser.add_argument("--duplicate-hamming-distance", type=int, default=4)
     parser.add_argument("--duplicate-dhash-distance", type=int, default=6)
     run(parser.parse_args())

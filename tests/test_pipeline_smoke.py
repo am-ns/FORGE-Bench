@@ -31,6 +31,8 @@ from eval.run_eval import evaluate_geometric_integrity_operator_evidence, evalua
 from eval.geometric_integrity.lattice import evaluate_lattice
 from eval.geometric_integrity.surface import evaluate_surface
 from eval.industrial_constraints.count_invariant import check_count_invariant
+from eval.industrial_constraints.kinematic_coupling import check_kinematic_coupling
+from eval.industrial_constraints.topology_merge_detector import check_topology_merge
 from eval.operator_evidence import evaluate_operator_evidence
 from eval.preflight import check_dataset_integrity, validate_frame_count
 from eval.viewpoint_motion_fidelity.eval import compute_viewpoint_motion_fidelity
@@ -316,6 +318,26 @@ class TestCountInvariant:
         result = check_count_invariant(frames, "fuselage_protrusions")
         assert result["count_stable"] is False
         assert result["score"] < 0.8
+
+    def test_topology_merge_reports_adaptive_component_diagnostics(self):
+        frames = []
+        for _ in range(4):
+            frame = np.zeros((240, 320, 3), dtype=np.uint8)
+            cv2.rectangle(frame, (70, 95), (125, 145), (255, 255, 255), -1)
+            cv2.rectangle(frame, (190, 95), (245, 145), (255, 255, 255), -1)
+            frames.append(frame)
+        result = check_topology_merge(frames, n_expected_components=2)
+        assert result["merge_fraction"] == 0.0
+        assert result["topology_score"] > 0.8
+        assert "selected_methods_per_frame" in result
+        assert result["confidence"] > 0.5
+
+    def test_kinematic_coupling_tolerates_global_camera_translation(self):
+        frames = _make_translated_textured_frames()
+        result = check_kinematic_coupling(frames, mechanism_type="mobile_robot")
+        assert result["coupling_score"] > 0.7
+        assert result["median_ransac_inlier_ratio"] > 0.5
+        assert result["rigid_body_satisfied"] is True
 
 
 class TestOperatorEvidence:

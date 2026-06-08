@@ -18,6 +18,8 @@ CONFIG = {
     "lk_win_size": 21,
     "lk_max_level": 3,
     "conveyor_roi": (0.4, 0.7, 0.1, 0.9),
+    "fb_max_error": 2.5,
+    "min_ransac_inlier_ratio": 0.45,
 }
 
 
@@ -43,6 +45,47 @@ def _detect_corner_points(gray: np.ndarray, max_points: int = 30) -> np.ndarray:
 
     # Return as (x, y) float32 for Lucas-Kanade
     return corners[:, ::-1].astype(np.float32)
+
+
+def _detect_feature_points(gray: np.ndarray, max_points: int = 180) -> np.ndarray:
+    pts = cv2.goodFeaturesToTrack(
+        gray,
+        maxCorners=max_points,
+        qualityLevel=0.01,
+        minDistance=12,
+        blockSize=7,
+    )
+    return pts.reshape(-1, 2).astype(np.float32) if pts is not None else np.empty((0, 2), dtype=np.float32)
+
+
+def _track_first_to_frame(first: np.ndarray, current: np.ndarray, points: np.ndarray) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    if len(points) == 0:
+        empty = np.empty((0, 2), dtype=np.float32)
+        return empty, empty, np.empty((0,), dtype=np.float32)
+    pts0 = points.reshape(-1, 1, 2).astype(np.float32)
+    params = dict(
+        winSize=(CONFIG["lk_win_size"], CONFIG["lk_win_size"]),
+        maxLevel=CONFIG["lk_max_level"],
+        criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 30, 0.01),
+    )
+    pts1, status_fwd, _ = cv2.calcOpticalFlowPyrLK(first, current, pts0, None, **params)
+    if pts1 is None or status_fwd is None:
+        empty = np.empty((0, 2), dtype=np.float32)
+        return empty, empty, np.empty((0,), dtype=np.float32)
+    pts0_back, status_back, _ = cv2.calcOpticalFlowPyrLK(current, first, pts1, None, **params)
+    if pts0_back is None or status_back is None:
+        empty = np.empty((0, 2), dtype=np.float32)
+        return empty, empty, np.empty((0,), dtype=np.float32)
+    start = pts0.reshape(-1, 2)
+    end = pts1.reshape(-1, 2)
+    back = pts0_back.reshape(-1, 2)
+    fb = np.linalg.norm(start - back, axis=1)
+    good = (
+        (status_fwd.ravel() == 1)
+        & (status_back.ravel() == 1)
+        & (fb <= CONFIG["fb_max_error"])
+    )
+    return start[good].astype(np.float32), end[good].astype(np.float32), fb[good].astype(np.float32)
 
 
 def _track_keypoints_lk(
@@ -218,8 +261,7 @@ def _check_rigid_keypoint_coupling(grays: list[np.ndarray], mechanism_type: str)
             "error": "insufficient_frames",
         }
 
-    # Detect initial keypoints
-    initial_pts = _detect_corner_points(grays[0], max_points=20)
+    initial_pts = _detect_feature_points(grays[0], max_points=180)
     if len(initial_pts) < 3:
         return {
             "mechanism_type": mechanism_type,
@@ -229,46 +271,78 @@ def _check_rigid_keypoint_coupling(grays: list[np.ndarray], mechanism_type: str)
             "error": "insufficient_initial_keypoints",
         }
 
-    # Track keypoints across frames
-    tracks = _track_keypoints_lk(grays, initial_pts)
+    pairwise_drifts = []
+    residual_norms = []
+    inlier_ratios = []
+    tracked_counts = []
+    fb_errors = []
+    for current in grays[1:]:
+        start, end, fb = _track_first_to_frame(grays[0], current, initial_pts)
+        tracked_counts.append(int(len(start)))
+        if len(fb):
+            fb_errors.append(float(np.median(fb)))
+        if len(start) < 4:
+            continue
+        matrix, inliers = cv2.estimateAffinePartial2D(
+            start,
+            end,
+            method=cv2.RANSAC,
+            ransacReprojThreshold=3.0,
+            maxIters=2000,
+            confidence=0.99,
+        )
+        if matrix is None or inliers is None:
+            inlier_mask = np.zeros(len(start), dtype=bool)
+            predicted = end
+        else:
+            inlier_mask = inliers.ravel().astype(bool)
+            predicted = cv2.transform(start.reshape(-1, 1, 2), matrix).reshape(-1, 2)
+        inlier_ratio = float(inlier_mask.sum() / max(len(start), 1))
+        inlier_ratios.append(inlier_ratio)
+        residual = np.linalg.norm(end - predicted, axis=1)
+        residual_norms.append(float(np.median(residual) / max(grays[0].shape[:2])))
+        if inlier_mask.sum() >= 3:
+            d0 = _pairwise_distances(start[inlier_mask])
+            d1 = _pairwise_distances(end[inlier_mask])
+        else:
+            d0 = _pairwise_distances(start)
+            d1 = _pairwise_distances(end)
+        valid = d0 > 10.0
+        if np.any(valid):
+            pairwise_drifts.append(float(np.median(np.abs(d1[valid] - d0[valid]) / np.maximum(d0[valid], 1e-6))))
 
-    # Compute pairwise distances per frame
-    all_dists = []
-    for pts in tracks:
-        pts_flat = pts.reshape(-1, 2) if pts.ndim == 3 else pts
-        if len(pts_flat) >= 3:
-            all_dists.append(_pairwise_distances(pts_flat))
-
-    if len(all_dists) < 2:
+    if not pairwise_drifts or not inlier_ratios:
         return {
             "mechanism_type": mechanism_type,
             "coupling_score": 0.10,
             "coupling_deviation_pct": 100.0,
             "rigid_body_satisfied": False,
             "error": "insufficient_tracked_frames",
+            "tracked_points_per_frame": tracked_counts,
         }
 
-    # Use minimum common length across all frames
-    min_len = min(len(d) for d in all_dists)
-    dist_matrix = np.array([d[:min_len] for d in all_dists])  # (frames, pairs)
-
-    means = np.mean(dist_matrix, axis=0)
-    stds = np.std(dist_matrix, axis=0)
-
-    # Per-link relative deviation (coefficient of variation)
-    rel_devs = stds / (means + 1e-8)
-    mean_rel_dev = float(np.mean(rel_devs))
-    deviation_pct = mean_rel_dev * 100.0
-
-    # Graduated scoring with floor 0.10.
-    # score = max(0.10, 1.0 - cv * 5.0)  so 20% cv => 0.0 floored to 0.10
-    score = max(0.10, 1.0 - mean_rel_dev * 5.0)
-    rigid_satisfied = bool(deviation_pct < 5.0)
+    median_pairwise_drift = float(np.median(pairwise_drifts))
+    median_residual_norm = float(np.median(residual_norms)) if residual_norms else 1.0
+    median_inlier_ratio = float(np.median(inlier_ratios))
+    deviation_pct = 100.0 * max(median_pairwise_drift, median_residual_norm)
+    pairwise_score = max(0.0, 1.0 - median_pairwise_drift * 4.0)
+    residual_score = max(0.0, 1.0 - median_residual_norm * 10.0)
+    score = 0.45 * pairwise_score + 0.35 * median_inlier_ratio + 0.20 * residual_score
+    rigid_satisfied = bool(
+        median_pairwise_drift < 0.08
+        and median_residual_norm < 0.035
+        and median_inlier_ratio >= CONFIG["min_ransac_inlier_ratio"]
+    )
 
     return {
         "mechanism_type": mechanism_type,
         "coupling_score": round(max(0.10, min(1.0, score)), 4),
         "coupling_deviation_pct": round(deviation_pct, 2),
+        "median_pairwise_drift": round(median_pairwise_drift, 4),
+        "median_affine_residual_norm": round(median_residual_norm, 4),
+        "median_ransac_inlier_ratio": round(median_inlier_ratio, 4),
+        "tracked_points_per_frame": tracked_counts,
+        "forward_backward_error_median": round(float(np.median(fb_errors)), 4) if fb_errors else None,
         "rigid_body_satisfied": rigid_satisfied,
     }
 

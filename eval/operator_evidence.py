@@ -20,6 +20,7 @@ CONFIG = {
     "local_change_low": 0.08,
     "global_change_high": 0.35,
     "fluid_area_growth_min": 0.12,
+    "fluid_min_component_area": 0.0008,
     "joint_min_tracks": 4,
     "alignment_min_inliers": 12,
     "alignment_min_inlier_ratio": 0.35,
@@ -53,6 +54,39 @@ def _foreground_mask(gray: np.ndarray) -> np.ndarray:
     return cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel, iterations=1)
 
 
+def _largest_components(mask: np.ndarray, *, min_area_frac: float = 0.0008, keep: int = 3) -> np.ndarray:
+    """Keep the largest connected foreground components and suppress speckle."""
+    num_labels, labels, stats, _ = cv2.connectedComponentsWithStats(mask)
+    if num_labels <= 1:
+        return np.zeros_like(mask)
+    min_area = min_area_frac * mask.shape[0] * mask.shape[1]
+    components = [
+        (int(stats[label, cv2.CC_STAT_AREA]), label)
+        for label in range(1, num_labels)
+        if stats[label, cv2.CC_STAT_AREA] >= min_area
+    ]
+    if not components:
+        return np.zeros_like(mask)
+    out = np.zeros_like(mask)
+    for _area, label in sorted(components, reverse=True)[:keep]:
+        out[labels == label] = 255
+    kernel = np.ones((5, 5), np.uint8)
+    return cv2.morphologyEx(out, cv2.MORPH_CLOSE, kernel, iterations=1)
+
+
+def _fluid_event_mask(gray: np.ndarray, anchor_gray: np.ndarray | None = None) -> np.ndarray:
+    """Build a non-semantic but event-focused mask for plume/fire/fluid changes."""
+    fg = _foreground_mask(gray)
+    if anchor_gray is None:
+        return _largest_components(fg, min_area_frac=CONFIG["fluid_min_component_area"], keep=3)
+    diff = cv2.absdiff(anchor_gray, gray)
+    blur = cv2.GaussianBlur(diff, (5, 5), 0)
+    threshold = max(12, int(np.mean(blur) + np.std(blur)))
+    _, diff_mask = cv2.threshold(blur, threshold, 255, cv2.THRESH_BINARY)
+    combined = cv2.bitwise_or(fg, diff_mask)
+    return _largest_components(combined, min_area_frac=CONFIG["fluid_min_component_area"], keep=3)
+
+
 def _change_mask(a: np.ndarray, b: np.ndarray) -> np.ndarray:
     diff = cv2.absdiff(a, b)
     _, mask = cv2.threshold(diff, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
@@ -65,6 +99,18 @@ def _bbox_from_mask(mask: np.ndarray) -> tuple[int, int, int, int] | None:
     if pts is None:
         return None
     return cv2.boundingRect(pts)
+
+
+def _bbox_iou(a: tuple[int, int, int, int], b: tuple[int, int, int, int]) -> float:
+    ax, ay, aw, ah = a
+    bx, by, bw, bh = b
+    ax2, ay2 = ax + aw, ay + ah
+    bx2, by2 = bx + bw, by + bh
+    ix0, iy0 = max(ax, bx), max(ay, by)
+    ix1, iy1 = min(ax2, bx2), min(ay2, by2)
+    inter = max(0, ix1 - ix0) * max(0, iy1 - iy0)
+    union = aw * ah + bw * bh - inter
+    return float(inter / union) if union > 0 else 0.0
 
 
 def _feature_tracks(first: np.ndarray, last: np.ndarray, *, max_corners: int = 300) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
@@ -216,39 +262,68 @@ def evaluate_local_region_lock(
 
 
 def evaluate_fluid_diffusion(frames: list[np.ndarray]) -> dict:
-    """Track foreground plume/leak area and centroid continuity as fluid evidence."""
+    """Track plume/leak/fire event area, centroid continuity, and source persistence."""
     if len(frames) < 2:
         return {"operator": "fluid_diffusion", "status": "insufficient_frames"}
     indices = _sample_indices(len(frames), CONFIG["sample_frames"])
+    anchor = _gray(frames[indices[0]])
     areas = []
     centroids = []
+    component_counts = []
+    bbox_ious = []
+    prev_bbox = None
     for idx in indices:
-        mask = _foreground_mask(_gray(frames[idx]))
+        mask = _fluid_event_mask(_gray(frames[idx]), anchor)
         area = float(np.count_nonzero(mask)) / float(mask.shape[0] * mask.shape[1])
         areas.append(area)
+        num_labels, _labels, stats, _ = cv2.connectedComponentsWithStats(mask)
+        min_area = CONFIG["fluid_min_component_area"] * mask.shape[0] * mask.shape[1]
+        component_counts.append(sum(1 for label in range(1, num_labels) if stats[label, cv2.CC_STAT_AREA] >= min_area))
         moments = cv2.moments(mask)
         if moments["m00"] > 0:
             centroids.append((moments["m10"] / moments["m00"], moments["m01"] / moments["m00"]))
         else:
             centroids.append(None)
+        bbox = _bbox_from_mask(mask)
+        if prev_bbox is not None and bbox is not None:
+            bbox_ious.append(_bbox_iou(prev_bbox, bbox))
+        prev_bbox = bbox if bbox is not None else prev_bbox
     growth = areas[-1] - areas[0]
     nondecreasing_steps = sum(b >= a for a, b in zip(areas, areas[1:]))
     valid_centroids = [c for c in centroids if c is not None]
     centroid_jump = 0.0
+    centroid_path = 0.0
     if len(valid_centroids) >= 2:
         jumps = [
             float(np.hypot(b[0] - a[0], b[1] - a[1]))
             for a, b in zip(valid_centroids, valid_centroids[1:])
         ]
         centroid_jump = max(jumps) / max(frames[0].shape[:2])
+        centroid_path = sum(jumps) / max(frames[0].shape[:2])
+    valid_observation_fraction = len(valid_centroids) / max(len(indices), 1)
+    area_jitter = float(np.std(areas) / max(np.mean(areas), 1e-6)) if areas else 1.0
+    component_count_max = max(component_counts) if component_counts else 0
+    component_count_median = float(np.median(component_counts)) if component_counts else 0.0
+    spatial_overlap = float(np.mean(bbox_ious)) if bbox_ious else 0.0
+    plausible_continuity = (
+        valid_observation_fraction >= 0.55
+        and centroid_jump < 0.25
+        and component_count_max <= max(4, component_count_median + 3)
+    )
+    plausible_growth = growth >= -CONFIG["fluid_area_growth_min"] and area_jitter < 2.5
     return {
         "operator": "fluid_diffusion",
         "area_sequence": [round(v, 4) for v in areas],
         "area_growth": round(float(growth), 4),
         "nondecreasing_step_fraction": round(nondecreasing_steps / max(len(areas) - 1, 1), 4),
         "max_centroid_jump_norm": round(float(centroid_jump), 4),
-        "plausible_continuity": bool(centroid_jump < 0.25),
-        "plausible_growth": bool(growth >= -CONFIG["fluid_area_growth_min"]),
+        "centroid_path_norm": round(float(centroid_path), 4),
+        "valid_observation_fraction": round(float(valid_observation_fraction), 4),
+        "component_count_sequence": component_counts,
+        "area_jitter": round(float(area_jitter), 4),
+        "mean_bbox_iou": round(float(spatial_overlap), 4),
+        "plausible_continuity": bool(plausible_continuity),
+        "plausible_growth": bool(plausible_growth),
     }
 
 
@@ -485,7 +560,11 @@ def _operator_confidence(operator: str, result: dict) -> float:
         if len(area_sequence) < 3:
             return 0.25
         jump = float(result.get("max_centroid_jump_norm") or 0.0)
-        return round(float(max(0.2, min(0.85, 1.0 - jump))), 4)
+        observation = float(result.get("valid_observation_fraction") or 0.0)
+        overlap = float(result.get("mean_bbox_iou") or 0.0)
+        jitter = float(result.get("area_jitter") or 2.5)
+        confidence = 0.40 * observation + 0.25 * max(0.0, 1.0 - jump) + 0.20 * overlap + 0.15 * max(0.0, 1.0 - jitter / 2.5)
+        return round(float(max(0.2, min(0.88, confidence))), 4)
     if operator == "safety_compliance_motion":
         flows = result.get("median_flow_sequence") or []
         if len(flows) < 2:
