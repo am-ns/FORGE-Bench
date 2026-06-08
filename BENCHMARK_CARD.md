@@ -66,14 +66,14 @@ application failures.
 
 The report exposes:
 
-- `technical_score`: task-conditioned five-axis technical score.
-- `application_score_strict`: application score used for ranking, with missing
-  event coverage counted as zero coverage.
-- `application_score`: backward-compatible fallback application score.
+- `technical_score`: arithmetic mean of the five technical axes after
+  operator-evidence integration.
+- `application_score`: application usefulness score used in the 5+1 ranking formula.
+- `application_score_strict`: diagnostic application score with missing event
+  coverage counted as zero coverage.
 - `application_score_available_case`: application score only where event
   coverage is available.
-- `ranking_score`: technical score multiplied by application and reliability
-  penalties, plus a hard penalty for severe misleading application failures.
+- `ranking_score`: `0.8 * technical_score + 0.2 * application_score`.
 
 ## Axis Weights
 
@@ -92,7 +92,7 @@ characterized as **per-task-category** rather than per-sample dynamic.
 Reports include bootstrap confidence intervals for main metrics, stratified
 confidence intervals by domain/task/application groups, parsing-validity
 statistics for judge outputs, coverage matrices, application failure taxonomy,
-and ranking sensitivity under nearby penalty-floor variants.
+and diagnostic comparisons against removed multiplicative penalty variants.
 
 ## Dataset Distribution
 

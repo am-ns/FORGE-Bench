@@ -20,6 +20,8 @@ CONFIG = {
     "assumed_vertical_fov_deg": 60.0,  # Used to map crane translation to angle
     "translation_target_tolerance": 0.35,
     "direction_ratio_min": 1.25,
+    "global_motion_min_inlier_ratio": 0.35,
+    "global_motion_min_coverage": 0.06,
 }
 
 
@@ -115,24 +117,24 @@ def _estimate_affine_motion(prev_gray: np.ndarray, curr_gray: np.ndarray,
     pts_prev = cv2.goodFeaturesToTrack(prev_gray, maxCorners=500, qualityLevel=0.01,
                                         minDistance=10, blockSize=7)
     if pts_prev is None or len(pts_prev) < CONFIG["ransac_min_inliers"]:
-        return None, 0
+        return None
 
     H, W = prev_gray.shape[:2]
     win = max(11, int(min(H, W) / 40))
     pts_curr, status, _ = cv2.calcOpticalFlowPyrLK(prev_gray, curr_gray, pts_prev, None,
                                                     winSize=(win, win))
     if pts_curr is None:
-        return None, 0
+        return None
 
     good = status.flatten() == 1
     pts_prev_good = pts_prev[good]
     pts_curr_good = pts_curr[good]
     if len(pts_prev_good) < CONFIG["ransac_min_inliers"]:
-        return None, 0
+        return None
 
     M, inliers = cv2.estimateAffinePartial2D(pts_prev_good, pts_curr_good, method=cv2.RANSAC)
     if M is None or inliers is None:
-        return None, 0
+        return None
 
     num_inliers = int(inliers.sum())
     if num_inliers < CONFIG["ransac_min_inliers"]:
@@ -140,6 +142,116 @@ def _estimate_affine_motion(prev_gray: np.ndarray, curr_gray: np.ndarray,
 
     scale_ratio = float(np.hypot(float(M[0, 0]), float(M[1, 0])))
     return float(M[0, 2]), float(M[1, 2]), scale_ratio, num_inliers
+
+
+def _point_coverage(points: np.ndarray, shape: tuple[int, int]) -> float:
+    if len(points) < 2:
+        return 0.0
+    h, w = shape[:2]
+    pts = points.reshape(-1, 2)
+    x0, y0 = np.min(pts, axis=0)
+    x1, y1 = np.max(pts, axis=0)
+    return float(max(0.0, (x1 - x0) * (y1 - y0)) / max(1.0, h * w))
+
+
+def _estimate_global_motion_support(prev_gray: np.ndarray, curr_gray: np.ndarray,
+                                    roi_center: bool = False) -> dict:
+    """Estimate whether camera motion is supported by frame-wide tracked features."""
+    if roi_center:
+        prev_gray = _roi_center_crop(prev_gray)
+        curr_gray = _roi_center_crop(curr_gray)
+    pts_prev = cv2.goodFeaturesToTrack(
+        prev_gray,
+        maxCorners=500,
+        qualityLevel=0.01,
+        minDistance=10,
+        blockSize=7,
+    )
+    if pts_prev is None or len(pts_prev) < CONFIG["ransac_min_inliers"]:
+        return {
+            "global_motion_tracks": 0,
+            "global_motion_inliers": 0,
+            "global_motion_inlier_ratio": 0.0,
+            "global_motion_spatial_coverage": 0.0,
+            "global_motion_supported": False,
+        }
+    h, w = prev_gray.shape[:2]
+    win = max(11, int(min(h, w) / 40))
+    pts_curr, status_fwd, _ = cv2.calcOpticalFlowPyrLK(prev_gray, curr_gray, pts_prev, None, winSize=(win, win))
+    if pts_curr is None or status_fwd is None:
+        return {
+            "global_motion_tracks": 0,
+            "global_motion_inliers": 0,
+            "global_motion_inlier_ratio": 0.0,
+            "global_motion_spatial_coverage": 0.0,
+            "global_motion_supported": False,
+        }
+    pts_back, status_back, _ = cv2.calcOpticalFlowPyrLK(curr_gray, prev_gray, pts_curr, None, winSize=(win, win))
+    if pts_back is None or status_back is None:
+        return {
+            "global_motion_tracks": 0,
+            "global_motion_inliers": 0,
+            "global_motion_inlier_ratio": 0.0,
+            "global_motion_spatial_coverage": 0.0,
+            "global_motion_supported": False,
+        }
+    p0 = pts_prev.reshape(-1, 2)
+    p1 = pts_curr.reshape(-1, 2)
+    p0_back = pts_back.reshape(-1, 2)
+    fb_error = np.linalg.norm(p0 - p0_back, axis=1)
+    good = (
+        (status_fwd.ravel() == 1)
+        & (status_back.ravel() == 1)
+        & (fb_error <= 2.5)
+    )
+    p0_good = p0[good].astype(np.float32)
+    p1_good = p1[good].astype(np.float32)
+    if len(p0_good) < CONFIG["ransac_min_inliers"]:
+        return {
+            "global_motion_tracks": int(len(p0_good)),
+            "global_motion_inliers": 0,
+            "global_motion_inlier_ratio": 0.0,
+            "global_motion_spatial_coverage": round(float(_point_coverage(p0_good, prev_gray.shape)), 4),
+            "global_motion_supported": False,
+            "forward_backward_error_median": round(float(np.median(fb_error[good])), 4) if np.any(good) else None,
+        }
+    _matrix, inliers = cv2.estimateAffinePartial2D(p0_good, p1_good, method=cv2.RANSAC, ransacReprojThreshold=3.0)
+    if inliers is None:
+        inlier_count = 0
+        inlier_ratio = 0.0
+        coverage = _point_coverage(p0_good, prev_gray.shape)
+    else:
+        mask = inliers.ravel().astype(bool)
+        inlier_count = int(mask.sum())
+        inlier_ratio = float(inlier_count / max(len(p0_good), 1))
+        coverage = _point_coverage(p0_good[mask], prev_gray.shape)
+    supported = (
+        inlier_count >= CONFIG["ransac_min_inliers"]
+        and inlier_ratio >= CONFIG["global_motion_min_inlier_ratio"]
+        and coverage >= CONFIG["global_motion_min_coverage"]
+    )
+    return {
+        "global_motion_tracks": int(len(p0_good)),
+        "global_motion_inliers": inlier_count,
+        "global_motion_inlier_ratio": round(float(inlier_ratio), 4),
+        "global_motion_spatial_coverage": round(float(coverage), 4),
+        "global_motion_supported": bool(supported),
+        "forward_backward_error_median": round(float(np.median(fb_error[good])), 4) if np.any(good) else None,
+    }
+
+
+def _viewpoint_confidence(support: dict, method: str, uncalculable: bool = False) -> float:
+    if uncalculable:
+        return 0.0
+    if method.startswith(("phase_correlation", "farneback", "foreground_bbox")):
+        base = 0.45
+    elif method == "static_detected":
+        base = 0.75
+    else:
+        base = 0.55
+    ratio = float(support.get("global_motion_inlier_ratio") or 0.0)
+    coverage = min(1.0, float(support.get("global_motion_spatial_coverage") or 0.0) / 0.18)
+    return round(float(max(0.0, min(0.95, base + 0.25 * ratio + 0.20 * coverage))), 4)
 
 
 def _estimate_farneback_translation(prev_gray: np.ndarray, curr_gray: np.ndarray,
@@ -406,11 +518,12 @@ def compute_viewpoint_motion_fidelity(frames: list[np.ndarray], viewpoint_motion
     dark_bg = float(np.mean(cv2.cvtColor(bgr_frames[0], cv2.COLOR_BGR2GRAY))) < 40
     result["dark_background"] = dark_bg
     use_roi = dark_bg  # use center 60% ROI for dark backgrounds
+    first_gray = cv2.cvtColor(bgr_frames[0], cv2.COLOR_BGR2GRAY)
+    last_gray = cv2.cvtColor(bgr_frames[-1], cv2.COLOR_BGR2GRAY)
+    global_motion_support = _estimate_global_motion_support(first_gray, last_gray, roi_center=use_roi)
 
     # -- Crane motion type: vertical translation estimator --
     if motion_type == "crane":
-        first_gray = cv2.cvtColor(bgr_frames[0], cv2.COLOR_BGR2GRAY)
-        last_gray = cv2.cvtColor(bgr_frames[-1], cv2.COLOR_BGR2GRAY)
         # Crane motion is measured as vertical travel across the frame; center
         # cropping can hide large rises/descents, so use the full frame.
         translation, n_inliers = _estimate_affine_translation(first_gray, last_gray,
@@ -443,6 +556,11 @@ def compute_viewpoint_motion_fidelity(frames: list[np.ndarray], viewpoint_motion
         result["viewpoint_motion_crane_component"] = round(float(crane_angle), 4)
         result["num_frames_used"] = num_frames
         result["viewpoint_motion_estimation_method"] = method
+        result["viewpoint_motion_confidence"] = _viewpoint_confidence(global_motion_support, method)
+        result["viewpoint_motion_validity"] = (
+            "valid" if method == "static_detected" or global_motion_support["global_motion_supported"]
+            else "low_global_motion_support"
+        )
         result["viewpoint_motion_detail"] = {
             "vertical_translation_px": round(float(dy), 4),
             "horizontal_translation_px": round(float(dx), 4),
@@ -451,6 +569,7 @@ def compute_viewpoint_motion_fidelity(frames: list[np.ndarray], viewpoint_motion
             "mean_flow_magnitude_px_per_frame": round(float(mean_flow_mag), 4),
             "assumed_vertical_fov_deg": CONFIG["assumed_vertical_fov_deg"],
             "dark_background": dark_bg,
+            **global_motion_support,
         }
         return result
 
@@ -471,8 +590,6 @@ def compute_viewpoint_motion_fidelity(frames: list[np.ndarray], viewpoint_motion
 
     translation_target = _parse_translation_target(viewpoint_motion_target, motion_type)
     if translation_target is not None:
-        first_gray = cv2.cvtColor(bgr_frames[0], cv2.COLOR_BGR2GRAY)
-        last_gray = cv2.cvtColor(bgr_frames[-1], cv2.COLOR_BGR2GRAY)
         if _is_static(mean_flow_mag, dark_bg):
             dx = dy = 0.0
             scale_ratio = 1.0
@@ -492,6 +609,11 @@ def compute_viewpoint_motion_fidelity(frames: list[np.ndarray], viewpoint_motion
         result["viewpoint_motion_crane_component"] = 0.0
         result["num_frames_used"] = num_frames
         result["viewpoint_motion_estimation_method"] = method
+        result["viewpoint_motion_confidence"] = _viewpoint_confidence(global_motion_support, method)
+        result["viewpoint_motion_validity"] = (
+            "valid" if method == "static_detected" or global_motion_support["global_motion_supported"]
+            else "low_global_motion_support"
+        )
         result["viewpoint_motion_detail"] = {
             "horizontal_translation_px": round(float(dx), 4),
             "vertical_translation_px": round(float(dy), 4),
@@ -502,6 +624,7 @@ def compute_viewpoint_motion_fidelity(frames: list[np.ndarray], viewpoint_motion
             "anchor_flow_magnitude_px": round(float(anchor_flow_mag), 4),
             "motion_constraint": translation_target,
             "dark_background": dark_bg,
+            **global_motion_support,
         }
         return result
 
@@ -512,18 +635,18 @@ def compute_viewpoint_motion_fidelity(frames: list[np.ndarray], viewpoint_motion
         result["viewpoint_motion_crane_component"] = 0.0
         result["num_frames_used"] = num_frames
         result["viewpoint_motion_estimation_method"] = "static_detected"
+        result["viewpoint_motion_confidence"] = _viewpoint_confidence(global_motion_support, "static_detected")
+        result["viewpoint_motion_validity"] = "valid"
         result["viewpoint_motion_detail"] = {
             "mean_flow_magnitude_px_per_frame": round(mean_flow_mag, 4),
             "dark_background": dark_bg,
+            **global_motion_support,
         }
         return result
 
     # -- Anchor-to-final RANSAC orbit estimation --
     # Estimate rotation from FIRST frame to LAST frame in a single RANSAC pass.
     # This avoids error amplification from pairwise accumulation.
-    first_gray = cv2.cvtColor(bgr_frames[0], cv2.COLOR_BGR2GRAY)
-    last_gray = cv2.cvtColor(bgr_frames[-1], cv2.COLOR_BGR2GRAY)
-
     angle_deg, n_inliers = _estimate_affine_rotation_angle(first_gray, last_gray,
                                                             roi_center=use_roi)
 
@@ -542,9 +665,12 @@ def compute_viewpoint_motion_fidelity(frames: list[np.ndarray], viewpoint_motion
         result["viewpoint_motion_uncalculable"] = True
         result["viewpoint_motion_estimation_method"] = "anchor_to_final_ransac"
         result["num_frames_used"] = 0
+        result["viewpoint_motion_confidence"] = 0.0
+        result["viewpoint_motion_validity"] = "ransac_affine_failed_insufficient_inliers"
         result["viewpoint_motion_detail"] = {
             "dark_background": dark_bg,
             "note": "ransac_affine_failed_insufficient_inliers",
+            **global_motion_support,
         }
         return result
 
@@ -557,10 +683,16 @@ def compute_viewpoint_motion_fidelity(frames: list[np.ndarray], viewpoint_motion
     result["viewpoint_motion_crane_component"] = crane_component
     result["num_frames_used"] = num_frames
     result["viewpoint_motion_estimation_method"] = "anchor_to_final_ransac"
+    result["viewpoint_motion_confidence"] = _viewpoint_confidence(global_motion_support, "anchor_to_final_ransac")
+    result["viewpoint_motion_validity"] = (
+        "valid" if global_motion_support["global_motion_supported"]
+        else "low_global_motion_support"
+    )
     result["viewpoint_motion_detail"] = {
         "anchor_to_final_angle_deg": round(float(angle_deg), 4),
         "ransac_inliers": n_inliers,
         "mean_flow_magnitude_px_per_frame": round(mean_flow_mag, 4),
         "dark_background": dark_bg,
+        **global_motion_support,
     }
     return result

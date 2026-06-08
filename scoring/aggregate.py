@@ -591,25 +591,35 @@ def _operator_risk_multiplier(result: dict) -> float:
     operators = evidence.get("operators") or {}
     multiplier = 1.0
 
+    def operator_can_cap(payload: dict, *, min_confidence: float = 0.70) -> bool:
+        if not payload.get("used_for_axis_cap", False):
+            return False
+        if payload.get("validity") not in {None, "valid"}:
+            return False
+        try:
+            return float(payload.get("confidence", 0.0)) >= min_confidence
+        except (TypeError, ValueError):
+            return False
+
     local = operators.get("local_region_lock") or {}
     changed_fraction = local.get("changed_fraction")
-    if local.get("risk") == "global_regeneration":
+    if operator_can_cap(local) and local.get("risk") == "global_regeneration":
         multiplier *= 0.70
-    elif changed_fraction is not None and float(changed_fraction) > 0.25:
+    elif operator_can_cap(local) and changed_fraction is not None and float(changed_fraction) > 0.25:
         multiplier *= 0.88
 
     temporal = operators.get("temporal_break") or {}
-    if temporal.get("abrupt_transition") is True:
+    if operator_can_cap(temporal) and temporal.get("abrupt_transition") is True:
         multiplier *= 0.65
-    if temporal.get("late_break") is True and temporal.get("abrupt_transition") is True:
+    if operator_can_cap(temporal) and temporal.get("late_break") is True and temporal.get("abrupt_transition") is True:
         multiplier *= 0.75
 
     rigid = operators.get("rigid_joint_tracking") or {}
-    if rigid.get("risk") == "rigid_drift":
+    if operator_can_cap(rigid) and rigid.get("risk") == "rigid_drift":
         multiplier *= 0.82
 
     fluid = operators.get("fluid_diffusion") or {}
-    if fluid.get("plausible_continuity") is False:
+    if operator_can_cap(fluid) and fluid.get("plausible_continuity") is False:
         multiplier *= 0.80
 
     return max(CONFIG["operator_gate_min"], min(1.0, float(multiplier)))
@@ -664,23 +674,33 @@ def _operator_constraint(result: dict) -> tuple[float, float | None, list[str]]:
     severe_count = 0
     cap: float | None = None
 
+    def operator_can_cap(payload: dict, *, min_confidence: float = 0.70) -> bool:
+        if not payload.get("used_for_axis_cap", False):
+            return False
+        if payload.get("validity") not in {None, "valid"}:
+            return False
+        try:
+            return float(payload.get("confidence", 0.0)) >= min_confidence
+        except (TypeError, ValueError):
+            return False
+
     local = operators.get("local_region_lock") or {}
-    if local.get("risk") == "global_regeneration":
+    if operator_can_cap(local) and local.get("risk") == "global_regeneration":
         severe_count += 1
         reasons.append("operator_global_regeneration")
 
     temporal = operators.get("temporal_break") or {}
-    if temporal.get("abrupt_transition") is True:
+    if operator_can_cap(temporal) and temporal.get("abrupt_transition") is True:
         severe_count += 1
         reasons.append("operator_abrupt_temporal_transition")
 
     rigid = operators.get("rigid_joint_tracking") or {}
-    if rigid.get("risk") == "rigid_drift":
+    if operator_can_cap(rigid) and rigid.get("risk") == "rigid_drift":
         cap = 80.0 if cap is None else min(cap, 80.0)
         reasons.append("operator_rigid_drift")
 
     fluid = operators.get("fluid_diffusion") or {}
-    if fluid.get("plausible_continuity") is False:
+    if operator_can_cap(fluid) and fluid.get("plausible_continuity") is False:
         cap = 80.0 if cap is None else min(cap, 80.0)
         reasons.append("operator_fluid_discontinuity")
 

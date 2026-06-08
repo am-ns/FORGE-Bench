@@ -7,6 +7,7 @@ respects the physical topology constraints unique to each industrial domain.
 
 import numpy as np
 
+from eval.operator_plan import build_operator_plan, operator_names
 from eval.industrial_constraints.count_invariant import check_count_invariant
 from eval.industrial_constraints.kinematic_coupling import check_kinematic_coupling
 from eval.industrial_constraints.periodic_structure import check_periodic_structure
@@ -143,6 +144,95 @@ _DISPATCH_TABLE: dict[tuple[str, str], list[dict]] = {
 }
 
 
+_SCENE_CHECKERS: dict[str, list[dict]] = {
+    "erob_robot_arm_precision_grasp": [
+        {"fn": check_kinematic_coupling, "kwargs": {"mechanism_type": "robotic_arm"}},
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+    ],
+    "erob_gripper_failure_recovery": [
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+    ],
+    "erob_amr_warehouse_navigation": [
+        {"fn": check_kinematic_coupling, "kwargs": {"mechanism_type": "mobile_robot"}},
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+    ],
+    "erob_tracked_robot_rubble": [
+        {"fn": check_kinematic_coupling, "kwargs": {"mechanism_type": "mobile_robot"}},
+        {"fn": check_count_invariant, "kwargs": {"element_type": "track_links"}},
+    ],
+    "hload_sling_angle_center_of_gravity": [
+        {"fn": check_kinematic_coupling, "kwargs": {"mechanism_type": "sling_load"}},
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+    ],
+    "hload_blind_lift_spotter_view": [
+        {"fn": check_kinematic_coupling, "kwargs": {"mechanism_type": "sling_load"}},
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+    ],
+    "pdef_weld_porosity_crack": [
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+    ],
+    "pdef_surface_scratch_inspection": [
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+    ],
+}
+
+
+_CURRENT_DOMAIN_DEFAULT_CHECKERS: dict[tuple[str, str], list[dict]] = {
+    ("embodied_robotics", "kinematic"): [
+        {"fn": check_kinematic_coupling, "kwargs": {"mechanism_type": "robotic_arm"}},
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+    ],
+    ("embodied_robotics", "lattice"): [
+        {"fn": check_count_invariant, "kwargs": {"element_type": "track_links"}},
+    ],
+    ("heavy_load_construction", "kinematic"): [
+        {"fn": check_kinematic_coupling, "kwargs": {"mechanism_type": "sling_load"}},
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+    ],
+    ("heavy_load_construction", "lattice"): [
+        {"fn": check_periodic_structure, "kwargs": {"structure_type": "lattice_jacket"}},
+    ],
+    ("precision_defect_gen", "lattice"): [
+        {"fn": check_periodic_structure, "kwargs": {"structure_type": "pcb_trace"}},
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+    ],
+    ("precision_defect_gen", "surface"): [
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+    ],
+    ("extreme_emergency", "surface"): [
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+    ],
+    ("visual_security", "surface"): [
+        {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+    ],
+}
+
+
+def _checkers_from_operator_plan(sample_meta: dict | None) -> list[dict]:
+    if not sample_meta:
+        return []
+    scene = str(sample_meta.get("scene_id") or "")
+    if scene in _SCENE_CHECKERS:
+        return _SCENE_CHECKERS[scene]
+    names = operator_names(build_operator_plan(sample_meta))
+    if "kinematic_articulated" in names or "rigid_joint_tracking" in names:
+        if str(sample_meta.get("domain") or "") == "embodied_robotics":
+            return [
+                {"fn": check_kinematic_coupling, "kwargs": {"mechanism_type": "robotic_arm"}},
+                {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+            ]
+        return [{"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}}]
+    if "fourier_spectral_integrity" in names:
+        return [
+            {"fn": check_periodic_structure, "kwargs": {"structure_type": "pcb_trace"}},
+        ]
+    if "sift_homography" in names or "sift_proxy_rigid" in names:
+        return [
+            {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
+        ]
+    return []
+
+
 def evaluate_industrial_constraints(
     domain: str,
     topology_type: str,
@@ -166,32 +256,14 @@ def evaluate_industrial_constraints(
             - checker_results: list of individual checker result dicts
     """
     key = (domain, topology_type)
-    checkers = _DISPATCH_TABLE.get(key, [])
-    if not checkers and sample_meta:
-        task_category = sample_meta.get("task_category", "")
-        if task_category == "rigid_body_kinematics_and_coupling":
-            checkers = [
-                {"fn": check_kinematic_coupling, "kwargs": {"mechanism_type": "robotic_arm"}},
-                {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
-            ]
-        elif task_category == "topology_mutation_and_failure":
-            checkers = [
-                {"fn": check_periodic_structure, "kwargs": {"structure_type": "pcb_trace"}},
-                {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
-            ]
-        elif task_category == "fluid_dynamics_and_thermodynamics":
-            checkers = [
-                {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
-            ]
-        elif task_category == "spatial_exploration_and_viewpoint":
-            checkers = [
-                {"fn": check_count_invariant, "kwargs": {"element_type": "fuselage_protrusions"}},
-                {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
-            ]
-        elif task_category == "industrial_logic_and_compliance":
-            checkers = [
-                {"fn": check_topology_merge, "kwargs": {"n_expected_components": 2}},
-            ]
+    checkers = _checkers_from_operator_plan(sample_meta)
+    if not checkers:
+        checkers = _CURRENT_DOMAIN_DEFAULT_CHECKERS.get(key, [])
+    if not checkers and key not in _CURRENT_DOMAIN_DEFAULT_CHECKERS:
+        # Legacy datasets can still use the legacy dispatch table. Current
+        # five-domain samples must not fall through to unrelated aerospace/
+        # electronics/conveyor heuristics.
+        checkers = _DISPATCH_TABLE.get(key, [])
 
     if not checkers:
         return {

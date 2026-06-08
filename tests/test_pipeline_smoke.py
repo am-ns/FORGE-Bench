@@ -113,6 +113,13 @@ def _make_unstable_count_frames(
     return frames
 
 
+def _make_translated_textured_frames(dx: int = 18, dy: int = 10) -> list[np.ndarray]:
+    base = _make_textured_image(h=240, w=320, n_circles=45, seed=7)
+    matrix = np.float32([[1, 0, dx], [0, 1, dy]])
+    shifted = cv2.warpAffine(base, matrix, (320, 240), borderMode=cv2.BORDER_REPLICATE)
+    return [base, shifted]
+
+
 # ---------------------------------------------------------------------------
 # Tests
 # ---------------------------------------------------------------------------
@@ -229,6 +236,8 @@ class TestViewpointMotionFidelity:
             "farneback_translation",
         }
         assert "horizontal_translation_px" in result["viewpoint_motion_detail"]
+        assert "global_motion_inlier_ratio" in result["viewpoint_motion_detail"]
+        assert result["viewpoint_motion_confidence"] >= 0.0
 
     def test_viewpoint_motion_dolly_scale_video(self):
         """Dolly prompts should use scale change as the motion-control signal."""
@@ -252,6 +261,7 @@ class TestViewpointMotionFidelity:
         assert result["viewpoint_motion_score"] is not None
         assert result["viewpoint_motion_score"] > 40.0
         assert "scale_ratio" in result["viewpoint_motion_detail"]
+        assert "global_motion_spatial_coverage" in result["viewpoint_motion_detail"]
 
 
 class TestGeometricIntegrity:
@@ -352,6 +362,38 @@ class TestOperatorEvidence:
         temporal = evidence["operators"]["temporal_break"]
         assert temporal["abrupt_transition"] is True
         assert any("temporal_break" in risk for risk in evidence["risk_flags"])
+
+    def test_local_region_lock_compensates_global_camera_translation(self):
+        frames = _make_translated_textured_frames()
+        evidence = evaluate_operator_evidence(
+            frames,
+            {
+                "task_id": "camera_001",
+                "task_category": "topology_mutation_and_failure",
+                "motion_type": "pan",
+            },
+            reference_image=frames[0],
+        )
+        local = evidence["operators"]["local_region_lock"]
+        assert local["alignment_valid"] is True
+        assert local["changed_fraction"] < local["raw_changed_fraction"]
+        assert local["camera_motion_confounded"] is False
+        assert local["validity"] == "valid"
+
+    def test_rigid_joint_tracking_reports_global_affine_quality(self):
+        frames = _make_translated_textured_frames()
+        evidence = evaluate_operator_evidence(
+            frames,
+            {
+                "task_id": "rigid_001",
+                "task_category": "rigid_body_kinematics_and_coupling",
+            },
+            reference_image=frames[0],
+        )
+        rigid = evidence["operators"]["rigid_joint_tracking"]
+        assert rigid["tracked_points"] >= 4
+        assert rigid["global_affine_inlier_ratio"] > 0.5
+        assert rigid["risk"] == "none"
 
 
 class TestFloorEnforcer:
@@ -691,10 +733,16 @@ class TestScoring:
                         "local_region_lock": {
                             "risk": "global_regeneration",
                             "localized_change": False,
+                            "used_for_axis_cap": True,
+                            "confidence": 0.9,
+                            "validity": "valid",
                         },
                         "temporal_break": {
                             "abrupt_transition": True,
                             "late_break": True,
+                            "used_for_axis_cap": True,
+                            "confidence": 0.9,
+                            "validity": "valid",
                         },
                     }
                 },
@@ -708,6 +756,30 @@ class TestScoring:
         assert result["constraint_adjusted_score"] == pytest.approx(45.0)
         assert result["constraint_adjustment_summary"]["cap_reason_counts"]["operator_multiple_severe_failures"] == 1
         assert result["constraint_adjustment_summary"]["mean_legacy_penalty_adjusted_score"] == pytest.approx(38.89625)
+
+    def test_per_sample_score_ignores_invalid_operator_caps(self):
+        result = score_sample(
+            {
+                INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80,
+                TEMPORAL_CONSISTENCY: 80,
+                PHYSICAL_PLAUSIBILITY: 80,
+                REFERENCE_AND_MOTION_FIDELITY: 90,
+                GEOMETRIC_INTEGRITY: 80,
+            },
+            operator_evidence={
+                "operators": {
+                    "local_region_lock": {
+                        "risk": "global_regeneration",
+                        "localized_change": False,
+                        "used_for_axis_cap": True,
+                        "confidence": 0.95,
+                        "validity": "camera_motion_confounded",
+                    }
+                }
+            },
+        )
+        assert result["axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == pytest.approx(90.0)
+        assert result["constraint_axis_adjustments"] == {}
 
     def test_physical_plausibility_parser_uses_native_0_100_scale(self):
         """physical plausibility parser should no longer use the legacy 1-5 scale."""

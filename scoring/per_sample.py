@@ -146,25 +146,36 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
         )
 
     operators = (operator_evidence or {}).get("operators") or {}
+
+    def operator_can_cap(payload: dict, *, min_confidence: float = 0.70) -> bool:
+        if not payload.get("used_for_axis_cap", False):
+            return False
+        if payload.get("validity") not in {None, "valid"}:
+            return False
+        try:
+            return float(payload.get("confidence", 0.0)) >= min_confidence
+        except (TypeError, ValueError):
+            return False
+
     local = operators.get("local_region_lock") or {}
-    if local.get("risk") == "global_regeneration":
+    if operator_can_cap(local) and local.get("risk") == "global_regeneration":
         cap_axis(REFERENCE_AND_MOTION_FIDELITY, 60.0, "operator_global_regeneration", "operator_evidence")
         cap_axis(TEMPORAL_CONSISTENCY, 65.0, "operator_global_regeneration", "operator_evidence")
-    elif local.get("changed_fraction") is not None and float(local.get("changed_fraction")) > 0.25:
+    elif operator_can_cap(local) and local.get("changed_fraction") is not None and float(local.get("changed_fraction")) > 0.25:
         cap_axis(REFERENCE_AND_MOTION_FIDELITY, 80.0, "operator_large_nonlocal_change", "operator_evidence")
 
     temporal = operators.get("temporal_break") or {}
-    if temporal.get("abrupt_transition") is True:
+    if operator_can_cap(temporal) and temporal.get("abrupt_transition") is True:
         cap_axis(TEMPORAL_CONSISTENCY, 60.0, "operator_abrupt_temporal_transition", "operator_evidence")
-    if temporal.get("late_break") is True and temporal.get("abrupt_transition") is True:
+    if operator_can_cap(temporal) and temporal.get("late_break") is True and temporal.get("abrupt_transition") is True:
         cap_axis(TEMPORAL_CONSISTENCY, 50.0, "operator_late_abrupt_temporal_break", "operator_evidence")
 
     rigid = operators.get("rigid_joint_tracking") or {}
-    if rigid.get("risk") == "rigid_drift":
+    if operator_can_cap(rigid) and rigid.get("risk") == "rigid_drift":
         cap_axis(GEOMETRIC_INTEGRITY, 80.0, "operator_rigid_drift", "operator_evidence")
 
     fluid = operators.get("fluid_diffusion") or {}
-    if fluid.get("plausible_continuity") is False:
+    if operator_can_cap(fluid) and fluid.get("plausible_continuity") is False:
         cap_axis(PHYSICAL_PLAUSIBILITY, 80.0, "operator_fluid_discontinuity", "operator_evidence")
 
     floored_axis_scores = enforce_score_floors(dict(axis_scores))

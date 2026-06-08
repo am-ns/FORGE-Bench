@@ -226,6 +226,22 @@
         "minLength": 10
       }
     },
+    "operator_plan": {
+      "type": "array",
+      "description": "Optional explicit task-conditioned operator plan; omitted samples use the evaluator's inferred plan.",
+      "items": {
+        "type": "object",
+        "required": ["operator", "tier", "target", "expected_signal", "used_for_axis_cap"],
+        "properties": {
+          "operator": { "type": "string" },
+          "tier": { "type": "string", "enum": ["axis_cap", "judge_evidence", "diagnostic"] },
+          "target": { "type": "string" },
+          "expected_signal": { "type": "string" },
+          "used_for_axis_cap": { "type": "boolean" }
+        },
+        "additionalProperties": true
+      }
+    },
     "failure_target": {
       "type": "string"
     },

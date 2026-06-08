@@ -12,6 +12,7 @@ import cv2
 import numpy as np
 
 from eval.geometric_integrity import normalize_frame
+from eval.operator_plan import build_operator_plan, operator_names, operator_plan_entry
 
 
 CONFIG = {
@@ -20,6 +21,9 @@ CONFIG = {
     "global_change_high": 0.35,
     "fluid_area_growth_min": 0.12,
     "joint_min_tracks": 4,
+    "alignment_min_inliers": 12,
+    "alignment_min_inlier_ratio": 0.35,
+    "track_forward_backward_max_error": 2.5,
     "safety_motion_threshold": 0.8,
     "temporal_break_diff_threshold": 0.28,
     "temporal_break_ratio_threshold": 2.5,
@@ -63,6 +67,100 @@ def _bbox_from_mask(mask: np.ndarray) -> tuple[int, int, int, int] | None:
     return cv2.boundingRect(pts)
 
 
+def _feature_tracks(first: np.ndarray, last: np.ndarray, *, max_corners: int = 300) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Return forward-backward checked first/last point tracks."""
+    pts0 = cv2.goodFeaturesToTrack(
+        first,
+        maxCorners=max_corners,
+        qualityLevel=0.01,
+        minDistance=12,
+        blockSize=7,
+    )
+    if pts0 is None or len(pts0) < CONFIG["joint_min_tracks"]:
+        empty = np.empty((0, 2), dtype=np.float32)
+        return empty, empty, np.empty((0,), dtype=bool)
+    pts1, status_fwd, _ = cv2.calcOpticalFlowPyrLK(first, last, pts0, None)
+    if pts1 is None or status_fwd is None:
+        empty = np.empty((0, 2), dtype=np.float32)
+        return empty, empty, np.empty((0,), dtype=bool)
+    pts0_back, status_back, _ = cv2.calcOpticalFlowPyrLK(last, first, pts1, None)
+    if pts0_back is None or status_back is None:
+        empty = np.empty((0, 2), dtype=np.float32)
+        return empty, empty, np.empty((0,), dtype=bool)
+    p0 = pts0.reshape(-1, 2)
+    p1 = pts1.reshape(-1, 2)
+    p0_back = pts0_back.reshape(-1, 2)
+    fb_error = np.linalg.norm(p0 - p0_back, axis=1)
+    good = (
+        (status_fwd.ravel() == 1)
+        & (status_back.ravel() == 1)
+        & (fb_error <= CONFIG["track_forward_backward_max_error"])
+    )
+    return p0[good].astype(np.float32), p1[good].astype(np.float32), fb_error[good].astype(np.float32)
+
+
+def _track_spatial_coverage(points: np.ndarray, shape: tuple[int, int]) -> float:
+    """Approximate how much of the frame tracked points cover."""
+    if len(points) < 2:
+        return 0.0
+    h, w = shape[:2]
+    x0, y0 = np.min(points, axis=0)
+    x1, y1 = np.max(points, axis=0)
+    return float(max(0.0, (x1 - x0) * (y1 - y0)) / max(1.0, h * w))
+
+
+def _estimate_start_to_end_affine(start: np.ndarray, end: np.ndarray) -> tuple[np.ndarray | None, np.ndarray | None]:
+    if len(start) < CONFIG["alignment_min_inliers"]:
+        return None, None
+    matrix, inliers = cv2.estimateAffinePartial2D(
+        start,
+        end,
+        method=cv2.RANSAC,
+        ransacReprojThreshold=3.0,
+        maxIters=2000,
+        confidence=0.99,
+    )
+    return matrix, inliers
+
+
+def _align_last_to_first(first: np.ndarray, last: np.ndarray) -> tuple[np.ndarray, dict]:
+    """Warp *last* into *first* coordinates using robust global affine alignment."""
+    start, end, _good = _feature_tracks(first, last, max_corners=500)
+    if len(start) < CONFIG["alignment_min_inliers"]:
+        return last, {
+            "alignment_method": "none",
+            "alignment_valid": False,
+            "alignment_inliers": int(len(start)),
+            "alignment_inlier_ratio": 0.0,
+            "alignment_coverage": _track_spatial_coverage(start, first.shape),
+        }
+    matrix, inliers = cv2.estimateAffinePartial2D(end, start, method=cv2.RANSAC, ransacReprojThreshold=3.0)
+    if matrix is None or inliers is None:
+        return last, {
+            "alignment_method": "affine_ransac",
+            "alignment_valid": False,
+            "alignment_inliers": 0,
+            "alignment_inlier_ratio": 0.0,
+            "alignment_coverage": _track_spatial_coverage(start, first.shape),
+        }
+    inlier_count = int(inliers.sum())
+    inlier_ratio = float(inlier_count / max(len(start), 1))
+    coverage = _track_spatial_coverage(start[inliers.ravel() == 1], first.shape)
+    valid = (
+        inlier_count >= CONFIG["alignment_min_inliers"]
+        and inlier_ratio >= CONFIG["alignment_min_inlier_ratio"]
+        and coverage >= 0.08
+    )
+    aligned = cv2.warpAffine(last, matrix, (first.shape[1], first.shape[0]), flags=cv2.INTER_LINEAR)
+    return aligned, {
+        "alignment_method": "affine_ransac",
+        "alignment_valid": bool(valid),
+        "alignment_inliers": inlier_count,
+        "alignment_inlier_ratio": round(inlier_ratio, 4),
+        "alignment_coverage": round(float(coverage), 4),
+    }
+
+
 def evaluate_local_region_lock(
     frames: list[np.ndarray],
     reference_image: np.ndarray | None = None,
@@ -83,8 +181,11 @@ def evaluate_local_region_lock(
         return {"operator": "local_region_lock", "status": "insufficient_frames"}
     first = _gray(reference_image) if reference_image is not None else _gray(frames[0])
     last = _gray(frames[-1])
-    mask = _change_mask(first, last)
+    raw_mask = _change_mask(first, last)
+    aligned_last, alignment = _align_last_to_first(first, last)
+    mask = _change_mask(first, aligned_last if alignment.get("alignment_valid") else last)
     h, w = mask.shape[:2]
+    raw_changed_fraction = float(np.count_nonzero(raw_mask)) / float(h * w)
     changed_fraction = float(np.count_nonzero(mask)) / float(h * w)
     bbox = _bbox_from_mask(mask)
     if bbox is None:
@@ -93,6 +194,7 @@ def evaluate_local_region_lock(
         _x, _y, bw, bh = bbox
         bbox_fraction = float(bw * bh) / float(h * w)
     is_static_task = motion_type is None or motion_type == "static"
+    alignment_confounded = bool(not is_static_task and not alignment.get("alignment_valid"))
     localized = (
         changed_fraction <= CONFIG["global_change_high"]
         and (
@@ -102,10 +204,14 @@ def evaluate_local_region_lock(
     )
     return {
         "operator": "local_region_lock",
+        "raw_changed_fraction": round(raw_changed_fraction, 4),
         "changed_fraction": round(changed_fraction, 4),
         "change_bbox_fraction": round(bbox_fraction, 4),
         "localized_change": bool(localized),
         "risk": "global_regeneration" if changed_fraction > CONFIG["global_change_high"] else "none",
+        "motion_type": motion_type or "unknown",
+        "camera_motion_confounded": alignment_confounded,
+        **alignment,
     }
 
 
@@ -147,41 +253,18 @@ def evaluate_fluid_diffusion(frames: list[np.ndarray]) -> dict:
 
 
 def evaluate_rigid_joint_tracking(frames: list[np.ndarray]) -> dict:
-    """Track corner points and measure pairwise-distance drift as rigid evidence."""
+    """Track corner points and measure camera-compensated rigid drift."""
     if len(frames) < 2:
         return {"operator": "rigid_joint_tracking", "status": "insufficient_frames"}
     grays = [_gray(f) for f in frames]
-    pts0 = cv2.goodFeaturesToTrack(
-        grays[0],
-        maxCorners=40,
-        qualityLevel=0.01,
-        minDistance=18,
-        blockSize=7,
-    )
-    if pts0 is None or len(pts0) < CONFIG["joint_min_tracks"]:
-        return {
-            "operator": "rigid_joint_tracking",
-            "tracked_points": 0,
-            "rigid_length_stability": None,
-            "risk": "insufficient_keypoints",
-        }
-    pts1, status, _ = cv2.calcOpticalFlowPyrLK(grays[0], grays[-1], pts0, None)
-    if pts1 is None:
-        return {
-            "operator": "rigid_joint_tracking",
-            "tracked_points": 0,
-            "rigid_length_stability": None,
-            "risk": "tracking_failed",
-        }
-    good = status.ravel() == 1
-    start = pts0.reshape(-1, 2)[good]
-    end = pts1.reshape(-1, 2)[good]
+    start, end, fb_error = _feature_tracks(grays[0], grays[-1], max_corners=160)
     if len(start) < CONFIG["joint_min_tracks"]:
         return {
             "operator": "rigid_joint_tracking",
             "tracked_points": int(len(start)),
             "rigid_length_stability": None,
             "risk": "insufficient_tracks",
+            "forward_backward_error_median": round(float(np.median(fb_error)), 4) if len(fb_error) else None,
         }
 
     def pairwise(points: np.ndarray) -> np.ndarray:
@@ -189,18 +272,49 @@ def evaluate_rigid_joint_tracking(frames: list[np.ndarray]) -> dict:
         dists = np.sqrt(np.sum(diffs ** 2, axis=-1))
         return dists[np.triu_indices(len(points), k=1)]
 
+    matrix, inliers = _estimate_start_to_end_affine(start, end)
+    if matrix is not None:
+        predicted = cv2.transform(start.reshape(-1, 1, 2), matrix).reshape(-1, 2)
+        residual = np.linalg.norm(end - predicted, axis=1)
+        inlier_mask = inliers.ravel().astype(bool) if inliers is not None else np.zeros(len(start), dtype=bool)
+    else:
+        predicted = end
+        residual = np.linalg.norm(end - start, axis=1)
+        inlier_mask = np.zeros(len(start), dtype=bool)
+
     d0 = pairwise(start)
     d1 = pairwise(end)
     valid = d0 > 10.0
     drift = np.abs(d1[valid] - d0[valid]) / np.maximum(d0[valid], 1e-6)
     median_drift = float(np.median(drift)) if len(drift) else 1.0
-    stability = max(0.0, 1.0 - median_drift)
+    residual_median = float(np.median(residual)) if len(residual) else 999.0
+    inlier_count = int(inlier_mask.sum())
+    inlier_ratio = float(inlier_count / max(len(start), 1))
+    coverage = _track_spatial_coverage(start, grays[0].shape)
+    residual_norm = residual_median / max(grays[0].shape[:2])
+    pairwise_stability = max(0.0, 1.0 - median_drift)
+    residual_stability = max(0.0, 1.0 - residual_norm * 8.0)
+    stability = max(0.0, min(1.0, 0.45 * pairwise_stability + 0.35 * inlier_ratio + 0.20 * residual_stability))
+    rigid_drift = (
+        len(start) >= CONFIG["joint_min_tracks"]
+        and coverage >= 0.03
+        and (
+            stability < 0.72
+            or (median_drift > 0.18 and inlier_ratio < 0.55)
+            or residual_norm > 0.08
+        )
+    )
     return {
         "operator": "rigid_joint_tracking",
         "tracked_points": int(len(start)),
+        "forward_backward_error_median": round(float(np.median(fb_error)), 4) if len(fb_error) else None,
         "median_pairwise_drift": round(median_drift, 4),
+        "global_affine_inliers": inlier_count,
+        "global_affine_inlier_ratio": round(inlier_ratio, 4),
+        "track_spatial_coverage": round(float(coverage), 4),
+        "median_affine_residual_norm": round(float(residual_norm), 4),
         "rigid_length_stability": round(float(stability), 4),
-        "risk": "rigid_drift" if stability < 0.75 else "none",
+        "risk": "rigid_drift" if rigid_drift else "none",
     }
 
 
@@ -287,22 +401,49 @@ def evaluate_operator_evidence(
     task_category = sample_meta.get("task_category") or (
         sample_meta.get("constraint_annotations") or {}
     ).get("abstract_task_category")
+    plan = build_operator_plan(sample_meta)
+    planned_names = operator_names(plan)
     evidence = {
         "task_category": task_category,
+        "operator_plan": plan,
         "operators": {},
     }
     motion_type = sample_meta.get("motion_type")
-    evidence["operators"]["local_region_lock"] = evaluate_local_region_lock(frames, reference_image, motion_type=motion_type)
-    evidence["operators"]["temporal_break"] = evaluate_temporal_break(frames)
 
-    if task_category in {"fluid_dynamics_and_thermodynamics"}:
-        evidence["operators"]["fluid_diffusion"] = evaluate_fluid_diffusion(frames)
-    if task_category in {"rigid_body_kinematics_and_coupling", "spatial_exploration_and_viewpoint"}:
-        evidence["operators"]["rigid_joint_tracking"] = evaluate_rigid_joint_tracking(frames)
-    if task_category in {"industrial_logic_and_compliance"}:
-        evidence["operators"]["safety_compliance_motion"] = evaluate_safety_compliance_motion(frames)
-    if task_category in {"topology_mutation_and_failure"}:
-        evidence["operators"]["rigid_joint_tracking"] = evaluate_rigid_joint_tracking(frames)
+    def attach_plan(operator: str, result: dict) -> dict:
+        entry = operator_plan_entry(plan, operator) or {}
+        out = dict(result)
+        out.setdefault("operator", operator)
+        out["target"] = entry.get("target", "task_relevant_region")
+        out["expected_signal"] = entry.get("expected_signal", "operator_specific_signal")
+        out["tier"] = entry.get("tier", "diagnostic")
+        out["used_for_axis_cap"] = bool(entry.get("used_for_axis_cap", False))
+        if "confidence" not in out:
+            out["confidence"] = _operator_confidence(operator, out)
+        if "validity" not in out:
+            out["validity"] = _operator_validity(operator, out)
+        return out
+
+    if "local_region_lock" in planned_names:
+        evidence["operators"]["local_region_lock"] = attach_plan(
+            "local_region_lock",
+            evaluate_local_region_lock(frames, reference_image, motion_type=motion_type),
+        )
+    if "temporal_break" in planned_names:
+        evidence["operators"]["temporal_break"] = attach_plan("temporal_break", evaluate_temporal_break(frames))
+
+    if "fluid_diffusion" in planned_names:
+        evidence["operators"]["fluid_diffusion"] = attach_plan("fluid_diffusion", evaluate_fluid_diffusion(frames))
+    if "rigid_joint_tracking" in planned_names:
+        evidence["operators"]["rigid_joint_tracking"] = attach_plan(
+            "rigid_joint_tracking",
+            evaluate_rigid_joint_tracking(frames),
+        )
+    if "safety_compliance_motion" in planned_names:
+        evidence["operators"]["safety_compliance_motion"] = attach_plan(
+            "safety_compliance_motion",
+            evaluate_safety_compliance_motion(frames),
+        )
 
     risks = []
     for name, result in evidence["operators"].items():
@@ -319,3 +460,67 @@ def evaluate_operator_evidence(
             risks.append(f"{name}:late_break")
     evidence["risk_flags"] = risks
     return evidence
+
+
+def _operator_confidence(operator: str, result: dict) -> float:
+    """Return a conservative confidence estimate for one operator result."""
+    if result.get("status") == "insufficient_frames":
+        return 0.0
+    if operator == "rigid_joint_tracking":
+        tracked = int(result.get("tracked_points") or 0)
+        if tracked <= 0:
+            return 0.0
+        inlier_ratio = float(result.get("global_affine_inlier_ratio") or 0.0)
+        coverage = float(result.get("track_spatial_coverage") or 0.0)
+        fb_error = result.get("forward_backward_error_median")
+        fb_quality = 1.0
+        if fb_error is not None:
+            fb_quality = max(0.0, min(1.0, 1.0 - float(fb_error) / CONFIG["track_forward_backward_max_error"]))
+        track_quality = min(1.0, tracked / 18.0)
+        coverage_quality = min(1.0, coverage / 0.12)
+        confidence = 0.35 * track_quality + 0.30 * inlier_ratio + 0.20 * coverage_quality + 0.15 * fb_quality
+        return round(float(max(0.0, min(0.95, confidence))), 4)
+    if operator == "fluid_diffusion":
+        area_sequence = result.get("area_sequence") or []
+        if len(area_sequence) < 3:
+            return 0.25
+        jump = float(result.get("max_centroid_jump_norm") or 0.0)
+        return round(float(max(0.2, min(0.85, 1.0 - jump))), 4)
+    if operator == "safety_compliance_motion":
+        flows = result.get("median_flow_sequence") or []
+        if len(flows) < 2:
+            return 0.2
+        early = float(result.get("early_motion") or 0.0)
+        late = float(result.get("late_motion") or 0.0)
+        contrast = abs(early - late) / max(early, late, 1e-6)
+        return round(float(max(0.25, min(0.8, contrast))), 4)
+    if operator == "temporal_break":
+        seq = result.get("change_sequence") or []
+        if len(seq) < 2:
+            return 0.2
+        ratio = float(result.get("max_to_median_ratio") or 1.0)
+        return round(float(max(0.45, min(0.95, ratio / 4.0))), 4)
+    if operator == "local_region_lock":
+        changed = result.get("changed_fraction")
+        if changed is None:
+            return 0.3
+        if result.get("camera_motion_confounded"):
+            return 0.35
+        # Pure frame-diff localization is useful for static/local-mutation tasks,
+        # but still below object-mask confidence.
+        return 0.72
+    return 0.5
+
+
+def _operator_validity(operator: str, result: dict) -> str:
+    """Classify whether an operator result is usable evidence."""
+    if result.get("status"):
+        return str(result["status"])
+    if operator == "rigid_joint_tracking":
+        if result.get("risk") in {"insufficient_keypoints", "tracking_failed", "insufficient_tracks"}:
+            return "insufficient_target_tracks"
+    if operator == "fluid_diffusion":
+        return "heuristic_foreground_not_semantic_fluid_mask"
+    if operator == "local_region_lock" and result.get("camera_motion_confounded"):
+        return "camera_motion_confounded"
+    return "valid"

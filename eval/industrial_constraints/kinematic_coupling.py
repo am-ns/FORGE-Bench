@@ -106,13 +106,13 @@ def check_kinematic_coupling(
 
     Args:
         frames: List of BGR frames.
-        mechanism_type: One of 'scissor_lift', 'robotic_arm', 'conveyor'.
+        mechanism_type: One of 'scissor_lift', 'robotic_arm', 'sling_load', 'mobile_robot', 'conveyor'.
 
     Returns:
         dict with keys: mechanism_type, coupling_score, coupling_deviation_pct,
         rigid_body_satisfied.
     """
-    if mechanism_type not in ("scissor_lift", "robotic_arm", "conveyor"):
+    if mechanism_type not in ("scissor_lift", "robotic_arm", "sling_load", "mobile_robot", "conveyor"):
         return {
             "mechanism_type": mechanism_type,
             "coupling_score": 0.10,
@@ -126,8 +126,8 @@ def check_kinematic_coupling(
 
     if mechanism_type == "scissor_lift":
         return _check_scissor_lift(grays)
-    elif mechanism_type == "robotic_arm":
-        return _check_robotic_arm(grays)
+    elif mechanism_type in {"robotic_arm", "sling_load", "mobile_robot"}:
+        return _check_rigid_keypoint_coupling(grays, mechanism_type)
     else:
         return _check_conveyor(grays)
 
@@ -207,11 +207,11 @@ def _check_scissor_lift(grays: list[np.ndarray]) -> dict:
     }
 
 
-def _check_robotic_arm(grays: list[np.ndarray]) -> dict:
-    """Verify rigid-body constraint: link lengths constant within 5%."""
+def _check_rigid_keypoint_coupling(grays: list[np.ndarray], mechanism_type: str) -> dict:
+    """Verify rigid-body/keypoint coupling: tracked link distances remain stable."""
     if len(grays) < 2:
         return {
-            "mechanism_type": "robotic_arm",
+            "mechanism_type": mechanism_type,
             "coupling_score": 0.10,
             "coupling_deviation_pct": 100.0,
             "rigid_body_satisfied": False,
@@ -222,7 +222,7 @@ def _check_robotic_arm(grays: list[np.ndarray]) -> dict:
     initial_pts = _detect_corner_points(grays[0], max_points=20)
     if len(initial_pts) < 3:
         return {
-            "mechanism_type": "robotic_arm",
+            "mechanism_type": mechanism_type,
             "coupling_score": 0.10,
             "coupling_deviation_pct": 100.0,
             "rigid_body_satisfied": False,
@@ -241,7 +241,7 @@ def _check_robotic_arm(grays: list[np.ndarray]) -> dict:
 
     if len(all_dists) < 2:
         return {
-            "mechanism_type": "robotic_arm",
+            "mechanism_type": mechanism_type,
             "coupling_score": 0.10,
             "coupling_deviation_pct": 100.0,
             "rigid_body_satisfied": False,
@@ -266,7 +266,7 @@ def _check_robotic_arm(grays: list[np.ndarray]) -> dict:
     rigid_satisfied = bool(deviation_pct < 5.0)
 
     return {
-        "mechanism_type": "robotic_arm",
+        "mechanism_type": mechanism_type,
         "coupling_score": round(max(0.10, min(1.0, score)), 4),
         "coupling_deviation_pct": round(deviation_pct, 2),
         "rigid_body_satisfied": rigid_satisfied,

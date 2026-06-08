@@ -468,6 +468,12 @@ def run(args: argparse.Namespace) -> None:
     if not samples_path.is_absolute():
         samples_path = REPO_ROOT / samples_path
     _require_within(candidate_root, REPO_ROOT / "dataset" / "images_candidates", "candidate-root", allow_equal=True)
+    if "strict_review" in candidate_root.name and not args.allow_strict_review_import:
+        raise ValueError(
+            "refusing to import directly from a strict_review folder; "
+            "use an import_ready/recovered folder after manual screening, "
+            "or pass --allow-strict-review-import intentionally"
+        )
     _require_within(image_root, REPO_ROOT / "dataset" / "images", "image-root", allow_equal=True)
     lock_path = samples_path.with_suffix(samples_path.suffix + ".import.lock")
     with _exclusive_lock(lock_path):
@@ -718,6 +724,11 @@ def main() -> None:
         "--delete-rejected",
         action="store_true",
         help="Delete rejected candidate files that are safely inside candidate-root.",
+    )
+    parser.add_argument(
+        "--allow-strict-review-import",
+        action="store_true",
+        help="Override the guard that prevents importing directly from broad strict_review folders.",
     )
     run(parser.parse_args())
 

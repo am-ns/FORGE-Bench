@@ -29,6 +29,7 @@ from eval.temporal_coherence.eval import evaluate_temporal_consistency
 from eval.visual_fidelity.eval import evaluate_reference_and_motion_fidelity
 from eval.viewpoint_motion_fidelity.eval import compute_viewpoint_motion_fidelity
 from eval.operator_evidence import evaluate_operator_evidence
+from eval.operator_plan import operator_plan_entry
 from eval.axis_registry import (
     APPLICATION_USEFULNESS,
     GEOMETRIC_INTEGRITY,
@@ -415,6 +416,23 @@ def evaluate_sample(
     except Exception as exc:
         logger.warning("Operator evidence failed for %s: %s", task_id, exc)
         operator_evidence = {"error": str(exc), "operators": {}, "risk_flags": []}
+    plan = operator_evidence.get("operator_plan") or []
+    viewpoint_entry = operator_plan_entry(plan, "viewpoint_motion_fidelity")
+    if viewpoint_entry is not None:
+        viewpoint_operator = {
+            "operator": "viewpoint_motion_fidelity",
+            "target": viewpoint_entry.get("target", "camera_motion_against_reference_anchor"),
+            "expected_signal": viewpoint_entry.get("expected_signal", "requested_motion_type_and_direction"),
+            "tier": viewpoint_entry.get("tier", "axis_cap"),
+            "used_for_axis_cap": bool(viewpoint_entry.get("used_for_axis_cap", True)),
+            "viewpoint_motion": viewpoint_motion_result.get("viewpoint_motion"),
+            "viewpoint_motion_score": viewpoint_motion_result.get("viewpoint_motion_score"),
+            "viewpoint_motion_estimation_method": viewpoint_motion_result.get("viewpoint_motion_estimation_method"),
+            "confidence": viewpoint_motion_result.get("viewpoint_motion_confidence", 0.0),
+            "validity": viewpoint_motion_result.get("viewpoint_motion_validity", "valid"),
+            "detail": viewpoint_motion_result.get("viewpoint_motion_detail", {}),
+        }
+        operator_evidence.setdefault("operators", {})["viewpoint_motion_fidelity"] = viewpoint_operator
     sample_for_judge["operator_evidence"] = operator_evidence
     sample_for_judge["geometric_integrity_operator_evidence"] = geometric_integrity_result
     sample_for_judge["task_category"] = task_category
