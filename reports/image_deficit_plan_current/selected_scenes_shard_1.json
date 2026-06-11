@@ -1,8 +1,5 @@
 {
   "scenes": [
-    "erob_amr_warehouse_navigation",
-    "hload_blind_lift_spotter_view",
-    "erob_tracked_robot_rubble",
-    "erob_gripper_failure_recovery"
+    "erob_light_curtain_emergency_stop"
   ]
 }

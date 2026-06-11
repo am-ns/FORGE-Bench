@@ -1,15 +1,15 @@
 param(
   [int]$TargetNew = 0,
   [int]$Shards = 3,
-  [int]$PerScene = 300,
-  [int]$ReviewOverfetch = 24,
-  [int]$MinReviewCandidates = 80,
+  [int]$PerScene = 600,
+  [int]$ReviewOverfetch = 60,
+  [int]$MinReviewCandidates = 180,
   [int]$FormalTargetPerScene = 16,
-  [int]$SearchLimit = 120,
-  [int]$SearchPages = 4,
-  [int]$QueriesPerScene = 16,
-  [int]$CategoriesPerScene = 12,
-  [string]$Providers = "commons_category,commons,loc,nara",
+  [int]$SearchLimit = 180,
+  [int]$SearchPages = 6,
+  [int]$QueriesPerScene = 24,
+  [int]$CategoriesPerScene = 18,
+  [string]$Providers = "commons_category,commons,loc",
   [string]$ScenesFile = "reports\image_deficit_plan\selected_scenes.json",
   [string]$DeficitPlanDir = "reports\image_deficit_plan",
   [string]$CandidateOutputDir = "",
@@ -23,6 +23,8 @@ param(
   [int]$MinSemanticScore = 1,
   [string]$PixabayKey = "",
   [object]$OpenverseEnabled = $false,
+  [object]$SoftSourceResolution = $false,
+  [object]$SoftMetadataAnchor = $false,
   [object]$LogSearchDiagnostics = $true,
   [object]$Detached = $true
 )
@@ -52,6 +54,8 @@ function Convert-ToBoolParam {
 
 $LogSearchDiagnostics = Convert-ToBoolParam $LogSearchDiagnostics "LogSearchDiagnostics"
 $OpenverseEnabled = Convert-ToBoolParam $OpenverseEnabled "OpenverseEnabled"
+$SoftSourceResolution = Convert-ToBoolParam $SoftSourceResolution "SoftSourceResolution"
+$SoftMetadataAnchor = Convert-ToBoolParam $SoftMetadataAnchor "SoftMetadataAnchor"
 $Detached = Convert-ToBoolParam $Detached "Detached"
 
 if (-not $RunId) {
@@ -112,7 +116,7 @@ for ($i = 0; $i -lt $Shards; $i++) {
       $searchLimit, $searchPages, $queriesPerScene, $categoriesPerScene,
       $providerWorkers, $downloadWorkers,
       $formalTargetPerScene, $historyRoot, $minHostInterval, $minSemanticScore,
-      $pixabayKey, $openverseEnabled,
+      $pixabayKey, $openverseEnabled, $softSourceResolution, $softMetadataAnchor,
       $shards, $idx, $logSearchDiagnostics, $progressLog
     )
     Set-Location $repoRoot
@@ -150,6 +154,12 @@ for ($i = 0; $i -lt $Shards; $i++) {
     if ($openverseEnabled) {
       $args += @("--openverse-enabled")
     }
+    if ($softSourceResolution) {
+      $args += @("--soft-source-resolution")
+    }
+    if ($softMetadataAnchor) {
+      $args += @("--soft-metadata-anchor")
+    }
     if ($logSearchDiagnostics) {
       $args += @("--log-search-diagnostics")
     }
@@ -159,11 +169,13 @@ for ($i = 0; $i -lt $Shards; $i++) {
   if ($Detached) {
     $logSearchDiagnosticsLiteral = if ($LogSearchDiagnostics) { '$true' } else { '$false' }
     $openverseEnabledLiteral = if ($OpenverseEnabled) { '$true' } else { '$false' }
+    $softSourceResolutionLiteral = if ($SoftSourceResolution) { '$true' } else { '$false' }
+    $softMetadataAnchorLiteral = if ($SoftMetadataAnchor) { '$true' } else { '$false' }
     $workerContent = @"
 `$ErrorActionPreference = "Continue"
 & {
 $(($script.ToString()) -replace '\r?\n', "`r`n")
-} "$repoRoot" "$out" "$manifest" "$ScenesFile" "$Providers" "$Domains" $perWorkerTarget $PerScene $ReviewOverfetch $MinReviewCandidates $SearchLimit $SearchPages $QueriesPerScene $CategoriesPerScene $ProviderWorkers $DownloadWorkers $FormalTargetPerScene "$historyRoot" $MinHostInterval $MinSemanticScore "$PixabayKey" $openverseEnabledLiteral $Shards $i $logSearchDiagnosticsLiteral "$progressLog" *>> "$progressLog"
+} "$repoRoot" "$out" "$manifest" "$ScenesFile" "$Providers" "$Domains" $perWorkerTarget $PerScene $ReviewOverfetch $MinReviewCandidates $SearchLimit $SearchPages $QueriesPerScene $CategoriesPerScene $ProviderWorkers $DownloadWorkers $FormalTargetPerScene "$historyRoot" $MinHostInterval $MinSemanticScore "$PixabayKey" $openverseEnabledLiteral $softSourceResolutionLiteral $softMetadataAnchorLiteral $Shards $i $logSearchDiagnosticsLiteral "$progressLog" *>> "$progressLog"
 exit `$LASTEXITCODE
 "@
     $workerContent = $workerContent.Replace(" *>> `"$progressLog`"", " *>> `"$consoleLog`"")
@@ -178,7 +190,7 @@ exit `$LASTEXITCODE
       $repoRoot, $out, $manifest, $ScenesFile, $Providers, $Domains, `
       $perWorkerTarget, $PerScene, $ReviewOverfetch, $MinReviewCandidates, $SearchLimit, $SearchPages, $QueriesPerScene, $CategoriesPerScene, $ProviderWorkers, `
       $DownloadWorkers, $FormalTargetPerScene, $historyRoot, $MinHostInterval, $MinSemanticScore, $PixabayKey, $OpenverseEnabled, `
-      $Shards, $i, $LogSearchDiagnostics, $progressLog
+      $SoftSourceResolution, $SoftMetadataAnchor, $Shards, $i, $LogSearchDiagnostics, $progressLog
   }
 }
 
@@ -203,6 +215,8 @@ Write-Host "CategoriesPerScene: $CategoriesPerScene"
 Write-Host "MinSemanticScore: $MinSemanticScore"
 Write-Host "PixabayKey: $(if ($PixabayKey) { 'set' } else { 'not set' })"
 Write-Host "OpenverseEnabled: $OpenverseEnabled"
+Write-Host "SoftSourceResolution: $SoftSourceResolution"
+Write-Host "SoftMetadataAnchor: $SoftMetadataAnchor"
 Write-Host "Providers: $Providers"
 Write-Host "ScenesFile: $ScenesFile"
 Write-Host "RefreshDeficitPlan: $RefreshDeficitPlan"

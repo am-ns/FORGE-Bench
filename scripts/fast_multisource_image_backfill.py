@@ -20,6 +20,7 @@ import sys
 import time
 import urllib.parse
 import urllib.request
+import xml.etree.ElementTree as ET
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from itertools import islice
@@ -41,6 +42,10 @@ OPENVERSE_API = "https://api.openverse.org/v1/images/"
 LOC_API = "https://www.loc.gov/photos/"
 NARA_API = "https://catalog.archives.gov/api/v1/"
 PIXABAY_API = "https://pixabay.com/api/"
+INTERNET_ARCHIVE_SEARCH_API = "https://archive.org/advancedsearch.php"
+INTERNET_ARCHIVE_METADATA_API = "https://archive.org/metadata/"
+NASA_IMAGES_API = "https://images-api.nasa.gov/search"
+DVIDS_RSS_API = "https://www.dvidshub.net/rss/image/"
 USER_AGENT = "FORGE-Bench/1.0 (research dataset image sourcing; local operator)"
 IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp"}
 WIKIMEDIA_THUMB_WIDTH = 1024
@@ -91,11 +96,31 @@ HUMAN_SUBJECT_TERMS = {
     "welders", "woman", "worker", "workers",
 }
 
+CONTEXTUAL_HUMAN_TERMS = {
+    "apprentice", "employee", "employees", "helmet", "human", "laborer",
+    "labourer", "man", "operator", "person", "people", "staff", "team",
+    "welder", "welders", "woman", "worker", "workers",
+}
+
+HARD_HUMAN_SUBJECT_TERMS = {
+    "face", "facial", "group photo", "headshot", "portrait", "selfie",
+}
+
 HUMAN_SUBJECT_PHRASES = {
     "man welding", "person welding", "welder working", "worker welding",
     "workers welding", "welding operator", "operator welding",
     "man cutting", "worker cutting", "workers cutting", "man grinding",
     "worker grinding", "workers grinding", "people working",
+}
+
+INDUSTRIAL_HUMAN_CONTEXT_TERMS = {
+    "arc", "assembly", "beam", "cabinet", "cell", "construction", "crane",
+    "cutting", "factory", "grinder", "grinding", "helmet", "hoist", "hook",
+    "industrial", "inspection", "jib", "lifting", "load", "machine",
+    "machinery", "manufacturing", "metal", "metalworking", "pipe", "plant",
+    "robot", "robotic", "safety", "shop", "site", "sling", "sparks",
+    "steel", "torch", "warehouse", "weld", "welded", "welder", "welding",
+    "workcell", "workpiece", "workshop", "worksite",
 }
 
 REALWORLD_QUERY_SUFFIXES = [
@@ -119,6 +144,10 @@ SOURCE_NEGATIVE_TERMS = [
     "person", "people", "man", "woman", "worker", "workers", "portrait",
     "welder portrait", "operator portrait", "group photo",
 ]
+
+SCENE_ALLOWED_BLOCKED_TERMS = {
+    "erob_quadruped_stairs_rubble_fpv": {"dog"},
+}
 
 CATEGORY_METADATA_REQUIRED_TERMS = {
     "photo", "factory", "industrial", "plant", "workshop", "warehouse",
@@ -173,27 +202,41 @@ SCENE_REQUIRED_TERMS = {
     },
     "erob_amr_warehouse_navigation": {
         "robot": {"agv", "amr", "autonomous", "mobile", "robot", "robotic"},
-        "warehouse": {"aisle", "logistics", "pallet", "shelf", "shelves", "warehouse"},
+        "warehouse": {
+            "aisle", "fulfillment", "logistics", "pallet", "shelf", "shelves",
+            "warehouse",
+        },
     },
     "erob_gripper_failure_recovery": {
         "robot": {"arm", "robot", "robotic"},
         "gripper": {"cup", "effector", "gripper", "suction", "vacuum"},
     },
     "erob_light_curtain_emergency_stop": {
-        "safety": {"barrier", "curtain", "fence", "guarding", "light", "safety", "scanner"},
-        "machine": {"cell", "factory", "industrial", "machine", "robot", "workcell"},
+        "safety": {
+            "barrier", "curtain", "emergency", "fence", "guarding", "light",
+            "safety", "scanner", "sensor", "stop",
+        },
+        "machine": {
+            "cell", "factory", "industrial", "machine", "robot", "workcell",
+        },
     },
     "erob_quadruped_stairs_rubble_fpv": {
         "robot": {"legged", "quadruped", "robot", "spot"},
-        "terrain": {"construction", "inspection", "rubble", "stairs", "tunnel"},
+        "terrain": {
+            "construction", "debris", "inspection", "rough", "rubble",
+            "stairs", "terrain", "tunnel",
+        },
     },
     "erob_robot_arm_precision_grasp": {
         "robot": {"abb", "arm", "fanuc", "kuka", "robot", "robotic"},
         "grasp": {"effector", "gripper", "grasp", "holding", "picking", "workpiece"},
     },
     "erob_tracked_robot_rubble": {
-        "robot": {"crawler", "robot", "tracked"},
-        "terrain": {"debris", "inspection", "pipe", "rescue", "rubble", "terrain", "tunnel"},
+        "robot": {"crawler", "eod", "robot", "tracked", "ugv", "unmanned"},
+        "terrain": {
+            "debris", "disaster", "inspection", "pipe", "rescue", "rough",
+            "rubble", "terrain", "tunnel",
+        },
     },
     "hload_blind_lift_spotter_view": {
         "lift": {"crane", "hoist", "lift", "lifting", "load", "rigging"},
@@ -224,20 +267,37 @@ SCENE_NEGATIVE_TERMS = {
         "aircraft", "airplane", "airport", "airtech", "car", "cascos",
         "child", "children", "circuit", "demo", "drone", "exhibit",
         "exhibition", "forklift", "helmet", "kiosk", "medical", "motorcycle",
-        "moto", "pcb", "police", "render", "robotkit", "train", "toy",
+        "moto", "pcb", "police", "render", "robotkit", "street", "train", "toy",
+        "conference", "expo", "lawn", "lecture", "museum", "race", "university",
+        "bridge", "building", "construction", "container", "crane", "gantry",
+        "icon", "port", "rail", "satellite", "scaffold", "ship", "sign",
+        "terminal", "tower",
     },
     "erob_gripper_failure_recovery": {
         "camera", "claw", "hand", "leather", "light", "pencil", "shoe",
         "shoes", "stage", "toy",
     },
+    "erob_light_curtain_emergency_stop": {
+        "building", "factory", "firefighter", "firefighters", "harbor", "laser",
+        "ship", "smoke", "welding", "curtain wall", "light art", "stage",
+        "theater", "cartoon", "drape", "drapes", "exhibition", "hall",
+        "historic", "illustration", "newspaper", "page", "press", "print",
+        "room", "screen", "window", "windows",
+    },
     "erob_quadruped_stairs_rubble_fpv": {
-        "animal", "toy",
+        "animal", "city", "crowd", "festival", "jupiter", "map", "market",
+        "pet", "planet", "restaurant", "satellite", "sign", "street", "toy",
+        "costume", "mascot", "statue",
     },
     "erob_tracked_robot_rubble": {
-        "tank", "toy", "tractor",
+        "boat", "flood", "group", "meeting", "rescue_boat", "ship", "tank",
+        "toy", "tractor", "whiteboard", "lawn", "miniature", "model",
+        "tracked vehicle", "aircraft", "airplane", "aviation", "drone",
+        "fixed wing", "helicopter", "plane", "render", "uav",
     },
     "hload_blind_lift_spotter_view": {
-        "baseball", "portrait", "signalman", "traffic",
+        "baseball", "cellular", "communication", "portrait", "road", "signalman",
+        "telecom", "traffic",
     },
     "pdef_surface_scratch_inspection": {
         "archaeology", "artifact", "art", "mineral", "phone", "screen", "stone",
@@ -281,8 +341,24 @@ SCENE_QUERY_REPLACEMENTS = {
             "warehouse robot pallet station AMR",
             "MiR mobile robot warehouse aisle",
             "Fetch robotics warehouse robot aisle",
+            "automated guided vehicle factory logistics floor",
+            "warehouse mobile robot conveyor station",
+            "AMR robot fulfillment center aisle",
+            "MiR autonomous mobile robot factory",
+            "Kiva warehouse robot shelf",
+            "Otto Motors mobile robot warehouse",
+            "Amazon robotics warehouse robot",
+            "Locus Robotics warehouse robot",
+            "GeekPlus warehouse robot",
+            "Omron LD mobile robot factory",
+            "industrial AGV tugger warehouse",
+            "automated warehouse robot fleet",
         ],
-        "categories": ["Autonomous mobile robots", "Automated guided vehicles", "Warehouse robots", "Mobile robots", "Logistics robots", "Warehouse automation", "Industrial logistics"],
+        "categories": [
+            "Autonomous mobile robots", "Automated guided vehicles",
+            "Warehouse robots", "Mobile robots", "Logistics robots",
+            "Warehouse automation", "Industrial logistics", "Industrial vehicles",
+        ],
     },
     "erob_gripper_failure_recovery": {
         "queries": [
@@ -297,27 +373,57 @@ SCENE_QUERY_REPLACEMENTS = {
     },
     "erob_light_curtain_emergency_stop": {
         "queries": [
-            "industrial robot cell light curtain safety fence",
-            "machine safety light curtain factory robot",
-            "robot workcell safety scanner emergency stop",
-            "robot cell safety barrier light curtain",
-            "industrial machine guarding safety light barrier",
-            "SICK safety scanner robot cell",
+            "machine safety light curtain sensor robot cell",
+            "industrial light curtain safety sensor machine guarding",
+            "SICK safety light curtain robot workcell",
+            "light curtain emitter receiver industrial machine",
+            "safety scanner robot cell machine guarding",
+            "robot workcell safety fence light curtain",
+            "industrial safety light curtain emitter receiver",
+            "machine safety light barrier manufacturing line",
+            "robot cell emergency stop button safety fence",
+            "safety scanner guarded robot workcell",
+            "Pilz safety light curtain machine guarding",
+            "Keyence safety light curtain factory machine",
+            "Omron safety light curtain machine",
+            "Leuze safety light curtain industrial",
+            "Banner safety light curtain machine guarding",
+            "machine safety sensor factory line",
+            "industrial emergency stop safety relay machine",
+            "robot cell perimeter guarding safety sensor",
         ],
-        "categories": ["Light curtains", "Machine safety", "Robot safety", "Machine guarding", "Safety fences"],
+        "categories": [
+            "Machine safety", "Machine guarding", "Light curtains",
+            "Safety switches", "Emergency stop buttons",
+        ],
     },
     "erob_quadruped_stairs_rubble_fpv": {
         "queries": [
-            "quadruped robot stairs inspection",
-            "legged robot rubble debris inspection",
-            "Boston Dynamics Spot robot industrial inspection stairs",
-            "quadruped robot tunnel inspection rubble",
-            "legged robot stairs close up",
-            "robot dog stairs inspection",
-            "quadruped robot construction site debris",
-            "legged inspection robot industrial stairs",
+            "quadruped inspection robot stairs",
+            "legged inspection robot rubble debris",
+            "quadruped robot construction site stairs",
+            "legged robot tunnel inspection rubble",
+            "quadruped robot industrial inspection stairs",
+            "legged robot debris field inspection",
+            "Boston Dynamics quadruped robot stairs",
+            "quadruped robot rubble traversal",
+            "quadruped robot rough terrain inspection",
+            "legged robot disaster response rubble",
+            "robot dog stairs field test",
+            "quadruped inspection robot industrial site",
+            "Spot robot construction site inspection",
+            "four legged robot rubble traversal",
+            "ANYmal robot inspection",
+            "Unitree quadruped robot stairs",
+            "legged robot field test rough terrain",
+            "robot dog construction inspection",
+            "quadruped robot disaster response",
+            "legged robot locomotion stairs",
         ],
-        "categories": ["Quadrupedal robots", "Legged robots", "Inspection robots", "Boston Dynamics"],
+        "categories": [
+            "Quadrupedal robots", "Legged robots", "Inspection robots",
+            "Robot locomotion", "Field robots",
+        ],
     },
     "erob_robot_arm_precision_grasp": {
         "queries": [
@@ -334,13 +440,31 @@ SCENE_QUERY_REPLACEMENTS = {
     "erob_tracked_robot_rubble": {
         "queries": [
             "tracked inspection robot rubble debris",
-            "search rescue tracked robot debris",
-            "crawler inspection robot pipe tunnel",
-            "tracked robot uneven terrain industrial inspection",
-            "tracked rescue robot rubble",
+            "crawler robot tunnel inspection pipe",
+            "tracked rescue robot rubble debris",
+            "unmanned ground vehicle tracked robot debris",
+            "tracked robot disaster response rubble",
+            "crawler inspection robot industrial tunnel",
+            "tracked robot uneven terrain inspection",
             "bomb disposal tracked robot debris",
+            "unmanned ground vehicle rubble inspection",
+            "EOD robot debris field",
+            "tracked rescue robot disaster response",
+            "crawler robot collapsed building inspection",
+            "UGV tracked robot rough terrain",
+            "hazmat tracked robot inspection site",
+            "military ground robot tracked inspection",
+            "remote controlled tracked robot inspection",
+            "tactical robot search rescue rubble",
+            "PackBot robot inspection",
+            "TALON robot tracked",
+            "disaster robotics unmanned ground vehicle",
         ],
-        "categories": ["Tracked robots", "Search and rescue robots", "Inspection robots", "Robots", "Military robots", "Unmanned ground vehicles"],
+        "categories": [
+            "Tracked robots", "Unmanned ground vehicles",
+            "Explosive ordnance disposal robots", "Disaster response robots",
+            "Remote control robots",
+        ],
     },
     "hload_blind_lift_spotter_view": {
         "queries": [
@@ -398,6 +522,40 @@ SCENE_QUERY_REPLACEMENTS = {
     },
 }
 
+SCENE_METADATA_REQUIRED_GROUPS = {
+    "erob_amr_warehouse_navigation": {
+        "robot": {"agv", "amr", "autonomous", "guided", "mobile", "robot", "robotic"},
+        "warehouse": {
+            "aisle", "fulfillment", "logistics", "pallet", "shelf", "shelves",
+            "warehouse",
+        },
+    },
+    "erob_light_curtain_emergency_stop": {
+        "safety_sensor": {
+            "barrier", "curtain", "emergency", "guarding", "light", "scanner",
+            "sensor", "sick", "stop",
+        },
+        "machine_context": {"cell", "machine", "robot", "safety", "workcell"},
+    },
+    "erob_quadruped_stairs_rubble_fpv": {
+        "legged_robot": {"boston", "quadruped", "legged", "spot"},
+        "terrain": {
+            "construction", "debris", "inspection", "rough", "rubble",
+            "stairs", "terrain", "tunnel",
+        },
+    },
+    "erob_tracked_robot_rubble": {
+        "tracked_robot": {"crawler", "robot", "tracked", "ugv", "unmanned"},
+        "terrain": {
+            "debris", "disaster", "inspection", "pipe", "rescue", "rough",
+            "rubble", "terrain", "tunnel",
+        },
+    },
+    "hload_blind_lift_spotter_view": {
+        "lifting": {"crane", "hoist", "hook", "jib", "lift", "load", "rigging"},
+    },
+}
+
 
 @dataclass(frozen=True)
 class Candidate:
@@ -421,11 +579,25 @@ def _request_json(url: str, timeout: float) -> dict:
             with urllib.request.urlopen(req, timeout=timeout) as response:
                 raw = response.read()
             if not raw or not raw.strip():
+                if attempt < 2:
+                    time.sleep(2.0 + attempt * 4.0)
+                    continue
                 return {}
-            return json.loads(raw.decode("utf-8", errors="replace"))
+            try:
+                return json.loads(raw.decode("utf-8", errors="replace"))
+            except json.JSONDecodeError:
+                if attempt < 2:
+                    time.sleep(2.0 + attempt * 4.0)
+                    continue
+                raise RuntimeError("non_json_response")
         except _uerr.HTTPError as exc:
             if exc.code == 429 and attempt < 2:
-                time.sleep(30 * (attempt + 1))
+                retry_after = exc.headers.get("Retry-After")
+                try:
+                    wait = float(retry_after) if retry_after else 30.0 * (attempt + 1)
+                except ValueError:
+                    wait = 30.0 * (attempt + 1)
+                time.sleep(min(90.0, max(10.0, wait)))
                 continue
             raise
     return {}
@@ -574,18 +746,30 @@ def _download_candidate(candidate: Candidate, dest: Path, timeout: float) -> str
     raise RuntimeError(f"download failed for all url variants: {candidate.image_url}")
 
 
-def _source_clean(*texts: str) -> tuple[bool, str]:
+def _source_clean(scene: str, *texts: str) -> tuple[bool, str]:
     text = " ".join(texts).lower()
     tokens = set(re.findall(r"[a-z0-9]+", text))
+    allowed_blocked = SCENE_ALLOWED_BLOCKED_TERMS.get(scene, set())
     for term in sorted(BLOCKED_TERMS, key=len, reverse=True):
+        if term in allowed_blocked:
+            continue
         if " " in term and term in text:
             return False, f"blocked_term:{term.replace(' ', '_')}"
         if " " not in term and term in tokens:
             return False, f"blocked_term:{term}"
+    hard_human = sorted(tokens & HARD_HUMAN_SUBJECT_TERMS)
+    if hard_human:
+        return False, "human_subject_term:" + ",".join(hard_human[:4])
+    industrial_context = bool(tokens & INDUSTRIAL_HUMAN_CONTEXT_TERMS)
+    if not industrial_context:
+        industrial_context = bool(_semantic_tokens(scene) & INDUSTRIAL_HUMAN_CONTEXT_TERMS)
     for phrase in sorted(HUMAN_SUBJECT_PHRASES, key=len, reverse=True):
-        if phrase in text:
+        if phrase in text and not industrial_context:
             return False, f"human_subject_phrase:{phrase.replace(' ', '_')}"
-    blocked_human = sorted(tokens & HUMAN_SUBJECT_TERMS)
+    contextual_human = tokens & CONTEXTUAL_HUMAN_TERMS
+    blocked_human = sorted((tokens & HUMAN_SUBJECT_TERMS) - CONTEXTUAL_HUMAN_TERMS)
+    if contextual_human and not industrial_context:
+        blocked_human.extend(sorted(contextual_human))
     if blocked_human:
         return False, "human_subject_term:" + ",".join(blocked_human[:4])
     return True, "ok"
@@ -596,6 +780,15 @@ def _search_query(query: str, *, negatives: bool = True) -> str:
         return query.strip()
     negatives = " ".join(f'-"{term}"' if " " in term else f"-{term}" for term in SOURCE_NEGATIVE_TERMS)
     return f"{query} {negatives}".strip()
+
+
+def _scene_search_query(scene: str, query: str, *, negatives: bool = True) -> str:
+    if not negatives:
+        return query.strip()
+    allowed = SCENE_ALLOWED_BLOCKED_TERMS.get(scene, set())
+    negative_terms = [term for term in SOURCE_NEGATIVE_TERMS if term not in allowed]
+    negatives_text = " ".join(f'-"{term}"' if " " in term else f"-{term}" for term in negative_terms)
+    return f"{query} {negatives_text}".strip()
 
 
 def _semantic_tokens(text: str) -> set[str]:
@@ -662,6 +855,13 @@ def _scene_required_missing(scene: str, candidate_terms: set[str]) -> list[str]:
     return [name for name, terms in required_groups.items() if not (candidate_terms & terms)]
 
 
+def _metadata_anchor_missing(scene: str, candidate_terms: set[str]) -> list[str]:
+    required_groups = SCENE_METADATA_REQUIRED_GROUPS.get(scene)
+    if not required_groups:
+        return []
+    return [name for name, terms in required_groups.items() if not (candidate_terms & terms)]
+
+
 def _candidate_semantic_score(candidate: Candidate, scene_terms: set[str]) -> tuple[int, str]:
     candidate_terms = _candidate_terms(candidate)
     matches = candidate_terms & scene_terms
@@ -686,10 +886,14 @@ def _provider_rank(provider: str) -> int:
     ranks = {
         "pixabay": 0,
         "openverse": 1,
-        "commons_category": 2,
-        "commons": 3,
-        "loc": 4,
-        "nara": 5,
+        "dvids": 2,
+        "internet_archive": 3,
+        "ia": 3,
+        "nasa": 4,
+        "commons_category": 5,
+        "commons": 6,
+        "loc": 7,
+        "nara": 8,
     }
     return ranks.get(provider, 9)
 
@@ -707,7 +911,7 @@ def _commons_search(scene: str, query: str, limit: int, pages: int, timeout: flo
         "action": "query",
         "format": "json",
         "generator": "search",
-        "gsrsearch": _search_query(query, negatives=False),
+        "gsrsearch": _scene_search_query(scene, query, negatives=False),
         "gsrnamespace": "6",
         "gsrlimit": str(limit),
         "prop": "imageinfo",
@@ -728,7 +932,7 @@ def _commons_search(scene: str, query: str, limit: int, pages: int, timeout: flo
             ext = info.get("extmetadata") or {}
             license_name = str((ext.get("LicenseShortName") or {}).get("value") or "")
             source_url = str(info.get("descriptionurl") or "")
-            ok, _ = _source_clean(title, source_url, image_url, query)
+            ok, _ = _source_clean(scene, title, source_url, image_url, query)
             if ok:
                 out.append(Candidate(
                     "commons",
@@ -773,7 +977,7 @@ def _commons_category(scene: str, category: str, limit: int, pages: int, timeout
             ext = info.get("extmetadata") or {}
             license_name = str((ext.get("LicenseShortName") or {}).get("value") or "")
             source_url = str(info.get("descriptionurl") or "")
-            ok, _ = _source_clean(title, source_url, image_url, category)
+            ok, _ = _source_clean(scene, title, source_url, image_url, category)
             if ok:
                 out.append(Candidate(
                     "commons_category",
@@ -794,7 +998,7 @@ def _commons_category(scene: str, category: str, limit: int, pages: int, timeout
 
 def _openverse(scene: str, query: str, limit: int, timeout: float) -> list[Candidate]:
     params = {
-        "q": _search_query(query, negatives=False),
+        "q": _scene_search_query(scene, query, negatives=False),
         "page_size": str(limit),
         "mature": "false",
         "license_type": "all",
@@ -808,7 +1012,7 @@ def _openverse(scene: str, query: str, limit: int, timeout: float) -> list[Candi
         license_name = str(item.get("license") or "")
         if not image_url:
             continue
-        ok, _ = _source_clean(title, source_url, image_url, query)
+        ok, _ = _source_clean(scene, title, source_url, image_url, query)
         if ok:
             out.append(Candidate(
                 "openverse",
@@ -825,7 +1029,7 @@ def _openverse(scene: str, query: str, limit: int, timeout: float) -> list[Candi
 
 
 def _loc(scene: str, query: str, limit: int, timeout: float) -> list[Candidate]:
-    params = {"fo": "json", "q": _search_query(query, negatives=False), "c": str(limit)}
+    params = {"fo": "json", "q": _scene_search_query(scene, query, negatives=False), "c": str(limit)}
     data = _request_json(LOC_API + "?" + urllib.parse.urlencode(params), timeout)
     out = []
     for item in data.get("results", []) or []:
@@ -835,7 +1039,7 @@ def _loc(scene: str, query: str, limit: int, timeout: float) -> list[Candidate]:
         source_url = str(item.get("url") or "")
         if not image_url:
             continue
-        ok, _ = _source_clean(title, source_url, image_url, query)
+        ok, _ = _source_clean(scene, title, source_url, image_url, query)
         if ok:
             out.append(Candidate("loc", scene, title, image_url, source_url, "loc", query))
     return out
@@ -845,7 +1049,7 @@ def _nara(scene: str, query: str, limit: int, timeout: float) -> list[Candidate]
     params = {
         "availableOnline": "true",
         "objectType": "Photographs and other Graphic Materials",
-        "q": _search_query(query, negatives=False),
+        "q": _scene_search_query(scene, query, negatives=False),
         "rows": str(limit),
     }
     data = _request_json(NARA_API + "?" + urllib.parse.urlencode(params), timeout)
@@ -865,10 +1069,155 @@ def _nara(scene: str, query: str, limit: int, timeout: float) -> list[Candidate]
         if not image_url:
             continue
         source_url = f"https://catalog.archives.gov/id/{naid}" if naid else ""
-        ok, _ = _source_clean(title, source_url, image_url, query)
+        ok, _ = _source_clean(scene, title, source_url, image_url, query)
         if ok:
             out.append(Candidate("nara", scene, title, image_url, source_url, "nara", query))
     return out
+
+
+def _internet_archive(scene: str, query: str, limit: int, timeout: float) -> list[Candidate]:
+    search_params = [
+        ("q", f'({query}) AND mediatype:image'),
+        ("fl[]", "identifier"),
+        ("fl[]", "title"),
+        ("fl[]", "licenseurl"),
+        ("rows", str(min(max(1, limit), 50))),
+        ("page", "1"),
+        ("output", "json"),
+    ]
+    data = _request_json(INTERNET_ARCHIVE_SEARCH_API + "?" + urllib.parse.urlencode(search_params), timeout)
+    docs = ((data.get("response") or {}).get("docs") or [])[:limit]
+    out: list[Candidate] = []
+    for doc in docs:
+        identifier = str(doc.get("identifier") or "").strip()
+        if not identifier:
+            continue
+        title = str(doc.get("title") or identifier)
+        source_url = f"https://archive.org/details/{urllib.parse.quote(identifier)}"
+        ok, _ = _source_clean(scene, title, source_url, identifier, query)
+        if not ok:
+            continue
+        try:
+            metadata = _request_json(
+                INTERNET_ARCHIVE_METADATA_API + urllib.parse.quote(identifier, safe=""),
+                timeout,
+            )
+        except Exception:
+            continue
+        files = metadata.get("files") or []
+        best: tuple[int, str, int, int] | None = None
+        for item in files:
+            name = str(item.get("name") or "")
+            lower = name.lower()
+            if not lower.endswith(tuple(IMAGE_SUFFIXES)):
+                continue
+            if any(part in lower for part in ("_thumb", "thumbs/", "thumbnail", "tile")):
+                continue
+            width = _safe_int(item.get("width"))
+            height = _safe_int(item.get("height"))
+            size = _safe_int(item.get("size"))
+            score = size + (width * height)
+            if best is None or score > best[0]:
+                best = (score, name, width, height)
+        if best is None:
+            continue
+        _, name, width, height = best
+        image_url = (
+            f"https://archive.org/download/{urllib.parse.quote(identifier, safe='')}/"
+            f"{urllib.parse.quote(name)}"
+        )
+        ok, _ = _source_clean(scene, title, source_url, image_url, query)
+        if ok:
+            out.append(Candidate(
+                "internet_archive",
+                scene,
+                title,
+                image_url,
+                source_url,
+                str(doc.get("licenseurl") or "internet_archive"),
+                query,
+                width,
+                height,
+            ))
+    return out
+
+
+def _nasa(scene: str, query: str, limit: int, timeout: float) -> list[Candidate]:
+    params = {
+        "q": query,
+        "media_type": "image",
+        "page_size": str(min(max(1, limit), 100)),
+    }
+    data = _request_json(NASA_IMAGES_API + "?" + urllib.parse.urlencode(params), timeout)
+    out: list[Candidate] = []
+    for item in ((data.get("collection") or {}).get("items") or [])[:limit]:
+        meta = (item.get("data") or [{}])[0]
+        title = str(meta.get("title") or "")
+        description = str(meta.get("description") or "")
+        nasa_id = str(meta.get("nasa_id") or "")
+        source_url = f"https://images.nasa.gov/details/{urllib.parse.quote(nasa_id)}" if nasa_id else str(item.get("href") or "")
+        best: tuple[int, str, int, int] | None = None
+        for link in item.get("links") or []:
+            image_url = str(link.get("href") or "")
+            if not image_url.lower().endswith(tuple(IMAGE_SUFFIXES)):
+                continue
+            width = _safe_int(link.get("width"))
+            height = _safe_int(link.get("height"))
+            size = _safe_int(link.get("size"))
+            score = size + (width * height)
+            if best is None or score > best[0]:
+                best = (score, image_url, width, height)
+        if best is None:
+            continue
+        _, image_url, width, height = best
+        ok, _ = _source_clean(scene, " ".join([title, description]), source_url, image_url, query)
+        if ok:
+            out.append(Candidate("nasa", scene, title, image_url, source_url, "nasa", query, width, height))
+    return out
+
+
+def _dvids(scene: str, query: str, limit: int, timeout: float) -> list[Candidate]:
+    params = {
+        "q": query,
+        "type": "image",
+        "view": "grid",
+    }
+    url = DVIDS_RSS_API + "?" + urllib.parse.urlencode(params)
+    _rate_limit_host(url)
+    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    with urllib.request.urlopen(req, timeout=timeout) as response:
+        raw = response.read()
+    try:
+        root = ET.fromstring(raw)
+    except ET.ParseError:
+        return []
+    ns = {"media": "http://search.yahoo.com/mrss/"}
+    out: list[Candidate] = []
+    for item in root.findall("./channel/item")[:limit]:
+        title = (item.findtext("title") or "").strip()
+        description = (item.findtext("description") or "").strip()
+        link = (item.findtext("link") or "").strip()
+        thumb = item.find("media:thumbnail", ns)
+        image_url = str(thumb.attrib.get("url") if thumb is not None else "")
+        if not image_url:
+            match = re.search(r'<img[^>]+src="([^"]+)"', description)
+            image_url = match.group(1) if match else ""
+        if not image_url:
+            continue
+        image_url = re.sub(r"/250w_q95\.jpg$", "/1000w_q95.jpg", image_url)
+        width = 1000 if "1000w_q95" in image_url else _safe_int(thumb.attrib.get("width") if thumb is not None else 0)
+        height = 0
+        ok, _ = _source_clean(scene, " ".join([title, description]), link, image_url, query)
+        if ok:
+            out.append(Candidate("dvids", scene, title, image_url, link, "dvids", query, width, height))
+    return out
+
+
+def _safe_int(value: object) -> int:
+    try:
+        return int(float(str(value)))
+    except (TypeError, ValueError):
+        return 0
 
 
 def _pixabay(scene: str, query: str, limit: int, timeout: float, api_key: str = "") -> list[Candidate]:
@@ -890,7 +1239,7 @@ def _pixabay(scene: str, query: str, limit: int, timeout: float, api_key: str = 
             continue
         title = str(hit.get("tags") or "")
         source_url = str(hit.get("pageURL") or "")
-        ok, _ = _source_clean(title, source_url, image_url, query)
+        ok, _ = _source_clean(scene, title, source_url, image_url, query)
         if ok:
             out.append(Candidate(
                 "pixabay",
@@ -926,10 +1275,11 @@ def _load_scenes(path: str, samples: list[dict]) -> list[str]:
 def _scene_queries(scene: str, samples_by_scene: dict[str, dict], max_queries: int) -> list[str]:
     bank = SCENE_BANK.get(scene, {})
     replacement = SCENE_QUERY_REPLACEMENTS.get(scene, {})
+    bank_queries = [str(q) for q in bank.get("queries", [])]
     if replacement:
-        queries = [str(q) for q in replacement.get("queries", [])]
+        queries = [str(q) for q in replacement.get("queries", [])] + bank_queries
     else:
-        queries = [str(q) for q in bank.get("queries", [])]
+        queries = bank_queries
         tokens = str(bank.get("tokens") or "").strip()
         if tokens:
             queries.append(tokens)
@@ -949,54 +1299,50 @@ def _scene_queries(scene: str, samples_by_scene: dict[str, dict], max_queries: i
             seen.add(q.lower())
             base.append(q)
 
-    emitted: set[str] = set()
-    compact = []
-    for query in base:
-        variants = [query, _short_query_variant(query)]
-        for variant in variants:
-            if not variant:
-                continue
-            key = variant.lower()
-            if key in emitted:
-                continue
-            emitted.add(key)
-            compact.append(variant)
-            if len(compact) >= max_queries:
-                return compact[:max_queries]
+    def add(out: list[str], emitted: set[str], value: str) -> bool:
+        value = re.sub(r"\s+", " ", value).strip()
+        key = value.lower()
+        if not value or key in emitted:
+            return False
+        emitted.add(key)
+        out.append(value)
+        return len(out) >= max_queries
 
-    # Add a single "industrial site photo" suffix for short queries to improve
-    # real-photo recall, but only up to the budget.
-    for query in base:
-        if len(compact) >= max_queries:
-            break
-        words = query.lower()
-        if len(query) <= 55 and not any(t in words for t in ("photo", "factory", "industrial", "worksite", "site")):
-            expanded = f"{query} industrial site photo"
-            if expanded.lower() not in emitted:
-                emitted.add(expanded.lower())
-                compact.append(expanded)
-
-    # Add 2-token micro queries for better Wikimedia filename matching.
-    # Long queries rarely match Wikimedia file titles; 2 core terms do.
-    for query in base:
-        if len(compact) >= max_queries:
-            break
+    def micro_query(query: str, width: int = 3) -> str:
         ordered_micro = [
             raw
             for raw in re.findall(r"[a-z][a-z0-9]{2,}", query.lower())
             if raw not in SHORT_QUERY_DROP_TERMS and raw not in WEAK_MATCH_TERMS
         ]
-        seen_micro: set[str] = set()
-        deduped_micro = []
-        for tok in ordered_micro:
-            if tok not in seen_micro:
-                seen_micro.add(tok)
-                deduped_micro.append(tok)
-        if len(deduped_micro) >= 2:
-            micro = " ".join(deduped_micro[:2])
-            if micro.lower() not in emitted:
-                emitted.add(micro.lower())
-                compact.append(micro)
+        deduped = list(dict.fromkeys(ordered_micro))
+        if len(deduped) >= 2:
+            return " ".join(deduped[:width])
+        return ""
+
+    emitted: set[str] = set()
+    compact: list[str] = []
+
+    # Keep strong hand-written phrases first, but immediately pair them with
+    # compact keyword queries. Wikimedia and LOC often fail on full task prose.
+    for query in base:
+        if add(compact, emitted, query):
+            return compact[:max_queries]
+        micro = micro_query(query)
+        if micro and add(compact, emitted, micro):
+            return compact[:max_queries]
+
+    # Add real-photo context before long fallbacks; this improves recall while
+    # still giving the later semantic gate enough metadata to reject off-topic hits.
+    for query in base:
+        words = query.lower()
+        if len(query) <= 65 and not any(t in words for t in ("photo", "factory", "industrial", "worksite", "site")):
+            if add(compact, emitted, f"{query} industrial photo"):
+                return compact[:max_queries]
+
+    for query in base:
+        short = _short_query_variant(query)
+        if short and add(compact, emitted, short):
+            return compact[:max_queries]
 
     return compact[:max_queries]
 
@@ -1131,29 +1477,83 @@ def _dhash(path: Path, hash_size: int = 8) -> str:
     return f"{value:0{hash_size * hash_size // 4}x}"
 
 
-def _existing_hashes(root: Path) -> dict[str, list[tuple[str, str]]]:
-    hashes: dict[str, list[tuple[str, str]]] = {}
+def _phash(path: Path, hash_size: int = 8, highfreq: int = 4) -> str:
+    size = hash_size * highfreq
+    with Image.open(path) as image:
+        image = image.convert("L").resize((size, size), Image.Resampling.LANCZOS)
+        arr = np.array(image, dtype=np.float32)
+    dct = cv2.dct(arr)
+    low = dct[:hash_size, :hash_size]
+    median = float(np.median(low[1:, 1:]))
+    value = 0
+    for bit in (low > median).flatten():
+        value = (value << 1) | int(bool(bit))
+    return f"{value:0{hash_size * hash_size // 4}x}"
+
+
+def _sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+ImageFingerprint = tuple[str, str, str, str, Path]
+
+
+def _existing_hashes(root: Path) -> dict[str, list[ImageFingerprint]]:
+    hashes: dict[str, list[ImageFingerprint]] = {}
+    if not root.exists():
+        return hashes
     for path in root.rglob("*"):
         if path.is_file() and path.suffix.lower() in IMAGE_SUFFIXES:
             try:
                 scene = path.stem.split("__", 1)[0] if "__" in path.stem else path.parent.name
-                hashes.setdefault(scene, []).append((_average_hash(path), _dhash(path)))
+                hashes.setdefault(scene, []).append((
+                    _sha256(path),
+                    _average_hash(path),
+                    _dhash(path),
+                    _phash(path),
+                    path,
+                ))
             except Exception:
                 pass
     return hashes
 
 
-def _historical_candidate_hashes(root: Path, current_output: Path) -> dict[str, list[tuple[str, str]]]:
-    hashes: dict[str, list[tuple[str, str]]] = {}
+def _historical_candidate_hashes(root: Path, current_output: Path) -> dict[str, list[ImageFingerprint]]:
+    hashes: dict[str, list[ImageFingerprint]] = {}
     if not root.exists():
         return hashes
     current_output = current_output.resolve()
-    for batch in root.glob("*multisource*"):
-        if not batch.is_dir() or batch.resolve() == current_output:
-            continue
-        for scene, items in _existing_hashes(batch).items():
-            hashes.setdefault(scene, []).extend(items)
+    for scene, items in _existing_hashes(root).items():
+        filtered = [
+            item for item in items
+            if current_output not in item[4].resolve().parents and item[4].resolve() != current_output
+        ]
+        if filtered:
+            hashes.setdefault(scene, []).extend(filtered)
     return hashes
+
+
+def _near_duplicate(
+    fingerprint: ImageFingerprint,
+    existing: list[ImageFingerprint],
+    args: argparse.Namespace,
+) -> Path | None:
+    sha, ahash, dhash, phash, _ = fingerprint
+    for old_sha, old_a, old_d, old_p, old_path in existing:
+        if sha == old_sha:
+            return old_path
+        if (
+            _hamming(ahash, old_a) <= args.duplicate_hamming_distance
+            and _hamming(dhash, old_d) <= args.duplicate_dhash_distance
+        ):
+            return old_path
+        if _hamming(phash, old_p) <= args.duplicate_phash_distance:
+            return old_path
+    return None
 
 
 def _normalized_candidate_url(url: str) -> str:
@@ -1374,14 +1774,23 @@ def _collect_candidates(
                 tasks.append(("loc", query, executor.submit(_loc, scene, query, search_limit, args.timeout)))
             if "nara" in active_providers:
                 tasks.append(("nara", query, executor.submit(_nara, scene, query, search_limit, args.timeout)))
+            if "internet_archive" in active_providers or "ia" in active_providers:
+                tasks.append(("internet_archive", query, executor.submit(_internet_archive, scene, query, search_limit, args.timeout)))
+            if "nasa" in active_providers:
+                tasks.append(("nasa", query, executor.submit(_nasa, scene, query, search_limit, args.timeout)))
+            if "dvids" in active_providers:
+                tasks.append(("dvids", query, executor.submit(_dvids, scene, query, search_limit, args.timeout)))
             if "pixabay" in active_providers and pixabay_key:
                 tasks.append(("pixabay", query, executor.submit(_pixabay, scene, query, search_limit, args.timeout, pixabay_key)))
         if "commons_category" in active_providers or "commons-categories" in active_providers:
-            category_source = (
-                SCENE_QUERY_REPLACEMENTS.get(scene, {}).get("categories")
-                or SCENE_BANK.get(scene, {}).get("categories")
-                or []
-            )
+            category_source = []
+            for category in (
+                list(SCENE_QUERY_REPLACEMENTS.get(scene, {}).get("categories") or [])
+                + list(SCENE_BANK.get(scene, {}).get("categories") or [])
+            ):
+                category = str(category).strip()
+                if category and category.lower() not in {old.lower() for old in category_source}:
+                    category_source.append(category)
             for category in category_source[:category_budget]:
                 query = str(category)
                 tasks.append(("commons_category", query, executor.submit(_commons_category, scene, query, search_limit, search_pages, args.timeout)))
@@ -1423,11 +1832,12 @@ def _collect_candidates(
         dedup.setdefault(_normalized_candidate_url(candidate.image_url), candidate)
     scored = []
     for order, candidate in enumerate(dedup.values()):
+        prefilter_penalty = 0
         source_ok, source_reason = _source_resolution_ok(candidate, args)
         if not source_ok:
             if args.log_search_diagnostics:
                 diagnostics.append({
-                    "status": "skipped",
+                    "status": "soft_source_resolution_miss" if args.soft_source_resolution else "skipped",
                     "reason": source_reason,
                     "scene": scene,
                     "provider": candidate.provider,
@@ -1438,7 +1848,9 @@ def _collect_candidates(
                     "width": candidate.width,
                     "height": candidate.height,
                 })
-            continue
+            if not args.soft_source_resolution:
+                continue
+            prefilter_penalty += 1
         candidate_terms = _candidate_terms(candidate)
         relevance_terms = _relevance_terms(candidate)
         scene_ok, scene_reason = _scene_specific_relevance(
@@ -1459,9 +1871,26 @@ def _collect_candidates(
                     "image_url": candidate.image_url,
                 })
             continue
+        metadata_missing = _metadata_anchor_missing(scene, candidate_terms)
+        if metadata_missing:
+            if args.log_search_diagnostics:
+                diagnostics.append({
+                    "status": "soft_metadata_anchor_miss" if args.soft_metadata_anchor else "skipped",
+                    "reason": "metadata_anchor_missing:" + ",".join(metadata_missing),
+                    "scene": scene,
+                    "provider": candidate.provider,
+                    "query": candidate.query,
+                    "source_title": candidate.title,
+                    "source_url": candidate.source_url,
+                    "image_url": candidate.image_url,
+                })
+            if not args.soft_metadata_anchor:
+                continue
+            prefilter_penalty += len(metadata_missing) * 2
         # Broad Commons categories need extra metadata anchors to avoid books,
         # diagrams, event photos, and unrelated people.
         score, matches = _candidate_semantic_score(candidate, scene_terms)
+        score -= prefilter_penalty
         if candidate.provider != "commons_category":
             query_matches = _semantic_tokens(candidate.query) & scene_terms
             if query_matches:
@@ -1719,18 +2148,19 @@ def run(args: argparse.Namespace) -> None:
                             else:
                                 ahash = _average_hash(dest)
                                 dhash = _dhash(dest)
+                                phash = _phash(dest)
+                                sha256 = _sha256(dest)
+                                fingerprint = (sha256, ahash, dhash, phash, dest)
                                 scene_hashes = existing_hashes.setdefault(scene, [])
-                                if any(
-                                    _hamming(ahash, old_a) <= args.duplicate_hamming_distance
-                                    and _hamming(dhash, old_d) <= getattr(args, "duplicate_dhash_distance", 6)
-                                    for old_a, old_d in existing_hashes_global
-                                ):
+                                duplicate = _near_duplicate(fingerprint, existing_hashes_global, args)
+                                if duplicate is not None:
                                     dest.unlink(missing_ok=True)
                                     row["reason"] = "near_duplicate"
+                                    row["duplicate_of"] = duplicate.as_posix()
                                     _finish_candidate_url(url_claim, keep=True)
                                 else:
-                                    scene_hashes.append((ahash, dhash))
-                                    existing_hashes_global.append((ahash, dhash))
+                                    scene_hashes.append(fingerprint)
+                                    existing_hashes_global.append(fingerprint)
                                     if target_reached() or accepted_by_scene[scene] >= scene_limit:
                                         dest.unlink(missing_ok=True)
                                         row["reason"] = "excess_after_target_reached"
@@ -1785,27 +2215,27 @@ def main() -> None:
     )
     parser.add_argument("--output-dir", default="dataset/images_candidates")
     parser.add_argument("--manifest", default="reports/fast_multisource_image_backfill.csv")
-    parser.add_argument("--providers", default="commons_category,commons,loc")
+    parser.add_argument("--providers", default="commons_category,commons,loc,nara,internet_archive,nasa,dvids")
     parser.add_argument("--domains", default="")
     parser.add_argument("--target-new", type=int, default=0)
-    parser.add_argument("--per-scene", type=int, default=240)
+    parser.add_argument("--per-scene", type=int, default=600)
     parser.add_argument(
         "--review-overfetch",
         type=int,
-        default=20,
+        default=60,
         help="Stage this many times the formal image deficit so manual screening can delete aggressively.",
     )
     parser.add_argument(
         "--min-review-candidates",
         type=int,
-        default=60,
+        default=180,
         help="Minimum staged candidates to attempt for every scene that still has any deficit.",
     )
     parser.add_argument("--max-scenes", type=int, default=0)
-    parser.add_argument("--search-limit", type=int, default=100)
-    parser.add_argument("--search-pages", type=int, default=4)
-    parser.add_argument("--queries-per-scene", type=int, default=14)
-    parser.add_argument("--categories-per-scene", type=int, default=10)
+    parser.add_argument("--search-limit", type=int, default=180)
+    parser.add_argument("--search-pages", type=int, default=6)
+    parser.add_argument("--queries-per-scene", type=int, default=24)
+    parser.add_argument("--categories-per-scene", type=int, default=18)
     parser.add_argument(
         "--min-semantic-score",
         type=int,
@@ -1815,6 +2245,16 @@ def main() -> None:
     parser.add_argument("--provider-workers", type=int, default=3)
     parser.add_argument("--download-workers", type=int, default=6)
     parser.add_argument("--log-search-diagnostics", action="store_true")
+    parser.add_argument(
+        "--soft-source-resolution",
+        action="store_true",
+        help="Treat provider-reported source resolution misses as a ranking penalty; downloaded image quality is still checked.",
+    )
+    parser.add_argument(
+        "--soft-metadata-anchor",
+        action="store_true",
+        help="Treat scene metadata-anchor misses as a ranking penalty instead of a pre-download hard reject.",
+    )
     parser.add_argument("--progress-log", default="")
     parser.add_argument("--min-host-interval", type=float, default=1.0)
     parser.add_argument("--host-lock-dir", default=".cache/fast_multisource_host_locks")
@@ -1855,6 +2295,7 @@ def main() -> None:
     parser.add_argument("--max-human-subject-edge-density", type=float, default=0.12)
     parser.add_argument("--duplicate-hamming-distance", type=int, default=4)
     parser.add_argument("--duplicate-dhash-distance", type=int, default=6)
+    parser.add_argument("--duplicate-phash-distance", type=int, default=8)
     run(parser.parse_args())
 
 

@@ -73,6 +73,10 @@ SOURCE_NEGATIVE_TERMS = [
     "flower", "bird", "cat", "dog", "wildlife",
 ]
 
+SCENE_ALLOWED_BLOCKED_TERMS = {
+    "erob_quadruped_stairs_rubble_fpv": {"dog"},
+}
+
 
 SCENE_BANK: dict[str, dict[str, object]] = {
     "vsec_unregistered_vehicle_intrusion": {
@@ -210,7 +214,7 @@ SCENE_BANK: dict[str, dict[str, object]] = {
     },
     "erob_tracked_robot_rubble": {
         "domain": "embodied_robotics",
-        "tokens": "tracked robot crawler rubble inspection rescue pipe tunnel uneven terrain",
+        "tokens": "tracked robot crawler rubble inspection rescue pipe tunnel uneven terrain ugv disaster response eod",
         "queries": [
             "tracked inspection robot rubble",
             "search rescue tracked robot debris",
@@ -218,12 +222,28 @@ SCENE_BANK: dict[str, dict[str, object]] = {
             "crawler inspection robot tunnel",
             "tracked robot uneven terrain inspection",
             "bomb disposal tracked robot industrial",
+            "unmanned ground vehicle rubble inspection",
+            "EOD robot debris field",
+            "tracked rescue robot disaster response",
+            "crawler robot collapsed building inspection",
+            "UGV tracked robot rough terrain",
+            "hazmat tracked robot inspection site",
+            "military ground robot tracked inspection",
+            "remote controlled tracked robot inspection",
+            "tactical robot search rescue rubble",
+            "PackBot robot inspection",
+            "TALON robot tracked",
+            "disaster robotics unmanned ground vehicle",
         ],
-        "categories": ["Tracked robots", "Search and rescue robots", "Inspection robots", "Robots"],
+        "categories": [
+            "Tracked robots", "Search and rescue robots", "Inspection robots",
+            "Robots", "Unmanned ground vehicles", "Explosive ordnance disposal robots",
+            "Disaster response robots", "Remote control robots",
+        ],
     },
     "erob_quadruped_stairs_rubble_fpv": {
         "domain": "embodied_robotics",
-        "tokens": "quadruped robot stairs rubble legged industrial inspection plant tunnel",
+        "tokens": "quadruped robot stairs rubble legged industrial inspection plant tunnel rough terrain disaster response",
         "queries": [
             "quadruped robot stairs inspection",
             "legged robot rubble industrial",
@@ -235,12 +255,27 @@ SCENE_BANK: dict[str, dict[str, object]] = {
             "Spot robot inspection industrial",
             "legged robot walking stairs",
             "four legged robot outdoor terrain",
+            "quadruped robot rough terrain inspection",
+            "legged robot disaster response rubble",
+            "robot dog stairs field test",
+            "quadruped inspection robot industrial site",
+            "Spot robot construction site inspection",
+            "four legged robot rubble traversal",
+            "ANYmal robot inspection",
+            "Unitree quadruped robot stairs",
+            "legged robot field test rough terrain",
+            "robot dog construction inspection",
+            "quadruped robot disaster response",
+            "legged robot locomotion stairs",
         ],
-        "categories": ["Quadrupedal robots", "Legged robots", "Inspection robots", "Robots", "Boston Dynamics"],
+        "categories": [
+            "Quadrupedal robots", "Legged robots", "Inspection robots", "Robots",
+            "Boston Dynamics", "Robot locomotion", "Field robots",
+        ],
     },
     "erob_amr_warehouse_navigation": {
         "domain": "embodied_robotics",
-        "tokens": "mobile robot warehouse amr autonomous pallet agv aisle shelf logistics",
+        "tokens": "mobile robot warehouse amr autonomous pallet agv aisle shelf logistics automated guided vehicle fulfillment",
         "queries": [
             "autonomous mobile robot warehouse aisle",
             "warehouse amr robot pallets shelves",
@@ -252,12 +287,28 @@ SCENE_BANK: dict[str, dict[str, object]] = {
             "Fetch robot warehouse aisle",
             "autonomous forklift warehouse",
             "logistics robot floor shelves",
+            "automated guided vehicle factory logistics floor",
+            "warehouse mobile robot conveyor station",
+            "AMR robot fulfillment center aisle",
+            "MiR autonomous mobile robot factory",
+            "Kiva warehouse robot shelf",
+            "Otto Motors mobile robot warehouse",
+            "Amazon robotics warehouse robot",
+            "Locus Robotics warehouse robot",
+            "GeekPlus warehouse robot",
+            "Omron LD mobile robot factory",
+            "industrial AGV tugger warehouse",
+            "automated warehouse robot fleet",
         ],
-        "categories": ["Autonomous mobile robots", "Automated guided vehicles", "Warehouse robots", "Warehouses", "Mobile robots", "Logistics robots"],
+        "categories": [
+            "Autonomous mobile robots", "Automated guided vehicles",
+            "Warehouse robots", "Warehouses", "Mobile robots",
+            "Logistics robots", "Warehouse automation", "Industrial vehicles",
+        ],
     },
     "erob_light_curtain_emergency_stop": {
         "domain": "embodied_robotics",
-        "tokens": "robot cell light curtain safety factory guarding emergency stop yellow safety scanner",
+        "tokens": "robot cell light curtain safety factory guarding emergency stop yellow safety scanner machine guarding sensor barrier",
         "queries": [
             "robot cell light curtain safety fence",
             "industrial robot safety light curtain",
@@ -269,8 +320,24 @@ SCENE_BANK: dict[str, dict[str, object]] = {
             "machine guarding safety fence robot",
             "robot safety enclosure factory",
             "Sick safety scanner robot cell",
+            "industrial safety light curtain emitter receiver",
+            "machine safety light barrier manufacturing line",
+            "robot cell emergency stop button safety fence",
+            "safety scanner guarded robot workcell",
+            "Pilz safety light curtain machine guarding",
+            "Keyence safety light curtain factory machine",
+            "Omron safety light curtain machine",
+            "Leuze safety light curtain industrial",
+            "Banner safety light curtain machine guarding",
+            "machine safety sensor factory line",
+            "industrial emergency stop safety relay machine",
+            "robot cell perimeter guarding safety sensor",
         ],
-        "categories": ["Light curtains", "Machine safety", "Robot safety", "Industrial robots", "Machine guarding", "Safety fences"],
+        "categories": [
+            "Light curtains", "Machine safety", "Robot safety",
+            "Industrial robots", "Machine guarding", "Safety fences",
+            "Safety switches", "Emergency stop buttons",
+        ],
     },
     "erob_robot_tool_contact_force": {
         "domain": "embodied_robotics",
@@ -669,7 +736,7 @@ def _commons_search(query: str, limit: int, sleep_s: float, timeout: float) -> l
         "action": "query",
         "format": "json",
         "generator": "search",
-        "gsrsearch": _search_query(query),
+        "gsrsearch": _search_query(query, scene),
         "gsrnamespace": "6",
         "gsrlimit": str(min(limit, 50)),
         "prop": "imageinfo",
@@ -708,7 +775,7 @@ def _commons_category(category: str, limit: int, sleep_s: float, timeout: float)
 
 
 def _openverse_search(query: str, limit: int, sleep_s: float, timeout: float) -> list[dict]:
-    params = {"q": _search_query(query), "page_size": str(min(limit, 20)), "mature": "false"}
+    params = {"q": _search_query(query, scene), "page_size": str(min(limit, 20)), "mature": "false"}
     data = _url_json(OPENVERSE_API, params, sleep_s, timeout)
     out = []
     for item in data.get("results", []):
@@ -737,7 +804,7 @@ def _loc_search(query: str, limit: int, sleep_s: float, timeout: float) -> list[
     params = {
         "fo": "json",
         "c": str(min(limit, 100)),
-        "q": _search_query(query),
+        "q": _search_query(query, scene),
         "fa": "online-format:image",
     }
     data = _url_json(LOC_API, params, sleep_s, timeout)
@@ -782,7 +849,7 @@ def _loc_search(query: str, limit: int, sleep_s: float, timeout: float) -> list[
 
 def _nara_search(query: str, limit: int, sleep_s: float, timeout: float) -> list[dict]:
     params = {
-        "q": _search_query(query),
+        "q": _search_query(query, scene),
         "rows": str(min(limit, 100)),
         "resultTypes": "item",
         "objectType": "Photographs and other Graphic Materials",
@@ -835,8 +902,10 @@ def _tokens(text: str) -> set[str]:
     return {token for token in re.findall(r"[a-z0-9]+", text.lower()) if len(token) >= 3}
 
 
-def _search_query(query: str) -> str:
-    negatives = " ".join(f'-"{term}"' if " " in term else f"-{term}" for term in SOURCE_NEGATIVE_TERMS)
+def _search_query(query: str, scene: str = "") -> str:
+    allowed = SCENE_ALLOWED_BLOCKED_TERMS.get(scene, set())
+    negative_terms = [term for term in SOURCE_NEGATIVE_TERMS if term not in allowed]
+    negatives = " ".join(f'-"{term}"' if " " in term else f"-{term}" for term in negative_terms)
     return f"{query} {negatives}".strip()
 
 
@@ -861,13 +930,16 @@ def _scene_queries(scene: str) -> list[str]:
     return compact
 
 
-def _source_ok(text: str) -> tuple[bool, str]:
+def _source_ok(text: str, scene: str = "") -> tuple[bool, str]:
     lowered = text.lower()
+    allowed_blocked = SCENE_ALLOWED_BLOCKED_TERMS.get(scene, set())
     for term in sorted(BLOCKED_TERMS, key=len, reverse=True):
+        if term in allowed_blocked:
+            continue
         if " " in term and term in lowered:
             return False, "blocked_term:" + term.replace(" ", "_")
     tokens = _tokens(text)
-    blocked = sorted(tokens & BLOCKED_TERMS)
+    blocked = sorted((tokens & BLOCKED_TERMS) - allowed_blocked)
     if blocked:
         return False, "blocked_term:" + blocked[0]
     for hint in (".pdf", ".djvu", "/pdf/", "/book/", "/books/", "/poster/", "/diagram/"):
@@ -1041,7 +1113,7 @@ def run(args: argparse.Namespace) -> None:
                 "width": str(info.get("width", "")),
                 "height": str(info.get("height", "")),
             }
-            ok, reason = _source_ok(" ".join([title, source_url, image_url]))
+            ok, reason = _source_ok(" ".join([title, source_url, image_url]), scene)
             if not ok:
                 row["reason"] = reason
                 rows.append(row)
