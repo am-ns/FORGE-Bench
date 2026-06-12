@@ -387,6 +387,28 @@ SCENE_QUERY_REPLACEMENTS = {
     },
     "erob_light_curtain_emergency_stop": {
         "queries": [
+            "industrial safety fence machine guard",
+            "machine guard safety fence factory",
+            "robot cell safety enclosure",
+            "industrial robot safety enclosure",
+            "machine safety enclosure guarding",
+            "automated machinery safety fence",
+            "interlocked safety gate machine guard",
+            "perimeter guarding industrial machine",
+            "protective fence industrial robot cell",
+            "factory machine safety barrier",
+            "robot cell safety scanner guarded workcell",
+            "industrial robot safety scanner workcell",
+            "machine guarding robot cell safety fence",
+            "robot workcell perimeter guarding safety scanner",
+            "industrial machine guard safety sensor",
+            "automated machine safety guard sensor",
+            "factory robot cell safety fence",
+            "industrial robot cell emergency stop guard",
+            "machine guarding safety gate interlock",
+            "robot cell interlock safety gate",
+            "press machine safety guard sensor",
+            "automated line machine guarding safety sensor",
             "industrial safety light curtain robot cell photo",
             "machine safety light curtain emitter receiver guarded cell",
             "robot workcell safety fence light curtain photo",
@@ -411,7 +433,8 @@ SCENE_QUERY_REPLACEMENTS = {
         "categories": [
             "Machine safety", "Machine guarding", "Light curtains",
             "Safety switches", "Emergency stop buttons", "Industrial robots",
-            "Safety engineering",
+            "Safety engineering", "Safety fences", "Industrial automation",
+            "Industrial safety", "Fences", "Protective barriers",
         ],
     },
     "erob_quadruped_stairs_rubble_fpv": {
@@ -558,10 +581,14 @@ SCENE_METADATA_REQUIRED_GROUPS = {
     },
     "erob_light_curtain_emergency_stop": {
         "safety_sensor": {
-            "barrier", "curtain", "emergency", "guarding", "light", "scanner",
+            "barrier", "curtain", "emergency", "fence", "gate", "guard",
+            "guarding", "interlock", "light", "perimeter", "scanner",
             "sensor", "sick", "stop",
         },
-        "machine_context": {"cell", "machine", "robot", "safety", "workcell"},
+        "machine_context": {
+            "automation", "cell", "factory", "industrial", "line", "machine",
+            "press", "robot", "safety", "workcell",
+        },
     },
     "erob_quadruped_stairs_rubble_fpv": {
         "legged_robot": {"boston", "quadruped", "legged", "spot"},
@@ -2036,7 +2063,7 @@ def run(args: argparse.Namespace) -> None:
     existing_hashes_global = [item for hashes in existing_hashes.values() for item in hashes]
     scene_claim_dir = Path(args.scene_claim_dir)
     candidate_url_claim_dir = Path(getattr(args, "candidate_url_claim_dir", ".cache/fast_multisource_candidate_urls"))
-    historical_urls = _historical_candidate_urls(Path(getattr(args, "history_reports_root", "reports")))
+    historical_urls = set() if args.ignore_url_history else _historical_candidate_urls(Path(getattr(args, "history_reports_root", "reports")))
     rows = []
     accepted_total = 0
     accepted_by_scene: dict[str, int] = {}
@@ -2320,6 +2347,11 @@ def main() -> None:
     parser.add_argument("--candidate-url-claim-dir", default=".cache/fast_multisource_candidate_urls")
     parser.add_argument("--candidate-url-claim-stale-seconds", type=float, default=86400.0)
     parser.add_argument("--history-reports-root", default="reports")
+    parser.add_argument(
+        "--ignore-url-history",
+        action="store_true",
+        help="Do not skip URLs found in previous reports; image hashes still prevent duplicate imports.",
+    )
     parser.add_argument("--history-candidate-root", default="dataset/images_candidates")
     parser.add_argument("--timeout", type=float, default=12.0)
     parser.add_argument("--pixabay-key", default="", help="Pixabay API key (register free at pixabay.com/api/docs/)")
