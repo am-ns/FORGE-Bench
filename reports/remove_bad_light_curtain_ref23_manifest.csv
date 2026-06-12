@@ -1,0 +1,2 @@
+status,dest_path,task_id,source_path,scene_id,domain
+accepted,dataset/images/embodied_robotics/erob_light_curtain_emergency_stop/ref_23.jpg,erob_221,,erob_light_curtain_emergency_stop,embodied_robotics
