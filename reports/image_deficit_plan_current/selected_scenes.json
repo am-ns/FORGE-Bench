@@ -1,6 +1,6 @@
 {
   "scenes": [
-    "erob_quadruped_stairs_rubble_fpv",
-    "erob_light_curtain_emergency_stop"
+    "erob_light_curtain_emergency_stop",
+    "erob_quadruped_stairs_rubble_fpv"
   ]
 }

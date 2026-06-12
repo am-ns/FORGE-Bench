@@ -52,6 +52,7 @@ WIKIMEDIA_THUMB_WIDTH = 1024
 HOST_RATE_LIMIT_SECONDS = 0.0
 HOST_RATE_LIMIT_DIR = REPO_ROOT / ".cache" / "fast_multisource_host_locks"
 CLAIM_OWNER_FILENAME = "owner.json"
+DEFAULT_CURRENT_SELECTED_SCENES = REPO_ROOT / "reports" / "image_deficit_plan_current" / "selected_scenes.json"
 
 BLOCKED_TERMS = {
     "book", "cover", "frontispiece", "page", "scan", "scanned", "diagram",
@@ -146,7 +147,11 @@ SOURCE_NEGATIVE_TERMS = [
 ]
 
 SCENE_ALLOWED_BLOCKED_TERMS = {
-    "erob_quadruped_stairs_rubble_fpv": {"dog"},
+    "erob_quadruped_stairs_rubble_fpv": {"dog", "spot"},
+}
+SCENE_DISABLE_MICRO_QUERIES = {
+    "erob_light_curtain_emergency_stop",
+    "erob_quadruped_stairs_rubble_fpv",
 }
 
 CATEGORY_METADATA_REQUIRED_TERMS = {
@@ -213,18 +218,20 @@ SCENE_REQUIRED_TERMS = {
     },
     "erob_light_curtain_emergency_stop": {
         "safety": {
-            "barrier", "curtain", "emergency", "fence", "guarding", "light",
-            "safety", "scanner", "sensor", "stop",
+            "barrier", "curtain", "emergency", "fence", "guard", "guarding",
+            "interlock", "light", "perimeter", "safety", "scanner", "sensor",
+            "stop",
         },
         "machine": {
-            "cell", "factory", "industrial", "machine", "robot", "workcell",
+            "cell", "factory", "industrial", "machine", "press", "robot",
+            "workcell",
         },
     },
     "erob_quadruped_stairs_rubble_fpv": {
-        "robot": {"legged", "quadruped", "robot", "spot"},
+        "robot": {"anymal", "boston", "legged", "quadruped", "robot", "spot"},
         "terrain": {
             "construction", "debris", "inspection", "rough", "rubble",
-            "stairs", "terrain", "tunnel",
+            "stair", "stairs", "terrain", "tunnel",
         },
     },
     "erob_robot_arm_precision_grasp": {
@@ -278,16 +285,23 @@ SCENE_NEGATIVE_TERMS = {
         "shoes", "stage", "toy",
     },
     "erob_light_curtain_emergency_stop": {
-        "building", "factory", "firefighter", "firefighters", "harbor", "laser",
-        "ship", "smoke", "welding", "curtain wall", "light art", "stage",
+        "bastion", "building", "curtain ring", "curtain wall", "factory exterior",
+        "firefighter", "firefighters", "guinea", "harbor", "laser", "light art",
+        "light curtain wall", "medieval", "ornamental", "optical fiber",
+        "post-medieval", "prince", "privacy curtain", "ship", "smoke",
+        "the light guinea", "welding", "welding curtain", "stage",
         "theater", "cartoon", "drape", "drapes", "exhibition", "hall",
         "historic", "illustration", "newspaper", "page", "press", "print",
         "room", "screen", "window", "windows",
     },
     "erob_quadruped_stairs_rubble_fpv": {
-        "animal", "city", "crowd", "festival", "jupiter", "map", "market",
-        "pet", "planet", "restaurant", "satellite", "sign", "street", "toy",
-        "costume", "mascot", "statue",
+        "aerial", "animal", "arcachon", "bay", "beach", "blind spot",
+        "bright colours", "canberra", "city", "coast", "coastal", "costume",
+        "crawler", "crowd", "cyclone", "drone", "entrance of mystery spot",
+        "festival", "flower", "insect", "island", "jupiter", "map",
+        "market", "mascot", "mont blanc", "mystery spot", "ocean", "pet",
+        "planet", "restaurant", "satellite", "sea", "sign", "statue",
+        "street", "taxi", "toy", "tracked", "uav", "ugv", "wheeled",
     },
     "erob_tracked_robot_rubble": {
         "boat", "flood", "group", "meeting", "rescue_boat", "ship", "tank",
@@ -373,56 +387,68 @@ SCENE_QUERY_REPLACEMENTS = {
     },
     "erob_light_curtain_emergency_stop": {
         "queries": [
-            "machine safety light curtain sensor robot cell",
-            "industrial light curtain safety sensor machine guarding",
-            "SICK safety light curtain robot workcell",
-            "light curtain emitter receiver industrial machine",
-            "safety scanner robot cell machine guarding",
-            "robot workcell safety fence light curtain",
-            "industrial safety light curtain emitter receiver",
-            "machine safety light barrier manufacturing line",
-            "robot cell emergency stop button safety fence",
-            "safety scanner guarded robot workcell",
-            "Pilz safety light curtain machine guarding",
-            "Keyence safety light curtain factory machine",
-            "Omron safety light curtain machine",
-            "Leuze safety light curtain industrial",
-            "Banner safety light curtain machine guarding",
-            "machine safety sensor factory line",
-            "industrial emergency stop safety relay machine",
-            "robot cell perimeter guarding safety sensor",
+            "industrial safety light curtain robot cell photo",
+            "machine safety light curtain emitter receiver guarded cell",
+            "robot workcell safety fence light curtain photo",
+            "SICK safety light curtain machine guarding",
+            "Keyence safety light curtain machine guarding",
+            "Omron safety light curtain guarded machine",
+            "Pilz safety light curtain robot cell",
+            "Leuze safety light curtain machine guard",
+            "Banner safety light curtain manufacturing cell",
+            "safety scanner robot cell perimeter guard",
+            "industrial light barrier machine guarding photo",
+            "press machine safety light curtain guard",
+            "automated line light curtain safety sensor",
+            "robot cell emergency stop safety fence light curtain",
+            "factory machine guarding optical safety sensor",
+            "industrial workcell perimeter safety scanner",
+            "machine safety interlock guard light curtain",
+            "robot workcell guarded access light curtain",
+            "manufacturing cell safety sensor barrier",
+            "industrial machinery safety light beam guard",
         ],
         "categories": [
             "Machine safety", "Machine guarding", "Light curtains",
-            "Safety switches", "Emergency stop buttons",
+            "Safety switches", "Emergency stop buttons", "Industrial robots",
+            "Safety engineering",
         ],
     },
     "erob_quadruped_stairs_rubble_fpv": {
         "queries": [
-            "quadruped inspection robot stairs",
-            "legged inspection robot rubble debris",
-            "quadruped robot construction site stairs",
+            "Boston Dynamics Spot robot",
+            "Spot quadruped robot",
+            "Spot robot industrial inspection",
+            "Spot robot construction inspection",
+            "robot dog inspection robot",
+            "quadruped robot inspection",
+            "legged robot inspection",
+            "ANYmal quadruped robot",
+            "quadruped robot industrial stairs inspection photo",
+            "legged robot stairs factory inspection",
+            "Spot robot construction site stairs inspection",
+            "Boston Dynamics Spot robot stairs construction site",
+            "ANYmal robot industrial inspection stairs",
+            "quadruped robot rubble debris inspection photo",
             "legged robot tunnel inspection rubble",
-            "quadruped robot industrial inspection stairs",
-            "legged robot debris field inspection",
-            "Boston Dynamics quadruped robot stairs",
-            "quadruped robot rubble traversal",
-            "quadruped robot rough terrain inspection",
-            "legged robot disaster response rubble",
-            "robot dog stairs field test",
-            "quadruped inspection robot industrial site",
-            "Spot robot construction site inspection",
+            "quadruped robot rough terrain stairs",
+            "robot dog industrial plant stairs",
+            "legged inspection robot construction debris",
             "four legged robot rubble traversal",
-            "ANYmal robot inspection",
-            "Unitree quadruped robot stairs",
-            "legged robot field test rough terrain",
-            "robot dog construction inspection",
-            "quadruped robot disaster response",
-            "legged robot locomotion stairs",
+            "quadruped robot disaster response debris field",
+            "Spot robot industrial inspection plant",
+            "ANYmal robot rough terrain inspection",
+            "legged robot stairs field test",
+            "quadruped robot construction inspection photo",
+            "robot dog stairs inspection photo",
+            "legged robot debris field inspection",
+            "quadruped robot tunnel stairs inspection",
+            "industrial quadruped robot rough terrain",
         ],
         "categories": [
             "Quadrupedal robots", "Legged robots", "Inspection robots",
-            "Robot locomotion", "Field robots",
+            "Robot locomotion", "Field robots", "Boston Dynamics Spot",
+            "ANYmal",
         ],
     },
     "erob_robot_arm_precision_grasp": {
@@ -1261,8 +1287,9 @@ def _load_samples(path: Path) -> list[dict]:
 
 
 def _load_scenes(path: str, samples: list[dict]) -> list[str]:
-    if path:
-        payload = json.loads(Path(path).read_text(encoding="utf-8"))
+    scenes_path = Path(path) if path else DEFAULT_CURRENT_SELECTED_SCENES
+    if scenes_path.exists():
+        payload = json.loads(scenes_path.read_text(encoding="utf-8"))
         return [str(scene) for scene in payload.get("scenes", [])]
     scenes = []
     for sample in samples:
@@ -1327,7 +1354,7 @@ def _scene_queries(scene: str, samples_by_scene: dict[str, dict], max_queries: i
     for query in base:
         if add(compact, emitted, query):
             return compact[:max_queries]
-        micro = micro_query(query)
+        micro = "" if scene in SCENE_DISABLE_MICRO_QUERIES else micro_query(query)
         if micro and add(compact, emitted, micro):
             return compact[:max_queries]
 
@@ -2014,11 +2041,24 @@ def run(args: argparse.Namespace) -> None:
     accepted_total = 0
     accepted_by_scene: dict[str, int] = {}
     candidate_index = 0
+    rejections_without_accept = 0
 
     def target_reached() -> bool:
         return args.target_new > 0 and accepted_total >= args.target_new
 
+    def rejection_budget_reached() -> bool:
+        return (
+            args.max_rejections_without_accept > 0
+            and rejections_without_accept >= args.max_rejections_without_accept
+        )
+
     for scene in scenes:
+        if rejection_budget_reached():
+            _progress(
+                args.progress_log,
+                f"stop reason=max_rejections_without_accept count={rejections_without_accept}",
+            )
+            break
         _progress(args.progress_log, f"scene_start scene={scene}")
         claim = _claim_scene(scene_claim_dir, scene, args.scene_claim_stale_seconds)
         if claim is None:
@@ -2050,6 +2090,12 @@ def run(args: argparse.Namespace) -> None:
             candidate_iter = iter(candidates)
             with ThreadPoolExecutor(max_workers=args.download_workers) as executor:
                 while not target_reached() and accepted_by_scene[scene] < scene_limit:
+                    if rejection_budget_reached():
+                        _progress(
+                            args.progress_log,
+                            f"scene_stop scene={scene} reason=max_rejections_without_accept count={rejections_without_accept}",
+                        )
+                        break
                     remaining = scene_limit - accepted_by_scene[scene]
                     if args.target_new > 0:
                         remaining = min(remaining, args.target_new - accepted_total)
@@ -2060,6 +2106,7 @@ def run(args: argparse.Namespace) -> None:
                     for candidate in batch:
                         normalized_url = _normalized_candidate_url(candidate.image_url)
                         if normalized_url in historical_urls:
+                            rejections_without_accept += 1
                             rows.append({
                                 "status": "skipped",
                                 "reason": "historical_duplicate_url",
@@ -2077,6 +2124,7 @@ def run(args: argparse.Namespace) -> None:
                             getattr(args, "candidate_url_claim_stale_seconds", 86400.0),
                         )
                         if url_claim is None:
+                            rejections_without_accept += 1
                             rows.append({
                                 "status": "skipped",
                                 "reason": "candidate_url_already_seen_or_claimed",
@@ -2168,6 +2216,7 @@ def run(args: argparse.Namespace) -> None:
                                     else:
                                         accepted_total += 1
                                         accepted_by_scene[scene] += 1
+                                        rejections_without_accept = 0
                                         row["status"] = "accepted"
                                         row["reason"] = "accepted"
                                         _finish_candidate_url(url_claim, keep=True)
@@ -2175,6 +2224,8 @@ def run(args: argparse.Namespace) -> None:
                             dest.unlink(missing_ok=True)
                             _finish_candidate_url(url_claim, keep=False)
                             row["reason"] = f"download_or_read_error:{exc}"
+                        if row["status"] != "accepted":
+                            rejections_without_accept += 1
                         rows.append(row)
                         if len(rows) % 20 == 0:
                             _write_manifest(rows, manifest)
@@ -2219,6 +2270,12 @@ def main() -> None:
     parser.add_argument("--domains", default="")
     parser.add_argument("--target-new", type=int, default=0)
     parser.add_argument("--per-scene", type=int, default=600)
+    parser.add_argument(
+        "--max-rejections-without-accept",
+        type=int,
+        default=0,
+        help="Stop the run after this many consecutive skipped/rejected candidates; 0 disables the guard.",
+    )
     parser.add_argument(
         "--review-overfetch",
         type=int,
