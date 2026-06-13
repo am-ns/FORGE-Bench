@@ -286,7 +286,7 @@ SCENE_NEGATIVE_TERMS = {
     },
     "erob_light_curtain_emergency_stop": {
         "bastion", "building", "curtain ring", "curtain wall", "factory exterior",
-        "firefighter", "firefighters", "guinea", "harbor", "laser", "light art",
+        "firefighter", "firefighters", "guinea", "harbor", "laser show", "light art",
         "light curtain wall", "medieval", "ornamental", "optical fiber",
         "post-medieval", "prince", "privacy curtain", "ship", "smoke",
         "the light guinea", "welding", "welding curtain", "stage",
@@ -429,12 +429,24 @@ SCENE_QUERY_REPLACEMENTS = {
             "robot workcell guarded access light curtain",
             "manufacturing cell safety sensor barrier",
             "industrial machinery safety light beam guard",
+            "industrial safety laser scanner machine guarding",
+            "safety laser scanner robot cell guarding",
+            "photoelectric safety sensor machine guard",
+            "presence sensing safety device machine guarding",
+            "area scanner safety sensor factory machine",
+            "optical safety sensor guarded automated machine",
+            "safety light beam guarded press machine",
+            "industrial machine presence sensor guard",
+            "robot cell access gate safety sensor",
+            "automated machinery photoelectric safety barrier",
         ],
         "categories": [
             "Machine safety", "Machine guarding", "Light curtains",
             "Safety switches", "Emergency stop buttons", "Industrial robots",
             "Safety engineering", "Safety fences", "Industrial automation",
             "Industrial safety", "Fences", "Protective barriers",
+            "Photoelectric sensors", "Safety sensors",
+            "Industrial sensors", "Industrial safety systems",
         ],
     },
     "erob_quadruped_stairs_rubble_fpv": {
@@ -606,6 +618,19 @@ SCENE_METADATA_REQUIRED_GROUPS = {
     },
     "hload_blind_lift_spotter_view": {
         "lifting": {"crane", "hoist", "hook", "jib", "lift", "load", "rigging"},
+    },
+}
+
+SCENE_QUALITY_OVERRIDES = {
+    # Guarding fences and light-curtain cells naturally contain dense grids,
+    # so the global edge/pattern filters are too aggressive for this scene.
+    "erob_light_curtain_emergency_stop": {
+        "max_edge_density": 0.32,
+        "min_pattern_edge_density": 0.32,
+        "max_skin_ratio": 0.36,
+        "max_center_skin_ratio": 0.36,
+        "max_skin_ratio_soft": 0.34,
+        "max_center_skin_ratio_soft": 0.34,
     },
 }
 
@@ -1737,7 +1762,11 @@ def _scene_image_count(image_root: Path, domain: str, scene: str) -> int:
     return sum(1 for path in scene_dir.iterdir() if path.is_file() and path.suffix.lower() in IMAGE_SUFFIXES)
 
 
-def _passes_quality(metrics: dict, args: argparse.Namespace) -> tuple[bool, str]:
+def _quality_limit(scene: str, args: argparse.Namespace, name: str):
+    return SCENE_QUALITY_OVERRIDES.get(scene, {}).get(name, getattr(args, name))
+
+
+def _passes_quality(scene: str, metrics: dict, args: argparse.Namespace) -> tuple[bool, str]:
     if metrics["width"] < args.min_width or metrics["height"] < args.min_height:
         return False, "resolution_below_min"
     if metrics["short_side"] < args.min_short_side:
@@ -1746,7 +1775,7 @@ def _passes_quality(metrics: dict, args: argparse.Namespace) -> tuple[bool, str]
         return False, "pixel_count_below_min"
     if metrics["laplacian_var"] < args.min_laplacian:
         return False, "too_blurry"
-    if metrics["edge_density"] > args.max_edge_density:
+    if metrics["edge_density"] > _quality_limit(scene, args, "max_edge_density"):
         return False, "too_many_edges"
     if metrics["white_ratio"] > args.max_white_ratio and metrics["mean_saturation"] < 55:
         return False, "page_or_diagram_like"
@@ -1762,22 +1791,22 @@ def _passes_quality(metrics: dict, args: argparse.Namespace) -> tuple[bool, str]
     ):
         return False, "center_white_page_like"
     if (
-        metrics["edge_density"] > args.min_pattern_edge_density
+        metrics["edge_density"] > _quality_limit(scene, args, "min_pattern_edge_density")
         and metrics["mean_saturation"] > args.min_pattern_saturation
         and metrics["white_ratio"] < 0.35
     ):
         return False, "pattern_or_texture_like"
     if metrics["face_area_ratio"] > args.max_face_area_ratio:
         return False, "large_face_or_portrait_like"
-    if metrics["skin_ratio"] > args.max_skin_ratio and metrics["face_area_ratio"] > 0.006:
+    if metrics["skin_ratio"] > _quality_limit(scene, args, "max_skin_ratio") and metrics["face_area_ratio"] > 0.006:
         return False, "human_portrait_or_group_like"
-    if metrics["skin_ratio"] > args.max_skin_ratio:
+    if metrics["skin_ratio"] > _quality_limit(scene, args, "max_skin_ratio"):
         return False, "human_skin_dominant"
-    if metrics["center_skin_ratio"] > args.max_center_skin_ratio:
+    if metrics["center_skin_ratio"] > _quality_limit(scene, args, "max_center_skin_ratio"):
         return False, "center_human_subject"
     if (
-        metrics["skin_ratio"] > args.max_skin_ratio_soft
-        and metrics["center_skin_ratio"] > args.max_center_skin_ratio_soft
+        metrics["skin_ratio"] > _quality_limit(scene, args, "max_skin_ratio_soft")
+        and metrics["center_skin_ratio"] > _quality_limit(scene, args, "max_center_skin_ratio_soft")
         and metrics["edge_density"] < args.max_human_subject_edge_density
     ):
         return False, "human_subject_dominant"
@@ -2213,7 +2242,7 @@ def run(args: argparse.Namespace) -> None:
                                 "center_skin_ratio": f"{metrics['center_skin_ratio']:.4f}",
                                 "face_area_ratio": f"{metrics['face_area_ratio']:.4f}",
                             })
-                            ok, reason = _passes_quality(metrics, args)
+                            ok, reason = _passes_quality(scene, metrics, args)
                             if not ok:
                                 dest.unlink(missing_ok=True)
                                 row["reason"] = reason

@@ -41,6 +41,13 @@ DOMAIN_PREFIX = {
     "extreme_emergency": "emerg",
 }
 DOMAIN_NAMES = set(DOMAIN_PREFIX)
+SCENE_QUALITY_OVERRIDES = {
+    "erob_light_curtain_emergency_stop": {
+        "max_edge_density": 0.32,
+        "min_pattern_edge_density": 0.32,
+        "max_skin_ratio": 0.36,
+    },
+}
 
 
 def _load_samples(path: Path) -> dict:
@@ -282,7 +289,11 @@ def _next_task_id(samples: list[dict], domain: str, counters: dict[str, int]) ->
     return f"{prefix}_{counters[prefix]:03d}"
 
 
-def _passes_quality(metrics: dict, args: argparse.Namespace) -> tuple[bool, str]:
+def _quality_limit(scene: str, args: argparse.Namespace, name: str):
+    return SCENE_QUALITY_OVERRIDES.get(scene, {}).get(name, getattr(args, name))
+
+
+def _passes_quality(scene: str, metrics: dict, args: argparse.Namespace) -> tuple[bool, str]:
     if metrics["width"] < args.min_width or metrics["height"] < args.min_height:
         return False, "resolution_below_min"
     if metrics["short_side"] < args.min_short_side:
@@ -291,7 +302,7 @@ def _passes_quality(metrics: dict, args: argparse.Namespace) -> tuple[bool, str]
         return False, "pixel_count_below_min"
     if metrics["laplacian_var"] < args.min_laplacian:
         return False, "too_blurry"
-    if metrics["edge_density"] > args.max_edge_density:
+    if metrics["edge_density"] > _quality_limit(scene, args, "max_edge_density"):
         return False, "too_many_edges"
     if metrics["background_edge_density"] > args.max_background_edge_density:
         return False, "background_too_cluttered"
@@ -307,14 +318,14 @@ def _passes_quality(metrics: dict, args: argparse.Namespace) -> tuple[bool, str]
     ):
         return False, "center_white_page_like"
     if (
-        metrics["edge_density"] > args.min_pattern_edge_density
+        metrics["edge_density"] > _quality_limit(scene, args, "min_pattern_edge_density")
         and metrics["mean_saturation"] > args.min_pattern_saturation
         and metrics["white_ratio"] < 0.35
     ):
         return False, "pattern_or_texture_like"
     if metrics["face_area_ratio"] > args.max_face_area_ratio:
         return False, "large_face_or_portrait_like"
-    if metrics["skin_ratio"] > args.max_skin_ratio and metrics["face_area_ratio"] > 0.006:
+    if metrics["skin_ratio"] > _quality_limit(scene, args, "max_skin_ratio") and metrics["face_area_ratio"] > 0.006:
         return False, "human_portrait_or_group_like"
     return True, "accepted"
 
@@ -594,7 +605,7 @@ def _run_locked(args: argparse.Namespace, candidate_root: Path, image_root: Path
                 "skin_ratio": f"{metrics['skin_ratio']:.4f}",
                 "face_area_ratio": f"{metrics['face_area_ratio']:.4f}",
             })
-            ok, reason = _passes_quality(metrics, args)
+            ok, reason = _passes_quality(scene, metrics, args)
             if not ok:
                 row["reason"] = reason
                 row["deleted"] = str(delete_rejected(source)).lower()
