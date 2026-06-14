@@ -11,6 +11,7 @@ import os
 import sys
 import time
 import json
+import re
 
 import cv2
 import numpy as np
@@ -28,6 +29,8 @@ CONFIG = {
     "geometric_integrity_max_frames": 12,
     "application_usefulness_max_frames": 12,
     "jpeg_quality": 80,
+    "judge_temperature": 0.0,
+    "model_version_policy": "paper runs should set OPENAI_COMPAT_MODEL to a fixed non-latest model id",
 }
 
 
@@ -79,6 +82,7 @@ def _call_with_backoff(client, model: str, system: str, messages: list, max_toke
                 model=model,
                 messages=full_messages,
                 max_tokens=max_tokens,
+                temperature=CONFIG["judge_temperature"],
             )
         except Exception as exc:
             last_exc = exc
@@ -655,19 +659,25 @@ def judge_sample_application_usefulness(
 # ---------------------------------------------------------------------------
 
 def _parse_score_0_100(response: str) -> int | None:
-    """Extract a 0-100 integer score; return None for invalid judge output."""
+    """Extract a 0-100 integer score from strict JSON or the first line."""
     if not response:
         print("WARNING: empty LLM response", file=sys.stderr)
         return None
-    first_line = response.strip().splitlines()[0].strip()
-    for token in first_line.split():
-        clean = token.rstrip(".,;:)%")
-        if clean.isdigit() and 0 <= int(clean) <= 100:
-            return int(clean)
-    for token in response.strip().split():
-        clean = token.rstrip(".,;:)%")
-        if clean.isdigit() and 0 <= int(clean) <= 100:
-            return int(clean)
+    text = response.strip()
+    try:
+        payload = json.loads(text)
+        if isinstance(payload, dict) and payload.get("score") is not None:
+            score = int(payload["score"])
+            if 0 <= score <= 100:
+                return score
+    except Exception:
+        pass
+    first_line = text.splitlines()[0].strip()
+    match = re.fullmatch(r"(?:score\s*[:=]\s*)?([0-9]{1,3})(?:\s*/\s*100|\s*%)?", first_line, re.IGNORECASE)
+    if match:
+        score = int(match.group(1))
+        if 0 <= score <= 100:
+            return score
     print(f"WARNING: could not parse 0-100 score from: {response!r}", file=sys.stderr)
     return None
 

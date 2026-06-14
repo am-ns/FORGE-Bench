@@ -23,11 +23,11 @@ SCORED_KEYS = {
 }
 
 
-def _load_scores(result_dir: Path, score_key: str) -> dict[str, float]:
+def _load_scores(result_dir: Path, score_key: str) -> dict[str, tuple[float, str]]:
     per_sample_path = result_dir / "per_sample.json"
     with per_sample_path.open(encoding="utf-8") as fh:
         rows = json.load(fh)
-    scores: dict[str, float] = {}
+    scores: dict[str, tuple[float, str]] = {}
     for row in rows:
         if row.get("skipped"):
             continue
@@ -44,7 +44,7 @@ def _load_scores(result_dir: Path, score_key: str) -> dict[str, float]:
         else:
             value = scored.get("axis_scores", {}).get(score_key)
         if value is not None:
-            scores[str(task_id)] = float(value)
+            scores[str(task_id)] = (float(value), str(row.get("scene_id") or task_id))
     return scores
 
 
@@ -56,16 +56,26 @@ def compare_paired(
     iterations: int = 10000,
     seed: int = 1729,
 ) -> dict:
-    """Compare two models on matched task ids with paired bootstrap."""
+    """Compare two models on matched task ids with paired cluster bootstrap."""
     a = _load_scores(model_a_dir, score_key)
     b = _load_scores(model_b_dir, score_key)
     common = sorted(set(a) & set(b))
     if not common:
         raise ValueError("no common scored task ids")
-    diffs = np.array([a[k] - b[k] for k in common], dtype=float)
+    diffs = np.array([a[k][0] - b[k][0] for k in common], dtype=float)
     mean_diff = float(np.mean(diffs))
+    cluster_map: dict[str, list[float]] = {}
+    for key in common:
+        cluster_id = a[key][1] if a[key][1] == b[key][1] else key
+        cluster_map.setdefault(cluster_id, []).append(a[key][0] - b[key][0])
+    clusters = sorted(cluster_map)
     rng = np.random.default_rng(seed)
-    boot = rng.choice(diffs, size=(iterations, diffs.size), replace=True).mean(axis=1)
+    boot_means = []
+    for _ in range(iterations):
+        sampled = rng.choice(clusters, size=len(clusters), replace=True)
+        values = [value for cluster_id in sampled for value in cluster_map[cluster_id]]
+        boot_means.append(float(np.mean(values)))
+    boot = np.array(boot_means, dtype=float)
     return {
         "model_a": str(model_a_dir),
         "model_b": str(model_b_dir),
@@ -73,6 +83,7 @@ def compare_paired(
         "n_model_a_scored_samples": len(a),
         "n_model_b_scored_samples": len(b),
         "n_paired_samples": len(common),
+        "n_paired_clusters": len(clusters),
         "n_unmatched_model_a_samples": len(set(a) - set(b)),
         "n_unmatched_model_b_samples": len(set(b) - set(a)),
         "mean_a_minus_b": mean_diff,
@@ -81,6 +92,7 @@ def compare_paired(
         "p_two_sided_bootstrap": float(min(1.0, 2.0 * min(np.mean(boot <= 0), np.mean(boot >= 0)))),
         "bootstrap_iterations": iterations,
         "bootstrap_seed": seed,
+        "bootstrap_type": "paired_cluster",
     }
 
 

@@ -68,12 +68,18 @@ The report exposes:
 
 - `technical_score`: arithmetic mean of the five technical axes after
   operator-evidence integration.
-- `application_score`: application usefulness score used in the 5+1 ranking formula.
-- `application_score_strict`: diagnostic application score with missing event
-  coverage counted as zero coverage.
+- `application_score`: backward-compatible available-case application score.
+- `application_score_strict`: headline application component,
+  `0.7*application_usefulness + 0.3*observable_event_coverage`, with missing
+  event coverage counted as zero coverage.
 - `application_score_available_case`: application score only where event
   coverage is available.
-- `ranking_score`: `0.8 * technical_score + 0.2 * application_score`.
+- `linear_ranking_score`: transparent `0.8 * technical_score + 0.2 *
+  application_score_strict` before hard adjustment.
+- `ranking_score`: hard-adjusted `linear_ranking_score` over complete
+  required-axis samples, with predefined caps for missing/partial required
+  events, hard application failures, strong operator/VLM geometry conflicts,
+  required motion failures, and severe operator-evidence failures.
 
 ## Axis Weights
 
@@ -81,7 +87,7 @@ Each sample carries an `axis_weights` field and a task-category profile also
 defines `axis_weights`. The effective weight for an axis follows the precedence
 chain: per-sample `axis_weights` > task-profile `axis_weights` > `BASE_AXIS_WEIGHTS`.
 
-In the current dataset all 902 samples have `axis_weights` identical to their
+In the current dataset all 1347 samples have `axis_weights` identical to their
 task-profile defaults, so the effective weights are uniform within each of the
 five task categories. Per-sample customization is supported by the pipeline but
 not used in the v1 release. When describing results, axis weights should be
@@ -96,28 +102,28 @@ and diagnostic comparisons against removed multiplicative penalty variants.
 
 ## Dataset Distribution
 
-Current dataset: 60 scenes, 902 samples.
+Current dataset: 60 scenes, 1347 samples.
 
 **Domain sample counts** (non-uniform by design - domain breadth varies):
 
 | Domain | Samples |
 |---|---:|
-| `extreme_emergency` | 289 |
-| `heavy_load_construction` | 212 |
-| `visual_security` | 140 |
-| `embodied_robotics` | 134 |
-| `precision_defect_gen` | 127 |
+| `extreme_emergency` | 335 |
+| `heavy_load_construction` | 286 |
+| `embodied_robotics` | 257 |
+| `visual_security` | 242 |
+| `precision_defect_gen` | 227 |
 
 **Application type sample counts**:
 
 | Application Type | Samples |
 |---|---:|
-| `emergency_rehearsal` | 321 |
-| `heavy_operation_risk` | 212 |
-| `robotic_operation` | 134 |
-| `safety_training` | 118 |
-| `inspection_and_maintenance` | 73 |
-| `defect_generation` | 44 |
+| `emergency_rehearsal` | 389 |
+| `heavy_operation_risk` | 286 |
+| `robotic_operation` | 257 |
+| `safety_training` | 207 |
+| `inspection_and_maintenance` | 137 |
+| `defect_generation` | 71 |
 
 Three domain x task category cells have no samples in the current dataset:
 `embodied_robotics` x `fluid_dynamics_and_thermodynamics`,

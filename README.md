@@ -15,16 +15,16 @@ scenario domain -> abstract task -> reference image -> executable prompt
 
 ## Dataset
 
-The current annotation file contains 902 samples from 60 scenes across five
+The current annotation file contains 1347 samples from 60 scenes across five
 scenario domains.
 
 | Domain | Samples | Coverage Focus |
 |---|---:|---|
-| `visual_security` | 140 | Security monitoring, restricted-zone intrusion, missing protective equipment, unsafe vehicle behavior, and compliance consequences. |
-| `embodied_robotics` | 134 | Robotic-arm manipulation, mobile or legged robot navigation, first-person robot viewpoint, and light-curtain emergency stops. |
-| `heavy_load_construction` | 212 | Excavators, crawler cranes, wire-rope load paths, muddy ground contact, gantry or bridge-segment alignment, and heavy-load failure. |
-| `precision_defect_gen` | 127 | Circuit-board bridge defects, endoscopic crack inspection, gear damage, multi-axis machining, cutting-fluid spray, and tube-bundle viewpoint motion. |
-| `extreme_emergency` | 289 | High-pressure leakage, flash fire spread, dust explosion, tower icing collapse, and emergency-state causal evolution. |
+| `visual_security` | 242 | Security monitoring, restricted-zone intrusion, missing protective equipment, unsafe vehicle behavior, and compliance consequences. |
+| `embodied_robotics` | 257 | Robotic-arm manipulation, mobile or legged robot navigation, first-person robot viewpoint, and light-curtain emergency stops. |
+| `heavy_load_construction` | 286 | Excavators, crawler cranes, wire-rope load paths, muddy ground contact, gantry or bridge-segment alignment, and heavy-load failure. |
+| `precision_defect_gen` | 227 | Circuit-board bridge defects, endoscopic crack inspection, gear damage, multi-axis machining, cutting-fluid spray, and tube-bundle viewpoint motion. |
+| `extreme_emergency` | 335 | High-pressure leakage, flash fire spread, dust explosion, tower icing collapse, and emergency-state causal evolution. |
 
 The benchmark uses existing repository images as reference anchors. The
 annotation layer is responsible for the new domain/task semantics, prompts,
@@ -159,26 +159,23 @@ Core formula:
 
 ```text
 technical_score = mean(five technical axes)
-application_score = application_usefulness
-ranking_score = 0.8 * technical_score + 0.2 * application_score
+application_score_strict = 0.7 * application_usefulness + 0.3 * observable_event_coverage
+linear_ranking_score = 0.8 * technical_score + 0.2 * application_score_strict
+ranking_score = hard_adjust(linear_ranking_score) over complete required-axis samples
 overall = ranking_score
 constraint_adjusted_score = ranking_score  # compatibility alias
 ```
 
 `technical_score` / `task_conditioned_score` is now the plain arithmetic mean
 of the five technical axes. There is no weighted/harmonic blend and no
-task-critical bottleneck multiplier in the headline score. `application_score`
-is exactly the model-judged `application_usefulness` score and contributes 20%
-of the ranking score.
-
-Former penalty signals are no longer multiplied into the headline. Instead they
-are folded into the relevant technical axes before averaging. For example,
-required camera-motion failure caps `reference_and_motion_fidelity`, rigid drift
-caps `geometric_integrity`, abrupt transitions cap `temporal_consistency`, fluid
-discontinuity caps `physical_plausibility`, and global scene regeneration caps
-reference/motion fidelity and temporal consistency. Observable event coverage,
-strict application score, legacy penalty-adjusted score, motion-gated score, and
-operator-risk-adjusted score remain diagnostics only.
+task-critical bottleneck multiplier in the technical score. `linear_ranking_score`
+is the transparent 5+1 score. The paper-facing `ranking_score` applies the
+predefined hard-adjustment policy for missing/partial required application
+events, hard application failures, strong geometric operator/VLM conflicts,
+required viewpoint/static-motion failures, and severe operator-evidence failures.
+The headline uses samples with all required axes; `linear_all_sample_score`
+remains the all-completed-sample diagnostic. Because hard adjustments can affect
+rankings, reports expose cap counts and `ranking_sensitivity_report` for audit.
 
 ### Operator Evidence
 
@@ -227,7 +224,7 @@ reports/image_search_prompts.md
 To search for one strict open-license reference image per sample, run:
 
 ```bash
-python scripts/find_reference_images.py --target 902 --search-limit 25
+python scripts/find_reference_images.py --target 1347 --search-limit 25
 ```
 
 The finder writes candidates under `dataset/images_candidates/strict_open_license/`
@@ -306,9 +303,9 @@ Important aggregate fields:
 | `strict_pass_rate` | Fraction of completed samples where all present axes pass thresholds. |
 | `functional_pass_rate` | Task-conditioned pass rate: critical axes must clear 60, non-critical axes must clear 45. |
 | `axis_pass_rates` | Per-axis pass counts and rates at the strict threshold. |
-| `application_score` | Industrial application score, equal to `application_usefulness` for headline scoring. |
+| `application_score` | Backward-compatible available-case application score; equals application usefulness when event coverage is absent. |
 | `application_score_ci95` | Bootstrap 95% confidence interval for `application_score`. |
-| `application_score_strict` | Diagnostic application score that blends usefulness and event coverage with missing coverage counted as zero. |
+| `application_score_strict` | Headline application component: `0.7*application_usefulness + 0.3*observable_event_coverage`, with missing coverage counted as zero. |
 | `application_score_strict_ci95` | Bootstrap 95% confidence interval for `application_score_strict`. |
 | `application_score_available_case` | Application score only over samples where both usefulness and event coverage are returned. |
 | `application_usefulness_score` | Mean industrial application-usefulness score when the application judge is enabled. |
@@ -317,19 +314,21 @@ Important aggregate fields:
 | `application_type_breakdown` | Application-usefulness scores split by safety training, emergency rehearsal, robotics operation, inspection/maintenance, heavy-operation risk, and defect/QC generation. |
 | `application_macro_micro_summary` | Reports sample-weighted micro application score and type-balanced macro application score across application types. |
 | `reference_motion_decomposition` | Separates reference preservation, motion control, and coupled reference-motion fidelity diagnostics. |
-| `constraint_adjusted_score` | Backward-compatible alias for `ranking_score`; it no longer applies multiplicative penalties. |
+| `linear_ranking_score` | Transparent 5+1 score before hard adjustment: `0.8*technical_score + 0.2*application_score_strict`. |
+| `linear_all_sample_score` | Same linear formula over all completed samples, including incomplete required-axis samples. |
+| `constraint_adjusted_score` | Backward-compatible alias for `ranking_score`; hard caps and hard application penalties are applied. |
 | `constraint_adjusted_score_ci95` | Deterministic bootstrap 95% confidence interval for the ranking score. |
-| `ranking_score` | Leaderboard sorting score. `constraint_adjusted_score` is retained as a backward-compatible alias. |
+| `ranking_score` | Leaderboard sorting score: hard-adjusted `linear_ranking_score` over complete required-axis samples. `constraint_adjusted_score` is retained as a backward-compatible alias. |
 | `ranking_score_ci95` | Bootstrap 95% confidence interval for `ranking_score`. |
 | `motion_gated_score` | Legacy diagnostic score after heuristic task-aware motion gating; not used as `overall` or `ranking_score`. |
 | `operator_risk_adjusted_score` | Legacy diagnostic score after heuristic operator-risk adjustment; not used as `overall` or `ranking_score`. |
 | `gated_score` | Legacy diagnostic alias for `operator_risk_adjusted_score`; uncalibrated. |
 | `overall` | Paper-facing model ability score, currently aligned to `ranking_score`. |
-| `score_calibration` | Records the 5+1 headline formula and notes that former penalties are integrated into axis scores or retained as diagnostics. |
+| `score_calibration` | Records the headline formula, complete-case policy, hard-adjustment policy, and diagnostic scores excluded from headline reporting. |
 | `axis_scores` | Mean raw full-name axis scores used by headline reporting. |
 | `floored_axis_scores` | Diagnostic compatibility view of axis means after applying historical score floors. The headline and ranking scores use raw valid axis scores. |
 | `axis_score_ci95` | Per-axis deterministic bootstrap 95% confidence intervals. |
-| `stratified_score_ci95` | Bootstrap confidence intervals by domain, task category, motion type, primary topology, and sub-topology. |
+| `stratified_score_ci95` | Cluster-bootstrap confidence intervals by domain, task category, application type, motion type, primary topology, and sub-topology. |
 | `scoring_validity` | Counts missing required axes, invalid judge parses, and whether score floors were applied. |
 | `application_coverage_summary` | Counts application types, scene coverage per application, and required-event coverage. |
 | `dataset_coverage_report` | Report-level coverage summary for application types, scenes, referenced images, scene image-count shortfalls, event coverage, and coverage matrices for domain/task/motion/risk by application type. |

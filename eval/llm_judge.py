@@ -12,6 +12,7 @@ import os
 import sys
 import time
 import json
+import re
 
 import cv2
 import numpy as np
@@ -30,6 +31,7 @@ CONFIG = {
     "geometric_integrity_max_frames": 12,
     "application_usefulness_max_frames": 12,
     "jpeg_quality": 80,
+    "judge_temperature": 0.0,
 }
 
 # ---------------------------------------------------------------------------
@@ -69,6 +71,7 @@ def _make_image_content(frame: np.ndarray) -> dict:
 def _call_with_backoff(client, **kwargs) -> dict:
     """Call client.messages.create with exponential backoff on rate limits."""
     last_exc = None
+    kwargs.setdefault("temperature", CONFIG["judge_temperature"])
     for attempt in range(CONFIG["max_retries"] + 1):
         try:
             return client.messages.create(**kwargs)
@@ -788,7 +791,7 @@ def _parse_application_json(response: str) -> dict | None:
 
 
 def _parse_score_0_100(response: str) -> int | None:
-    """Extract a 0-100 integer score from the first line of a response.
+    """Extract a 0-100 integer score from strict JSON or the first line.
 
     Invalid or unparsable judge outputs are treated as missing scores. A
     benchmark run should surface missing judge data explicitly rather than
@@ -797,16 +800,21 @@ def _parse_score_0_100(response: str) -> int | None:
     if not response:
         print("WARNING: empty LLM response in _parse_score_0_100", file=sys.stderr)
         return None
-    first_line = response.strip().splitlines()[0].strip()
-    for token in first_line.split():
-        clean = token.rstrip(".,;:)%")
-        if clean.isdigit() and 0 <= int(clean) <= 100:
-            return int(clean)
-    # Fallback: scan full response
-    for token in response.strip().split():
-        clean = token.rstrip(".,;:)%")
-        if clean.isdigit() and 0 <= int(clean) <= 100:
-            return int(clean)
+    text = response.strip()
+    try:
+        payload = json.loads(text)
+        if isinstance(payload, dict) and payload.get("score") is not None:
+            score = int(payload["score"])
+            if 0 <= score <= 100:
+                return score
+    except Exception:
+        pass
+    first_line = text.splitlines()[0].strip()
+    match = re.fullmatch(r"(?:score\s*[:=]\s*)?([0-9]{1,3})(?:\s*/\s*100|\s*%)?", first_line, re.IGNORECASE)
+    if match:
+        score = int(match.group(1))
+        if 0 <= score <= 100:
+            return score
     print(f"WARNING: could not parse 0-100 score from response: {response!r}", file=sys.stderr)
     return None
 

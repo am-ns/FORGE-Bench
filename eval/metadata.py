@@ -100,6 +100,12 @@ def build_run_metadata(
         "judge_model": judge_model,
         "judge_provider": llm_provider,
         "judge_base_url": judge_base_url,
+        "judge_temperature": config_snapshot["llm_judge"].get("judge_temperature"),
+        "judge_model_is_floating_alias": "latest" in str(judge_model).lower(),
+        "paper_reproducibility_warning": (
+            "OPENAI_COMPAT_MODEL contains 'latest'; set a fixed judge model id for paper runs."
+            if "latest" in str(judge_model).lower() else None
+        ),
         "environment": {
             "python": sys.version.split()[0],
             "platform": platform.platform(),

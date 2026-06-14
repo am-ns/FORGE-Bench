@@ -13,6 +13,8 @@ from eval.axis_registry import (
 )
 from scoring.compare import compare_paired
 from scripts.reproduce_paper_tables import build_tables
+from eval.llm_judge import _parse_score_0_100 as parse_anthropic_score
+from eval.llm_judge_openai import _parse_score_0_100 as parse_openai_score
 
 
 AXES = {
@@ -59,6 +61,8 @@ def test_compare_supports_paper_ranking_score(tmp_path):
 
     assert result["score_key"] == "ranking_score"
     assert result["n_paired_samples"] == 2
+    assert result["bootstrap_type"] == "paired_cluster"
+    assert result["n_paired_clusters"] == 1
     assert result["mean_a_minus_b"] > 0
 
 
@@ -70,6 +74,13 @@ def test_compare_supports_paper_technical_score(tmp_path):
 
     assert result["score_key"] == "technical_score"
     assert result["mean_a_minus_b"] > 0
+
+
+def test_judge_score_parser_does_not_recover_from_later_frame_numbers():
+    assert parse_anthropic_score("Score: 82\nFrames 1 and 5 show evidence.") == 82
+    assert parse_openai_score('{"score": 64, "reasoning": "ok"}') == 64
+    assert parse_anthropic_score("The score is unclear.\nFrame 8 shows a defect.") is None
+    assert parse_openai_score("Evidence: frame 5 is bad. Score should be low.") is None
 
 
 def test_reproduce_paper_tables_sorts_and_warns_on_incomplete_runs(tmp_path):

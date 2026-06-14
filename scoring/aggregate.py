@@ -478,22 +478,30 @@ def _application_pass_rate(completed: list[dict]) -> dict:
 def _application_type_breakdown(completed: list[dict]) -> dict:
     groups: dict[str, list[float]] = {}
     strict_groups: dict[str, list[float]] = {}
+    cluster_groups: dict[str, list[str]] = {}
+    strict_cluster_groups: dict[str, list[str]] = {}
     for result in completed:
         score = _application_score(result)
         app_type = result.get("application_type") or "unknown"
+        cluster_id = str(result.get("scene_id") or result.get("task_id", ""))
         if score is not None:
             groups.setdefault(str(app_type), []).append(score)
+            cluster_groups.setdefault(str(app_type), []).append(cluster_id)
         strict_score = _application_score_strict(result)
         if strict_score is not None:
             strict_groups.setdefault(str(app_type), []).append(strict_score)
+            strict_cluster_groups.setdefault(str(app_type), []).append(cluster_id)
     return {
         app_type: {
             "count": len(values),
             "application_score": float(np.mean(values)),
             "application_score_strict": float(np.mean(strict_groups.get(app_type, values))),
             "pass_rate": float(np.mean([v >= CONFIG["strict_axis_threshold"] for v in values])),
-            "ci95": _mean_confidence_interval(values),
-            "strict_ci95": _mean_confidence_interval(strict_groups.get(app_type, [])),
+            "ci95": _cluster_mean_confidence_interval(values, cluster_groups.get(app_type, [])),
+            "strict_ci95": _cluster_mean_confidence_interval(
+                strict_groups.get(app_type, []),
+                strict_cluster_groups.get(app_type, []),
+            ),
         }
         for app_type, values in sorted(groups.items())
     }
@@ -502,16 +510,27 @@ def _application_type_breakdown(completed: list[dict]) -> dict:
 def _application_macro_micro_summary(completed: list[dict]) -> dict:
     """Report application value as both sample-weighted and type-balanced means."""
     micro_values = [score for score in (_application_score_strict(r) for r in completed) if score is not None]
+    micro_clusters = [
+        str(r.get("scene_id") or r.get("task_id", ""))
+        for r in completed
+        if _application_score_strict(r) is not None
+    ]
     by_type = _application_type_breakdown(completed)
     type_values = [
         float(item["application_score_strict"])
         for item in by_type.values()
         if item.get("application_score_strict") is not None
     ]
+    type_clusters = [
+        str(app_type)
+        for app_type, item in by_type.items()
+        if item.get("application_score_strict") is not None
+    ]
     return {
         "micro_application_score_strict": float(np.mean(micro_values)) if micro_values else None,
-        "micro_application_score_strict_ci95": _mean_confidence_interval(micro_values),
+        "micro_application_score_strict_ci95": _cluster_mean_confidence_interval(micro_values, micro_clusters),
         "macro_application_score_strict": float(np.mean(type_values)) if type_values else None,
+        "macro_application_score_strict_ci95": _cluster_mean_confidence_interval(type_values, type_clusters),
         "macro_application_type_count": len(type_values),
         "policy": "micro is sample-weighted; macro is the unweighted mean across application_type means",
     }
@@ -801,8 +820,9 @@ def _cluster_mean_confidence_interval(
 
 
 def _group_confidence_intervals(results: list[dict], group_key: str, score_fn=None) -> dict:
-    """Bootstrap CIs for weighted scores grouped by a result field."""
+    """Cluster-bootstrap CIs for scores grouped by a result field."""
     grouped: dict[str, list[float]] = {}
+    clusters: dict[str, list[str]] = {}
     for result in results:
         group = result.get(group_key)
         if group is None:
@@ -811,8 +831,9 @@ def _group_confidence_intervals(results: list[dict], group_key: str, score_fn=No
         if score is None:
             continue
         grouped.setdefault(str(group), []).append(float(score))
+        clusters.setdefault(str(group), []).append(str(result.get("scene_id") or result.get("task_id", "")))
     return {
-        group: _mean_confidence_interval(values)
+        group: _cluster_mean_confidence_interval(values, clusters.get(group, []))
         for group, values in sorted(grouped.items())
     }
 
@@ -1487,6 +1508,7 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         "headline_score_policy": CONFIG["headline_score_policy"],
         "ranking_score_policy": "paper_adjusted_complete_case_score",
         "heuristic_gates_in_overall": True,
+        "complete_case_policy": "ranking_score uses samples with all required axes; linear_all_sample_score remains the all-completed-sample diagnostic",
         "score_floors_in_headline": False,
         "status": "headline_uses_complete_case_strict_application_hard_adjusted_score",
         "technical_score_formula": "technical_score = arithmetic mean of the five technical axes",
