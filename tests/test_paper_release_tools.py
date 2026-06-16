@@ -12,6 +12,7 @@ from eval.axis_registry import (
     TEMPORAL_CONSISTENCY,
 )
 from scoring.compare import compare_paired
+from scoring.aggregate import aggregate_sample_results
 from scripts.reproduce_paper_tables import build_tables
 from eval.llm_judge import _parse_score_0_100 as parse_anthropic_score
 from eval.llm_judge_openai import _parse_score_0_100 as parse_openai_score
@@ -74,6 +75,35 @@ def test_compare_supports_paper_technical_score(tmp_path):
 
     assert result["score_key"] == "technical_score"
     assert result["mean_a_minus_b"] > 0
+
+
+def test_aggregate_headline_score_uses_complete_required_axes_only():
+    complete = _sample("vsec_001", 90.0)
+    incomplete = _sample("vsec_002", 10.0)
+    incomplete["scored"]["axis_scores"].pop(TEMPORAL_CONSISTENCY)
+
+    result = aggregate_sample_results([complete, incomplete])
+
+    assert result["num_samples_completed"] == 2
+    assert result["num_samples_complete_required_axes"] == 1
+    assert result["ranking_score"] == pytest.approx(85.6)
+    assert result["linear_all_sample_score"] == pytest.approx(77.8)
+    assert result["scoring_validity"]["missing_required_axis_counts"][TEMPORAL_CONSISTENCY] == 1
+
+
+def test_aggregate_headline_score_applies_zero_event_coverage_cap():
+    sample = _sample("vsec_001", 90.0)
+    sample["observable_event_coverage"] = 0.0
+    sample["scored"]["observable_event_coverage"] = 0.0
+    sample["scored"]["application_usefulness_score"] = 100.0
+    sample["scored"]["application_axis_scores"][APPLICATION_USEFULNESS] = 100.0
+
+    result = aggregate_sample_results([sample])
+
+    assert result["linear_ranking_score"] == pytest.approx(79.6)
+    assert result["ranking_score"] == pytest.approx(30.0)
+    assert result["constraint_adjustment_summary"]["samples_with_application_event_cap"] == 1
+    assert result["constraint_adjustment_summary"]["cap_reason_counts"]["zero_observable_event_coverage"] == 1
 
 
 def test_judge_score_parser_does_not_recover_from_later_frame_numbers():
