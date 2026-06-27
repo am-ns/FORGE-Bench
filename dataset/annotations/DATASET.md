@@ -40,6 +40,18 @@ Each sample has one abstract task category:
 The task category determines the default axis weights and rubric. Domain
 determines the scenario family and the report breakdown.
 
+## Difficulty
+
+Each sample carries two difficulty views:
+
+- `difficulty_level`: aggregate challenge tier for filtering and reporting.
+- `difficulty_profile`: per-axis difficulty keyed by full-name evaluation axis.
+
+The aggregate tier is derived from the per-axis profile: any adversarial axis
+makes the sample `adversarial`; otherwise samples with at least two hard axes
+are `hard`; remaining samples are `medium` or `easy` if those lower-tier
+profiles are introduced.
+
 ## Scenario Blueprint
 
 `SCENE_BLUEPRINT.md` defines the scenario coverage used by the current

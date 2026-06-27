@@ -82,6 +82,10 @@ continuity failures cap `physical_plausibility`, and global regeneration caps
 `reference_and_motion_fidelity` and temporal consistency. These signals are not
 used as separate multiplicative ranking penalties.
 
+Each sample also carries `difficulty_level` for aggregate reporting and
+`difficulty_profile` for per-axis calibration. The current release is a
+challenge-focused set: `hard` and `adversarial` samples only.
+
 ## Prompt Standard
 
 Each sample has two prompt fields:

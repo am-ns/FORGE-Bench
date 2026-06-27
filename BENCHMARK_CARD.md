@@ -24,6 +24,7 @@ The executable task list is `dataset/annotations/samples.json`. Each sample
 contains:
 
 - `domain` and `task_category` for technical capability coverage.
+- `difficulty_level` for aggregate challenge-tier reporting.
 - `application_type` and `application_objective` for industrial-use coverage.
 - `event_graph` with initial state, trigger, progression, required response,
   terminal state, and critical decision.
@@ -113,6 +114,15 @@ Current dataset: 60 scenes, 960 samples, 960 curated reference images.
 | `heavy_load_construction` | 192 |
 | `precision_defect_gen` | 192 |
 | `visual_security` | 192 |
+
+**Difficulty level counts**:
+
+| Difficulty | Samples |
+|---|---:|
+| `adversarial` | 752 |
+| `hard` | 208 |
+| `medium` | 0 |
+| `easy` | 0 |
 
 **Application type sample counts**:
 

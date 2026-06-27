@@ -21,6 +21,7 @@ coverage.
 | `video_generation_prompt` | string | Short prompt intended to be sent directly to image-to-video generation models. |
 | `motion_type` | string | `orbit`, `pan`, `crane`, `dolly`, `tilt`, or `static`. |
 | `viewpoint_motion_target` | number or string | Target motion value used by the viewpoint motion estimator and static-video gate. |
+| `difficulty_level` | string | Aggregate sample difficulty: `easy`, `medium`, `hard`, or `adversarial`. |
 | `topology_type` | string | Primary topology family: `surface`, `lattice`, `kinematic`, or `flexible`. |
 | `constraint_annotations` | object | Hard constraints, failure modes, domain scenario, abstract task category, and full-name model-evaluation axes. |
 | `industrial_logic_questions` | array | Yes/no questions used for industrial logic and fact alignment. |

@@ -13,6 +13,7 @@
     "video_generation_prompt",
     "motion_type",
     "viewpoint_motion_target",
+    "difficulty_level",
     "difficulty_profile",
     "constraint_annotations",
     "application_type",
@@ -99,6 +100,11 @@
         "type": "string",
         "enum": ["easy", "medium", "hard", "adversarial"]
       }
+    },
+    "difficulty_level": {
+      "type": "string",
+      "description": "Aggregate sample difficulty derived from the per-axis difficulty profile.",
+      "enum": ["easy", "medium", "hard", "adversarial"]
     },
     "constraint_annotations": {
       "type": "object",
