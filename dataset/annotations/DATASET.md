@@ -1,15 +1,16 @@
 # FORGE-Bench Dataset Notes
 
 The annotation file `samples.json` is the authoritative task list for the
-benchmark. It currently contains 902 samples from 60 scenes arranged as:
+benchmark. It currently contains 1364 samples from 60 scenes, anchored by 960
+curated reference images, arranged as:
 
 | Domain | Count |
 |---|---:|
-| `visual_security` | 140 |
-| `embodied_robotics` | 134 |
-| `heavy_load_construction` | 212 |
-| `precision_defect_gen` | 127 |
-| `extreme_emergency` | 289 |
+| `visual_security` | 254 |
+| `embodied_robotics` | 259 |
+| `heavy_load_construction` | 286 |
+| `precision_defect_gen` | 230 |
+| `extreme_emergency` | 335 |
 
 ## Axis Names
 

@@ -87,7 +87,7 @@ Each sample carries an `axis_weights` field and a task-category profile also
 defines `axis_weights`. The effective weight for an axis follows the precedence
 chain: per-sample `axis_weights` > task-profile `axis_weights` > `BASE_AXIS_WEIGHTS`.
 
-In the current dataset all 1347 samples have `axis_weights` identical to their
+In the current dataset all 1364 samples have `axis_weights` identical to their
 task-profile defaults, so the effective weights are uniform within each of the
 five task categories. Per-sample customization is supported by the pipeline but
 not used in the v1 release. When describing results, axis weights should be
@@ -102,7 +102,7 @@ and diagnostic comparisons against removed multiplicative penalty variants.
 
 ## Dataset Distribution
 
-Current dataset: 60 scenes, 1347 samples.
+Current dataset: 60 scenes, 1364 samples, 960 curated reference images.
 
 **Domain sample counts** (non-uniform by design - domain breadth varies):
 
@@ -110,18 +110,18 @@ Current dataset: 60 scenes, 1347 samples.
 |---|---:|
 | `extreme_emergency` | 335 |
 | `heavy_load_construction` | 286 |
-| `embodied_robotics` | 257 |
-| `visual_security` | 242 |
-| `precision_defect_gen` | 227 |
+| `embodied_robotics` | 259 |
+| `visual_security` | 254 |
+| `precision_defect_gen` | 230 |
 
 **Application type sample counts**:
 
 | Application Type | Samples |
 |---|---:|
-| `emergency_rehearsal` | 389 |
+| `emergency_rehearsal` | 400 |
 | `heavy_operation_risk` | 286 |
-| `robotic_operation` | 257 |
-| `safety_training` | 207 |
+| `robotic_operation` | 259 |
+| `safety_training` | 211 |
 | `inspection_and_maintenance` | 137 |
 | `defect_generation` | 71 |
 

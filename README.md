@@ -15,15 +15,15 @@ scenario domain -> abstract task -> reference image -> executable prompt
 
 ## Dataset
 
-The current annotation file contains 1347 samples from 60 scenes across five
-scenario domains.
+The current annotation file contains 1364 samples from 60 scenes across five
+scenario domains, anchored by 960 curated reference images.
 
 | Domain | Samples | Coverage Focus |
 |---|---:|---|
-| `visual_security` | 242 | Security monitoring, restricted-zone intrusion, missing protective equipment, unsafe vehicle behavior, and compliance consequences. |
-| `embodied_robotics` | 257 | Robotic-arm manipulation, mobile or legged robot navigation, first-person robot viewpoint, and light-curtain emergency stops. |
+| `visual_security` | 254 | Security monitoring, restricted-zone intrusion, missing protective equipment, unsafe vehicle behavior, and compliance consequences. |
+| `embodied_robotics` | 259 | Robotic-arm manipulation, mobile or legged robot navigation, first-person robot viewpoint, and light-curtain emergency stops. |
 | `heavy_load_construction` | 286 | Excavators, crawler cranes, wire-rope load paths, muddy ground contact, gantry or bridge-segment alignment, and heavy-load failure. |
-| `precision_defect_gen` | 227 | Circuit-board bridge defects, endoscopic crack inspection, gear damage, multi-axis machining, cutting-fluid spray, and tube-bundle viewpoint motion. |
+| `precision_defect_gen` | 230 | Circuit-board bridge defects, endoscopic crack inspection, gear damage, multi-axis machining, cutting-fluid spray, and tube-bundle viewpoint motion. |
 | `extreme_emergency` | 335 | High-pressure leakage, flash fire spread, dust explosion, tower icing collapse, and emergency-state causal evolution. |
 
 The benchmark uses existing repository images as reference anchors. The
@@ -88,7 +88,7 @@ Each sample has two prompt fields:
 
 - `video_generation_prompt`: short, direct prompt intended for image-to-video
   generation models.
-- `prompt`: fuller evaluation prompt used by judges and reports.
+- `prompt`: fuller evaluation-base prompt used by judges and reports.
 
 The evaluation prompt follows this structure:
 
@@ -224,7 +224,7 @@ reports/image_search_prompts.md
 To search for one strict open-license reference image per sample, run:
 
 ```bash
-python scripts/find_reference_images.py --target 1347 --search-limit 25
+python scripts/find_reference_images.py --target 1364 --search-limit 25
 ```
 
 The finder writes candidates under `dataset/images_candidates/strict_open_license/`
