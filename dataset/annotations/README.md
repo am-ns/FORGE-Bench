@@ -1,6 +1,6 @@
 # Dataset Annotations
 
-`samples.json` contains 1364 benchmark samples from 60 scenes across the five
+`samples.json` contains 960 benchmark samples from 60 scenes across the five
 scenario domains, anchored by 960 curated reference images.
 The schema is enforced by `dataset/schema.json`.
 
