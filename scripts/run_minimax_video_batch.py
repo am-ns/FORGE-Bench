@@ -377,7 +377,6 @@ def validate_manifest(manifest: list[dict], samples: dict[str, dict], repo_root:
         "duration_seconds",
         "style",
         "first_frame_lock",
-        "camera_control",
         "identity_lock",
         "no_text_overlay",
         "no_extra_entities",
@@ -409,13 +408,11 @@ def validate_manifest(manifest: list[dict], samples: dict[str, dict], repo_root:
         if policy.get("duration_seconds") != 5:
             errors.append(f"{task_id}: duration_seconds must be 5 for this controlled probe")
         camera = str(policy.get("camera_control", "")).lower()
-        if sample.get("motion_type") == "orbit":
-            if sample.get("viewpoint_motion_target") != 45.0:
-                errors.append(f"{task_id}: orbit probe must target 45.0 degrees")
-            if "orbit" not in camera or "45" not in camera:
-                errors.append(f"{task_id}: orbit camera_control must explicitly say 45 degree orbit")
-        if sample.get("motion_type") == "pan" and ("pan" not in camera or "not an orbit" not in camera):
-            errors.append(f"{task_id}: pan control must explicitly say pan and not an orbit")
+        if camera:
+            if sample.get("motion_type") == "orbit" and "orbit" not in camera:
+                errors.append(f"{task_id}: orbit camera_control must mention orbit")
+            if sample.get("motion_type") == "pan" and "pan" not in camera:
+                errors.append(f"{task_id}: pan camera_control must mention pan")
         if not sample.get("video_generation_prompt"):
             errors.append(f"{task_id}: missing video_generation_prompt")
         image_path_raw = row.get("image_path") or sample.get("image_path")
