@@ -42,7 +42,6 @@ reports/wan_eval_retry/
 reports/paper_reproduction/
 reports/video_gen_package/
 reports/video_gen_package.zip
-reports/video_generation_500_images/
 reports/add_samples_for_unreferenced_images_*.csv
 reports/duplicate_removed_*
 reports/flatten_screen_candidates_*/

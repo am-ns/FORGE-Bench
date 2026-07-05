@@ -103,10 +103,11 @@ and diagnostic comparisons against removed multiplicative penalty variants.
 
 ## Dataset Distribution
 
-Current dataset: 60 scenes, 960 samples, 884 curated reference images. The
-repository also provides `dataset/annotations/video_generation_500_samples.json`,
-a quality-aware stratified 500-sample generation split with 500 unique image
-references and 100 samples per domain.
+Current dataset: 60 scenes, 960 samples, and a broader backup/reference pool of
+884 curated images. The primary operational set for current video generation is
+`dataset/annotations/video_generation_500_samples.json`, a quality-aware
+stratified 500-sample split with 500 unique image references and 100 samples per
+domain. The copied image folder is `reports/video_generation_500_images/`.
 
 **Domain sample counts**:
 

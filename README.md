@@ -16,10 +16,10 @@ scenario domain -> abstract task -> reference image -> executable prompt
 ## Dataset
 
 The current annotation file contains 960 samples from 60 scenes across five
-scenario domains. These samples currently reference 884 curated images under
-`dataset/images/`; some samples intentionally share the strongest reference
-image for a scene. A separate stratified 500-sample generation split is provided
-for controlled video-generation runs.
+scenario domains. These samples reference a broader pool of 884 curated images
+under `dataset/images/`; that pool is maintained as backup/reference coverage.
+For current video generation, model comparison, and public-facing runs, the
+primary set is the curated 500-image generation split.
 
 | Domain | Samples | Coverage Focus |
 |---|---:|---|
@@ -36,10 +36,13 @@ under `dataset/images/<domain>/<scene_id>/` using the same five scenario-domain
 directories.
 
 The executable full benchmark remains `dataset/annotations/samples.json` with
-960 samples. `dataset/annotations/video_generation_500_samples.json` is a
-quality-aware balanced subset for model video generation: 500 samples, 500
+960 samples. The operational generation set is
+`dataset/annotations/video_generation_500_samples.json`: 500 samples, 500
 unique image references, 100 samples per domain, and coverage across all 60
-scene families.
+scene families. The corresponding copied image folder is
+`reports/video_generation_500_images/` with `index.csv` and `index.json` for
+review. Unless a full-coverage analysis explicitly needs the broader pool, use
+this 500-image split as the default.
 
 ## Task Categories
 
@@ -252,12 +255,12 @@ Candidate manifests also include auditable anchor evidence:
 `anchor_objects_present`, `spatial_context_present`, `event_support_level`, and
 `anchor_rejection_reason`.
 
-Use `reports/prompts.jsonl` when batch-submitting the full 960-sample benchmark
-to a video generation model. For the controlled 500-sample generation run, use
-`dataset/annotations/video_generation_500_samples.json` or
-`reports/video_generation_500_manifest.jsonl`. Each row contains `task_id`,
-`image_path`, `video_generation_prompt`, `motion_type`, and
-`viewpoint_motion_target`.
+Use `dataset/annotations/video_generation_500_samples.json`,
+`reports/video_generation_500_manifest.jsonl`, or the copied images under
+`reports/video_generation_500_images/` for the default video-generation run.
+Use `reports/prompts.jsonl` only when intentionally running the full 960-sample
+benchmark. Each row contains `task_id`, `image_path`,
+`video_generation_prompt`, `motion_type`, and `viewpoint_motion_target`.
 
 After videos are generated, place them in a flat directory as `{task_id}.mp4`.
 Then run:

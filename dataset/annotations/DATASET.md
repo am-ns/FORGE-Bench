@@ -3,7 +3,9 @@
 The annotation file `samples.json` is the authoritative task list for the
 benchmark. It currently contains 960 samples from 60 scenes. Those samples
 currently reference 884 curated images under `dataset/images/`, with deliberate
-reuse where multiple tasks share the strongest image anchor for a scene. The
+reuse where multiple tasks share the strongest image anchor for a scene. This
+884-image pool is broader backup/reference coverage. The default operational
+set for current video generation is the 500-image split described below. The
 full sample set is arranged as:
 
 | Domain | Count |
@@ -67,12 +69,14 @@ prompt generation, and per-sample scene replacement.
 
 ## Video Generation Split
 
-`video_generation_500_samples.json` is a stratified subset for controlled
+`video_generation_500_samples.json` is the primary set for controlled
 image-to-video generation runs. It contains 500 samples: 100 from each scenario
 domain, 500 unique referenced images, and coverage across all 60 scene families.
 The split is selected with a quality-aware image score while preserving the
-preseeded MiniMax angle-probe rows. Use this file when a full 960-video run is
-too large or when comparing models on the fixed public generation split.
+preseeded MiniMax angle-probe rows. The copied image folder is
+`reports/video_generation_500_images/`, with `index.csv` and `index.json` for
+review. Use this set by default for generation and model comparisons; use the
+broader 884-image pool when additional backup/reference coverage is needed.
 
 ## Motion Target
 
