@@ -103,7 +103,9 @@ and diagnostic comparisons against removed multiplicative penalty variants.
 
 ## Dataset Distribution
 
-Current dataset: 60 scenes, 960 samples, 960 curated reference images.
+Current dataset: 60 scenes, 960 samples, 884 curated reference images. The
+repository also provides `dataset/annotations/video_generation_500_samples.json`,
+a stratified 500-sample generation split with 100 samples per domain.
 
 **Domain sample counts**:
 

@@ -16,7 +16,10 @@ scenario domain -> abstract task -> reference image -> executable prompt
 ## Dataset
 
 The current annotation file contains 960 samples from 60 scenes across five
-scenario domains, anchored by 960 curated reference images.
+scenario domains. These samples currently reference 884 curated images under
+`dataset/images/`; some samples intentionally share the strongest reference
+image for a scene. A separate stratified 500-sample generation split is provided
+for controlled video-generation runs.
 
 | Domain | Samples | Coverage Focus |
 |---|---:|---|
@@ -31,6 +34,11 @@ annotation layer is responsible for the new domain/task semantics, prompts,
 questions, weights, and report grouping. Sample `image_path` values are kept
 under `dataset/images/<domain>/<scene_id>/` using the same five scenario-domain
 directories.
+
+The executable full benchmark remains `dataset/annotations/samples.json` with
+960 samples. `dataset/annotations/video_generation_500_samples.json` is a
+balanced stratified subset for model video generation: 500 samples, 100 per
+domain, preserving the task-category and difficulty mix from the full set.
 
 ## Task Categories
 
@@ -225,7 +233,7 @@ reports/image_search_prompts.jsonl
 reports/image_search_prompts.md
 ```
 
-To search for one strict open-license reference image per sample, run:
+To search for strict open-license reference images for additional coverage, run:
 
 ```bash
 python scripts/find_reference_images.py --target 960 --search-limit 25
@@ -243,9 +251,12 @@ Candidate manifests also include auditable anchor evidence:
 `anchor_objects_present`, `spatial_context_present`, `event_support_level`, and
 `anchor_rejection_reason`.
 
-Use `reports/prompts.jsonl` when batch-submitting tasks to a video generation
-model. Each row contains `task_id`, `image_path`, `video_generation_prompt`,
-`motion_type`, and `viewpoint_motion_target`.
+Use `reports/prompts.jsonl` when batch-submitting the full 960-sample benchmark
+to a video generation model. For the controlled 500-sample generation run, use
+`dataset/annotations/video_generation_500_samples.json` or
+`reports/video_generation_500_manifest.jsonl`. Each row contains `task_id`,
+`image_path`, `video_generation_prompt`, `motion_type`, and
+`viewpoint_motion_target`.
 
 After videos are generated, place them in a flat directory as `{task_id}.mp4`.
 Then run:

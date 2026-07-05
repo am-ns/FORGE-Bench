@@ -1,8 +1,10 @@
 # FORGE-Bench Dataset Notes
 
 The annotation file `samples.json` is the authoritative task list for the
-benchmark. It currently contains 960 samples from 60 scenes, anchored by 960
-curated reference images, arranged as:
+benchmark. It currently contains 960 samples from 60 scenes. Those samples
+currently reference 884 curated images under `dataset/images/`, with deliberate
+reuse where multiple tasks share the strongest image anchor for a scene. The
+full sample set is arranged as:
 
 | Domain | Count |
 |---|---:|
@@ -62,6 +64,14 @@ task statement.
 The current `samples.json` is the executable dataset, while
 `SCENE_BLUEPRINT.md` is the scene-level coverage reference for image search,
 prompt generation, and per-sample scene replacement.
+
+## Video Generation Split
+
+`video_generation_500_samples.json` is a stratified subset for controlled
+image-to-video generation runs. It contains 500 samples: 100 from each scenario
+domain, 478 unique referenced images, and the same hard/adversarial challenge
+focus as the full benchmark. Use this file when a full 960-video run is too
+large or when comparing models on the fixed public generation split.
 
 ## Motion Target
 

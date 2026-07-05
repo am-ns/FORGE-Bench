@@ -1,11 +1,17 @@
 # Dataset Annotations
 
 `samples.json` contains 960 benchmark samples from 60 scenes across the five
-scenario domains, anchored by 960 curated reference images.
+scenario domains. The current sample set references 884 curated images under
+`dataset/images/`; image reuse is allowed when several samples share the same
+strong scene reference.
 The schema is enforced by `dataset/schema.json`.
 
 `SCENE_BLUEPRINT.md` lists the 60 scene families used for domain and task
 coverage.
+
+`video_generation_500_samples.json` is the controlled video-generation split:
+500 stratified samples, 100 per domain, selected from the full 960-sample
+benchmark.
 
 ## Required Fields
 
