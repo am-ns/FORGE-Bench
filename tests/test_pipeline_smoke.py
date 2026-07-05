@@ -864,6 +864,60 @@ class TestReport:
         assert "low_industrial_application_usefulness" in report["failure_taxonomy"]
         assert report["worst_samples"][0]["task_id"] == "bad"
 
+    def test_low_score_reason_summary_cli(self, tmp_path):
+        """Low-score summary CLI should write human-readable and JSON summaries."""
+        result_dir = tmp_path / "model_x"
+        result_dir.mkdir()
+        sample = {
+            "task_id": "bad_001",
+            "domain": "visual_security",
+            "task_category": "spatial_exploration_and_viewpoint",
+            "scene_id": "vsec_demo",
+            "motion_type": "orbit",
+            "skipped": False,
+            "viewpoint_motion_score": 10.0,
+            "scored": {
+                "weighted_score": 32.0,
+                "axis_scores": {
+                    GEOMETRIC_INTEGRITY: 25.0,
+                    REFERENCE_AND_MOTION_FIDELITY: 30.0,
+                    TEMPORAL_CONSISTENCY: 55.0,
+                },
+                "application_usefulness_score": 20.0,
+                "observable_event_coverage": 0.0,
+            },
+            "application_usefulness_details": {
+                "failure_modes": ["missing_required_event"]
+            },
+        }
+        (result_dir / "per_sample.json").write_text(json.dumps([sample]), encoding="utf-8")
+        (result_dir / "aggregate.json").write_text(json.dumps({"ranking_score": 30.0}), encoding="utf-8")
+        (result_dir / "report.json").write_text(json.dumps({}), encoding="utf-8")
+        output_dir = tmp_path / "summaries"
+
+        proc = subprocess.run(
+            [
+                sys.executable,
+                "scripts/summarize_low_score_reasons.py",
+                str(result_dir),
+                "--output-dir",
+                str(output_dir),
+            ],
+            capture_output=True,
+            text=True,
+            cwd=Path(__file__).resolve().parent.parent,
+        )
+
+        assert proc.returncode == 0, proc.stderr
+        summary_path = output_dir / "model_x_low_score_summary.json"
+        md_path = output_dir / "model_x_low_score_summary.md"
+        assert summary_path.exists()
+        assert md_path.exists()
+        summary = json.loads(summary_path.read_text(encoding="utf-8"))
+        reason_codes = {item["code"] for item in summary["top_low_score_reasons"]}
+        assert "zero_observable_event_coverage" in reason_codes
+        assert summary["worst_samples"][0]["task_id"] == "bad_001"
+
 
 class TestDatasetValidation:
     def test_dataset_schema(self):

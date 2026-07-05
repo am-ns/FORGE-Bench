@@ -370,6 +370,18 @@ The comparison script uses matched task ids and reports paired-sample coverage,
 a paired bootstrap confidence interval, and a two-sided bootstrap p-value for
 the score difference.
 
+To summarize why a model scored poorly, run:
+
+```bash
+python scripts/summarize_low_score_reasons.py results/my_model
+```
+
+This reads `per_sample.json`, `aggregate.json`, and `report.json`, then writes a
+human-readable Markdown summary and a machine-readable JSON file under
+`reports/low_score_summaries/`. The summary ranks the most common low-score
+causes, weakest axes, affected domains/tasks, hard cap or application-failure
+reasons, and representative worst samples.
+
 ## Validation
 
 ```bash
