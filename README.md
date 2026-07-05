@@ -37,8 +37,9 @@ directories.
 
 The executable full benchmark remains `dataset/annotations/samples.json` with
 960 samples. `dataset/annotations/video_generation_500_samples.json` is a
-balanced stratified subset for model video generation: 500 samples, 100 per
-domain, preserving the task-category and difficulty mix from the full set.
+quality-aware balanced subset for model video generation: 500 samples, 500
+unique image references, 100 samples per domain, and coverage across all 60
+scene families.
 
 ## Task Categories
 

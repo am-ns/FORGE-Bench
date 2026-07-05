@@ -10,8 +10,9 @@ The schema is enforced by `dataset/schema.json`.
 coverage.
 
 `video_generation_500_samples.json` is the controlled video-generation split:
-500 stratified samples, 100 per domain, selected from the full 960-sample
-benchmark.
+500 quality-aware stratified samples, 500 unique image references, 100 per
+domain, selected from the full 960-sample benchmark while preserving all 60
+scene families.
 
 ## Required Fields
 

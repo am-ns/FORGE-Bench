@@ -69,9 +69,10 @@ prompt generation, and per-sample scene replacement.
 
 `video_generation_500_samples.json` is a stratified subset for controlled
 image-to-video generation runs. It contains 500 samples: 100 from each scenario
-domain, 478 unique referenced images, and the same hard/adversarial challenge
-focus as the full benchmark. Use this file when a full 960-video run is too
-large or when comparing models on the fixed public generation split.
+domain, 500 unique referenced images, and coverage across all 60 scene families.
+The split is selected with a quality-aware image score while preserving the
+preseeded MiniMax angle-probe rows. Use this file when a full 960-video run is
+too large or when comparing models on the fixed public generation split.
 
 ## Motion Target
 
