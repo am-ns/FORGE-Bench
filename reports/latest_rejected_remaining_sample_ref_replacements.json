@@ -1,0 +1,52 @@
+[
+  {
+    "task_id": "emerg_078",
+    "old_image_path": "dataset/images/extreme_emergency/emerg_crane_load_drop_evacuation/ref_11.jpg",
+    "new_image_path": "dataset/images/extreme_emergency/emerg_crane_load_drop_evacuation/ref_13.jpg"
+  },
+  {
+    "task_id": "erob_027",
+    "old_image_path": "dataset/images/embodied_robotics/erob_tracked_robot_rubble/ref_15.jpg",
+    "new_image_path": "dataset/images/embodied_robotics/erob_amr_warehouse_navigation/ref_12.jpg"
+  },
+  {
+    "task_id": "erob_154",
+    "old_image_path": "dataset/images/embodied_robotics/erob_amr_charger_smoke_abort/ref_11.jpg",
+    "new_image_path": "dataset/images/embodied_robotics/erob_amr_charger_smoke_abort/ref_10.jpg"
+  },
+  {
+    "task_id": "erob_176",
+    "old_image_path": "dataset/images/embodied_robotics/erob_tracked_robot_rubble/ref_15.jpg",
+    "new_image_path": "dataset/images/embodied_robotics/erob_amr_warehouse_navigation/ref_12.jpg"
+  },
+  {
+    "task_id": "pdef_066",
+    "old_image_path": "dataset/images/precision_defect_gen/pdef_surface_scratch_inspection/ref_16.jpg",
+    "new_image_path": "dataset/images/precision_defect_gen/pdef_flange_seal_micro_leak/ref_14.jpg"
+  },
+  {
+    "task_id": "pdef_067",
+    "old_image_path": "dataset/images/precision_defect_gen/pdef_surface_scratch_inspection/ref_14.jpg",
+    "new_image_path": "dataset/images/precision_defect_gen/pdef_cutting_fluid_spray/ref_13.jpg"
+  },
+  {
+    "task_id": "pdef_068",
+    "old_image_path": "dataset/images/precision_defect_gen/pdef_surface_scratch_inspection/ref_10.jpg",
+    "new_image_path": "dataset/images/precision_defect_gen/pdef_gear_tooth_missing_wear/ref_11.jpg"
+  },
+  {
+    "task_id": "pdef_070",
+    "old_image_path": "dataset/images/precision_defect_gen/pdef_surface_scratch_inspection/ref_10.jpg",
+    "new_image_path": "dataset/images/precision_defect_gen/pdef_gear_tooth_missing_wear/ref_11.jpg"
+  },
+  {
+    "task_id": "pdef_158",
+    "old_image_path": "dataset/images/precision_defect_gen/pdef_surface_scratch_inspection/ref_14.jpg",
+    "new_image_path": "dataset/images/precision_defect_gen/pdef_cutting_fluid_spray/ref_13.jpg"
+  },
+  {
+    "task_id": "pdef_161",
+    "old_image_path": "dataset/images/precision_defect_gen/pdef_surface_scratch_inspection/ref_16.jpg",
+    "new_image_path": "dataset/images/precision_defect_gen/pdef_flange_seal_micro_leak/ref_14.jpg"
+  }
+]

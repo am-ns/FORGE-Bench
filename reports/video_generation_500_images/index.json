@@ -126,8 +126,8 @@
     "scene_id": "erob_amr_charger_smoke_abort",
     "task_category": "industrial_logic_and_compliance",
     "motion_type": "static",
-    "source_image_path": "dataset/images/embodied_robotics/erob_amr_charger_smoke_abort/ref_11.jpg",
-    "exported_image_path": "reports/video_generation_500_images/013__erob_154__embodied_robotics__erob_amr_charger_smoke_abort__ref_11.jpg"
+    "source_image_path": "dataset/images/embodied_robotics/erob_amr_charger_smoke_abort/ref_10.jpg",
+    "exported_image_path": "reports/video_generation_500_images/013__erob_154__embodied_robotics__erob_amr_charger_smoke_abort__ref_10.jpg"
   },
   {
     "index": 14,
@@ -546,8 +546,8 @@
     "scene_id": "erob_light_curtain_emergency_stop",
     "task_category": "industrial_logic_and_compliance",
     "motion_type": "static",
-    "source_image_path": "dataset/images/embodied_robotics/erob_light_curtain_emergency_stop/ref_27.jpg",
-    "exported_image_path": "reports/video_generation_500_images/055__erob_056__embodied_robotics__erob_light_curtain_emergency_stop__ref_27.jpg"
+    "source_image_path": "dataset/images/embodied_robotics/erob_agv_rollup_door_interlock/ref_13.jpg",
+    "exported_image_path": "reports/video_generation_500_images/055__erob_056__embodied_robotics__erob_light_curtain_emergency_stop__ref_13.jpg"
   },
   {
     "index": 56,
@@ -656,8 +656,8 @@
     "scene_id": "erob_quadruped_stairs_rubble_fpv",
     "task_category": "spatial_exploration_and_viewpoint",
     "motion_type": "pan",
-    "source_image_path": "dataset/images/embodied_robotics/erob_quadruped_stairs_rubble_fpv/ref_07.jpg",
-    "exported_image_path": "reports/video_generation_500_images/066__erob_031__embodied_robotics__erob_quadruped_stairs_rubble_fpv__ref_07.jpg"
+    "source_image_path": "dataset/images/embodied_robotics/erob_quadruped_stairs_rubble_fpv/ref_11.jpg",
+    "exported_image_path": "reports/video_generation_500_images/066__erob_031__embodied_robotics__erob_quadruped_stairs_rubble_fpv__ref_11.jpg"
   },
   {
     "index": 67,
@@ -926,8 +926,8 @@
     "scene_id": "erob_tracked_robot_rubble",
     "task_category": "spatial_exploration_and_viewpoint",
     "motion_type": "pan",
-    "source_image_path": "dataset/images/embodied_robotics/erob_tracked_robot_rubble/ref_17.jpg",
-    "exported_image_path": "reports/video_generation_500_images/093__erob_024__embodied_robotics__erob_tracked_robot_rubble__ref_17.jpg"
+    "source_image_path": "dataset/images/embodied_robotics/erob_quadruped_stairs_rubble_fpv/ref_06.jpg",
+    "exported_image_path": "reports/video_generation_500_images/093__erob_024__embodied_robotics__erob_tracked_robot_rubble__ref_06.jpg"
   },
   {
     "index": 94,
@@ -956,8 +956,8 @@
     "scene_id": "erob_tracked_robot_rubble",
     "task_category": "spatial_exploration_and_viewpoint",
     "motion_type": "pan",
-    "source_image_path": "dataset/images/embodied_robotics/erob_tracked_robot_rubble/ref_15.jpg",
-    "exported_image_path": "reports/video_generation_500_images/096__erob_027__embodied_robotics__erob_tracked_robot_rubble__ref_15.jpg"
+    "source_image_path": "dataset/images/embodied_robotics/erob_amr_warehouse_navigation/ref_12.jpg",
+    "exported_image_path": "reports/video_generation_500_images/096__erob_027__embodied_robotics__erob_tracked_robot_rubble__ref_12.jpg"
   },
   {
     "index": 97,
@@ -1006,8 +1006,8 @@
     "scene_id": "emerg_battery_thermal_runaway",
     "task_category": "fluid_dynamics_and_thermodynamics",
     "motion_type": "static",
-    "source_image_path": "dataset/images/extreme_emergency/emerg_battery_thermal_runaway/ref_26.jpg",
-    "exported_image_path": "reports/video_generation_500_images/101__emerg_051__extreme_emergency__emerg_battery_thermal_runaway__ref_26.jpg"
+    "source_image_path": "dataset/images/extreme_emergency/emerg_battery_thermal_runaway/ref_22.jpg",
+    "exported_image_path": "reports/video_generation_500_images/101__emerg_051__extreme_emergency__emerg_battery_thermal_runaway__ref_22.jpg"
   },
   {
     "index": 102,
@@ -1016,8 +1016,8 @@
     "scene_id": "emerg_battery_thermal_runaway",
     "task_category": "fluid_dynamics_and_thermodynamics",
     "motion_type": "pan",
-    "source_image_path": "dataset/images/extreme_emergency/emerg_battery_thermal_runaway/ref_12.jpg",
-    "exported_image_path": "reports/video_generation_500_images/102__emerg_052__extreme_emergency__emerg_battery_thermal_runaway__ref_12.jpg"
+    "source_image_path": "dataset/images/extreme_emergency/emerg_battery_thermal_runaway/ref_13.jpg",
+    "exported_image_path": "reports/video_generation_500_images/102__emerg_052__extreme_emergency__emerg_battery_thermal_runaway__ref_13.jpg"
   },
   {
     "index": 103,
@@ -1036,8 +1036,8 @@
     "scene_id": "emerg_battery_thermal_runaway",
     "task_category": "fluid_dynamics_and_thermodynamics",
     "motion_type": "pan",
-    "source_image_path": "dataset/images/extreme_emergency/emerg_battery_thermal_runaway/ref_13.jpg",
-    "exported_image_path": "reports/video_generation_500_images/104__emerg_054__extreme_emergency__emerg_battery_thermal_runaway__ref_13.jpg"
+    "source_image_path": "dataset/images/extreme_emergency/emerg_reactor_runaway_pressure_release/ref_08.jpg",
+    "exported_image_path": "reports/video_generation_500_images/104__emerg_054__extreme_emergency__emerg_battery_thermal_runaway__ref_08.jpg"
   },
   {
     "index": 105,
@@ -1056,8 +1056,8 @@
     "scene_id": "emerg_battery_thermal_runaway",
     "task_category": "fluid_dynamics_and_thermodynamics",
     "motion_type": "pan",
-    "source_image_path": "dataset/images/extreme_emergency/emerg_battery_thermal_runaway/ref_22.jpg",
-    "exported_image_path": "reports/video_generation_500_images/106__emerg_056__extreme_emergency__emerg_battery_thermal_runaway__ref_22.jpg"
+    "source_image_path": "dataset/images/extreme_emergency/emerg_dam_or_retaining_wall_breach/ref_10.jpg",
+    "exported_image_path": "reports/video_generation_500_images/106__emerg_056__extreme_emergency__emerg_battery_thermal_runaway__ref_10.jpg"
   },
   {
     "index": 107,
@@ -1076,8 +1076,8 @@
     "scene_id": "emerg_battery_thermal_runaway",
     "task_category": "fluid_dynamics_and_thermodynamics",
     "motion_type": "static",
-    "source_image_path": "dataset/images/extreme_emergency/emerg_battery_thermal_runaway/ref_11.jpg",
-    "exported_image_path": "reports/video_generation_500_images/108__emerg_308__extreme_emergency__emerg_battery_thermal_runaway__ref_11.jpg"
+    "source_image_path": "dataset/images/extreme_emergency/emerg_dust_explosion_confined_space/ref_18.jpg",
+    "exported_image_path": "reports/video_generation_500_images/108__emerg_308__extreme_emergency__emerg_battery_thermal_runaway__ref_18.jpg"
   },
   {
     "index": 109,
@@ -1136,8 +1136,8 @@
     "scene_id": "emerg_cooling_tower_plume_failure",
     "task_category": "fluid_dynamics_and_thermodynamics",
     "motion_type": "static",
-    "source_image_path": "dataset/images/extreme_emergency/emerg_cooling_tower_plume_failure/ref_21.jpg",
-    "exported_image_path": "reports/video_generation_500_images/114__emerg_133__extreme_emergency__emerg_cooling_tower_plume_failure__ref_21.jpg"
+    "source_image_path": "dataset/images/extreme_emergency/emerg_cooling_tower_plume_failure/ref_24.jpg",
+    "exported_image_path": "reports/video_generation_500_images/114__emerg_133__extreme_emergency__emerg_cooling_tower_plume_failure__ref_24.jpg"
   },
   {
     "index": 115,
@@ -1166,8 +1166,8 @@
     "scene_id": "emerg_crane_load_drop_evacuation",
     "task_category": "industrial_logic_and_compliance",
     "motion_type": "static",
-    "source_image_path": "dataset/images/extreme_emergency/emerg_crane_load_drop_evacuation/ref_11.jpg",
-    "exported_image_path": "reports/video_generation_500_images/117__emerg_078__extreme_emergency__emerg_crane_load_drop_evacuation__ref_11.jpg"
+    "source_image_path": "dataset/images/extreme_emergency/emerg_crane_load_drop_evacuation/ref_13.jpg",
+    "exported_image_path": "reports/video_generation_500_images/117__emerg_078__extreme_emergency__emerg_crane_load_drop_evacuation__ref_13.jpg"
   },
   {
     "index": 118,
@@ -1256,8 +1256,8 @@
     "scene_id": "emerg_dam_or_retaining_wall_breach",
     "task_category": "topology_mutation_and_failure",
     "motion_type": "dolly",
-    "source_image_path": "dataset/images/extreme_emergency/emerg_dam_or_retaining_wall_breach/ref_01.jpg",
-    "exported_image_path": "reports/video_generation_500_images/126__emerg_091__extreme_emergency__emerg_dam_or_retaining_wall_breach__ref_01.jpg"
+    "source_image_path": "dataset/images/extreme_emergency/emerg_dam_or_retaining_wall_breach/ref_19.jpg",
+    "exported_image_path": "reports/video_generation_500_images/126__emerg_091__extreme_emergency__emerg_dam_or_retaining_wall_breach__ref_19.jpg"
   },
   {
     "index": 127,
@@ -1266,8 +1266,8 @@
     "scene_id": "emerg_dam_or_retaining_wall_breach",
     "task_category": "topology_mutation_and_failure",
     "motion_type": "dolly",
-    "source_image_path": "dataset/images/extreme_emergency/emerg_dam_or_retaining_wall_breach/ref_02.jpg",
-    "exported_image_path": "reports/video_generation_500_images/127__emerg_092__extreme_emergency__emerg_dam_or_retaining_wall_breach__ref_02.jpg"
+    "source_image_path": "dataset/images/extreme_emergency/emerg_dam_or_retaining_wall_breach/ref_11.jpg",
+    "exported_image_path": "reports/video_generation_500_images/127__emerg_092__extreme_emergency__emerg_dam_or_retaining_wall_breach__ref_11.jpg"
   },
   {
     "index": 128,
@@ -1296,8 +1296,8 @@
     "scene_id": "emerg_dam_or_retaining_wall_breach",
     "task_category": "topology_mutation_and_failure",
     "motion_type": "dolly",
-    "source_image_path": "dataset/images/extreme_emergency/emerg_dam_or_retaining_wall_breach/ref_12.jpg",
-    "exported_image_path": "reports/video_generation_500_images/130__emerg_231__extreme_emergency__emerg_dam_or_retaining_wall_breach__ref_12.jpg"
+    "source_image_path": "dataset/images/extreme_emergency/emerg_dam_or_retaining_wall_breach/ref_14.jpg",
+    "exported_image_path": "reports/video_generation_500_images/130__emerg_231__extreme_emergency__emerg_dam_or_retaining_wall_breach__ref_14.jpg"
   },
   {
     "index": 131,
@@ -1376,8 +1376,8 @@
     "scene_id": "emerg_dust_explosion_confined_space",
     "task_category": "industrial_logic_and_compliance",
     "motion_type": "static",
-    "source_image_path": "dataset/images/extreme_emergency/emerg_dust_explosion_confined_space/ref_15.jpg",
-    "exported_image_path": "reports/video_generation_500_images/138__emerg_153__extreme_emergency__emerg_dust_explosion_confined_space__ref_15.jpg"
+    "source_image_path": "dataset/images/extreme_emergency/emerg_dust_explosion_confined_space/ref_14.jpg",
+    "exported_image_path": "reports/video_generation_500_images/138__emerg_153__extreme_emergency__emerg_dust_explosion_confined_space__ref_14.jpg"
   },
   {
     "index": 139,
@@ -1426,8 +1426,8 @@
     "scene_id": "emerg_flange_high_pressure_leak",
     "task_category": "fluid_dynamics_and_thermodynamics",
     "motion_type": "pan",
-    "source_image_path": "dataset/images/extreme_emergency/emerg_flange_high_pressure_leak/ref_03.jpg",
-    "exported_image_path": "reports/video_generation_500_images/143__emerg_002__extreme_emergency__emerg_flange_high_pressure_leak__ref_03.jpg"
+    "source_image_path": "dataset/images/extreme_emergency/emerg_flange_high_pressure_leak/ref_08.jpg",
+    "exported_image_path": "reports/video_generation_500_images/143__emerg_002__extreme_emergency__emerg_flange_high_pressure_leak__ref_08.jpg"
   },
   {
     "index": 144,
@@ -1556,8 +1556,8 @@
     "scene_id": "emerg_hot_work_spark_combustible_fire",
     "task_category": "industrial_logic_and_compliance",
     "motion_type": "static",
-    "source_image_path": "dataset/images/extreme_emergency/emerg_hot_work_spark_combustible_fire/ref_14.jpg",
-    "exported_image_path": "reports/video_generation_500_images/156__emerg_305__extreme_emergency__emerg_hot_work_spark_combustible_fire__ref_14.jpg"
+    "source_image_path": "dataset/images/extreme_emergency/emerg_hot_work_spark_combustible_fire/ref_08.jpg",
+    "exported_image_path": "reports/video_generation_500_images/156__emerg_305__extreme_emergency__emerg_hot_work_spark_combustible_fire__ref_08.jpg"
   },
   {
     "index": 157,
@@ -1586,8 +1586,8 @@
     "scene_id": "emerg_hot_work_spark_combustible_fire",
     "task_category": "industrial_logic_and_compliance",
     "motion_type": "static",
-    "source_image_path": "dataset/images/extreme_emergency/emerg_hot_work_spark_combustible_fire/ref_03.jpg",
-    "exported_image_path": "reports/video_generation_500_images/159__emerg_323__extreme_emergency__emerg_hot_work_spark_combustible_fire__ref_03.jpg"
+    "source_image_path": "dataset/images/extreme_emergency/emerg_reactor_runaway_pressure_release/ref_09.jpg",
+    "exported_image_path": "reports/video_generation_500_images/159__emerg_323__extreme_emergency__emerg_hot_work_spark_combustible_fire__ref_09.jpg"
   },
   {
     "index": 160,
@@ -1656,8 +1656,8 @@
     "scene_id": "emerg_reactor_runaway_pressure_release",
     "task_category": "fluid_dynamics_and_thermodynamics",
     "motion_type": "static",
-    "source_image_path": "dataset/images/extreme_emergency/emerg_reactor_runaway_pressure_release/ref_15.jpg",
-    "exported_image_path": "reports/video_generation_500_images/166__emerg_178__extreme_emergency__emerg_reactor_runaway_pressure_release__ref_15.jpg"
+    "source_image_path": "dataset/images/extreme_emergency/emerg_reactor_runaway_pressure_release/ref_10.jpg",
+    "exported_image_path": "reports/video_generation_500_images/166__emerg_178__extreme_emergency__emerg_reactor_runaway_pressure_release__ref_10.jpg"
   },
   {
     "index": 167,
@@ -1826,8 +1826,8 @@
     "scene_id": "emerg_storage_tank_flash_fire",
     "task_category": "fluid_dynamics_and_thermodynamics",
     "motion_type": "static",
-    "source_image_path": "dataset/images/extreme_emergency/emerg_storage_tank_flash_fire/ref_19.jpg",
-    "exported_image_path": "reports/video_generation_500_images/183__emerg_212__extreme_emergency__emerg_storage_tank_flash_fire__ref_19.jpg"
+    "source_image_path": "dataset/images/extreme_emergency/emerg_storage_tank_flash_fire/ref_08.jpg",
+    "exported_image_path": "reports/video_generation_500_images/183__emerg_212__extreme_emergency__emerg_storage_tank_flash_fire__ref_08.jpg"
   },
   {
     "index": 184,
@@ -2026,8 +2026,8 @@
     "scene_id": "hload_blind_lift_spotter_view",
     "task_category": "spatial_exploration_and_viewpoint",
     "motion_type": "pan",
-    "source_image_path": "dataset/images/heavy_load_construction/hload_blind_lift_spotter_view/ref_07.jpg",
-    "exported_image_path": "reports/video_generation_500_images/203__hload_220__heavy_load_construction__hload_blind_lift_spotter_view__ref_07.jpg"
+    "source_image_path": "dataset/images/heavy_load_construction/hload_blind_lift_spotter_view/ref_18.jpg",
+    "exported_image_path": "reports/video_generation_500_images/203__hload_220__heavy_load_construction__hload_blind_lift_spotter_view__ref_18.jpg"
   },
   {
     "index": 204,
@@ -2076,8 +2076,8 @@
     "scene_id": "hload_blind_lift_spotter_view",
     "task_category": "spatial_exploration_and_viewpoint",
     "motion_type": "pan",
-    "source_image_path": "dataset/images/heavy_load_construction/hload_blind_lift_spotter_view/ref_33.jpg",
-    "exported_image_path": "reports/video_generation_500_images/208__hload_267__heavy_load_construction__hload_blind_lift_spotter_view__ref_33.jpg"
+    "source_image_path": "dataset/images/heavy_load_construction/hload_blind_lift_spotter_view/ref_19.jpg",
+    "exported_image_path": "reports/video_generation_500_images/208__hload_267__heavy_load_construction__hload_blind_lift_spotter_view__ref_19.jpg"
   },
   {
     "index": 209,
@@ -2256,8 +2256,8 @@
     "scene_id": "hload_dual_crawler_crane_lift",
     "task_category": "rigid_body_kinematics_and_coupling",
     "motion_type": "orbit",
-    "source_image_path": "dataset/images/heavy_load_construction/hload_dual_crawler_crane_lift/ref_16.jpg",
-    "exported_image_path": "reports/video_generation_500_images/226__hload_235__heavy_load_construction__hload_dual_crawler_crane_lift__ref_16.jpg"
+    "source_image_path": "dataset/images/heavy_load_construction/hload_dual_crawler_crane_lift/ref_04.jpg",
+    "exported_image_path": "reports/video_generation_500_images/226__hload_235__heavy_load_construction__hload_dual_crawler_crane_lift__ref_04.jpg"
   },
   {
     "index": 227,
@@ -2556,8 +2556,8 @@
     "scene_id": "hload_ground_settlement_outrigger",
     "task_category": "topology_mutation_and_failure",
     "motion_type": "dolly",
-    "source_image_path": "dataset/images/heavy_load_construction/hload_ground_settlement_outrigger/ref_14.jpg",
-    "exported_image_path": "reports/video_generation_500_images/256__hload_226__heavy_load_construction__hload_ground_settlement_outrigger__ref_14.jpg"
+    "source_image_path": "dataset/images/heavy_load_construction/hload_ground_settlement_outrigger/ref_11.jpg",
+    "exported_image_path": "reports/video_generation_500_images/256__hload_226__heavy_load_construction__hload_ground_settlement_outrigger__ref_11.jpg"
   },
   {
     "index": 257,
@@ -2566,8 +2566,8 @@
     "scene_id": "hload_ground_settlement_outrigger",
     "task_category": "topology_mutation_and_failure",
     "motion_type": "dolly",
-    "source_image_path": "dataset/images/heavy_load_construction/hload_ground_settlement_outrigger/ref_15.jpg",
-    "exported_image_path": "reports/video_generation_500_images/257__hload_236__heavy_load_construction__hload_ground_settlement_outrigger__ref_15.jpg"
+    "source_image_path": "dataset/images/heavy_load_construction/hload_ground_settlement_outrigger/ref_12.jpg",
+    "exported_image_path": "reports/video_generation_500_images/257__hload_236__heavy_load_construction__hload_ground_settlement_outrigger__ref_12.jpg"
   },
   {
     "index": 258,
@@ -2626,8 +2626,8 @@
     "scene_id": "hload_hoist_collision_near_structure",
     "task_category": "industrial_logic_and_compliance",
     "motion_type": "static",
-    "source_image_path": "dataset/images/heavy_load_construction/hload_hoist_collision_near_structure/ref_08.jpg",
-    "exported_image_path": "reports/video_generation_500_images/263__hload_120__heavy_load_construction__hload_hoist_collision_near_structure__ref_08.jpg"
+    "source_image_path": "dataset/images/heavy_load_construction/hload_hoist_collision_near_structure/ref_06.jpg",
+    "exported_image_path": "reports/video_generation_500_images/263__hload_120__heavy_load_construction__hload_hoist_collision_near_structure__ref_06.jpg"
   },
   {
     "index": 264,
@@ -2646,8 +2646,8 @@
     "scene_id": "hload_hoist_collision_near_structure",
     "task_category": "industrial_logic_and_compliance",
     "motion_type": "static",
-    "source_image_path": "dataset/images/heavy_load_construction/hload_hoist_collision_near_structure/ref_10.jpg",
-    "exported_image_path": "reports/video_generation_500_images/265__hload_277__heavy_load_construction__hload_hoist_collision_near_structure__ref_10.jpg"
+    "source_image_path": "dataset/images/heavy_load_construction/hload_hoist_collision_near_structure/ref_17.jpg",
+    "exported_image_path": "reports/video_generation_500_images/265__hload_277__heavy_load_construction__hload_hoist_collision_near_structure__ref_17.jpg"
   },
   {
     "index": 266,
@@ -2766,8 +2766,8 @@
     "scene_id": "hload_sling_angle_center_of_gravity",
     "task_category": "rigid_body_kinematics_and_coupling",
     "motion_type": "orbit",
-    "source_image_path": "dataset/images/heavy_load_construction/hload_sling_angle_center_of_gravity/ref_03.jpg",
-    "exported_image_path": "reports/video_generation_500_images/277__hload_217__heavy_load_construction__hload_sling_angle_center_of_gravity__ref_03.jpg"
+    "source_image_path": "dataset/images/heavy_load_construction/hload_gantry_wind_disturbance/ref_41.jpg",
+    "exported_image_path": "reports/video_generation_500_images/277__hload_217__heavy_load_construction__hload_sling_angle_center_of_gravity__ref_41.jpg"
   },
   {
     "index": 278,
@@ -2776,8 +2776,8 @@
     "scene_id": "hload_sling_angle_center_of_gravity",
     "task_category": "rigid_body_kinematics_and_coupling",
     "motion_type": "orbit",
-    "source_image_path": "dataset/images/heavy_load_construction/hload_sling_angle_center_of_gravity/ref_04.jpg",
-    "exported_image_path": "reports/video_generation_500_images/278__hload_218__heavy_load_construction__hload_sling_angle_center_of_gravity__ref_04.jpg"
+    "source_image_path": "dataset/images/heavy_load_construction/hload_gantry_wind_disturbance/ref_24.jpg",
+    "exported_image_path": "reports/video_generation_500_images/278__hload_218__heavy_load_construction__hload_sling_angle_center_of_gravity__ref_24.jpg"
   },
   {
     "index": 279,
@@ -2786,8 +2786,8 @@
     "scene_id": "hload_sling_angle_center_of_gravity",
     "task_category": "rigid_body_kinematics_and_coupling",
     "motion_type": "orbit",
-    "source_image_path": "dataset/images/heavy_load_construction/hload_sling_angle_center_of_gravity/ref_05.jpg",
-    "exported_image_path": "reports/video_generation_500_images/279__hload_227__heavy_load_construction__hload_sling_angle_center_of_gravity__ref_05.jpg"
+    "source_image_path": "dataset/images/heavy_load_construction/hload_gantry_wind_disturbance/ref_10.jpg",
+    "exported_image_path": "reports/video_generation_500_images/279__hload_227__heavy_load_construction__hload_sling_angle_center_of_gravity__ref_10.jpg"
   },
   {
     "index": 280,
@@ -2796,8 +2796,8 @@
     "scene_id": "hload_sling_angle_center_of_gravity",
     "task_category": "rigid_body_kinematics_and_coupling",
     "motion_type": "orbit",
-    "source_image_path": "dataset/images/heavy_load_construction/hload_sling_angle_center_of_gravity/ref_06.jpg",
-    "exported_image_path": "reports/video_generation_500_images/280__hload_228__heavy_load_construction__hload_sling_angle_center_of_gravity__ref_06.jpg"
+    "source_image_path": "dataset/images/heavy_load_construction/hload_gantry_wind_disturbance/ref_18.jpg",
+    "exported_image_path": "reports/video_generation_500_images/280__hload_228__heavy_load_construction__hload_sling_angle_center_of_gravity__ref_18.jpg"
   },
   {
     "index": 281,
@@ -2806,8 +2806,8 @@
     "scene_id": "hload_sling_angle_center_of_gravity",
     "task_category": "rigid_body_kinematics_and_coupling",
     "motion_type": "orbit",
-    "source_image_path": "dataset/images/heavy_load_construction/hload_sling_angle_center_of_gravity/ref_08.jpg",
-    "exported_image_path": "reports/video_generation_500_images/281__hload_230__heavy_load_construction__hload_sling_angle_center_of_gravity__ref_08.jpg"
+    "source_image_path": "dataset/images/heavy_load_construction/hload_gantry_wind_disturbance/ref_11.jpg",
+    "exported_image_path": "reports/video_generation_500_images/281__hload_230__heavy_load_construction__hload_sling_angle_center_of_gravity__ref_11.jpg"
   },
   {
     "index": 282,
@@ -2816,8 +2816,8 @@
     "scene_id": "hload_sling_angle_center_of_gravity",
     "task_category": "rigid_body_kinematics_and_coupling",
     "motion_type": "orbit",
-    "source_image_path": "dataset/images/heavy_load_construction/hload_sling_angle_center_of_gravity/ref_09.jpg",
-    "exported_image_path": "reports/video_generation_500_images/282__hload_231__heavy_load_construction__hload_sling_angle_center_of_gravity__ref_09.jpg"
+    "source_image_path": "dataset/images/heavy_load_construction/hload_sling_angle_center_of_gravity/ref_16.jpg",
+    "exported_image_path": "reports/video_generation_500_images/282__hload_231__heavy_load_construction__hload_sling_angle_center_of_gravity__ref_16.jpg"
   },
   {
     "index": 283,
@@ -2826,8 +2826,8 @@
     "scene_id": "hload_sling_angle_center_of_gravity",
     "task_category": "rigid_body_kinematics_and_coupling",
     "motion_type": "orbit",
-    "source_image_path": "dataset/images/heavy_load_construction/hload_sling_angle_center_of_gravity/ref_11.jpg",
-    "exported_image_path": "reports/video_generation_500_images/283__hload_233__heavy_load_construction__hload_sling_angle_center_of_gravity__ref_11.jpg"
+    "source_image_path": "dataset/images/heavy_load_construction/hload_gantry_wind_disturbance/ref_19.jpg",
+    "exported_image_path": "reports/video_generation_500_images/283__hload_233__heavy_load_construction__hload_sling_angle_center_of_gravity__ref_19.jpg"
   },
   {
     "index": 284,
@@ -2886,8 +2886,8 @@
     "scene_id": "hload_tunnel_pipe_burst_mud_surge",
     "task_category": "fluid_dynamics_and_thermodynamics",
     "motion_type": "static",
-    "source_image_path": "dataset/images/heavy_load_construction/hload_tunnel_pipe_burst_mud_surge/ref_09.jpg",
-    "exported_image_path": "reports/video_generation_500_images/289__hload_109__heavy_load_construction__hload_tunnel_pipe_burst_mud_surge__ref_09.jpg"
+    "source_image_path": "dataset/images/heavy_load_construction/hload_tunnel_pipe_burst_mud_surge/ref_04.jpg",
+    "exported_image_path": "reports/video_generation_500_images/289__hload_109__heavy_load_construction__hload_tunnel_pipe_burst_mud_surge__ref_04.jpg"
   },
   {
     "index": 290,
@@ -2916,8 +2916,8 @@
     "scene_id": "hload_tunnel_pipe_burst_mud_surge",
     "task_category": "fluid_dynamics_and_thermodynamics",
     "motion_type": "static",
-    "source_image_path": "dataset/images/heavy_load_construction/hload_tunnel_pipe_burst_mud_surge/ref_16.jpg",
-    "exported_image_path": "reports/video_generation_500_images/292__hload_242__heavy_load_construction__hload_tunnel_pipe_burst_mud_surge__ref_16.jpg"
+    "source_image_path": "dataset/images/heavy_load_construction/hload_tunnel_pipe_burst_mud_surge/ref_10.jpg",
+    "exported_image_path": "reports/video_generation_500_images/292__hload_242__heavy_load_construction__hload_tunnel_pipe_burst_mud_surge__ref_10.jpg"
   },
   {
     "index": 293,
@@ -2976,8 +2976,8 @@
     "scene_id": "hload_wire_rope_overload_snap",
     "task_category": "topology_mutation_and_failure",
     "motion_type": "dolly",
-    "source_image_path": "dataset/images/heavy_load_construction/hload_wire_rope_overload_snap/ref_09.jpg",
-    "exported_image_path": "reports/video_generation_500_images/298__hload_281__heavy_load_construction__hload_wire_rope_overload_snap__ref_09.jpg"
+    "source_image_path": "dataset/images/heavy_load_construction/hload_wire_rope_overload_snap/ref_16.jpg",
+    "exported_image_path": "reports/video_generation_500_images/298__hload_281__heavy_load_construction__hload_wire_rope_overload_snap__ref_16.jpg"
   },
   {
     "index": 299,
@@ -3006,8 +3006,8 @@
     "scene_id": "pdef_cnc_curved_surface_cutting",
     "task_category": "rigid_body_kinematics_and_coupling",
     "motion_type": "orbit",
-    "source_image_path": "dataset/images/precision_defect_gen/pdef_cnc_curved_surface_cutting/ref_01.jpg",
-    "exported_image_path": "reports/video_generation_500_images/301__pdef_031__precision_defect_gen__pdef_cnc_curved_surface_cutting__ref_01.jpg"
+    "source_image_path": "dataset/images/precision_defect_gen/pdef_cnc_curved_surface_cutting/ref_03.jpg",
+    "exported_image_path": "reports/video_generation_500_images/301__pdef_031__precision_defect_gen__pdef_cnc_curved_surface_cutting__ref_03.jpg"
   },
   {
     "index": 302,
@@ -3316,8 +3316,8 @@
     "scene_id": "pdef_engine_endoscope_crack",
     "task_category": "spatial_exploration_and_viewpoint",
     "motion_type": "pan",
-    "source_image_path": "dataset/images/precision_defect_gen/pdef_engine_endoscope_crack/ref_16.jpg",
-    "exported_image_path": "reports/video_generation_500_images/332__pdef_136__precision_defect_gen__pdef_engine_endoscope_crack__ref_16.jpg"
+    "source_image_path": "dataset/images/precision_defect_gen/pdef_engine_endoscope_crack/ref_07.jpg",
+    "exported_image_path": "reports/video_generation_500_images/332__pdef_136__precision_defect_gen__pdef_engine_endoscope_crack__ref_07.jpg"
   },
   {
     "index": 333,
@@ -3336,8 +3336,8 @@
     "scene_id": "pdef_engine_endoscope_crack",
     "task_category": "spatial_exploration_and_viewpoint",
     "motion_type": "pan",
-    "source_image_path": "dataset/images/precision_defect_gen/pdef_engine_endoscope_crack/ref_09.jpg",
-    "exported_image_path": "reports/video_generation_500_images/334__pdef_176__precision_defect_gen__pdef_engine_endoscope_crack__ref_09.jpg"
+    "source_image_path": "dataset/images/precision_defect_gen/pdef_engine_endoscope_crack/ref_12.jpg",
+    "exported_image_path": "reports/video_generation_500_images/334__pdef_176__precision_defect_gen__pdef_engine_endoscope_crack__ref_12.jpg"
   },
   {
     "index": 335,
@@ -3386,8 +3386,8 @@
     "scene_id": "pdef_flange_seal_micro_leak",
     "task_category": "topology_mutation_and_failure",
     "motion_type": "dolly",
-    "source_image_path": "dataset/images/precision_defect_gen/pdef_flange_seal_micro_leak/ref_07.jpg",
-    "exported_image_path": "reports/video_generation_500_images/339__pdef_183__precision_defect_gen__pdef_flange_seal_micro_leak__ref_07.jpg"
+    "source_image_path": "dataset/images/precision_defect_gen/pdef_flange_seal_micro_leak/ref_02.jpg",
+    "exported_image_path": "reports/video_generation_500_images/339__pdef_183__precision_defect_gen__pdef_flange_seal_micro_leak__ref_02.jpg"
   },
   {
     "index": 340,
@@ -3426,8 +3426,8 @@
     "scene_id": "pdef_gauge_level_valve_anomaly",
     "task_category": "spatial_exploration_and_viewpoint",
     "motion_type": "pan",
-    "source_image_path": "dataset/images/precision_defect_gen/pdef_gauge_level_valve_anomaly/ref_01.jpg",
-    "exported_image_path": "reports/video_generation_500_images/343__pdef_108__precision_defect_gen__pdef_gauge_level_valve_anomaly__ref_01.jpg"
+    "source_image_path": "dataset/images/precision_defect_gen/pdef_gauge_level_valve_anomaly/ref_08.jpg",
+    "exported_image_path": "reports/video_generation_500_images/343__pdef_108__precision_defect_gen__pdef_gauge_level_valve_anomaly__ref_08.jpg"
   },
   {
     "index": 344,
@@ -3456,8 +3456,8 @@
     "scene_id": "pdef_gauge_level_valve_anomaly",
     "task_category": "spatial_exploration_and_viewpoint",
     "motion_type": "pan",
-    "source_image_path": "dataset/images/precision_defect_gen/pdef_gauge_level_valve_anomaly/ref_19.jpg",
-    "exported_image_path": "reports/video_generation_500_images/346__pdef_145__precision_defect_gen__pdef_gauge_level_valve_anomaly__ref_19.jpg"
+    "source_image_path": "dataset/images/precision_defect_gen/pdef_gauge_level_valve_anomaly/ref_17.jpg",
+    "exported_image_path": "reports/video_generation_500_images/346__pdef_145__precision_defect_gen__pdef_gauge_level_valve_anomaly__ref_17.jpg"
   },
   {
     "index": 347,
@@ -3566,8 +3566,8 @@
     "scene_id": "pdef_gear_tooth_missing_wear",
     "task_category": "topology_mutation_and_failure",
     "motion_type": "dolly",
-    "source_image_path": "dataset/images/precision_defect_gen/pdef_gear_tooth_missing_wear/ref_15.jpg",
-    "exported_image_path": "reports/video_generation_500_images/357__pdef_204__precision_defect_gen__pdef_gear_tooth_missing_wear__ref_15.jpg"
+    "source_image_path": "dataset/images/precision_defect_gen/pdef_gear_tooth_missing_wear/ref_04.jpg",
+    "exported_image_path": "reports/video_generation_500_images/357__pdef_204__precision_defect_gen__pdef_gear_tooth_missing_wear__ref_04.jpg"
   },
   {
     "index": 358,
@@ -3576,8 +3576,8 @@
     "scene_id": "pdef_gear_tooth_missing_wear",
     "task_category": "topology_mutation_and_failure",
     "motion_type": "dolly",
-    "source_image_path": "dataset/images/precision_defect_gen/pdef_gear_tooth_missing_wear/ref_16.jpg",
-    "exported_image_path": "reports/video_generation_500_images/358__pdef_205__precision_defect_gen__pdef_gear_tooth_missing_wear__ref_16.jpg"
+    "source_image_path": "dataset/images/precision_defect_gen/pdef_gear_tooth_missing_wear/ref_09.jpg",
+    "exported_image_path": "reports/video_generation_500_images/358__pdef_205__precision_defect_gen__pdef_gear_tooth_missing_wear__ref_09.jpg"
   },
   {
     "index": 359,
@@ -3776,7 +3776,7 @@
     "scene_id": "pdef_surface_scratch_inspection",
     "task_category": "topology_mutation_and_failure",
     "motion_type": "dolly",
-    "source_image_path": "dataset/images/precision_defect_gen/pdef_surface_scratch_inspection/ref_12.jpg",
+    "source_image_path": "dataset/images/precision_defect_gen/pdef_cnc_curved_surface_cutting/ref_12.jpg",
     "exported_image_path": "reports/video_generation_500_images/378__pdef_063__precision_defect_gen__pdef_surface_scratch_inspection__ref_12.jpg"
   },
   {
@@ -3796,8 +3796,8 @@
     "scene_id": "pdef_surface_scratch_inspection",
     "task_category": "topology_mutation_and_failure",
     "motion_type": "dolly",
-    "source_image_path": "dataset/images/precision_defect_gen/pdef_surface_scratch_inspection/ref_13.jpg",
-    "exported_image_path": "reports/video_generation_500_images/380__pdef_065__precision_defect_gen__pdef_surface_scratch_inspection__ref_13.jpg"
+    "source_image_path": "dataset/images/precision_defect_gen/pdef_flange_seal_micro_leak/ref_01.jpg",
+    "exported_image_path": "reports/video_generation_500_images/380__pdef_065__precision_defect_gen__pdef_surface_scratch_inspection__ref_01.jpg"
   },
   {
     "index": 381,
@@ -3806,8 +3806,8 @@
     "scene_id": "pdef_surface_scratch_inspection",
     "task_category": "topology_mutation_and_failure",
     "motion_type": "dolly",
-    "source_image_path": "dataset/images/precision_defect_gen/pdef_surface_scratch_inspection/ref_16.jpg",
-    "exported_image_path": "reports/video_generation_500_images/381__pdef_066__precision_defect_gen__pdef_surface_scratch_inspection__ref_16.jpg"
+    "source_image_path": "dataset/images/precision_defect_gen/pdef_flange_seal_micro_leak/ref_06.jpg",
+    "exported_image_path": "reports/video_generation_500_images/381__pdef_066__precision_defect_gen__pdef_surface_scratch_inspection__ref_06.jpg"
   },
   {
     "index": 382,
@@ -3816,8 +3816,8 @@
     "scene_id": "pdef_surface_scratch_inspection",
     "task_category": "topology_mutation_and_failure",
     "motion_type": "dolly",
-    "source_image_path": "dataset/images/precision_defect_gen/pdef_surface_scratch_inspection/ref_14.jpg",
-    "exported_image_path": "reports/video_generation_500_images/382__pdef_067__precision_defect_gen__pdef_surface_scratch_inspection__ref_14.jpg"
+    "source_image_path": "dataset/images/precision_defect_gen/pdef_cutting_fluid_spray/ref_13.jpg",
+    "exported_image_path": "reports/video_generation_500_images/382__pdef_067__precision_defect_gen__pdef_surface_scratch_inspection__ref_13.jpg"
   },
   {
     "index": 383,
@@ -3826,8 +3826,8 @@
     "scene_id": "pdef_surface_scratch_inspection",
     "task_category": "topology_mutation_and_failure",
     "motion_type": "dolly",
-    "source_image_path": "dataset/images/precision_defect_gen/pdef_surface_scratch_inspection/ref_10.jpg",
-    "exported_image_path": "reports/video_generation_500_images/383__pdef_068__precision_defect_gen__pdef_surface_scratch_inspection__ref_10.jpg"
+    "source_image_path": "dataset/images/precision_defect_gen/pdef_gear_tooth_missing_wear/ref_11.jpg",
+    "exported_image_path": "reports/video_generation_500_images/383__pdef_068__precision_defect_gen__pdef_surface_scratch_inspection__ref_11.jpg"
   },
   {
     "index": 384,
@@ -3906,8 +3906,8 @@
     "scene_id": "pdef_tube_bundle_endoscopy",
     "task_category": "spatial_exploration_and_viewpoint",
     "motion_type": "pan",
-    "source_image_path": "dataset/images/precision_defect_gen/pdef_tube_bundle_endoscopy/ref_10.jpg",
-    "exported_image_path": "reports/video_generation_500_images/391__pdef_216__precision_defect_gen__pdef_tube_bundle_endoscopy__ref_10.jpg"
+    "source_image_path": "dataset/images/precision_defect_gen/pdef_tube_bundle_endoscopy/ref_12.jpg",
+    "exported_image_path": "reports/video_generation_500_images/391__pdef_216__precision_defect_gen__pdef_tube_bundle_endoscopy__ref_12.jpg"
   },
   {
     "index": 392,
@@ -3946,8 +3946,8 @@
     "scene_id": "pdef_weld_porosity_crack",
     "task_category": "topology_mutation_and_failure",
     "motion_type": "dolly",
-    "source_image_path": "dataset/images/precision_defect_gen/pdef_weld_porosity_crack/ref_05.jpg",
-    "exported_image_path": "reports/video_generation_500_images/395__pdef_053__precision_defect_gen__pdef_weld_porosity_crack__ref_05.jpg"
+    "source_image_path": "dataset/images/precision_defect_gen/pdef_cutting_fluid_spray/ref_21.jpg",
+    "exported_image_path": "reports/video_generation_500_images/395__pdef_053__precision_defect_gen__pdef_weld_porosity_crack__ref_21.jpg"
   },
   {
     "index": 396,
@@ -3956,8 +3956,8 @@
     "scene_id": "pdef_weld_porosity_crack",
     "task_category": "topology_mutation_and_failure",
     "motion_type": "dolly",
-    "source_image_path": "dataset/images/precision_defect_gen/pdef_weld_porosity_crack/ref_06.jpg",
-    "exported_image_path": "reports/video_generation_500_images/396__pdef_054__precision_defect_gen__pdef_weld_porosity_crack__ref_06.jpg"
+    "source_image_path": "dataset/images/precision_defect_gen/pdef_gauge_level_valve_anomaly/ref_20.jpg",
+    "exported_image_path": "reports/video_generation_500_images/396__pdef_054__precision_defect_gen__pdef_weld_porosity_crack__ref_20.jpg"
   },
   {
     "index": 397,
@@ -3966,8 +3966,8 @@
     "scene_id": "pdef_weld_porosity_crack",
     "task_category": "topology_mutation_and_failure",
     "motion_type": "dolly",
-    "source_image_path": "dataset/images/precision_defect_gen/pdef_weld_porosity_crack/ref_07.jpg",
-    "exported_image_path": "reports/video_generation_500_images/397__pdef_056__precision_defect_gen__pdef_weld_porosity_crack__ref_07.jpg"
+    "source_image_path": "dataset/images/precision_defect_gen/pdef_pcb_solder_bridge_short/ref_06.jpg",
+    "exported_image_path": "reports/video_generation_500_images/397__pdef_056__precision_defect_gen__pdef_weld_porosity_crack__ref_06.jpg"
   },
   {
     "index": 398,
@@ -3976,8 +3976,8 @@
     "scene_id": "pdef_weld_porosity_crack",
     "task_category": "topology_mutation_and_failure",
     "motion_type": "dolly",
-    "source_image_path": "dataset/images/precision_defect_gen/pdef_weld_porosity_crack/ref_11.jpg",
-    "exported_image_path": "reports/video_generation_500_images/398__pdef_057__precision_defect_gen__pdef_weld_porosity_crack__ref_11.jpg"
+    "source_image_path": "dataset/images/precision_defect_gen/pdef_gauge_level_valve_anomaly/ref_13.jpg",
+    "exported_image_path": "reports/video_generation_500_images/398__pdef_057__precision_defect_gen__pdef_weld_porosity_crack__ref_13.jpg"
   },
   {
     "index": 399,
@@ -3986,8 +3986,8 @@
     "scene_id": "pdef_weld_porosity_crack",
     "task_category": "topology_mutation_and_failure",
     "motion_type": "dolly",
-    "source_image_path": "dataset/images/precision_defect_gen/pdef_weld_porosity_crack/ref_08.jpg",
-    "exported_image_path": "reports/video_generation_500_images/399__pdef_058__precision_defect_gen__pdef_weld_porosity_crack__ref_08.jpg"
+    "source_image_path": "dataset/images/precision_defect_gen/pdef_pcb_solder_bridge_short/ref_11.jpg",
+    "exported_image_path": "reports/video_generation_500_images/399__pdef_058__precision_defect_gen__pdef_weld_porosity_crack__ref_11.jpg"
   },
   {
     "index": 400,
@@ -3996,7 +3996,7 @@
     "scene_id": "pdef_weld_porosity_crack",
     "task_category": "topology_mutation_and_failure",
     "motion_type": "dolly",
-    "source_image_path": "dataset/images/precision_defect_gen/pdef_weld_porosity_crack/ref_10.jpg",
+    "source_image_path": "dataset/images/precision_defect_gen/pdef_gear_tooth_missing_wear/ref_10.jpg",
     "exported_image_path": "reports/video_generation_500_images/400__pdef_226__precision_defect_gen__pdef_weld_porosity_crack__ref_10.jpg"
   },
   {
@@ -4026,8 +4026,8 @@
     "scene_id": "vsec_conveyor_jam_loto_clearance",
     "task_category": "industrial_logic_and_compliance",
     "motion_type": "static",
-    "source_image_path": "dataset/images/visual_security/vsec_conveyor_jam_loto_clearance/ref_03.jpg",
-    "exported_image_path": "reports/video_generation_500_images/403__vsec_175__visual_security__vsec_conveyor_jam_loto_clearance__ref_03.jpg"
+    "source_image_path": "dataset/images/visual_security/vsec_conveyor_jam_loto_clearance/ref_09.jpg",
+    "exported_image_path": "reports/video_generation_500_images/403__vsec_175__visual_security__vsec_conveyor_jam_loto_clearance__ref_09.jpg"
   },
   {
     "index": 404,
@@ -4106,8 +4106,8 @@
     "scene_id": "vsec_crane_unsafe_swing_near_people",
     "task_category": "rigid_body_kinematics_and_coupling",
     "motion_type": "orbit",
-    "source_image_path": "dataset/images/visual_security/vsec_crane_unsafe_swing_near_people/ref_09.jpg",
-    "exported_image_path": "reports/video_generation_500_images/411__vsec_114__visual_security__vsec_crane_unsafe_swing_near_people__ref_09.jpg"
+    "source_image_path": "dataset/images/visual_security/vsec_crane_unsafe_swing_near_people/ref_07.jpg",
+    "exported_image_path": "reports/video_generation_500_images/411__vsec_114__visual_security__vsec_crane_unsafe_swing_near_people__ref_07.jpg"
   },
   {
     "index": 412,
@@ -4116,8 +4116,8 @@
     "scene_id": "vsec_crane_unsafe_swing_near_people",
     "task_category": "rigid_body_kinematics_and_coupling",
     "motion_type": "orbit",
-    "source_image_path": "dataset/images/visual_security/vsec_crane_unsafe_swing_near_people/ref_13.jpg",
-    "exported_image_path": "reports/video_generation_500_images/412__vsec_141__visual_security__vsec_crane_unsafe_swing_near_people__ref_13.jpg"
+    "source_image_path": "dataset/images/visual_security/vsec_crane_unsafe_swing_near_people/ref_03.jpg",
+    "exported_image_path": "reports/video_generation_500_images/412__vsec_141__visual_security__vsec_crane_unsafe_swing_near_people__ref_03.jpg"
   },
   {
     "index": 413,
@@ -4136,8 +4136,8 @@
     "scene_id": "vsec_crane_unsafe_swing_near_people",
     "task_category": "rigid_body_kinematics_and_coupling",
     "motion_type": "orbit",
-    "source_image_path": "dataset/images/visual_security/vsec_crane_unsafe_swing_near_people/ref_15.jpg",
-    "exported_image_path": "reports/video_generation_500_images/414__vsec_146__visual_security__vsec_crane_unsafe_swing_near_people__ref_15.jpg"
+    "source_image_path": "dataset/images/visual_security/vsec_crane_unsafe_swing_near_people/ref_05.jpg",
+    "exported_image_path": "reports/video_generation_500_images/414__vsec_146__visual_security__vsec_crane_unsafe_swing_near_people__ref_05.jpg"
   },
   {
     "index": 415,
@@ -4206,8 +4206,8 @@
     "scene_id": "vsec_dangerous_goods_liquid_leak",
     "task_category": "fluid_dynamics_and_thermodynamics",
     "motion_type": "static",
-    "source_image_path": "dataset/images/visual_security/vsec_dangerous_goods_liquid_leak/ref_11.jpg",
-    "exported_image_path": "reports/video_generation_500_images/421__vsec_115__visual_security__vsec_dangerous_goods_liquid_leak__ref_11.jpg"
+    "source_image_path": "dataset/images/visual_security/vsec_dangerous_goods_liquid_leak/ref_08.jpg",
+    "exported_image_path": "reports/video_generation_500_images/421__vsec_115__visual_security__vsec_dangerous_goods_liquid_leak__ref_08.jpg"
   },
   {
     "index": 422,
@@ -4216,8 +4216,8 @@
     "scene_id": "vsec_dangerous_goods_liquid_leak",
     "task_category": "fluid_dynamics_and_thermodynamics",
     "motion_type": "static",
-    "source_image_path": "dataset/images/visual_security/vsec_dangerous_goods_liquid_leak/ref_14.jpg",
-    "exported_image_path": "reports/video_generation_500_images/422__vsec_157__visual_security__vsec_dangerous_goods_liquid_leak__ref_14.jpg"
+    "source_image_path": "dataset/images/visual_security/vsec_dangerous_goods_liquid_leak/ref_04.jpg",
+    "exported_image_path": "reports/video_generation_500_images/422__vsec_157__visual_security__vsec_dangerous_goods_liquid_leak__ref_04.jpg"
   },
   {
     "index": 423,
@@ -4256,8 +4256,8 @@
     "scene_id": "vsec_electrical_cabinet_smoke_isolation",
     "task_category": "industrial_logic_and_compliance",
     "motion_type": "static",
-    "source_image_path": "dataset/images/visual_security/vsec_electrical_cabinet_smoke_isolation/ref_01.jpg",
-    "exported_image_path": "reports/video_generation_500_images/426__vsec_131__visual_security__vsec_electrical_cabinet_smoke_isolation__ref_01.jpg"
+    "source_image_path": "dataset/images/visual_security/vsec_electrical_cabinet_smoke_isolation/ref_03.jpg",
+    "exported_image_path": "reports/video_generation_500_images/426__vsec_131__visual_security__vsec_electrical_cabinet_smoke_isolation__ref_03.jpg"
   },
   {
     "index": 427,
@@ -4296,8 +4296,8 @@
     "scene_id": "vsec_electrical_cabinet_smoke_isolation",
     "task_category": "industrial_logic_and_compliance",
     "motion_type": "static",
-    "source_image_path": "dataset/images/visual_security/vsec_electrical_cabinet_smoke_isolation/ref_03.jpg",
-    "exported_image_path": "reports/video_generation_500_images/430__vsec_193__visual_security__vsec_electrical_cabinet_smoke_isolation__ref_03.jpg"
+    "source_image_path": "dataset/images/visual_security/vsec_electrical_cabinet_smoke_isolation/ref_09.jpg",
+    "exported_image_path": "reports/video_generation_500_images/430__vsec_193__visual_security__vsec_electrical_cabinet_smoke_isolation__ref_09.jpg"
   },
   {
     "index": 431,
@@ -4616,8 +4616,8 @@
     "scene_id": "vsec_pedestrian_forklift_near_miss",
     "task_category": "industrial_logic_and_compliance",
     "motion_type": "static",
-    "source_image_path": "dataset/images/visual_security/vsec_pedestrian_forklift_near_miss/ref_08.jpg",
-    "exported_image_path": "reports/video_generation_500_images/462__vsec_111__visual_security__vsec_pedestrian_forklift_near_miss__ref_08.jpg"
+    "source_image_path": "dataset/images/visual_security/vsec_unregistered_vehicle_intrusion/ref_09.jpg",
+    "exported_image_path": "reports/video_generation_500_images/462__vsec_111__visual_security__vsec_pedestrian_forklift_near_miss__ref_09.jpg"
   },
   {
     "index": 463,
@@ -4846,8 +4846,8 @@
     "scene_id": "vsec_surveillance_blind_spot_sweep",
     "task_category": "spatial_exploration_and_viewpoint",
     "motion_type": "dolly",
-    "source_image_path": "dataset/images/visual_security/vsec_surveillance_blind_spot_sweep/ref_12.jpg",
-    "exported_image_path": "reports/video_generation_500_images/485__vsec_043__visual_security__vsec_surveillance_blind_spot_sweep__ref_12.jpg"
+    "source_image_path": "dataset/images/visual_security/vsec_surveillance_blind_spot_sweep/ref_11.jpg",
+    "exported_image_path": "reports/video_generation_500_images/485__vsec_043__visual_security__vsec_surveillance_blind_spot_sweep__ref_11.jpg"
   },
   {
     "index": 486,
@@ -4856,8 +4856,8 @@
     "scene_id": "vsec_surveillance_blind_spot_sweep",
     "task_category": "spatial_exploration_and_viewpoint",
     "motion_type": "pan",
-    "source_image_path": "dataset/images/visual_security/vsec_surveillance_blind_spot_sweep/ref_15.jpg",
-    "exported_image_path": "reports/video_generation_500_images/486__vsec_170__visual_security__vsec_surveillance_blind_spot_sweep__ref_15.jpg"
+    "source_image_path": "dataset/images/visual_security/vsec_surveillance_blind_spot_sweep/ref_05.jpg",
+    "exported_image_path": "reports/video_generation_500_images/486__vsec_170__visual_security__vsec_surveillance_blind_spot_sweep__ref_05.jpg"
   },
   {
     "index": 487,
@@ -4886,8 +4886,8 @@
     "scene_id": "vsec_surveillance_blind_spot_sweep",
     "task_category": "spatial_exploration_and_viewpoint",
     "motion_type": "pan",
-    "source_image_path": "dataset/images/visual_security/vsec_surveillance_blind_spot_sweep/ref_09.jpg",
-    "exported_image_path": "reports/video_generation_500_images/489__vsec_228__visual_security__vsec_surveillance_blind_spot_sweep__ref_09.jpg"
+    "source_image_path": "dataset/images/visual_security/vsec_unregistered_vehicle_intrusion/ref_13.jpg",
+    "exported_image_path": "reports/video_generation_500_images/489__vsec_228__visual_security__vsec_surveillance_blind_spot_sweep__ref_13.jpg"
   },
   {
     "index": 490,
@@ -4896,8 +4896,8 @@
     "scene_id": "vsec_surveillance_blind_spot_sweep",
     "task_category": "spatial_exploration_and_viewpoint",
     "motion_type": "pan",
-    "source_image_path": "dataset/images/visual_security/vsec_surveillance_blind_spot_sweep/ref_10.jpg",
-    "exported_image_path": "reports/video_generation_500_images/490__vsec_229__visual_security__vsec_surveillance_blind_spot_sweep__ref_10.jpg"
+    "source_image_path": "dataset/images/visual_security/vsec_unregistered_vehicle_intrusion/ref_08.jpg",
+    "exported_image_path": "reports/video_generation_500_images/490__vsec_229__visual_security__vsec_surveillance_blind_spot_sweep__ref_08.jpg"
   },
   {
     "index": 491,
@@ -4906,8 +4906,8 @@
     "scene_id": "vsec_surveillance_blind_spot_sweep",
     "task_category": "spatial_exploration_and_viewpoint",
     "motion_type": "pan",
-    "source_image_path": "dataset/images/visual_security/vsec_surveillance_blind_spot_sweep/ref_13.jpg",
-    "exported_image_path": "reports/video_generation_500_images/491__vsec_232__visual_security__vsec_surveillance_blind_spot_sweep__ref_13.jpg"
+    "source_image_path": "dataset/images/visual_security/vsec_perimeter_fence_breach/ref_08.jpg",
+    "exported_image_path": "reports/video_generation_500_images/491__vsec_232__visual_security__vsec_surveillance_blind_spot_sweep__ref_08.jpg"
   },
   {
     "index": 492,
@@ -4916,8 +4916,8 @@
     "scene_id": "vsec_surveillance_blind_spot_sweep",
     "task_category": "spatial_exploration_and_viewpoint",
     "motion_type": "pan",
-    "source_image_path": "dataset/images/visual_security/vsec_surveillance_blind_spot_sweep/ref_14.jpg",
-    "exported_image_path": "reports/video_generation_500_images/492__vsec_233__visual_security__vsec_surveillance_blind_spot_sweep__ref_14.jpg"
+    "source_image_path": "dataset/images/visual_security/vsec_unregistered_vehicle_intrusion/ref_11.jpg",
+    "exported_image_path": "reports/video_generation_500_images/492__vsec_233__visual_security__vsec_surveillance_blind_spot_sweep__ref_11.jpg"
   },
   {
     "index": 493,

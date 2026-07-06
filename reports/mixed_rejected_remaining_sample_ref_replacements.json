@@ -1,0 +1,72 @@
+[
+  {
+    "task_id": "emerg_153",
+    "old_image_path": "dataset/images/extreme_emergency/emerg_dust_explosion_confined_space/ref_15.jpg",
+    "new_image_path": "dataset/images/extreme_emergency/emerg_dust_explosion_confined_space/ref_14.jpg"
+  },
+  {
+    "task_id": "emerg_178",
+    "old_image_path": "dataset/images/extreme_emergency/emerg_reactor_runaway_pressure_release/ref_15.jpg",
+    "new_image_path": "dataset/images/extreme_emergency/emerg_reactor_runaway_pressure_release/ref_10.jpg"
+  },
+  {
+    "task_id": "emerg_231",
+    "old_image_path": "dataset/images/extreme_emergency/emerg_dam_or_retaining_wall_breach/ref_12.jpg",
+    "new_image_path": "dataset/images/extreme_emergency/emerg_dam_or_retaining_wall_breach/ref_14.jpg"
+  },
+  {
+    "task_id": "emerg_305",
+    "old_image_path": "dataset/images/extreme_emergency/emerg_hot_work_spark_combustible_fire/ref_14.jpg",
+    "new_image_path": "dataset/images/extreme_emergency/emerg_hot_work_spark_combustible_fire/ref_08.jpg"
+  },
+  {
+    "task_id": "hload_109",
+    "old_image_path": "dataset/images/heavy_load_construction/hload_tunnel_pipe_burst_mud_surge/ref_09.jpg",
+    "new_image_path": "dataset/images/heavy_load_construction/hload_tunnel_pipe_burst_mud_surge/ref_08.jpg"
+  },
+  {
+    "task_id": "pdef_088",
+    "old_image_path": "dataset/images/precision_defect_gen/pdef_connector_pin_bent/ref_08.jpg",
+    "new_image_path": "dataset/images/precision_defect_gen/pdef_gear_tooth_missing_wear/ref_10.jpg"
+  },
+  {
+    "task_id": "pdef_135",
+    "old_image_path": "dataset/images/precision_defect_gen/pdef_engine_endoscope_crack/ref_15.jpg",
+    "new_image_path": "dataset/images/precision_defect_gen/pdef_engine_endoscope_crack/ref_12.jpg"
+  },
+  {
+    "task_id": "pdef_138",
+    "old_image_path": "dataset/images/precision_defect_gen/pdef_gauge_level_valve_anomaly/ref_16.jpg",
+    "new_image_path": "dataset/images/precision_defect_gen/pdef_gauge_level_valve_anomaly/ref_17.jpg"
+  },
+  {
+    "task_id": "pdef_145",
+    "old_image_path": "dataset/images/precision_defect_gen/pdef_gauge_level_valve_anomaly/ref_16.jpg",
+    "new_image_path": "dataset/images/precision_defect_gen/pdef_gauge_level_valve_anomaly/ref_17.jpg"
+  },
+  {
+    "task_id": "pdef_176",
+    "old_image_path": "dataset/images/precision_defect_gen/pdef_engine_endoscope_crack/ref_15.jpg",
+    "new_image_path": "dataset/images/precision_defect_gen/pdef_engine_endoscope_crack/ref_12.jpg"
+  },
+  {
+    "task_id": "pdef_183",
+    "old_image_path": "dataset/images/precision_defect_gen/pdef_flange_seal_micro_leak/ref_15.jpg",
+    "new_image_path": "dataset/images/precision_defect_gen/pdef_flange_seal_micro_leak/ref_11.jpg"
+  },
+  {
+    "task_id": "pdef_189",
+    "old_image_path": "dataset/images/precision_defect_gen/pdef_flange_seal_micro_leak/ref_15.jpg",
+    "new_image_path": "dataset/images/precision_defect_gen/pdef_flange_seal_micro_leak/ref_11.jpg"
+  },
+  {
+    "task_id": "pdef_194",
+    "old_image_path": "dataset/images/precision_defect_gen/pdef_gauge_level_valve_anomaly/ref_16.jpg",
+    "new_image_path": "dataset/images/precision_defect_gen/pdef_gauge_level_valve_anomaly/ref_17.jpg"
+  },
+  {
+    "task_id": "pdef_226",
+    "old_image_path": "dataset/images/precision_defect_gen/pdef_connector_pin_bent/ref_08.jpg",
+    "new_image_path": "dataset/images/precision_defect_gen/pdef_gear_tooth_missing_wear/ref_10.jpg"
+  }
+]

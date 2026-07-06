@@ -1,0 +1,27 @@
+[
+  {
+    "task_id": "pdef_145",
+    "old_image_path": "dataset/images/precision_defect_gen/pdef_gauge_level_valve_anomaly/ref_12.jpg",
+    "new_image_path": "dataset/images/precision_defect_gen/pdef_gauge_level_valve_anomaly/ref_16.jpg"
+  },
+  {
+    "task_id": "pdef_176",
+    "old_image_path": "dataset/images/precision_defect_gen/pdef_engine_endoscope_crack/ref_09.jpg",
+    "new_image_path": "dataset/images/precision_defect_gen/pdef_engine_endoscope_crack/ref_15.jpg"
+  },
+  {
+    "task_id": "pdef_183",
+    "old_image_path": "dataset/images/precision_defect_gen/pdef_flange_seal_micro_leak/ref_07.jpg",
+    "new_image_path": "dataset/images/precision_defect_gen/pdef_flange_seal_micro_leak/ref_15.jpg"
+  },
+  {
+    "task_id": "pdef_194",
+    "old_image_path": "dataset/images/precision_defect_gen/pdef_gauge_level_valve_anomaly/ref_12.jpg",
+    "new_image_path": "dataset/images/precision_defect_gen/pdef_gauge_level_valve_anomaly/ref_16.jpg"
+  },
+  {
+    "task_id": "pdef_226",
+    "old_image_path": "dataset/images/precision_defect_gen/pdef_weld_porosity_crack/ref_10.jpg",
+    "new_image_path": "dataset/images/precision_defect_gen/pdef_connector_pin_bent/ref_08.jpg"
+  }
+]
