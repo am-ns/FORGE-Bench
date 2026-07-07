@@ -27,7 +27,7 @@ from eval.axis_registry import (
     VIEWPOINT_MOTION_FIDELITY,
 )
 from eval.physical_plausibility.eval import parse_physical_plausibility_score
-from eval.run_eval import evaluate_geometric_integrity_operator_evidence, evaluate_sample
+from eval.run_eval import _attach_geometric_operator_evidence, evaluate_geometric_integrity_operator_evidence, evaluate_sample
 from eval.geometric_integrity.lattice import evaluate_lattice
 from eval.geometric_integrity.surface import evaluate_surface
 from eval.industrial_constraints.count_invariant import check_count_invariant
@@ -421,6 +421,28 @@ class TestOperatorEvidence:
         assert rigid["global_affine_inlier_ratio"] > 0.5
         assert rigid["risk"] == "none"
 
+    def test_geometric_sub_operator_is_exposed_in_operator_evidence(self):
+        evidence = {
+            "operator_plan": [
+                {
+                    "operator": "kinematic_articulated",
+                    "target": "articulated_mechanism",
+                    "expected_signal": "optical_flow_and_symmetry_consistent",
+                    "tier": "judge_evidence",
+                    "used_for_axis_cap": True,
+                }
+            ],
+            "operators": {},
+        }
+        _attach_geometric_operator_evidence(
+            evidence,
+            {"method": "kinematic_articulated", "result_score": 80.0},
+        )
+        payload = evidence["operators"]["kinematic_articulated"]
+        assert payload["result_score"] == 80.0
+        assert payload["validity"] == "valid"
+        assert payload["headline_effect"] == "geometric_conflict_cap_only_via_geometric_integrity_score"
+
     def test_safety_motion_is_judge_evidence_not_axis_cap(self):
         frames = []
         for i in range(6):
@@ -551,6 +573,36 @@ class TestScoring:
         assert result["application_score"] == pytest.approx(50.0)
         assert result["application_usefulness_score"] == pytest.approx(50.0)
         assert result["observable_event_coverage"] == 90.0
+
+    def test_diagnostic_operator_cannot_cap_even_if_misconfigured(self):
+        """Diagnostic operators must not cap public axes even if a sample marks them cap-eligible."""
+        result = score_sample(
+            {
+                INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 95,
+                TEMPORAL_CONSISTENCY: 95,
+                PHYSICAL_PLAUSIBILITY: 95,
+                REFERENCE_AND_MOTION_FIDELITY: 95,
+                GEOMETRIC_INTEGRITY: 95,
+            },
+            operator_evidence={
+                "operators": {
+                    "fluid_diffusion": {
+                        "plausible_continuity": False,
+                        "used_for_axis_cap": True,
+                        "confidence": 0.99,
+                        "validity": "valid",
+                    },
+                    "safety_compliance_motion": {
+                        "stop_or_slowdown_response": False,
+                        "used_for_axis_cap": True,
+                        "confidence": 0.99,
+                        "validity": "valid",
+                    },
+                }
+            },
+        )
+        assert result["axis_scores"][PHYSICAL_PLAUSIBILITY] == pytest.approx(95.0)
+        assert result["constraint_axis_adjustments"] == {}
 
     def test_aggregate(self):
         """aggregate_scores should classify viewpoint motion fidelity tier and produce overall > 0."""
@@ -874,6 +926,47 @@ class TestScoring:
         assert result["constraint_adjusted_score"] == pytest.approx(45.0)
         assert result["constraint_adjustment_summary"]["cap_reason_counts"]["operator_multiple_severe_failures"] == 1
         assert result["constraint_adjustment_summary"]["mean_legacy_penalty_adjusted_score"] == pytest.approx(38.89625)
+
+    def test_aggregate_diagnostic_operator_cannot_cap_even_if_misconfigured(self):
+        """Headline hard caps are protected by a code-level operator allowlist."""
+        result = aggregate_sample_results([
+            {
+                "task_id": "fluid_diag",
+                "skipped": False,
+                "task_category": "fluid_dynamics_and_thermodynamics",
+                "scored": {
+                    "weighted_score": 95.0,
+                    "axis_scores": {
+                        INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 95,
+                        TEMPORAL_CONSISTENCY: 95,
+                        PHYSICAL_PLAUSIBILITY: 95,
+                        REFERENCE_AND_MOTION_FIDELITY: 95,
+                        GEOMETRIC_INTEGRITY: 95,
+                    },
+                    "application_usefulness_score": 100.0,
+                    "observable_event_coverage": 100.0,
+                },
+                "operator_evidence": {
+                    "operators": {
+                        "fluid_diffusion": {
+                            "plausible_continuity": False,
+                            "used_for_axis_cap": True,
+                            "confidence": 0.99,
+                            "validity": "valid",
+                        },
+                        "safety_compliance_motion": {
+                            "stop_or_slowdown_response": False,
+                            "used_for_axis_cap": True,
+                            "confidence": 0.99,
+                            "validity": "valid",
+                        },
+                    }
+                },
+            },
+        ])
+        assert result["ranking_score"] == pytest.approx(96.0)
+        assert result["constraint_adjustment_summary"]["samples_with_cap"] == 0
+        assert "operator_fluid_discontinuity" not in result["constraint_adjustment_summary"]["cap_reason_counts"]
 
     def test_per_sample_score_ignores_invalid_operator_caps(self):
         result = score_sample(

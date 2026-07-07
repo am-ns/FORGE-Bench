@@ -329,6 +329,36 @@ def _conservative_geometric_score(
     }
 
 
+def _attach_geometric_operator_evidence(operator_evidence: dict, geometric_result: dict) -> None:
+    """Expose the routed geometric sub-operator in the common operator evidence block."""
+    plan = operator_evidence.get("operator_plan") or []
+    method = geometric_result.get("method")
+    entry = operator_plan_entry(plan, str(method)) if method else None
+    if entry is None:
+        return
+    score = geometric_result.get("result_score")
+    confidence = 0.0
+    validity = "missing_result_score"
+    if score is not None:
+        score_float = float(score)
+        if score_float <= 1.0:
+            score_float *= 100.0
+        confidence = max(0.0, min(0.85, 0.35 + 0.50 * (score_float / 100.0)))
+        validity = "valid" if "error" not in geometric_result else str(geometric_result.get("error"))
+    operator_evidence.setdefault("operators", {})[str(method)] = {
+        "operator": str(method),
+        "target": entry.get("target", "geometric_integrity_target"),
+        "expected_signal": entry.get("expected_signal", "geometric_operator_signal"),
+        "tier": entry.get("tier", "judge_evidence"),
+        "used_for_axis_cap": bool(entry.get("used_for_axis_cap", False)),
+        "result_score": score,
+        "method": method,
+        "confidence": round(float(confidence), 4),
+        "validity": validity,
+        "headline_effect": "geometric_conflict_cap_only_via_geometric_integrity_score",
+    }
+
+
 # Single-sample evaluation
 
 def evaluate_sample(
@@ -419,6 +449,7 @@ def evaluate_sample(
         logger.warning("Operator evidence failed for %s: %s", task_id, exc)
         operator_evidence = {"error": str(exc), "operators": {}, "risk_flags": []}
     plan = operator_evidence.get("operator_plan") or []
+    _attach_geometric_operator_evidence(operator_evidence, geometric_integrity_result)
     viewpoint_entry = operator_plan_entry(plan, "viewpoint_motion_fidelity")
     if viewpoint_entry is not None:
         viewpoint_operator = {
