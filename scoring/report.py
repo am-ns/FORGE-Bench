@@ -379,12 +379,59 @@ def _pass_rate_report(aggregate: dict) -> dict:
     return {
         "strict_pass_rate": aggregate.get("strict_pass_rate"),
         "functional_pass_rate": aggregate.get("functional_pass_rate"),
+        "all_critical_pass_accuracy": aggregate.get("all_critical_pass_accuracy"),
         "axis_pass_rates": aggregate.get("axis_pass_rates", {}),
     }
 
 
 def _reference_motion_decomposition_report(aggregate: dict) -> dict:
     return aggregate.get("reference_motion_decomposition", {})
+
+
+def _reasoning_alignment_report(aggregate: dict, results: list[dict]) -> dict:
+    low = []
+    for result in results:
+        score = result.get("reasoning_alignment_score")
+        if score is None:
+            score = (result.get("reasoning_alignment_details") or {}).get("score")
+        if score is not None and float(score) < 100.0:
+            low.append({
+                "task_id": result.get("task_id"),
+                "domain": result.get("domain"),
+                "task_category": result.get("task_category"),
+                "implicit_rule_type": result.get("implicit_rule_type"),
+                "score": _round_or_none(float(score)),
+            })
+    return {
+        "reasoning_alignment_score": aggregate.get("reasoning_alignment_score"),
+        "reasoning_alignment_score_ci95": aggregate.get("reasoning_alignment_score_ci95"),
+        "reasoning_rule_breakdown": aggregate.get("reasoning_rule_breakdown", {}),
+        "all_critical_pass_accuracy": aggregate.get("all_critical_pass_accuracy"),
+        "policy": "binary implicit-rule question accuracy; exact reasoning is required by all_critical_pass_accuracy when available",
+        "lowest_reasoning_samples": sorted(low, key=lambda item: item["score"])[:12],
+    }
+
+
+def _visual_quality_report(aggregate: dict, results: list[dict]) -> dict:
+    low = []
+    for result in results:
+        score = result.get("visual_quality_score")
+        if score is None:
+            score = (result.get("visual_quality_details") or {}).get("visual_quality_score")
+        if score is not None and float(score) < CONFIG["low_axis_threshold"]:
+            low.append({
+                "task_id": result.get("task_id"),
+                "domain": result.get("domain"),
+                "task_category": result.get("task_category"),
+                "score": _round_or_none(float(score)),
+                "level": result.get("visual_quality_level"),
+            })
+    return {
+        "visual_quality_score": aggregate.get("visual_quality_score"),
+        "visual_quality_summary": aggregate.get("visual_quality_summary", {}),
+        "policy": "diagnostic-only middle-frame technical quality; excluded from headline ranking_score",
+        "low_visual_quality_samples": sorted(low, key=lambda item: item["score"])[:12],
+    }
 
 
 def _dataset_coverage_report(results: list[dict], aggregate: dict) -> dict:
@@ -651,6 +698,7 @@ def generate_diagnostic_report(model: str, aggregate: dict, sample_results: list
         "breakdowns": {
             "by_domain": _group_scores(completed, "domain"),
             "by_application_type": _group_scores(completed, "application_type"),
+            "by_implicit_rule_type": _group_scores(completed, "implicit_rule_type"),
             "by_primary_topology": _group_scores(completed, "primary_topology"),
             "by_sub_topology": _group_scores(completed, "sub_topology"),
             "by_motion_type": _group_scores(completed, "motion_type"),
@@ -662,6 +710,8 @@ def generate_diagnostic_report(model: str, aggregate: dict, sample_results: list
         "constraint_adjustment_diagnostics": _constraint_adjustment_diagnostics(aggregate),
         "statistical_uncertainty": _statistical_uncertainty_report(aggregate),
         "pass_rate_report": _pass_rate_report(aggregate),
+        "reasoning_alignment_report": _reasoning_alignment_report(aggregate, completed),
+        "visual_quality_report": _visual_quality_report(aggregate, completed),
         "application_value_report": _application_value_report(aggregate, completed),
         "dataset_coverage_report": _dataset_coverage_report(completed, aggregate),
         "reference_motion_decomposition": _reference_motion_decomposition_report(aggregate),

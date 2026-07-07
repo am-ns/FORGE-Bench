@@ -108,6 +108,23 @@ logic and fact alignment. Each question has:
 - `answer`
 - `weakness_target`
 
+`reasoning_alignment_questions` is the paper-facing binary question set used for
+RISE-style implicit-rule diagnostics. It is derived from the same audited
+question text and adds `implicit_rule_type`, one of:
+
+- `causal_procedure`
+- `physical_commonsense`
+- `spatial_topology`
+- `temporal_order`
+- `safety_compliance`
+- `subject_domain_knowledge`
+- `perceptual_count_attribute`
+- `reference_identity`
+
+Each sample also has a dominant `implicit_rule_type` for aggregate breakdowns.
+These fields support `reasoning_alignment_score` and
+`all_critical_pass_accuracy` in result reports.
+
 ## Validation
 
 ```bash

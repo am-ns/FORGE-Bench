@@ -35,6 +35,11 @@ questions, weights, and report grouping. Sample `image_path` values are kept
 under `dataset/images/<domain>/<scene_id>/` using the same five scenario-domain
 directories.
 
+Each sample also carries `implicit_rule_type` and
+`reasoning_alignment_questions` for binary implicit-rule checks. These fields
+support a RISE-style reasoning alignment diagnostic without replacing the
+industrial domain x task matrix.
+
 The executable full benchmark remains `dataset/annotations/samples.json` with
 960 samples. The operational generation set is
 `dataset/annotations/video_generation_500_samples.json`: 500 samples, 500
@@ -84,6 +89,12 @@ not use them.
 | `temporal_consistency` | Long-horizon temporal consistency | Identity, material, state, anti-deformation, anti-melting, and anti-flicker checks across sampled frames. |
 | `reference_and_motion_fidelity` | Reference and motion fidelity | Spatial mapping, camera-control execution, static-video gating for required camera motion, and region-isolated fidelity where only the requested defect/failure region may change. |
 | `application_usefulness` | Industrial application usefulness | Evaluates whether the video is practically usable for the stated workflow: safety training, emergency rehearsal, robotic operation, inspection/maintenance, heavy-operation risk assessment, or defect/QC data generation. This is the +1 application layer in the 5+1 scoring structure. |
+
+Paper diagnostics additionally report `reasoning_alignment_score`, computed as
+binary yes/no accuracy over sample-specific implicit-rule questions, and
+`visual_quality_score`, a middle-frame technical quality diagnostic. Visual
+quality is excluded from the headline 5+1 `ranking_score` so perceptual clarity
+does not mask industrial reasoning failures.
 
 `viewpoint_motion_fidelity` is retained as a motion-control evidence signal and
 is integrated into `reference_and_motion_fidelity` when the task requires camera
@@ -182,6 +193,11 @@ overall = ranking_score
 constraint_adjusted_score = ranking_score  # compatibility alias
 ```
 
+The stricter paper diagnostic `all_critical_pass_accuracy` counts a sample as
+correct only when task-critical axes pass, binary reasoning checks are all
+correct when available, observable event coverage is complete when available,
+and no hard cap or hard application failure applies.
+
 `technical_score` / `task_conditioned_score` is now the plain arithmetic mean
 of the five technical axes. There is no weighted/harmonic blend and no
 task-critical bottleneck multiplier in the technical score. `linear_ranking_score`
@@ -202,11 +218,16 @@ includes:
 
 | Evidence Operator | Used For |
 |---|---|
-| `local_region_lock` | Detects global regeneration versus localized changes for defect/failure and reference-lock tasks. |
-| `fluid_diffusion` | Tracks fluid, smoke, fire, plume, or leak area growth and centroid continuity for physical-plausibility judging. |
-| `rigid_joint_tracking` | Tracks corner points and pairwise-distance drift to expose rigid-body or joint instability. |
-| `safety_compliance_motion` | Provides weak evidence for stop/slowdown response in safety and compliance scenarios. |
-| `viewpoint_motion_fidelity` | Measures `orbit`, `crane`, `pan`, `dolly`, and `static` motion control. |
+| Evidence Operator | Used For | Headline Use |
+|---|---|---|
+| `local_region_lock` | Detects global regeneration versus localized changes for defect/failure and reference-lock tasks. | Cap-eligible only when alignment is valid and confidence passes. |
+| `fluid_diffusion` | Tracks fluid, smoke, fire, plume, or leak area growth and centroid continuity for physical-plausibility judging. | Diagnostic/judge evidence only by default. |
+| `rigid_joint_tracking` | Tracks corner points, affine inliers, spatial coverage, and camera-compensated pairwise-distance drift. | Conditional geometry cap only with sufficient tracks, validity, and confidence. |
+| `safety_compliance_motion` | Provides weak evidence for stop/slowdown response in safety and compliance scenarios. | Diagnostic/judge evidence only. |
+| `viewpoint_motion_fidelity` | Measures `orbit`, `crane`, `pan`, `dolly`, and `static` motion control. | Cap-eligible for viewpoint/static-control failures. |
+
+See `docs/OPERATOR_EVIDENCE.md` for the operator validity, confidence, and
+cap-policy contract used by paper-facing reports.
 
 Motion control is task-aware. It gates `spatial_exploration_and_viewpoint`
 samples and `static` tasks. For non-viewpoint tasks, `pan` and `dolly` evidence
@@ -321,6 +342,9 @@ Important aggregate fields:
 | `complete_case_relax_score_ci95` | Bootstrap 95% confidence interval for the complete-case score. |
 | `strict_pass_rate` | Fraction of completed samples where all present axes pass thresholds. |
 | `functional_pass_rate` | Task-conditioned pass rate: critical axes must clear 60, non-critical axes must clear 45. |
+| `all_critical_pass_accuracy` | Strict paper accuracy: task-critical axes pass, reasoning alignment is exact when available, required events are complete when available, and no hard cap applies. |
+| `reasoning_alignment_score` | Mean binary implicit-rule question accuracy on a 0-100 scale. |
+| `reasoning_rule_breakdown` | Reasoning-alignment accuracy split by implicit rule type. |
 | `axis_pass_rates` | Per-axis pass counts and rates at the strict threshold. |
 | `application_score` | Backward-compatible available-case application score; equals application usefulness when event coverage is absent. |
 | `application_score_ci95` | Bootstrap 95% confidence interval for `application_score`. |
@@ -333,6 +357,8 @@ Important aggregate fields:
 | `application_type_breakdown` | Application-usefulness scores split by safety training, emergency rehearsal, robotics operation, inspection/maintenance, heavy-operation risk, and defect/QC generation. |
 | `application_macro_micro_summary` | Reports sample-weighted micro application score and type-balanced macro application score across application types. |
 | `reference_motion_decomposition` | Separates reference preservation, motion control, and coupled reference-motion fidelity diagnostics. |
+| `visual_quality_score` | Diagnostic technical quality score from middle-frame clarity/exposure checks; excluded from headline ranking. |
+| `visual_quality_summary` | Visual-quality CI and 1-3 level counts. |
 | `linear_ranking_score` | Transparent 5+1 score before hard adjustment: `0.8*technical_score + 0.2*application_score_strict`. |
 | `linear_all_sample_score` | Same linear formula over all completed samples, including incomplete required-axis samples. |
 | `constraint_adjusted_score` | Backward-compatible alias for `ranking_score`; hard caps and hard application penalties are applied. |

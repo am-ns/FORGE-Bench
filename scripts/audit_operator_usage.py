@@ -7,55 +7,13 @@ import argparse
 import json
 from collections import Counter, defaultdict
 from pathlib import Path
+import sys
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
-TASK_OPERATOR_PLAN = {
-    "rigid_body_kinematics_and_coupling": {
-        "local_region_lock",
-        "temporal_break",
-        "rigid_joint_tracking",
-        "geometric_integrity_sub_operator",
-        "viewpoint_motion_fidelity",
-    },
-    "topology_mutation_and_failure": {
-        "local_region_lock",
-        "temporal_break",
-        "rigid_joint_tracking",
-        "geometric_integrity_sub_operator",
-        "viewpoint_motion_fidelity",
-    },
-    "fluid_dynamics_and_thermodynamics": {
-        "local_region_lock",
-        "temporal_break",
-        "fluid_diffusion",
-        "geometric_integrity_sub_operator",
-        "viewpoint_motion_fidelity",
-    },
-    "spatial_exploration_and_viewpoint": {
-        "local_region_lock",
-        "temporal_break",
-        "rigid_joint_tracking",
-        "geometric_integrity_sub_operator",
-        "viewpoint_motion_fidelity",
-    },
-    "industrial_logic_and_compliance": {
-        "local_region_lock",
-        "temporal_break",
-        "safety_compliance_motion",
-        "geometric_integrity_sub_operator",
-        "viewpoint_motion_fidelity",
-    },
-}
-
-TOPOLOGY_OPERATOR_PLAN = {
-    "2d_planar": "fourier_spectral_integrity",
-    "3d_spatial": "sift_homography",
-    "aerodynamic": "chamfer_distance",
-    "rigid_housing": "sift_proxy_rigid",
-    "articulated": "kinematic_articulated",
-    "rotational": "rotational_symmetry",
-    "cable_hose": "optical_flow_continuity",
-}
+from eval.operator_plan import build_operator_plan
 
 
 def _load_samples(path: Path) -> list[dict]:
@@ -64,8 +22,7 @@ def _load_samples(path: Path) -> list[dict]:
 
 
 def _operator_plan_for(sample: dict) -> set[str]:
-    task = str(sample.get("task_category") or "")
-    return set(TASK_OPERATOR_PLAN.get(task, set()))
+    return {str(item.get("operator")) for item in build_operator_plan(sample) if item.get("operator")}
 
 
 def run(args: argparse.Namespace) -> None:
@@ -92,6 +49,8 @@ def run(args: argparse.Namespace) -> None:
         "application_success_criteria",
         "misleading_failure_modes",
         "industrial_logic_questions",
+        "implicit_rule_type",
+        "reasoning_alignment_questions",
         "video_generation_prompt",
         "evaluation_prompt",
     ]
@@ -115,10 +74,6 @@ def run(args: argparse.Namespace) -> None:
         for operator in plan:
             planned_operator_counts[operator] += 1
             task_operator_counts[task][operator] += 1
-        topology_operator = TOPOLOGY_OPERATOR_PLAN.get(sub_topology)
-        if topology_operator:
-            planned_operator_counts[topology_operator] += 1
-            task_operator_counts[task][topology_operator] += 1
 
     out_dir = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)

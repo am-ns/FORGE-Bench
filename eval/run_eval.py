@@ -30,6 +30,8 @@ from eval.visual_fidelity.eval import evaluate_reference_and_motion_fidelity
 from eval.viewpoint_motion_fidelity.eval import compute_viewpoint_motion_fidelity
 from eval.operator_evidence import evaluate_operator_evidence
 from eval.operator_plan import operator_plan_entry
+from eval.reasoning_alignment import build_reasoning_alignment_questions, score_reasoning_alignment
+from eval.visual_quality import evaluate_visual_quality
 from eval.axis_registry import (
     APPLICATION_USEFULNESS,
     GEOMETRIC_INTEGRITY,
@@ -441,9 +443,10 @@ def evaluate_sample(
     industrial_logic_and_fact_alignment_score = None
     industrial_logic_and_fact_alignment_details = None
     visible_evidence_map: dict[str, str] = {}
+    reasoning_questions = build_reasoning_alignment_questions(sample)
     questions = sample.get(
         "industrial_logic_questions",
-        sample.get("questions", []),
+        sample.get("questions", reasoning_questions),
     )
 
     if judge_industrial_logic_and_fact_alignment is not None and questions:
@@ -471,6 +474,11 @@ def evaluate_sample(
         )
         industrial_logic_and_fact_alignment_score = industrial_logic_and_fact_alignment_result["score"]
         industrial_logic_and_fact_alignment_details = industrial_logic_and_fact_alignment_result
+
+    reasoning_alignment_details = score_reasoning_alignment(
+        reasoning_questions,
+        industrial_logic_and_fact_alignment_details,
+    )
 
     # Geometric integrity
     geometric_integrity_model_score = None
@@ -504,6 +512,8 @@ def evaluate_sample(
             logger.warning("temporal consistency LLM failed for %s: %s", task_id, exc)
     if not temporal_consistency_result:
         temporal_consistency_result = evaluate_temporal_consistency(frames, model_name=model_name, sample_id=task_id)
+
+    visual_quality_result = evaluate_visual_quality(frames)
 
     # Physical plausibility
     physical_plausibility_score = None
@@ -603,6 +613,7 @@ def evaluate_sample(
         "image_path": sample.get("image_path"),
         "application_value": sample.get("application_value") or task_profile.get("application_value"),
         "application_type": sample.get("application_type"),
+        "implicit_rule_type": sample.get("implicit_rule_type"),
         "application_objective": sample.get("application_objective"),
         "event_graph": sample.get("event_graph", {}),
         "required_observable_events": sample.get("required_observable_events", []),
@@ -616,6 +627,9 @@ def evaluate_sample(
         "weakness_targets": [
             q.get("weakness_target") for q in questions if q.get("weakness_target")
         ],
+        "reasoning_rule_types": sorted({
+            q.get("implicit_rule_type") for q in reasoning_questions if q.get("implicit_rule_type")
+        }),
         "operator_evidence": operator_evidence,
         "scoring_validity": sample_validity,
         "reference_image_status": reference_image_status,
@@ -637,6 +651,9 @@ def evaluate_sample(
         "viewpoint_motion_details": {k: v for k, v in viewpoint_motion_result.items() if k != "viewpoint_motion_detail"},
         "temporal_consistency_score": temporal_consistency_result.get("temporal_consistency_score"),
         "temporal_consistency_details": temporal_consistency_result,
+        "visual_quality_score": visual_quality_result.get("visual_quality_score"),
+        "visual_quality_level": visual_quality_result.get("visual_quality_level"),
+        "visual_quality_details": visual_quality_result,
         "physical_plausibility_score": physical_plausibility_score,
         "physical_plausibility_details": physical_plausibility_details,
         "reference_and_motion_fidelity_score": reference_and_motion_fidelity_result.get("reference_and_motion_fidelity_score"),
@@ -646,6 +663,8 @@ def evaluate_sample(
         "application_usefulness_details": application_usefulness_details,
         "industrial_logic_and_fact_alignment_score": industrial_logic_and_fact_alignment_score,
         "industrial_logic_and_fact_alignment_details": industrial_logic_and_fact_alignment_details,
+        "reasoning_alignment_score": reasoning_alignment_details.get("score"),
+        "reasoning_alignment_details": reasoning_alignment_details,
         "scored": scored,
         "scoring_complete": sample_validity["complete_required_axes"],
     }

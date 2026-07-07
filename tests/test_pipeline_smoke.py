@@ -35,6 +35,7 @@ from eval.industrial_constraints.kinematic_coupling import check_kinematic_coupl
 from eval.industrial_constraints.topology_merge_detector import check_topology_merge
 from eval.operator_evidence import evaluate_operator_evidence
 from eval.preflight import check_dataset_integrity, validate_frame_count
+from eval.visual_quality import evaluate_visual_quality
 from eval.viewpoint_motion_fidelity.eval import compute_viewpoint_motion_fidelity
 from scoring.aggregate import aggregate_sample_results, aggregate_scores
 from scoring.per_sample import score_sample
@@ -351,6 +352,7 @@ class TestOperatorEvidence:
         assert "local_region_lock" in evidence["operators"]
         assert "rigid_joint_tracking" in evidence["operators"]
         assert isinstance(evidence["risk_flags"], list)
+        assert evidence["operators"]["rigid_joint_tracking"]["used_for_axis_cap"] is True
 
     def test_operator_evidence_fluid_branch(self):
         frames = []
@@ -365,6 +367,8 @@ class TestOperatorEvidence:
         evidence = evaluate_operator_evidence(frames, sample, reference_image=frames[0])
         assert "fluid_diffusion" in evidence["operators"]
         assert "area_growth" in evidence["operators"]["fluid_diffusion"]
+        assert evidence["operators"]["fluid_diffusion"]["used_for_axis_cap"] is False
+        assert evidence["operators"]["fluid_diffusion"]["validity"] == "heuristic_foreground_not_semantic_fluid_mask"
 
     def test_operator_evidence_temporal_break(self):
         frames = []
@@ -416,6 +420,34 @@ class TestOperatorEvidence:
         assert rigid["tracked_points"] >= 4
         assert rigid["global_affine_inlier_ratio"] > 0.5
         assert rigid["risk"] == "none"
+
+    def test_safety_motion_is_judge_evidence_not_axis_cap(self):
+        frames = []
+        for i in range(6):
+            frame = np.zeros((240, 320, 3), dtype=np.uint8)
+            cv2.rectangle(frame, (50 + i * 8, 90), (110 + i * 8, 150), (255, 255, 255), -1)
+            frames.append(frame)
+        evidence = evaluate_operator_evidence(
+            frames,
+            {"task_id": "safe_001", "task_category": "industrial_logic_and_compliance"},
+            reference_image=frames[0],
+        )
+        safety = evidence["operators"]["safety_compliance_motion"]
+        assert safety["used_for_axis_cap"] is False
+        assert safety["tier"] == "judge_evidence"
+
+    def test_visual_quality_is_diagnostic_on_middle_frames(self):
+        frames = []
+        for _ in range(8):
+            frame = np.zeros((240, 320, 3), dtype=np.uint8)
+            cv2.putText(frame, "FORGE", (40, 130), cv2.FONT_HERSHEY_SIMPLEX, 1.6, (255, 255, 255), 3)
+            frames.append(frame)
+        result = evaluate_visual_quality(frames)
+        assert result["visual_quality_score"] is not None
+        assert result["visual_quality_level"] in {1, 2, 3}
+        assert 0 not in result["sampled_frame_indices"]
+        assert len(frames) - 1 not in result["sampled_frame_indices"]
+        assert result["score_policy"] == "diagnostic_only_not_in_headline_5_plus_1_score"
 
 
 class TestFloorEnforcer:
@@ -590,6 +622,70 @@ class TestScoring:
         assert result["scoring_validity"]["samples_complete_all_required_axes"] == 2
         assert "gated_score" in result["score_calibration"]["diagnostic_scores_excluded_from_overall"]
         assert "legacy_penalty_adjusted_score" in result["score_calibration"]["scores_excluded_from_overall"]
+
+    def test_aggregate_outputs_reasoning_and_visual_quality_diagnostics(self):
+        """RISE-style reasoning diagnostics and visual quality should aggregate without changing ranking policy."""
+        result = aggregate_sample_results([
+            {
+                "task_id": "reasoning_ok",
+                "skipped": False,
+                "domain": "visual_security",
+                "implicit_rule_type": "safety_compliance",
+                "task_category": "industrial_logic_and_compliance",
+                "scored": {
+                    "weighted_score": 80.0,
+                    "axis_scores": {
+                        INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80,
+                        TEMPORAL_CONSISTENCY: 80,
+                        PHYSICAL_PLAUSIBILITY: 80,
+                        REFERENCE_AND_MOTION_FIDELITY: 80,
+                        GEOMETRIC_INTEGRITY: 80,
+                    },
+                    "application_usefulness_score": 100.0,
+                    "observable_event_coverage": 100.0,
+                },
+                "reasoning_alignment_score": 100.0,
+                "reasoning_alignment_details": {
+                    "score": 100.0,
+                    "by_rule_type": {"safety_compliance": {"correct": 3, "total": 3}},
+                },
+                "visual_quality_score": 75.0,
+                "visual_quality_level": 3,
+            },
+            {
+                "task_id": "reasoning_partial",
+                "skipped": False,
+                "domain": "visual_security",
+                "implicit_rule_type": "safety_compliance",
+                "task_category": "industrial_logic_and_compliance",
+                "scored": {
+                    "weighted_score": 80.0,
+                    "axis_scores": {
+                        INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80,
+                        TEMPORAL_CONSISTENCY: 80,
+                        PHYSICAL_PLAUSIBILITY: 80,
+                        REFERENCE_AND_MOTION_FIDELITY: 80,
+                        GEOMETRIC_INTEGRITY: 80,
+                    },
+                    "application_usefulness_score": 100.0,
+                    "observable_event_coverage": 100.0,
+                },
+                "reasoning_alignment_score": 66.6667,
+                "reasoning_alignment_details": {
+                    "score": 66.6667,
+                    "by_rule_type": {"safety_compliance": {"correct": 2, "total": 3}},
+                },
+                "visual_quality_score": 45.0,
+                "visual_quality_level": 2,
+            },
+        ])
+        assert result["reasoning_alignment_score"] == pytest.approx(83.33335)
+        assert result["reasoning_rule_breakdown"]["safety_compliance"]["accuracy"] == pytest.approx(5 / 6)
+        assert result["visual_quality_score"] == pytest.approx(60.0)
+        assert result["visual_quality_summary"]["visual_quality_level_counts"] == {"2": 1, "3": 1}
+        assert result["all_critical_pass_accuracy"] == pytest.approx(0.5)
+        assert result["ranking_score"] == pytest.approx(84.0)
+        assert result["score_calibration"]["visual_quality_policy"].startswith("diagnostic")
 
     def test_aggregate_application_usefulness_penalizes_ranking_not_technical_score(self):
         """Low application usefulness should lower ranking while leaving technical score interpretable."""

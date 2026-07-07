@@ -100,6 +100,27 @@ failed"; task answers "which underlying capability failed".
 | `precision_defect_gen` | CNC cutting and assembly misalignment | PCB bridge, gear wear, weld/scratch/pin defects | Cutting-fluid spray | Endoscope and tube-bundle navigation | Inspection logic through localized constraints |
 | `extreme_emergency` | Emergency crane/load dynamics | Tower icing and wall breach | Flange leak, flash fire, reactor, battery, tunnel, plume | Emergency spatial continuity | Dust explosion, evacuation, response chain |
 
+## Implicit Rule Type
+
+`implicit_rule_type` is an auxiliary paper diagnostic inspired by reasoning
+benchmarks for image-to-video generation. It does not replace Domain x Task.
+Instead, it records the dominant world-rule family required by the sample:
+
+| Implicit Rule Type | Evaluation Role |
+|---|---|
+| `causal_procedure` | Correct event order, trigger, progression, and outcome. |
+| `physical_commonsense` | Mechanics, contact, pressure, gravity, fluid, heat, and material behavior. |
+| `spatial_topology` | Object relations, local topology, component counts, and structure preservation. |
+| `temporal_order` | Required time direction, continuity, persistence, and non-instructed stability. |
+| `safety_compliance` | Industrial rules, alarms, stops, evacuation, and response consequences. |
+| `subject_domain_knowledge` | Specialized industrial or scientific knowledge beyond generic commonsense. |
+| `perceptual_count_attribute` | Count, size, color, position, and fine local attribute grounding. |
+| `reference_identity` | Reference-image identity, perspective, region locking, and camera-control grounding. |
+
+`reasoning_alignment_questions` provide binary checks over these rule types.
+Aggregate reports expose both mean `reasoning_alignment_score` and
+`reasoning_rule_breakdown`.
+
 ## Scoring Formula
 
 ```text

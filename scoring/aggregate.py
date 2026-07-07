@@ -874,6 +874,90 @@ def _application_coverage_summary(completed: list[dict]) -> dict:
     }
 
 
+def _reasoning_alignment_score(result: dict) -> float | None:
+    score = result.get("reasoning_alignment_score")
+    if score is None:
+        score = (result.get("reasoning_alignment_details") or {}).get("score")
+    return float(score) if score is not None else None
+
+
+def _visual_quality_score(result: dict) -> float | None:
+    score = result.get("visual_quality_score")
+    if score is None:
+        score = (result.get("visual_quality_details") or {}).get("visual_quality_score")
+    return float(score) if score is not None else None
+
+
+def _reasoning_rule_breakdown(completed: list[dict]) -> dict:
+    totals: dict[str, int] = {}
+    corrects: dict[str, int] = {}
+    for result in completed:
+        details = result.get("reasoning_alignment_details") or {}
+        by_rule = details.get("by_rule_type") or {}
+        for rule_type, payload in by_rule.items():
+            totals[rule_type] = totals.get(rule_type, 0) + int(payload.get("total", 0))
+            corrects[rule_type] = corrects.get(rule_type, 0) + int(payload.get("correct", 0))
+    return {
+        rule_type: {
+            "correct": corrects.get(rule_type, 0),
+            "total": totals[rule_type],
+            "accuracy": corrects.get(rule_type, 0) / totals[rule_type] if totals[rule_type] else None,
+        }
+        for rule_type in sorted(totals)
+    }
+
+
+def _visual_quality_summary(completed: list[dict]) -> dict:
+    scores = [score for score in (_visual_quality_score(r) for r in completed) if score is not None]
+    levels = [
+        int((r.get("visual_quality_details") or {}).get("visual_quality_level", r.get("visual_quality_level")))
+        for r in completed
+        if (r.get("visual_quality_details") or {}).get("visual_quality_level", r.get("visual_quality_level")) is not None
+    ]
+    return {
+        "visual_quality_score": float(np.mean(scores)) if scores else None,
+        "visual_quality_score_ci95": _cluster_mean_confidence_interval(
+            scores,
+            [str(r.get("scene_id") or r.get("task_id", "")) for r in completed if _visual_quality_score(r) is not None],
+        ),
+        "visual_quality_level_mean": float(np.mean(levels)) if levels else None,
+        "visual_quality_level_counts": {
+            str(level): levels.count(level)
+            for level in sorted(set(levels))
+        },
+        "policy": "diagnostic_only_not_in_headline_5_plus_1_score",
+    }
+
+
+def _sample_passes_all_critical(result: dict) -> bool:
+    """Strict paper accuracy: critical axes pass, reasoning is exact, application complete, no hard cap."""
+    scored = result.get("scored", {})
+    axis_scores = canonicalize_axis_dict(scored.get("axis_scores", {}))
+    critical_axes = _critical_axes_for(result, axis_scores)
+    if not critical_axes:
+        return False
+    for axis in critical_axes:
+        if float(axis_scores.get(axis, 0.0)) < CONFIG["strict_axis_threshold"]:
+            return False
+
+    reasoning = _reasoning_alignment_score(result)
+    if reasoning is not None and reasoning < 100.0:
+        return False
+
+    coverage = _observable_event_coverage(result)
+    if coverage is not None and coverage < 100.0:
+        return False
+
+    app = _application_score_strict(result)
+    if app is not None and app < CONFIG["strict_axis_threshold"]:
+        return False
+
+    adjustment = _constraint_adjustment(result)
+    if adjustment.get("cap_reasons") or adjustment.get("hard_application_failure_reasons"):
+        return False
+    return True
+
+
 def _rankdata(values: list[float]) -> list[float]:
     """Return average ranks for Spearman correlation without scipy."""
     order = sorted(range(len(values)), key=lambda idx: values[idx])
@@ -1196,6 +1280,12 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
             "complete_case_relax_score_ci95": {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0},
             "strict_pass_rate": 0.0,
             "functional_pass_rate": 0.0,
+            "all_critical_pass_accuracy": 0.0,
+            "reasoning_alignment_score": None,
+            "reasoning_alignment_score_ci95": {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0},
+            "reasoning_rule_breakdown": {},
+            "visual_quality_score": None,
+            "visual_quality_summary": {},
             "axis_pass_rates": {},
             "motion_gated_score": 0.0,
             "gated_score": 0.0,
@@ -1310,6 +1400,13 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         for r in completed
     ]
     functional_flags = [_sample_passes_functional(r) for r in completed]
+    all_critical_flags = [_sample_passes_all_critical(r) for r in completed]
+    reasoning_alignment_scores = [
+        score for score in (_reasoning_alignment_score(r) for r in completed) if score is not None
+    ]
+    visual_quality_scores = [
+        score for score in (_visual_quality_score(r) for r in completed) if score is not None
+    ]
     motion_gated_scores = [
         float(r["scored"].get("weighted_score", 0.0))
         * _viewpoint_motion_gate_multiplier(r)
@@ -1352,6 +1449,20 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     )
     aggregate["strict_pass_rate"] = float(np.mean(strict_flags))
     aggregate["functional_pass_rate"] = float(np.mean(functional_flags))
+    aggregate["all_critical_pass_accuracy"] = float(np.mean(all_critical_flags))
+    reasoning_cluster_ids = [
+        str(r.get("scene_id") or r.get("task_id", ""))
+        for r in completed if _reasoning_alignment_score(r) is not None
+    ]
+    aggregate["reasoning_alignment_score"] = (
+        float(np.mean(reasoning_alignment_scores)) if reasoning_alignment_scores else None
+    )
+    aggregate["reasoning_alignment_score_ci95"] = _cluster_mean_confidence_interval(
+        reasoning_alignment_scores, reasoning_cluster_ids
+    )
+    aggregate["reasoning_rule_breakdown"] = _reasoning_rule_breakdown(completed)
+    aggregate["visual_quality_score"] = float(np.mean(visual_quality_scores)) if visual_quality_scores else None
+    aggregate["visual_quality_summary"] = _visual_quality_summary(completed)
     aggregate["axis_pass_rates"] = _axis_pass_rates(completed)
     aggregate["motion_gated_score"] = float(np.mean(motion_gated_scores))
     aggregate["gated_score"] = float(np.mean(gated_scores))
@@ -1486,6 +1597,9 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         "technical_score_by_application_type": _group_confidence_intervals(completed, "application_type", _task_conditioned_score),
         "application_score_by_application_type": _group_confidence_intervals(completed, "application_type", _application_score),
         "application_score_by_domain": _group_confidence_intervals(completed, "domain", _application_score),
+        "reasoning_alignment_by_domain": _group_confidence_intervals(completed, "domain", _reasoning_alignment_score),
+        "reasoning_alignment_by_implicit_rule_type": _group_confidence_intervals(completed, "implicit_rule_type", _reasoning_alignment_score),
+        "visual_quality_by_domain": _group_confidence_intervals(completed, "domain", _visual_quality_score),
         "ranking_score_by_domain": _group_confidence_intervals(completed, "domain", _ranking_score),
         "linear_ranking_score_by_domain": _group_confidence_intervals(completed, "domain", _linear_ranking_score),
         "domain": _group_confidence_intervals(completed, "domain"),
@@ -1515,6 +1629,9 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         "application_score_formula": "application_score = strict 0.7*application_usefulness + 0.3*observable_event_coverage",
         "linear_ranking_score_formula": "linear_ranking_score = 0.8*technical_score + 0.2*application_score_strict",
         "ranking_score_formula": "ranking_score = hard_adjust(linear_ranking_score) over complete required-axis samples",
+        "all_critical_pass_accuracy_formula": "critical task axes pass strict threshold, reasoning_alignment is 100 when available, observable event coverage is 100 when available, and no hard caps apply",
+        "reasoning_alignment_formula": "binary question accuracy over manually specified implicit-rule checks",
+        "visual_quality_policy": "diagnostic middle-frame technical quality score excluded from headline ranking_score",
         "task_conditioned_score_formula": "technical_score arithmetic mean; no weighted/harmonic blend and no task-critical bottleneck multiplier",
         "constraint_adjusted_score_formula": "compatibility alias for ranking_score; hard caps and hard application penalties are applied",
         "hard_application_failure_penalty": "applied to headline ranking and retained as diagnostic evidence",

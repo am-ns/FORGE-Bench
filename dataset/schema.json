@@ -24,6 +24,8 @@
     "application_success_criteria",
     "misleading_failure_modes",
     "industrial_logic_questions",
+    "implicit_rule_type",
+    "reasoning_alignment_questions",
     "sensitivity_variants"
   ],
   "properties": {
@@ -263,6 +265,63 @@
           "answer": {
             "type": "string",
             "enum": ["yes", "no"]
+          },
+          "weakness_target": {
+            "type": "string",
+            "enum": [
+              "causal_chain_completeness",
+              "required_observable_event_presence",
+              "misleading_failure_mode_absence",
+              "geometric_topology_preservation",
+              "physical_plausibility",
+              "temporal_consistency",
+              "reference_fidelity"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "implicit_rule_type": {
+      "type": "string",
+      "description": "Dominant implicit world-rule family for RISE-style reasoning diagnostics.",
+      "enum": [
+        "causal_procedure",
+        "physical_commonsense",
+        "spatial_topology",
+        "temporal_order",
+        "safety_compliance",
+        "subject_domain_knowledge",
+        "perceptual_count_attribute",
+        "reference_identity"
+      ]
+    },
+    "reasoning_alignment_questions": {
+      "type": "array",
+      "description": "Binary reasoning questions used to compute reasoning_alignment_score.",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["id", "text", "answer", "implicit_rule_type", "weakness_target"],
+        "properties": {
+          "id": { "type": "string" },
+          "text": { "type": "string", "minLength": 10 },
+          "answer": {
+            "type": "string",
+            "enum": ["yes", "no"]
+          },
+          "implicit_rule_type": {
+            "type": "string",
+            "enum": [
+              "causal_procedure",
+              "physical_commonsense",
+              "spatial_topology",
+              "temporal_order",
+              "safety_compliance",
+              "subject_domain_knowledge",
+              "perceptual_count_attribute",
+              "reference_identity"
+            ]
           },
           "weakness_target": {
             "type": "string",
