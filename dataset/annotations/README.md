@@ -34,7 +34,7 @@ scene families. The copied review folder is
 | `topology_type` | string | Primary topology family: `surface`, `lattice`, `kinematic`, or `flexible`. |
 | `constraint_annotations` | object | Hard constraints, failure modes, domain scenario, abstract task category, and full-name model-evaluation axes. |
 | `industrial_logic_questions` | array | Yes/no questions used for industrial logic and fact alignment. |
-| `difficulty_profile` | object | Per-axis difficulty keyed by full-name axis. |
+| `difficulty_profile` | object | Per-axis difficulty keyed by full-name axis; levels are `easy`, `medium`, `hard`, and `adversarial`, based on structure, motion, periodic density, physical constraints, reference detail, and model-weakness targeting. |
 | `sensitivity_variants` | array | Easy/hard prompt deltas and viewpoint-motion target deltas. |
 
 ## Validation

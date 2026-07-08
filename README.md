@@ -109,6 +109,28 @@ Each sample also carries `difficulty_level` for aggregate reporting and
 `difficulty_profile` for per-axis calibration. The current release is a
 challenge-focused set: `hard` and `adversarial` samples only.
 
+## Difficulty Rating
+
+Each sample is annotated with difficulty on five scoring axes:
+IndustrialKnowledgeAlignment, TemporalConsistency, PhysicalPlausibility,
+ReferenceAndMotionFidelity, and GeometricIntegrity. In the dataset schema these
+are stored with the full-name field identifiers `industrial_logic_and_fact_alignment`,
+`temporal_consistency`, `physical_plausibility`, `reference_and_motion_fidelity`,
+and `geometric_integrity`.
+
+Difficulty is not determined by motion magnitude alone. The rating jointly
+considers industrial object structural complexity, viewpoint or motion range,
+dense periodic structures, physical constraint strength, reference-image detail
+complexity, and whether the task targets common weaknesses in current video
+generation models.
+
+| Level | Meaning |
+|---|---|
+| `easy` | Simple structure, small motion, low complexity, and weak physical constraints. |
+| `medium` | Standard industrial equipment, moderate motion range, and multi-component relationships. |
+| `hard` | Large-angle motion, complex mechanisms, fine periodic structures, and strong geometric or physical constraints. |
+| `adversarial` | Tasks specifically designed to stress model weaknesses, such as complex motion, strong constraints, topology merging, part drift, or static videos pretending to satisfy motion tasks. |
+
 ## Prompt Standard
 
 Each sample has two prompt fields:

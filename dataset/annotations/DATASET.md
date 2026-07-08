@@ -31,6 +31,33 @@ the camera-motion gate. Industrial constraint checks are folded into
 `geometric_integrity`, where they contribute topology, count, joint, and local
 defect constraints.
 
+## Difficulty Rating
+
+Each sample is annotated with difficulty on five scoring axes:
+IndustrialKnowledgeAlignment, TemporalConsistency, PhysicalPlausibility,
+ReferenceAndMotionFidelity, and GeometricIntegrity. In annotation files these
+correspond to `industrial_logic_and_fact_alignment`, `temporal_consistency`,
+`physical_plausibility`, `reference_and_motion_fidelity`, and
+`geometric_integrity`.
+
+Difficulty is not determined by motion magnitude alone. The rating jointly
+considers:
+
+- industrial object structural complexity;
+- viewpoint or motion range;
+- dense periodic structures;
+- physical constraint strength;
+- reference-image detail complexity;
+- whether the task targets common weaknesses in current video generation
+  models.
+
+| Level | Meaning |
+|---|---|
+| `easy` | Simple structure, small motion, low complexity, and weak physical constraints. |
+| `medium` | Standard industrial equipment, moderate motion range, and multi-component relationships. |
+| `hard` | Large-angle motion, complex mechanisms, fine periodic structures, and strong geometric or physical constraints. |
+| `adversarial` | Tasks specifically designed to stress model weaknesses, such as complex motion, strong constraints, topology merging, part drift, or static videos pretending to satisfy motion tasks. |
+
 ## Task Categories
 
 Each sample has one abstract task category:
