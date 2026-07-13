@@ -75,7 +75,8 @@ determines the scenario family and the report breakdown.
 
 Each sample carries two difficulty views:
 
-- `difficulty_level`: aggregate challenge tier for filtering and reporting.
+- `difficulty_level`: official aggregate content tier for filtering and stratified reporting.
+- `challenge_difficulty_level`: legacy challenge-focused tier retained for provenance.
 - `difficulty_profile`: per-axis difficulty keyed by full-name evaluation axis.
 
 The aggregate tier is derived from the per-axis profile: any adversarial axis

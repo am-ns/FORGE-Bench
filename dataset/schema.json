@@ -105,8 +105,21 @@
     },
     "difficulty_level": {
       "type": "string",
-      "description": "Aggregate sample difficulty derived from the per-axis difficulty profile.",
+      "description": "Official aggregate content difficulty used for stratified benchmark reporting.",
       "enum": ["easy", "medium", "hard", "adversarial"]
+    },
+    "challenge_difficulty_level": {
+      "type": ["string", "null"],
+      "description": "Legacy challenge-focused label retained for provenance.",
+      "enum": ["easy", "medium", "hard", "adversarial", null]
+    },
+    "content_difficulty_score": {
+      "type": "number",
+      "minimum": 0
+    },
+    "content_difficulty_factors": {
+      "type": "object",
+      "additionalProperties": {"type": "number"}
     },
     "constraint_annotations": {
       "type": "object",

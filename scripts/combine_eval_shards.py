@@ -103,6 +103,10 @@ def main() -> None:
             task: aggregate_group([r for r in completed if r.get("task_category") == task])
             for task in sorted({r.get("task_category") for r in completed})
         }
+        aggregate["difficulty_breakdown"] = {
+            level: aggregate_group([r for r in completed if r.get("difficulty_level") == level])
+            for level in sorted({r.get("difficulty_level") for r in completed if r.get("difficulty_level")})
+        }
         aggregate["model_evaluation_axes"] = MODEL_EVALUATION_AXES
         aggregate["low_fidelity_summary"] = {
             "domains_physical_low": [

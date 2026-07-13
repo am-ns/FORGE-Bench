@@ -105,9 +105,16 @@ continuity failures cap `physical_plausibility`, and global regeneration caps
 `reference_and_motion_fidelity` and temporal consistency. These signals are not
 used as separate multiplicative ranking penalties.
 
-Each sample also carries `difficulty_level` for aggregate reporting and
-`difficulty_profile` for per-axis calibration. The current release is a
-challenge-focused set: `hard` and `adversarial` samples only.
+Each sample carries `difficulty_level` for aggregate content-difficulty
+reporting and `difficulty_profile` for per-axis calibration. In the operational
+500-sample video-generation split, the official tiers are assigned before model
+evaluation from prompt, task, motion, interaction, event, and constraint
+complexity using a fixed 20/30/30/20 easy/medium/hard/adversarial layout.
+`easy` is relative to this industrial set
+and still requires observable events, structural preservation, and temporal
+coherence; it does not denote a generally easy video-generation prompt. The
+older challenge-focused label is retained as `challenge_difficulty_level` for
+provenance and is not used for the paper's primary difficulty stratification.
 
 ## Difficulty Rating
 
@@ -138,6 +145,16 @@ Each sample has two prompt fields:
 - `video_generation_prompt`: short, direct prompt intended for image-to-video
   generation models.
 - `prompt`: fuller evaluation-base prompt used by judges and reports.
+
+The generation-facing prompt is a compact execution contract rather than a
+summary label. It must contain one concrete, observable event aligned with the
+judge-facing core scenario, explicit camera control, a visible terminal state,
+reference/non-event-region preservation, and artifact prohibitions. Existing
+concise `task_title` text is preserved. When a sample has no `task_title`, the
+builder uses the canonical `constraint_annotations.domain_scenario` instead of
+repeating `reference_subject` or `scene_id`; those identifiers describe a
+setting but do not specify a scoreable action. Generation prompts are capped at
+900 characters by the standard rebuild path.
 
 The evaluation prompt follows this structure:
 

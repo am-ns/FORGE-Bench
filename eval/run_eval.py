@@ -655,6 +655,9 @@ def evaluate_sample(
         "sub_topology": sub_topology,
         "motion_type": sample.get("motion_type"),
         "difficulty_profile": sample.get("difficulty_profile", {}),
+        "difficulty_level": sample.get("difficulty_level"),
+        "challenge_difficulty_level": sample.get("challenge_difficulty_level"),
+        "content_difficulty_score": sample.get("content_difficulty_score"),
         "weakness_targets": [
             q.get("weakness_target") for q in questions if q.get("weakness_target")
         ],
@@ -827,6 +830,10 @@ def main() -> None:
             task_results = [r for r in completed if r.get("task_category") == task]
             by_task[task] = _aggregate_group(task_results)
         aggregate["task_breakdown"] = by_task
+        aggregate["difficulty_breakdown"] = {
+            level: _aggregate_group([r for r in completed if r.get("difficulty_level") == level])
+            for level in sorted({r.get("difficulty_level") for r in completed if r.get("difficulty_level")})
+        }
         aggregate["model_evaluation_axes"] = MODEL_EVALUATION_AXES
         aggregate["low_fidelity_summary"] = {
             "domains_physical_low": [

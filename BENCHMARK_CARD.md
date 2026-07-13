@@ -128,6 +128,15 @@ domain. The copied image folder is `reports/video_generation_500_images/`.
 | `medium` | 0 |
 | `easy` | 0 |
 
+These counts describe the legacy 960-sample challenge taxonomy. For the
+operational 500-sample video-generation split used in current model runs and
+paper difficulty stratification, `difficulty_level` is assigned before model
+evaluation from content complexity with a fixed 20/30/30/20 layout: 100 easy,
+150 medium, 150 hard, and 100 adversarial. Here `easy` means relatively lower
+generation load within an industrial challenge set, not a generally trivial
+prompt. The former label is retained as `challenge_difficulty_level`; generation
+prompts and reference images are unchanged.
+
 **Application type sample counts**:
 
 | Application Type | Samples |
