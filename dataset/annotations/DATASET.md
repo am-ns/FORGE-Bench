@@ -40,23 +40,25 @@ correspond to `industrial_logic_and_fact_alignment`, `temporal_consistency`,
 `physical_plausibility`, `reference_and_motion_fidelity`, and
 `geometric_integrity`.
 
-Difficulty is not determined by motion magnitude alone. The rating jointly
-considers:
+Difficulty is assigned before model evaluation and is not determined by motion
+magnitude alone. The official content tier jointly considers:
 
 - industrial object structural complexity;
 - viewpoint or motion range;
 - dense periodic structures;
 - physical constraint strength;
 - reference-image detail complexity;
+- multi-entity interaction and required-event count;
+- hidden or coupled constraints;
 - whether the task targets common weaknesses in current video generation
   models.
 
 | Level | Meaning |
 |---|---|
-| `easy` | Simple structure, small motion, low complexity, and weak physical constraints. |
-| `medium` | Standard industrial equipment, moderate motion range, and multi-component relationships. |
-| `hard` | Large-angle motion, complex mechanisms, fine periodic structures, and strong geometric or physical constraints. |
-| `adversarial` | Tasks specifically designed to stress model weaknesses, such as complex motion, strong constraints, topology merging, part drift, or static videos pretending to satisfy motion tasks. |
+| `easy` | Relatively lower load inside FORGE-Bench, while still requiring an industrial event, identity preservation, and temporal coherence; never a trivial or unconstrained prompt. |
+| `medium` | Moderate camera/action range with multiple components or stages and interacting structural, physical, temporal, or application constraints. |
+| `hard` | Large viewpoint change, complex mechanisms/contact, fine periodic or local geometry, occlusion, multi-step events, or strong geometric/physical constraints. |
+| `adversarial` | Deliberately stresses known failure modes under simultaneous constraints, including topology merging, count or part drift, identity swaps, implausible dynamics, misleading consequences, global regeneration, and motion substitution. |
 
 ## Task Categories
 
@@ -79,10 +81,17 @@ Each sample carries two difficulty views:
 - `challenge_difficulty_level`: legacy challenge-focused tier retained for provenance.
 - `difficulty_profile`: per-axis difficulty keyed by full-name evaluation axis.
 
-The aggregate tier is derived from the per-axis profile: any adversarial axis
-makes the sample `adversarial`; otherwise samples with at least two hard axes
-are `hard`; remaining samples are `medium` or `easy` if those lower-tier
-profiles are introduced.
+For the operational 500-sample split, the aggregate tier is assigned from a
+model-independent content-complexity score and relative 20/30/30/20 layout.
+It is not derived mechanically from the hardest per-axis label. The per-axis
+profile remains available for calibration, while `challenge_difficulty_level`
+preserves the former hardest-axis-oriented taxonomy.
+
+Weakness targets are cross-axis failure labels attached to adversarial yes/no
+questions. They localize failures such as incomplete causal chains, missing
+required events, misleading consequences, topology merging, part drift, or
+motion substitution. A target name alone does not determine the difficulty
+tier; the concrete event and constraint burden does.
 
 ## Scenario Blueprint
 

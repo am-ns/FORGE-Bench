@@ -125,18 +125,33 @@ are stored with the full-name field identifiers `industrial_logic_and_fact_align
 `temporal_consistency`, `physical_plausibility`, `reference_and_motion_fidelity`,
 and `geometric_integrity`.
 
-Difficulty is not determined by motion magnitude alone. The rating jointly
-considers industrial object structural complexity, viewpoint or motion range,
-dense periodic structures, physical constraint strength, reference-image detail
-complexity, and whether the task targets common weaknesses in current video
-generation models.
+Difficulty is assigned before model evaluation and is not determined by motion
+magnitude alone. The official aggregate tier jointly considers industrial
+object structural complexity, viewpoint or motion range, dense periodic
+structures, physical constraint strength, reference-image detail complexity,
+multi-entity interaction, required-event count, hidden constraints, and whether
+the task targets common video-generation weaknesses. Per-axis
+`difficulty_profile` remains a separate expert calibration view; weakness
+targets are cross-axis failure labels rather than difficulty levels by
+themselves.
 
 | Level | Meaning |
 |---|---|
-| `easy` | Simple structure, small motion, low complexity, and weak physical constraints. |
-| `medium` | Standard industrial equipment, moderate motion range, and multi-component relationships. |
-| `hard` | Large-angle motion, complex mechanisms, fine periodic structures, and strong geometric or physical constraints. |
-| `adversarial` | Tasks specifically designed to stress model weaknesses, such as complex motion, strong constraints, topology merging, part drift, or static videos pretending to satisfy motion tasks. |
+| `easy` | Relatively lower load within FORGE-Bench, but still an industrial challenge: a clear primary subject and event, fewer coupled interactions, and constraints that still require observable-event completion, identity preservation, and temporal coherence. It does not mean a trivial or weakly constrained prompt. |
+| `medium` | Standard industrial equipment with moderate camera/action range, multiple components or event stages, and at least two interacting structural, physical, temporal, or application constraints. |
+| `hard` | High generation burden from large viewpoint change, complex mechanisms or contact, fine periodic/local geometry, multi-step events, occlusion, or strong geometric and physical constraints. |
+| `adversarial` | Deliberately targets known model failure modes, usually under several simultaneous constraints: topology merging, component-count drift, identity swaps, implausible coupling or propagation, misleading industrial consequences, global regeneration, or static/incorrect motion substituting for the requested camera move. |
+
+### Weakness Targets
+
+Weakness targets identify the principal model failure being stressed by a
+sample. They cut across the five technical axes and are not merely industrial
+knowledge questions. Adversarial yes/no questions bind visible evidence to a
+weakness target so reports can distinguish failures such as incomplete causal
+chains, missing required events, misleading consequences, topology merging,
+part drift, or motion substitution. A weakness target contributes to difficulty
+only through the concrete complexity and constraints present in the sample; its
+label alone does not automatically make a sample adversarial.
 
 ## Prompt Standard
 
