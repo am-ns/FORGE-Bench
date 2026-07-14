@@ -1,0 +1,64 @@
+{
+  "count": 100,
+  "old_mean": 72.68,
+  "new_mean": 69.3917956875,
+  "mean_delta": -3.2882043125000058,
+  "new_stddev": 18.255107012366015,
+  "conflicts_arbitrated": 0,
+  "samples_with_duplicate_failure_labels": 4,
+  "reasoning_mean": 67.3775,
+  "diagnostics": {
+    "bootstrap_mean_ci95": [
+      65.4961699375,
+      72.8140255
+    ],
+    "cluster_bootstrap_mean_ci95": [
+      66.84184859374999,
+      72.24178179012345
+    ],
+    "cluster_key": "task_category_or_domain_or_task_prefix",
+    "bootstrap_iterations": 1000,
+    "old_new_spearman": 0.987002372914987,
+    "top_10_overlap": 0.8,
+    "zero_technical_samples": 1,
+    "zero_technical_with_positive_headline": 0,
+    "sensitivity_variants": {
+      "lower_reasoning_weight": {
+        "mean": 69.98364784374999,
+        "override": {
+          "reasoning_weight": 0.025
+        }
+      },
+      "higher_reasoning_weight": {
+        "mean": 68.20809137500001,
+        "override": {
+          "reasoning_weight": 0.1
+        }
+      },
+      "stricter_conflict": {
+        "mean": 69.3917956875,
+        "override": {
+          "conflict_delta": 25.0
+        }
+      },
+      "looser_conflict": {
+        "mean": 69.3917956875,
+        "override": {
+          "conflict_delta": 45.0
+        }
+      },
+      "no_reasoning_adjustment": {
+        "mean": 70.5755,
+        "override": {
+          "reasoning_weight": 0.0
+        }
+      },
+      "higher_application_weight": {
+        "mean": 65.93365725,
+        "override": {
+          "application_weight": 0.4
+        }
+      }
+    }
+  }
+}

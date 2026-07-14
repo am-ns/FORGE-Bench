@@ -51,7 +51,7 @@ CONFIG = {
     "enable_uncalibrated_geometric_conflict_cap": False,
     "motion_cv_min_confidence": 0.70,
     "motion_vlm_weight": 0.75,
-    "headline_score_policy": "paper_v3_calibrated_evidence_complete_case_ranking_score",
+    "headline_score_policy": "paper_v4_1_1_conflict_arbitrated_redundancy_limited_multiplicative_reasoning_score",
     "bootstrap_iterations": 1000,
     "bootstrap_seed": 1729,
     "apply_axis_floors": False,
