@@ -21,6 +21,9 @@ from scoring.aggregate import CONFIG as AGGREGATE_CONFIG
 from scoring.per_sample import CONFIG as PER_SAMPLE_CONFIG
 
 
+METHODOLOGY_VERSION = "forge-bench-paper-v3.0"
+
+
 def file_sha256(path: str | Path) -> str | None:
     """Return the SHA-256 digest for a file, or None when absent."""
     fpath = Path(path)
@@ -83,6 +86,7 @@ def build_run_metadata(
 
     return {
         "schema_version": "forge-bench-result-v2",
+        "methodology_version": METHODOLOGY_VERSION,
         "created_utc": datetime.now(timezone.utc).isoformat(),
         "model_name": model_name,
         "evaluated_model_name": model_name,

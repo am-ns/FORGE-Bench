@@ -48,7 +48,10 @@ CONFIG = {
     "geometric_conflict_delta": 40.0,
     "geometric_conflict_operator_threshold": 60.0,
     "geometric_conflict_cap": 60.0,
-    "headline_score_policy": "paper_adjusted_complete_case_ranking_score",
+    "enable_uncalibrated_geometric_conflict_cap": False,
+    "motion_cv_min_confidence": 0.70,
+    "motion_vlm_weight": 0.75,
+    "headline_score_policy": "paper_v3_calibrated_evidence_complete_case_ranking_score",
     "bootstrap_iterations": 1000,
     "bootstrap_seed": 1729,
     "apply_axis_floors": False,
@@ -59,7 +62,6 @@ MOTION_GATE_TYPES = {"static"}
 CAP_ELIGIBLE_OPERATORS = {"local_region_lock", "temporal_break", "rigid_joint_tracking"}
 HARD_APPLICATION_FAILURE_MODES = {
     "misleading_safety_response",
-    "application_objective_not_supported",
 }
 
 
@@ -440,6 +442,8 @@ def _application_event_coverage_cap(result: dict) -> tuple[float | None, list[st
 
 def _geometric_conflict_cap(result: dict) -> tuple[float | None, list[str]]:
     """Cap ranking when CV geometry evidence strongly contradicts VLM geometry."""
+    if not CONFIG["enable_uncalibrated_geometric_conflict_cap"]:
+        return None, []
     conflict_details = result.get("geometric_integrity_conflict_details") or {}
     if conflict_details.get("conflict") is True:
         operator_score = conflict_details.get("operator_score")
@@ -543,7 +547,10 @@ def _reference_motion_decomposition(completed: list[dict]) -> dict:
         scored = result.get("scored", {})
         scores = canonicalize_axis_dict(scored.get("axis_scores", {}))
         ref = scored.get("reference_preservation_score", scores.get(REFERENCE_AND_MOTION_FIDELITY))
-        motion = scored.get("motion_control_score", scored.get("viewpoint_motion_score", result.get("viewpoint_motion_score")))
+        motion_details = result.get("reference_and_motion_fidelity_details") or {}
+        motion = motion_details.get("motion_execution_score")
+        if motion is None:
+            motion = scored.get("motion_control_score", scored.get("viewpoint_motion_score", result.get("viewpoint_motion_score")))
         gate = scored.get("motion_gate_applied")
         if gate is None:
             gate = (
@@ -648,7 +655,12 @@ def _operator_risk_multiplier(result: dict) -> float:
 
 
 def _viewpoint_motion_constraint(result: dict) -> tuple[float | None, float | None, list[str]]:
-    """Return motion-control constraint score, optional hard cap, and reasons."""
+    """Return corroborated motion score, optional cap, and reasons.
+
+    CV evidence participates only when its validity and confidence are high.
+    Otherwise the separately elicited VLM motion score is used. A low,
+    uncalibrated CV estimate can therefore no longer veto a sample by itself.
+    """
     scored = result.get("scored", {})
     task_category = result.get("task_category") or scored.get("task_category")
     motion_type = result.get("motion_type")
@@ -661,29 +673,38 @@ def _viewpoint_motion_constraint(result: dict) -> tuple[float | None, float | No
     if not gate_applied:
         return None, None, []
 
-    viewpoint_motion_score = scored.get("viewpoint_motion_score", result.get("viewpoint_motion_score"))
-    if viewpoint_motion_score is None:
-        viewpoint_motion_score = canonicalize_axis_dict(scored.get("axis_scores", {})).get(VIEWPOINT_MOTION_FIDELITY)
-    if viewpoint_motion_score is None:
-        return None, None, []
+    cv_score = scored.get("viewpoint_motion_score", result.get("viewpoint_motion_score"))
+    motion_operator = ((result.get("operator_evidence") or {}).get("operators") or {}).get("viewpoint_motion_fidelity") or {}
+    cv_valid = motion_operator.get("validity") == "valid"
+    try:
+        cv_confidence = float(motion_operator.get("confidence", 0.0))
+    except (TypeError, ValueError):
+        cv_confidence = 0.0
+    details = result.get("reference_and_motion_fidelity_details") or {}
+    vlm_score = details.get("motion_execution_score")
 
-    score = max(0.0, min(100.0, float(viewpoint_motion_score)))
+    score: float | None = None
+    if vlm_score is not None:
+        score = max(0.0, min(100.0, float(vlm_score)))
+        if cv_score is not None and cv_valid and cv_confidence >= CONFIG["motion_cv_min_confidence"]:
+            cv_value = max(0.0, min(100.0, float(cv_score)))
+            vlm_weight = float(CONFIG["motion_vlm_weight"])
+            score = vlm_weight * score + (1.0 - vlm_weight) * cv_value
+    elif cv_score is not None and cv_valid and cv_confidence >= CONFIG["motion_cv_min_confidence"]:
+        score = max(0.0, min(100.0, float(cv_score)))
+
+    if score is None:
+        return None, None, []
     reasons: list[str] = []
     cap: float | None = None
     if motion_type == "static":
         if score < 20.0:
-            cap = 45.0
+            cap = 55.0
             reasons.append("static_motion_constraint_severe_failure")
-        elif score < 60.0:
-            cap = 60.0
-            reasons.append("static_motion_constraint_partial_failure")
     else:
         if score < 20.0:
-            cap = 45.0
+            cap = 55.0
             reasons.append("viewpoint_motion_constraint_severe_failure")
-        elif score < 60.0:
-            cap = 65.0
-            reasons.append("viewpoint_motion_constraint_partial_failure")
     return score, cap, reasons
 
 

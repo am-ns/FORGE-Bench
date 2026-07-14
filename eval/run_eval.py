@@ -306,7 +306,12 @@ def _conservative_geometric_score(
     model_score: float | None,
     operator_result: dict,
 ) -> tuple[float | None, dict]:
-    """Use CV geometry evidence as a conservative cap for large VLM disagreements."""
+    """Arbitrate VLM geometry with uncalibrated CV evidence.
+
+    Until an operator is calibrated against human labels, disagreement is a
+    diagnostic audit flag rather than a headline cap. This prevents natural
+    perspective change from being mistaken for topology collapse.
+    """
     if model_score is None:
         return None, {"policy": "missing_model_score"}
     operator_score = operator_result.get("result_score")
@@ -317,14 +322,15 @@ def _conservative_geometric_score(
         operator_score *= 100.0
     delta = float(model_score) - operator_score
     conflict = operator_score < 60.0 and delta >= 40.0
-    final_score = min(float(model_score), max(10.0, operator_score)) if conflict else float(model_score)
+    final_score = float(model_score)
     return final_score, {
-        "policy": "cv_operator_caps_vlm_on_large_conflict",
+        "policy": "model_led_cv_conflict_diagnostic_v3",
         "model_score": float(model_score),
         "operator_score": operator_score,
         "delta": delta,
         "conflict": conflict,
-        "cap_applied": conflict,
+        "cap_applied": False,
+        "operator_calibration_status": "uncalibrated_no_human_labels",
         "final_score": final_score,
     }
 
@@ -563,6 +569,9 @@ def evaluate_sample(
         try:
             r = judge_reference_and_motion_fidelity(frames, reference_image=reference_image, sample_meta=sample_for_judge)
             reference_and_motion_fidelity_result = {"reference_and_motion_fidelity_score": r.get("score"), "reasoning": r.get("reasoning", ""),
+                         "reference_preservation_score": r.get("reference_preservation_score"),
+                         "motion_execution_score": r.get("motion_execution_score"),
+                         "judge_confidence": r.get("confidence"),
                          "raw_response": r.get("raw_response", ""),
                          "tokens_used": r.get("tokens_used"),
                          "llm_parse_valid": r.get("llm_parse_valid"),

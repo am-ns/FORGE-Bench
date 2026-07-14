@@ -22,6 +22,9 @@ CONFIG = {
     "direction_ratio_min": 1.25,
     "global_motion_min_inlier_ratio": 0.35,
     "global_motion_min_coverage": 0.06,
+    # Use several intervals instead of only frame 0->1. Image-to-video clips
+    # commonly hold the conditioning frame briefly before camera motion starts.
+    "motion_probe_pairs": 8,
 }
 
 
@@ -406,9 +409,11 @@ def _translation_fidelity_score(
             return 0.0
         direction_score = 1.0
         direction = target.get("direction")
-        if direction == "right" and dx <= 0:
+        # Camera and image-plane motion have opposite signs: during a camera
+        # pan to the right, stable background features move left in the image.
+        if direction == "right" and dx >= 0:
             direction_score = 0.0
-        elif direction == "left" and dx >= 0:
+        elif direction == "left" and dx <= 0:
             direction_score = 0.0
         ratio = abs(dx) / max(abs(dy), 1e-6)
         axis_score = min(1.0, ratio / CONFIG["direction_ratio_min"])
@@ -423,6 +428,33 @@ def _translation_fidelity_score(
             return round(float(score), 4)
         return 100.0 if abs(float(scale_ratio) - 1.0) > 0.03 else 50.0
     return None
+
+
+def _sequence_motion_magnitude(gray_frames: list[np.ndarray], use_roi: bool) -> tuple[float, list[float]]:
+    """Return robust late-aware motion magnitude from multiple frame intervals.
+
+    The 75th percentile intentionally detects motion that begins after a short
+    static conditioning hold, while still resisting one isolated noisy pair.
+    """
+    if len(gray_frames) < 2:
+        return 0.0, []
+    pair_count = min(int(CONFIG["motion_probe_pairs"]), len(gray_frames) - 1)
+    anchors = np.linspace(0, len(gray_frames) - 2, pair_count, dtype=int).tolist()
+    magnitudes: list[float] = []
+    for index in sorted(set(anchors)):
+        g0 = _roi_center_crop(gray_frames[index]) if use_roi else gray_frames[index]
+        g1 = _roi_center_crop(gray_frames[index + 1]) if use_roi else gray_frames[index + 1]
+        try:
+            flow = cv2.calcOpticalFlowFarneback(
+                g0, g1, None, pyr_scale=0.5, levels=3, winsize=15,
+                iterations=3, poly_n=5, poly_sigma=1.2, flags=0,
+            )
+            magnitudes.append(float(np.mean(np.hypot(flow[..., 0], flow[..., 1]))))
+        except cv2.error:
+            continue
+    if not magnitudes:
+        return 0.0, []
+    return float(np.percentile(magnitudes, 75)), magnitudes
 
 
 def _estimate_translation_motion(first_gray: np.ndarray, last_gray: np.ndarray,
@@ -574,19 +606,8 @@ def compute_viewpoint_motion_fidelity(frames: list[np.ndarray], viewpoint_motion
         return result
 
     # -- Check for static video (no meaningful motion) --
-    mean_flow_mag = 0.0
-    try:
-        g0 = cv2.cvtColor(bgr_frames[0], cv2.COLOR_BGR2GRAY)
-        g1 = cv2.cvtColor(bgr_frames[1], cv2.COLOR_BGR2GRAY)
-        roi0 = _roi_center_crop(g0) if use_roi else g0
-        roi1 = _roi_center_crop(g1) if use_roi else g1
-        flow01 = cv2.calcOpticalFlowFarneback(
-            roi0, roi1, None, pyr_scale=0.5, levels=3, winsize=15,
-            iterations=3, poly_n=5, poly_sigma=1.2, flags=0,
-        )
-        mean_flow_mag = float(np.mean(np.sqrt(flow01[..., 0] ** 2 + flow01[..., 1] ** 2)))
-    except cv2.error:
-        pass
+    gray_frames = [cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) for frame in bgr_frames]
+    mean_flow_mag, motion_probe_magnitudes = _sequence_motion_magnitude(gray_frames, use_roi)
 
     translation_target = _parse_translation_target(viewpoint_motion_target, motion_type)
     if translation_target is not None:
@@ -621,6 +642,7 @@ def compute_viewpoint_motion_fidelity(frames: list[np.ndarray], viewpoint_motion
             "scale_ratio": round(float(scale_ratio), 4),
             "ransac_inliers": n_inliers,
             "mean_flow_magnitude_px_per_frame": round(float(mean_flow_mag), 4),
+            "motion_probe_magnitudes_px_per_frame": [round(value, 4) for value in motion_probe_magnitudes],
             "anchor_flow_magnitude_px": round(float(anchor_flow_mag), 4),
             "motion_constraint": translation_target,
             "dark_background": dark_bg,
@@ -639,6 +661,7 @@ def compute_viewpoint_motion_fidelity(frames: list[np.ndarray], viewpoint_motion
         result["viewpoint_motion_validity"] = "valid"
         result["viewpoint_motion_detail"] = {
             "mean_flow_magnitude_px_per_frame": round(mean_flow_mag, 4),
+            "motion_probe_magnitudes_px_per_frame": [round(value, 4) for value in motion_probe_magnitudes],
             "dark_background": dark_bg,
             **global_motion_support,
         }
@@ -684,14 +707,19 @@ def compute_viewpoint_motion_fidelity(frames: list[np.ndarray], viewpoint_motion
     result["num_frames_used"] = num_frames
     result["viewpoint_motion_estimation_method"] = "anchor_to_final_ransac"
     result["viewpoint_motion_confidence"] = _viewpoint_confidence(global_motion_support, "anchor_to_final_ransac")
+    # A 2-D affine in-plane rotation is not a calibrated estimator of a 3-D
+    # camera orbit. Keep it as diagnostic evidence but never present it as a
+    # valid orbit-fidelity measurement for headline scoring.
     result["viewpoint_motion_validity"] = (
-        "valid" if global_motion_support["global_motion_supported"]
-        else "low_global_motion_support"
+        "unsupported_3d_orbit_from_2d_affine"
+        if motion_type == "orbit"
+        else ("valid" if global_motion_support["global_motion_supported"] else "low_global_motion_support")
     )
     result["viewpoint_motion_detail"] = {
         "anchor_to_final_angle_deg": round(float(angle_deg), 4),
         "ransac_inliers": n_inliers,
         "mean_flow_magnitude_px_per_frame": round(mean_flow_mag, 4),
+        "motion_probe_magnitudes_px_per_frame": [round(value, 4) for value in motion_probe_magnitudes],
         "dark_background": dark_bg,
         **global_motion_support,
     }

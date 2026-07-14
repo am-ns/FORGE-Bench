@@ -22,13 +22,29 @@ CONFIG = {
     "max_retries": 3,
     "base_delay": 2.0,
     "default_model": os.environ.get("OPENAI_COMPAT_MODEL", "qwen-vl-max-latest"),
-    "industrial_logic_and_fact_alignment_max_frames": 12,
-    "temporal_consistency_max_frames": 12,
-    "physical_plausibility_max_frames": 12,
-    "reference_and_motion_fidelity_max_frames": 6,
-    "geometric_integrity_max_frames": 12,
-    "application_usefulness_max_frames": 12,
+    "industrial_logic_and_fact_alignment_max_frames": int(
+        os.environ.get("OPENAI_COMPAT_PROCESS_MAX_FRAMES", "12")
+    ),
+    "temporal_consistency_max_frames": int(
+        os.environ.get("OPENAI_COMPAT_PROCESS_MAX_FRAMES", "12")
+    ),
+    "physical_plausibility_max_frames": int(
+        os.environ.get("OPENAI_COMPAT_PROCESS_MAX_FRAMES", "12")
+    ),
+    "reference_and_motion_fidelity_max_frames": int(
+        os.environ.get("OPENAI_COMPAT_REFERENCE_MOTION_MAX_FRAMES", "6")
+    ),
+    "geometric_integrity_max_frames": int(
+        os.environ.get("OPENAI_COMPAT_PROCESS_MAX_FRAMES", "12")
+    ),
+    "application_usefulness_max_frames": int(
+        os.environ.get("OPENAI_COMPAT_PROCESS_MAX_FRAMES", "12")
+    ),
     "jpeg_quality": 80,
+    # Transport resolution for multimodal LLM calls. CV operators still use
+    # EVAL_RESOLUTION (1080p); this cap only prevents image tokens from
+    # overflowing smaller OpenAI-compatible model contexts.
+    "llm_image_max_side": int(os.environ.get("OPENAI_COMPAT_IMAGE_MAX_SIDE", "384")),
     "judge_temperature": 0.0,
     "model_version_policy": "paper runs should set OPENAI_COMPAT_MODEL to a fixed non-latest model id",
 }
@@ -40,6 +56,15 @@ CONFIG = {
 
 def _frame_to_base64_jpeg(frame: np.ndarray) -> str:
     normed = normalize_frame(frame)
+    max_side = CONFIG["llm_image_max_side"]
+    h, w = normed.shape[:2]
+    if max_side > 0 and max(h, w) > max_side:
+        scale = max_side / max(h, w)
+        normed = cv2.resize(
+            normed,
+            (max(1, round(w * scale)), max(1, round(h * scale))),
+            interpolation=cv2.INTER_AREA,
+        )
     _, buf = cv2.imencode(".jpg", normed, [cv2.IMWRITE_JPEG_QUALITY, CONFIG["jpeg_quality"]])
     return base64.standard_b64encode(buf.tobytes()).decode("ascii")
 
@@ -560,11 +585,18 @@ def judge_sample_reference_and_motion_fidelity(
            if motion_type not in ("static", None, "unknown") else "")
     )
     prompt_text = (
-        "Compare the reference image to the video frames above. "
-        "Rate visual fidelity 0-100.\n\n"
+        "Compare the reference image to the video frames above. Separately rate "
+        "reference preservation and execution of the requested camera motion. "
+        "The combined score is 70% reference preservation plus 30% motion execution.\n\n"
         f"{motion_note}\n"
         f"{_format_sample_context(sample_meta)}\n\n"
-        + _json_output_instruction("reference preservation and motion fidelity")
+        + (
+            'Return exactly one JSON object: {"score": 0, '
+            '"reference_preservation_score": 0, "motion_execution_score": 0, '
+            '"reasoning": "visible evidence", "failure_modes": [], '
+            '"confidence": 0.0, "evidence_frames": []}. All scores are 0-100. '
+            'For static tasks, motion_execution_score measures successful camera stability.'
+        )
     )
     user_content.append({"type": "text", "text": prompt_text})
 
@@ -579,9 +611,17 @@ def judge_sample_reference_and_motion_fidelity(
     raw = _extract_text(response)
     parsed = _parse_judge_json(raw)
     score = parsed.get("score") if parsed else _parse_score_0_100(raw)
+    reference_score = parsed.get("reference_preservation_score") if parsed else None
+    motion_score = parsed.get("motion_execution_score") if parsed else None
+    if reference_score is not None and motion_score is not None:
+        reference_score = max(0.0, min(100.0, float(reference_score)))
+        motion_score = max(0.0, min(100.0, float(motion_score)))
+        score = 0.70 * reference_score + 0.30 * motion_score
 
     return {
         "score": score,
+        "reference_preservation_score": reference_score,
+        "motion_execution_score": motion_score,
         "llm_parse_valid": parsed is not None and score is not None,
         "reasoning": parsed.get("reasoning", raw) if parsed else raw,
         "failure_modes": parsed.get("failure_modes", []) if parsed else [],

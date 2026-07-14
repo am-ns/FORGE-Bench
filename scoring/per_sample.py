@@ -9,6 +9,9 @@ from eval.calibration.floor_enforcer import enforce_score_floors
 CONFIG = {
     "default_axis_weight": 1.0,       # Default weight for axes not in AXIS_WEIGHTS
     "apply_score_floors": False,      # Floors are diagnostic only; ranking uses raw valid scores.
+    # CV motion/geometry operators are not yet calibrated against human labels.
+    # They remain diagnostics and cannot directly overwrite a VLM axis score.
+    "calibrated_cv_axis_caps": False,
 }
 
 MOTION_GATE_TASK_CATEGORIES = {"spatial_exploration_and_viewpoint"}
@@ -127,6 +130,8 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
             })
 
     if (
+        CONFIG["calibrated_cv_axis_caps"]
+        and
         motion_gate_applied
         and viewpoint_motion_axis_score is not None
         and REFERENCE_AND_MOTION_FIDELITY in axis_scores
@@ -138,7 +143,7 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
             VIEWPOINT_MOTION_FIDELITY,
         )
 
-    if industrial_constraint_axis_score is not None:
+    if CONFIG["calibrated_cv_axis_caps"] and industrial_constraint_axis_score is not None:
         cap_axis(
             GEOMETRIC_INTEGRITY,
             industrial_constraint_axis_score,
@@ -228,7 +233,7 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
     else:
         cross_axis_integrity_factor_gated = cross_axis_integrity_factor
 
-    reference_preservation_score = axis_scores.get(REFERENCE_AND_MOTION_FIDELITY)
+    reference_preservation_score = raw_axis_scores.get(REFERENCE_AND_MOTION_FIDELITY)
     reference_motion_coupled_score = None
     if reference_preservation_score is not None:
         if motion_gate_applied and viewpoint_motion_axis_score is not None:

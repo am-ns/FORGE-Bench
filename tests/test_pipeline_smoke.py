@@ -223,7 +223,9 @@ class TestViewpointMotionFidelity:
         frames = []
         for i in range(8):
             frame = np.zeros((360, 640, 3), dtype=np.uint8)
-            x = 120 + i * 24
+            # During a camera pan to the right, stable scene features translate
+            # left in image coordinates.
+            x = 300 - i * 24
             cv2.rectangle(frame, (x, 130), (x + 180, 230), (255, 255, 255), -1)
             cv2.circle(frame, (x + 40, 165), 12, (0, 0, 255), -1)
             cv2.circle(frame, (x + 130, 190), 12, (0, 255, 0), -1)
@@ -491,18 +493,18 @@ class TestScoring:
         assert result["score_floor_applied"] is False
         assert result["raw_axis_scores"] == result["axis_scores"]
 
-    def test_per_sample_score_integrates_viewpoint_motion_as_cap(self):
-        """Viewpoint motion caps reference_and_motion_fidelity; raw VLM score is preserved in raw_axis_scores."""
+    def test_per_sample_score_keeps_uncalibrated_viewpoint_motion_diagnostic(self):
+        """Uncalibrated CV motion must not overwrite a model-judged public axis."""
         result = score_sample(
             {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 70, PHYSICAL_PLAUSIBILITY: 75, REFERENCE_AND_MOTION_FIDELITY: 85, GEOMETRIC_INTEGRITY: 90, "viewpoint_motion": 0},
             viewpoint_motion=0.0,
         )
         assert VIEWPOINT_MOTION_FIDELITY not in result["axis_scores"]
-        assert result["axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == pytest.approx(0.0)
+        assert result["axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == pytest.approx(85.0)
         assert result["raw_axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == pytest.approx(85.0)
         assert result["viewpoint_motion_score"] == 0.0
-        assert result["weighted_score"] == pytest.approx(63.0)
-        assert REFERENCE_AND_MOTION_FIDELITY in result["constraint_axis_adjustments"]
+        assert result["weighted_score"] == pytest.approx(80.0)
+        assert REFERENCE_AND_MOTION_FIDELITY not in result["constraint_axis_adjustments"]
 
     def test_per_sample_score_does_not_fold_viewpoint_motion_for_non_viewpoint_task(self):
         """Non-viewpoint tasks should keep motion as diagnostics, not lower reference and motion fidelity."""
@@ -515,8 +517,8 @@ class TestScoring:
         assert result["motion_control_score"] == 0.0
         assert result["motion_gate_applied"] is False
 
-    def test_per_sample_score_can_force_static_motion_gate(self):
-        """Forcing the motion gate caps reference_and_motion_fidelity to the viewpoint score."""
+    def test_per_sample_score_static_motion_gate_remains_diagnostic(self):
+        """A forced gate is recorded but does not apply an uncalibrated CV cap."""
         result = score_sample(
             {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 70, PHYSICAL_PLAUSIBILITY: 75, REFERENCE_AND_MOTION_FIDELITY: 85, GEOMETRIC_INTEGRITY: 90, "viewpoint_motion": 0},
             viewpoint_motion=12.0,
@@ -524,21 +526,21 @@ class TestScoring:
             motion_gate_required=True,
         )
         assert result["motion_gate_applied"] is True
-        assert result["axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == pytest.approx(0.0)
+        assert result["axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == pytest.approx(85.0)
         assert result["raw_axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == pytest.approx(85.0)
 
-    def test_per_sample_score_integrates_industrial_constraint_as_cap(self):
-        """Industrial constraint caps geometric_integrity; raw VLM score is preserved in raw_axis_scores."""
+    def test_per_sample_score_keeps_uncalibrated_industrial_constraint_diagnostic(self):
+        """Uncalibrated geometry evidence is reported without overwriting the VLM axis."""
         result = score_sample(
             {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 70, PHYSICAL_PLAUSIBILITY: 75, REFERENCE_AND_MOTION_FIDELITY: 85, GEOMETRIC_INTEGRITY: 90},
             industrial_constraint_score=0.20,
         )
         assert INDUSTRIAL_CONSTRAINT_SCORE not in result["axis_scores"]
-        assert result["axis_scores"][GEOMETRIC_INTEGRITY] == pytest.approx(20.0)
+        assert result["axis_scores"][GEOMETRIC_INTEGRITY] == pytest.approx(90.0)
         assert result["raw_axis_scores"][GEOMETRIC_INTEGRITY] == pytest.approx(90.0)
         assert result["industrial_constraint_score"] == 20.0
-        assert result["weighted_score"] == pytest.approx(66.0)
-        assert GEOMETRIC_INTEGRITY in result["constraint_axis_adjustments"]
+        assert result["weighted_score"] == pytest.approx(80.0)
+        assert GEOMETRIC_INTEGRITY not in result["constraint_axis_adjustments"]
 
     def test_per_sample_score_reports_application_usefulness_without_folding(self):
         """Application usefulness is reported separately from the five technical axes."""
@@ -650,7 +652,7 @@ class TestScoring:
         assert result["technical_score"] == result["task_conditioned_score"]
         assert result["application_score"] == 100.0
         assert result["ranking_score_ci95"]["n"] == 2
-        assert result["overall"] == pytest.approx(61.5)
+        assert result["overall"] == pytest.approx(78.0)
         assert result["linear_ranking_score"] == pytest.approx(78.0)
         assert result["functional_pass_rate"] == 1.0
         assert result["application_pass_rate"]["policy"] == "strict_application_score"
@@ -660,10 +662,9 @@ class TestScoring:
         assert result["application_macro_micro_summary"]["micro_application_score_strict"] == pytest.approx(70.0)
         assert result["application_macro_micro_summary"]["macro_application_score_strict"] == pytest.approx(70.0)
         assert result["application_score_policy"]["leaderboard"] == "strict"
-        assert result["constraint_adjusted_score"] == pytest.approx(61.5)
+        assert result["constraint_adjusted_score"] == pytest.approx(78.0)
         assert result["ranking_score"] == result["constraint_adjusted_score"]
-        assert result["constraint_adjustment_summary"]["samples_with_cap"] == 1
-        assert result["constraint_adjustment_summary"]["cap_reason_counts"]["viewpoint_motion_constraint_severe_failure"] == 1
+        assert result["constraint_adjustment_summary"]["samples_with_cap"] == 0
         assert result["score_calibration"]["heuristic_gates_in_overall"] is True
         assert result["score_calibration"]["score_floors_in_headline"] is False
         assert result["relax_score_ci95"]["n"] == 2
@@ -763,10 +764,9 @@ class TestScoring:
         assert result["application_score_strict"] == pytest.approx(14.0)
         assert result["application_pass_rate"]["pass_rate"] == 0.0
         assert result["linear_ranking_score"] == pytest.approx(66.8)
-        assert result["ranking_score"] == pytest.approx(33.4)
+        assert result["ranking_score"] == pytest.approx(66.8)
         assert result["application_type_breakdown"]["inspection_and_maintenance"]["count"] == 1
-        assert result["constraint_adjustment_summary"]["samples_with_hard_application_failure"] == 1
-        assert result["constraint_adjustment_summary"]["hard_application_failure_counts"]["application_objective_not_supported"] == 1
+        assert result["constraint_adjustment_summary"]["samples_with_hard_application_failure"] == 0
 
     def test_aggregate_misleading_application_affects_headline(self):
         """Hard application failures should affect the paper-facing headline."""
@@ -817,8 +817,8 @@ class TestScoring:
         assert result["constraint_adjustment_summary"]["cap_reason_counts"]["zero_observable_event_coverage"] == 1
         assert result["constraint_adjustment_summary"]["mean_legacy_penalty_adjusted_score"] == pytest.approx(30.0)
 
-    def test_aggregate_caps_geometric_operator_vlm_conflict(self):
-        """Geometric VLM/operator conflict should cap the paper-facing headline ranking."""
+    def test_aggregate_reports_uncalibrated_geometric_conflict_without_cap(self):
+        """Uncalibrated geometric disagreement must not cap headline ranking."""
         result = aggregate_sample_results([
             {
                 "task_id": "geometry_conflict",
@@ -834,10 +834,8 @@ class TestScoring:
             }
         ])
         assert result["linear_ranking_score"] == pytest.approx(92.0)
-        assert result["ranking_score"] == pytest.approx(10.0)
-        assert result["constraint_adjustment_summary"]["samples_with_geometric_conflict_cap"] == 1
-        assert result["constraint_adjustment_summary"]["cap_reason_counts"]["geometric_operator_vlm_conflict"] == 1
-        assert result["constraint_adjustment_summary"]["mean_legacy_penalty_adjusted_score"] == pytest.approx(10.0)
+        assert result["ranking_score"] == pytest.approx(92.0)
+        assert result["constraint_adjustment_summary"]["samples_with_geometric_conflict_cap"] == 0
 
     def test_aggregate_ignores_motion_gate_for_non_viewpoint_non_static(self):
         """Dolly/pan diagnostics should not gate non-viewpoint tasks."""
@@ -882,9 +880,31 @@ class TestScoring:
         ])
         assert result["gated_score"] == 0.0
         assert result["relax_score"] == 70.0
-        assert result["overall"] == pytest.approx(45.0)
+        assert result["overall"] == pytest.approx(80.0)
         assert result["linear_ranking_score"] == pytest.approx(80.0)
-        assert result["constraint_adjusted_score"] == pytest.approx(45.0)
+        assert result["constraint_adjusted_score"] == pytest.approx(80.0)
+
+    def test_aggregate_caps_only_corroborated_severe_motion_failure(self):
+        """A severe motion cap requires an independent VLM motion judgment."""
+        result = aggregate_sample_results([{
+            "task_id": "corroborated_static_failure",
+            "skipped": False,
+            "task_category": "industrial_logic_and_compliance",
+            "motion_type": "static",
+            "reference_and_motion_fidelity_details": {"motion_execution_score": 0.0},
+            "operator_evidence": {"operators": {"viewpoint_motion_fidelity": {
+                "validity": "valid", "confidence": 0.9,
+            }}},
+            "scored": {
+                "weighted_score": 80.0,
+                "axis_scores": {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 80, PHYSICAL_PLAUSIBILITY: 80, REFERENCE_AND_MOTION_FIDELITY: 80, GEOMETRIC_INTEGRITY: 80},
+                "viewpoint_motion_score": 0.0,
+                "application_usefulness_score": 100.0,
+            },
+        }])
+        assert result["linear_ranking_score"] == pytest.approx(78.0)
+        assert result["ranking_score"] == pytest.approx(55.0)
+        assert result["constraint_adjustment_summary"]["cap_reason_counts"]["static_motion_constraint_severe_failure"] == 1
 
     def test_aggregate_applies_operator_risk_gate(self):
         """Operator evidence should lower fallback scores for abrupt breaks."""
