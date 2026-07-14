@@ -2,18 +2,27 @@
 
 ## Reproducibility
 
-`forge-bench-paper-v4.1.1` freezes its public parameters in
+`forge-bench-paper-v4.2.1` freezes its public parameters in
 `scoring/paper_v4_config.json`; each rescored sample records the policy version.
 The Hailuo comparison reuses identical cached frame judgments, isolating the
 scoring-policy delta from VLM sampling randomness.
 
 ## Headline score
 
-The five technical axes have equal weight. The base score combines 85% technical
-quality and 15% application usefulness; this limits double-counting because
-application usefulness and industrial task logic can be strongly correlated.
-Reasoning is a reliability multiplier from 0.95 to 1.00, so an articulate
-explanation cannot lift a zero-quality video.
+The five technical axes have equal weight. The canonical pre-gate score is 80%
+technical quality and 20% application usefulness, matching the main aggregate
+pipeline. Reasoning remains a separately reported diagnostic and never changes
+the headline score.
+
+The task-realization gates are applied after linear scoring. Observable-event
+coverage contributes a versioned 0–1 completion gate (power 1.0), while
+application usefulness uses the canonical `0.5 + 0.5 * application/100`
+multiplier. Both gate parameters are included in sensitivity analysis. Zero event coverage is also
+bounded by the original cap of 30 and partial coverage below 60 by a cap of 60.
+A separately elicited severe motion failure can cap eligible viewpoint
+tasks at 55, and a misleading safety response applies the canonical 0.5 hard
+failure multiplier. Every result records its pre-gate score, cap, reasons, and
+post-gate score.
 Scores are clipped to [0, 100].
 
 Conflict arbitration admits independent evidence only when it is valid and at

@@ -29,7 +29,7 @@ def test_rescore_is_versioned_bounded_and_deterministic():
     sample = {"scores": {"industrial_logic_and_fact_alignment": 80, "geometric_integrity": 80, "physical_plausibility": 80, "temporal_consistency": 80, "reference_and_motion_fidelity": 80, "application_usefulness": 60}, "reasoning": "Frames show visible evidence.", "failure_modes": [], "confidence": .8}
     first = rescore_sample(sample); second = rescore_sample(sample)
     assert first == second
-    assert first["policy_version"] == "forge-bench-paper-v4.1.1"
+    assert first["policy_version"] == "forge-bench-paper-v4.2.1"
     assert len(first["scoring_config"]["source_config_sha256"]) == 64
     assert len(first["scoring_config"]["resolved_config_sha256"]) == 64
     assert first["scoring_config"]["source_config_sha256"] != first["scoring_config"]["resolved_config_sha256"]
@@ -39,6 +39,29 @@ def test_rescore_is_versioned_bounded_and_deterministic():
 def test_reasoning_cannot_rescue_zero_quality_sample():
     sample = {"scores": {axis: 0 for axis in resolve_config()["axis_weights"]} | {"application_usefulness": 0}, "reasoning": "Frames clearly show visible evidence because every failure is carefully explained.", "failure_modes": ["missing_event"], "confidence": 1.0}
     assert rescore_sample(sample)["headline_score_v4"] == 0
+
+
+def test_reasoning_is_diagnostic_only_and_not_in_headline():
+    scores = {axis: 80 for axis in resolve_config()["axis_weights"]} | {"application_usefulness": 60}
+    weak = rescore_sample({"scores": scores, "reasoning": "bad", "failure_modes": []})
+    strong = rescore_sample({"scores": scores, "reasoning": "Frames show visible causal evidence because the event completes.", "failure_modes": []})
+    assert weak["headline_score_v4"] == strong["headline_score_v4"] == pytest.approx(60.8)
+
+
+def test_zero_event_coverage_triggers_original_cap():
+    scores = {axis: 90 for axis in resolve_config()["axis_weights"]} | {"application_usefulness": 90}
+    result = rescore_sample({"scores": scores, "observable_event_coverage": 0, "failure_modes": []})
+    assert result["base_quality_score"] == 90
+    assert result["headline_score_v4"] == 0
+    assert "zero_observable_event_coverage" in result["gate_adjustment"]["gate_reasons"]
+    assert result["gate_adjustment"]["event_coverage_gate"] == 0
+
+
+def test_partial_event_coverage_triggers_original_cap():
+    scores = {axis: 90 for axis in resolve_config()["axis_weights"]} | {"application_usefulness": 90}
+    result = rescore_sample({"scores": scores, "observable_event_coverage": 40, "failure_modes": []})
+    assert result["headline_score_v4"] == pytest.approx(34.2)
+    assert result["gate_adjustment"]["gate_applied"] is True
 
 
 def test_operator_evidence_is_mapped_to_axis_arbitration():

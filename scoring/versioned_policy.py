@@ -25,7 +25,7 @@ FAILURE_FAMILIES = {
 def load_config(path: str | Path = CONFIG_PATH, overrides: dict | None = None) -> dict:
     raw = Path(path).read_bytes()
     config = json.loads(raw.decode("utf-8"))
-    required = {"version", "axis_weights", "application_weight", "reasoning_weight", "conflict_delta", "trusted_evidence_confidence", "conflict_shrinkage"}
+    required = {"version", "axis_weights", "application_weight", "reasoning_weight", "conflict_delta", "trusted_evidence_confidence", "conflict_shrinkage", "zero_event_coverage_cap", "partial_event_coverage_cap", "strict_event_coverage_threshold", "event_coverage_gate_power", "application_gate_floor"}
     missing = sorted(required - config.keys())
     if missing:
         raise ValueError(f"scoring config missing keys: {missing}")
@@ -136,6 +136,46 @@ def score_reasoning_detail(reasoning: str, observable_coverage: float | None, fa
     return {"score": score, "grounding": grounding, "specificity": specificity, "causal_coherence": causal, "completeness": completeness, "score_text_consistency": consistency, "contradictions": contradictions, "reported_confidence": confidence, "method": "five_component_evidence_consistency_rubric_v2"}
 
 
+def apply_original_gates(sample: dict, pre_gate_score: float, scores: dict[str, float], config: dict) -> dict:
+    """Apply the canonical aggregate.py hard-adjustment policy to compact results."""
+    caps: list[float] = []
+    reasons: list[str] = []
+    coverage = sample.get("observable_event_coverage")
+    event_gate = 1.0
+    if coverage is not None:
+        coverage = max(0.0, min(100.0, float(coverage)))
+        event_gate = (coverage / 100.0) ** float(config["event_coverage_gate_power"])
+        if event_gate < 1.0:
+            reasons.append("observable_event_coverage_gate")
+        if coverage <= 0.0:
+            caps.append(float(config["zero_event_coverage_cap"]))
+            reasons.append("zero_observable_event_coverage")
+        elif coverage < float(config["strict_event_coverage_threshold"]):
+            caps.append(float(config["partial_event_coverage_cap"]))
+            reasons.append("partial_observable_event_coverage")
+
+    motion_execution = ((sample.get("reference_and_motion_fidelity_details") or {}).get("motion_execution_score"))
+    motion_gate_required = sample.get("task_category") == "spatial_exploration_and_viewpoint" or sample.get("motion_type") == "static"
+    if motion_gate_required and motion_execution is not None and float(motion_execution) < float(config["severe_motion_threshold"]):
+        caps.append(float(config["severe_motion_cap"]))
+        reasons.append("viewpoint_motion_constraint_severe_failure")
+
+    modes = {_normalize_label(mode) for mode in sample.get("failure_modes", [])}
+    hard_multiplier = 1.0
+    if "misleading_safety_response" in modes:
+        hard_multiplier = float(config["hard_application_failure_penalty"])
+        reasons.append("hard_application_failure:misleading_safety_response")
+    application = max(0.0, min(100.0, float(scores.get("application_usefulness", 100.0))))
+    application_floor = float(config["application_gate_floor"])
+    application_gate = application_floor + (1.0 - application_floor) * application / 100.0
+    if application_gate < 1.0:
+        reasons.append("application_usefulness_gate")
+    after_penalty = pre_gate_score * event_gate * application_gate * hard_multiplier
+    gate_cap = min(caps) if caps else None
+    final = min(after_penalty, gate_cap) if gate_cap is not None else after_penalty
+    return {"pre_gate_score": pre_gate_score, "event_coverage_gate": event_gate, "application_usefulness_gate": application_gate, "gate_cap": gate_cap, "hard_failure_multiplier": hard_multiplier, "gate_reasons": reasons, "gate_applied": final < pre_gate_score, "final_score": final, "policy": "canonical_linear_80_20_with_task_realization_and_hard_caps"}
+
+
 def rescore_sample(sample: dict, config_overrides: dict | None = None) -> dict:
     config = resolve_config(config_overrides)
     scores = sample.get("scores") or sample.get("axis_scores") or {}
@@ -150,7 +190,5 @@ def rescore_sample(sample: dict, config_overrides: dict | None = None) -> dict:
     dedup = deduplicate_failure_modes(sample.get("failure_modes", []))
     aw = float(config["application_weight"])
     base = (1.0 - aw) * technical + aw * application
-    rw = float(config["reasoning_weight"])
-    reliability = (1.0 - rw) + rw * reasoning["score"] / 100.0
-    headline = base * reliability
-    return {**sample, "policy_version": config["version"], "scoring_config": config, "arbitrated_axis_scores": {axis: row["score"] for axis, row in arbitration.items()}, "conflict_arbitration": arbitration, "technical_score_v4": technical, "reasoning_detail_score": reasoning, "deduplicated_penalty": dedup, "base_quality_score": base, "reasoning_reliability_factor": reliability, "headline_score_v4": max(0.0, min(100.0, headline))}
+    gates = apply_original_gates(sample, base, scores, config)
+    return {**sample, "policy_version": config["version"], "scoring_config": config, "arbitrated_axis_scores": {axis: row["score"] for axis, row in arbitration.items()}, "conflict_arbitration": arbitration, "technical_score_v4": technical, "reasoning_detail_score": reasoning, "deduplicated_penalty": dedup, "base_quality_score": base, "gate_adjustment": gates, "headline_score_v4": max(0.0, min(100.0, gates["final_score"]))}

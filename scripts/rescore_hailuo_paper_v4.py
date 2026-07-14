@@ -28,6 +28,12 @@ def summarize(rows: list[dict]) -> dict:
         "conflicts_arbitrated": sum(any(x["conflict"] for x in r["conflict_arbitration"].values()) for r in rows),
         "samples_with_duplicate_failure_labels": sum(r["deduplicated_penalty"]["duplicate_count"] > 0 for r in rows),
         "reasoning_mean": fmean(r["reasoning_detail_score"]["score"] for r in rows),
+        "gate_summary": {
+            "samples_gated": sum(r["gate_adjustment"]["gate_applied"] for r in rows),
+            "reason_counts": dict(__import__("collections").Counter(reason for r in rows for reason in r["gate_adjustment"]["gate_reasons"])),
+            "mean_pre_gate_score": fmean(r["gate_adjustment"]["pre_gate_score"] for r in rows),
+            "mean_post_gate_score": fmean(r["headline_score_v4"] for r in rows),
+        },
     }
 
 
@@ -69,12 +75,14 @@ def diagnostics(source: list[dict], baseline: list[dict]) -> dict:
         cluster_means.append(fmean(flat))
     variants = {}
     for name, override in {
-        "lower_reasoning_weight": {"reasoning_weight": 0.025},
-        "higher_reasoning_weight": {"reasoning_weight": 0.10},
+        "lower_application_weight": {"application_weight": 0.10},
+        "higher_application_weight": {"application_weight": 0.30},
         "stricter_conflict": {"conflict_delta": 25.0},
         "looser_conflict": {"conflict_delta": 45.0},
-        "no_reasoning_adjustment": {"reasoning_weight": 0.0},
-        "higher_application_weight": {"application_weight": 0.40},
+        "stronger_event_gate": {"event_coverage_gate_power": 1.25},
+        "weaker_event_gate": {"event_coverage_gate_power": 0.75},
+        "stronger_application_gate": {"application_gate_floor": 0.40},
+        "weaker_application_gate": {"application_gate_floor": 0.60},
     }.items():
         rows = [rescore_sample(row, override) for row in source]
         variants[name] = {"mean": fmean(r["headline_score_v4"] for r in rows), "override": override}
@@ -108,12 +116,13 @@ def main() -> None:
     (output / "per_sample.json").write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8")
     (output / "aggregate.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
     with (output / "old_vs_new.csv").open("w", newline="", encoding="utf-8-sig") as handle:
-        writer = csv.DictWriter(handle, fieldnames=["task_id", "old_technical_score", "new_headline_score", "delta", "reasoning_score", "deduplicated_penalty"])
+        writer = csv.DictWriter(handle, fieldnames=["task_id", "old_technical_score", "pre_gate_score", "new_headline_score", "delta", "gate_cap", "gate_reasons", "reasoning_score", "deduplicated_penalty"])
         writer.writeheader()
         for row in rows:
             old = float(row.get("technical_score", 0.0)); new = row["headline_score_v4"]
-            writer.writerow({"task_id": row["task_id"], "old_technical_score": old, "new_headline_score": new,
+            writer.writerow({"task_id": row["task_id"], "old_technical_score": old, "pre_gate_score": row["gate_adjustment"]["pre_gate_score"], "new_headline_score": new,
                              "delta": new - old, "reasoning_score": row["reasoning_detail_score"]["score"],
+                             "gate_cap": row["gate_adjustment"]["gate_cap"], "gate_reasons": "; ".join(row["gate_adjustment"]["gate_reasons"]),
                              "deduplicated_penalty": row["deduplicated_penalty"]["penalty"]})
     print(json.dumps(summary, ensure_ascii=False, indent=2))
 

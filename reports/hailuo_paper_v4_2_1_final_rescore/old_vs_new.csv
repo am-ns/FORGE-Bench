@@ -1,0 +1,101 @@
+﻿task_id,old_technical_score,pre_gate_score,new_headline_score,delta,gate_cap,gate_reasons,reasoning_score,deduplicated_penalty
+emerg_002,72.0,69.6,33.408,-38.592,,observable_event_coverage_gate; application_usefulness_gate,70.0,0.0
+emerg_004,85.0,85.0,70.7625,-14.237499999999997,,observable_event_coverage_gate; application_usefulness_gate,66.5,0.0
+emerg_012,80.0,80.0,57.6,-22.4,,observable_event_coverage_gate; application_usefulness_gate,66.0,0.0
+emerg_021,76.0,76.80000000000001,55.296000000000014,-20.703999999999986,,observable_event_coverage_gate; application_usefulness_gate,67.0,0.0
+emerg_022,76.0,76.80000000000001,55.296000000000014,-20.703999999999986,,observable_event_coverage_gate; application_usefulness_gate,63.0,0.0
+emerg_023,76.0,76.80000000000001,55.296000000000014,-20.703999999999986,,observable_event_coverage_gate; application_usefulness_gate,72.0,0.0
+emerg_025,68.0,66.4,42.49600000000001,-25.50399999999999,,observable_event_coverage_gate; application_usefulness_gate,77.0,0.0
+emerg_028,66.0,64.80000000000001,41.47200000000001,-24.52799999999999,,observable_event_coverage_gate; application_usefulness_gate,63.0,0.0
+emerg_029,76.0,76.80000000000001,55.296000000000014,-20.703999999999986,,observable_event_coverage_gate; application_usefulness_gate,63.0,0.0
+emerg_046,20.0,16.0,0.0,-20.0,30.0,observable_event_coverage_gate; zero_observable_event_coverage; application_usefulness_gate,64.0,0.0
+emerg_052,84.0,79.2,38.016000000000005,-45.983999999999995,,observable_event_coverage_gate; application_usefulness_gate,70.0,0.0
+emerg_054,80.0,78.0,53.040000000000006,-26.959999999999994,,observable_event_coverage_gate; application_usefulness_gate,63.0,0.0
+emerg_056,60.0,48.0,0.0,-60.0,30.0,observable_event_coverage_gate; zero_observable_event_coverage; application_usefulness_gate,62.0,0.0
+emerg_064,84.0,83.2,59.904,-24.095999999999997,,observable_event_coverage_gate; application_usefulness_gate,63.0,0.0
+emerg_086,72.0,61.6,7.3919999999999995,-64.608,60.0,observable_event_coverage_gate; partial_observable_event_coverage; application_usefulness_gate,73.0,0.0
+emerg_091,76.0,76.80000000000001,55.296000000000014,-20.703999999999986,,observable_event_coverage_gate; application_usefulness_gate,67.0,0.0
+emerg_092,44.0,39.2,4.704000000000001,-39.296,60.0,observable_event_coverage_gate; partial_observable_event_coverage; application_usefulness_gate,92.0,0.0
+emerg_093,80.0,80.0,57.6,-22.4,,observable_event_coverage_gate; application_usefulness_gate,61.0,0.0
+emerg_094,74.0,73.2,49.776,-24.223999999999997,,observable_event_coverage_gate; application_usefulness_gate,73.0,0.0
+emerg_228,80.0,80.0,57.6,-22.4,,observable_event_coverage_gate; application_usefulness_gate,72.0,0.0
+emerg_231,74.0,73.2,37.332,-36.668,,observable_event_coverage_gate; application_usefulness_gate,67.0,0.0
+emerg_232,80.0,80.0,57.6,-22.4,,observable_event_coverage_gate; application_usefulness_gate,58.0,0.0
+emerg_234,80.0,80.0,57.6,-22.4,,observable_event_coverage_gate; application_usefulness_gate,53.0,0.0
+emerg_236,80.0,80.0,57.6,-22.4,,observable_event_coverage_gate; application_usefulness_gate,65.0,0.0
+emerg_280,68.0,66.4,31.872000000000003,-36.128,,observable_event_coverage_gate; application_usefulness_gate,66.0,0.0
+emerg_294,74.0,71.2,34.176,-39.824,,observable_event_coverage_gate; application_usefulness_gate,71.0,0.0
+emerg_298,74.0,71.2,34.176,-39.824,,observable_event_coverage_gate; application_usefulness_gate,64.0,0.0
+emerg_302,74.0,71.2,45.56800000000001,-28.431999999999988,,observable_event_coverage_gate; application_usefulness_gate,68.0,0.0
+emerg_324,88.0,82.4,39.55200000000001,-48.44799999999999,,observable_event_coverage_gate; application_usefulness_gate,67.0,0.0
+emerg_327,74.0,73.2,49.776,-24.223999999999997,,observable_event_coverage_gate; application_usefulness_gate,60.0,0.0
+emerg_328,88.0,82.4,39.55200000000001,-48.44799999999999,,observable_event_coverage_gate; application_usefulness_gate,76.0,0.0
+emerg_329,80.0,78.0,53.040000000000006,-26.959999999999994,,observable_event_coverage_gate; application_usefulness_gate,67.0,0.0
+emerg_333,64.0,63.2,30.336000000000002,-33.664,,observable_event_coverage_gate; application_usefulness_gate,67.0,0.0
+erob_002,70.0,66.0,29.700000000000003,-40.3,,observable_event_coverage_gate; application_usefulness_gate,75.0,0.0
+erob_004,80.0,80.0,57.6,-22.4,,observable_event_coverage_gate; application_usefulness_gate,58.0,0.0
+erob_024,100.0,100.0,100.0,0.0,,,62.0,0.0
+erob_026,100.0,100.0,100.0,0.0,,,51.0,0.0
+erob_027,68.0,58.400000000000006,7.008000000000001,-60.992,60.0,observable_event_coverage_gate; partial_observable_event_coverage; application_usefulness_gate,74.0,0.0
+erob_031,0.0,0.0,0.0,0.0,30.0,observable_event_coverage_gate; zero_observable_event_coverage; application_usefulness_gate,64.0,0.0
+erob_032,8.0,6.4,0.0,-8.0,30.0,observable_event_coverage_gate; zero_observable_event_coverage; application_usefulness_gate,87.0,0.0
+erob_033,74.0,71.2,45.56800000000001,-28.431999999999988,,observable_event_coverage_gate; application_usefulness_gate,63.0,0.0
+erob_034,100.0,100.0,100.0,0.0,,,61.0,0.0
+erob_035,76.0,76.80000000000001,55.296000000000014,-20.703999999999986,,observable_event_coverage_gate; application_usefulness_gate,50.0,0.0
+erob_037,72.0,69.6,44.544000000000004,-27.455999999999996,,observable_event_coverage_gate; application_usefulness_gate,70.0,0.0
+erob_041,70.0,66.0,19.8,-50.2,60.0,observable_event_coverage_gate; partial_observable_event_coverage; application_usefulness_gate,65.0,0.0
+erob_044,68.0,66.4,37.184000000000005,-30.815999999999995,,observable_event_coverage_gate; application_usefulness_gate,80.5,0.0
+erob_045,76.0,76.80000000000001,55.296000000000014,-20.703999999999986,,observable_event_coverage_gate; application_usefulness_gate,77.0,0.0
+erob_046,68.0,58.400000000000006,28.032000000000004,-39.967999999999996,,observable_event_coverage_gate; application_usefulness_gate,77.0,0.0
+erob_062,80.0,80.0,57.6,-22.4,,observable_event_coverage_gate; application_usefulness_gate,53.0,0.0
+erob_063,88.0,86.4,77.76,-10.239999999999995,,application_usefulness_gate,73.0,0.0
+erob_064,88.0,86.4,77.76,-10.239999999999995,,application_usefulness_gate,72.0,0.0
+erob_066,56.0,48.800000000000004,5.856000000000001,-50.144,60.0,observable_event_coverage_gate; partial_observable_event_coverage; application_usefulness_gate,73.0,0.0
+erob_072,76.0,76.80000000000001,55.296000000000014,-20.703999999999986,,observable_event_coverage_gate; application_usefulness_gate,71.0,0.0
+erob_073,68.0,58.400000000000006,7.008000000000001,-60.992,60.0,observable_event_coverage_gate; partial_observable_event_coverage; application_usefulness_gate,65.0,0.0
+erob_074,68.0,58.400000000000006,7.008000000000001,-60.992,60.0,observable_event_coverage_gate; partial_observable_event_coverage; application_usefulness_gate,74.0,0.0
+erob_075,68.0,58.400000000000006,7.008000000000001,-60.992,60.0,observable_event_coverage_gate; partial_observable_event_coverage; application_usefulness_gate,75.0,0.0
+erob_076,68.0,58.400000000000006,7.008000000000001,-60.992,60.0,observable_event_coverage_gate; partial_observable_event_coverage; application_usefulness_gate,74.0,0.0
+erob_077,84.0,83.2,74.88000000000001,-9.11999999999999,,application_usefulness_gate,67.0,0.0
+erob_082,84.0,83.2,59.904,-24.095999999999997,,observable_event_coverage_gate; application_usefulness_gate,62.0,0.0
+erob_083,68.0,66.4,42.49600000000001,-25.50399999999999,,observable_event_coverage_gate; application_usefulness_gate,67.0,0.0
+erob_084,70.0,68.0,43.52000000000001,-26.47999999999999,,observable_event_coverage_gate; application_usefulness_gate,67.0,0.0
+erob_086,84.0,71.2,8.544,-75.456,60.0,observable_event_coverage_gate; partial_observable_event_coverage; application_usefulness_gate,74.0,0.0
+erob_094,88.0,82.4,26.368000000000002,-61.632,60.0,observable_event_coverage_gate; partial_observable_event_coverage; application_usefulness_gate,78.0,0.0
+erob_095,84.0,83.2,59.904,-24.095999999999997,,observable_event_coverage_gate; application_usefulness_gate,71.0,0.0
+erob_099,74.0,71.2,34.176,-39.824,,observable_event_coverage_gate; application_usefulness_gate,71.0,0.0
+erob_100,74.0,71.2,39.872,-34.128,,observable_event_coverage_gate; application_usefulness_gate,71.5,0.0
+erob_140,84.0,83.2,59.904,-24.095999999999997,,observable_event_coverage_gate; application_usefulness_gate,67.0,0.0
+erob_144,52.0,45.6,5.472,-46.528,60.0,observable_event_coverage_gate; partial_observable_event_coverage; application_usefulness_gate,69.0,0.0
+erob_170,80.0,80.0,57.6,-22.4,,observable_event_coverage_gate; application_usefulness_gate,76.0,0.0
+erob_174,44.0,39.2,4.704000000000001,-39.296,60.0,observable_event_coverage_gate; partial_observable_event_coverage; application_usefulness_gate,64.0,0.0
+erob_177,80.0,80.0,57.6,-22.4,,observable_event_coverage_gate; application_usefulness_gate,67.0,0.0
+erob_179,91.0,89.8,74.7585,-16.241500000000002,,observable_event_coverage_gate; application_usefulness_gate,57.5,0.0
+erob_184,56.0,48.800000000000004,5.856000000000001,-50.144,60.0,observable_event_coverage_gate; partial_observable_event_coverage; application_usefulness_gate,74.0,0.0
+erob_185,68.0,58.400000000000006,7.008000000000001,-60.992,60.0,observable_event_coverage_gate; partial_observable_event_coverage; application_usefulness_gate,69.0,0.0
+erob_186,91.0,88.8,67.93199999999999,-23.068000000000012,,observable_event_coverage_gate; application_usefulness_gate,70.25,0.0
+erob_187,32.0,29.6,3.5520000000000005,-28.448,60.0,observable_event_coverage_gate; partial_observable_event_coverage; application_usefulness_gate,69.0,0.0
+erob_189,32.0,29.6,3.5520000000000005,-28.448,60.0,observable_event_coverage_gate; partial_observable_event_coverage; application_usefulness_gate,64.0,0.0
+erob_190,56.0,48.800000000000004,5.856000000000001,-50.144,60.0,observable_event_coverage_gate; partial_observable_event_coverage; application_usefulness_gate,74.0,0.0
+erob_193,92.0,89.60000000000001,64.51200000000001,-27.487999999999985,,observable_event_coverage_gate; application_usefulness_gate,53.0,0.0
+erob_195,80.0,80.0,57.6,-22.4,,observable_event_coverage_gate; application_usefulness_gate,53.0,0.0
+erob_210,68.0,58.400000000000006,7.008000000000001,-60.992,60.0,observable_event_coverage_gate; partial_observable_event_coverage; application_usefulness_gate,73.0,0.0
+erob_211,72.0,69.6,27.84,-44.16,60.0,observable_event_coverage_gate; partial_observable_event_coverage; application_usefulness_gate,65.5,0.0
+erob_216,100.0,100.0,100.0,0.0,,,49.0,0.0
+erob_222,100.0,100.0,100.0,0.0,,,46.0,0.0
+erob_259,80.0,80.0,57.6,-22.4,,observable_event_coverage_gate; application_usefulness_gate,67.0,0.0
+erob_260,80.0,80.0,57.6,-22.4,,observable_event_coverage_gate; application_usefulness_gate,56.0,0.0
+hload_115,60.0,48.0,0.0,-60.0,30.0,observable_event_coverage_gate; zero_observable_event_coverage; application_usefulness_gate,79.0,0.0
+hload_121,74.0,71.2,34.176,-39.824,,observable_event_coverage_gate; application_usefulness_gate,75.0,0.0
+hload_123,40.0,32.0,0.0,-40.0,30.0,observable_event_coverage_gate; zero_observable_event_coverage; application_usefulness_gate,78.0,0.0
+hload_125,52.0,45.6,5.472,-46.528,60.0,observable_event_coverage_gate; partial_observable_event_coverage; application_usefulness_gate,74.0,0.0
+hload_126,80.0,80.0,57.6,-22.4,,observable_event_coverage_gate; application_usefulness_gate,48.0,0.0
+hload_127,32.0,25.6,0.0,-32.0,30.0,observable_event_coverage_gate; zero_observable_event_coverage; application_usefulness_gate,77.0,0.0
+hload_203,86.0,84.8,61.056000000000004,-24.943999999999996,,observable_event_coverage_gate; application_usefulness_gate,67.0,0.0
+hload_213,85.0,85.0,62.900000000000006,-22.099999999999994,,observable_event_coverage_gate; application_usefulness_gate,63.0,0.0
+hload_220,86.0,84.8,61.056000000000004,-24.943999999999996,,observable_event_coverage_gate; application_usefulness_gate,71.0,0.0
+hload_221,86.0,84.8,61.056000000000004,-24.943999999999996,,observable_event_coverage_gate; application_usefulness_gate,61.0,0.0
+hload_244,76.0,72.80000000000001,23.296000000000006,-52.70399999999999,60.0,observable_event_coverage_gate; partial_observable_event_coverage; application_usefulness_gate,71.0,0.0
+hload_245,86.0,84.8,61.056000000000004,-24.943999999999996,,observable_event_coverage_gate; application_usefulness_gate,68.0,0.0
+hload_250,76.0,76.80000000000001,55.296000000000014,-20.703999999999986,,observable_event_coverage_gate; application_usefulness_gate,66.0,0.0
+hload_267,84.0,83.2,59.904,-24.095999999999997,,observable_event_coverage_gate; application_usefulness_gate,67.0,0.0

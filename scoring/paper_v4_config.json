@@ -1,5 +1,5 @@
 {
-  "version": "forge-bench-paper-v4.1.1",
+  "version": "forge-bench-paper-v4.2.1",
   "axis_weights": {
     "industrial_logic_and_fact_alignment": 0.20,
     "geometric_integrity": 0.20,
@@ -7,8 +7,16 @@
     "temporal_consistency": 0.20,
     "reference_and_motion_fidelity": 0.20
   },
-  "application_weight": 0.15,
-  "reasoning_weight": 0.05,
+  "application_weight": 0.20,
+  "reasoning_weight": 0.00,
+  "zero_event_coverage_cap": 30.0,
+  "partial_event_coverage_cap": 60.0,
+  "strict_event_coverage_threshold": 60.0,
+  "severe_motion_cap": 55.0,
+  "severe_motion_threshold": 20.0,
+  "hard_application_failure_penalty": 0.50,
+  "event_coverage_gate_power": 1.00,
+  "application_gate_floor": 0.50,
   "conflict_delta": 35.0,
   "trusted_evidence_confidence": 0.70,
   "conflict_shrinkage": 0.25
