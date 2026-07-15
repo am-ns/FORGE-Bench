@@ -100,7 +100,7 @@ def test_aggregate_headline_score_applies_zero_event_coverage_cap():
 
     result = aggregate_sample_results([sample])
 
-    assert result["linear_ranking_score"] == pytest.approx(79.6)
+    assert result["linear_ranking_score"] == pytest.approx(85.6)
     assert result["ranking_score"] == pytest.approx(30.0)
     assert result["constraint_adjustment_summary"]["samples_with_application_event_cap"] == 1
     assert result["constraint_adjustment_summary"]["cap_reason_counts"]["zero_observable_event_coverage"] == 1

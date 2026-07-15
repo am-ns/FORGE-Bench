@@ -216,27 +216,14 @@ def _operator_evidence_diagnostics(results: list[dict]) -> dict:
 
 def _application_score(result: dict) -> float | None:
     scored = result.get("scored", {})
-    score = scored.get("application_score")
+    score = scored.get("application_usefulness_score", result.get("application_usefulness_score"))
     if score is None:
-        usefulness = scored.get("application_usefulness_score", result.get("application_usefulness_score"))
-        if usefulness is None:
-            usefulness = (scored.get("application_axis_scores") or {}).get(APPLICATION_USEFULNESS)
-        coverage = scored.get("observable_event_coverage", result.get("observable_event_coverage"))
-        if usefulness is not None:
-            score = 0.7 * float(usefulness) + 0.3 * float(coverage) if coverage is not None else usefulness
+        score = (scored.get("application_axis_scores") or {}).get(APPLICATION_USEFULNESS)
     return float(score) if score is not None else None
 
 
 def _application_score_strict(result: dict) -> float | None:
-    scored = result.get("scored", {})
-    usefulness = scored.get("application_usefulness_score", result.get("application_usefulness_score"))
-    if usefulness is None:
-        usefulness = (scored.get("application_axis_scores") or {}).get(APPLICATION_USEFULNESS)
-    if usefulness is None:
-        return None
-    coverage = _observable_event_coverage(result)
-    coverage_value = 0.0 if coverage is None else coverage
-    return float(max(0.0, min(100.0, 0.7 * float(usefulness) + 0.3 * float(coverage_value))))
+    return _application_score(result)
 
 
 def _observable_event_coverage(result: dict) -> float | None:
@@ -351,6 +338,9 @@ def _constraint_adjustment_diagnostics(aggregate: dict) -> dict:
         "task_conditioned_score": aggregate.get("task_conditioned_score"),
         "constraint_adjusted_score": aggregate.get("constraint_adjusted_score"),
         "ranking_score": aggregate.get("ranking_score"),
+        "ranking_status": aggregate.get("ranking_status"),
+        "ranking_publishable": aggregate.get("ranking_publishable"),
+        "task_realization": aggregate.get("task_realization", {}),
         "summary": aggregate.get("constraint_adjustment_summary", {}),
         "ranking_sensitivity_report": aggregate.get("ranking_sensitivity_report", {}),
         "score_calibration": aggregate.get("score_calibration", {}),
@@ -689,6 +679,8 @@ def generate_diagnostic_report(model: str, aggregate: dict, sample_results: list
             "application_score": aggregate.get("application_score"),
             "application_score_strict": aggregate.get("application_score_strict"),
             "ranking_score": aggregate.get("ranking_score"),
+            "ranking_status": aggregate.get("ranking_status"),
+            "task_success_rate": (aggregate.get("task_realization") or {}).get("task_success_rate"),
             "strict_pass_rate": aggregate.get("strict_pass_rate"),
             "functional_pass_rate": aggregate.get("functional_pass_rate"),
             "application_pass_rate": aggregate.get("application_pass_rate"),

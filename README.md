@@ -240,9 +240,9 @@ Core formula:
 
 ```text
 technical_score = mean(five technical axes)
-application_score_strict = 0.7 * application_usefulness + 0.3 * observable_event_coverage
-linear_ranking_score = 0.8 * technical_score + 0.2 * application_score_strict
-ranking_score = hard_adjust(linear_ranking_score) over complete required-axis samples
+application_score = application_usefulness
+linear_ranking_score = 0.8 * technical_score + 0.2 * application_score
+ranking_score = apply_each_formal_gate_once(linear_ranking_score)
 overall = ranking_score
 constraint_adjusted_score = ranking_score  # compatibility alias
 ```
@@ -400,11 +400,11 @@ Important aggregate fields:
 | `reasoning_alignment_score` | Mean binary implicit-rule question accuracy on a 0-100 scale. |
 | `reasoning_rule_breakdown` | Reasoning-alignment accuracy split by implicit rule type. |
 | `axis_pass_rates` | Per-axis pass counts and rates at the strict threshold. |
-| `application_score` | Backward-compatible available-case application score; equals application usefulness when event coverage is absent. |
+| `application_score` | Canonical +1 score: application usefulness. Event coverage is a separate formal gate. |
 | `application_score_ci95` | Bootstrap 95% confidence interval for `application_score`. |
-| `application_score_strict` | Headline application component: `0.7*application_usefulness + 0.3*observable_event_coverage`, with missing coverage counted as zero. |
+| `application_score_strict` | Deprecated compatibility view; equal to canonical `application_usefulness`. Event coverage is a separate formal gate. |
 | `application_score_strict_ci95` | Bootstrap 95% confidence interval for `application_score_strict`. |
-| `application_score_available_case` | Application score only over samples where both usefulness and event coverage are returned. |
+| `application_score_available_case` | Application usefulness over samples where event coverage is also returned. |
 | `application_usefulness_score` | Mean industrial application-usefulness score when the application judge is enabled. |
 | `observable_event_coverage` | Mean coverage of required observable events returned by the application judge. |
 | `application_pass_rate` | Fraction of application-judged samples whose strict application score is at or above the threshold. |
@@ -413,11 +413,11 @@ Important aggregate fields:
 | `reference_motion_decomposition` | Separates reference preservation, motion control, and coupled reference-motion fidelity diagnostics. |
 | `visual_quality_score` | Diagnostic technical quality score from middle-frame clarity/exposure checks; excluded from headline ranking. |
 | `visual_quality_summary` | Visual-quality CI and 1-3 level counts. |
-| `linear_ranking_score` | Transparent 5+1 score before hard adjustment: `0.8*technical_score + 0.2*application_score_strict`. |
+| `linear_ranking_score` | Transparent 5+1 score before gates: `0.8*technical_score + 0.2*application_usefulness`. |
 | `linear_all_sample_score` | Same linear formula over all completed samples, including incomplete required-axis samples. |
 | `constraint_adjusted_score` | Backward-compatible alias for `ranking_score`; hard caps and hard application penalties are applied. |
 | `constraint_adjusted_score_ci95` | Deterministic bootstrap 95% confidence interval for the ranking score. |
-| `ranking_score` | Leaderboard sorting score: hard-adjusted `linear_ranking_score` over complete required-axis samples. `constraint_adjusted_score` is retained as a backward-compatible alias. |
+| `ranking_score` | Only leaderboard total: `linear_ranking_score` after each auditable formal gate is applied once. Incomplete manifests are not publishable. |
 | `ranking_score_ci95` | Bootstrap 95% confidence interval for `ranking_score`. |
 | `motion_gated_score` | Legacy diagnostic score after heuristic task-aware motion gating; not used as `overall` or `ranking_score`. |
 | `operator_risk_adjusted_score` | Legacy diagnostic score after heuristic operator-risk adjustment; not used as `overall` or `ranking_score`. |

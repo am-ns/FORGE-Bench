@@ -3,6 +3,8 @@
 
 import sys
 
+from scoring.policy import CONFIG as SCORING_POLICY
+
 from eval.axis_registry import (
     APPLICATION_USEFULNESS,
     GEOMETRIC_INTEGRITY,
@@ -51,11 +53,20 @@ CONFIG = {
     "enable_uncalibrated_geometric_conflict_cap": False,
     "motion_cv_min_confidence": 0.70,
     "motion_vlm_weight": 0.75,
-    "headline_score_policy": "paper_v4_2_1_linear_80_20_with_task_realization_gates",
+    "headline_score_policy": "forge_5plus1_v1_single_pass_auditable_gates",
     "bootstrap_iterations": 1000,
     "bootstrap_seed": 1729,
     "apply_axis_floors": False,
 }
+CONFIG.update({
+    "strict_axis_threshold": float(SCORING_POLICY["strict_axis_threshold"]),
+    "operator_gate_min": float(SCORING_POLICY["operator_gate_min"]),
+    "hard_application_failure_penalty": float(SCORING_POLICY["hard_application_failure_penalty"]),
+    "zero_event_coverage_cap": float(SCORING_POLICY["zero_event_coverage_cap"]),
+    "partial_event_coverage_cap": float(SCORING_POLICY["partial_event_coverage_cap"]),
+    "bootstrap_iterations": int(SCORING_POLICY["bootstrap_iterations"]),
+    "bootstrap_seed": int(SCORING_POLICY["bootstrap_seed"]),
+})
 
 MOTION_GATE_TASK_CATEGORIES = {"spatial_exploration_and_viewpoint"}
 MOTION_GATE_TYPES = {"static"}
@@ -282,7 +293,10 @@ def _linear_ranking_score(result: dict) -> float:
     application = _application_score_strict(result)
     if application is None:
         return technical
-    return float(0.8 * technical + 0.2 * application)
+    return float(
+        float(SCORING_POLICY["technical_weight"]) * technical
+        + float(SCORING_POLICY["application_weight"]) * application
+    )
 
 
 def _paper_adjusted_ranking_score(result: dict) -> float:
@@ -323,59 +337,23 @@ def _axis_pass_rates(completed: list[dict]) -> dict:
 
 
 def _application_score(result: dict) -> float | None:
-    """Backward-compatible application score.
-
-    This is retained as the available fallback score: if event coverage is not
-    available, application usefulness carries the score by itself.
-    """
-    scored = result.get("scored", {})
-    score = scored.get("application_score")
-    if score is None:
-        usefulness = scored.get("application_usefulness_score", result.get("application_usefulness_score"))
-        if usefulness is None:
-            usefulness = (scored.get("application_axis_scores") or {}).get(APPLICATION_USEFULNESS)
-        coverage = scored.get("observable_event_coverage", result.get("observable_event_coverage"))
-        if usefulness is not None:
-            score = (
-                0.7 * float(usefulness) + 0.3 * float(coverage)
-                if coverage is not None
-                else usefulness
-            )
-    if score is None:
-        return None
-    return max(0.0, min(100.0, float(score)))
+    """Return the one canonical +1 application-usefulness score."""
+    return _application_usefulness_score(result)
 
 
 def _application_score_strict(result: dict) -> float | None:
-    """Application score with missing event coverage treated as incomplete.
+    """Return the canonical +1 application-usefulness axis.
 
-    A missing application-usefulness judge output remains missing. If the judge
-    gives usefulness but does not return required-event coverage, the coverage
-    term contributes zero instead of silently falling back to usefulness.
+    Event coverage remains a formal gate. Folding it into this axis and then
+    applying the event gate again would punish the same failure twice.
     """
-    scored = result.get("scored", {})
-    usefulness = scored.get("application_usefulness_score", result.get("application_usefulness_score"))
-    if usefulness is None:
-        usefulness = (scored.get("application_axis_scores") or {}).get(APPLICATION_USEFULNESS)
-    if usefulness is None:
-        return None
-    coverage = _observable_event_coverage(result)
-    coverage_value = 0.0 if coverage is None else coverage
-    score = 0.7 * float(usefulness) + 0.3 * float(coverage_value)
-    return max(0.0, min(100.0, float(score)))
+    return _application_usefulness_score(result)
 
 
 def _application_score_available_case(result: dict) -> float | None:
-    """Application score only for samples with both usefulness and event coverage."""
-    scored = result.get("scored", {})
-    usefulness = scored.get("application_usefulness_score", result.get("application_usefulness_score"))
-    if usefulness is None:
-        usefulness = (scored.get("application_axis_scores") or {}).get(APPLICATION_USEFULNESS)
-    coverage = _observable_event_coverage(result)
-    if usefulness is None or coverage is None:
-        return None
-    score = 0.7 * float(usefulness) + 0.3 * float(coverage)
-    return max(0.0, min(100.0, float(score)))
+    """Application usefulness for samples that also expose gate coverage."""
+    usefulness = _application_usefulness_score(result)
+    return usefulness if usefulness is not None and _observable_event_coverage(result) is not None else None
 
 
 def _application_usefulness_score(result: dict) -> float | None:
@@ -398,6 +376,42 @@ def _observable_event_coverage(result: dict) -> float | None:
         present = sum(1 for item in checks if item.get("present") is True)
         return 100.0 * present / total
     return None
+
+
+def _task_realization(result: dict) -> dict:
+    """Return continuous and thresholded task-realization diagnostics.
+
+    These diagnostics explain the 5+1 result; they never multiply or replace
+    the ranking score. Event coverage retains its separate formal cap.
+    """
+    scores = canonicalize_axis_dict((result.get("scored") or {}).get("axis_scores", {}))
+    coverage = _observable_event_coverage(result)
+    logic = scores.get(INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT)
+    fidelity = scores.get(REFERENCE_AND_MOTION_FIDELITY)
+    available = coverage is not None and logic is not None and fidelity is not None
+    realization = float(np.mean([coverage, logic, fidelity])) if available else None
+    rates = {
+        str(threshold): bool(
+            available and coverage >= threshold and logic >= threshold and fidelity >= threshold
+        )
+        for threshold in (55.0, 60.0, 65.0)
+    }
+    quality_axes = [
+        scores.get(GEOMETRIC_INTEGRITY),
+        scores.get(PHYSICAL_PLAUSIBILITY),
+        scores.get(TEMPORAL_CONSISTENCY),
+        fidelity,
+    ]
+    conditional_quality = (
+        float(np.mean(quality_axes)) if all(value is not None for value in quality_axes) else None
+    )
+    return {
+        "available": available,
+        "task_realization_score": realization,
+        "task_success": rates["60.0"],
+        "threshold_results": rates,
+        "conditional_quality": conditional_quality,
+    }
 
 
 def _application_failure_modes(result: dict) -> set[str]:
@@ -755,6 +769,17 @@ def _operator_constraint(result: dict) -> tuple[float, float | None, list[str]]:
     elif severe_count == 1:
         cap = 60.0 if cap is None else min(cap, 60.0)
 
+    # score_sample() already applies eligible operator gates to public axes.
+    # Historical cached rows without that ledger retain this fallback cap.
+    adjustments = (result.get("scored") or {}).get("constraint_axis_adjustments") or {}
+    operator_axis_gate_applied = any(
+        item.get("source") == "operator_evidence"
+        for rows in adjustments.values()
+        for item in (rows or [])
+    )
+    if operator_axis_gate_applied and cap is not None:
+        reasons.append("operator_gate_already_applied_to_axis")
+        cap = None
     return reliability_score, cap, reasons
 
 
@@ -1196,7 +1221,7 @@ def _has_required_axes(result: dict) -> bool:
 
 
 def _constraint_adjustment(result: dict) -> dict:
-    """Return paper-facing hard adjustment diagnostics."""
+    """Apply each formal gate once and return an auditable gate ledger."""
     axis_score = _task_conditioned_score(result)
     linear_ranking_score = _linear_ranking_score(result)
     application_score = _application_score_strict(result)
@@ -1240,7 +1265,7 @@ def _constraint_adjustment(result: dict) -> dict:
         "axis_score": axis_score,
         "constraint_score": constraint_score,
         "application_score": float(application_score),
-        "application_score_policy": "strict_missing_event_coverage_counts_as_zero_coverage",
+        "application_score_policy": "canonical_plus_one_application_usefulness",
         "linear_ranking_score": float(linear_ranking_score),
         "constraint_adjusted_score": float(ranking_score),
         "ranking_score": float(ranking_score),
@@ -1262,6 +1287,13 @@ def _constraint_adjustment(result: dict) -> dict:
         ] + application_cap_reasons + geometry_cap_reasons,
         "viewpoint_motion_constraint_score": viewpoint_score,
         "operator_reliability_score": operator_score,
+        "gate_ledger": [
+            {"gate": "hard_application_failure", "action": "multiplier", "value": float(hard_application_penalty), "reasons": hard_application_reasons, "applied": hard_application_penalty < 1.0},
+            {"gate": "observable_event_coverage", "action": "cap", "value": application_cap, "reasons": application_cap_reasons, "applied": application_cap is not None},
+            {"gate": "viewpoint_motion", "action": "cap", "value": viewpoint_cap, "reasons": viewpoint_reasons, "applied": viewpoint_cap is not None},
+            {"gate": "operator_evidence", "action": "axis_cap_or_legacy_ranking_cap", "value": operator_cap, "reasons": operator_reasons, "applied": operator_cap is not None or "operator_gate_already_applied_to_axis" in operator_reasons},
+            {"gate": "geometric_conflict", "action": "cap", "value": geometry_cap, "reasons": geometry_cap_reasons, "applied": geometry_cap is not None},
+        ],
     }
 
 
@@ -1319,6 +1351,8 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
             "constraint_adjusted_score": 0.0,
             "constraint_adjusted_score_ci95": {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0},
             "ranking_score": 0.0,
+            "ranking_status": "incomplete",
+            "ranking_publishable": False,
             "linear_ranking_score": 0.0,
             "linear_ranking_score_ci95": {"mean": 0.0, "ci95_low": None, "ci95_high": None, "n": 0},
             "linear_all_sample_score": 0.0,
@@ -1412,12 +1446,17 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     ]
     application_usefulness_scores = [score for score in (_application_usefulness_score(r) for r in completed) if score is not None]
     event_coverage_scores = [score for score in (_observable_event_coverage(r) for r in completed) if score is not None]
+    task_diagnostics = [_task_realization(r) for r in completed]
+    task_available = [row for row in task_diagnostics if row["available"]]
     complete_case_results = [r for r in completed if _has_required_axes(r)]
     complete_case_weighted_scores = [
         float(r["scored"].get("weighted_score", 0.0))
         for r in complete_case_results
     ]
-    headline_results = complete_case_results or completed
+    # Never silently substitute incomplete rows into a publishable ranking.
+    # A provisional complete-case score is emitted for debugging; the explicit
+    # ranking_status below controls leaderboard eligibility.
+    headline_results = complete_case_results
     ranking_scores = [_ranking_score(r) for r in headline_results]
     ranking_cluster_ids = [str(r.get("scene_id") or r.get("task_id", "")) for r in headline_results]
     linear_headline_scores = [_linear_ranking_score(r) for r in headline_results]
@@ -1498,12 +1537,15 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         linear_headline_scores, ranking_cluster_ids
     )
     aggregate["linear_all_sample_score"] = float(np.mean(linear_all_sample_scores)) if linear_all_sample_scores else 0.0
-    aggregate["constraint_adjusted_score"] = float(np.mean(ranking_scores))
+    aggregate["constraint_adjusted_score"] = float(np.mean(ranking_scores)) if ranking_scores else None
     aggregate["constraint_adjusted_score_ci95"] = _cluster_mean_confidence_interval(
         ranking_scores, ranking_cluster_ids
     )
     aggregate["ranking_score"] = aggregate["constraint_adjusted_score"]
     aggregate["ranking_score_ci95"] = aggregate["constraint_adjusted_score_ci95"]
+    ranking_complete = len(complete_case_results) == len(sample_results) and len(completed) == len(sample_results)
+    aggregate["ranking_status"] = "complete" if ranking_complete else "incomplete"
+    aggregate["ranking_publishable"] = ranking_complete
     aggregate["application_score"] = float(np.mean(application_scores)) if application_scores else None
     app_cluster_ids = [
         str(r.get("scene_id") or r.get("task_id", ""))
@@ -1529,10 +1571,9 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         application_scores_available_case, app_avail_cluster_ids
     )
     aggregate["application_score_policy"] = {
-        "leaderboard": "strict",
-        "strict": "0.7*application_usefulness + 0.3*observable_event_coverage, with missing event coverage counted as zero coverage",
-        "fallback": "0.7*application_usefulness + 0.3*observable_event_coverage when coverage is available, otherwise application_usefulness",
-        "available_case": "computed only when both application usefulness and event coverage are present",
+        "leaderboard": "application_usefulness",
+        "canonical": "application_score = application_usefulness; event coverage is a separate formal gate",
+        "available_case": "application usefulness for samples that also report event coverage",
     }
     aggregate["application_usefulness_score"] = float(np.mean(application_usefulness_scores)) if application_usefulness_scores else None
     app_use_cluster_ids = [
@@ -1550,14 +1591,28 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     aggregate["observable_event_coverage_ci95"] = _cluster_mean_confidence_interval(
         event_coverage_scores, ev_cov_cluster_ids
     )
+    aggregate["task_realization"] = {
+        "available_count": len(task_available),
+        "task_realization_mean": float(np.mean([row["task_realization_score"] for row in task_available])) if task_available else None,
+        "task_success_rate_at_55": float(np.mean([row["threshold_results"]["55.0"] for row in task_available])) if task_available else None,
+        "task_success_rate": float(np.mean([row["task_success"] for row in task_available])) if task_available else None,
+        "task_success_rate_at_65": float(np.mean([row["threshold_results"]["65.0"] for row in task_available])) if task_available else None,
+        "conditional_quality_success_only": float(np.mean([row["conditional_quality"] for row in task_available if row["task_success"] and row["conditional_quality"] is not None])) if any(row["task_success"] and row["conditional_quality"] is not None for row in task_available) else None,
+        "quality_all_samples": float(np.mean([row["conditional_quality"] for row in task_available if row["conditional_quality"] is not None])) if any(row["conditional_quality"] is not None for row in task_available) else None,
+        "headline_effect": "diagnostic_only_except_observable_event_coverage_gate",
+    }
     aggregate["application_pass_rate"] = _application_pass_rate(completed)
     aggregate["application_type_breakdown"] = _application_type_breakdown(completed)
     aggregate["application_macro_micro_summary"] = _application_macro_micro_summary(completed)
     aggregate["application_coverage_summary"] = _application_coverage_summary(completed)
     aggregate["constraint_adjustment_summary"] = {
-        "formula": "ranking_score = hard_adjust(0.8*technical_score + 0.2*application_score_strict)",
-        "linear_formula": "linear_ranking_score = 0.8*technical_score + 0.2*application_score_strict",
-        "policy": "paper headline uses complete required-axis samples and applies hard application/event/geometric/motion caps",
+        "formula": "ranking_score = single_pass_gates(0.8*technical_score + 0.2*application_usefulness)",
+        "linear_formula": "linear_ranking_score = 0.8*technical_score + 0.2*application_usefulness",
+        "policy": "5+1 is canonical; auditable event, motion, safety, geometry, and operator gates apply once",
+        "per_sample_gate_ledger": [
+            {"task_id": result.get("task_id"), "linear_ranking_score": item["linear_ranking_score"], "ranking_score": item["ranking_score"], "gates": item["gate_ledger"]}
+            for result, item in zip(completed, constraint_adjustments)
+        ],
         "mean_application_score": float(np.mean([
             item["application_score"] for item in constraint_adjustments
         ])),
@@ -1646,20 +1701,20 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     }
     aggregate["score_calibration"] = {
         "headline_score_policy": CONFIG["headline_score_policy"],
-        "ranking_score_policy": "paper_adjusted_complete_case_score",
+        "ranking_score_policy": "canonical_5plus1_with_single_pass_auditable_gates",
         "heuristic_gates_in_overall": True,
-        "complete_case_policy": "ranking_score uses samples with all required axes; linear_all_sample_score remains the all-completed-sample diagnostic",
+        "complete_case_policy": "ranking is publishable only when every requested sample is complete; no silent complete-case fallback",
         "score_floors_in_headline": False,
         "status": "headline_uses_complete_case_strict_application_hard_adjusted_score",
         "technical_score_formula": "technical_score = arithmetic mean of the five technical axes",
-        "application_score_formula": "application_score = strict 0.7*application_usefulness + 0.3*observable_event_coverage",
-        "linear_ranking_score_formula": "linear_ranking_score = 0.8*technical_score + 0.2*application_score_strict",
-        "ranking_score_formula": "ranking_score = hard_adjust(linear_ranking_score) over complete required-axis samples",
+        "application_score_formula": "application_score = application_usefulness",
+        "linear_ranking_score_formula": "linear_ranking_score = 0.8*technical_score + 0.2*application_usefulness",
+        "ranking_score_formula": "ranking_score = single_pass_gates(linear_ranking_score) over the complete frozen manifest",
         "all_critical_pass_accuracy_formula": "critical task axes pass strict threshold, reasoning_alignment is 100 when available, observable event coverage is 100 when available, and no hard caps apply",
         "reasoning_alignment_formula": "binary question accuracy over manually specified implicit-rule checks",
         "visual_quality_policy": "diagnostic middle-frame technical quality score excluded from headline ranking_score",
         "task_conditioned_score_formula": "technical_score arithmetic mean; no weighted/harmonic blend and no task-critical bottleneck multiplier",
-        "constraint_adjusted_score_formula": "compatibility alias for ranking_score; hard caps and hard application penalties are applied",
+        "constraint_adjusted_score_formula": "deprecated compatibility alias for ranking_score",
         "hard_application_failure_penalty": "applied to headline ranking and retained as diagnostic evidence",
         "application_event_cap_policy": "applied to headline ranking when required events are absent or partial",
         "geometric_conflict_cap_policy": "applied to headline ranking when CV/operator evidence strongly contradicts VLM geometry",

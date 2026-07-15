@@ -69,14 +69,13 @@ The report exposes:
 
 - `technical_score`: arithmetic mean of the five technical axes after
   operator-evidence integration.
-- `application_score`: backward-compatible available-case application score.
-- `application_score_strict`: headline application component,
-  `0.7*application_usefulness + 0.3*observable_event_coverage`, with missing
-  event coverage counted as zero coverage.
-- `application_score_available_case`: application score only where event
-  coverage is available.
+- `application_score`: canonical +1 application-usefulness axis.
+- `application_score_strict`: deprecated compatibility view equal to
+  application usefulness; event coverage is a separate formal gate.
+- `application_score_available_case`: application usefulness where event
+  coverage is also available.
 - `linear_ranking_score`: transparent `0.8 * technical_score + 0.2 *
-  application_score_strict` before hard adjustment.
+  application_usefulness` before gates.
 - `ranking_score`: hard-adjusted `linear_ranking_score` over complete
   required-axis samples, with predefined caps for missing/partial required
   events, hard application failures, strong operator/VLM geometry conflicts,

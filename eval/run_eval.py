@@ -49,6 +49,7 @@ from scoring.per_sample import score_sample
 from scoring.aggregate import aggregate_sample_results
 from scoring.report import generate_diagnostic_report, generate_report
 from eval.metadata import build_run_metadata
+from eval.video_protocol import PROTOCOL as VIDEO_PROTOCOL, sampling_manifest
 
 logger = logging.getLogger("forge_eval")
 IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp"}
@@ -394,13 +395,20 @@ def evaluate_sample(
     if not os.path.exists(video_path):
         logger.warning("Video not found: %s", video_path)
         return {"task_id": task_id, "domain": domain, "skipped": True,
+                "sample_status": "model_output_invalid", "ranking_score": 0.0,
                 "skip_reason": "video_not_found"}
 
     frames = extract_frames(video_path)
     if not frames:
         logger.warning("Empty video: %s", video_path)
         return {"task_id": task_id, "domain": domain, "skipped": True,
+                "sample_status": "model_output_invalid", "ranking_score": 0.0,
                 "skip_reason": "empty_video"}
+
+    capture = cv2.VideoCapture(video_path)
+    video_fps = float(capture.get(cv2.CAP_PROP_FPS)) if capture.isOpened() else 0.0
+    capture.release()
+    sampling_indices = sampling_manifest(len(frames), video_fps)
 
     fc = validate_frame_count(video_path)
 
@@ -678,6 +686,11 @@ def evaluate_sample(
         "reference_image_status": reference_image_status,
         "reference_image_resolved_path": reference_image_resolved_path,
         "skipped": False,
+        "sample_status": "valid" if sample_validity["complete_required_axes"] else "evaluator_invalid",
+        "protocol_version": VIDEO_PROTOCOL["version"],
+        "protocol_sha256": VIDEO_PROTOCOL["protocol_sha256"],
+        "sampling_indices": sampling_indices,
+        "video_fps": video_fps,
         "frame_count_reported": fc.get("reported_count"),
         "frame_count_actual": fc.get("actual_count"),
         "geometric_integrity_score": geometric_integrity_result["result_score"],

@@ -113,7 +113,7 @@ Contains:
 - `technical_score_ci95` - bootstrap 95% confidence interval for `technical_score`
 - `application_score` - application usefulness score used by the 5+1 ranking formula
 - `application_score_ci95` - bootstrap 95% confidence interval for `application_score`
-- `application_score_strict` - diagnostic application value score; missing event coverage contributes zero coverage
+- `application_score_strict` - deprecated compatibility view equal to application usefulness; event coverage is a separate formal gate
 - `application_score_strict_ci95` - bootstrap 95% confidence interval for `application_score_strict`
 - `application_score_available_case` - application score only where both usefulness and event coverage are returned
 - `observable_event_coverage` - mean coverage of required observable events returned by the application judge
@@ -169,17 +169,16 @@ The headline score uses the 5+1 structure:
 ```text
 technical_score = mean(five technical axes)
 application_score = application_usefulness
-ranking_score = 0.8 * technical_score + 0.2 * application_score
+linear_ranking_score = 0.8 * technical_score + 0.2 * application_score
+ranking_score = apply_each_formal_gate_once(linear_ranking_score)
 overall = ranking_score
 constraint_adjusted_score = ranking_score  # compatibility alias
 ```
 
-There is no weighted/harmonic blend, task-critical bottleneck multiplier,
-application multiplier, constraint multiplier, hard-constraint multiplier, or
-hard application penalty in the headline ranking. `application_score_strict`,
-observable event coverage, motion-gated score, operator-risk-adjusted score,
-and legacy penalty-adjusted score remain diagnostic fields so missing evidence
-and removed penalty sensitivity remain auditable.
+There is no weighted/harmonic blend or task-critical bottleneck multiplier.
+Observable-event, required-motion, safety, and allowlisted operator gates remain
+formal headline controls and are applied exactly once through the auditable gate
+ledger. Compatibility and legacy diagnostic fields are not alternative totals.
 
 Historical score floors are retained only as diagnostic compatibility fields.
 Headline and ranking scores use raw valid axis scores; invalid or unparsable

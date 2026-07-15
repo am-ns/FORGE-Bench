@@ -21,7 +21,7 @@ from scoring.aggregate import CONFIG as AGGREGATE_CONFIG
 from scoring.per_sample import CONFIG as PER_SAMPLE_CONFIG
 
 
-METHODOLOGY_VERSION = "forge-bench-paper-v4.2.1"
+METHODOLOGY_VERSION = "forge-video-5plus1-gated-v1.0"
 
 
 def file_sha256(path: str | Path) -> str | None:

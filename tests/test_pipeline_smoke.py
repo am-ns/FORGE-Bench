@@ -652,17 +652,17 @@ class TestScoring:
         assert result["technical_score"] == result["task_conditioned_score"]
         assert result["application_score"] == 100.0
         assert result["ranking_score_ci95"]["n"] == 2
-        assert result["overall"] == pytest.approx(78.0)
-        assert result["linear_ranking_score"] == pytest.approx(78.0)
+        assert result["overall"] == pytest.approx(84.0)
+        assert result["linear_ranking_score"] == pytest.approx(84.0)
         assert result["functional_pass_rate"] == 1.0
         assert result["application_pass_rate"]["policy"] == "strict_application_score"
         assert result["axis_pass_rates"][GEOMETRIC_INTEGRITY]["pass_rate"] == 1.0
         assert "reference_motion_decomposition" in result
-        assert result["application_score_strict"] == pytest.approx(70.0)
-        assert result["application_macro_micro_summary"]["micro_application_score_strict"] == pytest.approx(70.0)
-        assert result["application_macro_micro_summary"]["macro_application_score_strict"] == pytest.approx(70.0)
-        assert result["application_score_policy"]["leaderboard"] == "strict"
-        assert result["constraint_adjusted_score"] == pytest.approx(78.0)
+        assert result["application_score_strict"] == pytest.approx(100.0)
+        assert result["application_macro_micro_summary"]["micro_application_score_strict"] == pytest.approx(100.0)
+        assert result["application_macro_micro_summary"]["macro_application_score_strict"] == pytest.approx(100.0)
+        assert result["application_score_policy"]["leaderboard"] == "application_usefulness"
+        assert result["constraint_adjusted_score"] == pytest.approx(84.0)
         assert result["ranking_score"] == result["constraint_adjusted_score"]
         assert result["constraint_adjustment_summary"]["samples_with_cap"] == 0
         assert result["score_calibration"]["heuristic_gates_in_overall"] is True
@@ -761,10 +761,10 @@ class TestScoring:
         assert result["overall"] == result["ranking_score"]
         assert result["application_usefulness_score"] == 20.0
         assert result["application_score"] == 20.0
-        assert result["application_score_strict"] == pytest.approx(14.0)
+        assert result["application_score_strict"] == pytest.approx(20.0)
         assert result["application_pass_rate"]["pass_rate"] == 0.0
-        assert result["linear_ranking_score"] == pytest.approx(66.8)
-        assert result["ranking_score"] == pytest.approx(66.8)
+        assert result["linear_ranking_score"] == pytest.approx(68.0)
+        assert result["ranking_score"] == pytest.approx(68.0)
         assert result["application_type_breakdown"]["inspection_and_maintenance"]["count"] == 1
         assert result["constraint_adjustment_summary"]["samples_with_hard_application_failure"] == 0
 
@@ -810,7 +810,7 @@ class TestScoring:
                 },
             }
         ])
-        assert result["linear_ranking_score"] == pytest.approx(78.0)
+        assert result["linear_ranking_score"] == pytest.approx(84.0)
         assert result["ranking_score"] == pytest.approx(30.0)
         assert result["overall"] == result["ranking_score"]
         assert result["constraint_adjustment_summary"]["samples_with_application_event_cap"] == 1
@@ -857,9 +857,9 @@ class TestScoring:
         ])
         assert result["gated_score"] == 70.0
         assert result["relax_score"] == 70.0
-        assert result["overall"] == pytest.approx(80.0)
-        assert result["linear_ranking_score"] == pytest.approx(80.0)
-        assert result["constraint_adjusted_score"] == pytest.approx(80.0)
+        assert result["overall"] is None
+        assert result["ranking_status"] == "incomplete"
+        assert result["ranking_publishable"] is False
 
     def test_aggregate_keeps_static_gate_for_static_tasks(self):
         """Static tasks should still be gated when the output moves."""
@@ -880,9 +880,9 @@ class TestScoring:
         ])
         assert result["gated_score"] == 0.0
         assert result["relax_score"] == 70.0
-        assert result["overall"] == pytest.approx(80.0)
-        assert result["linear_ranking_score"] == pytest.approx(80.0)
-        assert result["constraint_adjusted_score"] == pytest.approx(80.0)
+        assert result["overall"] is None
+        assert result["ranking_status"] == "incomplete"
+        assert result["ranking_publishable"] is False
 
     def test_aggregate_caps_only_corroborated_severe_motion_failure(self):
         """A severe motion cap requires an independent VLM motion judgment."""
@@ -902,7 +902,7 @@ class TestScoring:
                 "application_usefulness_score": 100.0,
             },
         }])
-        assert result["linear_ranking_score"] == pytest.approx(78.0)
+        assert result["linear_ranking_score"] == pytest.approx(84.0)
         assert result["ranking_score"] == pytest.approx(55.0)
         assert result["constraint_adjustment_summary"]["cap_reason_counts"]["static_motion_constraint_severe_failure"] == 1
 
@@ -917,6 +917,7 @@ class TestScoring:
                 "scored": {
                     "weighted_score": 80.0,
                     "axis_scores": {INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 80, TEMPORAL_CONSISTENCY: 80, PHYSICAL_PLAUSIBILITY: 80, REFERENCE_AND_MOTION_FIDELITY: 80, GEOMETRIC_INTEGRITY: 80},
+                    "application_usefulness_score": 100.0,
                 },
                 "operator_evidence": {
                     "operators": {
@@ -942,7 +943,7 @@ class TestScoring:
         assert result["gated_score"] < 40.0
         assert result["relax_score"] == 80.0
         assert result["overall"] == pytest.approx(45.0)
-        assert result["linear_ranking_score"] == pytest.approx(80.0)
+        assert result["linear_ranking_score"] == pytest.approx(84.0)
         assert result["constraint_adjusted_score"] == pytest.approx(45.0)
         assert result["constraint_adjustment_summary"]["cap_reason_counts"]["operator_multiple_severe_failures"] == 1
         assert result["constraint_adjustment_summary"]["mean_legacy_penalty_adjusted_score"] == pytest.approx(38.89625)

@@ -1,0 +1,39 @@
+{
+  "version": "forge-video-5plus1-gated-v1.0",
+  "technical_axes": [
+    "industrial_logic_and_fact_alignment",
+    "geometric_integrity",
+    "physical_plausibility",
+    "temporal_consistency",
+    "reference_and_motion_fidelity"
+  ],
+  "technical_weight": 0.8,
+  "application_axis": "application_usefulness",
+  "application_weight": 0.2,
+  "strict_axis_threshold": 60.0,
+  "task_success_thresholds": [55.0, 60.0, 65.0],
+  "zero_event_coverage_cap": 30.0,
+  "partial_event_coverage_cap": 60.0,
+  "severe_motion_threshold": 20.0,
+  "severe_motion_cap": 55.0,
+  "hard_application_failure_penalty": 0.5,
+  "operator_min_confidence": 0.7,
+  "operator_gate_min": 0.25,
+  "operator_axis_caps": {
+    "global_regeneration_reference": 60.0,
+    "global_regeneration_temporal": 65.0,
+    "large_nonlocal_change_reference": 80.0,
+    "abrupt_temporal_transition": 60.0,
+    "late_abrupt_temporal_break": 50.0,
+    "rigid_drift_geometry": 80.0
+  },
+  "legacy_operator_ranking_caps": {
+    "one_severe_failure": 60.0,
+    "multiple_severe_failures": 45.0,
+    "rigid_drift": 80.0
+  },
+  "bootstrap_iterations": 1000,
+  "bootstrap_seed": 1729,
+  "invalid_policy": "incomplete_run_not_publishable",
+  "gate_policy": "each_evidence_source_affects_headline_once"
+}
