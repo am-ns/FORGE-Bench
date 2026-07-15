@@ -114,26 +114,20 @@ def extract_independent_evidence(sample: dict) -> dict:
     return explicit
 
 
-def score_reasoning_detail(reasoning: str, observable_coverage: float | None, failure_modes: list[str], confidence: float | None, axis_scores: dict[str, float] | None = None) -> dict:
-    text = str(reasoning or "").strip()
-    lower = text.lower()
-    words = re.findall(r"[A-Za-z0-9_]+", text)
-    grounding = min(100.0, 20.0 * sum(term in lower for term in ("frame", "shows", "visible", "across", "reference", "camera")))
-    dedup = deduplicate_failure_modes(failure_modes)
-    specificity = min(100.0, 25.0 * dedup["distinct_family_count"] + (25.0 if len(words) >= 20 else 0.0))
-    causal = min(100.0, 25.0 * sum(term in lower for term in ("because", "therefore", "however", "consistent", "leads", "result", "while", "but")))
-    completeness = 0.0 if len(words) < 8 else 60.0 if len(words) < 20 else 80.0 if len(words) < 50 else 100.0
-    if observable_coverage is not None:
-        completeness = 0.75 * completeness + 0.25 * max(0.0, min(100.0, float(observable_coverage)))
-    contradictions = []
-    scores = axis_scores or {}
-    checks = {"geometric_integrity": ("geometry is preserved", "geometry remains stable", "component counts are preserved"), "temporal_consistency": ("temporally consistent", "stable across frames", "smooth continuity"), "reference_and_motion_fidelity": ("camera motion is correct", "reference is preserved")}
-    for axis, phrases in checks.items():
-        if float(scores.get(axis, 100.0)) <= 20.0 and any(phrase in lower for phrase in phrases):
-            contradictions.append(axis)
-    consistency = max(0.0, 100.0 - 35.0 * len(contradictions))
-    score = fmean((grounding, specificity, causal, completeness, consistency))
-    return {"score": score, "grounding": grounding, "specificity": specificity, "causal_coherence": causal, "completeness": completeness, "score_text_consistency": consistency, "contradictions": contradictions, "reported_confidence": confidence, "method": "five_component_evidence_consistency_rubric_v2"}
+def score_reasoning_detail(reasoning_alignment: dict | None) -> dict:
+    """Score only pre-authored binary reasoning questions; ignore prose style."""
+    alignment = reasoning_alignment or {}
+    questions = alignment.get("per_question")
+    if not isinstance(questions, list) or not questions:
+        return {"score": None, "correct": None, "total": 0, "available": False, "per_question": [], "method": "binary_question_accuracy_v1"}
+    normalized = []
+    for question in questions:
+        if not isinstance(question, dict) or not isinstance(question.get("correct"), bool):
+            return {"score": None, "correct": None, "total": len(questions), "available": False, "per_question": questions, "method": "binary_question_accuracy_v1", "unavailable_reason": "incomplete_binary_answers"}
+        normalized.append({"id": question.get("id"), "answer": question.get("answer"), "visible_evidence": question.get("visible_evidence", ""), "evidence_frames": question.get("evidence_frames", []), "correct": question["correct"]})
+    correct = sum(question["correct"] for question in normalized)
+    total = len(normalized)
+    return {"score": 100.0 * correct / total, "correct": correct, "total": total, "available": True, "per_question": normalized, "method": "binary_question_accuracy_v1"}
 
 
 def apply_original_gates(sample: dict, pre_gate_score: float, scores: dict[str, float], config: dict) -> dict:
@@ -186,7 +180,7 @@ def rescore_sample(sample: dict, config_overrides: dict | None = None) -> dict:
     weight_total = sum(config["axis_weights"][axis] for axis in arbitration)
     technical = sum(config["axis_weights"][axis] * row["score"] for axis, row in arbitration.items()) / weight_total
     application = max(0.0, min(100.0, float(scores.get("application_usefulness", sample.get("application_score", technical)))))
-    reasoning = score_reasoning_detail(sample.get("reasoning", ""), sample.get("observable_event_coverage"), sample.get("failure_modes", []), sample.get("confidence"), scores)
+    reasoning = score_reasoning_detail(sample.get("reasoning_alignment"))
     dedup = deduplicate_failure_modes(sample.get("failure_modes", []))
     aw = float(config["application_weight"])
     base = (1.0 - aw) * technical + aw * application

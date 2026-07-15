@@ -21,13 +21,16 @@ from scoring.versioned_policy import rescore_sample
 def summarize(rows: list[dict]) -> dict:
     old = [float(r.get("technical_score", 0.0)) for r in rows]
     new = [float(r["headline_score_v4"]) for r in rows]
+    reasoning_scores = [r["reasoning_detail_score"]["score"] for r in rows if r["reasoning_detail_score"].get("available")]
     return {
         "count": len(rows), "old_mean": fmean(old), "new_mean": fmean(new),
         "mean_delta": fmean(n - o for o, n in zip(old, new)),
         "new_stddev": pstdev(new),
         "conflicts_arbitrated": sum(any(x["conflict"] for x in r["conflict_arbitration"].values()) for r in rows),
         "samples_with_duplicate_failure_labels": sum(r["deduplicated_penalty"]["duplicate_count"] > 0 for r in rows),
-        "reasoning_mean": fmean(r["reasoning_detail_score"]["score"] for r in rows),
+        "reasoning_mean": fmean(reasoning_scores) if reasoning_scores else None,
+        "reasoning_available": len(reasoning_scores),
+        "reasoning_unavailable": len(rows) - len(reasoning_scores),
         "gate_summary": {
             "samples_gated": sum(r["gate_adjustment"]["gate_applied"] for r in rows),
             "reason_counts": dict(__import__("collections").Counter(reason for r in rows for reason in r["gate_adjustment"]["gate_reasons"])),

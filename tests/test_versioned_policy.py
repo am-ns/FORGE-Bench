@@ -19,17 +19,24 @@ def test_duplicate_failure_family_is_deduplicated_without_headline_penalty():
     assert row["distinct_family_count"] == 2
 
 
-def test_reasoning_detail_rewards_grounded_specific_causal_evidence():
-    weak = score_reasoning_detail("bad", 20, [], .5)
-    strong = score_reasoning_detail("Frames show the camera is stable; however the required consequence is missing because no response is visible.", 80, ["missing_response"], .9)
-    assert strong["score"] > weak["score"]
+def test_reasoning_detail_uses_only_binary_question_accuracy():
+    result = score_reasoning_detail({"per_question": [{"id": "q1", "correct": True}, {"id": "q2", "correct": False}]})
+    assert result["score"] == 50
+    assert result["available"] is True
+
+
+def test_reasoning_detail_is_unavailable_without_complete_binary_answers():
+    assert score_reasoning_detail(None)["score"] is None
+    incomplete = score_reasoning_detail({"per_question": [{"id": "q1", "answer": "yes"}]})
+    assert incomplete["score"] is None
+    assert incomplete["unavailable_reason"] == "incomplete_binary_answers"
 
 
 def test_rescore_is_versioned_bounded_and_deterministic():
     sample = {"scores": {"industrial_logic_and_fact_alignment": 80, "geometric_integrity": 80, "physical_plausibility": 80, "temporal_consistency": 80, "reference_and_motion_fidelity": 80, "application_usefulness": 60}, "reasoning": "Frames show visible evidence.", "failure_modes": [], "confidence": .8}
     first = rescore_sample(sample); second = rescore_sample(sample)
     assert first == second
-    assert first["policy_version"] == "forge-bench-paper-v4.2.1"
+    assert first["policy_version"] == "forge-bench-paper-v4.2.2"
     assert len(first["scoring_config"]["source_config_sha256"]) == 64
     assert len(first["scoring_config"]["resolved_config_sha256"]) == 64
     assert first["scoring_config"]["source_config_sha256"] != first["scoring_config"]["resolved_config_sha256"]
