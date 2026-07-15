@@ -2,6 +2,7 @@ import pytest
 
 from scoring.versioned_policy import arbitrate_score, deduplicate_failure_penalty, extract_independent_evidence, resolve_config, rescore_sample, score_reasoning_detail
 from scripts.eval_hailuo_qwen_omni import axis_evidence_contradictions, degenerate_axis_pattern, normalized_binary_pattern
+from scripts.rescore_hailuo_paper_v4 import _bca_interval, _quantile, apply_holm
 
 
 def test_conflict_requires_valid_confident_independent_evidence():
@@ -91,3 +92,17 @@ def test_binary_review_scale_is_rejected():
 def test_positive_axis_evidence_cannot_pair_with_near_zero_score():
     parsed = {"geometric_integrity": 0, "axis_evidence": {"geometric_integrity": "Geometry remains preserved and consistent across frames."}}
     assert axis_evidence_contradictions(parsed) == ["geometric_integrity"]
+
+
+def test_paper_quantiles_and_bca_interval_are_bounded():
+    assert _quantile([0, 10, 20, 30], 0.25) == 7.5
+    interval = _bca_interval(2.0, [1.0, 1.5, 2.0, 2.5, 3.0] * 20, [1.8, 2.0, 2.2])
+    assert 1.0 <= interval[0] <= interval[1] <= 3.0
+
+
+def test_holm_correction_is_monotone_and_preserves_order():
+    rows = [{"cluster_sign_permutation_p_raw": 0.01}, {"cluster_sign_permutation_p_raw": 0.04}, {"cluster_sign_permutation_p_raw": 0.03}]
+    adjusted = apply_holm(rows)
+    assert adjusted[0]["cluster_sign_permutation_p_holm"] == pytest.approx(0.03)
+    assert adjusted[2]["cluster_sign_permutation_p_holm"] == pytest.approx(0.06)
+    assert adjusted[1]["cluster_sign_permutation_p_holm"] == pytest.approx(0.06)

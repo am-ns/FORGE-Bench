@@ -11,11 +11,14 @@ import sys
 import math
 from collections import defaultdict
 from pathlib import Path
-from statistics import fmean, pstdev
+from statistics import NormalDist, fmean, median, pstdev
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scoring.versioned_policy import rescore_sample
+
+BOOTSTRAP_ITERATIONS = 10_000
+RANDOM_SEED = 1729
 
 
 def summarize(rows: list[dict]) -> dict:
@@ -24,6 +27,11 @@ def summarize(rows: list[dict]) -> dict:
     reasoning_scores = [r["reasoning_detail_score"]["score"] for r in rows if r["reasoning_detail_score"].get("available")]
     return {
         "count": len(rows), "old_mean": fmean(old), "new_mean": fmean(new),
+        "new_median": median(new),
+        "new_iqr": [_quantile(new, 0.25), _quantile(new, 0.75)],
+        "new_min": min(new), "new_max": max(new),
+        "new_zero_rate": sum(score == 0.0 for score in new) / len(new),
+        "new_success_rate_at_60": sum(score >= 60.0 for score in new) / len(new),
         "mean_delta": fmean(n - o for o, n in zip(old, new)),
         "new_stddev": pstdev(new),
         "conflicts_arbitrated": sum(any(x["conflict"] for x in r["conflict_arbitration"].values()) for r in rows),
@@ -64,18 +72,61 @@ def _correlation(left: list[float], right: list[float]) -> float | None:
     return numerator / denominator if denominator else None
 
 
-def diagnostics(source: list[dict], baseline: list[dict]) -> dict:
-    rng = random.Random(1729)
-    means = [fmean(baseline[rng.randrange(len(baseline))]["headline_score_v4"] for _ in baseline) for _ in range(1000)]
+def _quantile(values: list[float], probability: float) -> float:
+    ordered = sorted(float(value) for value in values)
+    if not ordered:
+        raise ValueError("quantile requires at least one value")
+    position = (len(ordered) - 1) * probability
+    lower = int(math.floor(position)); upper = int(math.ceil(position))
+    if lower == upper:
+        return ordered[lower]
+    return ordered[lower] + (ordered[upper] - ordered[lower]) * (position - lower)
+
+
+def _scene_family(row: dict) -> str:
+    reference = row.get("reference_path")
+    if not reference:
+        raise ValueError(f"sample {row.get('task_id')} has no reference_path for scene-family clustering")
+    return Path(reference).parent.name
+
+
+def _bca_interval(observed: float, bootstrap: list[float], jackknife: list[float], alpha: float = 0.05) -> list[float]:
+    normal = NormalDist()
+    proportion = min(1 - 1e-9, max(1e-9, sum(value < observed for value in bootstrap) / len(bootstrap)))
+    bias = normal.inv_cdf(proportion)
+    jack_mean = fmean(jackknife)
+    numerator = sum((jack_mean - value) ** 3 for value in jackknife)
+    denominator = 6.0 * sum((jack_mean - value) ** 2 for value in jackknife) ** 1.5
+    acceleration = numerator / denominator if denominator else 0.0
+    adjusted = []
+    for probability in (alpha / 2.0, 1.0 - alpha / 2.0):
+        z = normal.inv_cdf(probability)
+        denominator_term = 1.0 - acceleration * (bias + z)
+        adjusted.append(normal.cdf(bias + (bias + z) / denominator_term))
+    return [_quantile(bootstrap, max(0.0, min(1.0, probability))) for probability in adjusted]
+
+
+def _cluster_bootstrap(rows: list[dict], value_key: str, rng: random.Random) -> tuple[list[float], list[float], int]:
     clusters = defaultdict(list)
-    for row in baseline:
-        clusters[row.get("task_category") or row.get("domain") or row["task_id"].split("_", 1)[0]].append(row)
-    cluster_values = list(clusters.values())
-    cluster_means = []
-    for _ in range(1000):
-        drawn = [cluster_values[rng.randrange(len(cluster_values))] for _ in cluster_values]
-        flat = [row["headline_score_v4"] for cluster in drawn for row in cluster]
-        cluster_means.append(fmean(flat))
+    for row in rows:
+        clusters[_scene_family(row)].append(float(row[value_key]))
+    names = sorted(clusters)
+    if len(names) < 3:
+        raise ValueError("BCa cluster bootstrap requires at least three scene families")
+    distribution = []
+    for _ in range(BOOTSTRAP_ITERATIONS):
+        drawn = [clusters[names[rng.randrange(len(names))]] for _ in names]
+        distribution.append(fmean(value for cluster in drawn for value in cluster))
+    jackknife = [fmean(value for name in names if name != omitted for value in clusters[name]) for omitted in names]
+    return distribution, jackknife, len(names)
+
+
+def diagnostics(source: list[dict], baseline: list[dict]) -> dict:
+    rng = random.Random(RANDOM_SEED)
+    new_scores = [float(row["headline_score_v4"]) for row in baseline]
+    means = [fmean(new_scores[rng.randrange(len(new_scores))] for _ in new_scores) for _ in range(BOOTSTRAP_ITERATIONS)]
+    sample_jackknife = [fmean(new_scores[:index] + new_scores[index + 1:]) for index in range(len(new_scores))]
+    cluster_means, cluster_jackknife, cluster_count = _cluster_bootstrap(baseline, "headline_score_v4", rng)
     variants = {}
     for name, override in {
         "lower_application_weight": {"application_weight": 0.10},
@@ -90,15 +141,16 @@ def diagnostics(source: list[dict], baseline: list[dict]) -> dict:
         rows = [rescore_sample(row, override) for row in source]
         variants[name] = {"mean": fmean(r["headline_score_v4"] for r in rows), "override": override}
     old_scores = [float(row.get("technical_score", 0.0)) for row in baseline]
-    new_scores = [float(row["headline_score_v4"]) for row in baseline]
     top_k = min(10, len(baseline))
     old_top = {baseline[i]["task_id"] for i in sorted(range(len(baseline)), key=lambda i: old_scores[i], reverse=True)[:top_k]}
     new_top = {baseline[i]["task_id"] for i in sorted(range(len(baseline)), key=lambda i: new_scores[i], reverse=True)[:top_k]}
     return {
-        "bootstrap_mean_ci95": [sorted(means)[24], sorted(means)[974]],
-        "cluster_bootstrap_mean_ci95": [sorted(cluster_means)[24], sorted(cluster_means)[974]],
-        "cluster_key": "task_category_or_domain_or_task_prefix",
-        "bootstrap_iterations": 1000,
+        "bootstrap_mean_bca_ci95": _bca_interval(fmean(new_scores), means, sample_jackknife),
+        "cluster_bootstrap_mean_bca_ci95": _bca_interval(fmean(new_scores), cluster_means, cluster_jackknife),
+        "cluster_key": "reference_path_parent_scene_family",
+        "cluster_count": cluster_count,
+        "bootstrap_iterations": BOOTSTRAP_ITERATIONS,
+        "bootstrap_seed": RANDOM_SEED,
         "old_new_spearman": _correlation(_rank(old_scores), _rank(new_scores)),
         "top_10_overlap": len(old_top & new_top) / top_k,
         "zero_technical_samples": sum(score == 0.0 for score in old_scores),
@@ -107,15 +159,72 @@ def diagnostics(source: list[dict], baseline: list[dict]) -> dict:
     }
 
 
+def paired_comparison(primary: list[dict], comparison: list[dict], label: str) -> dict:
+    left = {row["task_id"]: row for row in primary}
+    right = {row["task_id"]: row for row in comparison}
+    task_ids = sorted(left.keys() & right.keys())
+    if not task_ids:
+        raise ValueError(f"no paired task IDs for comparison {label}")
+    paired_rows = []
+    for task_id in task_ids:
+        paired_rows.append({
+            "task_id": task_id,
+            "reference_path": left[task_id].get("reference_path") or right[task_id].get("reference_path"),
+            "paired_difference": float(left[task_id]["headline_score_v4"]) - float(right[task_id]["headline_score_v4"]),
+        })
+    differences = [row["paired_difference"] for row in paired_rows]
+    observed = fmean(differences)
+    rng = random.Random(RANDOM_SEED)
+    bootstrap, jackknife, cluster_count = _cluster_bootstrap(paired_rows, "paired_difference", rng)
+    clusters = defaultdict(list)
+    for row in paired_rows:
+        clusters[_scene_family(row)].append(row["paired_difference"])
+    cluster_sums = [sum(values) for values in clusters.values()]
+    permutation = []
+    for _ in range(BOOTSTRAP_ITERATIONS):
+        permutation.append(sum(value if rng.random() < 0.5 else -value for value in cluster_sums) / len(differences))
+    raw_p = (1 + sum(abs(value) >= abs(observed) for value in permutation)) / (BOOTSTRAP_ITERATIONS + 1)
+    standard_deviation = pstdev(differences)
+    wins = sum(value > 0 for value in differences); losses = sum(value < 0 for value in differences)
+    return {
+        "label": label, "paired_count": len(differences), "cluster_count": cluster_count,
+        "mean_difference_primary_minus_comparison": observed,
+        "median_difference": median(differences),
+        "bca_ci95": _bca_interval(observed, bootstrap, jackknife),
+        "wins_ties_losses": [wins, len(differences) - wins - losses, losses],
+        "paired_standardized_effect_dz": observed / standard_deviation if standard_deviation else None,
+        "matched_rank_biserial": (wins - losses) / len(differences),
+        "cluster_sign_permutation_p_raw": raw_p,
+    }
+
+
+def apply_holm(rows: list[dict]) -> list[dict]:
+    ordered = sorted(enumerate(rows), key=lambda pair: pair[1]["cluster_sign_permutation_p_raw"])
+    running = 0.0; total = len(rows)
+    for rank, (original_index, row) in enumerate(ordered):
+        adjusted = min(1.0, (total - rank) * row["cluster_sign_permutation_p_raw"])
+        running = max(running, adjusted)
+        rows[original_index]["cluster_sign_permutation_p_holm"] = running
+    return rows
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", default="reports/hailuo_qwen_omni_eval_20260714_v2/per_sample.json")
     parser.add_argument("--output-dir", default="reports/hailuo_paper_v4_rescore")
+    parser.add_argument("--compare-input", action="append", default=[], help="Optional per-sample JSON for paired model comparison; repeatable")
     args = parser.parse_args()
     source = [r for r in json.loads(Path(args.input).read_text(encoding="utf-8")) if r.get("status") == "ok"]
     rows = [rescore_sample(row) for row in source]
     output = Path(args.output_dir); output.mkdir(parents=True, exist_ok=True)
     summary = summarize(rows); summary["diagnostics"] = diagnostics(source, rows)
+    comparisons = []
+    for path_text in args.compare_input:
+        comparison_source = [r for r in json.loads(Path(path_text).read_text(encoding="utf-8")) if r.get("status") == "ok"]
+        comparison_rows = [rescore_sample(row) for row in comparison_source]
+        comparisons.append(paired_comparison(rows, comparison_rows, Path(path_text).parent.name))
+    if comparisons:
+        summary["paired_comparisons"] = apply_holm(comparisons)
     (output / "per_sample.json").write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8")
     (output / "aggregate.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
     with (output / "old_vs_new.csv").open("w", newline="", encoding="utf-8-sig") as handle:
