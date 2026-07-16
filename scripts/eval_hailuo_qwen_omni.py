@@ -27,9 +27,34 @@ AXES = (
     "reference_and_motion_fidelity",
     "application_usefulness",
 )
+AXIS_GUIDANCE = {
+    "industrial_logic_and_fact_alignment": "Judge whether the requested industrial objects, state, causal event, and consequence are visibly correct. Missing the requested event can score 0 here.",
+    "geometric_integrity": "Judge only visible shape stability, rigidity, topology, warping, penetration, and unintended disappearance. A missing requested event or static camera does NOT make intact visible geometry score 0; requested breakage is not automatically a geometry defect.",
+    "physical_plausibility": "Judge whether visible objects and any visible motion obey plausible mechanics, gravity, material behavior, and contact. An uneventful but physically plausible static scene retains evidence and must not be zero merely because the requested event is missing.",
+    "temporal_consistency": "Judge continuity, flicker, identity persistence, and smooth progression across chronological frames. Identical stable frames can have strong continuity even though they fail requested motion; do not score task coverage here.",
+    "reference_and_motion_fidelity": "Judge preservation of the reference identity plus compliance with the requested camera motion. Static or wrong camera motion can score low here.",
+    "application_usefulness": "Judge whether the video visibly communicates the requested industrial condition/event well enough for the stated application. Missing core events can score 0 here.",
+}
 TECHNICAL_AXES = AXES[:5]
 PRINT_LOCK = threading.Lock()
-EVALUATOR_VERSION = "hailuo-qwen-omni-axis-review-v4.1.1"
+EVALUATOR_VERSION = "hailuo-qwen-omni-axis-review-v4.3.0"
+
+
+def score_output_contract(include_axis_evidence: bool = False) -> str:
+    """Describe the JSON shape without anchoring the model to numeric zeroes."""
+    fields = ", ".join(AXES)
+    evidence = (
+        " Also include `axis_evidence`, an object with exactly the same six axis keys "
+        "and one short visible observation per key."
+        if include_axis_evidence else ""
+    )
+    return (
+        "Return exactly one JSON object without markdown. The object must contain one "
+        f"numeric 0-100 field for each of these keys: {fields}."
+        f"{evidence} Also include numeric `observable_event_coverage`, string `reasoning`, "
+        "array `failure_modes`, and numeric `confidence`. Do not omit fields and do not "
+        "copy a default or example score."
+    )
 
 
 def degenerate_axis_pattern(scores: dict) -> str | None:
@@ -72,8 +97,34 @@ Use these separations strictly:
 - Wrong object identity can lower reference fidelity and task logic while the video may still have coherent geometry, physics, or time continuity.
 - Give 0 only if that axis has no usable evidence or complete axis-specific failure.
 
-Return exactly one JSON object without markdown. Include one short evidence string per axis:
-{{"industrial_logic_and_fact_alignment":0,"geometric_integrity":0,"physical_plausibility":0,"temporal_consistency":0,"reference_and_motion_fidelity":0,"application_usefulness":0,"observable_event_coverage":0,"axis_evidence":{{"industrial_logic_and_fact_alignment":"","geometric_integrity":"","physical_plausibility":"","temporal_consistency":"","reference_and_motion_fidelity":"","application_usefulness":""}},"reasoning":"cross-axis consistency summary","failure_modes":[],"confidence":0.0}}"""
+For each axis, first make one visible observation, then assign the score supported by that observation. Scores and evidence must agree.
+
+{score_output_contract(include_axis_evidence=True)}"""
+
+
+def single_axis_prompt(sample: dict, axis: str) -> str:
+    return f"""Score ONLY the axis `{axis}` from the supplied reference and chronological video frames.
+
+{compact_context(sample)}
+
+Axis boundary: {AXIS_GUIDANCE[axis]}
+
+Ignore scores for every other axis. Choose a calibrated score from 0, 20, 40, 60, 80, or 100: 0 only means no usable evidence or complete failure specifically for `{axis}`; 20 severe; 40 weak/partial; 60 mixed but usable; 80 strong; 100 exceptional. This is not a yes/no question. Missing requested events must not erase visible quality on unrelated axes, and good-looking frames must not hide failure on this axis. Confidence means confidence in your observation, not task success: if the frames clearly show a failure, the score may be 0 while confidence is high.
+
+First identify one visible observation for this axis, then choose its score. Return exactly one JSON object without markdown containing four fields: `axis` (the exact axis name), `evidence` (the observation), `score` (a numeric 0-100 value), and `confidence` (numeric). No example or default score is provided; derive it from the images."""
+
+
+def parse_single_axis(text: str, expected_axis: str) -> dict:
+    match = re.search(r"\{.*\}", text, re.DOTALL)
+    if not match:
+        raise ValueError("single_axis_response_has_no_json_object")
+    data = json.loads(match.group(0))
+    if data.get("axis") != expected_axis:
+        raise ValueError(f"single_axis_name_mismatch:{data.get('axis')}")
+    score = float(data["score"])
+    if not 0 <= score <= 100:
+        raise ValueError(f"single_axis_score_out_of_range:{expected_axis}={score}")
+    return {"score": score, "evidence": str(data.get("evidence", "")), "confidence": data.get("confidence")}
 
 
 def image_block(frame, max_side: int = 384) -> dict:
@@ -185,8 +236,9 @@ def evaluate_one(client: OpenAI, model: str, video_path: Path, sample: dict, rep
 
 Score 0-100 on all six axes. Use 0 only when evidence for that specific axis is absent or completely unusable; 20 means severe failure, 50 mixed/partial, 80 strong, and 100 exceptional. Missing requested events should strongly reduce industrial logic and application usefulness, but must not erase otherwise visible geometry or temporal continuity. Static or wrong camera motion should strongly reduce reference and motion fidelity, but must not erase other axes. Penalize reference drift, warped/disappearing parts, implausible physics, flicker, identity changes, and incomplete industrial consequences. Do not reward visual beauty for hidden functional failures.
 
-Return exactly one JSON object without markdown:
-{{"industrial_logic_and_fact_alignment":0,"geometric_integrity":0,"physical_plausibility":0,"temporal_consistency":0,"reference_and_motion_fidelity":0,"application_usefulness":0,"observable_event_coverage":0,"reasoning":"brief visible evidence","failure_modes":["short labels"],"confidence":0.0}}"""
+For each axis, decide from its own visible evidence; do not reuse one verdict across all axes.
+
+{score_output_contract()}"""
     content.append({"type": "text", "text": prompt})
 
     last_error = None
@@ -204,6 +256,7 @@ Return exactly one JSON object without markdown:
             initial_raw = raw
             review_trigger = degenerate_axis_pattern(parsed)
             review_usage = None
+            single_axis_review = None
             scale_correction_raw = None
             correction_reasons = []
             review_valid = review_trigger is None
@@ -250,6 +303,34 @@ Return exactly one JSON object without markdown:
                     "completion_tokens": getattr(review_response.usage, "completion_tokens", None),
                     "total_tokens": getattr(review_response.usage, "total_tokens", None),
                 }
+                remaining_pattern = degenerate_axis_pattern(parsed)
+                if remaining_pattern:
+                    single_axis_review = {"trigger": remaining_pattern, "axes": {}}
+                    repaired = dict(parsed)
+                    repaired_evidence = dict(parsed.get("axis_evidence") or {})
+                    for axis in AXES:
+                        axis_content = content[:-1] + [{"type": "text", "text": single_axis_prompt(sample, axis)}]
+                        axis_response = client.chat.completions.create(
+                            model=model,
+                            messages=[{"role": "user", "content": axis_content}],
+                            max_tokens=220,
+                            temperature=0,
+                        )
+                        axis_raw = axis_response.choices[0].message.content or ""
+                        axis_result = parse_single_axis(axis_raw, axis)
+                        repaired[axis] = axis_result["score"]
+                        repaired_evidence[axis] = axis_result["evidence"]
+                        single_axis_review["axes"][axis] = {**axis_result, "raw_response": axis_raw}
+                    repaired["axis_evidence"] = repaired_evidence
+                    repaired["reasoning"] = "Scores repaired by independent per-axis review; see axis_evidence."
+                    parsed = repaired
+                    raw = json.dumps(repaired, ensure_ascii=False)
+                    review_valid = degenerate_axis_pattern(parsed) is None
+                if not review_valid:
+                    raise ValueError(
+                        "degenerate_scores_persisted_after_independent_axis_review:"
+                        f"{degenerate_axis_pattern(parsed)}"
+                    )
             technical = statistics.fmean(parsed[a] for a in TECHNICAL_AXES)
             result = {
                 "status": "ok",
@@ -283,6 +364,7 @@ Return exactly one JSON object without markdown:
                     "scale_correction_raw_response": scale_correction_raw,
                     "correction_reasons": correction_reasons,
                     "accepted": review_valid,
+                    "single_axis_review": single_axis_review,
                 },
             }
             state_path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -317,6 +399,7 @@ def write_outputs(results: list[dict], output_dir: Path) -> None:
             "post_review_all_zero": sum(all(float((r.get("scores") or {}).get(axis, 0.0)) == 0.0 for axis in AXES) for r in ok),
             "post_review_all_identical": sum(len({float((r.get("scores") or {}).get(axis, 0.0)) for axis in AXES}) == 1 for r in ok),
             "rejected_after_correction": sum((r.get("degenerate_review") or {}).get("triggered") is True and (r.get("degenerate_review") or {}).get("accepted") is False for r in ok),
+            "single_axis_reviewed": sum(bool((r.get("degenerate_review") or {}).get("single_axis_review")) for r in ok),
         },
     }
     (output_dir / "per_sample.json").write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
