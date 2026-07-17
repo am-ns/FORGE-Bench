@@ -276,7 +276,10 @@ def parse_json(text: str) -> dict:
     data = json.loads(match.group(0))
     scores = {}
     for axis in AXES:
-        value = float(data[axis])
+        raw_value = data[axis]
+        if isinstance(raw_value, dict) and set(raw_value) >= {"score"}:
+            raw_value = raw_value["score"]
+        value = float(raw_value)
         if not 0 <= value <= 100:
             raise ValueError(f"score_out_of_range:{axis}={value}")
         scores[axis] = value

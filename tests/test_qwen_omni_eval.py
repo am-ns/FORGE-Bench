@@ -1,4 +1,5 @@
 import importlib.util
+import json
 from pathlib import Path
 
 import pytest
@@ -43,6 +44,13 @@ def test_degenerate_detection_preserves_independent_axis_policy():
     assert MODULE.degenerate_axis_pattern(all_zero) == "all_axes_zero"
     assert MODULE.degenerate_axis_pattern(all_eighty) == "all_axes_identical"
     assert MODULE.degenerate_axis_pattern(independent) is None
+
+
+def test_parse_json_normalizes_explicit_nested_axis_scores():
+    payload = {axis: {"score": 40 + index} for index, axis in enumerate(MODULE.AXES)}
+    parsed = MODULE.parse_json(json.dumps(payload))
+    assert parsed[MODULE.AXES[0]] == 40.0
+    assert parsed[MODULE.AXES[-1]] == 45.0
 
 
 def _application_payload(**overrides):
