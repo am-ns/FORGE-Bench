@@ -105,3 +105,14 @@ def test_strict_application_score_uses_frozen_component_weights():
     )
     assert score == pytest.approx(63.75)
     assert audit["required_event_completion"] == 1.0
+
+
+def test_strict_application_score_normalizes_explicit_score_wrappers_and_percent_scale():
+    payload = _application_payload(
+        observability_and_localization={"score": 100},
+        industrial_credibility=75,
+    )
+    score, audit = MODULE.strict_application_score(payload)
+    assert score == pytest.approx(97.5)
+    assert audit["components"]["observability_and_localization"] == 4.0
+    assert audit["components"]["industrial_credibility"] == 3.0

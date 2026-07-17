@@ -194,7 +194,12 @@ def strict_application_score(parsed: dict, expected_event_count: int | None = No
         raise ValueError("missing_application_assessment")
     components = {}
     for name, weight in APPLICATION_COMPONENT_WEIGHTS.items():
-        value = float(assessment[name])
+        raw_value = assessment[name]
+        if isinstance(raw_value, dict) and set(raw_value) >= {"score"}:
+            raw_value = raw_value["score"]
+        value = float(raw_value)
+        if value in {25.0, 50.0, 75.0, 100.0}:
+            value /= 25.0
         if value not in {0, 1, 2, 3, 4}:
             raise ValueError(f"invalid_application_component:{name}={value}")
         components[name] = value
