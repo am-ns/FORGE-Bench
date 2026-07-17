@@ -53,6 +53,13 @@ def test_parse_json_normalizes_explicit_nested_axis_scores():
     assert parsed[MODULE.AXES[-1]] == 45.0
 
 
+def test_bootstrap_mean_ci_is_deterministic_and_contains_mean():
+    first = MODULE.bootstrap_mean_ci([10, 20, 30], iterations=100, seed=7)
+    second = MODULE.bootstrap_mean_ci([10, 20, 30], iterations=100, seed=7)
+    assert first == second
+    assert first["ci95_low"] <= first["mean"] <= first["ci95_high"]
+
+
 def _application_payload(**overrides):
     assessment = {
         "core_event_realization": 4,
@@ -70,6 +77,7 @@ def _application_payload(**overrides):
         "decision_usable": True,
         "severe_business_error": False,
         "all_hard_constraints_pass": True,
+        "contextual_negative_control_usable": False,
     }
     assessment.update(overrides)
     return {"application_assessment": assessment}
@@ -84,7 +92,7 @@ def test_strict_application_score_requires_observable_prerequisites():
         _application_payload(core_event_realization=0)
     )
     assert score == 0.0
-    assert (0.0, "core_event_missing") in audit["caps"]
+    assert (0.0, "core_event_missing_and_no_contextual_utility") in audit["caps"]
 
     score, audit = MODULE.strict_application_score(
         _application_payload(), expected_event_count=3
@@ -116,3 +124,23 @@ def test_strict_application_score_normalizes_explicit_score_wrappers_and_percent
     assert score == pytest.approx(97.5)
     assert audit["components"]["observability_and_localization"] == 4.0
     assert audit["components"]["industrial_credibility"] == 3.0
+
+
+def test_contextual_utility_is_limited_continuous_and_requires_stable_correct_scene():
+    payload = _application_payload(
+        core_event_realization=0,
+        contextual_negative_control_usable=True,
+    )
+    payload.update({
+        "geometric_integrity": 90,
+        "temporal_consistency": 80,
+        "reference_and_motion_fidelity": 60,
+    })
+    score, audit = MODULE.strict_application_score(payload)
+    assert score == pytest.approx(20.2)
+    assert audit["contextual_utility_eligible"] is True
+
+    payload["geometric_integrity"] = 40
+    score, audit = MODULE.strict_application_score(payload)
+    assert score == 0.0
+    assert audit["contextual_utility_eligible"] is False

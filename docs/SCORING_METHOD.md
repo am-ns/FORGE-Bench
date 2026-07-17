@@ -21,6 +21,18 @@ overall = ranking_score
 `constraint_adjusted_score` is a deprecated compatibility alias. No other
 metric is a leaderboard total.
 
+### Limited contextual utility for task-failing clips
+
+A clip with no realized core event receives zero task-application credit. It
+may retain at most 25 application points only when the judge explicitly
+identifies it as a usable industrial background or negative-control sample,
+the requested subject is not wrong, and both geometric integrity and temporal
+consistency are at least 60. This limited score is computed continuously as
+`min(25, 0.12*geometry + 0.08*temporal + 0.05*reference_motion)`; it is not a
+constant floor. Corrupt, wrong-subject, unstable, or otherwise non-credible
+clips remain at zero. Reports expose eligibility and contextual contribution
+for ablation and sensitivity analysis.
+
 ## Formal gates
 
 Validated gate evidence can change the headline. Every action is written to a

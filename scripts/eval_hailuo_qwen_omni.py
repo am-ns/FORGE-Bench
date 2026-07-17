@@ -8,6 +8,7 @@ import base64
 import csv
 import json
 import os
+import random
 import re
 import statistics
 import sys
@@ -44,7 +45,7 @@ AXIS_GUIDANCE = {
 }
 TECHNICAL_AXES = AXES[:5]
 PRINT_LOCK = threading.Lock()
-EVALUATOR_VERSION = "hailuo-qwen-omni-axis-review-v5.0.0"
+EVALUATOR_VERSION = "hailuo-qwen-omni-axis-review-v5.1.0"
 APPLICATION_COMPONENT_WEIGHTS = {
     "core_event_realization": 0.35,
     "causal_and_outcome_completeness": 0.25,
@@ -70,7 +71,10 @@ def score_output_contract(include_axis_evidence: bool = False) -> str:
         "whose entries contain `event`, boolean `visible`, boolean `complete`, and "
         "`evidence_frame`, plus booleans `wrong_object`, `causal_order_correct`, "
         "`result_visible`, `decision_usable`, `severe_business_error`, and "
-        "`all_hard_constraints_pass`. Also include numeric `observable_event_coverage`, string `reasoning`, "
+        "`all_hard_constraints_pass`, plus boolean `contextual_negative_control_usable` "
+        "which is true only when a task-failing clip remains a valid industrial background "
+        "or negative-control sample without a wrong subject. Also include numeric "
+        "`observable_event_coverage`, string `reasoning`, "
         "array `failure_modes`, and numeric `confidence`. Do not omit fields and do not "
         "copy a default or example score."
     )
@@ -215,8 +219,16 @@ def strict_application_score(parsed: dict, expected_event_count: int | None = No
     base = 25.0 * sum(APPLICATION_COMPONENT_WEIGHTS[k] * components[k] for k in components)
     caps = []
     core = components["core_event_realization"]
-    if core == 0:
-        caps.append((0.0, "core_event_missing"))
+    contextual_score = None
+    contextual_eligible = (
+        core == 0
+        and assessment.get("contextual_negative_control_usable") is True
+        and assessment.get("wrong_object") is not True
+        and float(parsed.get("geometric_integrity", 0.0)) >= 60.0
+        and float(parsed.get("temporal_consistency", 0.0)) >= 60.0
+    )
+    if core == 0 and not contextual_eligible:
+        caps.append((0.0, "core_event_missing_and_no_contextual_utility"))
     if assessment.get("wrong_object") is True:
         caps.append((20.0, "wrong_object_or_source"))
     complete_count = sum(check.get("complete") is True for check in checks)
@@ -236,9 +248,42 @@ def strict_application_score(parsed: dict, expected_event_count: int | None = No
     if assessment.get("all_hard_constraints_pass") is not True:
         caps.append((75.0, "hard_constraints_not_all_passed"))
     score = min([base, *(cap for cap, _ in caps)])
+    if contextual_eligible:
+        # Limited utility as a stable industrial negative/control sample,
+        # never task-completion credit. The continuous formula avoids a gift floor.
+        contextual_score = min(
+            25.0,
+            0.12 * float(parsed["geometric_integrity"])
+            + 0.08 * float(parsed["temporal_consistency"])
+            + 0.05 * float(parsed["reference_and_motion_fidelity"]),
+        )
+        score = contextual_score
     return score, {"components": components, "base_score": base, "caps": caps,
                    "required_event_completion": completion,
+                   "contextual_utility_eligible": contextual_eligible,
+                   "contextual_utility_score": contextual_score,
                    "protocol_version": PROTOCOL["version"]}
+
+
+def bootstrap_mean_ci(values: list[float], iterations: int = 1000, seed: int = 1729) -> dict:
+    """Deterministic percentile bootstrap interval for a reported mean."""
+    if not values:
+        return {"mean": None, "ci95_low": None, "ci95_high": None, "n": 0}
+    numeric = [float(value) for value in values]
+    rng = random.Random(seed)
+    n = len(numeric)
+    means = sorted(
+        statistics.fmean(numeric[rng.randrange(n)] for _ in range(n))
+        for _ in range(iterations)
+    )
+    return {
+        "mean": statistics.fmean(numeric),
+        "ci95_low": means[int(0.025 * (iterations - 1))],
+        "ci95_high": means[int(0.975 * (iterations - 1))],
+        "n": n,
+        "iterations": iterations,
+        "seed": seed,
+    }
 
 
 def reference_frame(sample: dict, repo_root: Path):
@@ -341,6 +386,10 @@ and not independently usable, 3 substantially complete with limited practical us
 application total: deterministic code applies the frozen weights and prerequisite
 caps. `decision_usable` may be true only when the clip itself supports the stated
 industrial decision, training, inspection, or operational objective.
+`contextual_negative_control_usable` is a separate limited designation: set it
+true only if a clip that fails the requested event still preserves the correct
+industrial subject and is genuinely usable as a background or negative-control
+sample. It never means that the requested task succeeded.
 
 {score_output_contract()}"""
     content.append({"type": "text", "text": prompt})
@@ -497,6 +546,26 @@ def write_outputs(results: list[dict], output_dir: Path) -> None:
     ok = [r for r in results if r.get("status") == "ok"]
     errors = [r for r in results if r.get("status") != "ok"]
     axis_means = {a: statistics.fmean(r["scores"][a] for r in ok) for a in AXES} if ok else {}
+    technical_values = [r["technical_score"] for r in ok]
+    application_values = [r["application_score"] for r in ok]
+    ranking_values = [
+        0.8 * r["technical_score"] + 0.2 * r["application_score"] for r in ok
+    ]
+    contextual_rows = [
+        r for r in ok
+        if (r.get("application_scoring") or {}).get("contextual_utility_eligible") is True
+    ]
+    by_domain = {}
+    for domain in sorted({str(r.get("domain")) for r in ok}):
+        rows = [r for r in ok if str(r.get("domain")) == domain]
+        by_domain[domain] = {
+            "n": len(rows),
+            "technical_score": statistics.fmean(r["technical_score"] for r in rows),
+            "application_score": statistics.fmean(r["application_score"] for r in rows),
+            "linear_ranking_score": statistics.fmean(
+                0.8 * r["technical_score"] + 0.2 * r["application_score"] for r in rows
+            ),
+        }
     aggregate = {
         "num_requested": len(results),
         "num_completed": len(ok),
@@ -504,11 +573,36 @@ def write_outputs(results: list[dict], output_dir: Path) -> None:
         "model": os.environ.get("OPENAI_COMPAT_MODEL", "qwen-omni"),
         "evaluator_version": EVALUATOR_VERSION,
         "axis_means": axis_means,
-        "technical_score": statistics.fmean(r["technical_score"] for r in ok) if ok else None,
-        "application_score": statistics.fmean(r["application_score"] for r in ok) if ok else None,
-        "linear_ranking_score": statistics.fmean(
-            0.8 * r["technical_score"] + 0.2 * r["application_score"] for r in ok
-        ) if ok else None,
+        "technical_score": statistics.fmean(technical_values) if ok else None,
+        "application_score": statistics.fmean(application_values) if ok else None,
+        "linear_ranking_score": statistics.fmean(ranking_values) if ok else None,
+        "technical_score_ci95": bootstrap_mean_ci(technical_values),
+        "application_score_ci95": bootstrap_mean_ci(application_values),
+        "linear_ranking_score_ci95": bootstrap_mean_ci(ranking_values),
+        "application_pass_rate_at_60": (
+            sum(value >= 60.0 for value in application_values) / len(application_values)
+            if application_values else None
+        ),
+        "application_zero_rate": (
+            sum(value == 0.0 for value in application_values) / len(application_values)
+            if application_values else None
+        ),
+        "contextual_utility": {
+            "eligible_count": len(contextual_rows),
+            "eligible_rate": len(contextual_rows) / len(ok) if ok else None,
+            "mean_contribution_all_completed": (
+                statistics.fmean(
+                    float((r.get("application_scoring") or {}).get("contextual_utility_score") or 0.0)
+                    for r in ok
+                ) if ok else None
+            ),
+            "policy_cap": 25.0,
+        },
+        "by_domain": by_domain,
+        "macro_domain_scores": {
+            metric: statistics.fmean(row[metric] for row in by_domain.values())
+            for metric in ("technical_score", "application_score", "linear_ranking_score")
+        } if by_domain else {},
         "scoring_formula": "0.8 * technical_score + 0.2 * application_score (unchanged)",
         "sampling_protocol": PROTOCOL["version"],
         "sampling_protocol_sha256": PROTOCOL["protocol_sha256"],
