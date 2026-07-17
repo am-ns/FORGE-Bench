@@ -18,6 +18,8 @@ from pathlib import Path
 import cv2
 from openai import OpenAI
 
+from eval.video_protocol import PROTOCOL, sampling_manifest
+
 
 AXES = (
     "industrial_logic_and_fact_alignment",
@@ -37,7 +39,14 @@ AXIS_GUIDANCE = {
 }
 TECHNICAL_AXES = AXES[:5]
 PRINT_LOCK = threading.Lock()
-EVALUATOR_VERSION = "hailuo-qwen-omni-axis-review-v4.3.0"
+EVALUATOR_VERSION = "hailuo-qwen-omni-axis-review-v5.0.0"
+APPLICATION_COMPONENT_WEIGHTS = {
+    "core_event_realization": 0.35,
+    "causal_and_outcome_completeness": 0.25,
+    "decision_value": 0.20,
+    "observability_and_localization": 0.10,
+    "industrial_credibility": 0.10,
+}
 
 
 def score_output_contract(include_axis_evidence: bool = False) -> str:
@@ -51,7 +60,12 @@ def score_output_contract(include_axis_evidence: bool = False) -> str:
     return (
         "Return exactly one JSON object without markdown. The object must contain one "
         f"numeric 0-100 field for each of these keys: {fields}."
-        f"{evidence} Also include numeric `observable_event_coverage`, string `reasoning`, "
+        f"{evidence} Also include `application_assessment` with: integer 0-4 fields "
+        f"{', '.join(APPLICATION_COMPONENT_WEIGHTS)}, an array `required_event_checks` "
+        "whose entries contain `event`, boolean `visible`, boolean `complete`, and "
+        "`evidence_frame`, plus booleans `wrong_object`, `causal_order_correct`, "
+        "`result_visible`, `decision_usable`, `severe_business_error`, and "
+        "`all_hard_constraints_pass`. Also include numeric `observable_event_coverage`, string `reasoning`, "
         "array `failure_modes`, and numeric `confidence`. Do not omit fields and do not "
         "copy a default or example score."
     )
@@ -139,7 +153,8 @@ def image_block(frame, max_side: int = 384) -> dict:
     return {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{data}"}}
 
 
-def sample_video_frames(path: Path, count: int = 4) -> list:
+def sample_video_frames(path: Path) -> tuple[list[tuple[int, object]], dict]:
+    """Decode exactly the evidence sets frozen in the repository video protocol."""
     cap = cv2.VideoCapture(str(path))
     if not cap.isOpened():
         raise RuntimeError("video_open_failed")
@@ -147,7 +162,14 @@ def sample_video_frames(path: Path, count: int = 4) -> list:
     if n <= 0:
         cap.release()
         raise RuntimeError("video_has_no_frames")
-    indices = sorted({round(i * (n - 1) / max(1, count - 1)) for i in range(count)})
+    fps = float(cap.get(cv2.CAP_PROP_FPS))
+    manifest = sampling_manifest(n, fps)
+    indices = sorted({
+        index
+        for group in manifest.values()
+        for item in group
+        for index in (item if isinstance(item, list) else [item])
+    })
     frames = []
     for index in indices:
         cap.set(cv2.CAP_PROP_POS_FRAMES, index)
@@ -157,7 +179,56 @@ def sample_video_frames(path: Path, count: int = 4) -> list:
     cap.release()
     if len(frames) < 2:
         raise RuntimeError(f"too_few_decoded_frames:{len(frames)}")
-    return frames
+    return frames, manifest
+
+
+def strict_application_score(parsed: dict, expected_event_count: int | None = None) -> tuple[float, dict]:
+    """Compute the +1 score from auditable facts; the judge never chooses the total."""
+    assessment = parsed.get("application_assessment")
+    if not isinstance(assessment, dict):
+        raise ValueError("missing_application_assessment")
+    components = {}
+    for name, weight in APPLICATION_COMPONENT_WEIGHTS.items():
+        value = float(assessment[name])
+        if value not in {0, 1, 2, 3, 4}:
+            raise ValueError(f"invalid_application_component:{name}={value}")
+        components[name] = value
+    checks = assessment.get("required_event_checks")
+    if not isinstance(checks, list) or any(
+        not isinstance(check, dict)
+        or not str(check.get("event", "")).strip()
+        or not isinstance(check.get("visible"), bool)
+        or not isinstance(check.get("complete"), bool)
+        for check in checks
+    ):
+        raise ValueError("invalid_required_event_checks")
+    base = 25.0 * sum(APPLICATION_COMPONENT_WEIGHTS[k] * components[k] for k in components)
+    caps = []
+    core = components["core_event_realization"]
+    if core == 0:
+        caps.append((0.0, "core_event_missing"))
+    if assessment.get("wrong_object") is True:
+        caps.append((20.0, "wrong_object_or_source"))
+    complete_count = sum(check.get("complete") is True for check in checks)
+    completion = complete_count / len(checks) if checks else 0.0
+    if completion < 0.5:
+        caps.append((30.0, "required_event_completion_below_half"))
+    if expected_event_count is not None and len(checks) < expected_event_count:
+        caps.append((30.0, "required_event_checks_incomplete"))
+    if assessment.get("result_visible") is not True:
+        caps.append((40.0, "result_not_visible"))
+    if assessment.get("causal_order_correct") is not True:
+        caps.append((40.0, "causal_order_incorrect"))
+    if assessment.get("severe_business_error") is True:
+        caps.append((50.0, "severe_business_error"))
+    if assessment.get("decision_usable") is not True:
+        caps.append((60.0, "not_directly_decision_usable"))
+    if assessment.get("all_hard_constraints_pass") is not True:
+        caps.append((75.0, "hard_constraints_not_all_passed"))
+    score = min([base, *(cap for cap, _ in caps)])
+    return score, {"components": components, "base_score": base, "caps": caps,
+                   "required_event_completion": completion,
+                   "protocol_version": PROTOCOL["version"]}
 
 
 def reference_frame(sample: dict, repo_root: Path):
@@ -215,19 +286,30 @@ def evaluate_one(client: OpenAI, model: str, video_path: Path, sample: dict, rep
         try:
             cached = json.loads(state_path.read_text(encoding="utf-8"))
             review = cached.get("degenerate_review") or {}
-            if cached.get("status") == "ok" and cached.get("evaluator_version") == EVALUATOR_VERSION and review.get("accepted") is not False:
+            if (cached.get("status") == "ok"
+                    and cached.get("evaluator_version") == EVALUATOR_VERSION
+                    and cached.get("sampling_protocol_sha256") == PROTOCOL["protocol_sha256"]
+                    and review.get("accepted") is not False):
                 return cached
         except Exception:
             pass
 
-    frames = sample_video_frames(video_path)
+    frames, frame_manifest = sample_video_frames(video_path)
     ref_path, ref = reference_frame(sample, repo_root)
     content = []
     if ref is not None:
         content.extend([{"type": "text", "text": "Reference image:"}, image_block(ref)])
+    progress_indices = set(frame_manifest["task_progress"])
+    visual_indices = set(frame_manifest["visual_quality"])
+    dynamic_indices = {index for window in frame_manifest["dynamic_local"] for index in window}
     for order, (index, frame) in enumerate(frames, 1):
+        roles = [name for name, members in (
+            ("task_progress", progress_indices),
+            ("dynamic_local", dynamic_indices),
+            ("visual_quality", visual_indices),
+        ) if index in members]
         content.extend([
-            {"type": "text", "text": f"Chronological video frame {order}/{len(frames)} (source frame {index}):"},
+            {"type": "text", "text": f"Chronological video frame {order}/{len(frames)} (source frame {index}; evidence sets: {', '.join(roles)}):"},
             image_block(frame),
         ])
     prompt = f"""You are a strict FORGE-Bench industrial video evaluator. Score only visible evidence in the reference and chronological frames. Score every axis independently: failure on one axis must not automatically zero the other axes.
@@ -237,6 +319,15 @@ def evaluate_one(client: OpenAI, model: str, video_path: Path, sample: dict, rep
 Score 0-100 on all six axes. Use 0 only when evidence for that specific axis is absent or completely unusable; 20 means severe failure, 50 mixed/partial, 80 strong, and 100 exceptional. Missing requested events should strongly reduce industrial logic and application usefulness, but must not erase otherwise visible geometry or temporal continuity. Static or wrong camera motion should strongly reduce reference and motion fidelity, but must not erase other axes. Penalize reference drift, warped/disappearing parts, implausible physics, flicker, identity changes, and incomplete industrial consequences. Do not reward visual beauty for hidden functional failures.
 
 For each axis, decide from its own visible evidence; do not reuse one verdict across all axes.
+
+For application usefulness, work in two stages. First record the visible facts and
+required-event checks in `application_assessment`. Then assign each of its five
+components an integer level: 0 absent/unusable, 1 severe or only hinted, 2 partial
+and not independently usable, 3 substantially complete with limited practical use,
+4 complete, clear, credible, and directly usable. Do not calculate the final
+application total: deterministic code applies the frozen weights and prerequisite
+caps. `decision_usable` may be true only when the clip itself supports the stated
+industrial decision, training, inspection, or operational objective.
 
 {score_output_contract()}"""
     content.append({"type": "text", "text": prompt})
@@ -331,6 +422,11 @@ For each axis, decide from its own visible evidence; do not reuse one verdict ac
                         "degenerate_scores_persisted_after_independent_axis_review:"
                         f"{degenerate_axis_pattern(parsed)}"
                     )
+            application_judge_score = parsed["application_usefulness"]
+            application_score, application_scoring = strict_application_score(
+                parsed, expected_event_count=len(sample.get("required_observable_events") or [])
+            )
+            parsed["application_usefulness"] = application_score
             technical = statistics.fmean(parsed[a] for a in TECHNICAL_AXES)
             result = {
                 "status": "ok",
@@ -343,7 +439,12 @@ For each axis, decide from its own visible evidence; do not reuse one verdict ac
                 "reference_path": str(ref_path) if ref_path else None,
                 "scores": {a: parsed[a] for a in AXES},
                 "technical_score": technical,
-                "application_score": parsed["application_usefulness"],
+                "application_score": application_score,
+                "application_judge_score": application_judge_score,
+                "application_assessment": parsed.get("application_assessment"),
+                "application_scoring": application_scoring,
+                "sampling_manifest": frame_manifest,
+                "sampling_protocol_sha256": PROTOCOL["protocol_sha256"],
                 "reasoning": parsed.get("reasoning", ""),
                 "failure_modes": parsed.get("failure_modes", []),
                 "observable_event_coverage": parsed.get("observable_event_coverage"),
@@ -392,6 +493,12 @@ def write_outputs(results: list[dict], output_dir: Path) -> None:
         "axis_means": axis_means,
         "technical_score": statistics.fmean(r["technical_score"] for r in ok) if ok else None,
         "application_score": statistics.fmean(r["application_score"] for r in ok) if ok else None,
+        "linear_ranking_score": statistics.fmean(
+            0.8 * r["technical_score"] + 0.2 * r["application_score"] for r in ok
+        ) if ok else None,
+        "scoring_formula": "0.8 * technical_score + 0.2 * application_score (unchanged)",
+        "sampling_protocol": PROTOCOL["version"],
+        "sampling_protocol_sha256": PROTOCOL["protocol_sha256"],
         "error_task_ids": [r["task_id"] for r in errors],
         "degenerate_review": {
             "triggered": sum(bool((r.get("degenerate_review") or {}).get("triggered")) for r in ok),

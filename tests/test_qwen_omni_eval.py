@@ -1,6 +1,8 @@
 import importlib.util
 from pathlib import Path
 
+import pytest
+
 
 MODULE_PATH = Path(__file__).parents[1] / "scripts" / "eval_hailuo_qwen_omni.py"
 SPEC = importlib.util.spec_from_file_location("eval_hailuo_qwen_omni", MODULE_PATH)
@@ -42,3 +44,56 @@ def test_degenerate_detection_preserves_independent_axis_policy():
     assert MODULE.degenerate_axis_pattern(all_eighty) == "all_axes_identical"
     assert MODULE.degenerate_axis_pattern(independent) is None
 
+
+def _application_payload(**overrides):
+    assessment = {
+        "core_event_realization": 4,
+        "causal_and_outcome_completeness": 4,
+        "decision_value": 4,
+        "observability_and_localization": 4,
+        "industrial_credibility": 4,
+        "required_event_checks": [
+            {"event": "trigger", "visible": True, "complete": True, "evidence_frame": 1},
+            {"event": "result", "visible": True, "complete": True, "evidence_frame": 8},
+        ],
+        "wrong_object": False,
+        "causal_order_correct": True,
+        "result_visible": True,
+        "decision_usable": True,
+        "severe_business_error": False,
+        "all_hard_constraints_pass": True,
+    }
+    assessment.update(overrides)
+    return {"application_assessment": assessment}
+
+
+def test_strict_application_score_requires_observable_prerequisites():
+    score, audit = MODULE.strict_application_score(_application_payload(result_visible=False))
+    assert score == 40.0
+    assert (40.0, "result_not_visible") in audit["caps"]
+
+    score, audit = MODULE.strict_application_score(
+        _application_payload(core_event_realization=0)
+    )
+    assert score == 0.0
+    assert (0.0, "core_event_missing") in audit["caps"]
+
+    score, audit = MODULE.strict_application_score(
+        _application_payload(), expected_event_count=3
+    )
+    assert score == 30.0
+    assert (30.0, "required_event_checks_incomplete") in audit["caps"]
+
+
+def test_strict_application_score_uses_frozen_component_weights():
+    score, audit = MODULE.strict_application_score(
+        _application_payload(
+            core_event_realization=3,
+            causal_and_outcome_completeness=2,
+            decision_value=2,
+            observability_and_localization=3,
+            industrial_credibility=3,
+        )
+    )
+    assert score == pytest.approx(63.75)
+    assert audit["required_event_completion"] == 1.0
