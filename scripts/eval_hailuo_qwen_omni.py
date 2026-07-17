@@ -10,10 +10,15 @@ import json
 import os
 import re
 import statistics
+import sys
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 import cv2
 from openai import OpenAI
@@ -338,7 +343,7 @@ industrial decision, training, inspection, or operational objective.
             response = client.chat.completions.create(
                 model=model,
                 messages=[{"role": "user", "content": content}],
-                max_tokens=384,
+                max_tokens=1200,
                 temperature=0,
             )
             raw = response.choices[0].message.content or ""
@@ -356,7 +361,7 @@ industrial decision, training, inspection, or operational objective.
                 review_response = client.chat.completions.create(
                     model=model,
                     messages=[{"role": "user", "content": review_content}],
-                    max_tokens=700,
+                    max_tokens=1200,
                     temperature=0,
                 )
                 review_raw = review_response.choices[0].message.content or ""
@@ -375,7 +380,7 @@ industrial decision, training, inspection, or operational objective.
                     correction_response = client.chat.completions.create(
                         model=model,
                         messages=[{"role": "user", "content": correction_content}],
-                        max_tokens=700,
+                        max_tokens=1200,
                         temperature=0,
                     )
                     scale_correction_raw = correction_response.choices[0].message.content or ""
