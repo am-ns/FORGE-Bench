@@ -107,9 +107,9 @@ Contains:
 - `axis_scores` - per-axis mean raw scores used by headline reporting
 - `relax_score` - legacy diagnostic mean per-sample score
 - `relax_score_ci95` - deterministic bootstrap 95% confidence interval for `relax_score`
-- `task_conditioned_score` - arithmetic mean of the five technical axes after operator-evidence integration
+- `task_conditioned_score` - normalized task-category-weighted arithmetic mean of the five technical axes after operator-evidence integration
 - `task_conditioned_score_ci95` - deterministic bootstrap 95% confidence interval for `task_conditioned_score`
-- `technical_score` - arithmetic mean of the five technical axes
+- `technical_score` - normalized task-category-weighted arithmetic mean of the five technical axes
 - `technical_score_ci95` - bootstrap 95% confidence interval for `technical_score`
 - `application_score` - application usefulness score used by the 5+1 ranking formula
 - `application_score_ci95` - bootstrap 95% confidence interval for `application_score`
@@ -167,7 +167,7 @@ fidelity plus temporal consistency.
 The headline score uses the 5+1 structure:
 
 ```text
-technical_score = mean(five technical axes)
+technical_score = task-category-weighted mean(five technical axes)
 application_score = application_usefulness
 linear_ranking_score = 0.8 * technical_score + 0.2 * application_score
 ranking_score = apply_each_formal_gate_once(linear_ranking_score)
@@ -175,7 +175,7 @@ overall = ranking_score
 constraint_adjusted_score = ranking_score  # compatibility alias
 ```
 
-There is no weighted/harmonic blend or task-critical bottleneck multiplier.
+There is no harmonic blend or task-critical bottleneck multiplier.
 Observable-event, required-motion, safety, and allowlisted operator gates remain
 formal headline controls and are applied exactly once through the auditable gate
 ledger. Compatibility and legacy diagnostic fields are not alternative totals.

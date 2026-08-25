@@ -16,6 +16,7 @@ from eval.axis_registry import (
     TEMPORAL_CONSISTENCY,
     VIEWPOINT_MOTION_FIDELITY,
     BASE_AXIS_WEIGHTS,
+    axis_weights_for,
     canonical_axis,
     canonicalize_axis_dict,
 )
@@ -53,7 +54,7 @@ CONFIG = {
     "enable_uncalibrated_geometric_conflict_cap": False,
     "motion_cv_min_confidence": 0.70,
     "motion_vlm_weight": 0.75,
-    "headline_score_policy": "forge_5plus1_v1_single_pass_auditable_gates",
+    "headline_score_policy": "forge_5plus1_v2_task_weighted_single_pass_auditable_gates",
     "bootstrap_iterations": 1000,
     "bootstrap_seed": 1729,
     "apply_axis_floors": False,
@@ -278,13 +279,21 @@ def _weighted_harmonic_mean(scores: dict[str, float], weights: dict[str, float])
 
 
 def _task_conditioned_score(result: dict) -> float:
-    """Return the technical score: arithmetic mean of the five technical axes."""
+    """Return the task-category-weighted mean of the five technical axes."""
     scored = result.get("scored", {})
     scores = canonicalize_axis_dict(scored.get("axis_scores", {}))
-    values = [float(scores[axis]) for axis in TECHNICAL_AXES if axis in scores]
-    if not values:
+    axes = [axis for axis in TECHNICAL_AXES if axis in scores]
+    if not axes:
         return 0.0
-    return float(max(0.0, min(100.0, np.mean(values))))
+    weights = axis_weights_for(result)
+    total_weight = sum(float(weights.get(axis, BASE_AXIS_WEIGHTS[axis])) for axis in axes)
+    if total_weight <= 0.0:
+        return 0.0
+    value = sum(
+        float(scores[axis]) * float(weights.get(axis, BASE_AXIS_WEIGHTS[axis]))
+        for axis in axes
+    ) / total_weight
+    return float(max(0.0, min(100.0, value)))
 
 
 def _linear_ranking_score(result: dict) -> float:
@@ -1706,14 +1715,14 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         "complete_case_policy": "ranking is publishable only when every requested sample is complete; no silent complete-case fallback",
         "score_floors_in_headline": False,
         "status": "headline_uses_complete_case_strict_application_hard_adjusted_score",
-        "technical_score_formula": "technical_score = arithmetic mean of the five technical axes",
+        "technical_score_formula": "technical_score = task-category-weighted arithmetic mean of the five technical axes",
         "application_score_formula": "application_score = application_usefulness",
         "linear_ranking_score_formula": "linear_ranking_score = 0.8*technical_score + 0.2*application_usefulness",
         "ranking_score_formula": "ranking_score = single_pass_gates(linear_ranking_score) over the complete frozen manifest",
         "all_critical_pass_accuracy_formula": "critical task axes pass strict threshold, reasoning_alignment is 100 when available, observable event coverage is 100 when available, and no hard caps apply",
         "reasoning_alignment_formula": "binary question accuracy over manually specified implicit-rule checks",
         "visual_quality_policy": "diagnostic middle-frame technical quality score excluded from headline ranking_score",
-        "task_conditioned_score_formula": "technical_score arithmetic mean; no weighted/harmonic blend and no task-critical bottleneck multiplier",
+        "task_conditioned_score_formula": "technical_score uses normalized task-category axis weights; no harmonic blend and no task-critical bottleneck multiplier",
         "constraint_adjusted_score_formula": "deprecated compatibility alias for ranking_score",
         "hard_application_failure_penalty": "applied to headline ranking and retained as diagnostic evidence",
         "application_event_cap_policy": "applied to headline ranking when required events are absent or partial",

@@ -169,11 +169,11 @@ TASK_PROFILES: dict[str, dict] = {
         ),
         "highest_weight_or_gate": GEOMETRIC_INTEGRITY,
         "axis_weights": {
-            INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 1.10,
-            GEOMETRIC_INTEGRITY: 1.70,
-            PHYSICAL_PLAUSIBILITY: 1.45,
-            TEMPORAL_CONSISTENCY: 1.25,
-            REFERENCE_AND_MOTION_FIDELITY: 0.85,
+            INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 0.15,
+            GEOMETRIC_INTEGRITY: 0.30,
+            PHYSICAL_PLAUSIBILITY: 0.25,
+            TEMPORAL_CONSISTENCY: 0.20,
+            REFERENCE_AND_MOTION_FIDELITY: 0.10,
         },
         "rubric": {
             GEOMETRIC_INTEGRITY: "Highest priority: links, rigid joints, axes, supports, and spatial topology must not drift, merge, or collapse.",
@@ -188,11 +188,11 @@ TASK_PROFILES: dict[str, dict] = {
         ),
         "highest_weight_or_gate": GEOMETRIC_INTEGRITY,
         "axis_weights": {
-            INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 1.10,
-            GEOMETRIC_INTEGRITY: 1.80,
-            PHYSICAL_PLAUSIBILITY: 1.05,
-            TEMPORAL_CONSISTENCY: 1.25,
-            REFERENCE_AND_MOTION_FIDELITY: 1.35,
+            INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 0.15,
+            GEOMETRIC_INTEGRITY: 0.30,
+            PHYSICAL_PLAUSIBILITY: 0.15,
+            TEMPORAL_CONSISTENCY: 0.20,
+            REFERENCE_AND_MOTION_FIDELITY: 0.20,
         },
         "rubric": {
             GEOMETRIC_INTEGRITY: "The requested local topology mutation must be precise while untouched structures keep their boundaries and counts.",
@@ -207,11 +207,11 @@ TASK_PROFILES: dict[str, dict] = {
         ),
         "highest_weight_or_gate": PHYSICAL_PLAUSIBILITY,
         "axis_weights": {
-            INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 1.25,
-            GEOMETRIC_INTEGRITY: 1.05,
-            PHYSICAL_PLAUSIBILITY: 1.85,
-            TEMPORAL_CONSISTENCY: 1.30,
-            REFERENCE_AND_MOTION_FIDELITY: 0.95,
+            INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 0.20,
+            GEOMETRIC_INTEGRITY: 0.15,
+            PHYSICAL_PLAUSIBILITY: 0.30,
+            TEMPORAL_CONSISTENCY: 0.20,
+            REFERENCE_AND_MOTION_FIDELITY: 0.15,
         },
         "rubric": {
             PHYSICAL_PLAUSIBILITY: "Highest priority: leakage direction, pressure gradient, gravity, diffusion, thermal spread, and containment must be plausible.",
@@ -226,11 +226,11 @@ TASK_PROFILES: dict[str, dict] = {
         ),
         "highest_weight_or_gate": REFERENCE_AND_MOTION_FIDELITY,
         "axis_weights": {
-            INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 1.00,
-            GEOMETRIC_INTEGRITY: 1.35,
-            PHYSICAL_PLAUSIBILITY: 1.00,
-            TEMPORAL_CONSISTENCY: 1.25,
-            REFERENCE_AND_MOTION_FIDELITY: 1.75,
+            INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 0.15,
+            GEOMETRIC_INTEGRITY: 0.20,
+            PHYSICAL_PLAUSIBILITY: 0.15,
+            TEMPORAL_CONSISTENCY: 0.20,
+            REFERENCE_AND_MOTION_FIDELITY: 0.30,
         },
         "rubric": {
             REFERENCE_AND_MOTION_FIDELITY: "This is a gate: requested camera motion must be executed; static substitutions should be rejected.",
@@ -245,11 +245,11 @@ TASK_PROFILES: dict[str, dict] = {
         ),
         "highest_weight_or_gate": INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
         "axis_weights": {
-            INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 1.85,
-            GEOMETRIC_INTEGRITY: 1.05,
-            PHYSICAL_PLAUSIBILITY: 1.25,
-            TEMPORAL_CONSISTENCY: 1.35,
-            REFERENCE_AND_MOTION_FIDELITY: 0.95,
+            INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 0.30,
+            GEOMETRIC_INTEGRITY: 0.15,
+            PHYSICAL_PLAUSIBILITY: 0.20,
+            TEMPORAL_CONSISTENCY: 0.20,
+            REFERENCE_AND_MOTION_FIDELITY: 0.15,
         },
         "rubric": {
             INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: "Highest priority: violation, trigger, alarm, stop, evacuation, or consequence must form a complete causal loop.",
@@ -400,10 +400,11 @@ def task_profile_for(sample: dict) -> dict:
 def axis_weights_for(sample: dict) -> dict[str, float]:
     """Return full-name axis weights for a sample.
 
-    Precedence (highest wins): per-sample axis_weights > task-profile axis_weights > BASE_AXIS_WEIGHTS.
+    The registered task-category profile is authoritative. Per-sample weights
+    are accepted only as a fallback for unregistered task categories.
     """
-    profile = task_profile_for(sample)
     weights = dict(BASE_AXIS_WEIGHTS)
-    weights.update(profile.get("axis_weights", {}))
     weights.update(canonicalize_axis_dict(sample.get("axis_weights")))
+    profile = task_profile_for(sample)
+    weights.update(profile.get("axis_weights", {}))
     return weights

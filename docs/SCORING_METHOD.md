@@ -8,11 +8,12 @@ canonical leaderboard method.
 
 The five technical axes are industrial logic and fact alignment, geometric
 integrity, physical plausibility, temporal consistency, and reference and
-motion fidelity. Their arithmetic mean is `technical_score`. The +1 axis is
+motion fidelity. Their normalized task-category-weighted arithmetic mean is
+`technical_score`. The +1 axis is
 `application_usefulness`; observable-event coverage is not blended into it.
 
 ```text
-technical_score = mean(five technical axes)
+technical_score = task-category-weighted mean(five technical axes)
 linear_ranking_score = 0.8 * technical_score + 0.2 * application_usefulness
 ranking_score = apply_each_formal_gate_once(linear_ranking_score)
 overall = ranking_score

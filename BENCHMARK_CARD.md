@@ -67,8 +67,8 @@ application failures.
 
 The report exposes:
 
-- `technical_score`: arithmetic mean of the five technical axes after
-  operator-evidence integration.
+- `technical_score`: normalized task-category-weighted arithmetic mean of the
+  five technical axes after operator-evidence integration.
 - `application_score`: canonical +1 application-usefulness axis.
 - `application_score_strict`: deprecated compatibility view equal to
   application usefulness; event coverage is a separate formal gate.
@@ -84,14 +84,12 @@ The report exposes:
 ## Axis Weights
 
 Each sample carries an `axis_weights` field and a task-category profile also
-defines `axis_weights`. The effective weight for an axis follows the precedence
-chain: per-sample `axis_weights` > task-profile `axis_weights` > `BASE_AXIS_WEIGHTS`.
+defines `axis_weights`. Registered task-category profiles are authoritative;
+stored per-sample weights are fallback metadata for unregistered categories.
 
-In the current dataset all 960 samples have `axis_weights` identical to their
-task-profile defaults, so the effective weights are uniform within each of the
-five task categories. Per-sample customization is supported by the pipeline but
-not used in the v1 release. When describing results, axis weights should be
-characterized as **per-task-category** rather than per-sample dynamic.
+Effective weights are uniform within each of the five task categories. When
+describing results, axis weights must be characterized as **per-task-category**
+rather than per-sample dynamic.
 
 ## Validity And Uncertainty
 

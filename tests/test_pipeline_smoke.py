@@ -25,6 +25,7 @@ from eval.axis_registry import (
     REFERENCE_AND_MOTION_FIDELITY,
     TEMPORAL_CONSISTENCY,
     VIEWPOINT_MOTION_FIDELITY,
+    axis_weights_for,
 )
 from eval.physical_plausibility.eval import parse_physical_plausibility_score
 from eval.run_eval import _attach_geometric_operator_evidence, evaluate_geometric_integrity_operator_evidence, evaluate_sample
@@ -483,6 +484,32 @@ class TestFloorEnforcer:
 
 
 class TestScoring:
+    @pytest.mark.parametrize(
+        ("task_category", "expected"),
+        [
+            ("rigid_body_kinematics_and_coupling", 23.0),
+            ("topology_mutation_and_failure", 20.0),
+            ("fluid_dynamics_and_thermodynamics", 22.0),
+            ("spatial_exploration_and_viewpoint", 18.0),
+            ("industrial_logic_and_compliance", 20.0),
+        ],
+    )
+    def test_per_sample_score_uses_task_category_axis_weights(self, task_category, expected):
+        scores = {
+            INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 10,
+            GEOMETRIC_INTEGRITY: 20,
+            PHYSICAL_PLAUSIBILITY: 30,
+            TEMPORAL_CONSISTENCY: 40,
+            REFERENCE_AND_MOTION_FIDELITY: 0,
+        }
+        result = score_sample(
+            scores,
+            axis_weights=axis_weights_for({"task_category": task_category}),
+            task_category=task_category,
+        )
+        assert result["weighted_score"] == pytest.approx(expected)
+        assert sum(result["axis_weights"].values()) == pytest.approx(1.0)
+
     def test_per_sample_score(self):
         """score_sample should return a valid weighted score and rotation integrity factor."""
         result = score_sample(

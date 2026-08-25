@@ -239,7 +239,7 @@ video frames
 Core formula:
 
 ```text
-technical_score = mean(five technical axes)
+technical_score = task-category-weighted mean(five technical axes)
 application_score = application_usefulness
 linear_ranking_score = 0.8 * technical_score + 0.2 * application_score
 ranking_score = apply_each_formal_gate_once(linear_ranking_score)
@@ -252,9 +252,9 @@ correct only when task-critical axes pass, binary reasoning checks are all
 correct when available, observable event coverage is complete when available,
 and no hard cap or hard application failure applies.
 
-`technical_score` / `task_conditioned_score` is now the plain arithmetic mean
-of the five technical axes. There is no weighted/harmonic blend and no
-task-critical bottleneck multiplier in the technical score. `linear_ranking_score`
+`technical_score` / `task_conditioned_score` is the normalized task-category-
+weighted arithmetic mean of the five technical axes. There is no harmonic blend
+and no task-critical bottleneck multiplier in the technical score. `linear_ranking_score`
 is the transparent 5+1 score. The paper-facing `ranking_score` applies the
 predefined hard-adjustment policy for missing/partial required application
 events, hard application failures, strong geometric operator/VLM conflicts,

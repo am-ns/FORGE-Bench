@@ -202,12 +202,16 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
         for axis, score in axis_scores.items()
     }
 
-    technical_values = [
-        float(axis_scores[axis])
-        for axis in TECHNICAL_AXES
-        if axis in axis_scores
-    ]
-    final_score = sum(technical_values) / len(technical_values) if technical_values else 0.0
+    technical_axes_present = [axis for axis in TECHNICAL_AXES if axis in axis_scores]
+    technical_weight_sum = sum(
+        float(weights.get(axis, CONFIG["default_axis_weight"]))
+        for axis in technical_axes_present
+    )
+    final_score = (
+        sum(per_axis_weighted[axis] for axis in technical_axes_present) / technical_weight_sum
+        if technical_weight_sum > 0.0
+        else 0.0
+    )
 
     # Cross-axis integrity factor: geometric mean of the three axes that jointly capture
     # causal correctness (industrial_logic_and_fact_alignment), structural topology
@@ -256,7 +260,7 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
                          for axis in axis_scores},
         "num_axes": len(axis_scores),
         "technical_score": final_score,
-        "technical_score_formula": "arithmetic_mean_of_five_technical_axes",
+        "technical_score_formula": "task_category_weighted_arithmetic_mean_of_five_technical_axes",
         "constraint_axis_adjustments": axis_adjustments,
         "cross_axis_integrity_factor": cross_axis_integrity_factor,
         "cross_axis_integrity_factor_gated": cross_axis_integrity_factor_gated,

@@ -1,5 +1,5 @@
 {
-  "version": "forge-video-5plus1-gated-v1.0",
+  "version": "forge-video-5plus1-task-weighted-v2.0",
   "technical_axes": [
     "industrial_logic_and_fact_alignment",
     "geometric_integrity",
@@ -8,6 +8,14 @@
     "reference_and_motion_fidelity"
   ],
   "technical_weight": 0.8,
+  "technical_aggregation": "normalized_task_category_weighted_arithmetic_mean",
+  "task_category_axis_weights": {
+    "rigid_body_kinematics_and_coupling": [0.15, 0.30, 0.25, 0.20, 0.10],
+    "topology_mutation_and_failure": [0.15, 0.30, 0.15, 0.20, 0.20],
+    "fluid_dynamics_and_thermodynamics": [0.20, 0.15, 0.30, 0.20, 0.15],
+    "spatial_exploration_and_viewpoint": [0.15, 0.20, 0.15, 0.20, 0.30],
+    "industrial_logic_and_compliance": [0.30, 0.15, 0.20, 0.20, 0.15]
+  },
   "application_axis": "application_usefulness",
   "application_weight": 0.2,
   "strict_axis_threshold": 60.0,
