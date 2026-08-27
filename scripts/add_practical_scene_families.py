@@ -353,6 +353,96 @@ SCENES = [
             ],
         },
     },
+    {
+        "scene_id": "erob_hydraulic_arm_coolant_leak",
+        "domain": "embodied_robotics",
+        "task_category": "fluid_dynamics_and_thermodynamics",
+        "image_requirement": "Industrial robot arm with visible hydraulic lines, coolant reservoir, or leak-prone connection point in a robot cell or workcell setting.",
+        "example_task": "Hydraulic coolant line develops a small leak at a joint fitting; fluid drips and pools following gravity and pressure direction while robot arm structure, joint centers, and background stay locked.",
+        "image_path": "dataset/images/embodied_robotics/erob_robot_arm_precision_grasp/ref_05.jpg",
+        "application_override": {
+            "required_observable_events": [
+                "the hydraulic or coolant leak point on the robot arm is visually identifiable",
+                "fluid drips or pools with a plausible gravity-following path near the leak point",
+                "the final frame shows whether the leak remains localized or has been visually flagged",
+            ],
+            "decision_relevant_elements": [
+                "leak origin relative to joints, hoses, and fittings",
+                "fluid spread area versus unaffected arm structure and background",
+                "robot arm pose and joint-center stability during the leak event",
+            ],
+            "application_success_criteria": [
+                "a maintenance reviewer can localize the leak source and affected joint",
+                "fluid behavior remains physically plausible (gravity, pooling, no reverse flow)",
+                "the robot arm identity, joint count, and background stay unchanged",
+            ],
+            "misleading_failure_modes": [
+                "fluid appears or spreads without a visible source point",
+                "the leak area regenerates the whole robot arm or background instead of a local change",
+                "fluid ignores gravity or spreads impossibly fast across the whole frame",
+            ],
+        },
+    },
+    {
+        "scene_id": "pdef_aoi_defect_quarantine_stop",
+        "domain": "precision_defect_gen",
+        "task_category": "industrial_logic_and_compliance",
+        "image_requirement": "Automated optical inspection (AOI) station, PCB inspection line, or vision inspection cell with visible reject bin, pass/fail routing, or quarantine area.",
+        "example_task": "AOI system detects a defect on a PCB or component; the line triggers a stop or divert signal and the defective part is routed to a quarantine bin while the defect area and inspection context remain locked.",
+        "image_path": "dataset/images/precision_defect_gen/pdef_pcb_solder_bridge_short/ref_02.jpg",
+        "application_override": {
+            "required_observable_events": [
+                "the defect is visually detectable on the PCB or component",
+                "the AOI system or line controller triggers a stop, alarm, or divert action",
+                "the defective part is routed toward quarantine or held for manual review",
+            ],
+            "decision_relevant_elements": [
+                "defect location on the board relative to the inspection field of view",
+                "pass/fail indicator, reject bin, quarantine zone, or line-stop state",
+                "unchanged non-defect board areas and inspection-station geometry",
+            ],
+            "application_success_criteria": [
+                "a quality engineer can confirm both the defect and the triggered compliance response",
+                "the complete detect-to-isolate workflow is visible in the clip",
+                "the clip does not skip the required stop or divert step",
+            ],
+            "misleading_failure_modes": [
+                "the defect is detected but the line continues without any response",
+                "the part appears in quarantine without a visible routing action",
+                "non-defect board areas regenerate or the board identity changes",
+            ],
+        },
+    },
+    {
+        "scene_id": "emerg_relief_valve_actuator_emergency_open",
+        "domain": "extreme_emergency",
+        "task_category": "rigid_body_kinematics_and_coupling",
+        "image_requirement": "Pressure relief valve, actuator, valve stem, linkage, or safety valve assembly in a refinery, chemical plant, or pressure-vessel context.",
+        "example_task": "Overpressure triggers emergency relief-valve actuation; the valve stem, actuator linkage, and lever move as a coupled rigid mechanism without joint drift or link bending while venting begins.",
+        "image_path": "dataset/images/extreme_emergency/emerg_reactor_runaway_pressure_release/ref_01.jpg",
+        "application_override": {
+            "required_observable_events": [
+                "the relief valve or actuator linkage is visually identifiable before actuation",
+                "the valve stem and linkage move as a coupled rigid mechanism during opening",
+                "venting or pressure release becomes visible once the valve opens",
+            ],
+            "decision_relevant_elements": [
+                "valve stem travel relative to the actuator and linkage geometry",
+                "joint and pivot positions on the linkage before and after actuation",
+                "vent/release path direction relative to the valve orientation",
+            ],
+            "application_success_criteria": [
+                "an operator can confirm the valve actuated fully without mechanism failure",
+                "linkage geometry stays coupled and physically consistent throughout the motion",
+                "the release direction and timing remain plausible relative to the trigger",
+            ],
+            "misleading_failure_modes": [
+                "the valve stem or linkage detaches, bends, or interpenetrates during actuation",
+                "venting appears before the valve visibly opens",
+                "joint centers on the linkage drift or the mechanism regenerates mid-clip",
+            ],
+        },
+    },
 ]
 
 

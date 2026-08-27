@@ -3,8 +3,9 @@
 This blueprint expands the benchmark from repeated sample variants into
 practical scenario families. Each row defines a scene family, the intended
 task category, the reference-image requirement, and an example task. The current
-dataset contains 60 scenes and 902 samples; sample counts per scene range from
-10 to 49 (mean 15).
+dataset contains 63 scenes and 990 samples; sample counts per scene range from
+10 to 49 (mean 15.7).
+
 
 ## Design Rules
 
@@ -50,6 +51,7 @@ dataset contains 60 scenes and 902 samples; sample counts per scene range from
 | `erob_agv_rollup_door_interlock` | `industrial_logic_and_compliance` | 10 | Warehouse AGV, forklift, roll-up door, dock gate, or automated barrier with clear travel path. | AGV approaches a closed roll-up door; interlock holds the vehicle until the door opens and the path is clear. |
 | `erob_cobot_safety_scanner_slowdown` | `industrial_logic_and_compliance` | 10 | Press line, automated machine row, robot cell, or safeguarded industrial workstation with reachable operating area. | A worker enters the safeguarded operating area; the machine remains stopped or enters a protective stop until the area is clear. |
 | `erob_amr_charger_smoke_abort` | `industrial_logic_and_compliance` | 10 | AMR, AGV, warehouse aisle, rack area, pedestrian crossing, or temporary blocked path with visible navigation lane. | AMR encounters a pedestrian or temporary obstacle in its marked path; it slows or stops and proceeds only after the path is clear. |
+| `erob_hydraulic_arm_coolant_leak` | `fluid_dynamics_and_thermodynamics` | 10 | Industrial robot arm with visible hydraulic lines, coolant reservoir, or leak-prone connection point in a robot cell or workcell setting. | Hydraulic coolant line develops a small leak at a joint fitting; fluid drips and pools following gravity and pressure direction while robot arm structure, joint centers, and background stay locked. |
 
 ## Heavy Load Construction
 
@@ -84,6 +86,7 @@ dataset contains 60 scenes and 902 samples; sample counts per scene range from
 | `pdef_precision_assembly_misalignment` | `rigid_body_kinematics_and_coupling` | 10 | Bearing, shaft, fixture, precision assembly jig, or robotic inspection station. | Precision component is slightly misaligned during assembly; evaluate small pose error without changing part identity. |
 | `pdef_gauge_level_valve_anomaly` | `spatial_exploration_and_viewpoint` | 10 | Automated fixture, assembly pallet, guide rail, positioning pins, or industrial workcell with visible alignment references. | Inspection camera moves across a fixture or pallet to reveal a small positioning offset while preserving part and fixture identity. |
 | `pdef_flange_seal_micro_leak` | `topology_mutation_and_failure` | 10 | Pipe flange, gasket seam, bolted joint, pump seal, or valve packing close-up with localized wetness or residue area. | Tiny seal leak appears and grows locally at the gasket or packing while bolts, pipe geometry, and surrounding metal remain stable. |
+| `pdef_aoi_defect_quarantine_stop` | `industrial_logic_and_compliance` | 10 | Automated optical inspection (AOI) station, PCB inspection line, or vision inspection cell with visible reject bin, pass/fail routing, or quarantine area. | AOI system detects a defect on a PCB or component; the line triggers a stop or divert signal and the defective part is routed to a quarantine bin while the defect area and inspection context remain locked. |
 
 ## Extreme Emergency
 
@@ -101,3 +104,4 @@ dataset contains 60 scenes and 902 samples; sample counts per scene range from
 | `emerg_dam_or_retaining_wall_breach` | `topology_mutation_and_failure` | 10 | Industrial retaining wall, tailings dam face, containment berm, or flood barrier. | Local breach forms in containment wall and water/slurry escapes through the opening with plausible erosion. |
 | `emerg_hot_work_spark_combustible_fire` | `industrial_logic_and_compliance` | 10 | Dust collector, process vessel, industrial ducting, powder handling area, or equipment bay with connected pipes. | Local smoke or dust plume appears at the process equipment; alarm, isolation, or shutdown response is visible while equipment layout stays stable. |
 | `emerg_smoke_evacuation_route_visibility` | `spatial_exploration_and_viewpoint` | 10 | Enclosed rail car, transport tunnel, plant corridor, stairwell, or industrial passage with route landmarks and limited visibility. | Camera pans through smoke or darkness to reveal whether the passage direction, occupants, and evacuation route remain interpretable. |
+| `emerg_relief_valve_actuator_emergency_open` | `rigid_body_kinematics_and_coupling` | 10 | Pressure relief valve, actuator, valve stem, linkage, or safety valve assembly in a refinery, chemical plant, or pressure-vessel context. | Overpressure triggers emergency relief-valve actuation; the valve stem, actuator linkage, and lever move as a coupled rigid mechanism without joint drift or link bending while venting begins. |

@@ -15,8 +15,8 @@ scenario domain -> abstract task -> reference image -> executable prompt
 
 ## Dataset
 
-The current annotation file contains 960 samples from 60 scenes across five
-scenario domains. These samples reference a broader pool of 884 curated images
+The current annotation file contains 990 samples from 63 scenes across five
+scenario domains. These samples reference a broader pool of curated images
 under `dataset/images/`; that pool is maintained as backup/reference coverage.
 For current video generation, model comparison, and public-facing runs, the
 primary set is the curated 500-image generation split.
@@ -24,10 +24,10 @@ primary set is the curated 500-image generation split.
 | Domain | Samples | Coverage Focus |
 |---|---:|---|
 | `visual_security` | 192 | Security monitoring, restricted-zone intrusion, missing protective equipment, unsafe vehicle behavior, and compliance consequences. |
-| `embodied_robotics` | 192 | Robotic-arm manipulation, mobile or legged robot navigation, first-person robot viewpoint, and light-curtain emergency stops. |
+| `embodied_robotics` | 202 | Robotic-arm manipulation, mobile or legged robot navigation, first-person robot viewpoint, light-curtain emergency stops, and hydraulic/coolant leak detection. |
 | `heavy_load_construction` | 192 | Excavators, crawler cranes, wire-rope load paths, muddy ground contact, gantry or bridge-segment alignment, and heavy-load failure. |
-| `precision_defect_gen` | 192 | Circuit-board bridge defects, endoscopic crack inspection, gear damage, multi-axis machining, cutting-fluid spray, and tube-bundle viewpoint motion. |
-| `extreme_emergency` | 192 | High-pressure leakage, flash fire spread, dust explosion, tower icing collapse, and emergency-state causal evolution. |
+| `precision_defect_gen` | 202 | Circuit-board bridge defects, endoscopic crack inspection, gear damage, multi-axis machining, cutting-fluid spray, tube-bundle viewpoint motion, and AOI defect quarantine response. |
+| `extreme_emergency` | 202 | High-pressure leakage, flash fire spread, dust explosion, tower icing collapse, relief-valve actuator kinematics, and emergency-state causal evolution. |
 
 The benchmark uses existing repository images as reference anchors. The
 annotation layer is responsible for the new domain/task semantics, prompts,
@@ -41,13 +41,16 @@ support a RISE-style reasoning alignment diagnostic without replacing the
 industrial domain x task matrix.
 
 The executable full benchmark remains `dataset/annotations/samples.json` with
-960 samples. The operational generation set is
+990 samples. The operational generation set is
 `dataset/annotations/video_generation_500_samples.json`: 500 samples, 500
-unique image references, 100 samples per domain, and coverage across all 60
-scene families. The corresponding copied image folder is
-`reports/video_generation_500_images/` with `index.csv` and `index.json` for
-review. Unless a full-coverage analysis explicitly needs the broader pool, use
-this 500-image split as the default.
+task references (481 unique images, since round-robin selection reuses a
+small number of images across adjacent samples), 100 samples per domain, and
+coverage across all 63 scene families, including the 3 scene families added
+to close the Domain x Task matrix gaps. The corresponding copied image folder
+is `reports/video_generation_500_images/` with `index.csv` and `index.json`
+for review. Unless a full-coverage analysis explicitly needs the broader
+pool, use this 500-image split as the default.
+
 
 ## Task Categories
 
@@ -70,10 +73,25 @@ interaction, not only as a single averaged score.
 | Domain | Rigid Kinematics | Topology Failure | Fluid and Thermo | Spatial Viewpoint | Logic and Compliance |
 |---|---|---|---|---|---|
 | `visual_security` | Forklift overspeed and crane swing | Fence breach and missing guards | Dangerous-goods leak and smoke alarm | CCTV blind-spot sweep | Intrusion, PPE, near-miss, alarm response |
-| `embodied_robotics` | Robot grasp, AMR path, tool contact | Gripper local failure | *(no samples)* | Tracked/quadruped robot viewpoint | Cobot handover and light-curtain stop |
+| `embodied_robotics` | Robot grasp, AMR path, tool contact | Gripper local failure | Hydraulic/coolant leak at robot arm joint | Tracked/quadruped robot viewpoint | Cobot handover and light-curtain stop |
 | `heavy_load_construction` | Crane, excavator, truck, gantry load paths | Wire rope, outrigger, formwork failure | Tunnel pipe burst and mud surge | Bridge/drone alignment inspection | Hoist stop before collision |
-| `precision_defect_gen` | CNC cutting and assembly misalignment | PCB bridge, gear wear, weld/scratch/pin defects | Cutting-fluid spray | Endoscope and tube-bundle navigation | *(no samples)* |
-| `extreme_emergency` | *(no samples)* | Tower icing and wall breach | Flange leak, flash fire, reactor, battery, tunnel, plume | Emergency spatial continuity | Dust explosion, evacuation, response chain |
+| `precision_defect_gen` | CNC cutting and assembly misalignment | PCB bridge, gear wear, weld/scratch/pin defects | Cutting-fluid spray | Endoscope and tube-bundle navigation | AOI defect detection and quarantine stop |
+| `extreme_emergency` | Relief-valve actuator emergency-open linkage | Tower icing and wall breach | Flange leak, flash fire, reactor, battery, tunnel, plume | Emergency spatial continuity | Dust explosion, evacuation, response chain |
+
+The three previously empty cells (`embodied_robotics` x
+`fluid_dynamics_and_thermodynamics`, `precision_defect_gen` x
+`industrial_logic_and_compliance`, and `extreme_emergency` x
+`rigid_body_kinematics_and_coupling`) were filled by running
+`python scripts/add_practical_scene_families.py`, which appended one new
+scene family (10 samples each, 30 samples total) per gap cell. These new
+scenes currently reuse a reference image from an existing scene in the same
+domain as a placeholder anchor; replace with a dedicated image via
+`python scripts/find_reference_images.py` before relying on these cells for
+publication-quality comparisons. The curated 500-sample video-generation
+split has been rebuilt (`python scripts/build_stratified_video_manifest.py`
+followed by `python scripts/materialize_video_generation_500_images.py`) and
+now includes all 3 new scene families.
+
 
 ## Evaluation Axes
 

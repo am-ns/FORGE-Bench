@@ -1,20 +1,27 @@
 # FORGE-Bench Dataset Notes
 
 The annotation file `samples.json` is the authoritative task list for the
-benchmark. It currently contains 960 samples from 60 scenes. Those samples
-currently reference 884 curated images under `dataset/images/`, with deliberate
-reuse where multiple tasks share the strongest image anchor for a scene. This
-884-image pool is broader backup/reference coverage. The default operational
-set for current video generation is the 500-image split described below. The
-full sample set is arranged as:
+benchmark. It currently contains 990 samples from 63 scenes. Those samples
+reference a broader pool of curated images under `dataset/images/`, with
+deliberate reuse where multiple tasks share the strongest image anchor for a
+scene. This image pool is broader backup/reference coverage. The default
+operational set for current video generation is the 500-image split described
+below (drawn from all 63 scene families). The full sample set is
+arranged as:
 
 | Domain | Count |
 |---|---:|
 | `visual_security` | 192 |
-| `embodied_robotics` | 192 |
+| `embodied_robotics` | 202 |
 | `heavy_load_construction` | 192 |
-| `precision_defect_gen` | 192 |
-| `extreme_emergency` | 192 |
+| `precision_defect_gen` | 202 |
+| `extreme_emergency` | 202 |
+
+The three added scene families close the Domain x Task matrix gaps
+(`erob_hydraulic_arm_coolant_leak`, `pdef_aoi_defect_quarantine_stop`,
+`emerg_relief_valve_actuator_emergency_open`, 10 samples each) via
+`python scripts/add_practical_scene_families.py`. They currently reuse an
+existing scene's reference image as a placeholder anchor.
 
 ## Axis Names
 
@@ -96,7 +103,8 @@ tier; the concrete event and constraint burden does.
 ## Scenario Blueprint
 
 `SCENE_BLUEPRINT.md` defines the scenario coverage used by the current
-annotation file. It covers 60 practical scene families across the five domains.
+annotation file. It covers 63 practical scene families across the five domains
+(60 original families plus the 3 added to close Domain x Task matrix gaps).
 Each scene family has a task category, reference-image requirement, and example
 task statement.
 
@@ -108,12 +116,13 @@ prompt generation, and per-sample scene replacement.
 
 `video_generation_500_samples.json` is the primary set for controlled
 image-to-video generation runs. It contains 500 samples: 100 from each scenario
-domain, 500 unique referenced images, and coverage across all 60 scene families.
+domain, 500 task references (481 unique images), and coverage across all 63
+scene families, including the 3 gap-filling scene families.
 The split is selected with a quality-aware image score while preserving the
 preseeded MiniMax angle-probe rows. The copied image folder is
 `reports/video_generation_500_images/`, with `index.csv` and `index.json` for
 review. Use this set by default for generation and model comparisons; use the
-broader 884-image pool when additional backup/reference coverage is needed.
+broader curated-image pool when additional backup/reference coverage is needed.
 
 ## Motion Target
 

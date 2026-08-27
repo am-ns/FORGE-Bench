@@ -10,11 +10,11 @@ model weaknesses instead of only reporting a single average score.
 
 | Domain | Samples | Core Evaluation Role |
 |---|---:|---|
-| `visual_security` | 100 | Industrial security, violation monitoring, access control, protective-equipment compliance, and consequence reasoning. |
-| `embodied_robotics` | 90 | Robot manipulation, locomotion, embodied viewpoint, tool contact, and safety interlocks. |
-| `heavy_load_construction` | 100 | Construction machinery, cranes, gantries, trucks, wire ropes, load paths, and large-scale contact or failure. |
-| `precision_defect_gen` | 100 | Micro-defects, dense structures, endoscopy, gears, CNC cutting, and localized defect generation. |
-| `extreme_emergency` | 100 | Chemical leaks, fire spread, structural overload collapse, dust explosion, and emergency response. |
+| `visual_security` | 192 | Industrial security, violation monitoring, access control, protective-equipment compliance, and consequence reasoning. |
+| `embodied_robotics` | 202 | Robot manipulation, locomotion, embodied viewpoint, tool contact, safety interlocks, and hydraulic/coolant leak detection. |
+| `heavy_load_construction` | 192 | Construction machinery, cranes, gantries, trucks, wire ropes, load paths, and large-scale contact or failure. |
+| `precision_defect_gen` | 202 | Micro-defects, dense structures, endoscopy, gears, CNC cutting, localized defect generation, and AOI defect quarantine response. |
+| `extreme_emergency` | 202 | Chemical leaks, fire spread, structural overload collapse, dust explosion, relief-valve actuator kinematics, and emergency response. |
 
 ## Evaluation Axes
 
@@ -95,10 +95,18 @@ failed"; task answers "which underlying capability failed".
 | Domain | Rigid Kinematics | Topology Failure | Fluid and Thermo | Spatial Viewpoint | Logic and Compliance |
 |---|---|---|---|---|---|
 | `visual_security` | Forklift overspeed and crane swing | Fence breach and missing guards | Dangerous-goods leak and smoke alarm | CCTV blind-spot sweep | Intrusion, PPE, near-miss, alarm response |
-| `embodied_robotics` | Robot grasp, AMR path, tool contact | Gripper local failure | Safety-cell event dynamics | Tracked/quadruped robot viewpoint | Cobot handover and light-curtain stop |
+| `embodied_robotics` | Robot grasp, AMR path, tool contact | Gripper local failure | Hydraulic/coolant leak at robot arm joint | Tracked/quadruped robot viewpoint | Cobot handover and light-curtain stop |
 | `heavy_load_construction` | Crane, excavator, truck, gantry load paths | Wire rope, outrigger, formwork failure | Tunnel pipe burst and mud surge | Bridge/drone alignment inspection | Hoist stop before collision |
-| `precision_defect_gen` | CNC cutting and assembly misalignment | PCB bridge, gear wear, weld/scratch/pin defects | Cutting-fluid spray | Endoscope and tube-bundle navigation | Inspection logic through localized constraints |
-| `extreme_emergency` | Emergency crane/load dynamics | Tower icing and wall breach | Flange leak, flash fire, reactor, battery, tunnel, plume | Emergency spatial continuity | Dust explosion, evacuation, response chain |
+| `precision_defect_gen` | CNC cutting and assembly misalignment | PCB bridge, gear wear, weld/scratch/pin defects | Cutting-fluid spray | Endoscope and tube-bundle navigation | AOI defect detection and quarantine stop |
+| `extreme_emergency` | Relief-valve actuator emergency-open linkage | Tower icing and wall breach | Flange leak, flash fire, reactor, battery, tunnel, plume | Emergency spatial continuity | Dust explosion, evacuation, response chain |
+
+The three cells that previously had no samples (`embodied_robotics` x
+`fluid_dynamics_and_thermodynamics`, `precision_defect_gen` x
+`industrial_logic_and_compliance`, `extreme_emergency` x
+`rigid_body_kinematics_and_coupling`) were filled with one 10-sample scene
+family each via `python scripts/add_practical_scene_families.py`. Treat these
+cells as low-sample-size diagnostics until more scenes are added; see
+`BENCHMARK_CARD.md` for current counts.
 
 ## Implicit Rule Type
 
