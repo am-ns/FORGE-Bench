@@ -1,0 +1,2421 @@
+﻿#!/usr/bin/env python3
+"""Fast multi-source image candidate backfill into a flat staging folder.
+
+This script does not import images into dataset/images. It only stages screened
+candidate photos for review. It is intentionally separate from the older
+backfill scripts.
+"""
+
+from __future__ import annotations
+
+import argparse
+import csv
+import hashlib
+import json
+import os
+import random
+import re
+import shutil
+import sys
+import time
+import urllib.parse
+import urllib.request
+import xml.etree.ElementTree as ET
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from dataclasses import dataclass
+from itertools import islice
+from pathlib import Path
+
+import cv2
+import numpy as np
+from PIL import Image
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+SCRIPT_DIR = REPO_ROOT / "scripts"
+if str(SCRIPT_DIR) not in sys.path:
+    sys.path.insert(0, str(SCRIPT_DIR))
+
+from targeted_candidate_backfill_v2 import SCENE_BANK  # noqa: E402
+
+COMMONS_API = "https://commons.wikimedia.org/w/api.php"
+OPENVERSE_API = "https://api.openverse.org/v1/images/"
+LOC_API = "https://www.loc.gov/photos/"
+NARA_API = "https://catalog.archives.gov/api/v1/"
+PIXABAY_API = "https://pixabay.com/api/"
+INTERNET_ARCHIVE_SEARCH_API = "https://archive.org/advancedsearch.php"
+INTERNET_ARCHIVE_METADATA_API = "https://archive.org/metadata/"
+NASA_IMAGES_API = "https://images-api.nasa.gov/search"
+DVIDS_RSS_API = "https://www.dvidshub.net/rss/image/"
+USER_AGENT = "FORGE-Bench/1.0 (research dataset image sourcing; local operator)"
+IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp"}
+WIKIMEDIA_THUMB_WIDTH = 1024
+HOST_RATE_LIMIT_SECONDS = 0.0
+HOST_RATE_LIMIT_DIR = REPO_ROOT / ".cache" / "fast_multisource_host_locks"
+CLAIM_OWNER_FILENAME = "owner.json"
+DEFAULT_CURRENT_SELECTED_SCENES = REPO_ROOT / "reports" / "image_deficit_plan_current" / "selected_scenes.json"
+
+BLOCKED_TERMS = {
+    "book", "cover", "frontispiece", "page", "scan", "scanned", "diagram",
+    "schematic", "blueprint", "drawing", "illustration", "render",
+    "rendering", "cartoon", "poster", "logo", "icon", "map", "chart",
+    "graph", "manual", "catalog", "catalogue", "journal", "magazine",
+    "newspaper", "pdf", "djvu", "patent", "slide", "presentation",
+    "infographic", "model", "toy", "miniature", "product shot",
+    "packshot", "booth", "expo", "trade show", "advertisement",
+    "brochure", "mockup", "studio shot", "clipart", "vector",
+    "silhouette", "template", "floor plan", "site plan", "cross section",
+    "cutaway", "animation", "3d model", "scale model", "diorama",
+    "lego", "simulation", "cad", "cfd", "finite element",
+    "residential", "house", "home", "apartment", "condominium",
+    "villa", "mansion", "cottage", "bedroom", "kitchen", "bathroom",
+    "living room", "real estate", "hotel", "church", "cathedral",
+    "castle", "palace", "school", "museum", "restaurant", "garden",
+    "park", "forest", "tree", "flower", "leaf", "botanical", "zoo",
+    "aquarium", "pet", "dog", "cat", "horse", "cow", "sheep", "goat",
+    "bird", "fish", "insect", "butterfly", "wildlife", "nature",
+    "portrait", "selfie", "wedding", "fashion", "artwork", "painting",
+    "sculpture", "statue", "coin", "stamp", "flag", "coat of arms",
+    "face", "headshot", "profile photo", "people portrait", "family",
+    "crowd", "ceremony", "award", "conference", "meeting", "classroom",
+    "uniform", "soldier", "army", "navy", "air force", "marine",
+    "abstract", "background", "texture", "pattern", "seamless",
+    "wallpaper", "ornament", "decorative", "mandala", "fabric",
+    "textile", "tile", "tiles", "mosaic", "fractal", "clip art",
+    "bookplate", "manuscript", "leaflet", "flyer", "program",
+    "certificate", "sign", "signage", "label", "story", "stories",
+    "fighter jet", "jet", "aircraft", "airplane", "aeroplane", "airport",
+    "airfield", "airshow", "air show", "f-16", "f16",
+    "train", "railway", "railroad", "locomotive", "exhibition", "expo",
+    "trade fair", "kiosk", "demo", "demonstration", "circuit board",
+    "pcb", "electronics kit", "robot kit", "children", "child",
+}
+
+HUMAN_SUBJECT_TERMS = {
+    "apprentice", "employee", "employees", "face", "facial", "group photo",
+    "helmet", "human", "laborer", "labourer", "man", "operator",
+    "person", "people", "portrait", "selfie", "staff", "team", "welder",
+    "welders", "woman", "worker", "workers",
+}
+
+CONTEXTUAL_HUMAN_TERMS = {
+    "apprentice", "employee", "employees", "helmet", "human", "laborer",
+    "labourer", "man", "operator", "person", "people", "staff", "team",
+    "welder", "welders", "woman", "worker", "workers",
+}
+
+HARD_HUMAN_SUBJECT_TERMS = {
+    "face", "facial", "group photo", "headshot", "portrait", "selfie",
+}
+
+HUMAN_SUBJECT_PHRASES = {
+    "man welding", "person welding", "welder working", "worker welding",
+    "workers welding", "welding operator", "operator welding",
+    "man cutting", "worker cutting", "workers cutting", "man grinding",
+    "worker grinding", "workers grinding", "people working",
+}
+
+INDUSTRIAL_HUMAN_CONTEXT_TERMS = {
+    "arc", "assembly", "beam", "cabinet", "cell", "construction", "crane",
+    "cutting", "factory", "grinder", "grinding", "helmet", "hoist", "hook",
+    "industrial", "inspection", "jib", "lifting", "load", "machine",
+    "machinery", "manufacturing", "metal", "metalworking", "pipe", "plant",
+    "robot", "robotic", "safety", "shop", "site", "sling", "sparks",
+    "steel", "torch", "warehouse", "weld", "welded", "welder", "welding",
+    "workcell", "workpiece", "workshop", "worksite",
+}
+
+REALWORLD_QUERY_SUFFIXES = [
+    "industrial site photo",
+    "factory floor photo",
+    "worksite equipment photo",
+    "field inspection photo",
+    "real world industrial equipment",
+]
+
+SOURCE_NEGATIVE_TERMS = [
+    "diagram", "schematic", "drawing", "illustration", "render", "rendering",
+    "cartoon", "logo", "icon", "map", "chart", "graph", "manual", "poster",
+    "toy", "model", "house", "home", "residential", "garden", "tree",
+    "flower", "bird", "cat", "dog", "wildlife", "book", "page", "scan",
+    "scanned", "portrait", "headshot", "face", "ceremony", "conference",
+    "meeting", "pattern", "texture", "background", "wallpaper", "fabric",
+    "textile", "clipart", "signage", "certificate", "fighter jet", "jet",
+    "aircraft", "airplane", "aeroplane", "airport", "airfield", "airshow",
+    "air show", "f-16", "f16", "air force",
+    "person", "people", "man", "woman", "worker", "workers", "portrait",
+    "welder portrait", "operator portrait", "group photo",
+]
+
+SCENE_ALLOWED_BLOCKED_TERMS = {
+    "erob_quadruped_stairs_rubble_fpv": {"dog", "spot"},
+}
+SCENE_DISABLE_MICRO_QUERIES = {
+    "erob_light_curtain_emergency_stop",
+    "erob_quadruped_stairs_rubble_fpv",
+}
+
+CATEGORY_METADATA_REQUIRED_TERMS = {
+    "photo", "factory", "industrial", "plant", "workshop", "warehouse",
+    "construction", "crane", "robot", "machine", "machinery", "equipment",
+    "process", "pipe", "piping", "tank", "valve", "conveyor", "truck",
+    "excavator", "hoist", "weld", "welding", "sling", "load", "inspection",
+    "defect", "bearing", "gear", "connector", "cabinet", "panel", "fire",
+    "smoke", "leak", "battery", "tunnel", "tower", "site", "worksite",
+    "rigging", "lifting", "gripper", "effector", "pylon", "lattice",
+    "spreader", "welder", "robotic", "automation", "welders",
+    "vehicle", "vehicles", "automated", "autonomous", "mobile", "tracked",
+    "crawler", "quadruped", "legged", "agv", "amr", "arm", "arms",
+    "suction", "vacuum", "guided", "rescue", "inspection",
+}
+
+QUERY_STOPWORDS = {
+    "a", "an", "and", "area", "bay", "close", "control", "equipment", "factory",
+    "field", "floor", "for", "industrial", "inspection", "photo", "real", "site",
+    "system", "the", "with", "worksite", "world",
+}
+WEAK_MATCH_TERMS = {
+    "access", "bay", "building", "construction", "corridor", "emergency",
+    "equipment", "floor", "hazard", "inspection", "plant", "safety", "site",
+    "workshop", "yard",
+}
+SHORT_QUERY_DROP_TERMS = {
+    "around", "context", "field", "hazard", "inspection", "near", "permit",
+    "photo", "prevention", "real", "safety", "site", "watch", "with",
+    "world", "worksite",
+}
+SCENE_TERM_OVERRIDES = {
+    "emerg_hot_work_spark_combustible_fire": {
+        "acetylene", "arc", "burner", "cutting", "grinder", "grinding", "spark",
+        "sparks", "torch", "weld", "welder", "welders", "welding",
+    },
+}
+
+SCENE_REQUIRED_TERMS = {
+    "emerg_hot_work_spark_combustible_fire": {
+        "action": {
+            "acetylene", "arc", "cut", "cutting", "grind", "grinder", "grinding",
+            "hot", "spark", "sparks", "torch", "weld", "welding",
+        },
+        "context": {
+            "combustible", "factory", "industrial", "pipe", "plant",
+            "safety", "shop", "steel", "workshop",
+        },
+    },
+    "emerg_transmission_tower_icing_collapse": {
+        "tower": {"lattice", "pylon", "tower", "transmission"},
+        "weather": {"ice", "icing", "snow", "storm", "winter"},
+    },
+    "erob_amr_warehouse_navigation": {
+        "robot": {"agv", "amr", "autonomous", "mobile", "robot", "robotic"},
+        "warehouse": {
+            "aisle", "fulfillment", "logistics", "pallet", "shelf", "shelves",
+            "warehouse",
+        },
+    },
+    "erob_gripper_failure_recovery": {
+        "robot": {"arm", "robot", "robotic"},
+        "gripper": {"cup", "effector", "gripper", "suction", "vacuum"},
+    },
+    "erob_light_curtain_emergency_stop": {
+        "safety": {
+            "barrier", "curtain", "emergency", "fence", "guard", "guarding",
+            "interlock", "light", "perimeter", "safety", "scanner", "sensor",
+            "stop",
+        },
+        "machine": {
+            "cell", "factory", "industrial", "machine", "press", "robot",
+            "workcell",
+        },
+    },
+    "erob_quadruped_stairs_rubble_fpv": {
+        "robot": {"anymal", "boston", "legged", "quadruped", "robot", "spot"},
+        "terrain": {
+            "construction", "debris", "inspection", "rough", "rubble",
+            "stair", "stairs", "terrain", "tunnel",
+        },
+    },
+    "erob_robot_arm_precision_grasp": {
+        "robot": {"abb", "arm", "fanuc", "kuka", "robot", "robotic"},
+        "grasp": {"effector", "gripper", "grasp", "holding", "picking", "workpiece"},
+    },
+    "erob_tracked_robot_rubble": {
+        "robot": {"crawler", "eod", "robot", "tracked", "ugv", "unmanned"},
+        "terrain": {
+            "debris", "disaster", "inspection", "pipe", "rescue", "rough",
+            "rubble", "terrain", "tunnel",
+        },
+    },
+    "hload_blind_lift_spotter_view": {
+        "lift": {"crane", "hoist", "lift", "lifting", "load", "rigging"},
+        "scene": {"blind", "blocked", "clearance", "construction", "hook", "jib", "obstruction", "site"},
+    },
+    "hload_sling_angle_center_of_gravity": {
+        "rigging": {"crane", "hoist", "lift", "lifting", "rigging", "sling", "slings", "spreader"},
+        "load": {"beam", "construction", "heavy", "load", "module", "suspended"},
+    },
+    "pdef_surface_scratch_inspection": {
+        "surface": {"bearing", "machined", "metal", "polished", "steel", "surface", "wafer"},
+        "defect": {"scratch", "scratched", "scratches"},
+    },
+    "pdef_weld_porosity_crack": {
+        "weld": {"bead", "joint", "pipe", "seam", "steel", "weld", "welded", "welding"},
+        "defect": {"crack", "cracked", "defect", "inspection", "porosity"},
+    },
+}
+
+SCENE_NEGATIVE_TERMS = {
+    "emerg_hot_work_spark_combustible_fire": {
+        "aircraft", "airman", "august", "ceremony", "celebration", "festival",
+        "firework", "fireworks", "f16", "navy", "nights", "portrait", "refuel",
+        "refuels", "reno", "seabee", "seabees", "soldier", "sculpture",
+        "statue", "building", "crowd",
+    },
+    "erob_amr_warehouse_navigation": {
+        "aircraft", "airplane", "airport", "airtech", "car", "cascos",
+        "child", "children", "circuit", "demo", "drone", "exhibit",
+        "exhibition", "forklift", "helmet", "kiosk", "medical", "motorcycle",
+        "moto", "pcb", "police", "render", "robotkit", "street", "train", "toy",
+        "conference", "expo", "lawn", "lecture", "museum", "race", "university",
+        "bridge", "building", "construction", "container", "crane", "gantry",
+        "icon", "port", "rail", "satellite", "scaffold", "ship", "sign",
+        "terminal", "tower",
+    },
+    "erob_gripper_failure_recovery": {
+        "camera", "claw", "hand", "leather", "light", "pencil", "shoe",
+        "shoes", "stage", "toy",
+    },
+    "erob_light_curtain_emergency_stop": {
+        "bastion", "building", "curtain ring", "curtain wall", "factory exterior",
+        "firefighter", "firefighters", "guinea", "harbor", "laser show", "light art",
+        "light curtain wall", "medieval", "ornamental", "optical fiber",
+        "post-medieval", "prince", "privacy curtain", "ship", "smoke",
+        "the light guinea", "welding", "welding curtain", "stage",
+        "theater", "cartoon", "drape", "drapes", "exhibition", "hall",
+        "historic", "illustration", "newspaper", "page", "press", "print",
+        "room", "screen", "window", "windows",
+    },
+    "erob_quadruped_stairs_rubble_fpv": {
+        "aerial", "animal", "arcachon", "bay", "beach", "blind spot",
+        "bright colours", "canberra", "city", "coast", "coastal", "costume",
+        "crawler", "crowd", "cyclone", "drone", "entrance of mystery spot",
+        "festival", "flower", "insect", "island", "jupiter", "map",
+        "market", "mascot", "mont blanc", "mystery spot", "ocean", "pet",
+        "planet", "restaurant", "satellite", "sea", "sign", "statue",
+        "street", "taxi", "toy", "tracked", "uav", "ugv", "wheeled",
+    },
+    "erob_tracked_robot_rubble": {
+        "boat", "flood", "group", "meeting", "rescue_boat", "ship", "tank",
+        "toy", "tractor", "whiteboard", "lawn", "miniature", "model",
+        "tracked vehicle", "aircraft", "airplane", "aviation", "drone",
+        "fixed wing", "helicopter", "plane", "render", "uav",
+    },
+    "hload_blind_lift_spotter_view": {
+        "baseball", "cellular", "communication", "portrait", "road", "signalman",
+        "telecom", "traffic",
+    },
+    "pdef_surface_scratch_inspection": {
+        "archaeology", "artifact", "art", "mineral", "phone", "screen", "stone",
+        "wood",
+    },
+}
+
+SCENE_QUERY_REPLACEMENTS = {
+    "emerg_hot_work_spark_combustible_fire": {
+        "queries": [
+            "welding sparks steel pipe close up",
+            "arc welding sparks metal workpiece",
+            "angle grinder sparks steel beam close up",
+            "torch cutting sparks steel plate",
+            "hot work sparks industrial pipe",
+            "metal cutting sparks workpiece closeup",
+            "welding sparks industrial equipment close up",
+            "grinding sparks steel surface close up",
+            "oxy acetylene cutting sparks steel",
+            "weld arc sparks pipe joint close up",
+        ],
+        "categories": ["Welding", "Arc welding", "Metalworking", "Grinding", "Welded joints", "Metal fabrication"],
+    },
+    "emerg_transmission_tower_icing_collapse": {
+        "queries": [
+            "ice covered transmission tower power line",
+            "high voltage lattice pylon ice storm",
+            "transmission tower snow ice high voltage corridor",
+            "power line tower icing winter storm",
+            "electric transmission pylon snow ice",
+            "lattice transmission tower winter snow",
+        ],
+        "categories": ["Transmission towers", "Power lines in snow", "Ice storms", "Electric power transmission"],
+    },
+    "erob_amr_warehouse_navigation": {
+        "queries": [
+            "autonomous mobile robot warehouse aisle pallets",
+            "AMR robot warehouse shelves logistics",
+            "automated guided vehicle warehouse aisle pallets",
+            "mobile robot navigating warehouse floor shelves",
+            "warehouse robot pallet station AMR",
+            "MiR mobile robot warehouse aisle",
+            "Fetch robotics warehouse robot aisle",
+            "automated guided vehicle factory logistics floor",
+            "warehouse mobile robot conveyor station",
+            "AMR robot fulfillment center aisle",
+            "MiR autonomous mobile robot factory",
+            "Kiva warehouse robot shelf",
+            "Otto Motors mobile robot warehouse",
+            "Amazon robotics warehouse robot",
+            "Locus Robotics warehouse robot",
+            "GeekPlus warehouse robot",
+            "Omron LD mobile robot factory",
+            "industrial AGV tugger warehouse",
+            "automated warehouse robot fleet",
+        ],
+        "categories": [
+            "Autonomous mobile robots", "Automated guided vehicles",
+            "Warehouse robots", "Mobile robots", "Logistics robots",
+            "Warehouse automation", "Industrial logistics", "Industrial vehicles",
+        ],
+    },
+    "erob_gripper_failure_recovery": {
+        "queries": [
+            "industrial robot vacuum gripper holding workpiece",
+            "robot suction cup gripper picking part",
+            "robot end effector gripper workpiece close up",
+            "robot arm gripper holding component factory",
+            "pneumatic robot gripper industrial part",
+            "vacuum end effector robot pick place",
+        ],
+        "categories": ["Robot grippers", "End effectors", "Vacuum grippers", "Industrial robots", "Robotic arms"],
+    },
+    "erob_light_curtain_emergency_stop": {
+        "queries": [
+            "industrial safety fence machine guard",
+            "machine guard safety fence factory",
+            "robot cell safety enclosure",
+            "industrial robot safety enclosure",
+            "machine safety enclosure guarding",
+            "automated machinery safety fence",
+            "interlocked safety gate machine guard",
+            "perimeter guarding industrial machine",
+            "protective fence industrial robot cell",
+            "factory machine safety barrier",
+            "robot cell safety scanner guarded workcell",
+            "industrial robot safety scanner workcell",
+            "machine guarding robot cell safety fence",
+            "robot workcell perimeter guarding safety scanner",
+            "industrial machine guard safety sensor",
+            "automated machine safety guard sensor",
+            "factory robot cell safety fence",
+            "industrial robot cell emergency stop guard",
+            "machine guarding safety gate interlock",
+            "robot cell interlock safety gate",
+            "press machine safety guard sensor",
+            "automated line machine guarding safety sensor",
+            "industrial safety light curtain robot cell photo",
+            "machine safety light curtain emitter receiver guarded cell",
+            "robot workcell safety fence light curtain photo",
+            "SICK safety light curtain machine guarding",
+            "Keyence safety light curtain machine guarding",
+            "Omron safety light curtain guarded machine",
+            "Pilz safety light curtain robot cell",
+            "Leuze safety light curtain machine guard",
+            "Banner safety light curtain manufacturing cell",
+            "safety scanner robot cell perimeter guard",
+            "industrial light barrier machine guarding photo",
+            "press machine safety light curtain guard",
+            "automated line light curtain safety sensor",
+            "robot cell emergency stop safety fence light curtain",
+            "factory machine guarding optical safety sensor",
+            "industrial workcell perimeter safety scanner",
+            "machine safety interlock guard light curtain",
+            "robot workcell guarded access light curtain",
+            "manufacturing cell safety sensor barrier",
+            "industrial machinery safety light beam guard",
+            "industrial safety laser scanner machine guarding",
+            "safety laser scanner robot cell guarding",
+            "photoelectric safety sensor machine guard",
+            "presence sensing safety device machine guarding",
+            "area scanner safety sensor factory machine",
+            "optical safety sensor guarded automated machine",
+            "safety light beam guarded press machine",
+            "industrial machine presence sensor guard",
+            "robot cell access gate safety sensor",
+            "automated machinery photoelectric safety barrier",
+        ],
+        "categories": [
+            "Machine safety", "Machine guarding", "Light curtains",
+            "Safety switches", "Emergency stop buttons", "Industrial robots",
+            "Safety engineering", "Safety fences", "Industrial automation",
+            "Industrial safety", "Fences", "Protective barriers",
+            "Photoelectric sensors", "Safety sensors",
+            "Industrial sensors", "Industrial safety systems",
+        ],
+    },
+    "erob_quadruped_stairs_rubble_fpv": {
+        "queries": [
+            "Boston Dynamics Spot robot",
+            "Spot quadruped robot",
+            "Spot robot industrial inspection",
+            "Spot robot construction inspection",
+            "robot dog inspection robot",
+            "quadruped robot inspection",
+            "legged robot inspection",
+            "ANYmal quadruped robot",
+            "quadruped robot industrial stairs inspection photo",
+            "legged robot stairs factory inspection",
+            "Spot robot construction site stairs inspection",
+            "Boston Dynamics Spot robot stairs construction site",
+            "ANYmal robot industrial inspection stairs",
+            "quadruped robot rubble debris inspection photo",
+            "legged robot tunnel inspection rubble",
+            "quadruped robot rough terrain stairs",
+            "robot dog industrial plant stairs",
+            "legged inspection robot construction debris",
+            "four legged robot rubble traversal",
+            "quadruped robot disaster response debris field",
+            "Spot robot industrial inspection plant",
+            "ANYmal robot rough terrain inspection",
+            "legged robot stairs field test",
+            "quadruped robot construction inspection photo",
+            "robot dog stairs inspection photo",
+            "legged robot debris field inspection",
+            "quadruped robot tunnel stairs inspection",
+            "industrial quadruped robot rough terrain",
+        ],
+        "categories": [
+            "Quadrupedal robots", "Legged robots", "Inspection robots",
+            "Robot locomotion", "Field robots", "Boston Dynamics Spot",
+            "ANYmal",
+        ],
+    },
+    "erob_robot_arm_precision_grasp": {
+        "queries": [
+            "industrial robot arm gripper holding workpiece",
+            "robot arm precision grasp factory part",
+            "robot gripper assembly cell workpiece",
+            "robot end effector picking component",
+            "ABB robot arm gripper workcell",
+            "KUKA robot gripper manufacturing cell",
+            "Fanuc robot arm gripper factory",
+        ],
+        "categories": ["Industrial robots", "Robotic arms", "Robot grippers", "End effectors", "KUKA robots", "ABB robots", "Fanuc robots", "Automation"],
+    },
+    "erob_tracked_robot_rubble": {
+        "queries": [
+            "tracked inspection robot rubble debris",
+            "crawler robot tunnel inspection pipe",
+            "tracked rescue robot rubble debris",
+            "unmanned ground vehicle tracked robot debris",
+            "tracked robot disaster response rubble",
+            "crawler inspection robot industrial tunnel",
+            "tracked robot uneven terrain inspection",
+            "bomb disposal tracked robot debris",
+            "unmanned ground vehicle rubble inspection",
+            "EOD robot debris field",
+            "tracked rescue robot disaster response",
+            "crawler robot collapsed building inspection",
+            "UGV tracked robot rough terrain",
+            "hazmat tracked robot inspection site",
+            "military ground robot tracked inspection",
+            "remote controlled tracked robot inspection",
+            "tactical robot search rescue rubble",
+            "PackBot robot inspection",
+            "TALON robot tracked",
+            "disaster robotics unmanned ground vehicle",
+        ],
+        "categories": [
+            "Tracked robots", "Unmanned ground vehicles",
+            "Explosive ordnance disposal robots", "Disaster response robots",
+            "Remote control robots",
+        ],
+    },
+    "hload_blind_lift_spotter_view": {
+        "queries": [
+            "tower crane hook block jib construction",
+            "mobile crane suspended load construction site",
+            "crane hook block suspended load close up",
+            "tower crane mast jib hook construction",
+            "crawler crane construction site suspended",
+            "lattice boom crane construction hook block",
+            "crane hook block suspended load rigging",
+            "tower crane construction clearance jib",
+            "overhead crane hook block load",
+            "construction crane load obstruction clearance",
+            "mobile crane hook suspended load rigging close up",
+        ],
+        "categories": ["Tower cranes", "Mobile cranes", "Cranes", "Construction cranes", "Crane hooks", "Lifting equipment"],
+    },
+    "hload_sling_angle_center_of_gravity": {
+        "queries": [
+            "crane sling angle suspended load rigging",
+            "spreader beam lifting slings heavy load",
+            "construction lift rigging slings suspended load",
+            "crane hook slings center of gravity load",
+            "heavy lift rigging spreader bar slings",
+            "mobile crane rigging suspended module slings",
+        ],
+        "categories": ["Rigging", "Cranes", "Slings", "Lifting equipment", "Suspended loads", "Heavy lift", "Crane rigging"],
+    },
+    "pdef_surface_scratch_inspection": {
+        "queries": [
+            "polished metal surface scratch close up inspection",
+            "machined metal surface scratch macro defect",
+            "bearing race scratch inspection close up",
+            "wafer surface scratch inspection macro",
+            "steel surface scratch defect closeup",
+            "metal scratch defect inspection macro",
+        ],
+        "categories": ["Scratches", "Surface finishing", "Metal surfaces", "Bearings", "Metallography", "Machined surfaces", "Surface defects"],
+    },
+    "pdef_weld_porosity_crack": {
+        "queries": [
+            "weld bead porosity close up macro",
+            "pipe weld crack macro inspection",
+            "weld seam defect porosity",
+            "welded joint crack defect close",
+            "pipe weld porosity bead",
+            "weld defect inspection macro",
+            "steel weld crack close up",
+            "pipe weld seam bead macro",
+            "weld cross section porosity macro",
+            "weld bead crack closeup",
+            "welding defect porosity metal macro",
+        ],
+        "categories": ["Welded joints", "Welding defects", "Metallography", "Non-destructive testing", "Pipe welding"],
+    },
+}
+
+SCENE_METADATA_REQUIRED_GROUPS = {
+    "erob_amr_warehouse_navigation": {
+        "robot": {"agv", "amr", "autonomous", "guided", "mobile", "robot", "robotic"},
+        "warehouse": {
+            "aisle", "fulfillment", "logistics", "pallet", "shelf", "shelves",
+            "warehouse",
+        },
+    },
+    "erob_light_curtain_emergency_stop": {
+        "safety_sensor": {
+            "barrier", "curtain", "emergency", "fence", "gate", "guard",
+            "guarding", "interlock", "light", "perimeter", "scanner",
+            "sensor", "sick", "stop",
+        },
+        "machine_context": {
+            "automation", "cell", "factory", "industrial", "line", "machine",
+            "press", "robot", "safety", "workcell",
+        },
+    },
+    "erob_quadruped_stairs_rubble_fpv": {
+        "legged_robot": {"boston", "quadruped", "legged", "spot"},
+        "terrain": {
+            "construction", "debris", "inspection", "rough", "rubble",
+            "stairs", "terrain", "tunnel",
+        },
+    },
+    "erob_tracked_robot_rubble": {
+        "tracked_robot": {"crawler", "robot", "tracked", "ugv", "unmanned"},
+        "terrain": {
+            "debris", "disaster", "inspection", "pipe", "rescue", "rough",
+            "rubble", "terrain", "tunnel",
+        },
+    },
+    "hload_blind_lift_spotter_view": {
+        "lifting": {"crane", "hoist", "hook", "jib", "lift", "load", "rigging"},
+    },
+}
+
+SCENE_QUALITY_OVERRIDES = {
+    # Guarding fences and light-curtain cells naturally contain dense grids,
+    # so the global edge/pattern filters are too aggressive for this scene.
+    "erob_light_curtain_emergency_stop": {
+        "max_edge_density": 0.32,
+        "min_pattern_edge_density": 0.32,
+        "max_skin_ratio": 0.36,
+        "max_center_skin_ratio": 0.36,
+        "max_skin_ratio_soft": 0.34,
+        "max_center_skin_ratio_soft": 0.34,
+    },
+}
+
+
+@dataclass(frozen=True)
+class Candidate:
+    provider: str
+    scene: str
+    title: str
+    image_url: str
+    source_url: str
+    license: str
+    query: str
+    width: int = 0
+    height: int = 0
+
+
+def _request_json(url: str, timeout: float) -> dict:
+    import urllib.error as _uerr
+    _rate_limit_host(url)
+    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    for attempt in range(3):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as response:
+                raw = response.read()
+            if not raw or not raw.strip():
+                if attempt < 2:
+                    time.sleep(2.0 + attempt * 4.0)
+                    continue
+                return {}
+            try:
+                return json.loads(raw.decode("utf-8", errors="replace"))
+            except json.JSONDecodeError:
+                if attempt < 2:
+                    time.sleep(2.0 + attempt * 4.0)
+                    continue
+                raise RuntimeError("non_json_response")
+        except _uerr.HTTPError as exc:
+            if exc.code == 429 and attempt < 2:
+                retry_after = exc.headers.get("Retry-After")
+                try:
+                    wait = float(retry_after) if retry_after else 30.0 * (attempt + 1)
+                except ValueError:
+                    wait = 30.0 * (attempt + 1)
+                time.sleep(min(90.0, max(10.0, wait)))
+                continue
+            raise
+    return {}
+
+
+def _download(url: str, dest: Path, timeout: float) -> None:
+    _rate_limit_host(url)
+    headers = {"User-Agent": USER_AGENT}
+    if "staticflickr.com" in url or "flickr.com" in url:
+        headers["Referer"] = "https://www.flickr.com/"
+    req = urllib.request.Request(url, headers=headers)
+    with urllib.request.urlopen(req, timeout=timeout) as response:
+        dest.write_bytes(response.read())
+
+
+def _rate_limit_host(url: str) -> None:
+    if HOST_RATE_LIMIT_SECONDS <= 0:
+        return
+    host = urllib.parse.urlparse(url).netloc.lower() or "unknown"
+    if not host:
+        return
+    HOST_RATE_LIMIT_DIR.mkdir(parents=True, exist_ok=True)
+    digest = hashlib.sha1(host.encode("utf-8")).hexdigest()[:16]
+    lock_path = HOST_RATE_LIMIT_DIR / f"{digest}.lock"
+    lock_path.touch(exist_ok=True)
+    with lock_path.open("r+b") as handle:
+        if os.name == "nt":
+            _rate_limit_host_windows(handle)
+        else:
+            _rate_limit_host_posix(handle)
+
+
+def _rate_limit_host_windows(handle) -> None:
+    import msvcrt
+
+    while True:
+        try:
+            handle.seek(0)
+            msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+            break
+        except OSError:
+            time.sleep(0.1)
+    try:
+        _apply_rate_limit(handle)
+    finally:
+        handle.seek(0)
+        msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
+
+
+def _rate_limit_host_posix(handle) -> None:
+    import fcntl
+
+    fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+    try:
+        _apply_rate_limit(handle)
+    finally:
+        fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+
+
+def _apply_rate_limit(handle) -> None:
+    handle.seek(0)
+    raw = handle.read().decode("ascii", errors="ignore").replace("\x00", "").strip()
+    try:
+        last = float(raw) if raw else 0.0
+    except ValueError:
+        last = 0.0
+    now = time.time()
+    wait = last + HOST_RATE_LIMIT_SECONDS - now
+    if wait > 0:
+        time.sleep(wait + random.uniform(0.05, 0.25))
+    handle.seek(0)
+    handle.truncate()
+    handle.write(f"{time.time():.6f}".encode("ascii"))
+    handle.flush()
+
+
+def _wikimedia_thumb_url(url: str, width: int = WIKIMEDIA_THUMB_WIDTH) -> str:
+    parsed = urllib.parse.urlparse(url)
+    if parsed.netloc.lower() != "upload.wikimedia.org":
+        return ""
+    path = parsed.path
+    if "/wikipedia/commons/" not in path or "/wikipedia/commons/thumb/" in path:
+        return ""
+    prefix, rest = path.split("/wikipedia/commons/", 1)
+    filename = rest.rsplit("/", 1)[-1]
+    if not filename:
+        return ""
+    filename = urllib.parse.quote(urllib.parse.unquote(filename), safe="")
+    return urllib.parse.urlunparse((
+        parsed.scheme,
+        parsed.netloc,
+        f"{prefix}/wikipedia/commons/thumb/{rest}/{width}px-{filename}",
+        "",
+        "",
+        "",
+    ))
+
+
+def _wikimedia_original_url(url: str) -> str:
+    parsed = urllib.parse.urlparse(url)
+    if parsed.netloc.lower() != "upload.wikimedia.org":
+        return ""
+    path = parsed.path
+    if "/wikipedia/commons/thumb/" not in path:
+        return ""
+    prefix, rest = path.split("/wikipedia/commons/thumb/", 1)
+    parts = rest.split("/")
+    if len(parts) < 4:
+        return ""
+    original_rest = "/".join(parts[:-1])
+    return urllib.parse.urlunparse((
+        parsed.scheme,
+        parsed.netloc,
+        f"{prefix}/wikipedia/commons/{original_rest}",
+        "",
+        "",
+        "",
+    ))
+
+
+def _download_candidate(candidate: Candidate, dest: Path, timeout: float) -> str:
+    import urllib.error as _uerr
+    urls = [candidate.image_url]
+    thumb_url = _wikimedia_thumb_url(candidate.image_url)
+    if thumb_url and thumb_url not in urls:
+        urls.append(thumb_url)
+    original_url = _wikimedia_original_url(candidate.image_url)
+    if original_url and original_url not in urls:
+        urls.append(original_url)
+    for idx, url in enumerate(urls):
+        for attempt in range(3):
+            try:
+                _download(url, dest, timeout)
+                return url
+            except _uerr.HTTPError as exc:
+                if exc.code == 429:
+                    time.sleep(20 * (attempt + 1))
+                    continue
+                break
+            except Exception:
+                break
+        if dest.exists() and dest.stat().st_size > 0:
+            return url
+        if idx + 1 < len(urls):
+            continue
+    raise RuntimeError(f"download failed for all url variants: {candidate.image_url}")
+
+
+def _source_clean(scene: str, *texts: str) -> tuple[bool, str]:
+    text = " ".join(texts).lower()
+    tokens = set(re.findall(r"[a-z0-9]+", text))
+    allowed_blocked = SCENE_ALLOWED_BLOCKED_TERMS.get(scene, set())
+    for term in sorted(BLOCKED_TERMS, key=len, reverse=True):
+        if term in allowed_blocked:
+            continue
+        if " " in term and term in text:
+            return False, f"blocked_term:{term.replace(' ', '_')}"
+        if " " not in term and term in tokens:
+            return False, f"blocked_term:{term}"
+    hard_human = sorted(tokens & HARD_HUMAN_SUBJECT_TERMS)
+    if hard_human:
+        return False, "human_subject_term:" + ",".join(hard_human[:4])
+    industrial_context = bool(tokens & INDUSTRIAL_HUMAN_CONTEXT_TERMS)
+    if not industrial_context:
+        industrial_context = bool(_semantic_tokens(scene) & INDUSTRIAL_HUMAN_CONTEXT_TERMS)
+    for phrase in sorted(HUMAN_SUBJECT_PHRASES, key=len, reverse=True):
+        if phrase in text and not industrial_context:
+            return False, f"human_subject_phrase:{phrase.replace(' ', '_')}"
+    contextual_human = tokens & CONTEXTUAL_HUMAN_TERMS
+    blocked_human = sorted((tokens & HUMAN_SUBJECT_TERMS) - CONTEXTUAL_HUMAN_TERMS)
+    if contextual_human and not industrial_context:
+        blocked_human.extend(sorted(contextual_human))
+    if blocked_human:
+        return False, "human_subject_term:" + ",".join(blocked_human[:4])
+    return True, "ok"
+
+
+def _search_query(query: str, *, negatives: bool = True) -> str:
+    if not negatives:
+        return query.strip()
+    negatives = " ".join(f'-"{term}"' if " " in term else f"-{term}" for term in SOURCE_NEGATIVE_TERMS)
+    return f"{query} {negatives}".strip()
+
+
+def _scene_search_query(scene: str, query: str, *, negatives: bool = True) -> str:
+    if not negatives:
+        return query.strip()
+    allowed = SCENE_ALLOWED_BLOCKED_TERMS.get(scene, set())
+    negative_terms = [term for term in SOURCE_NEGATIVE_TERMS if term not in allowed]
+    negatives_text = " ".join(f'-"{term}"' if " " in term else f"-{term}" for term in negative_terms)
+    return f"{query} {negatives_text}".strip()
+
+
+def _semantic_tokens(text: str) -> set[str]:
+    tokens = set()
+    for token in re.findall(r"[a-z][a-z0-9]{2,}", text.lower()):
+        if token in QUERY_STOPWORDS:
+            continue
+        tokens.add(token)
+        if token.endswith("ies") and len(token) > 4:
+            tokens.add(token[:-3] + "y")
+        elif token.endswith("es") and len(token) > 4:
+            tokens.add(token[:-2])
+        elif token.endswith("s") and len(token) > 3:
+            tokens.add(token[:-1])
+    return tokens
+
+
+def _scene_semantic_terms(scene: str, samples_by_scene: dict[str, dict]) -> set[str]:
+    bank = SCENE_BANK.get(scene, {})
+    sample = samples_by_scene.get(scene) or {}
+    texts = [
+        str(bank.get("tokens") or ""),
+        " ".join(str(q) for q in bank.get("queries", []) or []),
+        " ".join(str(c) for c in bank.get("categories", []) or []),
+        str(sample.get("reference_subject") or ""),
+        str(sample.get("image_requirement") or ""),
+    ]
+    terms = _semantic_tokens(" ".join(texts))
+    terms.update(SCENE_TERM_OVERRIDES.get(scene, set()))
+    return terms - QUERY_STOPWORDS
+
+
+def _candidate_terms(candidate: Candidate) -> set[str]:
+    text = " ".join([candidate.title, candidate.source_url, candidate.image_url])
+    return _semantic_tokens(urllib.parse.unquote(text))
+
+
+def _relevance_terms(candidate: Candidate) -> set[str]:
+    terms = set(_candidate_terms(candidate))
+    terms.update(_semantic_tokens(candidate.query))
+    return terms
+
+
+def _scene_specific_relevance(scene: str, candidate_terms: set[str], *, enforce_required: bool = True) -> tuple[bool, str]:
+    negatives = SCENE_NEGATIVE_TERMS.get(scene, set())
+    blocked = sorted(candidate_terms & negatives)
+    if blocked:
+        return False, "scene_negative:" + ",".join(blocked[:6])
+    if not enforce_required:
+        return True, "ok"
+    required_groups = SCENE_REQUIRED_TERMS.get(scene)
+    if not required_groups:
+        return True, "ok"
+    missing = [name for name, terms in required_groups.items() if not (candidate_terms & terms)]
+    if missing:
+        return False, "scene_required_missing:" + ",".join(missing)
+    return True, "ok"
+
+
+def _scene_required_missing(scene: str, candidate_terms: set[str]) -> list[str]:
+    required_groups = SCENE_REQUIRED_TERMS.get(scene)
+    if not required_groups:
+        return []
+    return [name for name, terms in required_groups.items() if not (candidate_terms & terms)]
+
+
+def _metadata_anchor_missing(scene: str, candidate_terms: set[str]) -> list[str]:
+    required_groups = SCENE_METADATA_REQUIRED_GROUPS.get(scene)
+    if not required_groups:
+        return []
+    return [name for name, terms in required_groups.items() if not (candidate_terms & terms)]
+
+
+def _candidate_semantic_score(candidate: Candidate, scene_terms: set[str]) -> tuple[int, str]:
+    candidate_terms = _candidate_terms(candidate)
+    matches = candidate_terms & scene_terms
+    strong_matches = matches - WEAK_MATCH_TERMS
+    if strong_matches:
+        return 3 + min(4, len(strong_matches)), ",".join(sorted(strong_matches)[:8])
+    if len(matches) >= 2:
+        return 2, ",".join(sorted(matches)[:8])
+    return 0, ",".join(sorted(matches)[:8])
+
+
+def _provider_disabled_by_environment(provider: str, args: argparse.Namespace) -> str:
+    if provider == "pixabay" and not (getattr(args, "pixabay_key", "") or ""):
+        return "missing_pixabay_key"
+    if provider == "openverse" and not (getattr(args, "openverse_enabled", False) or ""):
+        return "openverse_disabled_by_default"
+    return ""
+
+
+def _provider_rank(provider: str) -> int:
+    # Sources that tend to return real photos with usable licensing first.
+    ranks = {
+        "pixabay": 0,
+        "openverse": 1,
+        "dvids": 2,
+        "internet_archive": 3,
+        "ia": 3,
+        "nasa": 4,
+        "commons_category": 5,
+        "commons": 6,
+        "loc": 7,
+        "nara": 8,
+    }
+    return ranks.get(provider, 9)
+
+
+def _upgrade_image_url(url: str) -> str:
+    parsed = urllib.parse.urlparse(url)
+    if parsed.netloc.lower().endswith("staticflickr.com"):
+        path = re.sub(r"_[mstnq]\.(jpe?g)$", r"_b.\1", parsed.path, flags=re.IGNORECASE)
+        return urllib.parse.urlunparse((parsed.scheme, parsed.netloc, path, "", "", ""))
+    return url
+
+
+def _commons_search(scene: str, query: str, limit: int, pages: int, timeout: float) -> list[Candidate]:
+    params = {
+        "action": "query",
+        "format": "json",
+        "generator": "search",
+        "gsrsearch": _scene_search_query(scene, query, negatives=False),
+        "gsrnamespace": "6",
+        "gsrlimit": str(limit),
+        "prop": "imageinfo",
+        "iiprop": "url|mime|size|extmetadata",
+        "iiurlwidth": str(WIKIMEDIA_THUMB_WIDTH),
+    }
+    out = []
+    continuation: dict[str, str] = {}
+    for _ in range(max(1, pages)):
+        data = _request_json(COMMONS_API + "?" + urllib.parse.urlencode({**params, **continuation}), timeout)
+        for page in (data.get("query", {}).get("pages") or {}).values():
+            info = (page.get("imageinfo") or [{}])[0]
+            image_url = str(info.get("thumburl") or info.get("url") or "")
+            mime = str(info.get("mime") or "")
+            if not image_url or not mime.startswith("image/") or image_url.lower().endswith(".svg"):
+                continue
+            title = str(page.get("title") or "")
+            ext = info.get("extmetadata") or {}
+            license_name = str((ext.get("LicenseShortName") or {}).get("value") or "")
+            source_url = str(info.get("descriptionurl") or "")
+            ok, _ = _source_clean(scene, title, source_url, image_url, query)
+            if ok:
+                out.append(Candidate(
+                    "commons",
+                    scene,
+                    title,
+                    image_url,
+                    source_url,
+                    license_name,
+                    query,
+                    int(info.get("width", 0) or 0),
+                    int(info.get("height", 0) or 0),
+                ))
+        continuation = data.get("continue") or {}
+        if not continuation:
+            break
+    return out
+
+
+def _commons_category(scene: str, category: str, limit: int, pages: int, timeout: float) -> list[Candidate]:
+    params = {
+        "action": "query",
+        "format": "json",
+        "generator": "categorymembers",
+        "gcmtitle": f"Category:{category}",
+        "gcmtype": "file",
+        "gcmlimit": str(limit),
+        "prop": "imageinfo",
+        "iiprop": "url|mime|size|extmetadata",
+        "iiurlwidth": str(WIKIMEDIA_THUMB_WIDTH),
+    }
+    out = []
+    continuation: dict[str, str] = {}
+    for _ in range(max(1, pages)):
+        data = _request_json(COMMONS_API + "?" + urllib.parse.urlencode({**params, **continuation}), timeout)
+        for page in (data.get("query", {}).get("pages") or {}).values():
+            info = (page.get("imageinfo") or [{}])[0]
+            image_url = str(info.get("thumburl") or info.get("url") or "")
+            mime = str(info.get("mime") or "")
+            if not image_url or not mime.startswith("image/") or image_url.lower().endswith(".svg"):
+                continue
+            title = str(page.get("title") or "")
+            ext = info.get("extmetadata") or {}
+            license_name = str((ext.get("LicenseShortName") or {}).get("value") or "")
+            source_url = str(info.get("descriptionurl") or "")
+            ok, _ = _source_clean(scene, title, source_url, image_url, category)
+            if ok:
+                out.append(Candidate(
+                    "commons_category",
+                    scene,
+                    title,
+                    image_url,
+                    source_url,
+                    license_name,
+                    category,
+                    int(info.get("width", 0) or 0),
+                    int(info.get("height", 0) or 0),
+                ))
+        continuation = data.get("continue") or {}
+        if not continuation:
+            break
+    return out
+
+
+def _openverse(scene: str, query: str, limit: int, timeout: float) -> list[Candidate]:
+    params = {
+        "q": _scene_search_query(scene, query, negatives=False),
+        "page_size": str(limit),
+        "mature": "false",
+        "license_type": "all",
+    }
+    data = _request_json(OPENVERSE_API + "?" + urllib.parse.urlencode(params), timeout)
+    out = []
+    for item in data.get("results", []) or []:
+        image_url = _upgrade_image_url(str(item.get("url") or ""))
+        title = str(item.get("title") or "")
+        source_url = str(item.get("foreign_landing_url") or item.get("creator_url") or "")
+        license_name = str(item.get("license") or "")
+        if not image_url:
+            continue
+        ok, _ = _source_clean(scene, title, source_url, image_url, query)
+        if ok:
+            out.append(Candidate(
+                "openverse",
+                scene,
+                title,
+                image_url,
+                source_url,
+                license_name,
+                query,
+                int(item.get("width", 0) or 0),
+                int(item.get("height", 0) or 0),
+            ))
+    return out
+
+
+def _loc(scene: str, query: str, limit: int, timeout: float) -> list[Candidate]:
+    params = {"fo": "json", "q": _scene_search_query(scene, query, negatives=False), "c": str(limit)}
+    data = _request_json(LOC_API + "?" + urllib.parse.urlencode(params), timeout)
+    out = []
+    for item in data.get("results", []) or []:
+        images = item.get("image_url") or []
+        image_url = str(images[-1] if images else "")
+        title = str(item.get("title") or "")
+        source_url = str(item.get("url") or "")
+        if not image_url:
+            continue
+        ok, _ = _source_clean(scene, title, source_url, image_url, query)
+        if ok:
+            out.append(Candidate("loc", scene, title, image_url, source_url, "loc", query))
+    return out
+
+
+def _nara(scene: str, query: str, limit: int, timeout: float) -> list[Candidate]:
+    params = {
+        "availableOnline": "true",
+        "objectType": "Photographs and other Graphic Materials",
+        "q": _scene_search_query(scene, query, negatives=False),
+        "rows": str(limit),
+    }
+    data = _request_json(NARA_API + "?" + urllib.parse.urlencode(params), timeout)
+    out = []
+    body = data.get("body") or {}
+    for hit in body.get("hits", []) or []:
+        desc = hit.get("description") or {}
+        title = str(desc.get("title") or "")
+        naid = str(desc.get("naId") or "")
+        objects = hit.get("objects") or []
+        image_url = ""
+        for obj in objects:
+            candidate = str(obj.get("file") or obj.get("url") or "")
+            if candidate.lower().endswith(tuple(IMAGE_SUFFIXES)):
+                image_url = candidate
+                break
+        if not image_url:
+            continue
+        source_url = f"https://catalog.archives.gov/id/{naid}" if naid else ""
+        ok, _ = _source_clean(scene, title, source_url, image_url, query)
+        if ok:
+            out.append(Candidate("nara", scene, title, image_url, source_url, "nara", query))
+    return out
+
+
+def _internet_archive(scene: str, query: str, limit: int, timeout: float) -> list[Candidate]:
+    search_params = [
+        ("q", f'({query}) AND mediatype:image'),
+        ("fl[]", "identifier"),
+        ("fl[]", "title"),
+        ("fl[]", "licenseurl"),
+        ("rows", str(min(max(1, limit), 50))),
+        ("page", "1"),
+        ("output", "json"),
+    ]
+    data = _request_json(INTERNET_ARCHIVE_SEARCH_API + "?" + urllib.parse.urlencode(search_params), timeout)
+    docs = ((data.get("response") or {}).get("docs") or [])[:limit]
+    out: list[Candidate] = []
+    for doc in docs:
+        identifier = str(doc.get("identifier") or "").strip()
+        if not identifier:
+            continue
+        title = str(doc.get("title") or identifier)
+        source_url = f"https://archive.org/details/{urllib.parse.quote(identifier)}"
+        ok, _ = _source_clean(scene, title, source_url, identifier, query)
+        if not ok:
+            continue
+        try:
+            metadata = _request_json(
+                INTERNET_ARCHIVE_METADATA_API + urllib.parse.quote(identifier, safe=""),
+                timeout,
+            )
+        except Exception:
+            continue
+        files = metadata.get("files") or []
+        best: tuple[int, str, int, int] | None = None
+        for item in files:
+            name = str(item.get("name") or "")
+            lower = name.lower()
+            if not lower.endswith(tuple(IMAGE_SUFFIXES)):
+                continue
+            if any(part in lower for part in ("_thumb", "thumbs/", "thumbnail", "tile")):
+                continue
+            width = _safe_int(item.get("width"))
+            height = _safe_int(item.get("height"))
+            size = _safe_int(item.get("size"))
+            score = size + (width * height)
+            if best is None or score > best[0]:
+                best = (score, name, width, height)
+        if best is None:
+            continue
+        _, name, width, height = best
+        image_url = (
+            f"https://archive.org/download/{urllib.parse.quote(identifier, safe='')}/"
+            f"{urllib.parse.quote(name)}"
+        )
+        ok, _ = _source_clean(scene, title, source_url, image_url, query)
+        if ok:
+            out.append(Candidate(
+                "internet_archive",
+                scene,
+                title,
+                image_url,
+                source_url,
+                str(doc.get("licenseurl") or "internet_archive"),
+                query,
+                width,
+                height,
+            ))
+    return out
+
+
+def _nasa(scene: str, query: str, limit: int, timeout: float) -> list[Candidate]:
+    params = {
+        "q": query,
+        "media_type": "image",
+        "page_size": str(min(max(1, limit), 100)),
+    }
+    data = _request_json(NASA_IMAGES_API + "?" + urllib.parse.urlencode(params), timeout)
+    out: list[Candidate] = []
+    for item in ((data.get("collection") or {}).get("items") or [])[:limit]:
+        meta = (item.get("data") or [{}])[0]
+        title = str(meta.get("title") or "")
+        description = str(meta.get("description") or "")
+        nasa_id = str(meta.get("nasa_id") or "")
+        source_url = f"https://images.nasa.gov/details/{urllib.parse.quote(nasa_id)}" if nasa_id else str(item.get("href") or "")
+        best: tuple[int, str, int, int] | None = None
+        for link in item.get("links") or []:
+            image_url = str(link.get("href") or "")
+            if not image_url.lower().endswith(tuple(IMAGE_SUFFIXES)):
+                continue
+            width = _safe_int(link.get("width"))
+            height = _safe_int(link.get("height"))
+            size = _safe_int(link.get("size"))
+            score = size + (width * height)
+            if best is None or score > best[0]:
+                best = (score, image_url, width, height)
+        if best is None:
+            continue
+        _, image_url, width, height = best
+        ok, _ = _source_clean(scene, " ".join([title, description]), source_url, image_url, query)
+        if ok:
+            out.append(Candidate("nasa", scene, title, image_url, source_url, "nasa", query, width, height))
+    return out
+
+
+def _dvids(scene: str, query: str, limit: int, timeout: float) -> list[Candidate]:
+    params = {
+        "q": query,
+        "type": "image",
+        "view": "grid",
+    }
+    url = DVIDS_RSS_API + "?" + urllib.parse.urlencode(params)
+    _rate_limit_host(url)
+    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    with urllib.request.urlopen(req, timeout=timeout) as response:
+        raw = response.read()
+    try:
+        root = ET.fromstring(raw)
+    except ET.ParseError:
+        return []
+    ns = {"media": "http://search.yahoo.com/mrss/"}
+    out: list[Candidate] = []
+    for item in root.findall("./channel/item")[:limit]:
+        title = (item.findtext("title") or "").strip()
+        description = (item.findtext("description") or "").strip()
+        link = (item.findtext("link") or "").strip()
+        thumb = item.find("media:thumbnail", ns)
+        image_url = str(thumb.attrib.get("url") if thumb is not None else "")
+        if not image_url:
+            match = re.search(r'<img[^>]+src="([^"]+)"', description)
+            image_url = match.group(1) if match else ""
+        if not image_url:
+            continue
+        image_url = re.sub(r"/250w_q95\.jpg$", "/1000w_q95.jpg", image_url)
+        width = 1000 if "1000w_q95" in image_url else _safe_int(thumb.attrib.get("width") if thumb is not None else 0)
+        height = 0
+        ok, _ = _source_clean(scene, " ".join([title, description]), link, image_url, query)
+        if ok:
+            out.append(Candidate("dvids", scene, title, image_url, link, "dvids", query, width, height))
+    return out
+
+
+def _safe_int(value: object) -> int:
+    try:
+        return int(float(str(value)))
+    except (TypeError, ValueError):
+        return 0
+
+
+def _pixabay(scene: str, query: str, limit: int, timeout: float, api_key: str = "") -> list[Candidate]:
+    if not api_key:
+        return []
+    params = {
+        "key": api_key,
+        "q": query,
+        "image_type": "photo",
+        "per_page": str(min(limit, 50)),
+        "safesearch": "true",
+        "order": "relevant",
+    }
+    data = _request_json(PIXABAY_API + "?" + urllib.parse.urlencode(params), timeout)
+    out = []
+    for hit in data.get("hits", []) or []:
+        image_url = str(hit.get("largeImageURL") or hit.get("webformatURL") or "")
+        if not image_url:
+            continue
+        title = str(hit.get("tags") or "")
+        source_url = str(hit.get("pageURL") or "")
+        ok, _ = _source_clean(scene, title, source_url, image_url, query)
+        if ok:
+            out.append(Candidate(
+                "pixabay",
+                scene,
+                title,
+                image_url,
+                source_url,
+                "pixabay",
+                query,
+                int(hit.get("imageWidth", 0) or 0),
+                int(hit.get("imageHeight", 0) or 0),
+            ))
+    return out
+
+
+def _load_samples(path: Path) -> list[dict]:
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return data.get("samples", data) if isinstance(data, dict) else data
+
+
+def _load_scenes(path: str, samples: list[dict]) -> list[str]:
+    scenes_path = Path(path) if path else DEFAULT_CURRENT_SELECTED_SCENES
+    if scenes_path.exists():
+        payload = json.loads(scenes_path.read_text(encoding="utf-8"))
+        return [str(scene) for scene in payload.get("scenes", [])]
+    scenes = []
+    for sample in samples:
+        scene = sample.get("scene_id")
+        if scene and scene not in scenes:
+            scenes.append(str(scene))
+    return scenes
+
+
+def _scene_queries(scene: str, samples_by_scene: dict[str, dict], max_queries: int) -> list[str]:
+    bank = SCENE_BANK.get(scene, {})
+    replacement = SCENE_QUERY_REPLACEMENTS.get(scene, {})
+    bank_queries = [str(q) for q in bank.get("queries", [])]
+    if replacement:
+        queries = [str(q) for q in replacement.get("queries", [])] + bank_queries
+    else:
+        queries = bank_queries
+        tokens = str(bank.get("tokens") or "").strip()
+        if tokens:
+            queries.append(tokens)
+    sample = samples_by_scene.get(scene) or {}
+    sample_fields = ("task_title",) if replacement else ("reference_subject", "image_requirement", "task_title")
+    for field in sample_fields:
+        value = str(sample.get(field) or "").strip()
+        if value:
+            queries.append(value)
+
+    # Deduplicate base queries first, preserving order.
+    seen: set[str] = set()
+    base: list[str] = []
+    for q in queries:
+        q = re.sub(r"\s+", " ", q).strip()
+        if q and q.lower() not in seen:
+            seen.add(q.lower())
+            base.append(q)
+
+    def add(out: list[str], emitted: set[str], value: str) -> bool:
+        value = re.sub(r"\s+", " ", value).strip()
+        key = value.lower()
+        if not value or key in emitted:
+            return False
+        emitted.add(key)
+        out.append(value)
+        return len(out) >= max_queries
+
+    def micro_query(query: str, width: int = 3) -> str:
+        ordered_micro = [
+            raw
+            for raw in re.findall(r"[a-z][a-z0-9]{2,}", query.lower())
+            if raw not in SHORT_QUERY_DROP_TERMS and raw not in WEAK_MATCH_TERMS
+        ]
+        deduped = list(dict.fromkeys(ordered_micro))
+        if len(deduped) >= 2:
+            return " ".join(deduped[:width])
+        return ""
+
+    emitted: set[str] = set()
+    compact: list[str] = []
+
+    # Keep strong hand-written phrases first, but immediately pair them with
+    # compact keyword queries. Wikimedia and LOC often fail on full task prose.
+    for query in base:
+        if add(compact, emitted, query):
+            return compact[:max_queries]
+        micro = "" if scene in SCENE_DISABLE_MICRO_QUERIES else micro_query(query)
+        if micro and add(compact, emitted, micro):
+            return compact[:max_queries]
+
+    # Add real-photo context before long fallbacks; this improves recall while
+    # still giving the later semantic gate enough metadata to reject off-topic hits.
+    for query in base:
+        words = query.lower()
+        if len(query) <= 65 and not any(t in words for t in ("photo", "factory", "industrial", "worksite", "site")):
+            if add(compact, emitted, f"{query} industrial photo"):
+                return compact[:max_queries]
+
+    for query in base:
+        short = _short_query_variant(query)
+        if short and add(compact, emitted, short):
+            return compact[:max_queries]
+
+    return compact[:max_queries]
+
+
+def _short_query_variant(query: str) -> str:
+    tokens = [
+        token
+        for token in _semantic_tokens(query)
+        if token not in SHORT_QUERY_DROP_TERMS and token not in WEAK_MATCH_TERMS
+    ]
+    if len(tokens) < 2 or len(query) <= 32:
+        return ""
+    ordered = []
+    for raw in re.findall(r"[a-z][a-z0-9]{2,}", query.lower()):
+        if raw in tokens and raw not in ordered:
+            ordered.append(raw)
+    return " ".join(ordered[:4])
+
+
+def _source_resolution_ok(candidate: Candidate, args: argparse.Namespace) -> tuple[bool, str]:
+    if candidate.width <= 0 or candidate.height <= 0:
+        return True, "ok"
+    short_side = min(candidate.width, candidate.height)
+    pixels = candidate.width * candidate.height
+    if candidate.width < args.min_width or candidate.height < args.min_height:
+        return False, "source_resolution_below_min"
+    if short_side < args.min_short_side:
+        return False, "source_short_side_below_min"
+    if pixels < args.min_pixels:
+        return False, "source_pixel_count_below_min"
+    return True, "ok"
+
+
+def _image_metrics(path: Path) -> dict:
+    with Image.open(path) as image:
+        image = image.convert("RGB")
+        width, height = image.size
+        arr = np.array(image)
+    gray = cv2.cvtColor(arr, cv2.COLOR_RGB2GRAY)
+    edges = cv2.Canny(gray, 80, 160)
+    lap = float(cv2.Laplacian(gray, cv2.CV_64F).var())
+    hsv = cv2.cvtColor(arr, cv2.COLOR_RGB2HSV)
+    sat = hsv[:, :, 1]
+    white_ratio = float(np.mean(gray > 235))
+    dark_ratio = float(np.mean(gray < 25))
+    edge_density = float(np.mean(edges > 0))
+    h, w = gray.shape
+    y0, y1 = h // 4, (h * 3) // 4
+    x0, x1 = w // 4, (w * 3) // 4
+    center = gray[y0:y1, x0:x1] if y1 > y0 and x1 > x0 else gray
+    center_rgb = arr[y0:y1, x0:x1] if y1 > y0 and x1 > x0 else arr
+    rgb = arr.astype(np.int16)
+    r = rgb[:, :, 0]
+    g = rgb[:, :, 1]
+    b = rgb[:, :, 2]
+    skin = (
+        (r > 95)
+        & (g > 40)
+        & (b > 20)
+        & ((np.maximum.reduce([r, g, b]) - np.minimum.reduce([r, g, b])) > 15)
+        & (np.abs(r - g) > 15)
+        & (r > g)
+        & (r > b)
+    )
+    center_i16 = center_rgb.astype(np.int16)
+    cr = center_i16[:, :, 0]
+    cg = center_i16[:, :, 1]
+    cb = center_i16[:, :, 2]
+    center_skin = (
+        (cr > 95)
+        & (cg > 40)
+        & (cb > 20)
+        & ((np.maximum.reduce([cr, cg, cb]) - np.minimum.reduce([cr, cg, cb])) > 15)
+        & (np.abs(cr - cg) > 15)
+        & (cr > cg)
+        & (cr > cb)
+    )
+    return {
+        "width": width,
+        "height": height,
+        "short_side": min(width, height),
+        "pixels": width * height,
+        "laplacian_var": lap,
+        "edge_density": edge_density,
+        "white_ratio": white_ratio,
+        "dark_ratio": dark_ratio,
+        "center_white_ratio": float(np.mean(center > 235)),
+        "mean_saturation": float(np.mean(sat)),
+        "skin_ratio": float(np.mean(skin)),
+        "center_skin_ratio": float(np.mean(center_skin)),
+        "face_area_ratio": _face_area_ratio(gray),
+    }
+
+
+def _face_area_ratio(gray: np.ndarray) -> float:
+    cascade_path = Path(cv2.data.haarcascades) / "haarcascade_frontalface_default.xml"
+    if not cascade_path.exists():
+        return 0.0
+    classifier = cv2.CascadeClassifier(str(cascade_path))
+    if classifier.empty():
+        return 0.0
+    small = cv2.resize(gray, (0, 0), fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
+    faces = classifier.detectMultiScale(small, scaleFactor=1.1, minNeighbors=5, minSize=(40, 40))
+    if len(faces) == 0:
+        return 0.0
+    image_area = float(gray.shape[0] * gray.shape[1])
+    return float(sum(w * h * 4.0 for _, _, w, h in faces) / image_area)
+
+
+def _average_hash(path: Path, hash_size: int = 8) -> str:
+    with Image.open(path) as image:
+        image = image.convert("L").resize((hash_size, hash_size), Image.Resampling.LANCZOS)
+        arr = np.array(image, dtype=np.float32)
+    value = 0
+    avg = float(arr.mean())
+    for bit in (arr > avg).flatten():
+        value = (value << 1) | int(bool(bit))
+    return f"{value:0{hash_size * hash_size // 4}x}"
+
+
+def _hamming(a: str, b: str) -> int:
+    return int.bit_count(int(a, 16) ^ int(b, 16))
+
+
+def _dhash(path: Path, hash_size: int = 8) -> str:
+    with Image.open(path) as image:
+        image = image.convert("L").resize((hash_size + 1, hash_size), Image.Resampling.LANCZOS)
+        arr = np.array(image, dtype=np.int16)
+    value = 0
+    for bit in (arr[:, 1:] > arr[:, :-1]).flatten():
+        value = (value << 1) | int(bool(bit))
+    return f"{value:0{hash_size * hash_size // 4}x}"
+
+
+def _phash(path: Path, hash_size: int = 8, highfreq: int = 4) -> str:
+    size = hash_size * highfreq
+    with Image.open(path) as image:
+        image = image.convert("L").resize((size, size), Image.Resampling.LANCZOS)
+        arr = np.array(image, dtype=np.float32)
+    dct = cv2.dct(arr)
+    low = dct[:hash_size, :hash_size]
+    median = float(np.median(low[1:, 1:]))
+    value = 0
+    for bit in (low > median).flatten():
+        value = (value << 1) | int(bool(bit))
+    return f"{value:0{hash_size * hash_size // 4}x}"
+
+
+def _sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+ImageFingerprint = tuple[str, str, str, str, Path]
+
+
+def _existing_hashes(root: Path) -> dict[str, list[ImageFingerprint]]:
+    hashes: dict[str, list[ImageFingerprint]] = {}
+    if not root.exists():
+        return hashes
+    for path in root.rglob("*"):
+        if path.is_file() and path.suffix.lower() in IMAGE_SUFFIXES:
+            try:
+                scene = path.stem.split("__", 1)[0] if "__" in path.stem else path.parent.name
+                hashes.setdefault(scene, []).append((
+                    _sha256(path),
+                    _average_hash(path),
+                    _dhash(path),
+                    _phash(path),
+                    path,
+                ))
+            except Exception:
+                pass
+    return hashes
+
+
+def _historical_candidate_hashes(root: Path, current_output: Path) -> dict[str, list[ImageFingerprint]]:
+    hashes: dict[str, list[ImageFingerprint]] = {}
+    if not root.exists():
+        return hashes
+    current_output = current_output.resolve()
+    for scene, items in _existing_hashes(root).items():
+        filtered = [
+            item for item in items
+            if current_output not in item[4].resolve().parents and item[4].resolve() != current_output
+        ]
+        if filtered:
+            hashes.setdefault(scene, []).extend(filtered)
+    return hashes
+
+
+def _near_duplicate(
+    fingerprint: ImageFingerprint,
+    existing: list[ImageFingerprint],
+    args: argparse.Namespace,
+) -> Path | None:
+    sha, ahash, dhash, phash, _ = fingerprint
+    for old_sha, old_a, old_d, old_p, old_path in existing:
+        if sha == old_sha:
+            return old_path
+        if (
+            _hamming(ahash, old_a) <= args.duplicate_hamming_distance
+            and _hamming(dhash, old_d) <= args.duplicate_dhash_distance
+        ):
+            return old_path
+        if _hamming(phash, old_p) <= args.duplicate_phash_distance:
+            return old_path
+    return None
+
+
+def _normalized_candidate_url(url: str) -> str:
+    url = _wikimedia_original_url(url) or url
+    parsed = urllib.parse.urlparse(url)
+    return urllib.parse.urlunparse((
+        parsed.scheme.lower(),
+        parsed.netloc.lower(),
+        parsed.path,
+        "",
+        parsed.query,
+        "",
+    ))
+
+
+def _historical_candidate_urls(root: Path) -> set[str]:
+    urls: set[str] = set()
+    if not root.exists():
+        return urls
+    for path in root.glob("*multisource*/*.csv"):
+        try:
+            with path.open(encoding="utf-8-sig", newline="") as handle:
+                for row in csv.DictReader(handle):
+                    if row.get("status") != "accepted":
+                        continue
+                    for field in ("image_url", "downloaded_url"):
+                        url = str(row.get(field) or "").strip()
+                        if url:
+                            urls.add(_normalized_candidate_url(url))
+        except Exception:
+            continue
+    return urls
+
+
+def _process_is_alive(pid: int) -> bool:
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True
+    except OSError:
+        return False
+    return True
+
+
+def _write_claim_owner(claim: Path) -> None:
+    (claim / CLAIM_OWNER_FILENAME).write_text(
+        json.dumps({"pid": os.getpid()}) + "\n",
+        encoding="utf-8",
+    )
+
+
+def _claim_is_active(claim: Path, stale_seconds: float) -> bool:
+    owner_path = claim / CLAIM_OWNER_FILENAME
+    try:
+        owner = json.loads(owner_path.read_text(encoding="utf-8"))
+        pid = int(owner["pid"])
+    except (FileNotFoundError, KeyError, TypeError, ValueError, json.JSONDecodeError):
+        return time.time() - claim.stat().st_mtime <= stale_seconds
+    return _process_is_alive(pid)
+
+
+def _reserve_candidate_url(root: Path, url: str, stale_seconds: float) -> Path | None:
+    root.mkdir(parents=True, exist_ok=True)
+    digest = hashlib.sha256(_normalized_candidate_url(url).encode("utf-8")).hexdigest()
+    seen = root / f"{digest}.seen"
+    claim = root / f"{digest}.claim"
+    if seen.exists():
+        return None
+    try:
+        claim.mkdir()
+    except FileExistsError:
+        if _claim_is_active(claim, stale_seconds):
+            return None
+        shutil.rmtree(claim, ignore_errors=True)
+        try:
+            claim.mkdir()
+        except FileExistsError:
+            return None
+    _write_claim_owner(claim)
+    return claim
+
+
+def _finish_candidate_url(claim: Path, *, keep: bool) -> None:
+    if not claim.exists():
+        return
+    if keep:
+        for child in claim.iterdir():
+            child.unlink(missing_ok=True)
+        os.replace(claim, claim.with_suffix(".seen"))
+    else:
+        shutil.rmtree(claim, ignore_errors=True)
+
+
+def _claim_scene(root: Path, scene: str, stale_seconds: float = 86400.0) -> Path | None:
+    root.mkdir(parents=True, exist_ok=True)
+    digest = hashlib.sha1(scene.encode("utf-8")).hexdigest()[:16]
+    claim = root / f"{digest}.claim"
+    try:
+        claim.mkdir()
+    except FileExistsError:
+        if _claim_is_active(claim, stale_seconds):
+            return None
+        shutil.rmtree(claim, ignore_errors=True)
+        try:
+            claim.mkdir()
+        except FileExistsError:
+            return None
+    _write_claim_owner(claim)
+    (claim / "scene.txt").write_text(scene + "\n", encoding="utf-8")
+    return claim
+
+
+def _release_scene_claim(claim: Path, *, completed: bool = True) -> None:
+    if not claim.exists():
+        return
+    for child in claim.iterdir():
+        child.unlink()
+    claim.rmdir()
+
+
+def _scene_image_count(image_root: Path, domain: str, scene: str) -> int:
+    scene_dir = image_root / domain / scene
+    if not scene_dir.exists():
+        return 0
+    return sum(1 for path in scene_dir.iterdir() if path.is_file() and path.suffix.lower() in IMAGE_SUFFIXES)
+
+
+def _quality_limit(scene: str, args: argparse.Namespace, name: str):
+    return SCENE_QUALITY_OVERRIDES.get(scene, {}).get(name, getattr(args, name))
+
+
+def _passes_quality(scene: str, metrics: dict, args: argparse.Namespace) -> tuple[bool, str]:
+    if metrics["width"] < args.min_width or metrics["height"] < args.min_height:
+        return False, "resolution_below_min"
+    if metrics["short_side"] < args.min_short_side:
+        return False, "short_side_below_min"
+    if metrics["pixels"] < args.min_pixels:
+        return False, "pixel_count_below_min"
+    if metrics["laplacian_var"] < args.min_laplacian:
+        return False, "too_blurry"
+    if metrics["edge_density"] > _quality_limit(scene, args, "max_edge_density"):
+        return False, "too_many_edges"
+    if metrics["white_ratio"] > args.max_white_ratio and metrics["mean_saturation"] < 55:
+        return False, "page_or_diagram_like"
+    if (
+        metrics["white_ratio"] > args.max_document_white_ratio
+        and metrics["mean_saturation"] < args.max_document_saturation
+        and metrics["edge_density"] > args.min_document_edge_density
+    ):
+        return False, "document_or_book_page_like"
+    if (
+        metrics["center_white_ratio"] > args.max_center_white_ratio
+        and metrics["mean_saturation"] < args.max_document_saturation
+    ):
+        return False, "center_white_page_like"
+    if (
+        metrics["edge_density"] > _quality_limit(scene, args, "min_pattern_edge_density")
+        and metrics["mean_saturation"] > args.min_pattern_saturation
+        and metrics["white_ratio"] < 0.35
+    ):
+        return False, "pattern_or_texture_like"
+    if metrics["face_area_ratio"] > args.max_face_area_ratio:
+        return False, "large_face_or_portrait_like"
+    if metrics["skin_ratio"] > _quality_limit(scene, args, "max_skin_ratio") and metrics["face_area_ratio"] > 0.006:
+        return False, "human_portrait_or_group_like"
+    if metrics["skin_ratio"] > _quality_limit(scene, args, "max_skin_ratio"):
+        return False, "human_skin_dominant"
+    if metrics["center_skin_ratio"] > _quality_limit(scene, args, "max_center_skin_ratio"):
+        return False, "center_human_subject"
+    if (
+        metrics["skin_ratio"] > _quality_limit(scene, args, "max_skin_ratio_soft")
+        and metrics["center_skin_ratio"] > _quality_limit(scene, args, "max_center_skin_ratio_soft")
+        and metrics["edge_density"] < args.max_human_subject_edge_density
+    ):
+        return False, "human_subject_dominant"
+    return True, "accepted"
+
+
+def _suffix(url: str) -> str:
+    suffix = Path(urllib.parse.urlparse(url).path).suffix.lower()
+    return suffix if suffix in IMAGE_SUFFIXES else ".jpg"
+
+
+def _collect_candidates(
+    scene: str,
+    samples_by_scene: dict[str, dict],
+    args: argparse.Namespace,
+    remaining_needed: int,
+) -> tuple[list[Candidate], list[dict]]:
+    providers = {item.strip().lower() for item in args.providers.split(",") if item.strip()}
+    diagnostics = []
+    active_providers = set()
+    for provider in sorted(providers):
+        reason = _provider_disabled_by_environment(provider, args)
+        if reason:
+            diagnostics.append({
+                "status": "provider_disabled",
+                "reason": reason,
+                "scene": scene,
+                "provider": provider,
+                "query": "",
+            })
+        else:
+            active_providers.add(provider)
+    query_budget = min(args.queries_per_scene, max(8, (remaining_needed + 3) // 4))
+    category_budget = min(args.categories_per_scene, max(8, (remaining_needed + 3) // 4))
+    search_limit = max(args.search_limit, min(80, remaining_needed + 24))
+    search_pages = max(args.search_pages, min(4, max(2, (remaining_needed + 24) // 25)))
+    queries = _scene_queries(scene, samples_by_scene, query_budget)
+    scene_terms = _scene_semantic_terms(scene, samples_by_scene)
+    tasks = []
+    with ThreadPoolExecutor(max_workers=args.provider_workers) as executor:
+        pixabay_key = getattr(args, "pixabay_key", "") or ""
+        for query in queries:
+            if "commons" in active_providers:
+                tasks.append(("commons", query, executor.submit(_commons_search, scene, query, search_limit, search_pages, args.timeout)))
+            if "openverse" in active_providers:
+                tasks.append(("openverse", query, executor.submit(_openverse, scene, query, search_limit, args.timeout)))
+            if "loc" in active_providers:
+                tasks.append(("loc", query, executor.submit(_loc, scene, query, search_limit, args.timeout)))
+            if "nara" in active_providers:
+                tasks.append(("nara", query, executor.submit(_nara, scene, query, search_limit, args.timeout)))
+            if "internet_archive" in active_providers or "ia" in active_providers:
+                tasks.append(("internet_archive", query, executor.submit(_internet_archive, scene, query, search_limit, args.timeout)))
+            if "nasa" in active_providers:
+                tasks.append(("nasa", query, executor.submit(_nasa, scene, query, search_limit, args.timeout)))
+            if "dvids" in active_providers:
+                tasks.append(("dvids", query, executor.submit(_dvids, scene, query, search_limit, args.timeout)))
+            if "pixabay" in active_providers and pixabay_key:
+                tasks.append(("pixabay", query, executor.submit(_pixabay, scene, query, search_limit, args.timeout, pixabay_key)))
+        if "commons_category" in active_providers or "commons-categories" in active_providers:
+            category_source = []
+            for category in (
+                list(SCENE_QUERY_REPLACEMENTS.get(scene, {}).get("categories") or [])
+                + list(SCENE_BANK.get(scene, {}).get("categories") or [])
+            ):
+                category = str(category).strip()
+                if category and category.lower() not in {old.lower() for old in category_source}:
+                    category_source.append(category)
+            for category in category_source[:category_budget]:
+                query = str(category)
+                tasks.append(("commons_category", query, executor.submit(_commons_category, scene, query, search_limit, search_pages, args.timeout)))
+        results: dict[int, list[Candidate]] = {}
+        future_meta = {future: (index, provider, query) for index, (provider, query, future) in enumerate(tasks)}
+        _progress(args.progress_log, f"search_tasks scene={scene} count={len(tasks)}")
+        for task in as_completed(future_meta):
+            index, provider, query = future_meta[task]
+            try:
+                found = task.result()
+                results[index] = found
+                _progress(
+                    args.progress_log,
+                    f"search_ok scene={scene} provider={provider} candidates={len(found)} query={query}",
+                )
+                if args.log_search_diagnostics:
+                    diagnostics.append({
+                        "status": "search_ok",
+                        "reason": f"candidates:{len(found)}",
+                        "scene": scene,
+                        "provider": provider,
+                        "query": query,
+                    })
+            except Exception as exc:
+                _progress(
+                    args.progress_log,
+                    f"search_error scene={scene} provider={provider} error={exc} query={query}",
+                )
+                diagnostics.append({
+                    "status": "search_error",
+                    "reason": str(exc),
+                    "scene": scene,
+                    "provider": provider,
+                    "query": query,
+                })
+        out = [candidate for index in range(len(tasks)) for candidate in results.get(index, [])]
+    dedup = {}
+    for candidate in out:
+        dedup.setdefault(_normalized_candidate_url(candidate.image_url), candidate)
+    scored = []
+    for order, candidate in enumerate(dedup.values()):
+        prefilter_penalty = 0
+        source_ok, source_reason = _source_resolution_ok(candidate, args)
+        if not source_ok:
+            if args.log_search_diagnostics:
+                diagnostics.append({
+                    "status": "soft_source_resolution_miss" if args.soft_source_resolution else "skipped",
+                    "reason": source_reason,
+                    "scene": scene,
+                    "provider": candidate.provider,
+                    "query": candidate.query,
+                    "source_title": candidate.title,
+                    "source_url": candidate.source_url,
+                    "image_url": candidate.image_url,
+                    "width": candidate.width,
+                    "height": candidate.height,
+                })
+            if not args.soft_source_resolution:
+                continue
+            prefilter_penalty += 1
+        candidate_terms = _candidate_terms(candidate)
+        relevance_terms = _relevance_terms(candidate)
+        scene_ok, scene_reason = _scene_specific_relevance(
+            scene,
+            relevance_terms,
+            enforce_required=False,
+        )
+        if not scene_ok:
+            if args.log_search_diagnostics:
+                diagnostics.append({
+                    "status": "skipped",
+                    "reason": scene_reason,
+                    "scene": scene,
+                    "provider": candidate.provider,
+                    "query": candidate.query,
+                    "source_title": candidate.title,
+                    "source_url": candidate.source_url,
+                    "image_url": candidate.image_url,
+                })
+            continue
+        metadata_missing = _metadata_anchor_missing(scene, candidate_terms)
+        if metadata_missing:
+            if args.log_search_diagnostics:
+                diagnostics.append({
+                    "status": "soft_metadata_anchor_miss" if args.soft_metadata_anchor else "skipped",
+                    "reason": "metadata_anchor_missing:" + ",".join(metadata_missing),
+                    "scene": scene,
+                    "provider": candidate.provider,
+                    "query": candidate.query,
+                    "source_title": candidate.title,
+                    "source_url": candidate.source_url,
+                    "image_url": candidate.image_url,
+                })
+            if not args.soft_metadata_anchor:
+                continue
+            prefilter_penalty += len(metadata_missing) * 2
+        # Broad Commons categories need extra metadata anchors to avoid books,
+        # diagrams, event photos, and unrelated people.
+        score, matches = _candidate_semantic_score(candidate, scene_terms)
+        score -= prefilter_penalty
+        if candidate.provider != "commons_category":
+            query_matches = _semantic_tokens(candidate.query) & scene_terms
+            if query_matches:
+                score += min(2, len(query_matches))
+                matches = ",".join(sorted(set(matches.split(",")) | query_matches)) if matches else ",".join(sorted(query_matches))
+        if candidate.provider in ("commons_category",):
+            # Include the category name tokens so "Industrial robots" itself
+            # counts as an industrial anchor even when the filename lacks keywords.
+            category_anchor_terms = candidate_terms | _semantic_tokens(candidate.query)
+            if not (category_anchor_terms & CATEGORY_METADATA_REQUIRED_TERMS):
+                if args.log_search_diagnostics:
+                    diagnostics.append({
+                        "status": "skipped",
+                        "reason": "category_without_industrial_metadata_anchor",
+                        "scene": scene,
+                        "provider": candidate.provider,
+                        "query": candidate.query,
+                        "source_title": candidate.title,
+                        "source_url": candidate.source_url,
+                        "image_url": candidate.image_url,
+                    })
+                continue
+        missing_required = _scene_required_missing(scene, relevance_terms)
+        if missing_required:
+            score -= len(missing_required) * 2
+            if args.log_search_diagnostics:
+                diagnostics.append({
+                    "status": "soft_required_miss",
+                    "reason": "scene_required_missing:" + ",".join(missing_required),
+                    "scene": scene,
+                    "provider": candidate.provider,
+                    "query": candidate.query,
+                    "source_title": candidate.title,
+                    "source_url": candidate.source_url,
+                    "image_url": candidate.image_url,
+                    "semantic_score_after_penalty": score,
+                    "matches": matches,
+                })
+        if score < args.min_semantic_score:
+            if args.log_search_diagnostics:
+                diagnostics.append({
+                    "status": "skipped",
+                    "reason": f"semantic_mismatch:score={score}:matches={matches}",
+                    "scene": scene,
+                    "provider": candidate.provider,
+                    "query": candidate.query,
+                    "source_title": candidate.title,
+                    "source_url": candidate.source_url,
+                    "image_url": candidate.image_url,
+                })
+            continue
+        scored.append((score, _provider_rank(candidate.provider), order, candidate))
+    scored.sort(key=lambda item: (-item[0], item[1], item[2]))
+    return [candidate for _, _, _, candidate in scored], diagnostics
+
+
+def _write_manifest(rows: list[dict], path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fields = []
+    for row in rows:
+        for key in row:
+            if key not in fields:
+                fields.append(key)
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields or ["status"])
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def _progress(path: str, message: str) -> None:
+    if not path:
+        return
+    progress_path = Path(path)
+    progress_path.parent.mkdir(parents=True, exist_ok=True)
+    timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+    with progress_path.open("a", encoding="utf-8") as handle:
+        handle.write(f"{timestamp} {message}\n")
+
+
+def run(args: argparse.Namespace) -> None:
+    global HOST_RATE_LIMIT_SECONDS, HOST_RATE_LIMIT_DIR
+
+    HOST_RATE_LIMIT_SECONDS = max(0.0, float(args.min_host_interval))
+    HOST_RATE_LIMIT_DIR = Path(args.host_lock_dir)
+    _progress(args.progress_log, f"start pid={os.getpid()} shard={args.shard_index}/{args.shards}")
+    samples = _load_samples(Path(args.samples))
+    samples_by_scene = {}
+    for sample in samples:
+        samples_by_scene.setdefault(str(sample.get("scene_id")), sample)
+    scenes = _load_scenes(args.scenes_file, samples)
+    if args.domains:
+        domains = {item.strip() for item in args.domains.split(",") if item.strip()}
+        scenes = [scene for scene in scenes if (samples_by_scene.get(scene) or {}).get("domain") in domains]
+    image_root = Path(args.image_root)
+    formal_counts: dict[str, int] = {}
+    if args.formal_target_per_scene > 0:
+        for scene in scenes:
+            domain = str((samples_by_scene.get(scene) or {}).get("domain") or "")
+            formal_counts[scene] = _scene_image_count(image_root, domain, scene) if domain else 0
+        scenes = [scene for scene in scenes if formal_counts.get(scene, 0) < args.formal_target_per_scene]
+    if args.shards > 1:
+        scenes = [scene for idx, scene in enumerate(scenes) if idx % args.shards == args.shard_index]
+    if args.max_scenes > 0:
+        scenes = scenes[: args.max_scenes]
+    _progress(args.progress_log, f"selected_scenes={len(scenes)}")
+
+    output_dir = Path(args.output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    manifest = Path(args.manifest)
+    existing_hashes = _existing_hashes(image_root)
+    for scene, hashes in _existing_hashes(output_dir).items():
+        existing_hashes.setdefault(scene, []).extend(hashes)
+    history_candidate_root = Path(getattr(args, "history_candidate_root", "dataset/images_candidates"))
+    for scene, hashes in _historical_candidate_hashes(history_candidate_root, output_dir).items():
+        existing_hashes.setdefault(scene, []).extend(hashes)
+    existing_hashes_global = [item for hashes in existing_hashes.values() for item in hashes]
+    scene_claim_dir = Path(args.scene_claim_dir)
+    candidate_url_claim_dir = Path(getattr(args, "candidate_url_claim_dir", ".cache/fast_multisource_candidate_urls"))
+    historical_urls = set() if args.ignore_url_history else _historical_candidate_urls(Path(getattr(args, "history_reports_root", "reports")))
+    rows = []
+    accepted_total = 0
+    accepted_by_scene: dict[str, int] = {}
+    candidate_index = 0
+    rejections_without_accept = 0
+
+    def target_reached() -> bool:
+        return args.target_new > 0 and accepted_total >= args.target_new
+
+    def rejection_budget_reached() -> bool:
+        return (
+            args.max_rejections_without_accept > 0
+            and rejections_without_accept >= args.max_rejections_without_accept
+        )
+
+    for scene in scenes:
+        if rejection_budget_reached():
+            _progress(
+                args.progress_log,
+                f"stop reason=max_rejections_without_accept count={rejections_without_accept}",
+            )
+            break
+        _progress(args.progress_log, f"scene_start scene={scene}")
+        claim = _claim_scene(scene_claim_dir, scene, args.scene_claim_stale_seconds)
+        if claim is None:
+            _progress(args.progress_log, f"scene_skipped scene={scene} reason=scene_claimed_by_another_process")
+            rows.append({
+                "status": "skipped",
+                "reason": "scene_claimed_by_another_process",
+                "scene": scene,
+            })
+            _write_manifest(rows, manifest)
+            continue
+        scene_limit = args.per_scene
+        try:
+            if args.formal_target_per_scene > 0:
+                deficit = max(0, args.formal_target_per_scene - formal_counts.get(scene, 0))
+                review_target = max(args.min_review_candidates, deficit * args.review_overfetch) if deficit > 0 else 0
+                scene_limit = review_target if args.per_scene <= 0 else min(args.per_scene, review_target)
+            if scene_limit <= 0:
+                _progress(args.progress_log, f"scene_skipped scene={scene} reason=formal_target_satisfied")
+                continue
+            _progress(args.progress_log, f"collect_start scene={scene} remaining={scene_limit}")
+            candidates, diagnostics = _collect_candidates(scene, samples_by_scene, args, scene_limit)
+            _progress(
+                args.progress_log,
+                f"collect_done scene={scene} candidates={len(candidates)} diagnostics={len(diagnostics)}",
+            )
+            rows.extend(diagnostics)
+            accepted_by_scene.setdefault(scene, 0)
+            candidate_iter = iter(candidates)
+            with ThreadPoolExecutor(max_workers=args.download_workers) as executor:
+                while not target_reached() and accepted_by_scene[scene] < scene_limit:
+                    if rejection_budget_reached():
+                        _progress(
+                            args.progress_log,
+                            f"scene_stop scene={scene} reason=max_rejections_without_accept count={rejections_without_accept}",
+                        )
+                        break
+                    remaining = scene_limit - accepted_by_scene[scene]
+                    if args.target_new > 0:
+                        remaining = min(remaining, args.target_new - accepted_total)
+                    batch = list(islice(candidate_iter, min(args.download_workers * 3, remaining)))
+                    if not batch:
+                        break
+                    download_tasks = []
+                    for candidate in batch:
+                        normalized_url = _normalized_candidate_url(candidate.image_url)
+                        if normalized_url in historical_urls:
+                            rejections_without_accept += 1
+                            rows.append({
+                                "status": "skipped",
+                                "reason": "historical_duplicate_url",
+                                "scene": scene,
+                                "provider": candidate.provider,
+                                "query": candidate.query,
+                                "source_title": candidate.title,
+                                "source_url": candidate.source_url,
+                                "image_url": candidate.image_url,
+                            })
+                            continue
+                        url_claim = _reserve_candidate_url(
+                            candidate_url_claim_dir,
+                            candidate.image_url,
+                            getattr(args, "candidate_url_claim_stale_seconds", 86400.0),
+                        )
+                        if url_claim is None:
+                            rejections_without_accept += 1
+                            rows.append({
+                                "status": "skipped",
+                                "reason": "candidate_url_already_seen_or_claimed",
+                                "scene": scene,
+                                "provider": candidate.provider,
+                                "query": candidate.query,
+                                "source_title": candidate.title,
+                                "source_url": candidate.source_url,
+                                "image_url": candidate.image_url,
+                            })
+                            continue
+                        safe_provider = re.sub(r"[^a-zA-Z0-9]+", "_", candidate.provider).strip("_")
+                        while True:
+                            candidate_index += 1
+                            filename = f"{scene}__{safe_provider}__{candidate_index:04d}{_suffix(candidate.image_url)}"
+                            dest = output_dir / filename
+                            if not dest.exists():
+                                break
+                        future = executor.submit(_download_candidate, candidate, dest, args.timeout)
+                        download_tasks.append((future, candidate, dest, url_claim))
+                    future_meta = {
+                        future: (candidate, dest, url_claim)
+                        for future, candidate, dest, url_claim in download_tasks
+                    }
+                    for task in as_completed(future_meta):
+                        candidate, dest, url_claim = future_meta[task]
+                        row = {
+                            "status": "rejected",
+                            "reason": "",
+                            "scene": scene,
+                            "domain": (samples_by_scene.get(scene) or {}).get("domain", ""),
+                            "provider": candidate.provider,
+                            "query": candidate.query,
+                            "source_title": candidate.title,
+                            "source_url": candidate.source_url,
+                            "image_url": candidate.image_url,
+                            "source_width": candidate.width,
+                            "source_height": candidate.height,
+                            "downloaded_url": "",
+                            "license": candidate.license,
+                            "local_path": dest.as_posix(),
+                        }
+                        try:
+                            row["downloaded_url"] = task.result()
+                            with Image.open(dest) as image:
+                                image.verify()
+                            metrics = _image_metrics(dest)
+                            row.update({
+                                "width": metrics["width"],
+                                "height": metrics["height"],
+                                "short_side": metrics["short_side"],
+                                "pixels": metrics["pixels"],
+                                "laplacian_var": f"{metrics['laplacian_var']:.2f}",
+                                "edge_density": f"{metrics['edge_density']:.4f}",
+                                "white_ratio": f"{metrics['white_ratio']:.4f}",
+                                "center_white_ratio": f"{metrics['center_white_ratio']:.4f}",
+                                "mean_saturation": f"{metrics['mean_saturation']:.2f}",
+                                "skin_ratio": f"{metrics['skin_ratio']:.4f}",
+                                "center_skin_ratio": f"{metrics['center_skin_ratio']:.4f}",
+                                "face_area_ratio": f"{metrics['face_area_ratio']:.4f}",
+                            })
+                            ok, reason = _passes_quality(scene, metrics, args)
+                            if not ok:
+                                dest.unlink(missing_ok=True)
+                                row["reason"] = reason
+                                # Quality failures are not permanently blocked so
+                                # they can be retried if thresholds change.
+                                _finish_candidate_url(url_claim, keep=False)
+                            else:
+                                ahash = _average_hash(dest)
+                                dhash = _dhash(dest)
+                                phash = _phash(dest)
+                                sha256 = _sha256(dest)
+                                fingerprint = (sha256, ahash, dhash, phash, dest)
+                                scene_hashes = existing_hashes.setdefault(scene, [])
+                                duplicate = _near_duplicate(fingerprint, existing_hashes_global, args)
+                                if duplicate is not None:
+                                    dest.unlink(missing_ok=True)
+                                    row["reason"] = "near_duplicate"
+                                    row["duplicate_of"] = duplicate.as_posix()
+                                    _finish_candidate_url(url_claim, keep=True)
+                                else:
+                                    scene_hashes.append(fingerprint)
+                                    existing_hashes_global.append(fingerprint)
+                                    if target_reached() or accepted_by_scene[scene] >= scene_limit:
+                                        dest.unlink(missing_ok=True)
+                                        row["reason"] = "excess_after_target_reached"
+                                        _finish_candidate_url(url_claim, keep=False)
+                                    else:
+                                        accepted_total += 1
+                                        accepted_by_scene[scene] += 1
+                                        rejections_without_accept = 0
+                                        row["status"] = "accepted"
+                                        row["reason"] = "accepted"
+                                        _finish_candidate_url(url_claim, keep=True)
+                        except Exception as exc:
+                            dest.unlink(missing_ok=True)
+                            _finish_candidate_url(url_claim, keep=False)
+                            row["reason"] = f"download_or_read_error:{exc}"
+                        if row["status"] != "accepted":
+                            rejections_without_accept += 1
+                        rows.append(row)
+                        if len(rows) % 20 == 0:
+                            _write_manifest(rows, manifest)
+                            _progress(
+                                args.progress_log,
+                                f"manifest_update rows={len(rows)} accepted={accepted_total}",
+                            )
+            _write_manifest(rows, manifest)
+            _progress(
+                args.progress_log,
+                f"scene_done scene={scene} accepted_scene={accepted_by_scene.get(scene, 0)} accepted_total={accepted_total}",
+            )
+        finally:
+            _release_scene_claim(claim)
+        if target_reached():
+            break
+        time.sleep(args.sleep_between_scenes)
+
+    _write_manifest(rows, manifest)
+    print(f"scenes={len(scenes)}")
+    print(f"rows={len(rows)}")
+    print(f"accepted={accepted_total}")
+    print(f"output_dir={output_dir.as_posix()}")
+    print(f"manifest={manifest.as_posix()}")
+    _progress(args.progress_log, f"done rows={len(rows)} accepted={accepted_total}")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--samples", default="dataset/annotations/samples.json")
+    parser.add_argument("--scenes-file", default="")
+    parser.add_argument("--image-root", default="dataset/images")
+    parser.add_argument(
+        "--formal-target-per-scene",
+        type=int,
+        default=0,
+        help="Skip scenes already at this formal image count and cap accepted staged images to the remaining deficit.",
+    )
+    parser.add_argument("--output-dir", default="dataset/images_candidates")
+    parser.add_argument("--manifest", default="reports/fast_multisource_image_backfill.csv")
+    parser.add_argument("--providers", default="commons_category,commons,loc,nara,internet_archive,nasa,dvids")
+    parser.add_argument("--domains", default="")
+    parser.add_argument("--target-new", type=int, default=0)
+    parser.add_argument("--per-scene", type=int, default=600)
+    parser.add_argument(
+        "--max-rejections-without-accept",
+        type=int,
+        default=0,
+        help="Stop the run after this many consecutive skipped/rejected candidates; 0 disables the guard.",
+    )
+    parser.add_argument(
+        "--review-overfetch",
+        type=int,
+        default=60,
+        help="Stage this many times the formal image deficit so manual screening can delete aggressively.",
+    )
+    parser.add_argument(
+        "--min-review-candidates",
+        type=int,
+        default=180,
+        help="Minimum staged candidates to attempt for every scene that still has any deficit.",
+    )
+    parser.add_argument("--max-scenes", type=int, default=0)
+    parser.add_argument("--search-limit", type=int, default=180)
+    parser.add_argument("--search-pages", type=int, default=6)
+    parser.add_argument("--queries-per-scene", type=int, default=24)
+    parser.add_argument("--categories-per-scene", type=int, default=18)
+    parser.add_argument(
+        "--min-semantic-score",
+        type=int,
+        default=2,
+        help="Minimum metadata relevance score before downloading a candidate; 2 = weak multi-term match, 3 = strong match.",
+    )
+    parser.add_argument("--provider-workers", type=int, default=3)
+    parser.add_argument("--download-workers", type=int, default=6)
+    parser.add_argument("--log-search-diagnostics", action="store_true")
+    parser.add_argument(
+        "--soft-source-resolution",
+        action="store_true",
+        help="Treat provider-reported source resolution misses as a ranking penalty; downloaded image quality is still checked.",
+    )
+    parser.add_argument(
+        "--soft-metadata-anchor",
+        action="store_true",
+        help="Treat scene metadata-anchor misses as a ranking penalty instead of a pre-download hard reject.",
+    )
+    parser.add_argument("--progress-log", default="")
+    parser.add_argument("--min-host-interval", type=float, default=1.0)
+    parser.add_argument("--host-lock-dir", default=".cache/fast_multisource_host_locks")
+    parser.add_argument("--scene-claim-dir", default=".cache/fast_multisource_scene_claims")
+    parser.add_argument("--scene-claim-stale-seconds", type=float, default=86400.0)
+    parser.add_argument("--candidate-url-claim-dir", default=".cache/fast_multisource_candidate_urls")
+    parser.add_argument("--candidate-url-claim-stale-seconds", type=float, default=86400.0)
+    parser.add_argument("--history-reports-root", default="reports")
+    parser.add_argument(
+        "--ignore-url-history",
+        action="store_true",
+        help="Do not skip URLs found in previous reports; image hashes still prevent duplicate imports.",
+    )
+    parser.add_argument("--history-candidate-root", default="dataset/images_candidates")
+    parser.add_argument("--timeout", type=float, default=12.0)
+    parser.add_argument("--pixabay-key", default="", help="Pixabay API key (register free at pixabay.com/api/docs/)")
+    parser.add_argument(
+        "--openverse-enabled",
+        action="store_true",
+        help="Opt in to Openverse. It is disabled by default because unauthenticated requests often return 401/429 and stall runs.",
+    )
+    parser.add_argument("--sleep-between-scenes", type=float, default=1.0)
+    parser.add_argument("--shards", type=int, default=1)
+    parser.add_argument("--shard-index", type=int, default=0)
+    parser.add_argument("--min-width", type=int, default=800)
+    parser.add_argument("--min-height", type=int, default=500)
+    parser.add_argument("--min-short-side", type=int, default=500)
+    parser.add_argument("--min-pixels", type=int, default=500000)
+    parser.add_argument("--min-laplacian", type=float, default=70.0)
+    parser.add_argument("--max-edge-density", type=float, default=0.24)
+    parser.add_argument("--max-white-ratio", type=float, default=0.72)
+    parser.add_argument("--max-document-white-ratio", type=float, default=0.52)
+    parser.add_argument("--max-document-saturation", type=float, default=70.0)
+    parser.add_argument("--min-document-edge-density", type=float, default=0.035)
+    parser.add_argument("--max-center-white-ratio", type=float, default=0.82)
+    parser.add_argument("--min-pattern-edge-density", type=float, default=0.18)
+    parser.add_argument("--min-pattern-saturation", type=float, default=90.0)
+    parser.add_argument("--max-face-area-ratio", type=float, default=0.018)
+    parser.add_argument("--max-skin-ratio", type=float, default=0.18)
+    parser.add_argument("--max-center-skin-ratio", type=float, default=0.16)
+    parser.add_argument("--max-skin-ratio-soft", type=float, default=0.10)
+    parser.add_argument("--max-center-skin-ratio-soft", type=float, default=0.08)
+    parser.add_argument("--max-human-subject-edge-density", type=float, default=0.12)
+    parser.add_argument("--duplicate-hamming-distance", type=int, default=4)
+    parser.add_argument("--duplicate-dhash-distance", type=int, default=6)
+    parser.add_argument("--duplicate-phash-distance", type=int, default=8)
+    run(parser.parse_args())
+
+
+if __name__ == "__main__":
+    main()
