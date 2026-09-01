@@ -63,7 +63,7 @@ def public_image_url(row: dict) -> str:
     # inline data URL.
     return (
         "https://raw.githubusercontent.com/am-ns/FORGE-Bench/master/"
-        f"reports/video_generation_500_package/images/{row['task_id']}.jpg"
+        f"reports/video_generation_500_package/{row['image_path']}"
     )
 
 

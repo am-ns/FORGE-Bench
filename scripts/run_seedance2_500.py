@@ -169,7 +169,11 @@ def download_video(url: str, destination: Path) -> int:
 
 
 def build_payload(sample: dict[str, Any], model: str) -> tuple[dict[str, Any], str]:
-    image_path = f"reports/video_generation_500_package/images/{sample['task_id']}.jpg"
+    image_dir = Path("reports/video_generation_500_package/images")
+    matches = list(image_dir.glob(f"{sample['task_id']}.*"))
+    if len(matches) != 1:
+        raise RuntimeError(f"Expected one packaged image for {sample['task_id']}")
+    image_path = matches[0].as_posix()
     image_url = RAW_IMAGE_ROOT + "/".join(
         urllib.parse.quote(part) for part in image_path.split("/")
     )

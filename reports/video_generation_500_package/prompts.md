@@ -699,7 +699,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/extreme_emergency/emerg_hot_work_spark_combustible_fire/ref_12.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial dust collector process equipment smoke isolation: industrial dust collector process equipment smoke isolation. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial dust collector process equipment smoke isolation: Local smoke or dust plume appears at the process equipment; alarm, isolation, or shutdown response is visible while equipment layout stays stable. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `emerg_280`
@@ -708,7 +708,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/extreme_emergency/emerg_smoke_evacuation_route_visibility/ref_11.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of enclosed passage smoke evacuation visibility: enclosed passage smoke evacuation visibility. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of enclosed passage smoke evacuation visibility: Camera pans through smoke or darkness to reveal whether the passage direction, occupants, and evacuation route remain interpretable. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `emerg_294`
@@ -717,7 +717,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/extreme_emergency/emerg_smoke_evacuation_route_visibility/ref_12.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of enclosed passage smoke evacuation visibility: enclosed passage smoke evacuation visibility. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of enclosed passage smoke evacuation visibility: Camera pans through smoke or darkness to reveal whether the passage direction, occupants, and evacuation route remain interpretable. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `emerg_298`
@@ -726,7 +726,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/extreme_emergency/emerg_smoke_evacuation_route_visibility/ref_16.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of enclosed passage smoke evacuation visibility: enclosed passage smoke evacuation visibility. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of enclosed passage smoke evacuation visibility: Camera pans through smoke or darkness to reveal whether the passage direction, occupants, and evacuation route remain interpretable. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `emerg_299`
@@ -735,7 +735,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/extreme_emergency/emerg_hot_work_spark_combustible_fire/ref_09.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial dust collector process equipment smoke isolation: industrial dust collector process equipment smoke isolation. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial dust collector process equipment smoke isolation: Local smoke or dust plume appears at the process equipment; alarm, isolation, or shutdown response is visible while equipment layout stays stable. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `emerg_300`
@@ -744,7 +744,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/extreme_emergency/emerg_hot_work_spark_combustible_fire/ref_10.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial dust collector process equipment smoke isolation: industrial dust collector process equipment smoke isolation. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial dust collector process equipment smoke isolation: Local smoke or dust plume appears at the process equipment; alarm, isolation, or shutdown response is visible while equipment layout stays stable. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `emerg_301`
@@ -753,7 +753,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/extreme_emergency/emerg_hot_work_spark_combustible_fire/ref_11.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial dust collector process equipment smoke isolation: industrial dust collector process equipment smoke isolation. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial dust collector process equipment smoke isolation: Local smoke or dust plume appears at the process equipment; alarm, isolation, or shutdown response is visible while equipment layout stays stable. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `emerg_302`
@@ -771,7 +771,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/extreme_emergency/emerg_hot_work_spark_combustible_fire/ref_13.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial dust collector process equipment smoke isolation: industrial dust collector process equipment smoke isolation. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial dust collector process equipment smoke isolation: Local smoke or dust plume appears at the process equipment; alarm, isolation, or shutdown response is visible while equipment layout stays stable. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `emerg_305`
@@ -780,7 +780,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/extreme_emergency/emerg_hot_work_spark_combustible_fire/ref_08.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial dust collector process equipment smoke isolation: industrial dust collector process equipment smoke isolation. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial dust collector process equipment smoke isolation: Local smoke or dust plume appears at the process equipment; alarm, isolation, or shutdown response is visible while equipment layout stays stable. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `emerg_306`
@@ -789,7 +789,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/extreme_emergency/emerg_hot_work_spark_combustible_fire/ref_15.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial dust collector process equipment smoke isolation: industrial dust collector process equipment smoke isolation. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial dust collector process equipment smoke isolation: Local smoke or dust plume appears at the process equipment; alarm, isolation, or shutdown response is visible while equipment layout stays stable. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `emerg_307`
@@ -798,7 +798,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/extreme_emergency/emerg_hot_work_spark_combustible_fire/ref_16.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial dust collector process equipment smoke isolation: industrial dust collector process equipment smoke isolation. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial dust collector process equipment smoke isolation: Local smoke or dust plume appears at the process equipment; alarm, isolation, or shutdown response is visible while equipment layout stays stable. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `emerg_308`
@@ -852,7 +852,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/extreme_emergency/emerg_reactor_runaway_pressure_release/ref_09.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial dust collector process equipment smoke isolation: industrial dust collector process equipment smoke isolation. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial dust collector process equipment smoke isolation: Local smoke or dust plume appears at the process equipment; alarm, isolation, or shutdown response is visible while equipment layout stays stable. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `emerg_324`
@@ -861,7 +861,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/extreme_emergency/emerg_smoke_evacuation_route_visibility/ref_01.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of enclosed passage smoke evacuation visibility: enclosed passage smoke evacuation visibility. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of enclosed passage smoke evacuation visibility: Camera pans through smoke or darkness to reveal whether the passage direction, occupants, and evacuation route remain interpretable. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `emerg_327`
@@ -870,7 +870,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/extreme_emergency/emerg_smoke_evacuation_route_visibility/ref_04.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of enclosed passage smoke evacuation visibility: enclosed passage smoke evacuation visibility. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of enclosed passage smoke evacuation visibility: Camera pans through smoke or darkness to reveal whether the passage direction, occupants, and evacuation route remain interpretable. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `emerg_328`
@@ -879,7 +879,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/extreme_emergency/emerg_smoke_evacuation_route_visibility/ref_05.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of enclosed passage smoke evacuation visibility: enclosed passage smoke evacuation visibility. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of enclosed passage smoke evacuation visibility: Camera pans through smoke or darkness to reveal whether the passage direction, occupants, and evacuation route remain interpretable. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `emerg_329`
@@ -888,7 +888,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/extreme_emergency/emerg_smoke_evacuation_route_visibility/ref_06.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of enclosed passage smoke evacuation visibility: enclosed passage smoke evacuation visibility. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of enclosed passage smoke evacuation visibility: Camera pans through smoke or darkness to reveal whether the passage direction, occupants, and evacuation route remain interpretable. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `emerg_333`
@@ -897,7 +897,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/extreme_emergency/emerg_smoke_evacuation_route_visibility/ref_10.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of enclosed passage smoke evacuation visibility: enclosed passage smoke evacuation visibility. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of enclosed passage smoke evacuation visibility: Camera pans through smoke or darkness to reveal whether the passage direction, occupants, and evacuation route remain interpretable. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `erob_001`
@@ -1365,7 +1365,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/embodied_robotics/erob_agv_rollup_door_interlock/ref_16.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of warehouse agv roll up door safety interlock: warehouse agv roll up door safety interlock. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of warehouse agv roll up door safety interlock: AGV approaches a closed roll-up door; interlock holds the vehicle until the door opens and the path is clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `erob_115`
@@ -1374,7 +1374,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/embodied_robotics/erob_cobot_safety_scanner_slowdown/ref_17.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial machine safeguarded work area protective stop: industrial machine safeguarded work area protective stop. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial machine safeguarded work area protective stop: A worker enters the safeguarded operating area; the machine remains stopped or enters a protective stop until the area is clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `erob_125`
@@ -1383,7 +1383,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/embodied_robotics/erob_amr_charger_smoke_abort/ref_01.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of autonomous mobile robot warehouse path obstacle stop: autonomous mobile robot warehouse path obstacle stop. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of autonomous mobile robot warehouse path obstacle stop: AMR encounters a pedestrian or temporary obstacle in its marked path; it slows or stops and proceeds only after the path is clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `erob_140`
@@ -1455,7 +1455,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/embodied_robotics/erob_amr_charger_smoke_abort/ref_14.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of autonomous mobile robot warehouse path obstacle stop: autonomous mobile robot warehouse path obstacle stop. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of autonomous mobile robot warehouse path obstacle stop: AMR encounters a pedestrian or temporary obstacle in its marked path; it slows or stops and proceeds only after the path is clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `erob_159`
@@ -1464,7 +1464,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/embodied_robotics/erob_amr_charger_smoke_abort/ref_16.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of autonomous mobile robot warehouse path obstacle stop: autonomous mobile robot warehouse path obstacle stop. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of autonomous mobile robot warehouse path obstacle stop: AMR encounters a pedestrian or temporary obstacle in its marked path; it slows or stops and proceeds only after the path is clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `erob_160`
@@ -1473,7 +1473,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/embodied_robotics/erob_cobot_safety_scanner_slowdown/ref_16.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial machine safeguarded work area protective stop: industrial machine safeguarded work area protective stop. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial machine safeguarded work area protective stop: A worker enters the safeguarded operating area; the machine remains stopped or enters a protective stop until the area is clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `erob_162`
@@ -1482,7 +1482,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/embodied_robotics/erob_cobot_safety_scanner_slowdown/ref_18.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial machine safeguarded work area protective stop: industrial machine safeguarded work area protective stop. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial machine safeguarded work area protective stop: A worker enters the safeguarded operating area; the machine remains stopped or enters a protective stop until the area is clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `erob_163`
@@ -1491,7 +1491,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/embodied_robotics/erob_cobot_safety_scanner_slowdown/ref_19.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial machine safeguarded work area protective stop: industrial machine safeguarded work area protective stop. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial machine safeguarded work area protective stop: A worker enters the safeguarded operating area; the machine remains stopped or enters a protective stop until the area is clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `erob_167`
@@ -1500,7 +1500,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/embodied_robotics/erob_cobot_safety_scanner_slowdown/ref_23.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial machine safeguarded work area protective stop: industrial machine safeguarded work area protective stop. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial machine safeguarded work area protective stop: A worker enters the safeguarded operating area; the machine remains stopped or enters a protective stop until the area is clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `erob_168`
@@ -1509,7 +1509,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/embodied_robotics/erob_cobot_safety_scanner_slowdown/ref_24.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial machine safeguarded work area protective stop: industrial machine safeguarded work area protective stop. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial machine safeguarded work area protective stop: A worker enters the safeguarded operating area; the machine remains stopped or enters a protective stop until the area is clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `erob_170`
@@ -1680,7 +1680,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/embodied_robotics/erob_agv_rollup_door_interlock/ref_02.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of warehouse agv roll up door safety interlock: warehouse agv roll up door safety interlock. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of warehouse agv roll up door safety interlock: AGV approaches a closed roll-up door; interlock holds the vehicle until the door opens and the path is clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `erob_230`
@@ -1689,7 +1689,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/embodied_robotics/erob_agv_rollup_door_interlock/ref_03.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of warehouse agv roll up door safety interlock: warehouse agv roll up door safety interlock. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of warehouse agv roll up door safety interlock: AGV approaches a closed roll-up door; interlock holds the vehicle until the door opens and the path is clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `erob_233`
@@ -1698,7 +1698,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/embodied_robotics/erob_agv_rollup_door_interlock/ref_06.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of warehouse agv roll up door safety interlock: warehouse agv roll up door safety interlock. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of warehouse agv roll up door safety interlock: AGV approaches a closed roll-up door; interlock holds the vehicle until the door opens and the path is clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `erob_234`
@@ -1707,7 +1707,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/embodied_robotics/erob_agv_rollup_door_interlock/ref_07.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of warehouse agv roll up door safety interlock: warehouse agv roll up door safety interlock. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of warehouse agv roll up door safety interlock: AGV approaches a closed roll-up door; interlock holds the vehicle until the door opens and the path is clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `erob_235`
@@ -1716,7 +1716,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/embodied_robotics/erob_agv_rollup_door_interlock/ref_08.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of warehouse agv roll up door safety interlock: warehouse agv roll up door safety interlock. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of warehouse agv roll up door safety interlock: AGV approaches a closed roll-up door; interlock holds the vehicle until the door opens and the path is clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `erob_237`
@@ -1725,7 +1725,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/embodied_robotics/erob_agv_rollup_door_interlock/ref_10.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of warehouse agv roll up door safety interlock: warehouse agv roll up door safety interlock. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of warehouse agv roll up door safety interlock: AGV approaches a closed roll-up door; interlock holds the vehicle until the door opens and the path is clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `erob_241`
@@ -1734,7 +1734,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/embodied_robotics/erob_agv_rollup_door_interlock/ref_14.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of warehouse agv roll up door safety interlock: warehouse agv roll up door safety interlock. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of warehouse agv roll up door safety interlock: AGV approaches a closed roll-up door; interlock holds the vehicle until the door opens and the path is clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `erob_245`
@@ -2382,7 +2382,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/heavy_load_construction/hload_sling_angle_center_of_gravity/ref_01.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of crane sling angle center of gravity rigging: crane sling angle center of gravity rigging. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of crane sling angle center of gravity rigging: Unequal sling angle shifts the load center of gravity; load tilts plausibly while hooks, slings, and rigging remain coupled. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `hload_203`
@@ -2391,7 +2391,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/heavy_load_construction/hload_blind_lift_spotter_view/ref_05.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of tower crane hook block boom clearance viewpoint: tower crane hook block boom clearance viewpoint. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of tower crane hook block boom clearance viewpoint: Camera motion reveals the clearance between the hook block, boom, and nearby crane structure before motion continues. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `hload_213`
@@ -2400,7 +2400,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/heavy_load_construction/hload_blind_lift_spotter_view/ref_06.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of tower crane hook block boom clearance viewpoint: tower crane hook block boom clearance viewpoint. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of tower crane hook block boom clearance viewpoint: Camera motion reveals the clearance between the hook block, boom, and nearby crane structure before motion continues. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `hload_214`
@@ -2427,7 +2427,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/heavy_load_construction/hload_gantry_wind_disturbance/ref_41.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of crane sling angle center of gravity rigging: crane sling angle center of gravity rigging. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of crane sling angle center of gravity rigging: Unequal sling angle shifts the load center of gravity; load tilts plausibly while hooks, slings, and rigging remain coupled. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `hload_218`
@@ -2436,7 +2436,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/heavy_load_construction/hload_gantry_wind_disturbance/ref_24.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of crane sling angle center of gravity rigging: crane sling angle center of gravity rigging. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of crane sling angle center of gravity rigging: Unequal sling angle shifts the load center of gravity; load tilts plausibly while hooks, slings, and rigging remain coupled. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `hload_219`
@@ -2454,7 +2454,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/heavy_load_construction/hload_blind_lift_spotter_view/ref_18.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of tower crane hook block boom clearance viewpoint: tower crane hook block boom clearance viewpoint. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of tower crane hook block boom clearance viewpoint: Camera motion reveals the clearance between the hook block, boom, and nearby crane structure before motion continues. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `hload_221`
@@ -2463,7 +2463,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/heavy_load_construction/hload_blind_lift_spotter_view/ref_16.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of tower crane hook block boom clearance viewpoint: tower crane hook block boom clearance viewpoint. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of tower crane hook block boom clearance viewpoint: Camera motion reveals the clearance between the hook block, boom, and nearby crane structure before motion continues. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `hload_223`
@@ -2499,7 +2499,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/heavy_load_construction/hload_gantry_wind_disturbance/ref_10.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of crane sling angle center of gravity rigging: crane sling angle center of gravity rigging. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of crane sling angle center of gravity rigging: Unequal sling angle shifts the load center of gravity; load tilts plausibly while hooks, slings, and rigging remain coupled. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `hload_228`
@@ -2508,7 +2508,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/heavy_load_construction/hload_gantry_wind_disturbance/ref_18.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of crane sling angle center of gravity rigging: crane sling angle center of gravity rigging. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of crane sling angle center of gravity rigging: Unequal sling angle shifts the load center of gravity; load tilts plausibly while hooks, slings, and rigging remain coupled. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `hload_230`
@@ -2517,7 +2517,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/heavy_load_construction/hload_gantry_wind_disturbance/ref_11.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of crane sling angle center of gravity rigging: crane sling angle center of gravity rigging. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of crane sling angle center of gravity rigging: Unequal sling angle shifts the load center of gravity; load tilts plausibly while hooks, slings, and rigging remain coupled. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `hload_231`
@@ -2526,7 +2526,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/heavy_load_construction/hload_sling_angle_center_of_gravity/ref_16.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of crane sling angle center of gravity rigging: crane sling angle center of gravity rigging. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of crane sling angle center of gravity rigging: Unequal sling angle shifts the load center of gravity; load tilts plausibly while hooks, slings, and rigging remain coupled. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `hload_233`
@@ -2535,7 +2535,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/heavy_load_construction/hload_gantry_wind_disturbance/ref_19.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of crane sling angle center of gravity rigging: crane sling angle center of gravity rigging. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of crane sling angle center of gravity rigging: Unequal sling angle shifts the load center of gravity; load tilts plausibly while hooks, slings, and rigging remain coupled. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `hload_235`
@@ -2598,7 +2598,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/heavy_load_construction/hload_blind_lift_spotter_view/ref_20.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of tower crane hook block boom clearance viewpoint: tower crane hook block boom clearance viewpoint. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of tower crane hook block boom clearance viewpoint: Camera motion reveals the clearance between the hook block, boom, and nearby crane structure before motion continues. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `hload_245`
@@ -2607,7 +2607,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/heavy_load_construction/hload_blind_lift_spotter_view/ref_26.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of tower crane hook block boom clearance viewpoint: tower crane hook block boom clearance viewpoint. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of tower crane hook block boom clearance viewpoint: Camera motion reveals the clearance between the hook block, boom, and nearby crane structure before motion continues. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `hload_248`
@@ -2616,7 +2616,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/heavy_load_construction/hload_sling_angle_center_of_gravity/ref_15.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of crane sling angle center of gravity rigging: crane sling angle center of gravity rigging. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of crane sling angle center of gravity rigging: Unequal sling angle shifts the load center of gravity; load tilts plausibly while hooks, slings, and rigging remain coupled. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `hload_250`
@@ -2634,7 +2634,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/heavy_load_construction/hload_blind_lift_spotter_view/ref_19.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of tower crane hook block boom clearance viewpoint: tower crane hook block boom clearance viewpoint. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of tower crane hook block boom clearance viewpoint: Camera motion reveals the clearance between the hook block, boom, and nearby crane structure before motion continues. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `hload_276`
@@ -3192,7 +3192,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/precision_defect_gen/pdef_flange_seal_micro_leak/ref_16.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe valve joint micro leak inspection: pipe valve joint micro leak inspection. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe valve joint micro leak inspection: A tiny leak or residue appears locally at a pipe joint or valve fitting while surrounding pipe geometry remains stable. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `pdef_128`
@@ -3345,7 +3345,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/precision_defect_gen/pdef_flange_seal_micro_leak/ref_17.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe valve joint micro leak inspection: pipe valve joint micro leak inspection. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe valve joint micro leak inspection: A tiny leak or residue appears locally at a pipe joint or valve fitting while surrounding pipe geometry remains stable. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `pdef_154`
@@ -3354,7 +3354,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/precision_defect_gen/pdef_flange_seal_micro_leak/ref_18.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe valve joint micro leak inspection: pipe valve joint micro leak inspection. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe valve joint micro leak inspection: A tiny leak or residue appears locally at a pipe joint or valve fitting while surrounding pipe geometry remains stable. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `pdef_156`
@@ -3435,7 +3435,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/precision_defect_gen/pdef_flange_seal_micro_leak/ref_05.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe valve joint micro leak inspection: pipe valve joint micro leak inspection. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe valve joint micro leak inspection: A tiny leak or residue appears locally at a pipe joint or valve fitting while surrounding pipe geometry remains stable. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `pdef_183`
@@ -3453,7 +3453,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/precision_defect_gen/pdef_flange_seal_micro_leak/ref_08.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe valve joint micro leak inspection: pipe valve joint micro leak inspection. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe valve joint micro leak inspection: A tiny leak or residue appears locally at a pipe joint or valve fitting while surrounding pipe geometry remains stable. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `pdef_185`
@@ -3462,7 +3462,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/precision_defect_gen/pdef_flange_seal_micro_leak/ref_09.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe valve joint micro leak inspection: pipe valve joint micro leak inspection. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe valve joint micro leak inspection: A tiny leak or residue appears locally at a pipe joint or valve fitting while surrounding pipe geometry remains stable. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `pdef_186`
@@ -3957,7 +3957,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/visual_security/vsec_conveyor_jam_loto_clearance/ref_16.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial rail inspection pit access isolation: industrial rail inspection pit access isolation. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial rail inspection pit access isolation: A worker or cart approaches an unisolated inspection pit or track lane; warning and physical isolation are established before entry. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `vsec_131`
@@ -3966,7 +3966,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/visual_security/vsec_electrical_cabinet_smoke_isolation/ref_03.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial equipment cabinet smoke isolation: industrial equipment cabinet smoke isolation. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial equipment cabinet smoke isolation: Local smoke or abnormal haze begins at the equipment cabinet; the area is isolated and response cues appear without changing the cabinet identity. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `vsec_141`
@@ -4092,7 +4092,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/visual_security/vsec_electrical_cabinet_smoke_isolation/ref_12.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial equipment cabinet smoke isolation: industrial equipment cabinet smoke isolation. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial equipment cabinet smoke isolation: Local smoke or abnormal haze begins at the equipment cabinet; the area is isolated and response cues appear without changing the cabinet identity. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `vsec_163`
@@ -4101,7 +4101,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/visual_security/vsec_electrical_cabinet_smoke_isolation/ref_15.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial equipment cabinet smoke isolation: industrial equipment cabinet smoke isolation. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial equipment cabinet smoke isolation: Local smoke or abnormal haze begins at the equipment cabinet; the area is isolated and response cues appear without changing the cabinet identity. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `vsec_165`
@@ -4173,7 +4173,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/visual_security/vsec_conveyor_jam_loto_clearance/ref_01.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial rail inspection pit access isolation: industrial rail inspection pit access isolation. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial rail inspection pit access isolation: A worker or cart approaches an unisolated inspection pit or track lane; warning and physical isolation are established before entry. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `vsec_175`
@@ -4182,7 +4182,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/visual_security/vsec_conveyor_jam_loto_clearance/ref_09.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial rail inspection pit access isolation: industrial rail inspection pit access isolation. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial rail inspection pit access isolation: A worker or cart approaches an unisolated inspection pit or track lane; warning and physical isolation are established before entry. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `vsec_176`
@@ -4191,7 +4191,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/visual_security/vsec_conveyor_jam_loto_clearance/ref_04.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial rail inspection pit access isolation: industrial rail inspection pit access isolation. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial rail inspection pit access isolation: A worker or cart approaches an unisolated inspection pit or track lane; warning and physical isolation are established before entry. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `vsec_178`
@@ -4200,7 +4200,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/visual_security/vsec_conveyor_jam_loto_clearance/ref_06.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial rail inspection pit access isolation: industrial rail inspection pit access isolation. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial rail inspection pit access isolation: A worker or cart approaches an unisolated inspection pit or track lane; warning and physical isolation are established before entry. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `vsec_179`
@@ -4209,7 +4209,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/visual_security/vsec_conveyor_jam_loto_clearance/ref_07.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial rail inspection pit access isolation: industrial rail inspection pit access isolation. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial rail inspection pit access isolation: A worker or cart approaches an unisolated inspection pit or track lane; warning and physical isolation are established before entry. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `vsec_186`
@@ -4218,7 +4218,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/visual_security/vsec_conveyor_jam_loto_clearance/ref_14.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial rail inspection pit access isolation: industrial rail inspection pit access isolation. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial rail inspection pit access isolation: A worker or cart approaches an unisolated inspection pit or track lane; warning and physical isolation are established before entry. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `vsec_187`
@@ -4227,7 +4227,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/visual_security/vsec_conveyor_jam_loto_clearance/ref_15.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial rail inspection pit access isolation: industrial rail inspection pit access isolation. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial rail inspection pit access isolation: A worker or cart approaches an unisolated inspection pit or track lane; warning and physical isolation are established before entry. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `vsec_189`
@@ -4254,7 +4254,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/visual_security/vsec_electrical_cabinet_smoke_isolation/ref_02.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial equipment cabinet smoke isolation: industrial equipment cabinet smoke isolation. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial equipment cabinet smoke isolation: Local smoke or abnormal haze begins at the equipment cabinet; the area is isolated and response cues appear without changing the cabinet identity. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `vsec_193`
@@ -4263,7 +4263,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/visual_security/vsec_electrical_cabinet_smoke_isolation/ref_09.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial equipment cabinet smoke isolation: industrial equipment cabinet smoke isolation. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial equipment cabinet smoke isolation: Local smoke or abnormal haze begins at the equipment cabinet; the area is isolated and response cues appear without changing the cabinet identity. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `vsec_195`
@@ -4272,7 +4272,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/visual_security/vsec_electrical_cabinet_smoke_isolation/ref_05.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial equipment cabinet smoke isolation: industrial equipment cabinet smoke isolation. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial equipment cabinet smoke isolation: Local smoke or abnormal haze begins at the equipment cabinet; the area is isolated and response cues appear without changing the cabinet identity. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `vsec_196`
@@ -4281,7 +4281,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/visual_security/vsec_electrical_cabinet_smoke_isolation/ref_06.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial equipment cabinet smoke isolation: industrial equipment cabinet smoke isolation. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial equipment cabinet smoke isolation: Local smoke or abnormal haze begins at the equipment cabinet; the area is isolated and response cues appear without changing the cabinet identity. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `vsec_197`
@@ -4290,7 +4290,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/visual_security/vsec_electrical_cabinet_smoke_isolation/ref_07.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial equipment cabinet smoke isolation: industrial equipment cabinet smoke isolation. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial equipment cabinet smoke isolation: Local smoke or abnormal haze begins at the equipment cabinet; the area is isolated and response cues appear without changing the cabinet identity. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `vsec_201`
