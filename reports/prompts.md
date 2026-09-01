@@ -534,7 +534,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=embodied_robotics; abs
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of autonomous mobile robot warehouse path obstacle stop: autonomous mobile robot warehouse path obstacle stop. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of battery-powered mobile equipment and charging-pack safety: A charging-area or route hazard causes the associated equipment to stop and remain isolated until the area is clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -552,7 +552,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=embodied_robotics; abs
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of autonomous mobile robot warehouse path obstacle stop: autonomous mobile robot warehouse path obstacle stop. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of battery-powered mobile equipment and charging-pack safety: A charging-area or route hazard causes the associated equipment to stop and remain isolated until the area is clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -588,7 +588,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=embodied_robotics; abs
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of autonomous mobile robot warehouse path obstacle stop: autonomous mobile robot warehouse path obstacle stop. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial service vehicle approach safety: The service vehicle approaches occupied equipment; motion stops until the service area is visibly clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -624,7 +624,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=embodied_robotics; abs
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of autonomous mobile robot warehouse path obstacle stop: autonomous mobile robot warehouse path obstacle stop. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of rail vehicle maintenance-area protective stop: The rail vehicle remains stopped while a worker or service obstacle occupies the maintenance area and proceeds only after clearance. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -660,7 +660,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=embodied_robotics; abs
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of autonomous mobile robot warehouse path obstacle stop: autonomous mobile robot warehouse path obstacle stop. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial robot workcell protective stop: The automated workcell slows or stops when a person or obstruction enters its operating area and remains stopped until clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -1440,7 +1440,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=embodied_robotics; abs
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial machine safeguarded work area protective stop: industrial machine safeguarded work area protective stop. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of outdoor mobile robot obstacle protective stop: The mobile robot slows or stops near a person or obstacle and proceeds only after its route is clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -1458,7 +1458,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=embodied_robotics; abs
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial machine safeguarded work area protective stop: industrial machine safeguarded work area protective stop. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of outdoor mobile robot obstacle protective stop: The mobile robot slows or stops near a person or obstacle and proceeds only after its route is clear. Camera: locked static camera. Show a localized, causal event where requested motion/manipulation executes; by the end, final contact/clearance/grasp/placement/collision is visible. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -4288,7 +4288,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=extreme_emergency; abs
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of battery energy storage container: One battery module enters thermal runaway. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial storage tanks and connected piping: A localized fire or overheating event begins near the visible tank piping and develops without changing the tank layout. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -4328,7 +4328,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=extreme_emergency; abs
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of battery energy storage container: One battery module enters thermal runaway. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of heavy equipment operating in a cold work area: A localized equipment fault develops into smoke or a small fire and the machine enters a stopped or isolated state. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -5548,7 +5548,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=extreme_emergency; abs
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of battery energy storage container: One battery module enters thermal runaway. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial process vessel and connected piping: A localized overheating or pressure fault produces smoke or vapor near the visible vessel while surrounding equipment remains stable. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -5568,7 +5568,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=extreme_emergency; abs
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe flange valve chemical plant: High-pressure flange leak sprays vapor/liquid and causes local visual distortion. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pressurized industrial equipment enclosure: A localized pressure or seal fault releases vapor near the visible equipment while the enclosure and surrounding area remain stable. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -6970,7 +6970,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=extreme_emergency; abs
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of transmission tower ice snow: Ice-loaded transmission tower yields and collapses locally according to lattice support topology. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of ice-loaded electrical support equipment: Ice loading causes a localized structural or support failure that progresses without changing the surrounding substation layout. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -7010,7 +7010,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=extreme_emergency; abs
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of transmission tower ice snow: Ice-loaded transmission tower yields and collapses locally according to lattice support topology. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of ice-loaded electrical support equipment: Ice loading causes a localized structural or support failure that progresses without changing the surrounding substation layout. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -7090,7 +7090,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=extreme_emergency; abs
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of transmission tower ice snow: Ice-loaded transmission tower yields and collapses locally according to lattice support topology. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of lifting structure operating in icy conditions: The visible lifting structure becomes unstable under ice or load and develops a localized support failure. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -7510,7 +7510,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=extreme_emergency; abs
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of transmission tower ice snow: Ice-loaded transmission tower yields and collapses locally according to lattice support topology. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of ice-loaded utility poles and overhead lines: Ice loading causes one visible utility support or line section to yield locally while adjacent supports remain identifiable. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -7574,7 +7574,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=extreme_emergency; abs
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of construction trench broken pipe: Broken underground pipe causes muddy water surge with pressure direction, gravity, and containment boundaries. Camera: locked static camera. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of large industrial vessel and connected line: A localized pipe or fitting failure releases muddy water or fluid with plausible pressure direction and gravity flow. Camera: locked static camera. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -7674,7 +7674,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=heavy_load_constructio
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of construction trench broken pipe: Broken underground pipe causes muddy water surge with pressure direction, gravity, and containment boundaries. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pressurized pipework and instrument panel: A localized pipe or fitting failure releases fluid near the visible gauges while surrounding equipment remains stable. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -7694,7 +7694,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=heavy_load_constructio
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of construction trench broken pipe: Broken underground pipe causes muddy water surge with pressure direction, gravity, and containment boundaries. Camera: locked static camera. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial tank car and connected piping: A localized pipe or valve failure releases fluid beside the visible tank car with plausible pressure direction and gravity flow. Camera: locked static camera. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -7794,7 +7794,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=heavy_load_constructio
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of construction trench broken pipe: Broken underground pipe causes muddy water surge with pressure direction, gravity, and containment boundaries. Camera: locked static camera. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of transported cylindrical equipment and service vehicle: A localized fluid release develops near the visible transported equipment and remains bounded to the immediate work area. Camera: locked static camera. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -7834,7 +7834,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=heavy_load_constructio
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of construction trench broken pipe: Broken underground pipe causes muddy water surge with pressure direction, gravity, and containment boundaries. Camera: locked static camera. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of construction corridor utility failure: A localized underground utility failure produces a muddy water surge along the visible work corridor with plausible gravity flow. Camera: locked static camera. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -7854,7 +7854,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=heavy_load_constructio
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of construction trench broken pipe: Broken underground pipe causes muddy water surge with pressure direction, gravity, and containment boundaries. Camera: locked static camera. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of roadwork corridor utility failure: A localized underground utility failure produces a muddy water surge within the visible controlled roadwork area. Camera: locked static camera. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -8658,7 +8658,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=heavy_load_constructio
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of excavator hydraulic arm bucket: Excavator performs loaded bucket motion. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of heavy construction machinery linkage inspection: The visible heavy-machine linkage executes a controlled loaded motion while pivots and connected parts remain mechanically coupled. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -9356,7 +9356,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=heavy_load_constructio
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of excavator hydraulic arm bucket: Excavator performs loaded bucket motion. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of heavy mobile construction equipment under load: The visible machine executes a controlled loaded or transport motion while its chassis running gear and carried structure remain coherently coupled. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -9376,7 +9376,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=heavy_load_constructio
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of excavator hydraulic arm bucket: Excavator performs loaded bucket motion. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of heavy mobile construction equipment under load: The visible machine executes a controlled loaded or transport motion while its chassis running gear and carried structure remain coherently coupled. Camera: constant-radius 45 degree orbit around subject. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -10286,7 +10286,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=heavy_load_constructio
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of tower crane hook block boom clearance viewpoint: tower crane hook block boom clearance viewpoint. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of heavy equipment clearance inspection: Camera motion reveals the clearance between the visible boom or attachment and nearby ground equipment or structure before motion continues. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -12664,7 +12664,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=precision_defect_gen; 
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of automated fixture pallet positioning offset inspection: automated fixture pallet positioning offset inspection. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial gauge valve and fitting inspection: The inspection camera moves across the visible valve and fittings to reveal a small reading position or alignment anomaly. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -12742,7 +12742,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=precision_defect_gen; 
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of automated fixture pallet positioning offset inspection: automated fixture pallet positioning offset inspection. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial sight gauge inspection: The inspection camera moves across the visible gauge to reveal a small level reading or alignment anomaly. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -12796,7 +12796,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=precision_defect_gen; 
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of automated fixture pallet positioning offset inspection: automated fixture pallet positioning offset inspection. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial pressure gauge inspection: The inspection camera moves across the visible gauges to reveal a small reading or indicator anomaly. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -12814,7 +12814,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=precision_defect_gen; 
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of automated fixture pallet positioning offset inspection: automated fixture pallet positioning offset inspection. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial pressure gauge inspection: The inspection camera moves across the visible gauges to reveal a small reading or indicator anomaly. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -12868,7 +12868,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=precision_defect_gen; 
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of automated fixture pallet positioning offset inspection: automated fixture pallet positioning offset inspection. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial valve and piping inspection: The inspection camera moves across the visible valve assembly to reveal a small position or alignment anomaly. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -12886,7 +12886,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=precision_defect_gen; 
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of automated fixture pallet positioning offset inspection: automated fixture pallet positioning offset inspection. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial gauge and valve inspection: The inspection camera moves across the visible gauge and valve to reveal a small reading or position anomaly. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -13062,7 +13062,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=precision_defect_gen; 
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of automated fixture pallet positioning offset inspection: automated fixture pallet positioning offset inspection. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial control valve inspection: The inspection camera moves across the visible valve to reveal a small position or alignment anomaly. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -13080,7 +13080,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=precision_defect_gen; 
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of automated fixture pallet positioning offset inspection: automated fixture pallet positioning offset inspection. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial fitting and component inspection: The inspection camera moves across the visible fittings to reveal a small positioning or assembly anomaly. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -13154,7 +13154,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=precision_defect_gen; 
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of heat exchanger tube bundle: Endoscope navigates through tube bundle. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial structure and utility-path inspection: The inspection camera advances through or across the visible structure to reveal a localized spacing path or access anomaly without losing structural identity. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -13174,7 +13174,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=precision_defect_gen; 
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of heat exchanger tube bundle: Endoscope navigates through tube bundle. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial structure and utility-path inspection: The inspection camera advances through or across the visible structure to reveal a localized spacing path or access anomaly without losing structural identity. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -13576,7 +13576,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=precision_defect_gen; 
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe weld seam close up: Weld seam develops porosity or a fine crack. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of metal surface and seam inspection: Close inspection reveals localized porosity or a fine crack on the visible metal surface while unaffected regions remain stable. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -13596,7 +13596,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=precision_defect_gen; 
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe weld seam close up: Weld seam develops porosity or a fine crack. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial machine component inspection: Close inspection reveals a localized seam joint or material crack on the visible machine component. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -13616,7 +13616,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=precision_defect_gen; 
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe weld seam close up: Weld seam develops porosity or a fine crack. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of machined component inspection: Close inspection reveals a localized surface or joint crack near the visible tooling without changing component geometry. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -13636,7 +13636,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=precision_defect_gen; 
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe weld seam close up: Weld seam develops porosity or a fine crack. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial gauge and pressure-line inspection: Close inspection reveals a localized seal leak reading anomaly or fine crack near the visible gauges. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -13676,7 +13676,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=precision_defect_gen; 
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe weld seam close up: Weld seam develops porosity or a fine crack. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of electromechanical equipment inspection: Close inspection reveals a localized connection material or housing defect while surrounding components remain stable. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -13696,7 +13696,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=precision_defect_gen; 
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe weld seam close up: Weld seam develops porosity or a fine crack. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial fastener inspection: Close inspection reveals a localized fine crack or porosity defect on the visible fastener. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -13716,7 +13716,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=precision_defect_gen; 
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe weld seam close up: Weld seam develops porosity or a fine crack. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of electronic circuit board inspection: Close inspection reveals a localized solder crack porosity or bridge defect without changing nearby component counts. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -14556,7 +14556,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=precision_defect_gen; 
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe valve joint micro leak inspection: pipe valve joint micro leak inspection. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of bolted structural joint and seal inspection: A tiny leak residue or fine crack appears locally at the visible joint or fastener while surrounding structure remains stable. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -14610,7 +14610,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=precision_defect_gen; 
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe valve joint micro leak inspection: pipe valve joint micro leak inspection. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial mechanical joint inspection: A tiny leak residue or fine crack appears locally at the visible joint while surrounding machinery remains stable. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -15104,7 +15104,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=precision_defect_gen; 
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of pipe weld seam close up: Weld seam develops porosity or a fine crack. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of large gear inspection: Close inspection reveals a localized tooth crack porosity or wear defect while the gear geometry remains stable. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where defect/anomaly/path/region localized; by the end, camera reveals new spatial info without identity loss. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -15910,7 +15910,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=visual_security; abstr
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of worker aerial work platform safety harness: Worker performs high-altitude work without helmet or harness. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of elevated and heavy-equipment work-zone PPE safety: A worker performs or approaches elevated or heavy-equipment work without required helmet harness or exclusion protection and a warning or stop response follows. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -15930,7 +15930,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=visual_security; abstr
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of worker aerial work platform safety harness: Worker performs high-altitude work without helmet or harness. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of elevated and heavy-equipment work-zone PPE safety: A worker performs or approaches elevated or heavy-equipment work without required helmet harness or exclusion protection and a warning or stop response follows. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -15970,7 +15970,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=visual_security; abstr
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of worker aerial work platform safety harness: Worker performs high-altitude work without helmet or harness. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of elevated and heavy-equipment work-zone PPE safety: A worker performs or approaches elevated or heavy-equipment work without required helmet harness or exclusion protection and a warning or stop response follows. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -16210,7 +16210,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=visual_security; abstr
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of warehouse forklift pedestrian lane: Pedestrian enters forklift lane. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial driveway pedestrian vehicle near miss: A pedestrian enters a vehicle access route and a warning stop or avoidance response prevents contact. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -16406,7 +16406,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=visual_security; abstr
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of worker aerial work platform safety harness: Worker performs high-altitude work without helmet or harness. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of elevated and heavy-equipment work-zone PPE safety: A worker performs or approaches elevated or heavy-equipment work without required helmet harness or exclusion protection and a warning or stop response follows. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -16426,7 +16426,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=visual_security; abstr
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of worker aerial work platform safety harness: Worker performs high-altitude work without helmet or harness. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of elevated and heavy-equipment work-zone PPE safety: A worker performs or approaches elevated or heavy-equipment work without required helmet harness or exclusion protection and a warning or stop response follows. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -16446,7 +16446,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=visual_security; abstr
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of worker aerial work platform safety harness: Worker performs high-altitude work without helmet or harness. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of elevated and heavy-equipment work-zone PPE safety: A worker performs or approaches elevated or heavy-equipment work without required helmet harness or exclusion protection and a warning or stop response follows. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -16556,7 +16556,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=visual_security; abstr
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of worker aerial work platform safety harness: Worker performs high-altitude work without helmet or harness. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of heavy-equipment work-zone PPE safety: A worker approaches or operates the visible heavy equipment without required PPE or exclusion protection and a warning or stop response follows. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -16576,7 +16576,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=visual_security; abstr
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of worker aerial work platform safety harness: Worker performs high-altitude work without helmet or harness. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial machinery service-area PPE safety: A worker enters the visible machinery service area without required PPE or isolation protection and a warning or stop response follows. Camera: locked static camera. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -18392,7 +18392,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=visual_security; abstr
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of conveyor machine guard: A machine guard is missing or displaced near a conveyor. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial machinery and transport-lane guarding: A protective guard or access boundary is missing or displaced near the visible machinery or lane and the unsafe opening remains observable. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -18412,7 +18412,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=visual_security; abstr
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of conveyor machine guard: A machine guard is missing or displaced near a conveyor. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial machinery and transport-lane guarding: A protective guard or access boundary is missing or displaced near the visible machinery or lane and the unsafe opening remains observable. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -18552,7 +18552,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=visual_security; abstr
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of conveyor machine guard: A machine guard is missing or displaced near a conveyor. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial machinery and transport-lane guarding: A protective guard or access boundary is missing or displaced near the visible machinery or lane and the unsafe opening remains observable. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -18612,7 +18612,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=visual_security; abstr
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of conveyor machine guard: A machine guard is missing or displaced near a conveyor. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of unguarded transport platform access boundary: A protective guard or access boundary is missing or displaced near the visible platform and the hazard remains clearly observable. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -18652,7 +18652,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=visual_security; abstr
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of conveyor machine guard: A machine guard is missing or displaced near a conveyor. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of unguarded heavy mobile machinery: A protective guard or exclusion boundary is missing or displaced near the visible machine and the hazard remains clearly observable. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -18672,7 +18672,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=visual_security; abstr
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of conveyor machine guard: A machine guard is missing or displaced near a conveyor. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of unguarded industrial machine: A protective guard or access boundary is missing or displaced near the visible machinery and the hazard remains clearly observable. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
@@ -18692,7 +18692,7 @@ FORGE-Bench evaluation prompt. Domain x Task cell: domain=visual_security; abstr
 Generation prompt:
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of conveyor machine guard: A machine guard is missing or displaced near a conveyor. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of unprotected industrial transport lane: A protective access boundary is missing or displaced along the visible lane and the unsafe opening remains clearly observable. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 Evaluation prompt:
