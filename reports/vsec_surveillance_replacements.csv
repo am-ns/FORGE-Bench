@@ -1,5 +1,0 @@
-﻿task_id,old_image_path,new_image_path
-vsec_228,dataset/images/visual_security/vsec_surveillance_blind_spot_sweep/ref_09.jpg,dataset/images/visual_security/vsec_unregistered_vehicle_intrusion/ref_13.jpg
-vsec_229,dataset/images/visual_security/vsec_surveillance_blind_spot_sweep/ref_10.jpg,dataset/images/visual_security/vsec_unregistered_vehicle_intrusion/ref_08.jpg
-vsec_232,dataset/images/visual_security/vsec_surveillance_blind_spot_sweep/ref_13.jpg,dataset/images/visual_security/vsec_perimeter_fence_breach/ref_08.jpg
-vsec_233,dataset/images/visual_security/vsec_surveillance_blind_spot_sweep/ref_14.jpg,dataset/images/visual_security/vsec_unregistered_vehicle_intrusion/ref_11.jpg

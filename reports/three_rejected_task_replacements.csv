@@ -1,4 +1,0 @@
-﻿task_id,old_image_path,new_image_path
-pdef_183,dataset/images/precision_defect_gen/pdef_flange_seal_micro_leak/ref_11.jpg,dataset/images/precision_defect_gen/pdef_flange_seal_micro_leak/ref_02.jpg
-pdef_204,dataset/images/precision_defect_gen/pdef_gear_tooth_missing_wear/ref_15.jpg,dataset/images/precision_defect_gen/pdef_gear_tooth_missing_wear/ref_04.jpg
-vsec_043,dataset/images/visual_security/vsec_surveillance_blind_spot_sweep/ref_12.jpg,dataset/images/visual_security/vsec_surveillance_blind_spot_sweep/ref_11.jpg

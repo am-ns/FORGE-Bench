@@ -1,2 +1,0 @@
-status,reason,source_path,scene_id,domain,dest_path,task_id,scene_import_limit,width,height,short_side,pixels,laplacian_var,edge_density,background_edge_density,white_ratio,center_white_ratio,mean_saturation,skin_ratio,face_area_ratio
-accepted,accepted,C:/Users/assd/FORGE/dataset/images_candidates/erob_light_curtain_emergency_stop__commons_category__0026.jpg,erob_light_curtain_emergency_stop,embodied_robotics,dataset/images/embodied_robotics/erob_light_curtain_emergency_stop/ref_26.jpg,erob_225,1,950,500,500,475000,2173.13,0.2230,0.1819,0.0278,0.0273,38.37,0.0578,0.0000

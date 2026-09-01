@@ -15,11 +15,10 @@ scenario domain -> abstract task -> reference image -> executable prompt
 
 ## Dataset
 
-The current annotation file contains 960 samples from 60 scenes across five
-scenario domains. These samples reference a broader pool of 884 curated images
-under `dataset/images/`; that pool is maintained as backup/reference coverage.
-For current video generation, model comparison, and public-facing runs, the
-primary set is the curated 500-image generation split.
+The annotation file contains 960 scoring samples from 60 scenes across five
+scenario domains. The self-contained operational set for video generation,
+model comparison, and public-facing runs is the curated 500-image split under
+`reports/video_generation_500_package/`.
 
 | Domain | Samples | Coverage Focus |
 |---|---:|---|
@@ -29,11 +28,9 @@ primary set is the curated 500-image generation split.
 | `precision_defect_gen` | 192 | Circuit-board bridge defects, endoscopic crack inspection, gear damage, multi-axis machining, cutting-fluid spray, and tube-bundle viewpoint motion. |
 | `extreme_emergency` | 192 | High-pressure leakage, flash fire spread, dust explosion, tower icing collapse, and emergency-state causal evolution. |
 
-The benchmark uses existing repository images as reference anchors. The
-annotation layer is responsible for the new domain/task semantics, prompts,
-questions, weights, and report grouping. Sample `image_path` values are kept
-under `dataset/images/<domain>/<scene_id>/` using the same five scenario-domain
-directories.
+The annotation layer defines the domain/task semantics, prompts, questions,
+weights, and report grouping. The operational package stores each reference as
+`images/{task_id}.jpg` beside its prompt manifest.
 
 Each sample also carries `implicit_rule_type` and
 `reasoning_alignment_questions` for binary implicit-rule checks. These fields
@@ -44,10 +41,9 @@ The executable full benchmark remains `dataset/annotations/samples.json` with
 960 samples. The operational generation set is
 `dataset/annotations/video_generation_500_samples.json`: 500 samples, 500
 unique image references, 100 samples per domain, and coverage across all 60
-scene families. The corresponding copied image folder is
-`reports/video_generation_500_images/` with `index.csv` and `index.json` for
-review. Unless a full-coverage analysis explicitly needs the broader pool, use
-this 500-image split as the default.
+scene families. The corresponding self-contained prompt and image package is
+`reports/video_generation_500_package/`. This is the single canonical copy of
+the 500-image split.
 
 ## Task Categories
 
@@ -190,7 +186,8 @@ The evaluation prompt follows this structure:
 
 ```text
 video frames
-  sampled uniformly from model-generated .mp4 files
+  sampled at 2 FPS (with first/last-frame coverage) from model-generated .mp4 files;
+  native-rate frames remain available to continuous CV checks
   |
   +-- operator evidence layer
   |     local-region locking, fluid/plume continuity, rigid-joint tracking,
@@ -292,49 +289,9 @@ Expected video naming is `{task_id}.mp4`.
 
 ## Running Evaluation
 
-First export prompts and inspect the image plan:
-
-```bash
-python scripts/export_prompts.py
-python scripts/make_image_sourcing_plan.py
-python scripts/build_image_search_prompts.py
-```
-
-This writes:
-
-```text
-reports/prompts.md
-reports/prompts.jsonl
-reports/image_sourcing_plan.csv
-reports/image_sourcing_plan.md
-reports/image_search_prompts.csv
-reports/image_search_prompts.jsonl
-reports/image_search_prompts.md
-```
-
-To search for strict open-license reference images for additional coverage, run:
-
-```bash
-python scripts/find_reference_images.py --target 960 --search-limit 25
-```
-
-The finder writes candidates under `dataset/images_candidates/strict_open_license/`
-and a rejection/acceptance manifest at
-`reports/strict_reference_image_candidates.csv`. It enforces open-license
-metadata, minimum 1280x720 resolution, minimum 900-pixel short side, blur
-rejection, topic-title overlap, task-anchor quality, near-duplicate filtering,
-and background edge density limits to avoid overly cluttered images. The
-task-anchor filter rejects candidates that are clear but cannot support the
-sample's industrial subject, required events, decision elements, or event space.
-Candidate manifests also include auditable anchor evidence:
-`anchor_objects_present`, `spatial_context_present`, `event_support_level`, and
-`anchor_rejection_reason`.
-
 Use `dataset/annotations/video_generation_500_samples.json`,
-`reports/video_generation_500_manifest.jsonl`, or the copied images under
-`reports/video_generation_500_images/` for the default video-generation run.
-Use `reports/prompts.jsonl` only when intentionally running the full 960-sample
-benchmark. Each row contains `task_id`, `image_path`,
+or the prompts and images under `reports/video_generation_500_package/` for the
+default video-generation run. Each row contains `task_id`, `image_path`,
 `video_generation_prompt`, `motion_type`, and `viewpoint_motion_target`.
 
 After videos are generated, place them in a flat directory as `{task_id}.mp4`.

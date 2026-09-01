@@ -1,5 +1,0 @@
-﻿task_id,old_image_path,new_image_path
-pdef_176,dataset/images/precision_defect_gen/pdef_engine_endoscope_crack/ref_09.jpg,dataset/images/precision_defect_gen/pdef_engine_endoscope_crack/ref_15.jpg
-pdef_183,dataset/images/precision_defect_gen/pdef_flange_seal_micro_leak/ref_07.jpg,dataset/images/precision_defect_gen/pdef_flange_seal_micro_leak/ref_15.jpg
-pdef_145,dataset/images/precision_defect_gen/pdef_gauge_level_valve_anomaly/ref_12.jpg,dataset/images/precision_defect_gen/pdef_gauge_level_valve_anomaly/ref_16.jpg
-pdef_226,dataset/images/precision_defect_gen/pdef_weld_porosity_crack/ref_10.jpg,dataset/images/precision_defect_gen/pdef_connector_pin_bent/ref_08.jpg

@@ -38,11 +38,8 @@ Generation systems should use `video_generation_prompt`.
 
 ## Image Sources And Filtering
 
-Reference images are stored under `dataset/images/`. Candidate image manifests
-record source metadata, license checks, quality checks, duplicate checks, and
-task-anchor evidence. The task-anchor audit records whether candidate metadata
-supports the industrial subject, event space, decision-relevant objects, and
-required observable events.
+The canonical operational reference images are stored under
+`reports/video_generation_500_package/images/`, beside the prompt manifest.
 
 Open-license metadata is required for imported public reference images. Images
 that are diagrams, covers, product shots, trade-show photos, advertisements, or
@@ -100,11 +97,11 @@ and diagnostic comparisons against removed multiplicative penalty variants.
 
 ## Dataset Distribution
 
-Current dataset: 60 scenes, 960 samples, and a broader backup/reference pool of
-884 curated images. The primary operational set for current video generation is
+Current scoring dataset: 60 scenes and 960 samples. The primary operational set
+for current video generation is
 `dataset/annotations/video_generation_500_samples.json`, a quality-aware
 stratified 500-sample split with 500 unique image references and 100 samples per
-domain. The copied image folder is `reports/video_generation_500_images/`.
+domain. Its single image copy is `reports/video_generation_500_package/images/`.
 
 **Domain sample counts**:
 

@@ -1,8 +1,0 @@
-imported_path,matched_path,matched_is_imported,exact_sha256,ahash_distance,dhash_distance,phash_distance
-dataset/images/embodied_robotics/erob_quadruped_stairs_rubble_fpv/ref_12.jpg,dataset/images/extreme_emergency/emerg_crane_load_drop_evacuation/ref_02.jpg,false,false,4,39,31
-dataset/images/embodied_robotics/erob_quadruped_stairs_rubble_fpv/ref_12.jpg,dataset/images/heavy_load_construction/hload_gantry_wind_disturbance/ref_06.jpg,false,false,4,31,19
-dataset/images/embodied_robotics/erob_quadruped_stairs_rubble_fpv/ref_12.jpg,dataset/images/heavy_load_construction/hload_ground_settlement_outrigger/ref_01.png,false,false,4,27,33
-dataset/images/embodied_robotics/erob_quadruped_stairs_rubble_fpv/ref_12.jpg,dataset/images/heavy_load_construction/hload_hoist_collision_near_structure/ref_18.png,false,false,4,27,33
-dataset/images/embodied_robotics/erob_quadruped_stairs_rubble_fpv/ref_12.jpg,dataset/images/heavy_load_construction/hload_mining_truck_muddy_slope/ref_15.jpg,false,false,3,25,30
-dataset/images/embodied_robotics/erob_quadruped_stairs_rubble_fpv/ref_12.jpg,dataset/images/heavy_load_construction/hload_wire_rope_overload_snap/ref_17.png,false,false,4,27,33
-dataset/images/embodied_robotics/erob_quadruped_stairs_rubble_fpv/ref_12.jpg,dataset/images/visual_security/vsec_crane_unsafe_swing_near_people/ref_12.png,false,false,4,27,33
