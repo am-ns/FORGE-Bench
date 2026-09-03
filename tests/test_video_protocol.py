@@ -2,7 +2,8 @@ import copy
 
 from eval.video_protocol import (
     PROTOCOL, dynamic_local_indices, evaluation_cache_key, sampling_manifest,
-    task_progress_indices, validate_axis_judgment, visual_quality_indices,
+    select_task_progress_frames, task_progress_indices, validate_axis_judgment,
+    visual_quality_indices,
 )
 
 
@@ -20,6 +21,15 @@ def test_short_video_and_bad_fps_have_defined_behavior():
     assert dynamic_local_indices(3) == [[0, 1, 2]]
     assert visual_quality_indices(2) == []
     assert task_progress_indices(5, float("nan")) == [0, 1, 2, 3, 4]
+
+
+def test_vlm_frame_selection_is_two_fps_and_keeps_boundaries():
+    frames = list(range(121))
+    selected, source_indices = select_task_progress_frames(frames, 24.0)
+    assert source_indices == [0, 12, 24, 36, 48, 60, 72, 84, 96, 108, 120]
+    assert selected == source_indices
+    assert selected[0] == 0
+    assert selected[-1] == 120
 
 
 def test_cache_key_invalidates_every_frozen_input():

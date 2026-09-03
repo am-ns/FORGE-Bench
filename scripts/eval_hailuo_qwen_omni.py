@@ -55,6 +55,18 @@ APPLICATION_COMPONENT_WEIGHTS = {
 }
 
 
+def numeric_score(raw_value, field: str) -> float:
+    """Normalize explicit score/value wrappers emitted by compatible VLM APIs."""
+    while isinstance(raw_value, dict):
+        if "score" in raw_value:
+            raw_value = raw_value["score"]
+        elif "value" in raw_value:
+            raw_value = raw_value["value"]
+        else:
+            raise ValueError(f"invalid_numeric_score_wrapper:{field}={raw_value}")
+    return float(raw_value)
+
+
 def score_output_contract(include_axis_evidence: bool = False) -> str:
     """Describe the JSON shape without anchoring the model to numeric zeroes."""
     fields = ", ".join(AXES)
@@ -144,7 +156,7 @@ def parse_single_axis(text: str, expected_axis: str) -> dict:
     data = json.loads(match.group(0))
     if data.get("axis") != expected_axis:
         raise ValueError(f"single_axis_name_mismatch:{data.get('axis')}")
-    score = float(data["score"])
+    score = numeric_score(data["score"], expected_axis)
     if not 0 <= score <= 100:
         raise ValueError(f"single_axis_score_out_of_range:{expected_axis}={score}")
     return {"score": score, "evidence": str(data.get("evidence", "")), "confidence": data.get("confidence")}
@@ -198,10 +210,7 @@ def strict_application_score(parsed: dict, expected_event_count: int | None = No
         raise ValueError("missing_application_assessment")
     components = {}
     for name, weight in APPLICATION_COMPONENT_WEIGHTS.items():
-        raw_value = assessment[name]
-        if isinstance(raw_value, dict) and set(raw_value) >= {"score"}:
-            raw_value = raw_value["score"]
-        value = float(raw_value)
+        value = numeric_score(assessment[name], name)
         if value in {25.0, 50.0, 75.0, 100.0}:
             value /= 25.0
         if value not in {0, 1, 2, 3, 4}:
@@ -327,9 +336,20 @@ def parse_json(text: str) -> dict:
     scores = {}
     for axis in AXES:
         raw_value = data[axis]
-        if isinstance(raw_value, dict) and set(raw_value) >= {"score"}:
-            raw_value = raw_value["score"]
-        value = float(raw_value)
+        if (
+            axis == "application_usefulness"
+            and isinstance(raw_value, dict)
+            and set(APPLICATION_COMPONENT_WEIGHTS).issubset(raw_value)
+        ):
+            # Some compatible VLMs place the assessment object in the numeric
+            # application field. Preserve it and derive the uncapped judge score
+            # from the protocol's frozen component weights.
+            data.setdefault("application_assessment", raw_value)
+            raw_value = 25.0 * sum(
+                weight * numeric_score(raw_value[name], name)
+                for name, weight in APPLICATION_COMPONENT_WEIGHTS.items()
+            )
+        value = numeric_score(raw_value, axis)
         if not 0 <= value <= 100:
             raise ValueError(f"score_out_of_range:{axis}={value}")
         scores[axis] = value
@@ -395,6 +415,7 @@ sample. It never means that the requested task succeeded.
     content.append({"type": "text", "text": prompt})
 
     last_error = None
+    last_raw_response = None
     for attempt in range(retries + 1):
         try:
             response = client.chat.completions.create(
@@ -404,6 +425,7 @@ sample. It never means that the requested task succeeded.
                 temperature=0,
             )
             raw = response.choices[0].message.content or ""
+            last_raw_response = raw
             parsed = parse_json(raw)
             initial_parsed = dict(parsed)
             initial_raw = raw
@@ -536,7 +558,12 @@ sample. It never means that the requested task succeeded.
             last_error = f"{type(exc).__name__}: {exc}"
             if attempt < retries:
                 time.sleep(2 ** attempt)
-    result = {"status": "error", "task_id": sample["task_id"], "error": last_error}
+    result = {
+        "status": "error",
+        "task_id": sample["task_id"],
+        "error": last_error,
+        "raw_response": last_raw_response,
+    }
     state_path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
     return result
 

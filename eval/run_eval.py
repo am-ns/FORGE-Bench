@@ -49,7 +49,11 @@ from scoring.per_sample import score_sample
 from scoring.aggregate import aggregate_sample_results
 from scoring.report import generate_diagnostic_report, generate_report
 from eval.metadata import build_run_metadata
-from eval.video_protocol import PROTOCOL as VIDEO_PROTOCOL, sampling_manifest
+from eval.video_protocol import (
+    PROTOCOL as VIDEO_PROTOCOL,
+    sampling_manifest,
+    select_task_progress_frames,
+)
 
 logger = logging.getLogger("forge_eval")
 IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp"}
@@ -70,6 +74,18 @@ def extract_frames(video_path: str) -> list[np.ndarray]:
         frames.append(frame)
     cap.release()
     return frames
+
+
+def resolve_video_path(video_dir: str, task_id: str) -> Path | None:
+    """Resolve flat or category-nested videos without ambiguous selection."""
+    root = Path(video_dir)
+    direct = root / f"{task_id}.mp4"
+    if direct.is_file():
+        return direct
+    matches = sorted(path for path in root.rglob(f"{task_id}.mp4") if path.is_file())
+    if len(matches) > 1:
+        raise RuntimeError(f"Ambiguous video for {task_id}: {matches}")
+    return matches[0] if matches else None
 
 
 def _candidate_reference_paths(image_path: str) -> list[Path]:
@@ -287,12 +303,25 @@ def _sample_scoring_validity(axis_scores: dict[str, float], detail_blocks: dict[
     }
     missing = sorted(required - set(axis_scores))
     invalid_judges = []
+
+    def detail_score(details: dict) -> object:
+        for key in (
+            "score",
+            "temporal_consistency_score",
+            "reference_and_motion_fidelity_score",
+            "physical_plausibility_score",
+            "geometric_integrity_model_score",
+        ):
+            if details.get(key) is not None:
+                return details[key]
+        return None
+
     for name, details in detail_blocks.items():
         if not isinstance(details, dict):
             continue
         if details.get("llm_parse_valid") is False:
             invalid_judges.append(name)
-        elif details.get("raw_response") and details.get("score") is None:
+        elif details.get("raw_response") and detail_score(details) is None:
             invalid_judges.append(name)
     return {
         "required_axes": sorted(required),
@@ -391,12 +420,13 @@ def evaluate_sample(
     axis_rubric = sample.get("axis_rubric") or task_profile.get("rubric", {})
 
     # video loading
-    video_path = os.path.join(video_dir, f"{task_id}.mp4")
-    if not os.path.exists(video_path):
-        logger.warning("Video not found: %s", video_path)
+    resolved_video = resolve_video_path(video_dir, task_id)
+    if resolved_video is None:
+        logger.warning("Video not found under %s: %s.mp4", video_dir, task_id)
         return {"task_id": task_id, "domain": domain, "skipped": True,
                 "sample_status": "model_output_invalid", "ranking_score": 0.0,
                 "skip_reason": "video_not_found"}
+    video_path = str(resolved_video)
 
     frames = extract_frames(video_path)
     if not frames:
@@ -409,6 +439,7 @@ def evaluate_sample(
     video_fps = float(capture.get(cv2.CAP_PROP_FPS)) if capture.isOpened() else 0.0
     capture.release()
     sampling_indices = sampling_manifest(len(frames), video_fps)
+    vlm_frames, vlm_frame_indices = select_task_progress_frames(frames, video_fps)
 
     fc = validate_frame_count(video_path)
 
@@ -483,6 +514,8 @@ def evaluate_sample(
     sample_for_judge["operator_evidence"] = operator_evidence
     sample_for_judge["geometric_integrity_operator_evidence"] = geometric_integrity_result
     sample_for_judge["task_category"] = task_category
+    sample_for_judge["vlm_sampling_fps"] = VIDEO_PROTOCOL["sampling"]["task_progress"]["fps"]
+    sample_for_judge["vlm_source_frame_indices"] = vlm_frame_indices
 
     # industrial logic and fact alignment: LLM-based if judge available, else use pre-computed answers.
     industrial_logic_and_fact_alignment_score = None
@@ -496,7 +529,7 @@ def evaluate_sample(
 
     if judge_industrial_logic_and_fact_alignment is not None and questions:
         try:
-            industrial_logic_and_fact_alignment_model_judgment = judge_industrial_logic_and_fact_alignment(frames, questions, sample_meta=sample_for_judge)
+            industrial_logic_and_fact_alignment_model_judgment = judge_industrial_logic_and_fact_alignment(vlm_frames, questions, sample_meta=sample_for_judge)
             answers = industrial_logic_and_fact_alignment_model_judgment.get("answers", {})
             visible_evidence_map = industrial_logic_and_fact_alignment_model_judgment.get(
                 "visible_evidence",
@@ -532,7 +565,7 @@ def evaluate_sample(
     geometric_integrity_model_details: dict = {}
     if judge_geometric_integrity is not None:
         try:
-            r = judge_geometric_integrity(frames, sample_meta=sample_for_judge)
+            r = judge_geometric_integrity(vlm_frames, sample_meta=sample_for_judge)
             geometric_integrity_model_score = r.get("score")
             geometric_integrity_model_details = r
         except Exception as exc:
@@ -546,7 +579,7 @@ def evaluate_sample(
     temporal_consistency_result: dict = {}
     if judge_temporal_consistency is not None:
         try:
-            r = judge_temporal_consistency(frames, sample_meta=sample_for_judge)
+            r = judge_temporal_consistency(vlm_frames, sample_meta=sample_for_judge)
             temporal_consistency_result = {"temporal_consistency_score": r.get("score"), "reasoning": r.get("reasoning", ""),
                          "raw_response": r.get("raw_response", ""),
                          "tokens_used": r.get("tokens_used"),
@@ -565,7 +598,7 @@ def evaluate_sample(
     physical_plausibility_details: dict = {}
     if judge_physical_plausibility is not None:
         try:
-            r = judge_physical_plausibility(frames, prompt=sample.get("prompt", ""), sample_meta=sample_for_judge)
+            r = judge_physical_plausibility(vlm_frames, prompt=sample.get("prompt", ""), sample_meta=sample_for_judge)
             physical_plausibility_score = r.get("score")
             physical_plausibility_details = r
         except Exception as exc:
@@ -575,7 +608,7 @@ def evaluate_sample(
     reference_and_motion_fidelity_result: dict = {}
     if judge_reference_and_motion_fidelity is not None and reference_image is not None:
         try:
-            r = judge_reference_and_motion_fidelity(frames, reference_image=reference_image, sample_meta=sample_for_judge)
+            r = judge_reference_and_motion_fidelity(vlm_frames, reference_image=reference_image, sample_meta=sample_for_judge)
             reference_and_motion_fidelity_result = {"reference_and_motion_fidelity_score": r.get("score"), "reasoning": r.get("reasoning", ""),
                          "reference_preservation_score": r.get("reference_preservation_score"),
                          "motion_execution_score": r.get("motion_execution_score"),
@@ -603,7 +636,7 @@ def evaluate_sample(
     application_usefulness_details: dict = {}
     if judge_application_usefulness is not None:
         try:
-            r = judge_application_usefulness(frames, sample_meta=sample_for_judge)
+            r = judge_application_usefulness(vlm_frames, sample_meta=sample_for_judge)
             application_usefulness_score = r.get("score")
             observable_event_coverage = r.get("observable_event_coverage")
             application_usefulness_details = r

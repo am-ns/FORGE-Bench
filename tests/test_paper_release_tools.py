@@ -86,9 +86,26 @@ def test_aggregate_headline_score_uses_complete_required_axes_only():
 
     assert result["num_samples_completed"] == 2
     assert result["num_samples_complete_required_axes"] == 1
-    assert result["ranking_score"] == pytest.approx(85.6)
-    assert result["linear_all_sample_score"] == pytest.approx(77.8)
+    # The frozen task-category weights make the complete sample's 5+1 score 86.4.
+    assert result["ranking_score"] == pytest.approx(86.4)
+    assert result["linear_all_sample_score"] == pytest.approx(74.7)
     assert result["scoring_validity"]["missing_required_axis_counts"][TEMPORAL_CONSISTENCY] == 1
+
+
+def test_aggregate_excludes_persisted_invalid_judge_outputs_from_headline():
+    sample = _sample("vsec_001", 90.0)
+    sample["scoring_validity"] = {
+        "invalid_judge_outputs": [TEMPORAL_CONSISTENCY],
+    }
+
+    result = aggregate_sample_results([sample])
+
+    assert result["num_samples_complete_required_axes"] == 0
+    assert result["ranking_score"] is None
+    assert result["ranking_status"] == "incomplete"
+    assert result["ranking_publishable"] is False
+    assert result["scoring_validity"]["samples_with_invalid_judge_outputs"] == 1
+    assert result["scoring_validity"]["invalid_or_unparsed_judge_outputs"] == 1
 
 
 def test_aggregate_headline_score_applies_zero_event_coverage_cap():
@@ -100,7 +117,7 @@ def test_aggregate_headline_score_applies_zero_event_coverage_cap():
 
     result = aggregate_sample_results([sample])
 
-    assert result["linear_ranking_score"] == pytest.approx(85.6)
+    assert result["linear_ranking_score"] == pytest.approx(86.4)
     assert result["ranking_score"] == pytest.approx(10.0)
     assert result["constraint_adjustment_summary"]["samples_with_application_event_cap"] == 1
     assert result["constraint_adjustment_summary"]["cap_reason_counts"]["zero_observable_event_coverage"] == 1

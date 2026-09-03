@@ -26,7 +26,7 @@ Each file must be named `{task_id}.mp4` where `task_id` matches
 |---|---|
 | Minimum duration | 2 seconds |
 | Resolution | Any; the pipeline normalizes frames internally |
-| Frame rate | Any; the pipeline samples frames uniformly |
+| Frame rate | Any; VLM evidence is sampled at 2 FPS with first/last-frame coverage, while CV checks retain the native frame rate |
 | Codec | Any codec decodable by OpenCV, H.264 recommended |
 | Container | `.mp4` |
 

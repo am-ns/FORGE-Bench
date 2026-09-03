@@ -1126,6 +1126,8 @@ def _scoring_validity_summary(completed: list[dict], axis_keys: set[str]) -> dic
     floor_applied_count = 0
     parse_invalid_count = 0
     parse_recovered_count = 0
+    stored_invalid_count = 0
+    samples_with_stored_invalid = 0
     application_event_check_samples = 0
     application_event_check_count = 0
     application_missing_event_coverage_samples = 0
@@ -1144,6 +1146,10 @@ def _scoring_validity_summary(completed: list[dict], axis_keys: set[str]) -> dic
         return None
 
     for result in completed:
+        stored_invalid = set((result.get("scoring_validity") or {}).get("invalid_judge_outputs") or [])
+        if stored_invalid:
+            samples_with_stored_invalid += 1
+            stored_invalid_count += len(stored_invalid)
         scored = result.get("scored", {})
         scores = scored.get("axis_scores", {})
         if scored.get("score_floor_applied"):
@@ -1202,7 +1208,8 @@ def _scoring_validity_summary(completed: list[dict], axis_keys: set[str]) -> dic
         "missing_required_axis_counts": missing_by_axis,
         "present_axis_counts": present_by_axis,
         "score_floor_applied_samples": floor_applied_count,
-        "invalid_or_unparsed_judge_outputs": parse_invalid_count,
+        "invalid_or_unparsed_judge_outputs": max(parse_invalid_count, stored_invalid_count),
+        "samples_with_invalid_judge_outputs": samples_with_stored_invalid,
         "parse_recovered_judge_outputs": parse_recovered_count,
         "application_required_event_check_samples": application_event_check_samples,
         "application_required_event_check_count": application_event_check_count,
@@ -1226,7 +1233,8 @@ def _has_required_axes(result: dict) -> bool:
     present = set(scores)
     if _application_score(result) is not None:
         present.add(APPLICATION_USEFULNESS)
-    return required_axes <= present
+    invalid_judges = (result.get("scoring_validity") or {}).get("invalid_judge_outputs") or []
+    return required_axes <= present and not invalid_judges
 
 
 def _constraint_adjustment(result: dict) -> dict:

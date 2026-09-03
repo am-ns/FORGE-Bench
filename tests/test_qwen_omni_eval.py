@@ -47,10 +47,45 @@ def test_degenerate_detection_preserves_independent_axis_policy():
 
 
 def test_parse_json_normalizes_explicit_nested_axis_scores():
-    payload = {axis: {"score": 40 + index} for index, axis in enumerate(MODULE.AXES)}
+    payload = {
+        axis: {"score": {"value": 40 + index}}
+        for index, axis in enumerate(MODULE.AXES)
+    }
     parsed = MODULE.parse_json(json.dumps(payload))
     assert parsed[MODULE.AXES[0]] == 40.0
     assert parsed[MODULE.AXES[-1]] == 45.0
+
+
+def test_parse_json_promotes_assessment_misplaced_in_application_score():
+    assessment = _application_payload(
+        core_event_realization=3,
+        causal_and_outcome_completeness=2,
+        decision_value=2,
+        observability_and_localization=3,
+        industrial_credibility=3,
+    )["application_assessment"]
+    payload = {axis: 80 for axis in MODULE.AXES}
+    payload["application_usefulness"] = assessment
+
+    parsed = MODULE.parse_json(json.dumps(payload))
+
+    assert parsed["application_assessment"] == assessment
+    assert parsed["application_usefulness"] == pytest.approx(63.75)
+
+
+@pytest.mark.parametrize("score", [{"score": 80}, {"score": {"value": 80}}])
+def test_parse_single_axis_normalizes_nested_score_wrappers(score):
+    axis = MODULE.AXES[0]
+    parsed = MODULE.parse_single_axis(
+        json.dumps({
+            "axis": axis,
+            "evidence": "The requested event is clearly visible.",
+            "score": score,
+            "confidence": 95,
+        }),
+        axis,
+    )
+    assert parsed["score"] == 80.0
 
 
 def test_bootstrap_mean_ci_is_deterministic_and_contains_mean():
@@ -117,7 +152,7 @@ def test_strict_application_score_uses_frozen_component_weights():
 
 def test_strict_application_score_normalizes_explicit_score_wrappers_and_percent_scale():
     payload = _application_payload(
-        observability_and_localization={"score": 100},
+        observability_and_localization={"score": {"value": 100}},
         industrial_credibility=75,
     )
     score, audit = MODULE.strict_application_score(payload)

@@ -569,7 +569,9 @@ def judge_sample_reference_and_motion_fidelity(
         "penalize this expected viewpoint shift. Judge only whether the subject "
         "identity, non-mutating regions, and scene elements are faithfully preserved. "
         "Photorealism without structural fidelity must score low. Return a "
-        "structured JSON judgment."
+        "structured JSON judgment. Be concise: never repeat a sentence or "
+        "phrase, keep reasoning under 60 words, and keep the entire response "
+        "under 250 words."
     )
 
     user_content = [
@@ -595,7 +597,8 @@ def judge_sample_reference_and_motion_fidelity(
             '"reference_preservation_score": 0, "motion_execution_score": 0, '
             '"reasoning": "visible evidence", "failure_modes": [], '
             '"confidence": 0.0, "evidence_frames": []}. All scores are 0-100. '
-            'For static tasks, motion_execution_score measures successful camera stability.'
+            'For static tasks, motion_execution_score measures successful camera stability. '
+            'Output JSON only. Do not repeat observations or add text outside the object.'
         )
     )
     user_content.append({"type": "text", "text": prompt_text})
@@ -605,7 +608,7 @@ def judge_sample_reference_and_motion_fidelity(
         model=model,
         system=system_text,
         messages=[{"role": "user", "content": user_content}],
-        max_tokens=256,
+        max_tokens=512,
     )
 
     raw = _extract_text(response)

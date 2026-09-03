@@ -75,6 +75,18 @@ def sampling_manifest(frame_count: int, fps: float) -> dict[str, Any]:
     }
 
 
+def select_task_progress_frames(frames: list[Any], fps: float) -> tuple[list[Any], list[int]]:
+    """Select the protocol's 2-fps VLM view without changing the CV frame stream."""
+    sampling = PROTOCOL["sampling"]["task_progress"]
+    indices = task_progress_indices(
+        len(frames),
+        fps,
+        target_fps=sampling["fps"],
+        max_frames=sampling["max_frames"],
+    )
+    return [frames[index] for index in indices], indices
+
+
 def sha256_file(path: str | Path | None) -> str | None:
     if path is None:
         return None

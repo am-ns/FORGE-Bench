@@ -83,9 +83,9 @@ def test_operator_gate_changes_axes_but_is_not_applied_twice():
     assert scored["axis_scores"][TEMPORAL_CONSISTENCY] == 50.0
     result = _result(scored, operator_evidence=evidence)
     aggregate = aggregate_sample_results([result])
-    # Technical=(80+80+80+50+60)/5=70; 5+1 base=76. No second 45 cap.
-    assert aggregate["linear_ranking_score"] == pytest.approx(76.0)
-    assert aggregate["ranking_score"] == pytest.approx(76.0)
+    # Frozen task-category weights produce a 74.4 linear 5+1 score. No second cap.
+    assert aggregate["linear_ranking_score"] == pytest.approx(74.4)
+    assert aggregate["ranking_score"] == pytest.approx(74.4)
     assert aggregate["constraint_adjustment_summary"]["samples_with_cap"] == 0
     reasons = aggregate["constraint_adjustment_summary"]["cap_reason_counts"]
     assert reasons["operator_gate_already_applied_to_axis"] == 1
@@ -99,7 +99,8 @@ def test_task_realization_is_diagnostic_not_an_alternative_total():
     assert task["task_realization_mean"] == pytest.approx((60 + 80 + 80) / 3)
     assert task["conditional_quality_success_only"] == pytest.approx(80.0)
     assert aggregate["linear_ranking_score"] == pytest.approx(84.0)
-    assert aggregate["ranking_score"] == pytest.approx(84.0)
+    # Coverage 60 is incomplete (<100), so the canonical event gate caps at 40.
+    assert aggregate["ranking_score"] == pytest.approx(40.0)
 
 
 def test_incomplete_manifest_is_not_publishable():

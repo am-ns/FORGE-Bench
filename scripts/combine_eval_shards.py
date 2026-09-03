@@ -23,6 +23,21 @@ SPECIAL = {"aggregate", "per_sample", "report", "run_metadata"}
 
 def load_sample_results(shard_dirs: list[Path]) -> dict[str, dict]:
     results: dict[str, dict] = {}
+
+    def quality(result: dict) -> tuple:
+        validity = result.get("scoring_validity") or {}
+        present = validity.get("present_axes") or []
+        missing = validity.get("missing_required_axes") or []
+        invalid = validity.get("invalid_judge_outputs") or []
+        return (
+            bool(result.get("scoring_complete")),
+            result.get("sample_status") == "valid",
+            not bool(result.get("skipped")),
+            len(present),
+            -len(missing),
+            -len(invalid),
+        )
+
     for shard_dir in shard_dirs:
         for path in shard_dir.glob("*.json"):
             if path.stem in SPECIAL:
@@ -30,7 +45,12 @@ def load_sample_results(shard_dirs: list[Path]) -> dict[str, dict]:
             with path.open(encoding="utf-8") as f:
                 result = json.load(f)
             task_id = result.get("task_id") or path.stem
-            results[task_id] = result
+            previous = results.get(task_id)
+            # A transport failure in a later retry must never overwrite a
+            # more complete earlier judgment. Equal-quality later retries do
+            # replace earlier ones, preserving deterministic retry semantics.
+            if previous is None or quality(result) >= quality(previous):
+                results[task_id] = result
     return results
 
 
