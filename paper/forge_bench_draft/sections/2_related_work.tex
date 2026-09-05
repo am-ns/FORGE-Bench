@@ -21,19 +21,19 @@ Table~\ref{tab:benchmark-comparison} compares representative physics-oriented vi
 \scriptsize
 \setlength{\tabcolsep}{2.4pt}
 \renewcommand{\arraystretch}{1.12}
-\caption{Comparison of representative physics-oriented video benchmarks. Symbols indicate explicit coverage (\checkmark), partial or shallow coverage ($\triangle$), and no coverage ($\times$).}
+\caption{Comparison of representative physics-oriented video benchmarks. Coverage is described as full, partial, or none without symbol-dependent typography.}
 \label{tab:benchmark-comparison}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{lllllll}
 \toprule
 Benchmark & Scenario domain & Data source & Physics depth & Topology failure & Evaluation pipeline & Core metric \\
 \midrule
-PhyGenBench (2025) & High-school physics / common sense & Web images / synthetic & $\triangle$ Basic laws & $\times$ & VLM visual QA & Weighted mean \\
-RigidBench (2026) & Synthetic rigid-body collisions & Blender 3D rendering & \checkmark{} Rigid trajectories & $\times$ & 3D trajectory error & MAE \\
-Physion-Eval (2026) & Daily life / human actions & Real-world short videos & \checkmark{} Daily physics & $\times$ & VLM failure detection & Failure rate / aggregate \\
-Physics-IQ (2025) & General video dynamics & Generic video clips & $\triangle$ Macro dynamics & $\times$ & VLM multiple choice & Accuracy \\
-VBench-2.0 (2025) & General generation & Generic generations & $\triangle$ Shallow intuition & $\times$ & Pretrained VLM judge & Mean across dimensions \\
-\textbf{\FORGE{} (ours)} & \textbf{Industrial / security / disaster / manufacturing} & \textbf{Surveillance / satellite / BIM / scientific diagrams} & \textbf{\checkmark{} Extreme dynamics / fluids} & \textbf{\checkmark{} Targeted} & \textbf{CV operators + VLM causal QA} & \textbf{Strict usability with static veto} \\
+PhyGenBench (2025) & High-school physics / common sense & Web images / synthetic & Partial: basic laws & None & VLM visual QA & Weighted mean \\
+RigidBench (2026) & Synthetic rigid-body collisions & Blender 3D rendering & Full: rigid trajectories & None & 3D trajectory error & MAE \\
+Physion-Eval (2026) & Daily life / human actions & Real-world short videos & Full: daily physics & None & VLM failure detection & Failure rate / aggregate \\
+Physics-IQ (2025) & General video dynamics & Generic video clips & Partial: macro dynamics & None & VLM multiple choice & Accuracy \\
+VBench-2.0 (2025) & General generation & Generic generations & Partial: shallow intuition & None & Pretrained VLM judge & Mean across dimensions \\
+\textbf{\FORGE{} (ours)} & \textbf{Industrial / security / disaster / manufacturing} & \textbf{Surveillance / satellite / BIM / scientific diagrams} & \textbf{Full: extreme dynamics / fluids} & \textbf{Full: targeted} & \textbf{CV operators + VLM causal QA} & \textbf{Strict usability with static veto} \\
 \bottomrule
 \end{tabular}%
 }
