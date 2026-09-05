@@ -1,0 +1,59 @@
+\begin{figure*}[t]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\sffamily\scriptsize,
+  >=Latex,
+  block/.style={draw=black!20, rounded corners=1.5mm, line width=.6pt,
+    minimum width=28mm, minimum height=13mm, align=center, inner sep=2mm},
+  small/.style={block, minimum width=23mm, minimum height=10mm},
+  arrow/.style={->, draw=black!55, line width=.9pt},
+  data/.style={draw=black!18, rounded corners=1mm, fill=black!2,
+    minimum width=24mm, minimum height=9mm, align=center},
+  group/.style={draw=black!18, dashed, rounded corners=2mm, inner sep=2.5mm}
+]
+\definecolor{pblue}{HTML}{2457C5}
+\definecolor{pteal}{HTML}{078C8C}
+\definecolor{porange}{HTML}{D96A24}
+\definecolor{pred}{HTML}{BE3A4A}
+\definecolor{ppurple}{HTML}{7354B5}
+
+\node[data, fill=pblue!7] (task) {reference image\\+ task contract};
+\node[block, right=8mm of task, fill=pblue!8] (decode) {video validation\\and decoding};
+
+\node[small, right=9mm of decode, yshift=10mm, fill=pteal!8] (sample)
+  {deterministic 2-fps\\contact sheet};
+\node[small, right=9mm of decode, yshift=-10mm, fill=porange!9] (native)
+  {native-rate\\frame stream};
+
+\node[block, right=10mm of sample, fill=pteal!8] (vlm)
+  {multimodal judge\\five technical axes\\+ application axis};
+\node[block, right=10mm of native, fill=porange!9] (cv)
+  {task-aware CV operators\\validity + confidence\\risk flags};
+
+\node[block, right=12mm of $(vlm.east)!0.5!(cv.east)$, fill=ppurple!8] (fusion)
+  {evidence fusion\\task-conditioned weights\\event checks};
+\node[block, right=9mm of fusion, fill=pred!8] (gate)
+  {hard gates\\applied once};
+\node[block, right=9mm of gate, fill=black!4] (report)
+  {sample score $R_i$\\model aggregates\\confidence intervals};
+
+\draw[arrow] (task) -- (decode);
+\draw[arrow] (decode.east) -- ++(4mm,0) |- (sample.west);
+\draw[arrow] (decode.east) -- ++(4mm,0) |- (native.west);
+\draw[arrow] (sample) -- (vlm);
+\draw[arrow] (native) -- (cv);
+\draw[arrow] (vlm.east) -- ++(5mm,0) |- (fusion.west);
+\draw[arrow] (cv.east) -- ++(5mm,0) |- (fusion.west);
+\draw[arrow] (fusion) -- node[above] {$L_i$} (gate);
+\draw[arrow] (gate) -- (report);
+
+\node[group, fit=(sample)(native)(vlm)(cv), label={[font=\scriptsize\bfseries,
+  text=black!60]above:evidence extraction}] {};
+\node[font=\tiny, text=black!55, below=2mm of cv]
+  {locality, plume continuity, rigid joints, safety response, camera motion};
+\end{tikzpicture}
+}
+\caption{The \FORGE{} evaluation pipeline. Deterministically sampled evidence supports semantic judging, while native-rate frames support task-aware computer-vision operators. Validated evidence is fused without double counting; explicit gates produce an auditable ranking score and diagnostics.}
+\label{fig:evaluation-pipeline}
+\end{figure*}

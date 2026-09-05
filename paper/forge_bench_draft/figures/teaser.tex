@@ -1,0 +1,79 @@
+\begin{figure*}[t]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\sffamily,
+  >=Latex,
+  card/.style={draw=black!18, rounded corners=2mm, line width=.65pt,
+    minimum height=18mm, inner sep=3mm, fill=white},
+  stage/.style={card, minimum width=32mm},
+  clip/.style={draw=black!16, rounded corners=1mm, minimum width=13mm,
+    minimum height=10mm, inner sep=1mm},
+  flow/.style={->, line width=1.1pt, draw=black!55},
+  label/.style={font=\scriptsize\bfseries, text=black!65},
+  note/.style={font=\scriptsize, align=center, text=black!72}
+]
+\definecolor{forgeblue}{HTML}{2457C5}
+\definecolor{forgecyan}{HTML}{14A6A6}
+\definecolor{forgeorange}{HTML}{E87832}
+\definecolor{forgered}{HTML}{C63D4F}
+
+% Input contract
+\node[stage, fill=forgeblue!6] (input) at (0,0) {};
+\node[label, text=forgeblue] at ([yshift=6mm]input.center) {INDUSTRIAL TASK CONTRACT};
+\draw[fill=forgeblue!14, draw=forgeblue!45] ([xshift=-12mm,yshift=-3mm]input.center)
+  rectangle ++(11mm,8mm);
+\draw[forgeblue!65, line width=.7pt] ([xshift=-10mm,yshift=1mm]input.center)
+  -- ++(3mm,2mm) -- ++(3mm,-3mm) -- ++(3mm,2mm);
+\node[note, anchor=west, align=left] at ([xshift=1mm,yshift=0mm]input.center)
+  {reference image\\observable event\\camera + invariants};
+
+% Generator
+\node[stage, right=14mm of input, fill=forgecyan!7] (gen) {};
+\node[label, text=forgecyan!80!black] at ([yshift=6mm]gen.center) {VIDEO GENERATOR};
+\draw[draw=forgecyan!70!black, line width=1pt, rounded corners=1mm]
+  ([xshift=-8mm,yshift=-2mm]gen.center) rectangle ++(16mm,8mm);
+\draw[fill=forgecyan!70!black, draw=none]
+  ([xshift=-2mm,yshift=0mm]gen.center) -- ++(0,4mm) -- ++(4mm,-2mm) -- cycle;
+\node[note] at ([yshift=-7mm]gen.center) {same 500 tasks\\for every model};
+
+% Generated temporal evidence
+\node[card, minimum width=45mm, right=14mm of gen, fill=black!1] (video) {};
+\node[label] at ([yshift=6mm]video.center) {GENERATED TEMPORAL EVIDENCE};
+\node[clip, fill=forgeorange!9] (f1) at ([xshift=-14mm,yshift=-1mm]video.center) {\scriptsize $t_0$};
+\node[clip, fill=forgeorange!14, right=-1mm of f1] (f2) {\scriptsize $t_m$};
+\node[clip, fill=forgeorange!20, right=-1mm of f2] (f3) {\scriptsize $t_T$};
+\draw[forgeorange!80!black, line width=.8pt] ([xshift=-4mm,yshift=-1mm]f1.center)
+  -- ([xshift=4mm,yshift=1mm]f1.center);
+\draw[forgeorange!80!black, line width=.8pt] ([xshift=-4mm,yshift=-1mm]f2.center)
+  -- ([xshift=4mm,yshift=2mm]f2.center);
+\draw[forgeorange!80!black, line width=.8pt] ([xshift=-4mm,yshift=-1mm]f3.center)
+  -- ([xshift=4mm,yshift=3mm]f3.center);
+
+% Verdict
+\node[stage, right=14mm of video, fill=forgered!5] (score) {};
+\node[label, text=forgered] at ([yshift=6mm]score.center) {AUDITABLE VERDICT};
+\node[note, align=left] at ([yshift=-1mm]score.center)
+  {five technical axes\\+ application usefulness\\+ explicit hard gates};
+\node[draw=forgered, rounded corners=.8mm, fill=forgered!10,
+  font=\scriptsize\bfseries, text=forgered, inner sep=1.2mm]
+  at ([yshift=-8mm]score.center) {PASS / FAIL / SCORE};
+
+\draw[flow] (input) -- node[above, font=\scriptsize] {condition} (gen);
+\draw[flow] (gen) -- node[above, font=\scriptsize] {synthesize} (video);
+\draw[flow] (video) -- node[above, font=\scriptsize] {inspect} (score);
+
+% Bottom capability strip
+\node[draw=black!15, rounded corners=1.5mm, fill=black!2,
+  minimum width=156mm, minimum height=9mm, below=7mm of $(input.south)!0.5!(score.south)$,
+  font=\scriptsize, align=center] (strip)
+  {Rigid coupling \quad $\vert$ \quad Topology failure \quad $\vert$ \quad
+   Fluids and thermodynamics \quad $\vert$ \quad Viewpoint motion \quad $\vert$ \quad
+   Industrial logic};
+\node[anchor=east, font=\scriptsize\bfseries, text=forgeblue] at
+  ([xshift=-2mm]strip.west) {60 scene families};
+\end{tikzpicture}
+}
+\caption{\FORGE{} evaluates whether an image-conditioned industrial video executes the requested event while preserving structural, physical, temporal, and application-critical constraints. Unlike perceptual-quality-only evaluation, the benchmark exposes failures through task-specific evidence and auditable gates.}
+\label{fig:teaser}
+\end{figure*}
