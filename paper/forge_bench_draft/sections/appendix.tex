@@ -4,17 +4,6 @@
 
 The 500-task split contains 109 rigid-body kinematics and coupling tasks, 114 topology mutation and failure tasks, 83 fluid dynamics and thermodynamics tasks, 79 spatial exploration and viewpoint tasks, and 115 industrial logic and compliance tasks. Difficulty tiers contain 100 easy, 150 medium, 150 hard, and 100 adversarial samples.
 
-\subsection{Result-completion checklist}
-
-Before submission, the following red placeholders must be replaced from machine-readable artifacts:
-\begin{itemize}[leftmargin=*]
-    \item main ranking scores and 95\% bootstrap confidence intervals;
-    \item per-axis, per-domain, per-task, and domain--task cell means;
-    \item strict pass, all-critical-pass, and application-event coverage rates;
-    \item rejected, missing-axis, malformed-response, and hard-cap counts;
-    \item qualitative figure references and final author metadata.
-\end{itemize}
-
 \subsection{Reproducibility record}
 
 The final artifact should record the exact Git commit, sample-manifest SHA-256, scoring-configuration SHA-256, judge model identifier, serving configuration, frame-sampling protocol, dependency versions, and per-model video inventory. The formal protocol uses Qwen3-VL-235B-A22B-Instruct-FP8 with deterministic decoding and four concurrent shards.

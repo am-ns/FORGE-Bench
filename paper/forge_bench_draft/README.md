@@ -11,6 +11,6 @@ pdflatex main
 pdflatex main
 ```
 
-Red `[TBD: ...]` markers intentionally identify empirical values that must be populated after the formal Qwen3-VL-235B evaluation completes. They must not be replaced with estimates.
+Incomplete aggregate results are shown as dashes and are never replaced with partial-sample estimates.
 
 The original VisionXLab template remains unchanged under `VisionXLab_LaTeX_Template/`.

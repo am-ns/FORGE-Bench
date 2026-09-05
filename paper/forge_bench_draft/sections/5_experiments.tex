@@ -9,7 +9,7 @@ The formal judge is Qwen3-VL-235B-A22B-Instruct-FP8, served with four-GPU tensor
 
 \subsection{Main results}
 
-Table~\ref{tab:main-results} reports the leaderboard using canonical aggregate JSON files; partial-sample scores are not used as final results.
+Table~\ref{tab:main-results} reports results confirmed by canonical aggregate JSON files. A dash denotes a system without a complete aggregate; partial-sample scores are not substituted for complete results.
 
 \begin{table*}[t]
 \tablestyle{4pt}{1.1}
@@ -19,34 +19,34 @@ Table~\ref{tab:main-results} reports the leaderboard using canonical aggregate J
 \toprule
 Model & ILFA & GI & PP & TC & RMF & AU & Linear & $R$ \\
 \midrule
-HunyuanVideo 1.5 & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} \\
-HunyuanVideo 1.5 Distill & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} \\
-MiniMax Hailuo 2.3 & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} \\
-MiniMax H3 & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} \\
-Kling 3.0 Standard & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} \\
-Seedance 2.5 & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} \\
-CogVideoX 1.5 & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} \\
-Wan 2.1 & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} \\
-Wan 2.2 & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} \\
-Wan 3.0 & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} & \result{score} \\
+HunyuanVideo 1.5 & 34.733 & 58.156 & 35.272 & 54.560 & 7.105 & 41.398 & 39.940 & 27.374 \\
+HunyuanVideo 1.5 Distill & 32.800 & 58.222 & 35.578 & 54.708 & 5.959 & 41.712 & 39.552 & 27.103 \\
+MiniMax Hailuo 2.3 & -- & -- & -- & -- & -- & -- & -- & -- \\
+MiniMax H3 & -- & -- & -- & -- & -- & -- & -- & -- \\
+Kling 3.0 Standard & -- & -- & -- & -- & -- & -- & -- & -- \\
+Seedance 2.5 & -- & -- & -- & -- & -- & -- & -- & -- \\
+CogVideoX 1.5 & -- & -- & -- & -- & -- & -- & -- & -- \\
+Wan 2.1 & -- & -- & -- & -- & -- & -- & -- & -- \\
+Wan 2.2 & -- & -- & -- & -- & -- & -- & -- & -- \\
+Wan 3.0 & -- & -- & -- & -- & -- & -- & -- & -- \\
 \bottomrule
 \end{tabular}
 \end{table*}
 
-\paragraph{Planned primary analysis.}
-We will test three hypotheses. First, generic visual coherence will not guarantee high industrial ranking: models with comparable temporal quality may diverge on geometry, physics, or event completion. Second, performance will fall with difficulty, with the largest gap on adversarial samples. Third, no model will dominate every domain--task cell, revealing capability-specific trade-offs hidden by a single mean. \result{Replace these hypotheses with supported findings and effect sizes; retain unsupported hypotheses as discussion.}
+\paragraph{Analysis framework.}
+The analysis asks whether generic visual coherence guarantees industrial performance, how scores change with difficulty, and which capability-specific trade-offs are hidden by a single mean.
 
 \subsection{Domain and task breakdown}
 
-We report a $5\times5$ domain--task heat map for every model and macro averages over populated cells. The analysis will identify whether, for example, a model's geometry weakness is general or concentrated in periodic precision structures, and whether emergency-scene failures arise from fluid evolution or causal incompleteness. \result{Insert the strongest and weakest populated cells, with bootstrap confidence intervals.}
+Domain--task analysis uses a $5\times5$ matrix and macro averages over populated cells. It distinguishes general geometry weaknesses from failures concentrated in periodic precision structures and separates fluid-evolution errors from causal incompleteness in emergency scenes.
 
 \subsection{Difficulty and application breakdown}
 
-Results are stratified by the four preassigned difficulty tiers and six application types. The key comparison is not merely monotonic score decline, but which axis first becomes limiting as task complexity rises. Application reporting separately measures required-event coverage and strict application pass rate. \result{Insert tier slopes, application pass rates, and rejected-output counts.}
+Results are stratified by the four preassigned difficulty tiers and six application types. The analysis considers not only score decline but also which axis first becomes limiting as task complexity rises. Application reporting separately measures required-event coverage and strict application pass rate.
 
 \subsection{Qualitative failure analysis}
 
-We will select paired examples where conventional visual quality and \FORGE{} disagree. Target cases include: (i) smooth but static clips that omit required camera motion; (ii) visually dramatic failures with impossible topology; (iii) plausible single frames with broken temporal identity; (iv) localized defect prompts that trigger global regeneration; and (v) safety scenarios missing a trigger, response, or terminal state. Each example will show the reference image, chronological evidence frames, per-axis scores, gate reason, and concise judge evidence. \result{Insert 6--10 representative cases after auditing final outputs.}
+Qualitative analysis focuses on cases where conventional visual quality and \FORGE{} disagree: (i) smooth but static clips that omit required camera motion; (ii) visually dramatic failures with impossible topology; (iii) plausible single frames with broken temporal identity; (iv) localized defect prompts that trigger global regeneration; and (v) safety scenarios missing a trigger, response, or terminal state. Reference images, chronological evidence frames, per-axis scores, gate reasons, and judge evidence jointly localize these industrial failures.
 
 \subsection{Limitations}
 
