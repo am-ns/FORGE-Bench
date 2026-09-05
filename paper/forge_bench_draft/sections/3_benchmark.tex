@@ -1,0 +1,64 @@
+\section{Benchmark Design}
+\label{sec:benchmark}
+
+\subsection{Design objectives}
+
+The benchmark follows four principles. First, every sample must specify an observable event rather than a purely stylistic request. Second, the reference image defines visual identity and regions that should remain stable. Third, task annotations must identify at least one meaningful failure mode. Fourth, evaluation must support both a scalar comparison and an explanation localized to a domain, task family, axis, or event.
+
+\subsection{Dataset composition}
+
+The benchmark contains 500 samples from 60 scene families and 500 unique reference images, with exactly 100 tasks from each domain. Tables~\ref{tab:domain-stats} and~\ref{tab:task-stats} summarize the two orthogonal views separately. The task distribution is intentionally non-uniform because not every capability is equally meaningful in every domain; for example, fluid behavior is common in emergency scenarios but absent from the embodied-robotics subset.
+
+\begin{table}[t]
+\tablestyle{5pt}{1.12}
+\caption{Scenario-domain composition of the 500-task benchmark.}
+\label{tab:domain-stats}
+\begin{tabular}{lr}
+\toprule
+Category & Samples \\
+\midrule
+Visual security & 100 \\
+Embodied robotics & 100 \\
+Heavy-load construction & 100 \\
+Precision-defect generation & 100 \\
+Extreme emergency & 100 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\tablestyle{5pt}{1.12}
+\caption{Task-category composition of the 500-task benchmark.}
+\label{tab:task-stats}
+\begin{tabular}{lr}
+\toprule
+Category & Samples \\
+\midrule
+Rigid-body kinematics and coupling & 109 \\
+Topology mutation and failure & 114 \\
+Fluid dynamics and thermodynamics & 83 \\
+Spatial exploration and viewpoint & 79 \\
+Industrial logic and compliance & 115 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Scenario domains}
+
+\textbf{Visual security} covers intrusion, personal protective equipment, vehicle--pedestrian interaction, surveillance viewpoints, and alarm response. \textbf{Embodied robotics} covers manipulation, mobile navigation, contact, handover, interlocks, and emergency stopping. \textbf{Heavy-load construction} stresses rigging, crane and excavator kinematics, ground support, alignment, and load-path failures. \textbf{Precision-defect generation} targets localized PCB, weld, gear, connector, seal, and surface defects, together with endoscopic inspection. \textbf{Extreme emergency} covers pressure release, fire, smoke, thermal runaway, structural collapse, evacuation, and containment breach.
+
+\subsection{Task taxonomy}
+
+The five abstract task categories factor capability from setting. Rigid-body tasks require stable joints, supports, contacts, and coupled motion. Topology-mutation tasks require a specified local change while preserving unaffected structure. Fluid and thermodynamic tasks require plausible direction, continuity, diffusion, and interaction with boundaries. Spatial-viewpoint tasks require an explicit orbit, pan, dolly, inspection trajectory, or static-camera condition. Logic-and-compliance tasks require a complete trigger--response--outcome chain.
+
+This factorization yields an interpretable domain--task matrix. Missing cells are meaningful rather than accidental: they indicate capability--domain combinations for which the current benchmark does not define a defensible task. We report both marginal scores and populated cell scores instead of imputing empty cells.
+
+\subsection{Prompt and annotation contract}
+
+Every operational sample provides a compact \texttt{video\_generation\_prompt} and a richer evaluation prompt. The generation prompt identifies the visible event, camera behavior, terminal state, reference-preservation requirement, and prohibited artifacts. The evaluation record further includes hard constraints, required observable events, decision-relevant elements, success criteria, implicit-rule questions, per-axis rubrics, and anticipated misleading failures. Outputs are named \texttt{\{task\_id\}.mp4}, making the mapping from task to model output deterministic.
+
+\subsection{Difficulty stratification}
+
+Difficulty is assigned before model evaluation. The operational split follows a fixed 20/30/30/20 distribution: 100 easy, 150 medium, 150 hard, and 100 adversarial tasks. Difficulty reflects coupled interactions, geometry, viewpoint range, event count, occlusion, physical constraints, and known model weaknesses. ``Easy'' is relative to this industrial benchmark and still requires identity preservation and event completion.
+
+The split contains 182 static-camera, 119 dolly, 101 pan, and 98 orbit tasks. Application targets include emergency rehearsal (125), heavy-operation risk assessment (100), robotic operation (100), safety training (84), inspection and maintenance (58), and defect generation (33).

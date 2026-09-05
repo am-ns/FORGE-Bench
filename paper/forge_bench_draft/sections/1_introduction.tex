@@ -1,0 +1,18 @@
+\section{Introduction}
+\label{sec:intro}
+
+Video generation has progressed from short, weakly controlled clips to systems capable of maintaining recognizable subjects, following camera instructions, and rendering complex motion. Existing benchmarks have played a central role in this progress by decomposing visual quality into interpretable dimensions~\cite{huang2024vbench,huang2025vbenchpp}, measuring broad user-facing quality~\cite{liu2023evalcrafter}, and testing compositional prompt following~\cite{sun2024t2vcompbench}. These evaluations are necessary, but they do not fully characterize the requirements of industrial video.
+
+In an industrial scene, a clip may be sharp and temporally smooth while being functionally wrong. A crane cable can merge into its load; an excavator linkage can change topology; a robot can penetrate a workpiece; smoke may spread against the expected pressure or airflow; or a safety alarm may appear without the triggering event. Such errors are not merely aesthetic. They can invalidate synthetic data, produce misleading training material, or conceal hazards in inspection and operational planning. Consequently, evaluating industrial video requires reasoning about \emph{what changed}, \emph{what remained invariant}, \emph{why the event occurred}, and \emph{whether the resulting clip supports a concrete application decision}.
+
+We introduce \FORGE---\textbf{F}actory-\textbf{O}riented \textbf{R}easoning and \textbf{G}eneration \textbf{E}valuation---to address this gap. The benchmark is designed around two orthogonal views. The first is the scenario domain: visual security, embodied robotics, heavy-load construction, precision-defect generation, and extreme emergency. The second is the abstract capability under test: rigid-body kinematics and coupling, topology mutation and failure, fluid dynamics and thermodynamics, spatial exploration and viewpoint, and industrial logic and compliance. This domain--task matrix separates failures caused by visual context from failures caused by the underlying generative capability.
+
+Each task begins with a reference image and an executable image-to-video prompt. Annotations specify the requested event, camera behavior, terminal state, preserved regions, hard constraints, application objective, and known misleading failure modes. Evaluation uses a five-plus-one structure: five technical axes are aggregated into a task-conditioned technical score, while application usefulness is reported and incorporated as a distinct layer. Task-aware visual operators provide evidence to a multimodal judge rather than silently replacing it, and all hard adjustments are exposed in the output.
+
+The contributions of this work are fourfold:
+\begin{itemize}[leftmargin=*]
+    \item We formulate industrial video evaluation as an orthogonal matrix of five scenario domains and five abstract task categories, covering 500 annotated tasks across 60 scene families.
+    \item We release a balanced 500-task benchmark with one reference image per task, a frozen prompt contract, four difficulty tiers, and explicit application objectives.
+    \item We propose an auditable five-plus-one protocol that combines structured multimodal judging, deterministic temporal evidence, task-aware computer-vision operators, observable-event checks, and non-duplicative hard gates.
+    \item We benchmark ten representative generators and report rankings, confidence intervals, domain--task breakdowns, difficulty trends, and failure analyses.
+\end{itemize}

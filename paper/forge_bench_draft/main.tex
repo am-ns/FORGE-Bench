@@ -1,0 +1,62 @@
+\documentclass[]{academic_template}
+
+\usepackage[toc,page,header]{appendix}
+\usepackage{amssymb,amsmath}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{makecell}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!55!black,citecolor=blue!55!black,urlcolor=blue!55!black}
+
+\newcommand{\FORGE}{\textsc{Forge-Bench}}
+\newcommand{\tbd}[1]{\textcolor{red!70!black}{\textbf{[TBD: #1]}}}
+\newcommand{\result}[1]{\tbd{#1}}
+\newcommand{\axis}[1]{\texttt{#1}}
+\newcommand{\best}{\textbf}
+\newcommand{\second}{\underline}
+\newcommand{\tablestyle}[2]{\setlength{\tabcolsep}{#1}\renewcommand{\arraystretch}{#2}\centering\footnotesize}
+
+\setlogoheight{12mm}
+\setsjtublue
+\settitlerulethickness{3pt}
+\settoprulethickness{2.5pt}
+\setbottomrulethickness{1.5pt}
+\setabstractframecolor{gray}
+\setabstractbgcolor{gray!8}
+
+\title{FORGE-Bench: Factory-Oriented Reasoning and Generation Evaluation for Industrial Video Generation}
+
+\author[1,*]{Anonymous Authors}
+\affiliation[1]{Anonymous Institution}
+\contribution[*]{Author names and affiliations will be inserted for submission.}
+
+\abstract{
+Recent image-to-video models can synthesize visually compelling clips, yet visual appeal alone is an unreliable indicator of whether an industrial video is physically credible, structurally stable, causally correct, or useful in practice. We introduce \FORGE, a benchmark for evaluating industrial video generation under explicit geometric, physical, temporal, semantic, and application constraints. The benchmark contains 500 image-conditioned tasks spanning 60 scene families in five industrial domains, balanced across domains and stratified into easy, medium, hard, and adversarial tiers. We organize evaluation as an orthogonal domain--task matrix and score five technical axes---industrial logic and fact alignment, geometric integrity, physical plausibility, temporal consistency, and reference-and-motion fidelity---together with a separate application-usefulness axis. The protocol combines a multimodal model judge with task-aware computer-vision evidence, explicit event-completion checks, deterministic frame sampling, and auditable hard gates. We evaluate ten representative video generators under a frozen generation and judging protocol. Our analysis reveals failure modes hidden by conventional perceptual-quality averages, including static substitution, topology drift, incomplete safety response, implausible load paths, and globally regenerated local defects. Code, prompts, annotations, and evaluation artifacts are released to support reproducible research on dependable industrial video generation.
+}
+
+\date{Draft compiled \today}
+\checkdata[Code]{\url{https://github.com/am-ns/FORGE-Bench}}
+\checkdata[Dataset]{\url{https://huggingface.co/datasets/forge-bench-team/FORGE-Bench}}
+
+\begin{document}
+\maketitle
+
+\input{sections/1_introduction}
+\input{sections/2_related_work}
+\input{sections/3_benchmark}
+\input{sections/4_evaluation}
+\input{sections/5_experiments}
+\input{sections/6_conclusion}
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\clearpage
+\beginappendix
+\input{sections/appendix}
+\end{document}

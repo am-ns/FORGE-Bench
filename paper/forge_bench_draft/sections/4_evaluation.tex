@@ -1,0 +1,44 @@
+\section{Evaluation Protocol}
+\label{sec:evaluation}
+
+\subsection{Five technical axes plus application usefulness}
+
+For sample $i$, the judge produces five technical scores $s_{i,a}\in[0,100]$: industrial logic and fact alignment, geometric integrity, physical plausibility, temporal consistency, and reference-and-motion fidelity. Application usefulness $u_i\in[0,100]$ is evaluated separately because a technically plausible clip can still fail its intended workflow.
+
+Let $w_{i,a}$ denote the normalized axis weight determined by the task category. The technical score is
+\begin{equation}
+T_i = \sum_{a=1}^{5} w_{i,a}s_{i,a}, \qquad \sum_{a=1}^{5}w_{i,a}=1.
+\end{equation}
+The transparent pre-gate score is
+\begin{equation}
+L_i = 0.8T_i + 0.2u_i.
+\end{equation}
+The headline sample score $R_i$ applies each predefined formal gate at most once:
+\begin{equation}
+R_i = G(L_i;\,\mathcal{E}_i,\mathcal{O}_i),
+\end{equation}
+where $\mathcal{E}_i$ denotes event and application checks and $\mathcal{O}_i$ denotes validated operator evidence. Aggregate ranking is the mean over samples with all required axes; bootstrap confidence intervals and an all-sample linear diagnostic are reported alongside it.
+
+\subsection{Temporal evidence and multimodal judging}
+
+The protocol decodes every valid video and retains native-rate frames for continuous computer-vision checks. The multimodal judge receives a deterministic 2-fps view with first/last-frame coverage and audited source indices. In the current Qwen3-VL-235B deployment, chronological frames are assembled into a numbered contact sheet to satisfy the server's one-image-per-request limit without dropping the sampled evidence. Temperature is fixed to zero, the model identifier is frozen, and each axis requires structured JSON containing a score, reasoning, failure modes, confidence, and evidence-frame indices.
+
+\subsection{Operator evidence}
+
+Five operator families complement the judge:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Local-region locking} tests whether a requested local defect remains localized instead of regenerating the full scene.
+    \item \textbf{Fluid/plume continuity} measures area evolution and centroid continuity for leaks, smoke, fire, spray, and pressure release.
+    \item \textbf{Rigid-joint tracking} estimates camera-compensated pairwise drift and spatial track coverage.
+    \item \textbf{Safety-response motion} provides weak evidence for stopping or slowing in compliance tasks.
+    \item \textbf{Viewpoint motion fidelity} measures orbit, pan, dolly, and static-camera execution.
+\end{itemize}
+Operators produce evidence and risk flags. A measurement can cap a corresponding axis only when its applicability, validity, and confidence conditions are met. This avoids both double-counting and using a fragile proxy as an unconditional score.
+
+\subsection{Application and reasoning checks}
+
+Application usefulness requires visible completion of decision-critical events. For example, an emergency clip must show the relevant trigger and response rather than merely an alarming appearance. Each sample can also provide binary implicit-rule questions. Their accuracy forms a reasoning-alignment diagnostic but does not replace the five-plus-one score.
+
+\subsection{Validity and reproducibility}
+
+Missing videos, undecodable videos, malformed judge responses, missing required axes, and score-floor usage are surfaced explicitly. They are never silently imputed. A model output rejected before evaluation is recorded as such and retained in the 500-task denominator. Reports store hashes of the sample manifest, scoring configuration, evaluation code, and judge configuration, as well as library versions and sampling metadata.

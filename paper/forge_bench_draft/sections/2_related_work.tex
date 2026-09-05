@@ -1,0 +1,40 @@
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Video-generation evaluation.}
+Early distributional measures such as Fr\'echet Video Distance compare generated and real feature distributions~\cite{unterthiner2018fvd}, but a single corpus-level statistic offers limited diagnostic value for prompt-conditioned generation. VBench decomposes generation quality into multiple perceptual and semantic dimensions and validates them against human preference~\cite{huang2024vbench}; VBench++ extends this framework to image-to-video settings and trustworthiness~\cite{huang2025vbenchpp}. EvalCrafter combines a broad prompt set with objective metrics calibrated to human opinion~\cite{liu2023evalcrafter}. In contrast, \FORGE focuses on industrial correctness: structural invariants, event causality, physical evolution, camera execution, and downstream decision value.
+
+\paragraph{Compositional and reasoning-oriented evaluation.}
+T2V-CompBench tests attribute, action, interaction, spatial, and numerical composition using learned and programmatic metrics~\cite{sun2024t2vcompbench}. This direction motivates evaluating more than generic text--video similarity. Industrial prompts, however, contain constraints that are often conditional: a machine should stop \emph{after} a boundary is crossed, a fracture should remain localized, or a load should move while its rigging stays coupled. \FORGE therefore associates each task with observable events, implicit-rule questions, failure modes, and task-specific evidence.
+
+\paragraph{Multimodal judges and hybrid metrics.}
+Large multimodal models can describe temporal evidence and apply natural-language rubrics, but their outputs may be sensitive to prompt wording, incomplete visual sampling, and score anchoring. Purely programmatic metrics have the opposite limitation: they are reproducible but capture only a narrow proxy. Our protocol combines the two. A model judge assigns the semantic axis scores, while classical operators expose measurements such as joint drift, regional change, plume continuity, and camera motion. Operator evidence is validity- and confidence-gated and is never counted as an additional independent axis.
+
+\paragraph{Industrial visual understanding.}
+Industrial perception research commonly targets a single downstream problem, such as defect inspection, robot manipulation, safety monitoring, or predictive maintenance. \FORGE instead evaluates a generator's ability to produce videos that could plausibly support these workflows. It does not claim that a generated clip is safe for deployment; rather, it measures whether the visual evidence satisfies a frozen industrial task contract and exposes where that contract fails.
+
+\paragraph{Comparison with physics-oriented benchmarks.}
+Table~\ref{tab:benchmark-comparison} compares representative physics-oriented video benchmarks by scenario, data source, physical depth, topology-failure coverage, evaluation pipeline, and scoring mechanism. \FORGE differs in targeting high-risk industrial scenarios, explicitly testing topology failures, and combining objective computer-vision operators with multimodal causal question answering under a strict static gate.
+
+\begin{table*}[t]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.4pt}
+\renewcommand{\arraystretch}{1.12}
+\caption{Comparison of representative physics-oriented video benchmarks. Symbols indicate explicit coverage (\checkmark), partial or shallow coverage ($\triangle$), and no coverage ($\times$).}
+\label{tab:benchmark-comparison}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lllllll}
+\toprule
+Benchmark & Scenario domain & Data source & Physics depth & Topology failure & Evaluation pipeline & Core metric \\
+\midrule
+PhyGenBench (2025) & High-school physics / common sense & Web images / synthetic & $\triangle$ Basic laws & $\times$ & VLM visual QA & Weighted mean \\
+RigidBench (2026) & Synthetic rigid-body collisions & Blender 3D rendering & \checkmark{} Rigid trajectories & $\times$ & 3D trajectory error & MAE \\
+Physion-Eval (2026) & Daily life / human actions & Real-world short videos & \checkmark{} Daily physics & $\times$ & VLM failure detection & Failure rate / aggregate \\
+Physics-IQ (2025) & General video dynamics & Generic video clips & $\triangle$ Macro dynamics & $\times$ & VLM multiple choice & Accuracy \\
+VBench-2.0 (2025) & General generation & Generic generations & $\triangle$ Shallow intuition & $\times$ & Pretrained VLM judge & Mean across dimensions \\
+\textbf{\FORGE{} (ours)} & \textbf{Industrial / security / disaster / manufacturing} & \textbf{Surveillance / satellite / BIM / scientific diagrams} & \textbf{\checkmark{} Extreme dynamics / fluids} & \textbf{\checkmark{} Targeted} & \textbf{CV operators + VLM causal QA} & \textbf{Strict usability with static veto} \\
+\bottomrule
+\end{tabular}%
+}
+\end{table*}
