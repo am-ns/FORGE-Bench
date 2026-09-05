@@ -1,6 +1,6 @@
 # FORGE-Bench paper draft
 
-This directory contains an English first draft built from the VisionXLab LaTeX template.
+This directory contains the Chinese manuscript and a portable English LaTeX draft. The LaTeX entry point uses the standard `article` class and does not require template logos or custom class files.
 
 Compile with:
 
