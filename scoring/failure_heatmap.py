@@ -114,14 +114,20 @@ def _ordered_app_types(totals: dict[str, int]) -> list[str]:
 
 
 def build_matrix_for_display(sample_results: list[dict]) -> dict:
-    """Build application_type × failure_mode count and rate matrix."""
+    """Build application_type x failure_mode count and rate matrix."""
     counts: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
     totals: dict[str, int] = defaultdict(int)
+    failed_samples: dict[str, int] = defaultdict(int)
+    failure_label_totals: dict[str, int] = defaultdict(int)
 
     for result in sample_results:
         app_type = str(result.get("application_type") or "unknown")
         totals[app_type] += 1
-        for failure in _infer_failures(result):
+        failures = _infer_failures(result)
+        if failures:
+            failed_samples[app_type] += 1
+        failure_label_totals[app_type] += len(failures)
+        for failure in failures:
             counts[app_type][failure] += 1
 
     app_types = _ordered_app_types(totals)
@@ -141,9 +147,11 @@ def build_matrix_for_display(sample_results: list[dict]) -> dict:
                 }
                 for mode in failure_modes
             },
-            "any_failure_count": sum(row_counts.get(m, 0) for m in failure_modes),
-            "any_failure_rate": round(
-                sum(row_counts.get(m, 0) for m in failure_modes) / total, 4
+            "any_failure_count": failed_samples[app_type],
+            "any_failure_rate": round(failed_samples[app_type] / total, 4) if total else 0.0,
+            "failure_label_count": failure_label_totals[app_type],
+            "mean_failure_labels_per_sample": round(
+                failure_label_totals[app_type] / total, 4
             ) if total else 0.0,
         }
 
@@ -165,8 +173,8 @@ def build_matrix_for_display(sample_results: list[dict]) -> dict:
         "application_types": app_types,
         "failure_modes": failure_modes,
         "interpretation": (
-            "rate = fraction of samples in that application_type "
-            "that exhibited this failure mode"
+            "per-mode rate and any_failure_rate are sample proportions; "
+            "mean_failure_labels_per_sample is label incidence and may exceed 1"
         ),
     }
 
