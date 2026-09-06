@@ -21,7 +21,7 @@ Model & ILFA & GI & PP & TC & RMF & AU & Linear & $R$ \\
 \midrule
 HunyuanVideo 1.5 & 34.733 & 58.156 & 35.272 & 54.560 & 7.105 & 41.398 & 39.940 & 27.374 \\
 HunyuanVideo 1.5 Distill & 32.800 & 58.222 & 35.578 & 54.708 & 5.959 & 41.712 & 39.552 & 27.103 \\
-MiniMax Hailuo 2.3 & -- & -- & -- & -- & -- & -- & -- & -- \\
+MiniMax Hailuo 2.3 & 32.733 & 62.638 & 41.276 & 64.939 & 13.571 & 40.508 & 43.681 & 27.299 \\
 MiniMax H3 & -- & -- & -- & -- & -- & -- & -- & -- \\
 Kling 3.0 Standard & -- & -- & -- & -- & -- & -- & -- & -- \\
 Seedance 2.5 & -- & -- & -- & -- & -- & -- & -- & -- \\
@@ -32,6 +32,10 @@ Wan 3.0 & -- & -- & -- & -- & -- & -- & -- & -- \\
 \bottomrule
 \end{tabular}
 \end{table*}
+
+HunyuanVideo 1.5, HunyuanVideo 1.5 Distill, and MiniMax Hailuo 2.3 complete all required axes for all 500 samples and satisfy \texttt{ranking\_publishable=true}. Their ranking scores are 27.374, 27.103, and 27.299, with 95\% cluster-bootstrap confidence intervals of [26.123, 28.703], [25.782, 28.423], and [25.791, 28.797], respectively. The substantial interval overlap does not support a significant overall ordering among the three systems.
+
+The axis-level results nevertheless expose distinct capability profiles. MiniMax Hailuo 2.3 achieves the highest geometric integrity (62.638), physical plausibility (41.276), temporal consistency (64.939), reference-and-motion fidelity (13.571), and linear score (43.681) among the three completed systems. After event, application, and hard-constraint gates, however, its ranking score falls to 27.299 and is effectively tied with HunyuanVideo 1.5 at 27.374. Thus, stronger axis scores and a higher linear mean do not necessarily translate into greater strict industrial usability.
 
 \paragraph{Analysis framework.}
 The analysis asks whether generic visual coherence guarantees industrial performance, how scores change with difficulty, and which capability-specific trade-offs are hidden by a single mean.
