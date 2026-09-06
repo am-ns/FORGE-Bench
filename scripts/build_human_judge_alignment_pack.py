@@ -250,8 +250,8 @@ TASK_REWRITES = {
         "现有圆形多工位设备顺时针转动一个工位后停止；各加工头、电缆、底座和相邻机罩保持刚性。固定机位。",
     ),
     "vsec_081": (
-        "A thin localized wisp of smoke emerges from the lower seam of the existing wall-mounted alarm control cabinet; the red alarm bell above it flashes. Do not add people. Camera: locked static camera.",
-        "少量局部烟雾从现有壁挂式报警控制柜的下缘缝隙冒出，柜体上方的红色警铃同步闪烁；不得添加人员。固定机位。",
+        "A thin localized wisp of smoke emerges from the lower seam of the existing wall-mounted alarm control cabinet; the red alarm bell above it flashes. Camera: locked static camera.",
+        "少量局部烟雾从现有壁挂式报警控制柜的下缘缝隙冒出，柜体上方的红色警铃同步闪烁。固定机位。",
     ),
     "vsec_119": (
         "The existing forklift approaches the stacked pallet directly ahead at low speed, brakes, and stops with a clearly visible gap; do not add pedestrians. Camera: locked static camera.",
@@ -296,11 +296,16 @@ def generation_prompt(task: dict) -> str:
         prefix = "Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of "
         if instruction.startswith(prefix):
             instruction = instruction[len(prefix):]
+    protected_objects = (
+        "vehicles, tools, loads, text, logos, or objects"
+        if task_id == "vsec_081"
+        else "people, vehicles, tools, loads, text, logos, or objects"
+    )
     return (
         "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. "
         + instruction.strip()
         + " Preserve all visible identities, object counts, geometry, materials, lighting, background, and non-event regions. "
-        "Perform only the stated action. Do not introduce any unrequested people, vehicles, tools, loads, text, logos, or objects. "
+        f"Perform only the stated action. Do not introduce any unrequested {protected_objects}. "
         "Avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps."
     )
 
