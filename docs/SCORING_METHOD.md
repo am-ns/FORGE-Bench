@@ -20,7 +20,7 @@ overall = ranking_score
 ```
 
 The observable-event-coverage gate uses monotonic task-realization caps. Zero
-coverage caps ranking at 10, coverage below the strict 60-point threshold caps
+coverage caps ranking at 0, coverage below the strict 60-point threshold caps
 ranking at 30, and incomplete coverage from 60 up to (but excluding) 100 caps
 ranking at 40. Complete 100% coverage has no event cap. Missing coverage is a
 validity error. The gate is applied exactly once alongside the remaining
@@ -47,7 +47,7 @@ Validated gate evidence can change the headline. Every action is written to a
 per-sample gate ledger with its source, action, value, reasons, base score, and
 final score.
 
-- Observable-event coverage applies tiered caps of 10/30/40 for zero,
+- Observable-event coverage applies tiered caps of 0/30/40 for zero,
   below-strict, and incomplete realization; complete coverage is uncapped.
 - A severe required viewpoint/static-motion failure caps at 55.
 - A misleading safety response applies a 0.5 multiplier.

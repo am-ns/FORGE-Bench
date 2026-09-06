@@ -818,7 +818,8 @@ class TestScoring:
         assert result["application_score_strict"] == pytest.approx(90.0)
         assert result["constraint_adjustment_summary"]["mean_hard_application_penalty"] == pytest.approx(0.5)
         assert result["linear_ranking_score"] == pytest.approx(82.0)
-        assert result["ranking_score"] == pytest.approx(41.0)
+        # The incomplete-event cap (40) is stricter than the safety multiplier (41).
+        assert result["ranking_score"] == pytest.approx(40.0)
         assert result["constraint_adjustment_summary"]["mean_legacy_penalty_adjusted_score"] == pytest.approx(38.0)
 
     def test_aggregate_caps_zero_observable_event_coverage(self):
@@ -838,11 +839,11 @@ class TestScoring:
             }
         ])
         assert result["linear_ranking_score"] == pytest.approx(84.0)
-        assert result["ranking_score"] == pytest.approx(10.0)
+        assert result["ranking_score"] == pytest.approx(0.0)
         assert result["overall"] == result["ranking_score"]
         assert result["constraint_adjustment_summary"]["samples_with_application_event_cap"] == 1
         assert result["constraint_adjustment_summary"]["cap_reason_counts"]["zero_observable_event_coverage"] == 1
-        assert result["constraint_adjustment_summary"]["mean_legacy_penalty_adjusted_score"] == pytest.approx(10.0)
+        assert result["constraint_adjustment_summary"]["mean_legacy_penalty_adjusted_score"] == pytest.approx(0.0)
 
     def test_aggregate_reports_uncalibrated_geometric_conflict_without_cap(self):
         """Uncalibrated geometric disagreement must not cap headline ranking."""

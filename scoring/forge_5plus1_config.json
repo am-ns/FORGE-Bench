@@ -1,5 +1,5 @@
 {
-  "version": "forge-video-5plus1-task-weighted-v2.1",
+  "version": "forge-video-5plus1-task-weighted-v2.2",
   "technical_axes": [
     "industrial_logic_and_fact_alignment",
     "geometric_integrity",
@@ -22,7 +22,7 @@
   "task_success_thresholds": [55.0, 60.0, 65.0],
   "event_coverage_gate": "tiered_caps",
   "event_coverage_caps": {
-    "zero": 10.0,
+    "zero": 0.0,
     "below_strict": 30.0,
     "incomplete": 40.0
   },
