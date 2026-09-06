@@ -1,0 +1,273 @@
+{
+  "document": {
+    "title": "FORGE-Bench complete video evaluation handoff",
+    "language": "zh-CN",
+    "version": "1.0",
+    "purpose": "从 GitHub 获取 FORGE-Bench，连接已部署的多模态 Judge，为与任务标注匹配的视频生成完整、可审计的 FORGE 5+1 评分。",
+    "important": "必须克隆完整仓库并加载任务标注、对应参考图和多模态 Judge。仅提供视频与 forge_5plus1_config.json 不能产生完整评分。"
+  },
+  "source": {
+    "repository": "https://github.com/am-ns/FORGE-Bench.git",
+    "branch": "master",
+    "clone_command": "git clone --branch master https://github.com/am-ns/FORGE-Bench.git",
+    "required_paths": [
+      "requirements.txt",
+      "eval/",
+      "scoring/",
+      "scoring/forge_5plus1_config.json",
+      "dataset/annotations/samples.json",
+      "dataset/annotations/video_generation_500_samples.json",
+      "reports/video_generation_500_package/images/",
+      "reports/video_generation_500_package/prompts.jsonl",
+      "README.md",
+      "SUBMISSION.md",
+      "docs/SCORING_METHOD.md",
+      "docs/OPERATOR_EVIDENCE.md"
+    ],
+    "canonical_scoring_config_url": "https://github.com/am-ns/FORGE-Bench/blob/master/scoring/forge_5plus1_config.json",
+    "evaluation_entrypoint_url": "https://github.com/am-ns/FORGE-Bench/blob/master/eval/run_eval.py"
+  },
+  "prerequisites": {
+    "python": "Python 3.10 或更高版本",
+    "system": [
+      "Git",
+      "Python 和 pip",
+      "能够被 OpenCV 解码的 MP4/H.264 环境",
+      "建议安装 FFmpeg",
+      "能够访问已部署多模态 Judge API 的网络"
+    ],
+    "judge_requirements": [
+      "必须支持多张图片输入，而不是纯文本模型",
+      "必须支持 OpenAI-compatible chat completions 接口，或使用原生 Anthropic 接口",
+      "必须能够按提示返回可解析的 JSON",
+      "正式对比时固定 Judge 提供商、模型版本、评分代码、评分配置、任务 manifest 和参考图",
+      "不要使用名称带 latest 且会自动更新的模型版本做正式可复现评测"
+    ]
+  },
+  "input_contract": {
+    "video_directory_layout": [
+      "videos/emerg_001.mp4",
+      "videos/erob_001.mp4",
+      "videos/hload_001.mp4",
+      "videos/pdef_001.mp4",
+      "videos/vsec_001.mp4"
+    ],
+    "video_filename_rule": "每个视频必须命名为 {task_id}.mp4，task_id 必须存在于所选 samples JSON 中。",
+    "video_requirements": {
+      "minimum_duration_seconds": 2,
+      "container": ".mp4",
+      "recommended_codec": "H.264",
+      "resolution": "任意，评测程序内部归一化",
+      "frame_rate": "任意，必须能被 OpenCV 正确读取"
+    },
+    "benchmark_choices": {
+      "github_complete_package_500": {
+        "input_manifest": "dataset/annotations/video_generation_500_samples.json",
+        "prepared_manifest": "dataset/annotations/video_generation_500_samples.github_images.json",
+        "expected_samples": 500,
+        "reference_images": "reports/video_generation_500_package/images/{task_id}.jpg",
+        "recommended": true
+      },
+      "full_annotation_set_960": {
+        "input_manifest": "dataset/annotations/samples.json",
+        "expected_samples": 960,
+        "recommended": false,
+        "warning": "GitHub 当前只附带 video_generation_500_package 中的500张任务参考图。要完整评测960条，必须另外取得其余参考图，并确保每条 image_path 可读取；否则 reference_and_motion_fidelity 不完整。"
+      }
+    }
+  },
+  "procedure": [
+    {
+      "step": 1,
+      "name": "克隆仓库",
+      "linux_macos": [
+        "git clone --branch master https://github.com/am-ns/FORGE-Bench.git",
+        "cd FORGE-Bench"
+      ],
+      "windows_powershell": [
+        "git clone --branch master https://github.com/am-ns/FORGE-Bench.git",
+        "Set-Location FORGE-Bench"
+      ]
+    },
+    {
+      "step": 2,
+      "name": "创建环境并安装依赖",
+      "linux_macos": [
+        "python3 -m venv .venv",
+        "source .venv/bin/activate",
+        "python -m pip install --upgrade pip",
+        "python -m pip install -r requirements.txt"
+      ],
+      "windows_powershell": [
+        "py -m venv .venv",
+        ".\\.venv\\Scripts\\Activate.ps1",
+        "python -m pip install --upgrade pip",
+        "python -m pip install -r requirements.txt"
+      ]
+    },
+    {
+      "step": 3,
+      "name": "准备500条 GitHub 参考图 manifest",
+      "reason": "原始标注中的 image_path 指向未随 GitHub 发布的旧 dataset/images 目录；GitHub 附带的参考图位于 reports/video_generation_500_package/images/{task_id}.jpg。必须改写 image_path，才能加载参考图并计算完整参考与运动保真轴。",
+      "create_file": "prepare_github_500_manifest.py",
+      "file_content_lines": [
+        "import json",
+        "from pathlib import Path",
+        "src = Path('dataset/annotations/video_generation_500_samples.json')",
+        "dst = Path('dataset/annotations/video_generation_500_samples.github_images.json')",
+        "data = json.loads(src.read_text(encoding='utf-8'))",
+        "for sample in data['samples']:",
+        "    image = Path('reports/video_generation_500_package/images') / f\"{sample['task_id']}.jpg\"",
+        "    if not image.is_file():",
+        "        raise FileNotFoundError(f\"Missing reference image: {image}\")",
+        "    sample['image_path'] = image.as_posix()",
+        "dst.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')",
+        "print(f\"Wrote {dst} with {len(data['samples'])} samples\")"
+      ],
+      "run_command": "python prepare_github_500_manifest.py",
+      "expected_result": "输出 video_generation_500_samples.github_images.json，包含500条样本，且每条参考图都存在。"
+    },
+    {
+      "step": 4,
+      "name": "放置并检查视频",
+      "instructions": [
+        "将待评测视频放入一个平铺目录，例如 videos/。",
+        "视频名称严格使用 {task_id}.mp4。",
+        "不要按模型名或任务类型再嵌套目录，除非已确认 run_eval.py 的递归解析不会产生同名歧义。",
+        "500条正式运行应提供500个与 prepared manifest 对应的视频。"
+      ],
+      "windows_count_command": "(Get-ChildItem .\\videos -Filter *.mp4 -File).Count",
+      "linux_macos_count_command": "find videos -maxdepth 1 -type f -name '*.mp4' | wc -l"
+    },
+    {
+      "step": 5,
+      "name": "配置已部署的 OpenAI-compatible 多模态 Judge",
+      "windows_powershell": [
+        "$env:OPENAI_COMPAT_BASE_URL='https://YOUR_HOST/v1'",
+        "$env:OPENAI_COMPAT_API_KEY='YOUR_API_KEY'",
+        "$env:OPENAI_COMPAT_MODEL='YOUR_FIXED_MULTIMODAL_MODEL_ID'",
+        "$env:OPENAI_COMPAT_PROCESS_MAX_FRAMES='12'",
+        "$env:OPENAI_COMPAT_REFERENCE_MOTION_MAX_FRAMES='6'",
+        "$env:OPENAI_COMPAT_IMAGE_MAX_SIDE='384'"
+      ],
+      "linux_macos": [
+        "export OPENAI_COMPAT_BASE_URL='https://YOUR_HOST/v1'",
+        "export OPENAI_COMPAT_API_KEY='YOUR_API_KEY'",
+        "export OPENAI_COMPAT_MODEL='YOUR_FIXED_MULTIMODAL_MODEL_ID'",
+        "export OPENAI_COMPAT_PROCESS_MAX_FRAMES='12'",
+        "export OPENAI_COMPAT_REFERENCE_MOTION_MAX_FRAMES='6'",
+        "export OPENAI_COMPAT_IMAGE_MAX_SIDE='384'"
+      ],
+      "notes": [
+        "不要把真实 API Key 写入本 JSON、代码、Git 提交或评分结果。",
+        "如果服务一次只能接收一张图片，可设置 OPENAI_COMPAT_SINGLE_IMAGE=1，但这会削弱时间维度判断，不推荐用于正式完整评分。",
+        "模型上下文不足时可降低图片尺寸，但正式对比的所有模型必须使用相同设置。"
+      ]
+    },
+    {
+      "step": 6,
+      "name": "运行完整500条评分",
+      "command_single_line": "python eval/run_eval.py --model YOUR_VIDEO_MODEL_NAME --video_dir videos --samples_json dataset/annotations/video_generation_500_samples.github_images.json --output_dir results --llm_provider openai_compat",
+      "forbidden_options": [
+        "--no_llm"
+      ],
+      "expected_output_directory": "results/YOUR_VIDEO_MODEL_NAME/"
+    },
+    {
+      "step": 7,
+      "name": "检查输出",
+      "required_files": [
+        "results/YOUR_VIDEO_MODEL_NAME/per_sample.json",
+        "results/YOUR_VIDEO_MODEL_NAME/aggregate.json"
+      ],
+      "also_expected": "每个成功处理的 task_id 对应一个样本结果 JSON。"
+    }
+  ],
+  "anthropic_alternative": {
+    "use_when": "使用项目原生 Anthropic Judge 时",
+    "environment": {
+      "ANTHROPIC_API_KEY": "YOUR_API_KEY"
+    },
+    "command_single_line": "python eval/run_eval.py --model YOUR_VIDEO_MODEL_NAME --video_dir videos --samples_json dataset/annotations/video_generation_500_samples.github_images.json --output_dir results --llm_provider anthropic",
+    "warning": "正式可比结果必须记录并固定实际 Anthropic Judge 模型版本。"
+  },
+  "scoring_definition": {
+    "technical_axes": [
+      "industrial_logic_and_fact_alignment",
+      "geometric_integrity",
+      "physical_plausibility",
+      "temporal_consistency",
+      "reference_and_motion_fidelity"
+    ],
+    "application_axis": "application_usefulness",
+    "technical_score": "五个技术轴按 task_category_axis_weights 归一化加权后的算术平均",
+    "linear_ranking_score": "0.8 * technical_score + 0.2 * application_usefulness",
+    "ranking_score": "linear_ranking_score 在每项正式 gate 恰好应用一次后的最终排行榜分数",
+    "canonical_source": "scoring/forge_5plus1_config.json"
+  },
+  "acceptance_checklist": [
+    {
+      "check": "仓库与版本",
+      "pass_condition": "保存 git rev-parse HEAD 输出，工作代码、配置和 manifest 版本固定。"
+    },
+    {
+      "check": "视频覆盖",
+      "pass_condition": "所选 manifest 的每个 task_id 都有且只有一个可解码的 {task_id}.mp4。"
+    },
+    {
+      "check": "参考图覆盖",
+      "pass_condition": "所有样本的 reference_image_status 均为 loaded，不得出现 missing_reference_image。"
+    },
+    {
+      "check": "Judge 已启用",
+      "pass_condition": "run_metadata 显示 use_llm=true，provider 与固定模型版本正确；日志不得显示 running CV-only。"
+    },
+    {
+      "check": "五个技术轴完整",
+      "pass_condition": "每个有效样本均包含 industrial_logic_and_fact_alignment、geometric_integrity、physical_plausibility、temporal_consistency、reference_and_motion_fidelity。"
+    },
+    {
+      "check": "+1应用轴完整",
+      "pass_condition": "每个有效样本包含 application_usefulness_score、observable_event_coverage 和 required_event_checks。"
+    },
+    {
+      "check": "结构化输出有效",
+      "pass_condition": "scoring_validity 中 invalid_judge_outputs 为空，required axes 没有 missing/invalid。"
+    },
+    {
+      "check": "样本完成状态",
+      "pass_condition": "每个应评分样本 scoring_complete=true；无丢失、空白或损坏视频。"
+    },
+    {
+      "check": "汇总分数",
+      "pass_condition": "aggregate.json 包含 technical_score、application_score、linear_ranking_score、ranking_score 以及置信区间和覆盖信息。"
+    },
+    {
+      "check": "正式可比性",
+      "pass_condition": "不同视频模型使用完全相同的任务 manifest、参考图、Judge 模型版本、环境变量设置、代码 commit 和评分配置。"
+    }
+  ],
+  "failure_conditions": [
+    "只下载 forge_5plus1_config.json，而未下载 eval/ 与 scoring/。",
+    "使用 --no_llm，或日志提示 running CV-only。",
+    "Judge 是纯文本模型或不支持多图输入。",
+    "参考图未加载，reference_image_status 为 missing。",
+    "视频文件名与 task_id 不一致。",
+    "只评一部分任务却将结果作为完整500条或完整960条总榜结果。",
+    "invalid_judge_outputs 非空或必需轴缺失。",
+    "不同被测模型使用了不同 Judge、manifest、参考图、代码或评分配置。"
+  ],
+  "deliverables_to_return": [
+    "git commit SHA",
+    "prepared samples JSON",
+    "Judge provider 与固定模型 ID（不得包含 API Key）",
+    "完整运行命令及非敏感环境设置",
+    "运行日志",
+    "per_sample.json",
+    "aggregate.json",
+    "缺失/损坏视频清单（应为空）",
+    "缺失参考图清单（应为空）",
+    "invalid_judge_outputs 清单（应为空）"
+  ],
+  "final_rule": "只有 acceptance_checklist 全部通过，结果才能标记为完整 FORGE 5+1 评分。若只具备 GitHub 中的500张参考图，应将结果明确标记为500任务集合，不得声称是960任务完整集合。"
+}

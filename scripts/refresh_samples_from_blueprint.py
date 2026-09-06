@@ -20,6 +20,7 @@ sys.path.insert(0, str(ROOT))
 
 from eval.axis_registry import TASK_PROFILES
 from eval.application_taxonomy import enrich_application_fields, format_application_evaluation_context
+from eval.weakness_targets import complete_sample_weakness_targets
 from scripts.build_scene_seed_samples import SUBJECT_HINTS, _parse_rows
 from scripts.rebuild_generation_prompts import build_prompt
 
@@ -336,6 +337,7 @@ def _sample(row: dict, image_path: str, number: int, variant: int) -> dict:
         "sensitivity_variants": _sensitivity(task_id, motion_target),
     }
     sample = enrich_application_fields(sample)
+    sample = complete_sample_weakness_targets(sample)
     sample["prompt"] = f"{sample['prompt']} {format_application_evaluation_context(sample)}"
     sample["video_generation_prompt"] = build_prompt(sample)
     return sample

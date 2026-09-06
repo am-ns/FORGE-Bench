@@ -268,10 +268,11 @@
     },
     "industrial_logic_questions": {
       "type": "array",
-      "minItems": 3,
+      "minItems": 9,
+      "maxItems": 9,
       "items": {
         "type": "object",
-        "required": ["id", "text", "answer"],
+        "required": ["id", "text", "answer", "weakness_target"],
         "properties": {
           "id": { "type": "string" },
           "text": { "type": "string" },
@@ -288,7 +289,9 @@
               "geometric_topology_preservation",
               "physical_plausibility",
               "temporal_consistency",
-              "reference_fidelity"
+              "reference_fidelity",
+              "camera_motion_execution",
+              "application_objective_support"
             ]
           }
         },
@@ -312,7 +315,8 @@
     "reasoning_alignment_questions": {
       "type": "array",
       "description": "Binary reasoning questions used to compute reasoning_alignment_score.",
-      "minItems": 3,
+      "minItems": 9,
+      "maxItems": 9,
       "items": {
         "type": "object",
         "required": ["id", "text", "answer", "implicit_rule_type", "weakness_target"],
@@ -345,7 +349,9 @@
               "geometric_topology_preservation",
               "physical_plausibility",
               "temporal_consistency",
-              "reference_fidelity"
+              "reference_fidelity",
+              "camera_motion_execution",
+              "application_objective_support"
             ]
           }
         },

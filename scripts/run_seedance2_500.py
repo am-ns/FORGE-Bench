@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the FORGE 500-video set with Doubao Seedance 2.0.
+"""Generate the FORGE 500-video set with Doubao Seedance 2.5.
 
 The runner is resumable and records every submitted task before polling it, so a
 restart cannot silently submit the same paid generation twice.  ARK_API_KEY is
@@ -23,8 +23,8 @@ from typing import Any
 
 API_ROOT = "https://ark.cn-beijing.volces.com/api/v3"
 DEFAULT_MANIFEST = Path("dataset/annotations/video_generation_500_samples.json")
-DEFAULT_OUTPUT = Path("dataset/seedance2.0")
-DEFAULT_RUN_DIR = Path("reports/seedance2_500")
+DEFAULT_OUTPUT = Path("dataset/seedance2.5")
+DEFAULT_RUN_DIR = Path("reports/seedance2_5_500")
 RAW_IMAGE_ROOT = (
     "https://raw.githubusercontent.com/am-ns/FORGE-Bench/master/"
 )
@@ -177,6 +177,22 @@ def build_payload(sample: dict[str, Any], model: str) -> tuple[dict[str, Any], s
     image_url = RAW_IMAGE_ROOT + "/".join(
         urllib.parse.quote(part) for part in image_path.split("/")
     )
+    # These packaged files need a standards-compliant public representation:
+    # three have a .png suffix but JPEG bytes, and one is just beyond Ark's
+    # maximum accepted 2.5:1 input aspect ratio. The proxy only normalizes the
+    # transport image; all other 496 samples use the original GitHub URL.
+    if sample["task_id"] in {"hload_061", "hload_092", "pdef_001"}:
+        image_url = (
+            "https://images.weserv.nl/?url="
+            + urllib.parse.quote(image_url, safe="")
+            + "&output=jpg"
+        )
+    elif sample["task_id"] == "pdef_210":
+        image_url = (
+            "https://images.weserv.nl/?url="
+            + urllib.parse.quote(image_url, safe="")
+            + "&w=1900&h=760&fit=cover&output=jpg"
+        )
     payload = {
         "model": model,
         "content": [
@@ -189,7 +205,7 @@ def build_payload(sample: dict[str, Any], model: str) -> tuple[dict[str, Any], s
         ],
         "generate_audio": False,
         "resolution": "720p",
-        "ratio": "16:9",
+        "ratio": "adaptive",
         "duration": 5,
         "watermark": False,
     }
@@ -214,12 +230,19 @@ def main() -> int:
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--run-dir", type=Path, default=DEFAULT_RUN_DIR)
-    parser.add_argument("--model", default="doubao-seedance-2-0-260128")
+    parser.add_argument("--model", default="doubao-seedance-2-5-260628")
     parser.add_argument("--limit", type=int)
+    parser.add_argument(
+        "--task-id",
+        action="append",
+        dest="task_ids",
+        help="Run only the named task ID; repeat to select multiple tasks.",
+    )
     parser.add_argument("--max-active", type=int, default=4)
     parser.add_argument("--poll-seconds", type=int, default=20)
     parser.add_argument("--submit-only", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--retry-failed", action="store_true")
     args = parser.parse_args()
 
     api_key = os.environ.get("ARK_API_KEY")
@@ -232,6 +255,13 @@ def main() -> int:
     all_samples = manifest["samples"]
     validate_samples(all_samples)
     samples = all_samples[: args.limit] if args.limit else all_samples
+    if args.task_ids:
+        requested = set(args.task_ids)
+        known = {sample["task_id"] for sample in all_samples}
+        unknown = sorted(requested - known)
+        if unknown:
+            raise SystemExit(f"Unknown task IDs: {', '.join(unknown)}")
+        samples = [sample for sample in samples if sample["task_id"] in requested]
     args.output_dir.mkdir(parents=True, exist_ok=True)
     args.run_dir.mkdir(parents=True, exist_ok=True)
     events_path = args.run_dir / "events.jsonl"
@@ -260,7 +290,7 @@ def main() -> int:
                 "model": args.model,
                 "duration": 5,
                 "resolution": "720p",
-                "ratio": "16:9",
+                "ratio": "adaptive",
                 "generate_audio": False,
                 "watermark": False,
                 "image_role": "first_frame",
@@ -285,10 +315,11 @@ def main() -> int:
         if event.get("event") in {"submitted", "polled"} and event.get("remote_id"):
             if event.get("status", "").lower() not in FAILURE:
                 remote[task_id] = event["remote_id"]
-            else:
+            elif not args.retry_failed:
                 terminal_failures.add(task_id)
-        elif event.get("event") == "failed":
-            terminal_failures.add(task_id)
+        elif event.get("event") in {"failed", "submit_error"}:
+            if not args.retry_failed:
+                terminal_failures.add(task_id)
 
     pending = [
         sample for sample in samples
@@ -322,8 +353,9 @@ def main() -> int:
                     events_path,
                     {"event": "submit_error", "task_id": task_id, "error": str(exc)},
                 )
+                terminal_failures.add(task_id)
                 print(f"SUBMIT_ERROR {task_id}: {exc}", file=sys.stderr, flush=True)
-                return 2
+                continue
 
         if args.submit_only and not pending:
             break

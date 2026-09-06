@@ -5,6 +5,8 @@ from __future__ import annotations
 
 from collections import Counter
 
+from eval.weakness_targets import WEAKNESS_TARGET_TO_RULE_TYPE
+
 
 REASONING_RULE_TYPES = {
     "causal_procedure",
@@ -18,15 +20,7 @@ REASONING_RULE_TYPES = {
 }
 
 
-WEAKNESS_TO_RULE_TYPE = {
-    "causal_chain_completeness": "causal_procedure",
-    "required_observable_event_presence": "causal_procedure",
-    "misleading_failure_mode_absence": "safety_compliance",
-    "geometric_topology_preservation": "spatial_topology",
-    "physical_plausibility": "physical_commonsense",
-    "temporal_consistency": "temporal_order",
-    "reference_fidelity": "reference_identity",
-}
+WEAKNESS_TO_RULE_TYPE = WEAKNESS_TARGET_TO_RULE_TYPE
 
 
 def infer_implicit_rule_type(sample: dict) -> str:

@@ -28,6 +28,9 @@ MODELS = (
     ("wan3.0", ROOT / "dataset" / "wan3.0"),
     ("seedance2.5", ROOT / "dataset" / "seedance2.5"),
 )
+REJECTED_OUTPUTS = {
+    "seedance2.5": {"erob_190": "model_output_rejected"},
+}
 
 
 def utc_now() -> str:
@@ -97,8 +100,13 @@ def main() -> int:
     write_json(status_path, status)
 
     for model, video_dir in selected:
-        if sum(1 for _ in video_dir.rglob("*.mp4")) != 500:
-            raise RuntimeError(f"{model}: expected exactly 500 MP4 files")
+        rejected = REJECTED_OUTPUTS.get(model, {})
+        expected_videos = 500 - len(rejected)
+        actual_videos = sum(1 for _ in video_dir.rglob("*.mp4"))
+        if actual_videos != expected_videos:
+            raise RuntimeError(f"{model}: expected exactly {expected_videos} MP4 files plus {len(rejected)} rejected outputs")
+        if rejected:
+            status["models"][model]["rejected_outputs"] = rejected
         existing_aggregate = output / "combined" / model / "aggregate.json"
         if existing_aggregate.is_file():
             existing = json.loads(existing_aggregate.read_text(encoding="utf-8"))
@@ -165,7 +173,11 @@ def main() -> int:
             write_json(status_path, status)
             return 1
         aggregate = json.loads((combined / "aggregate.json").read_text(encoding="utf-8"))
-        model_state = "complete" if aggregate.get("ranking_publishable") else "invalid"
+        completed_count = aggregate.get("num_samples_complete_required_axes")
+        rejected_complete = bool(rejected) and completed_count + len(rejected) == 500
+        model_state = "complete" if aggregate.get("ranking_publishable") else (
+            "complete_with_rejections" if rejected_complete else "invalid"
+        )
         status["models"][model].update({
             "state": model_state,
             "finished_at": utc_now(),
@@ -175,7 +187,7 @@ def main() -> int:
             "num_samples_complete_required_axes": aggregate.get("num_samples_complete_required_axes"),
         })
         write_json(status_path, status)
-        if model_state != "complete":
+        if model_state not in {"complete", "complete_with_rejections"}:
             status["state"] = "failed"
             write_json(status_path, status)
             return 2

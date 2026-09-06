@@ -8,6 +8,7 @@ import sys
 from collections import Counter, defaultdict
 
 from scoring.failure_heatmap import failure_heatmap_report as _failure_heatmap_report
+from scoring.weakness_targets import summarize_results as _weakness_target_report
 
 from eval.axis_registry import (
     APPLICATION_USEFULNESS,
@@ -532,70 +533,65 @@ def _failure_taxonomy(results: list[dict]) -> dict:
     examples: dict[str, list[str]] = defaultdict(list)
     severe_counts: Counter[str] = Counter()
     evidence_sources: dict[str, set[str]] = defaultdict(set)
-    direction_counts: Counter[str] = Counter()
-    direction_examples: dict[str, list[str]] = defaultdict(list)
+    dimension_counts: Counter[str] = Counter()
+    dimension_examples: dict[str, list[str]] = defaultdict(list)
 
-    direction_descriptions = {
-        "causal_and_event": "Required events, causal order, and observable consequences.",
-        "geometry_and_topology": "Shape, count, connectivity, pose, and local structural change.",
-        "physics": "Mechanics, material, fluid, and motion plausibility.",
-        "temporal": "Identity and state continuity across chronological frames.",
-        "reference_preservation": "Preservation of reference identity and unaffected regions.",
-        "camera_motion": "Execution of the requested viewpoint or static-camera constraint.",
-        "safety": "Hazard visibility and non-misleading safety response.",
-        "application": "Support for the stated industrial objective and decision use.",
+    dimension_descriptions = {
+        "industrial_logic_and_fact_alignment": "Required events, causal order, factual compliance, hazard visibility, and non-misleading response.",
+        "geometric_integrity": "Shape, count, connectivity, pose, and local structural change.",
+        "physical_plausibility": "Mechanics, material, fluid, and motion plausibility.",
+        "temporal_consistency": "Identity and state continuity across chronological frames.",
+        "reference_and_motion_fidelity": "Reference preservation and execution of the requested viewpoint or static-camera constraint.",
+        "application_usefulness": "Support for the stated industrial objective and decision use.",
     }
 
     diagnostic_meta = {
-        "reference_drift_or_identity_loss": ("reference_preservation", "axis_scores.reference_and_motion_fidelity"),
-        "motion_under_execution": ("camera_motion", "scored.motion_control_score|viewpoint_motion_score"),
-        "temporal_instability_or_identity_break": ("temporal", "axis_scores.temporal_consistency"),
-        "geometric_or_topological_failure": ("geometry_and_topology", "axis_scores.geometric_integrity"),
-        "physical_implausibility": ("physics", "axis_scores.physical_plausibility"),
-        "industrial_causal_or_compliance_failure": ("causal_and_event", "axis_scores.industrial_logic_and_fact_alignment"),
-        "low_industrial_application_usefulness": ("application", "application_usefulness_score"),
-        "required_event_absent_hard_failure": ("causal_and_event", "observable_event_coverage"),
-        "required_event_partially_observed": ("causal_and_event", "observable_event_coverage"),
-        "geometric_operator_vlm_conflict": ("geometry_and_topology", "geometric_integrity_conflict_details"),
-        "global_scene_regeneration": ("reference_preservation", "operator_evidence.local_region_lock"),
-        "abrupt_temporal_break": ("temporal", "operator_evidence.temporal_break"),
-        "rigid_structure_drift": ("geometry_and_topology", "operator_evidence.rigid_joint_tracking"),
-        "fluid_or_defect_diffusion_discontinuity": ("physics", "operator_evidence.fluid_diffusion"),
+        "reference_drift_or_identity_loss": ("reference_and_motion_fidelity", "axis_scores.reference_and_motion_fidelity"),
+        "motion_under_execution": ("reference_and_motion_fidelity", "scored.motion_control_score|viewpoint_motion_score"),
+        "temporal_instability_or_identity_break": ("temporal_consistency", "axis_scores.temporal_consistency"),
+        "geometric_or_topological_failure": ("geometric_integrity", "axis_scores.geometric_integrity"),
+        "physical_implausibility": ("physical_plausibility", "axis_scores.physical_plausibility"),
+        "industrial_causal_or_compliance_failure": ("industrial_logic_and_fact_alignment", "axis_scores.industrial_logic_and_fact_alignment"),
+        "low_industrial_application_usefulness": ("application_usefulness", "application_usefulness_score"),
+        "required_event_absent_hard_failure": ("industrial_logic_and_fact_alignment", "observable_event_coverage"),
+        "required_event_partially_observed": ("industrial_logic_and_fact_alignment", "observable_event_coverage"),
+        "geometric_operator_vlm_conflict": ("geometric_integrity", "geometric_integrity_conflict_details"),
+        "global_scene_regeneration": ("reference_and_motion_fidelity", "operator_evidence.local_region_lock"),
+        "abrupt_temporal_break": ("temporal_consistency", "operator_evidence.temporal_break"),
+        "rigid_structure_drift": ("geometric_integrity", "operator_evidence.rigid_joint_tracking"),
+        "fluid_or_defect_diffusion_discontinuity": ("physical_plausibility", "operator_evidence.fluid_diffusion"),
     }
 
     def add(label: str, task_id: str | None, severe: bool = False) -> None:
         counts[label] += 1
         if severe:
             severe_counts[label] += 1
-        direction, source = diagnostic_meta.get(
-            label, ("application", "application_usefulness_details.failure_modes")
+        dimension, source = diagnostic_meta.get(
+            label, ("application_usefulness", "application_usefulness_details.failure_modes")
         )
         evidence_sources[label].add(source)
         if task_id and len(examples[label]) < 8:
             examples[label].append(task_id)
 
-    def mark_applicable(direction: str, task_id: str | None) -> None:
-        direction_counts[direction] += 1
-        if task_id and len(direction_examples[direction]) < 8:
-            direction_examples[direction].append(task_id)
+    def mark_applicable(dimension: str, task_id: str | None) -> None:
+        dimension_counts[dimension] += 1
+        if task_id and len(dimension_examples[dimension]) < 8:
+            dimension_examples[dimension].append(task_id)
 
     for result in results:
         if result.get("skipped"):
             continue
         task_id = result.get("task_id")
-        for direction in ("geometry_and_topology", "physics", "temporal", "reference_preservation"):
-            mark_applicable(direction, task_id)
+        for dimension in (
+            "industrial_logic_and_fact_alignment", "geometric_integrity",
+            "physical_plausibility", "temporal_consistency",
+            "reference_and_motion_fidelity",
+        ):
+            mark_applicable(dimension, task_id)
         details = result.get("application_usefulness_details") or {}
-        if (details.get("required_event_checks") or result.get("required_events") or result.get("event_sequence")):
-            mark_applicable("causal_and_event", task_id)
-        if result.get("viewpoint_motion") or result.get("motion_type"):
-            mark_applicable("camera_motion", task_id)
         app_type = str(result.get("application_type") or "")
-        risk = str(result.get("risk_intensity") or "")
-        if app_type in {"safety_training", "emergency_rehearsal", "heavy_operation_risk"} or risk not in {"", "none", "low"}:
-            mark_applicable("safety", task_id)
         if app_type or details:
-            mark_applicable("application", task_id)
+            mark_applicable("application_usefulness", task_id)
         scored = result.get("scored", {})
         axes = canonicalize_axis_dict(scored.get("axis_scores", {}))
         if axes.get(REFERENCE_AND_MOTION_FIDELITY, 100.0) < CONFIG["low_axis_threshold"]:
@@ -617,7 +613,7 @@ def _failure_taxonomy(results: list[dict]) -> dict:
             for mode in _infer_application_failures(result):
                 label = f"application_failure:{mode}"
                 diagnostic_meta[label] = (
-                    "safety" if any(token in mode for token in ("hazard", "safety")) else "application",
+                    "industrial_logic_and_fact_alignment" if any(token in mode for token in ("hazard", "safety")) else "application_usefulness",
                     "application_usefulness_details.failure_modes",
                 )
                 add(label, task_id, app_score < 25.0)
@@ -648,32 +644,32 @@ def _failure_taxonomy(results: list[dict]) -> dict:
     }
     diagnostics = {}
     for label, count in counts.most_common():
-        direction, _ = diagnostic_meta.get(label, ("application", "unknown"))
-        applicable = direction_counts[direction]
+        dimension, _ = diagnostic_meta.get(label, ("application_usefulness", "unknown"))
+        applicable = dimension_counts[dimension]
         diagnostics[label] = {
-            "direction": direction,
+            "dimension": dimension,
             "count": count,
             "rate_among_applicable": round(count / applicable, 4) if applicable else None,
             "severity": {
                 "severe_count": severe_counts[label],
                 "low_score_or_rule_failure_count": count - severe_counts[label],
             },
-            "applicability": {"applicable_sample_count": applicable, "basis": direction_descriptions[direction]},
+            "applicability": {"applicable_sample_count": applicable, "basis": dimension_descriptions[dimension]},
             "evidence_sources": sorted(evidence_sources[label]),
             "examples": examples.get(label, []),
         }
     return {
         **legacy,
-        "schema_version": "2.0",
+        "schema_version": "3.0",
         "policy": "task_intent is defined only from task metadata; observed_failures is defined only from evaluation evidence",
         "task_intent": {
-            "directions": {
+            "dimensions": {
                 name: {
                     "description": description,
-                    "applicable_sample_count": direction_counts[name],
-                    "examples": direction_examples.get(name, []),
+                    "applicable_sample_count": dimension_counts[name],
+                    "examples": dimension_examples.get(name, []),
                 }
-                for name, description in direction_descriptions.items()
+                for name, description in dimension_descriptions.items()
             }
         },
         "observed_failures": {"diagnostics": diagnostics},
@@ -791,6 +787,7 @@ def generate_diagnostic_report(model: str, aggregate: dict, sample_results: list
         "viewpoint_motion_diagnostics": _viewpoint_motion_diagnostics(completed),
         "industrial_constraint_diagnostics": _industrial_constraint_diagnostics(completed),
         "industrial_logic_weakness_diagnostics": _industrial_logic_weakness_diagnostics(completed),
+        "weakness_target_report": _weakness_target_report(completed),
         "operator_evidence_diagnostics": _operator_evidence_diagnostics(completed),
         "constraint_adjustment_diagnostics": _constraint_adjustment_diagnostics(aggregate),
         "statistical_uncertainty": _statistical_uncertainty_report(aggregate),

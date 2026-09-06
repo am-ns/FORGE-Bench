@@ -75,13 +75,21 @@ def aspect_ratio(path: Path) -> str:
     return "16:9" if width >= height else "9:16"
 
 
-def submit(api_key: str, row: dict, model: str, duration: int, resolution: str) -> dict:
+def submit(
+    api_key: str,
+    row: dict,
+    model: str,
+    duration: int,
+    resolution: str,
+    image_url: str | None = None,
+) -> dict:
+    prompt = row["video_generation_prompt"].replace("5-second", f"{duration}-second", 1)
     return request_json(
         API_ROOT + "/videos",
         api_key,
         payload={
             "model": model,
-            "prompt": row["video_generation_prompt"],
+            "prompt": prompt,
             "duration": duration,
             "resolution": resolution,
             "aspect_ratio": aspect_ratio(row["source_image"]),
@@ -89,7 +97,7 @@ def submit(api_key: str, row: dict, model: str, duration: int, resolution: str) 
             "frame_images": [
                 {
                     "type": "image_url",
-                    "image_url": {"url": public_image_url(row)},
+                    "image_url": {"url": image_url or public_image_url(row)},
                     "frame_type": "first_frame",
                 }
             ],
@@ -131,6 +139,10 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--limit", type=int)
     parser.add_argument("--task-id")
+    parser.add_argument(
+        "--image-url",
+        help="Override the public first-frame URL (requires --task-id)",
+    )
     parser.add_argument("--max-active", type=int, default=3)
     parser.add_argument("--max-retries", type=int, default=5)
     parser.add_argument("--poll-seconds", type=int, default=20)
@@ -139,6 +151,8 @@ def main() -> int:
     parser.add_argument("--resolution", default="720p")
     parser.add_argument("--output-dir", type=Path, default=ROOT / "dataset" / "veo3.1-fast")
     args = parser.parse_args()
+    if args.image_url and not args.task_id:
+        parser.error("--image-url requires --task-id")
     api_key = os.environ.get("OPENROUTER_API_KEY")
     if not api_key:
         raise SystemExit("OPENROUTER_API_KEY is required")
@@ -202,7 +216,14 @@ def main() -> int:
                 break
             previous = state.get(candidate["task_id"], {})
             attempts = previous.get("attempts", 0) + 1
-            response = submit(api_key, candidate, args.model, args.duration, args.resolution)
+            response = submit(
+                api_key,
+                candidate,
+                args.model,
+                args.duration,
+                args.resolution,
+                args.image_url,
+            )
             job_id = response.get("id")
             poll_url = response.get("polling_url") or (f"{API_ROOT}/videos/{job_id}" if job_id else None)
             if not job_id or not poll_url:

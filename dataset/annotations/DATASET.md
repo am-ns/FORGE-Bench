@@ -93,6 +93,14 @@ required events, misleading consequences, topology merging, part drift, or
 motion substitution. A target name alone does not determine the difficulty
 tier; the concrete event and constraint burden does.
 
+The canonical set contains nine targets: `causal_chain_completeness`,
+`required_observable_event_presence`, `misleading_failure_mode_absence`,
+`geometric_topology_preservation`, `physical_plausibility`,
+`temporal_consistency`, `reference_fidelity`, `camera_motion_execution`, and
+`application_objective_support`. Each executable sample contains all nine so
+per-target accuracy has a consistent denominator. The first two jointly cover
+the causal/event diagnostic direction.
+
 ## Scenario Blueprint
 
 `SCENE_BLUEPRINT.md` defines the scenario coverage used by the current

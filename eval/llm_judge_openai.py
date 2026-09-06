@@ -91,6 +91,58 @@ def _make_ref_image_block(frame: np.ndarray) -> dict:
     return _make_image_block(frame)
 
 
+def _coalesce_image_blocks(messages: list) -> list:
+    """Collapse each message's image blocks into one chronological contact sheet.
+
+    Some self-hosted Qwen/VLLM deployments allow only one image per prompt. The
+    textual frame labels stay in place, while the visual evidence is combined in
+    the same order into a single image block.
+    """
+    if os.environ.get("OPENAI_COMPAT_SINGLE_IMAGE", "").lower() not in {"1", "true", "yes"}:
+        return messages
+    output = []
+    for message in messages:
+        content = message.get("content")
+        if not isinstance(content, list):
+            output.append(message)
+            continue
+        positions = [i for i, block in enumerate(content) if block.get("type") == "image_url"]
+        if len(positions) <= 1:
+            output.append(message)
+            continue
+        images = []
+        for position in positions:
+            url = content[position]["image_url"]["url"]
+            payload = base64.b64decode(url.split(",", 1)[1])
+            image = cv2.imdecode(np.frombuffer(payload, np.uint8), cv2.IMREAD_COLOR)
+            if image is not None:
+                images.append(image)
+        if len(images) <= 1:
+            output.append(message)
+            continue
+        columns = min(4, len(images))
+        rows = (len(images) + columns - 1) // columns
+        cell_h = max(image.shape[0] for image in images)
+        cell_w = max(image.shape[1] for image in images)
+        sheet = np.zeros((rows * cell_h, columns * cell_w, 3), dtype=np.uint8)
+        for index, image in enumerate(images):
+            y, x = divmod(index, columns)
+            h, w = image.shape[:2]
+            sheet[y * cell_h:y * cell_h + h, x * cell_w:x * cell_w + w] = image
+            cv2.putText(sheet, str(index + 1), (x * cell_w + 8, y * cell_h + 24),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2, cv2.LINE_AA)
+        _, encoded = cv2.imencode(".jpg", sheet, [cv2.IMWRITE_JPEG_QUALITY, CONFIG["jpeg_quality"]])
+        replacement = {
+            "type": "image_url",
+            "image_url": {"url": "data:image/jpeg;base64," + base64.standard_b64encode(encoded.tobytes()).decode("ascii")},
+        }
+        first = positions[0]
+        new_content = [block for i, block in enumerate(content) if i not in positions or i == first]
+        new_content[new_content.index(content[first])] = replacement
+        output.append({**message, "content": new_content})
+    return output
+
+
 def _get_client():
     from openai import OpenAI
     base_url = os.environ.get("OPENAI_COMPAT_BASE_URL", "https://dashscope.aliyuncs.com/compatible-mode/v1")
@@ -98,11 +150,13 @@ def _get_client():
     return OpenAI(base_url=base_url, api_key=api_key)
 
 
-def _call_with_backoff(client, model: str, system: str, messages: list, max_tokens: int = 512) -> object:
+def _call_with_backoff(client, model: str, system: str, messages: list, max_tokens: int | None = None) -> object:
+    if max_tokens is None:
+        max_tokens = int(os.environ.get("OPENAI_COMPAT_MAX_OUTPUT_TOKENS", "1024"))
     last_exc = None
     for attempt in range(CONFIG["max_retries"] + 1):
         try:
-            full_messages = [{"role": "system", "content": system}] + messages
+            full_messages = _coalesce_image_blocks([{"role": "system", "content": system}] + messages)
             return client.chat.completions.create(
                 model=model,
                 messages=full_messages,
@@ -112,9 +166,13 @@ def _call_with_backoff(client, model: str, system: str, messages: list, max_toke
         except Exception as exc:
             last_exc = exc
             exc_str = str(exc)
-            if "rate" in exc_str.lower() or "429" in exc_str or "throttl" in exc_str.lower():
+            transient = any(token in exc_str.lower() for token in (
+                "rate", "429", "throttl", "timeout", "timed out",
+                "connection error", "502", "503", "504",
+            ))
+            if transient and attempt < CONFIG["max_retries"]:
                 delay = CONFIG["base_delay"] * (2 ** attempt)
-                print(f"Rate limited (attempt {attempt+1}), retrying in {delay:.1f}s", file=sys.stderr)
+                print(f"Transient judge error (attempt {attempt+1}), retrying in {delay:.1f}s: {exc_str}", file=sys.stderr)
                 time.sleep(delay)
                 continue
             raise
@@ -398,7 +456,7 @@ def judge_sample_temporal_consistency(
         model=model,
         system=system_text,
         messages=[{"role": "user", "content": user_content}],
-        max_tokens=256,
+        max_tokens=1024,
     )
 
     raw = _extract_text(response)

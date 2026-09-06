@@ -13,6 +13,7 @@ import base64
 import json
 import mimetypes
 import os
+import struct
 import subprocess
 import sys
 import time
@@ -271,16 +272,82 @@ def normalize_model(model: str, debug: bool = False) -> str:
     return model
 
 
+def inspect_mp4(path: Path) -> dict[str, object]:
+    data = path.read_bytes()
+    atoms: list[dict[str, object]] = []
+    offset = 0
+    while offset + 8 <= len(data) and len(atoms) < 64:
+        size = struct.unpack(">I", data[offset : offset + 4])[0]
+        atom_type = data[offset + 4 : offset + 8].decode("latin1", errors="replace")
+        header_size = 8
+        if size == 1 and offset + 16 <= len(data):
+            size = struct.unpack(">Q", data[offset + 8 : offset + 16])[0]
+            header_size = 16
+        elif size == 0:
+            size = len(data) - offset
+        atoms.append({"offset": offset, "size": size, "type": atom_type})
+        if size < header_size:
+            break
+        offset += int(size)
+        if offset > len(data):
+            break
+    declared_end = max((int(atom["offset"]) + int(atom["size"]) for atom in atoms), default=0)
+    return {
+        "size": len(data),
+        "has_ftyp": data.find(b"ftyp") >= 0,
+        "has_mdat": data.find(b"mdat") >= 0,
+        "has_moov": data.find(b"moov") >= 0,
+        "declared_end": declared_end,
+        "truncated_atom": declared_end > len(data),
+        "atoms": atoms[:8],
+    }
+
+
+def validate_downloaded_mp4(path: Path) -> None:
+    info = inspect_mp4(path)
+    if not info["has_ftyp"] or not info["has_mdat"]:
+        raise RuntimeError(f"download is not a recognizable MP4: {path}")
+    if not info["has_moov"]:
+        raise RuntimeError(f"downloaded MP4 is missing moov atom and is not playable: {path}")
+    if info["truncated_atom"]:
+        raise RuntimeError(
+            "downloaded MP4 is truncated: "
+            f"{path} size={info['size']} declared_end={info['declared_end']}"
+        )
+
+
+def existing_output_is_playable(path: Path) -> tuple[bool, str]:
+    if not path.exists():
+        return False, "missing"
+    try:
+        validate_downloaded_mp4(path)
+    except Exception as exc:
+        return False, str(exc)
+    return True, "ok"
+
+
 def download_file(url: str, api_key: str, out_path: Path, timeout: int) -> None:
     req = Request(url, headers={"Authorization": f"Bearer {api_key}"})
+    tmp_path = out_path.with_suffix(out_path.suffix + ".part")
     try:
         with urlopen(req, timeout=timeout) as response:
-            out_path.write_bytes(response.read())
+            expected_length = response.headers.get("Content-Length")
+            payload = response.read()
+            if expected_length and len(payload) != int(expected_length):
+                raise RuntimeError(
+                    f"download length mismatch: got {len(payload)} bytes, expected {expected_length}"
+                )
+            tmp_path.write_bytes(payload)
+            validate_downloaded_mp4(tmp_path)
+            tmp_path.replace(out_path)
     except HTTPError as exc:
         detail = exc.read().decode("utf-8", errors="replace")
         raise RuntimeError(f"download HTTP {exc.code}: {detail[:1000]}") from exc
     except URLError as exc:
         raise RuntimeError(f"download failed: {exc}") from exc
+    finally:
+        if tmp_path.exists():
+            tmp_path.unlink()
 
 
 def strict_prompt(sample: dict, row: dict) -> str:
@@ -317,6 +384,30 @@ def camera_from_sample(sample: dict) -> str:
     return f"{motion_type} camera motion from the reference viewpoint"
 
 
+def core_event_from_sample(sample: dict) -> str:
+    """Return the shortest authoritative description of the event to generate.
+
+    ``task_title`` is intentionally preferred to preserve established prompts.
+    Some imported samples do not have a title; their concrete, judge-aligned
+    scenario is stored in ``constraint_annotations.domain_scenario``.  Falling
+    back to a subject or scene identifier is unsafe because it names a setting
+    without specifying an observable action.
+    """
+    title = compact_text(sample.get("task_title"))
+    if title:
+        return title
+    annotations = sample.get("constraint_annotations")
+    if isinstance(annotations, dict):
+        scenario = compact_text(annotations.get("domain_scenario"))
+        if scenario:
+            return scenario
+    for key in ("application_scenario", "scenario"):
+        scenario = compact_text(sample.get(key))
+        if scenario:
+            return scenario
+    return compact_text(sample.get("reference_subject") or sample.get("scene_id"))
+
+
 def compact_prompt(sample: dict, row: dict, max_chars: int) -> str:
     policy = row.get("generation_policy") or {}
     camera = policy.get("camera_control") or camera_from_sample(sample)
@@ -324,7 +415,7 @@ def compact_prompt(sample: dict, row: dict, max_chars: int) -> str:
     required_events = sample.get("required_observable_events") or []
     failures = sample.get("misleading_failure_modes") or []
     subject = compact_text(sample.get("reference_subject"))
-    title = compact_text(sample.get("task_title") or subject or sample.get("scene_id"))
+    title = core_event_from_sample(sample)
     response = compact_text(event_graph.get("required_response"))
     terminal = compact_text(event_graph.get("terminal_state"))
     prompt = (
@@ -432,7 +523,11 @@ def validate_manifest(manifest: list[dict], samples: dict[str, dict], repo_root:
         seen_outputs.add(str(output_name))
         existing_output = out_dir / str(output_name)
         if existing_output.exists():
-            warnings.append(f"{task_id}: output already exists and will be skipped: {existing_output}")
+            playable, reason = existing_output_is_playable(existing_output)
+            if playable:
+                warnings.append(f"{task_id}: playable output already exists and will be skipped: {existing_output}")
+            else:
+                warnings.append(f"{task_id}: existing output is invalid and will be regenerated: {reason}")
         checked.append({
             "task_id": task_id,
             "probe_role": row.get("probe_role"),
@@ -557,8 +652,11 @@ def main() -> None:
             raise SystemExit(f"task_id not found in samples: {task_id}")
         out_path = out_dir / str(row.get("output_name", f"{task_id}.mp4"))
         if out_path.exists():
-            print(json.dumps({"task_id": task_id, "status": "skipped_existing", "saved": str(out_path)}, ensure_ascii=False))
-            continue
+            playable, reason = existing_output_is_playable(out_path)
+            if playable:
+                print(json.dumps({"task_id": task_id, "status": "skipped_existing", "saved": str(out_path)}, ensure_ascii=False))
+                continue
+            print(json.dumps({"task_id": task_id, "status": "regenerate_invalid_existing", "reason": reason}, ensure_ascii=False))
         payload, resolved_image_path = build_payload(sample, row, repo_root, model)
         dry_meta = {
             "task_id": task_id,

@@ -149,6 +149,15 @@ part drift, or motion substitution. A weakness target contributes to difficulty
 only through the concrete complexity and constraints present in the sample; its
 label alone does not automatically make a sample adversarial.
 
+Every executable sample carries one binary question for each of nine canonical
+targets: causal-chain completeness, required-event presence, misleading safety
+failure absence, geometry/topology preservation, physical plausibility,
+temporal consistency, reference fidelity, camera-motion execution, and
+application-objective support. Together these cover the benchmark's eight
+diagnostic directions (causal/event is represented by two complementary
+targets). Target definitions come from task metadata; model answers are kept as
+separate observed evidence.
+
 ## Prompt Standard
 
 Each sample has two prompt fields:

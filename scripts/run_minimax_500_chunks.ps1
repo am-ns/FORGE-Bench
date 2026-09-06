@@ -1,5 +1,3 @@
-$ErrorActionPreference = "Stop"
-
 param(
     [int]$ChunkSize = 20,
     [int]$PollInterval = 20,
@@ -9,6 +7,8 @@ param(
     [string]$OutputDir = "results\minimax_500\videos",
     [string]$StateDir = "results\minimax_500\state"
 )
+
+$ErrorActionPreference = "Stop"
 
 $env:MINIMAX_API_KEY = [Environment]::GetEnvironmentVariable("MINIMAX_API_KEY", "User")
 if (-not $env:MINIMAX_API_KEY) {

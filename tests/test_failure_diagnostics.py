@@ -67,16 +67,16 @@ def test_failure_taxonomy_separates_task_intent_from_observed_failure():
     }]
 
     taxonomy = generate_diagnostic_report("model", {}, samples)["failure_taxonomy"]
-    intent = taxonomy["task_intent"]["directions"]
+    intent = taxonomy["task_intent"]["dimensions"]
     diagnosis = taxonomy["observed_failures"]["diagnostics"]["geometric_or_topological_failure"]
 
     assert set(intent) == {
-        "causal_and_event", "geometry_and_topology", "physics", "temporal",
-        "reference_preservation", "camera_motion", "safety", "application",
+        "industrial_logic_and_fact_alignment", "geometric_integrity",
+        "physical_plausibility", "temporal_consistency",
+        "reference_and_motion_fidelity", "application_usefulness",
     }
-    assert diagnosis["direction"] == "geometry_and_topology"
+    assert diagnosis["dimension"] == "geometric_integrity"
     assert diagnosis["severity"]["severe_count"] == 1
     assert diagnosis["evidence_sources"] == ["axis_scores.geometric_integrity"]
     assert diagnosis["applicability"]["applicable_sample_count"] == 1
     assert diagnosis["examples"] == ["task-1"]
-

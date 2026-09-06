@@ -77,5 +77,6 @@ def main() -> None:
         print(f"{name}: gates={dict(gates)} reasons={dict(reasons)}")
 
 
+
 if __name__ == "__main__":
     main()
