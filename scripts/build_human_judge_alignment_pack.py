@@ -531,7 +531,9 @@ def build() -> None:
             "domain": task["domain"],
             "primary_aspect_zh": aspect,
             "prompt_zh": zh,
-            "prompt_en": generation_prompt(task),
+            # The blind review must show the canonical generation prompt
+            # verbatim; never synthesize a second reviewer-only English prompt.
+            "prompt_en": task["video_generation_prompt"],
             "required_observable_events": [
                 (TASK_REWRITES[str(task["task_id"])][0] if str(task["task_id"]) in TASK_REWRITES
                  else str(task["video_generation_prompt"]).split(" Camera:", 1)[0])
@@ -554,7 +556,7 @@ def build() -> None:
             "diagnostic_axis": task["diagnostic_axis"],
             "prompt_manually_rewritten": str(task["task_id"]) in TASK_REWRITES,
             "original_generation_prompt": task["video_generation_prompt"],
-            "review_prompt": generation_prompt(task),
+            "review_prompt": task["video_generation_prompt"],
             "provenance_note": (
                 "Videos predate the review-prompt repair; use this pack for judge-selection analysis, "
                 "not as evidence that generation followed the repaired prompt."
@@ -601,6 +603,8 @@ def build() -> None:
     reviewer_text = json.dumps(public, ensure_ascii=False) + json.dumps(CANDIDATE_JUDGES, ensure_ascii=False)
     if "�" in reviewer_text or not summary["translation_complete"]:
         raise RuntimeError("Reviewer-facing Chinese text is incomplete or contains replacement characters")
+    if any(row["prompt_en"] != task["video_generation_prompt"] for row, task in zip(public, selected)):
+        raise RuntimeError("Blind-review prompt diverged from the canonical generation prompt")
     (OUTPUT / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
     zip_path = OUTPUT.with_suffix(".zip")
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as zf:
