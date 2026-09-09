@@ -567,8 +567,8 @@ def build() -> None:
             f"<p><b>中文任务：</b>{html.escape(zh)}</p>"
             f"<p><b>评审问题：</b>{html.escape(row['question_zh'])}</p>"
             f"<img class='ref' src='{row['reference_image']}'><img class='sheet' src='contact_sheets/{pair_id}.jpg'>"
-            f"<div class='pair'><div><h3>A</h3><video controls src='{row['video_a']}'></video></div>"
-            f"<div><h3>B</h3><video controls src='{row['video_b']}'></video></div></div></section>"
+            f"<div class='pair'><div><h3>A</h3><video controls playsinline preload='none' src='{row['video_a']}'></video></div>"
+            f"<div><h3>B</h3><video controls playsinline preload='none' src='{row['video_b']}'></video></div></div></section>"
         )
 
     (OUTPUT / "blind_manifest.json").write_text(json.dumps(public, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -590,7 +590,7 @@ def build() -> None:
         encoding="utf-8",
     )
     review = """<!doctype html><meta charset='utf-8'><title>FORGE 人类对齐盲测</title>
-<style>body{font-family:sans-serif;max-width:1500px;margin:auto}section{border-bottom:2px solid #bbb;padding:18px}.pair{display:grid;grid-template-columns:1fr 1fr;gap:18px}video,.sheet{width:100%}.ref{max-width:420px;max-height:300px}</style>
+<meta name='viewport' content='width=device-width,initial-scale=1,viewport-fit=cover'><style>*{box-sizing:border-box}body{font-family:system-ui,-apple-system,sans-serif;max-width:1500px;margin:auto;padding:0 12px;line-height:1.55;color:#171717}section{border-bottom:2px solid #bbb;padding:18px 6px}.pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}video,.sheet{display:block;width:100%;height:auto}.ref{display:block;max-width:420px;max-height:300px;width:auto;height:auto}video{background:#111;border-radius:8px}img{max-width:100%}@media(max-width:700px){body{padding:0 10px}h1{font-size:1.45rem}h2{font-size:1.2rem}.pair{grid-template-columns:1fr;gap:8px}section{padding:14px 0}.ref{width:100%;max-height:none}video{min-height:180px}}</style>
 <h1>FORGE 裁判模型人类对齐盲测</h1><p>先检查参考图与中文任务是否匹配，再观看A/B。只评价题目指定方面。</p>
 """ + "\n".join(cards)
     (OUTPUT / "blind_review.html").write_text(review, encoding="utf-8")

@@ -14,17 +14,21 @@ motion fidelity. Their normalized task-category-weighted arithmetic mean is
 
 ```text
 technical_score = task-category-weighted mean(five technical axes)
-linear_ranking_score = 0.8 * technical_score + 0.2 * application_usefulness
-ranking_score = apply_each_formal_gate_once(linear_ranking_score)
+event_reliability = 0.05 + 0.95 * (event_coverage / 100)^1.7
+motion_reliability = 0.25 + 0.75 * (motion_score / 100)^1.2
+prebaseline_score = 0.8 * calibrated_technical_score + 0.2 * calibrated_application_usefulness
+ranking_score = clip(100 * (prebaseline_score - 15) / 85, 0, 100)
 overall = ranking_score
 ```
 
-The observable-event-coverage gate uses monotonic task-realization caps. Zero
-coverage caps ranking at 0, coverage below the strict 60-point threshold caps
-ranking at 30, and incomplete coverage from 60 up to (but excluding) 100 caps
-ranking at 40. Complete 100% coverage has no event cap. Missing coverage is a
-validity error. The gate is applied exactly once alongside the remaining
-motion, operator-evidence, and geometry caps.
+Observable-event coverage continuously calibrates the three quantities whose
+interpretation depends on observing the requested event: industrial logic and
+fact alignment, reference and motion fidelity, and application usefulness.
+Required viewpoint/static-motion evidence continuously calibrates reference and
+motion fidelity with reliability `0.25 + 0.75*(m/100)^1.2`. A verified severe
+safety failure multiplies industrial logic and fact alignment and application
+usefulness by 0.5. Unrelated axes
+remain unchanged. Missing required coverage is a validity error.
 
 `constraint_adjusted_score` is a deprecated compatibility alias. No other
 metric is a leaderboard total.
@@ -41,25 +45,21 @@ constant floor. Corrupt, wrong-subject, unstable, or otherwise non-credible
 clips remain at zero. Reports expose eligibility and contextual contribution
 for ablation and sensitivity analysis.
 
-## Formal gates
+## Continuous reliability gates
 
-Validated gate evidence can change the headline. Every action is written to a
-per-sample gate ledger with its source, action, value, reasons, base score, and
-final score.
+Validated gate evidence can change the headline. Every multiplier is written to
+a per-sample ledger with its source, affected axis, value, and reason.
 
-- Observable-event coverage applies tiered caps of 0/30/40 for zero,
-  below-strict, and incomplete realization; complete coverage is uncapped.
-- A severe required viewpoint/static-motion failure caps at 55.
-- A misleading safety response applies a 0.5 multiplier.
-- Valid, task-planned operator evidence with confidence at least 0.70 can cap
-  its designated public axis. The hard allowlist is `local_region_lock`,
-  `temporal_break`, and `rigid_joint_tracking`.
-- Historical cached rows without an axis-adjustment ledger may receive the
-  equivalent ranking cap. A row never receives both effects.
-- The geometric conflict cap stays disabled until its explicit calibration
-  switch is enabled.
+- Event reliability is `0.05 + 0.95*(coverage/100)^1.7`.
+- Motion reliability is `0.25 + 0.75*(motion/100)^1.2` when motion is required.
+- Verified misleading safety response uses a 0.5 safety reliability.
+- The calibrated five technical axes retain their task-category weights; the
+  sixth application axis retains the fixed 0.2 weight.
+- The fixed degenerate-generation baseline is `b=15`; affine rescaling preserves
+  ordering above the floor and maps 100 to 100.
 
-This keeps operator gates effective while preventing duplicate penalties.
+No post-total 0/30/40 cap is used. This avoids score piles while keeping the
+headline a single linear 5+1 metric.
 
 ## One judge model
 

@@ -1,0 +1,2302 @@
+[
+  {
+    "task_id": "erob_001",
+    "status": "revise",
+    "note": "\"抓取“不太好，这个机械臂没法抓取，你看看能不能改成模糊一点的词"
+  },
+  {
+    "task_id": "erob_002",
+    "status": "revise",
+    "note": "\"抓取“不太好，这个机械臂没法抓取，你看看能不能改成模糊一点的词"
+  },
+  {
+    "task_id": "erob_004",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_014",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_015",
+    "status": "mismatch",
+    "note": "只有两个拉小提琴的机械臂，你看怎么改吧，想好了告诉我，我感觉都没法改了"
+  },
+  {
+    "task_id": "erob_021",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_022",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_024",
+    "status": "revise",
+    "note": "根本就没有碎石"
+  },
+  {
+    "task_id": "erob_025",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_027",
+    "status": "mismatch",
+    "note": "没有碎石，我觉得得大改一下提示词了，实在不行就重新生成视频"
+  },
+  {
+    "task_id": "erob_028",
+    "status": "unreviewed",
+    "note": ""
+  },
+  {
+    "task_id": "erob_031",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_032",
+    "status": "mismatch",
+    "note": "这个也得大改，什么叫“楼梯或碎石”，你这么模糊怎么行呢"
+  },
+  {
+    "task_id": "erob_033",
+    "status": "mismatch",
+    "note": "这个也得大改，什么叫“楼梯或碎石”，你这么模糊怎么行呢"
+  },
+  {
+    "task_id": "erob_034",
+    "status": "mismatch",
+    "note": "这个也得大改，什么叫“楼梯或碎石”，你这么模糊怎么行呢"
+  },
+  {
+    "task_id": "erob_035",
+    "status": "mismatch",
+    "note": "这个也得大改，什么叫“楼梯或碎石”，你这么模糊怎么行呢"
+  },
+  {
+    "task_id": "erob_037",
+    "status": "mismatch",
+    "note": "这个也得大改，什么叫“楼梯或碎石”，你这么模糊怎么行呢"
+  },
+  {
+    "task_id": "erob_041",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_043",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_044",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_045",
+    "status": "mismatch",
+    "note": "没有仓库，这是一个叉车"
+  },
+  {
+    "task_id": "erob_046",
+    "status": "mismatch",
+    "note": "没有仓库，这是一个叉车"
+  },
+  {
+    "task_id": "erob_051",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_052",
+    "status": "mismatch",
+    "note": "画面里面只有地面和墙，没有出现机器人\n"
+  },
+  {
+    "task_id": "erob_053",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_054",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_055",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_056",
+    "status": "revise",
+    "note": "画面里面没有机器人，把“机器人”改成自动装备，穿过机器人单元的安全光幕 改成 靠近自动装备"
+  },
+  {
+    "task_id": "erob_062",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_063",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_064",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_066",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_072",
+    "status": "revise",
+    "note": "“两台”去掉"
+  },
+  {
+    "task_id": "erob_073",
+    "status": "revise",
+    "note": "“两台”去掉"
+  },
+  {
+    "task_id": "erob_074",
+    "status": "revise",
+    "note": "“两台”去掉"
+  },
+  {
+    "task_id": "erob_075",
+    "status": "revise",
+    "note": "“两台”去掉"
+  },
+  {
+    "task_id": "erob_076",
+    "status": "mismatch",
+    "note": "没有两台机器人，只有两个机械臂"
+  },
+  {
+    "task_id": "erob_077",
+    "status": "mismatch",
+    "note": "没有两台机器人，只有两个机械臂"
+  },
+  {
+    "task_id": "erob_082",
+    "status": "unreviewed",
+    "note": ""
+  },
+  {
+    "task_id": "erob_083",
+    "status": "unreviewed",
+    "note": ""
+  },
+  {
+    "task_id": "erob_084",
+    "status": "unreviewed",
+    "note": ""
+  },
+  {
+    "task_id": "erob_086",
+    "status": "revise",
+    "note": "一个已有吸盘失效 去掉"
+  },
+  {
+    "task_id": "erob_092",
+    "status": "keep",
+    "note": "机器人 改成机械臂 人机交接过程中 改成 移动过程中"
+  },
+  {
+    "task_id": "erob_093",
+    "status": "revise",
+    "note": "减速让行 改成 减速"
+  },
+  {
+    "task_id": "erob_094",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_095",
+    "status": "keep",
+    "note": "仓库中 去掉  托盘 改成 障碍物"
+  },
+  {
+    "task_id": "erob_099",
+    "status": "mismatch",
+    "note": "没有吸盘   你想想把吸盘改成什么"
+  },
+  {
+    "task_id": "erob_100",
+    "status": "revise",
+    "note": "一个已有吸盘失效  去掉"
+  },
+  {
+    "task_id": "erob_105",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_115",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_125",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_140",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_144",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_146",
+    "status": "mismatch",
+    "note": "这个例子绝对不能保留，这只两个电池组，完全不搭"
+  },
+  {
+    "task_id": "erob_147",
+    "status": "mismatch",
+    "note": "这个例子绝对不能保留，这只一个电池组，完全不搭"
+  },
+  {
+    "task_id": "erob_154",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_156",
+    "status": "revise",
+    "note": "既有行驶路径中  去掉   停车  去掉      ，并在路径清空后继续  去掉 "
+  },
+  {
+    "task_id": "erob_157",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_159",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_160",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_162",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_163",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_167",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_170",
+    "status": "revise",
+    "note": "机器人 改成 机械臂"
+  },
+  {
+    "task_id": "erob_174",
+    "status": "keep",
+    "note": "机器人 改成 机械臂"
+  },
+  {
+    "task_id": "erob_177",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_184",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_185",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_186",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_187",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_189",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_190",
+    "status": "mismatch",
+    "note": "这是个机器人，而且画面没有出现任何碎石"
+  },
+  {
+    "task_id": "erob_193",
+    "status": "mismatch",
+    "note": "机器人夹具  改成机械结构     已有吸盘  改成  连接处"
+  },
+  {
+    "task_id": "erob_210",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_211",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_216",
+    "status": "mismatch",
+    "note": "没有碎石"
+  },
+  {
+    "task_id": "erob_222",
+    "status": "mismatch",
+    "note": "必须重新生成   “楼梯和碎石 ”  改成  泥泞的地面"
+  },
+  {
+    "task_id": "erob_224",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_229",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_230",
+    "status": "unreviewed",
+    "note": "卷帘门 改成  门"
+  },
+  {
+    "task_id": "erob_233",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_234",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_235",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_237",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_241",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_245",
+    "status": "mismatch",
+    "note": "必须重新生成    画面上是三个静态的机械臂"
+  },
+  {
+    "task_id": "erob_246",
+    "status": "mismatch",
+    "note": "只能看到机械臂"
+  },
+  {
+    "task_id": "erob_249",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_250",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "erob_259",
+    "status": "revise",
+    "note": "碎石  去掉"
+  },
+  {
+    "task_id": "erob_260",
+    "status": "mismatch",
+    "note": "必须重新生成    “碎石”去掉"
+  },
+  {
+    "task_id": "erob_261",
+    "status": "mismatch",
+    "note": "画面里只有一个机械臂"
+  },
+  {
+    "task_id": "emerg_002",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_003",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_004",
+    "status": "revise",
+    "note": "阀门接头  改成储气罐"
+  },
+  {
+    "task_id": "emerg_012",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_021",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_022",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_023",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_025",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_029",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_032",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_036",
+    "status": "revise",
+    "note": "粮仓除尘区域  改成储藏罐"
+  },
+  {
+    "task_id": "emerg_041",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_046",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_051",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_053",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_054",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_055",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_056",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_057",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_061",
+    "status": "revise",
+    "note": "工业隧道 改成密闭车厢"
+  },
+  {
+    "task_id": "emerg_063",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_064",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_065",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_066",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_078",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_085",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_086",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_092",
+    "status": "revise",
+    "note": "挡土墙或 去掉"
+  },
+  {
+    "task_id": "emerg_093",
+    "status": "revise",
+    "note": "或围堰 去掉"
+  },
+  {
+    "task_id": "emerg_094",
+    "status": "unreviewed",
+    "note": "挡土墙或 去掉"
+  },
+  {
+    "task_id": "emerg_126",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_131",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_132",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_133",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_138",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_139",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_141",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_143",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_149",
+    "status": "revise",
+    "note": "粮仓除尘区域 改成储藏罐"
+  },
+  {
+    "task_id": "emerg_151",
+    "status": "revise",
+    "note": "粮仓除尘区域 改成储藏罐"
+  },
+  {
+    "task_id": "emerg_153",
+    "status": "revise",
+    "note": "粮仓除尘区域 改成 机箱"
+  },
+  {
+    "task_id": "emerg_154",
+    "status": "revise",
+    "note": "粮仓除尘区域 改成储藏罐"
+  },
+  {
+    "task_id": "emerg_158",
+    "status": "unreviewed",
+    "note": "中央  去掉 接头 去掉"
+  },
+  {
+    "task_id": "emerg_161",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_162",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_163",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_164",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_167",
+    "status": "unreviewed",
+    "note": "改成拖车  沿邻近管线  去掉"
+  },
+  {
+    "task_id": "emerg_168",
+    "status": "keep",
+    "note": "管线连接处 去掉   沿邻近管线  去掉"
+  },
+  {
+    "task_id": "emerg_169",
+    "status": "revise",
+    "note": "管线连接处 去掉   沿邻近管线  去掉"
+  },
+  {
+    "task_id": "emerg_170",
+    "status": "revise",
+    "note": "管线连接处 去掉   "
+  },
+  {
+    "task_id": "emerg_174",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_178",
+    "status": "mismatch",
+    "note": "改成：远处有化学反应器超压后开启泄压阀，气体排出"
+  },
+  {
+    "task_id": "emerg_179",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_183",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_195",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_198",
+    "status": "unreviewed",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_212",
+    "status": "revise",
+    "note": "储罐区管线连接处 改成工厂"
+  },
+  {
+    "task_id": "emerg_218",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_220",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_221",
+    "status": "mismatch",
+    "note": "必须重新生成  提示词 改成：悬吊载荷从地面上被拉起后，开始危险下落"
+  },
+  {
+    "task_id": "emerg_225",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_228",
+    "status": "revise",
+    "note": "电塔 改成电线杆"
+  },
+  {
+    "task_id": "emerg_231",
+    "status": "revise",
+    "note": "挡土墙或 去掉"
+  },
+  {
+    "task_id": "emerg_232",
+    "status": "revise",
+    "note": "挡土墙或  去掉"
+  },
+  {
+    "task_id": "emerg_234",
+    "status": "revise",
+    "note": "挡土墙或  去掉"
+  },
+  {
+    "task_id": "emerg_236",
+    "status": "revise",
+    "note": "挡土墙或  去掉"
+  },
+  {
+    "task_id": "emerg_241",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_242",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_257",
+    "status": "revise",
+    "note": "粮仓除尘区域改成 储藏罐"
+  },
+  {
+    "task_id": "emerg_261",
+    "status": "revise",
+    "note": "粮仓除尘区域改成 储藏罐"
+  },
+  {
+    "task_id": "emerg_270",
+    "status": "revise",
+    "note": "工业除尘或工艺设备处   去掉"
+  },
+  {
+    "task_id": "emerg_294",
+    "status": "mismatch",
+    "note": "必须重新生成   这张图片只有高速路围栏和围墙"
+  },
+  {
+    "task_id": "emerg_298",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_299",
+    "status": "revise",
+    "note": "除尘或工艺   ，并触发明确的停机响应  去掉"
+  },
+  {
+    "task_id": "emerg_300",
+    "status": "revise",
+    "note": "除尘或工艺   ，并触发明确的停机响应  去掉"
+  },
+  {
+    "task_id": "emerg_302",
+    "status": "keep",
+    "note": "覆冰 去掉"
+  },
+  {
+    "task_id": "emerg_304",
+    "status": "revise",
+    "note": "除尘或工艺   ，并触发明确的停机响应  去掉"
+  },
+  {
+    "task_id": "emerg_305",
+    "status": "mismatch",
+    "note": "必须重新生成，这是一堆工人在电焊"
+  },
+  {
+    "task_id": "emerg_306",
+    "status": "mismatch",
+    "note": "必须重新生成，这是一堆工人在电焊"
+  },
+  {
+    "task_id": "emerg_307",
+    "status": "revise",
+    "note": "除尘或工艺   ，并触发明确的停机响应  去掉"
+  },
+  {
+    "task_id": "emerg_308",
+    "status": "unreviewed",
+    "note": "电池储能集装箱内的一个电池模组 改成  储藏罐 "
+  },
+  {
+    "task_id": "emerg_310",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_314",
+    "status": "mismatch",
+    "note": "必须重新生成，这是几个零件摆在桌子上"
+  },
+  {
+    "task_id": "emerg_315",
+    "status": "revise",
+    "note": "阀门 改成 管道"
+  },
+  {
+    "task_id": "emerg_316",
+    "status": "revise",
+    "note": "阀门 改成 管道"
+  },
+  {
+    "task_id": "emerg_323",
+    "status": "revise",
+    "note": "除尘或工艺  ，并触发明确的停机响应   去掉"
+  },
+  {
+    "task_id": "emerg_324",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "emerg_327",
+    "status": "revise",
+    "note": "封闭通道远端  改成厂区 "
+  },
+  {
+    "task_id": "emerg_328",
+    "status": "revise",
+    "note": "远端 去掉"
+  },
+  {
+    "task_id": "emerg_329",
+    "status": "revise",
+    "note": "封闭通道远端 改成 关闭的大门"
+  },
+  {
+    "task_id": "emerg_333",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_002",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_005",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_011",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_012",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_014",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_015",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_018",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_021",
+    "status": "unreviewed",
+    "note": "泥泞  、下陷 去掉"
+  },
+  {
+    "task_id": "hload_022",
+    "status": "keep",
+    "note": "爬升泥泞坡道  改成 走泥泞道路"
+  },
+  {
+    "task_id": "hload_023",
+    "status": "mismatch",
+    "note": "必须重新生成  这是一个卡车卸货的场景"
+  },
+  {
+    "task_id": "hload_025",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_031",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_033",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_041",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_042",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_051",
+    "status": "revise",
+    "note": "通过液压连杆 去掉"
+  },
+  {
+    "task_id": "hload_056",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_058",
+    "status": "mismatch",
+    "note": "必须重新生成 这个没有铲斗"
+  },
+  {
+    "task_id": "hload_061",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_062",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_063",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_069",
+    "status": "mismatch",
+    "note": "必须重新生成 这是个 吊机"
+  },
+  {
+    "task_id": "hload_071",
+    "status": "revise",
+    "note": "施工沟槽内的地下  去掉"
+  },
+  {
+    "task_id": "hload_076",
+    "status": "revise",
+    "note": "施工沟槽内的地下 去掉"
+  },
+  {
+    "task_id": "hload_077",
+    "status": "unreviewed",
+    "note": "施工沟槽内的地下管道  改成  储藏罐"
+  },
+  {
+    "task_id": "hload_081",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_082",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_085",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_091",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_092",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_095",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_096",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_109",
+    "status": "mismatch",
+    "note": "必须重新生成，这是个货车拉着一个大罐子"
+  },
+  {
+    "task_id": "hload_115",
+    "status": "revise",
+    "note": "吊装的预制桥梁节段  改成 正在施工的大楼"
+  },
+  {
+    "task_id": "hload_119",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_120",
+    "status": "keep",
+    "note": "起重机 改成升降机  悬吊 去掉"
+  },
+  {
+    "task_id": "hload_121",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_123",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_125",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_127",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_129",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_132",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_134",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_136",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_137",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_138",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_141",
+    "status": "revise",
+    "note": "泥泞 、下陷 去掉"
+  },
+  {
+    "task_id": "hload_145",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_147",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_152",
+    "status": "unreviewed",
+    "note": ""
+  },
+  {
+    "task_id": "hload_153",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_157",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_158",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_159",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_160",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_165",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_166",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_193",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_203",
+    "status": "revise",
+    "note": "这个提示词不知所云，云里雾里 改成实际一点但是 别有具体动作的"
+  },
+  {
+    "task_id": "hload_214",
+    "status": "revise",
+    "note": "带载铲斗 去掉"
+  },
+  {
+    "task_id": "hload_215",
+    "status": "mismatch",
+    "note": "必须重新生成，图片得换"
+  },
+  {
+    "task_id": "hload_217",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_218",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_219",
+    "status": "revise",
+    "note": "施工沟槽内的地下 去掉"
+  },
+  {
+    "task_id": "hload_220",
+    "status": "revise",
+    "note": "这个提示词不知所云，云里雾里 改成实际一点但是 别有具体动作的"
+  },
+  {
+    "task_id": "hload_221",
+    "status": "revise",
+    "note": "这个提示词不知所云，云里雾里 改成实际一点但是 别有具体动作的  比如单纯运镜看一下结构"
+  },
+  {
+    "task_id": "hload_223",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_225",
+    "status": "mismatch",
+    "note": "必须重新生成，图片不对"
+  },
+  {
+    "task_id": "hload_226",
+    "status": "mismatch",
+    "note": "必须重新生成，这是个物品被起重机吊起来的画面。提示词我很不喜欢"
+  },
+  {
+    "task_id": "hload_227",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_228",
+    "status": "revise",
+    "note": "不等角 去掉"
+  },
+  {
+    "task_id": "hload_230",
+    "status": "revise",
+    "note": "不等角 去掉"
+  },
+  {
+    "task_id": "hload_231",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_233",
+    "status": "revise",
+    "note": "不等角 去掉"
+  },
+  {
+    "task_id": "hload_235",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_236",
+    "status": "revise",
+    "note": "支腿垫板 去掉"
+  },
+  {
+    "task_id": "hload_237",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_239",
+    "status": "revise",
+    "note": "升泥泞坡道  改成 走泥泞路段"
+  },
+  {
+    "task_id": "hload_241",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_242",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_244",
+    "status": "revise",
+    "note": "这个提示词不知所云，云里雾里 改成实际一点但是 别有具体动作的  比如单纯运镜看一下结构"
+  },
+  {
+    "task_id": "hload_245",
+    "status": "revise",
+    "note": "这个提示词不知所云，云里雾里 改成实际一点但是 别有具体动作的  比如单纯运镜看一下结构"
+  },
+  {
+    "task_id": "hload_248",
+    "status": "mismatch",
+    "note": "必须重新生成 没有吊索"
+  },
+  {
+    "task_id": "hload_250",
+    "status": "revise",
+    "note": "这个提示词不知所云，云里雾里 改成实际一点但是 别有具体动作的  比如单纯运镜看一下结构"
+  },
+  {
+    "task_id": "hload_267",
+    "status": "revise",
+    "note": "这个提示词不知所云，云里雾里 改成实际一点但是 别有具体动作的  比如单纯运镜看一下结构"
+  },
+  {
+    "task_id": "hload_276",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_277",
+    "status": "revise",
+    "note": "这个提示词不知所云，云里雾里 改成实际一点但是 别有具体动作的  比如单纯运镜看一下结构"
+  },
+  {
+    "task_id": "hload_278",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_279",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_281",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "hload_284",
+    "status": "revise",
+    "note": "已有钢丝绳在过载下  去掉"
+  },
+  {
+    "task_id": "hload_286",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_001",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_002",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_003",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_004",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_008",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_011",
+    "status": "revise",
+    "note": "内窥镜靠近已有内部 去掉"
+  },
+  {
+    "task_id": "pdef_012",
+    "status": "revise",
+    "note": "内窥镜靠近已有内部 去掉"
+  },
+  {
+    "task_id": "pdef_015",
+    "status": "revise",
+    "note": "内窥镜靠近已有内部 去掉"
+  },
+  {
+    "task_id": "pdef_018",
+    "status": "revise",
+    "note": "内窥镜靠近已有内部 去掉"
+  },
+  {
+    "task_id": "pdef_021",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_022",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_031",
+    "status": "keep",
+    "note": "，主轴、刀具和工件夹具保持可信关系  去掉"
+  },
+  {
+    "task_id": "pdef_032",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_042",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_043",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_044",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_045",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_047",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_051",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_052",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_053",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_054",
+    "status": "revise",
+    "note": "把 管道 删掉"
+  },
+  {
+    "task_id": "pdef_056",
+    "status": "revise",
+    "note": "把 管道 删掉"
+  },
+  {
+    "task_id": "pdef_057",
+    "status": "revise",
+    "note": "把 管道 删掉"
+  },
+  {
+    "task_id": "pdef_058",
+    "status": "unreviewed",
+    "note": "把 管道 删掉"
+  },
+  {
+    "task_id": "pdef_061",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_062",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_064",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_065",
+    "status": "keep",
+    "note": "把 精密 去掉"
+  },
+  {
+    "task_id": "pdef_066",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_067",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_068",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_071",
+    "status": "revise",
+    "note": "内窥镜  去掉\n"
+  },
+  {
+    "task_id": "pdef_072",
+    "status": "revise",
+    "note": "内窥镜  去掉"
+  },
+  {
+    "task_id": "pdef_074",
+    "status": "revise",
+    "note": "内窥镜在换热器管束中  去掉"
+  },
+  {
+    "task_id": "pdef_075",
+    "status": "revise",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_076",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_077",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_081",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_086",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_087",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_092",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_093",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_094",
+    "status": "keep",
+    "note": "精密  去掉"
+  },
+  {
+    "task_id": "pdef_096",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_101",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_107",
+    "status": "unreviewed",
+    "note": "五轴数控 去掉"
+  },
+  {
+    "task_id": "pdef_108",
+    "status": "mismatch",
+    "note": "必须重新生成  这个图片是一堆阀门"
+  },
+  {
+    "task_id": "pdef_118",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_128",
+    "status": "mismatch",
+    "note": "必须重新生成，这是一个控制台"
+  },
+  {
+    "task_id": "pdef_129",
+    "status": "revise",
+    "note": "五轴数控 去掉"
+  },
+  {
+    "task_id": "pdef_130",
+    "status": "revise",
+    "note": "五轴数控 去掉"
+  },
+  {
+    "task_id": "pdef_131",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_134",
+    "status": "mismatch",
+    "note": "必须重新生成，这是一个做手术的画面"
+  },
+  {
+    "task_id": "pdef_136",
+    "status": "mismatch",
+    "note": "必须重新生成 这是个测温枪"
+  },
+  {
+    "task_id": "pdef_137",
+    "status": "revise",
+    "note": "夹具或托盘  改成 设备"
+  },
+  {
+    "task_id": "pdef_140",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_142",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_143",
+    "status": "mismatch",
+    "note": "必须重新生成 这是个服务器"
+  },
+  {
+    "task_id": "pdef_144",
+    "status": "revise",
+    "note": "夹具或托盘 改成 仪表"
+  },
+  {
+    "task_id": "pdef_145",
+    "status": "revise",
+    "note": "夹具或托盘 改成 仪表"
+  },
+  {
+    "task_id": "pdef_147",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_148",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_150",
+    "status": "revise",
+    "note": "夹具或托盘 改成 设备"
+  },
+  {
+    "task_id": "pdef_151",
+    "status": "revise",
+    "note": "夹具或托盘 改成 设备"
+  },
+  {
+    "task_id": "pdef_153",
+    "status": "mismatch",
+    "note": "必须重新生成 这是一堆零件"
+  },
+  {
+    "task_id": "pdef_156",
+    "status": "revise",
+    "note": "精密装配过程中，  去掉"
+  },
+  {
+    "task_id": "pdef_157",
+    "status": "revise",
+    "note": "精密装配过程中，  去掉"
+  },
+  {
+    "task_id": "pdef_159",
+    "status": "revise",
+    "note": "换热器 去掉"
+  },
+  {
+    "task_id": "pdef_164",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_165",
+    "status": "revise",
+    "note": "喷向高速刀具 改成 喷出"
+  },
+  {
+    "task_id": "pdef_166",
+    "status": "revise",
+    "note": "喷向高速刀具 改成 喷出"
+  },
+  {
+    "task_id": "pdef_175",
+    "status": "revise",
+    "note": "内窥镜和内部  去掉"
+  },
+  {
+    "task_id": "pdef_176",
+    "status": "revise",
+    "note": "内窥镜和内部  去掉"
+  },
+  {
+    "task_id": "pdef_181",
+    "status": "mismatch",
+    "note": "必须重新生成，这是两个零件"
+  },
+  {
+    "task_id": "pdef_183",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_184",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_185",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_186",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_191",
+    "status": "revise",
+    "note": "夹具或托盘 改成 管道"
+  },
+  {
+    "task_id": "pdef_196",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_197",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_201",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_202",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_204",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_205",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_209",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_210",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "pdef_211",
+    "status": "revise",
+    "note": "精密装配过程中， 去掉"
+  },
+  {
+    "task_id": "pdef_216",
+    "status": "revise",
+    "note": "内窥镜在换热器管束中 改成 镜头    内部 去掉"
+  },
+  {
+    "task_id": "pdef_217",
+    "status": "revise",
+    "note": "内窥镜在换热器管束中 改成 镜头    内部 去掉"
+  },
+  {
+    "task_id": "pdef_226",
+    "status": "revise",
+    "note": "已有管道焊缝  改成 齿轮"
+  },
+  {
+    "task_id": "vsec_001",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_002",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_003",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_004",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_005",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_011",
+    "status": "revise",
+    "note": "或安全带 去掉"
+  },
+  {
+    "task_id": "vsec_012",
+    "status": "revise",
+    "note": "或安全带"
+  },
+  {
+    "task_id": "vsec_014",
+    "status": "revise",
+    "note": "或安全带"
+  },
+  {
+    "task_id": "vsec_021",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_022",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_023",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_028",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_029",
+    "status": "mismatch",
+    "note": "必须重新生成  叉车上面根本没有货物"
+  },
+  {
+    "task_id": "vsec_031",
+    "status": "revise",
+    "note": "画面中已有  去掉"
+  },
+  {
+    "task_id": "vsec_032",
+    "status": "revise",
+    "note": "画面中已有  去掉"
+  },
+  {
+    "task_id": "vsec_042",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_043",
+    "status": "mismatch",
+    "note": "必须重新生成  图片是个监控"
+  },
+  {
+    "task_id": "vsec_051",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_058",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_061",
+    "status": "revise",
+    "note": "危险品装卸区的  去掉"
+  },
+  {
+    "task_id": "vsec_069",
+    "status": "revise",
+    "note": "危险品装卸区的  去掉"
+  },
+  {
+    "task_id": "vsec_071",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_085",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_086",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_087",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_091",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_092",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_108",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_109",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_111",
+    "status": "mismatch",
+    "note": "必须重新生成。这是个铁门"
+  },
+  {
+    "task_id": "vsec_114",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_115",
+    "status": "revise",
+    "note": "危险品装卸区的 去掉"
+  },
+  {
+    "task_id": "vsec_116",
+    "status": "mismatch",
+    "note": "必须重新生成 没有叉车"
+  },
+  {
+    "task_id": "vsec_117",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_118",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_121",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_131",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_141",
+    "status": "revise",
+    "note": "已有 去掉"
+  },
+  {
+    "task_id": "vsec_144",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_145",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_146",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_147",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_151",
+    "status": "revise",
+    "note": "或安全带 去掉"
+  },
+  {
+    "task_id": "vsec_152",
+    "status": "revise",
+    "note": "或安全带 去掉"
+  },
+  {
+    "task_id": "vsec_154",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_155",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_156",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_157",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_159",
+    "status": "revise",
+    "note": "危险品装卸区的 去掉"
+  },
+  {
+    "task_id": "vsec_163",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_165",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_166",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_167",
+    "status": "mismatch",
+    "note": "必须重新生成 图片是高架桥"
+  },
+  {
+    "task_id": "vsec_168",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_169",
+    "status": "mismatch",
+    "note": "必须重新生成 这是个发动机"
+  },
+  {
+    "task_id": "vsec_170",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_171",
+    "status": "revise",
+    "note": "仓库 去掉"
+  },
+  {
+    "task_id": "vsec_173",
+    "status": "revise",
+    "note": "或车辆 去掉"
+  },
+  {
+    "task_id": "vsec_175",
+    "status": "revise",
+    "note": "或车辆 去掉"
+  },
+  {
+    "task_id": "vsec_176",
+    "status": "revise",
+    "note": "或车辆 去掉"
+  },
+  {
+    "task_id": "vsec_178",
+    "status": "revise",
+    "note": "人员或 去掉"
+  },
+  {
+    "task_id": "vsec_179",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_186",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_187",
+    "status": "revise",
+    "note": "或车辆 去掉"
+  },
+  {
+    "task_id": "vsec_189",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_190",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_192",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_193",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_195",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_196",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_197",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_201",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_203",
+    "status": "mismatch",
+    "note": "必须重新生成 画面没有叉车"
+  },
+  {
+    "task_id": "vsec_207",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_209",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_212",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_214",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_216",
+    "status": "unreviewed",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_217",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_227",
+    "status": "revise",
+    "note": "仓库 去掉"
+  },
+  {
+    "task_id": "vsec_228",
+    "status": "revise",
+    "note": "仓库 去掉"
+  },
+  {
+    "task_id": "vsec_229",
+    "status": "revise",
+    "note": "仓库 去掉"
+  },
+  {
+    "task_id": "vsec_232",
+    "status": "revise",
+    "note": "仓库 去掉"
+  },
+  {
+    "task_id": "vsec_233",
+    "status": "revise",
+    "note": "仓库 去掉"
+  },
+  {
+    "task_id": "vsec_239",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_242",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_245",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_246",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_247",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_248",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_249",
+    "status": "keep",
+    "note": ""
+  },
+  {
+    "task_id": "vsec_251",
+    "status": "keep",
+    "note": ""
+  }
+]

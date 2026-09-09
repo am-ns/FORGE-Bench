@@ -679,7 +679,7 @@ class TestScoring:
         assert result["technical_score"] == result["task_conditioned_score"]
         assert result["application_score"] == 100.0
         assert result["ranking_score_ci95"]["n"] == 2
-        assert result["overall"] == pytest.approx(84.0)
+        assert result["overall"] == pytest.approx(81.17647058823529)
         assert result["linear_ranking_score"] == pytest.approx(84.0)
         assert result["functional_pass_rate"] == 1.0
         assert result["application_pass_rate"]["policy"] == "strict_application_score"
@@ -689,10 +689,10 @@ class TestScoring:
         assert result["application_macro_micro_summary"]["micro_application_score_strict"] == pytest.approx(100.0)
         assert result["application_macro_micro_summary"]["macro_application_score_strict"] == pytest.approx(100.0)
         assert result["application_score_policy"]["leaderboard"] == "application_usefulness"
-        assert result["constraint_adjusted_score"] == pytest.approx(84.0)
+        assert result["constraint_adjusted_score"] == pytest.approx(81.17647058823529)
         assert result["ranking_score"] == result["constraint_adjusted_score"]
         assert result["constraint_adjustment_summary"]["samples_with_cap"] == 0
-        assert result["score_calibration"]["heuristic_gates_in_overall"] is True
+        assert result["score_calibration"]["heuristic_gates_in_overall"] is False
         assert result["score_calibration"]["score_floors_in_headline"] is False
         assert result["relax_score_ci95"]["n"] == 2
         assert result["complete_case_relax_score"] == 75.0
@@ -764,7 +764,7 @@ class TestScoring:
         assert result["visual_quality_score"] == pytest.approx(60.0)
         assert result["visual_quality_summary"]["visual_quality_level_counts"] == {"2": 1, "3": 1}
         assert result["all_critical_pass_accuracy"] == pytest.approx(0.5)
-        assert result["ranking_score"] == pytest.approx(84.0)
+        assert result["ranking_score"] == pytest.approx(81.17647058823529)
         assert result["score_calibration"]["visual_quality_policy"].startswith("diagnostic")
 
     def test_aggregate_application_usefulness_penalizes_ranking_not_technical_score(self):
@@ -791,7 +791,7 @@ class TestScoring:
         assert result["application_score_strict"] == pytest.approx(20.0)
         assert result["application_pass_rate"]["pass_rate"] == 0.0
         assert result["linear_ranking_score"] == pytest.approx(68.0)
-        assert result["ranking_score"] == pytest.approx(68.0)
+        assert result["ranking_score"] == pytest.approx(62.35294117647059)
         assert result["application_type_breakdown"]["inspection_and_maintenance"]["count"] == 1
         assert result["constraint_adjustment_summary"]["samples_with_hard_application_failure"] == 0
 
@@ -818,12 +818,11 @@ class TestScoring:
         assert result["application_score_strict"] == pytest.approx(90.0)
         assert result["constraint_adjustment_summary"]["mean_hard_application_penalty"] == pytest.approx(0.5)
         assert result["linear_ranking_score"] == pytest.approx(82.0)
-        # The incomplete-event cap (40) is stricter than the safety multiplier (41).
-        assert result["ranking_score"] == pytest.approx(40.0)
+        assert result["ranking_score"] == pytest.approx(51.77264568575527)
         assert result["constraint_adjustment_summary"]["mean_legacy_penalty_adjusted_score"] == pytest.approx(38.0)
 
-    def test_aggregate_caps_zero_observable_event_coverage(self):
-        """Zero event coverage should enforce the strictest event cap."""
+    def test_aggregate_continuously_calibrates_zero_event_coverage(self):
+        """Zero event coverage should down-weight only related axes."""
         result = aggregate_sample_results([
             {
                 "task_id": "missing_event",
@@ -839,11 +838,11 @@ class TestScoring:
             }
         ])
         assert result["linear_ranking_score"] == pytest.approx(84.0)
-        assert result["ranking_score"] == pytest.approx(0.0)
+        assert result["ranking_score"] == pytest.approx(26.63529411764706)
         assert result["overall"] == result["ranking_score"]
-        assert result["constraint_adjustment_summary"]["samples_with_application_event_cap"] == 1
-        assert result["constraint_adjustment_summary"]["cap_reason_counts"]["zero_observable_event_coverage"] == 1
-        assert result["constraint_adjustment_summary"]["mean_legacy_penalty_adjusted_score"] == pytest.approx(0.0)
+        assert result["constraint_adjustment_summary"]["samples_with_application_event_cap"] == 0
+        assert result["constraint_adjustment_summary"]["samples_with_event_axis_calibration"] == 1
+        assert result["constraint_adjustment_summary"]["mean_legacy_penalty_adjusted_score"] == pytest.approx(80.0)
 
     def test_aggregate_reports_uncalibrated_geometric_conflict_without_cap(self):
         """Uncalibrated geometric disagreement must not cap headline ranking."""
@@ -862,7 +861,7 @@ class TestScoring:
             }
         ])
         assert result["linear_ranking_score"] == pytest.approx(92.0)
-        assert result["ranking_score"] == pytest.approx(92.0)
+        assert result["ranking_score"] == pytest.approx(90.58823529411765)
         assert result["constraint_adjustment_summary"]["samples_with_geometric_conflict_cap"] == 0
 
     def test_aggregate_ignores_motion_gate_for_non_viewpoint_non_static(self):
@@ -912,8 +911,8 @@ class TestScoring:
         assert result["ranking_status"] == "incomplete"
         assert result["ranking_publishable"] is False
 
-    def test_aggregate_caps_only_corroborated_severe_motion_failure(self):
-        """A severe motion cap requires an independent VLM motion judgment."""
+    def test_aggregate_continuously_calibrates_corroborated_motion_failure(self):
+        """A corroborated motion failure continuously calibrates reference and motion fidelity."""
         result = aggregate_sample_results([{
             "task_id": "corroborated_static_failure",
             "skipped": False,
@@ -931,8 +930,8 @@ class TestScoring:
             },
         }])
         assert result["linear_ranking_score"] == pytest.approx(84.0)
-        assert result["ranking_score"] == pytest.approx(55.0)
-        assert result["constraint_adjustment_summary"]["cap_reason_counts"]["static_motion_constraint_severe_failure"] == 1
+        assert result["ranking_score"] == pytest.approx(72.70588235294119)
+        assert result["constraint_adjustment_summary"]["cap_reason_counts"]["continuous_motion_axis_calibration"] == 1
 
     def test_aggregate_applies_operator_risk_gate(self):
         """Operator evidence should lower fallback scores for abrupt breaks."""
@@ -970,10 +969,10 @@ class TestScoring:
         assert result["motion_gated_score"] == 80.0
         assert result["gated_score"] < 40.0
         assert result["relax_score"] == 80.0
-        assert result["overall"] == pytest.approx(45.0)
+        assert result["overall"] == pytest.approx(81.17647058823529)
         assert result["linear_ranking_score"] == pytest.approx(84.0)
-        assert result["constraint_adjusted_score"] == pytest.approx(45.0)
-        assert result["constraint_adjustment_summary"]["cap_reason_counts"]["operator_multiple_severe_failures"] == 1
+        assert result["constraint_adjusted_score"] == pytest.approx(81.17647058823529)
+        assert "operator_multiple_severe_failures" not in result["constraint_adjustment_summary"]["cap_reason_counts"]
         assert result["constraint_adjustment_summary"]["mean_legacy_penalty_adjusted_score"] == pytest.approx(38.89625)
 
     def test_aggregate_diagnostic_operator_cannot_cap_even_if_misconfigured(self):
@@ -1013,7 +1012,7 @@ class TestScoring:
                 },
             },
         ])
-        assert result["ranking_score"] == pytest.approx(96.0)
+        assert result["ranking_score"] == pytest.approx(95.29411764705883)
         assert result["constraint_adjustment_summary"]["samples_with_cap"] == 0
         assert "operator_fluid_discontinuity" not in result["constraint_adjustment_summary"]["cap_reason_counts"]
 

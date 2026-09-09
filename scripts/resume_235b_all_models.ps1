@@ -15,7 +15,10 @@ $models = @(
     @{ Name = "forge_minimax_h3_500"; Videos = "dataset\forge_minimax_h3_500"; Run = "reports\formal_235b_forge_minimax_h3_20260904"; Required = 500 },
     @{ Name = "kling3.0-standard"; Videos = "dataset\kling3.0-standard"; Run = "reports\formal_235b_kling30_standard_20260904"; Required = 500 },
     @{ Name = "seedance2.5"; Videos = "dataset\seedance2.5"; Run = "reports\formal_235b_seedance25_20260904"; Required = 499 },
-    @{ Name = "cogvideox1.5"; Videos = "dataset\six_model_video_dataset_3000\cogvideox1.5"; Run = "reports\formal_235b_cogvideo_last_20260904"; Required = 500 }
+    @{ Name = "wan2.1"; Videos = "dataset\six_model_video_dataset_3000\wan2.1"; Run = "reports\formal_235b_wan21_20260906"; Required = 500 },
+    @{ Name = "wan2.2"; Videos = "dataset\six_model_video_dataset_3000\wan2.2"; Run = "reports\formal_235b_wan22_20260906"; Required = 500 },
+    @{ Name = "wan3.0"; Videos = "dataset\wan3.0"; Run = "reports\formal_235b_wan30_20260906"; Required = 500 },
+    @{ Name = "cogvideox1.5"; Videos = "dataset\six_model_video_dataset_3000\cogvideox1.5"; Run = "reports\formal_full_20260902"; Required = 500 }
 )
 
 function Get-CompleteCount([string]$runRoot, [string]$model) {

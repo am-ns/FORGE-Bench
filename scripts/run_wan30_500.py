@@ -33,18 +33,19 @@ def request_json(url: str, api_key: str, *, payload: dict | None = None) -> dict
         raise RuntimeError(f"HTTP {exc.code}: {detail}") from exc
 
 
-def load_rows(limit: int | None) -> list[dict]:
-    package = ROOT / "reports" / "video_generation_500_package"
+def load_rows(package: Path, limit: int | None) -> list[dict]:
     rows = []
     with (package / "prompts.jsonl").open(encoding="utf-8") as handle:
         for line in handle:
             row = json.loads(line)
             task_id = row["task_id"]
-            image = package / row["image_path"]
+            image = package / (row.get("image_path") or row.get("image"))
             if not image.is_file():
                 raise RuntimeError(f"Missing package image for {task_id}: {image}")
             row["source_image"] = image
-            row["prompt"] = row["video_generation_prompt"]
+            row["prompt"] = row.get("video_generation_prompt") or row.get("prompt_en")
+            if not row["prompt"]:
+                raise RuntimeError(f"Missing generation prompt for {task_id}")
             rows.append(row)
             if limit is not None and len(rows) >= limit:
                 break
@@ -94,12 +95,13 @@ def main() -> int:
     parser.add_argument("--max-active", type=int, default=1)
     parser.add_argument("--endpoint", default=os.environ.get("WAN30_ENDPOINT", DEFAULT_ENDPOINT))
     parser.add_argument("--output-dir", type=Path, default=ROOT / "dataset" / "wan3.0")
+    parser.add_argument("--package-dir", type=Path, default=ROOT / "reports" / "video_generation_500_package")
     args = parser.parse_args()
     api_key = os.environ.get("DASHSCOPE_API_KEY")
     if not api_key:
         raise SystemExit("DASHSCOPE_API_KEY is required")
 
-    rows = load_rows(args.limit)
+    rows = load_rows(args.package_dir, args.limit)
     args.output_dir.mkdir(parents=True, exist_ok=True)
     state_path = args.output_dir / "tasks.json"
     state = json.loads(state_path.read_text(encoding="utf-8")) if state_path.exists() else {}

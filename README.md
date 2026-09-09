@@ -247,27 +247,32 @@ Core formula:
 ```text
 technical_score = task-category-weighted mean(five technical axes)
 application_score = application_usefulness
-linear_ranking_score = 0.8 * technical_score + 0.2 * application_score
-ranking_score = apply_each_formal_gate_once(linear_ranking_score)
+event_reliability = 0.05 + 0.95 * (event_coverage / 100)^1.7
+motion_reliability = 0.25 + 0.75 * (motion_score / 100)^1.2
+prebaseline_score = 0.8 * calibrated_technical_score + 0.2 * calibrated_application_score
+ranking_score = clip(100 * (prebaseline_score - 15) / 85, 0, 100)
 overall = ranking_score
 constraint_adjusted_score = ranking_score  # compatibility alias
 ```
 
 The stricter paper diagnostic `all_critical_pass_accuracy` counts a sample as
 correct only when task-critical axes pass, binary reasoning checks are all
-correct when available, observable event coverage is complete when available,
-and no hard cap or hard application failure applies.
+correct when available, and observable event coverage and application checks
+are complete when available.
 
 `technical_score` / `task_conditioned_score` is the normalized task-category-
 weighted arithmetic mean of the five technical axes. There is no harmonic blend
 and no task-critical bottleneck multiplier in the technical score. `linear_ranking_score`
-is the transparent 5+1 score. The paper-facing `ranking_score` applies the
-predefined hard-adjustment policy for missing/partial required application
-events, hard application failures, strong geometric operator/VLM conflicts,
-required viewpoint/static-motion failures, and severe operator-evidence failures.
+is an uncalibrated diagnostic. The only leaderboard total is `ranking_score`: a
+linear 5+1 score after continuous, semantically matched reliability calibration.
+Event coverage calibrates industrial logic and fact alignment, reference and
+motion fidelity, and application usefulness; required motion calibrates
+reference and motion fidelity; verified severe safety failures calibrate
+industrial logic and fact alignment and application usefulness. The fixed null
+baseline $b=15$ is then removed by affine rescaling.
 The headline uses samples with all required axes; `linear_all_sample_score`
-remains the all-completed-sample diagnostic. Because hard adjustments can affect
-rankings, reports expose cap counts and `ranking_sensitivity_report` for audit.
+remains an all-completed-sample diagnostic. Reports expose every multiplier in a
+per-sample ledger and include a $b\in\{10,20\}$ sensitivity report.
 
 ### Operator Evidence
 
@@ -362,7 +367,7 @@ Important aggregate fields:
 | `complete_case_relax_score_ci95` | Bootstrap 95% confidence interval for the complete-case score. |
 | `strict_pass_rate` | Fraction of completed samples where all present axes pass thresholds. |
 | `functional_pass_rate` | Task-conditioned pass rate: critical axes must clear 60, non-critical axes must clear 45. |
-| `all_critical_pass_accuracy` | Strict paper accuracy: task-critical axes pass, reasoning alignment is exact when available, required events are complete when available, and no hard cap applies. |
+| `all_critical_pass_accuracy` | Strict paper accuracy: task-critical axes pass, reasoning alignment is exact when available, and required events are complete when available. |
 | `reasoning_alignment_score` | Mean binary implicit-rule question accuracy on a 0-100 scale. |
 | `reasoning_rule_breakdown` | Reasoning-alignment accuracy split by implicit rule type. |
 | `axis_pass_rates` | Per-axis pass counts and rates at the strict threshold. |
@@ -381,15 +386,15 @@ Important aggregate fields:
 | `visual_quality_summary` | Visual-quality CI and 1-3 level counts. |
 | `linear_ranking_score` | Transparent 5+1 score before gates: `0.8*technical_score + 0.2*application_usefulness`. |
 | `linear_all_sample_score` | Same linear formula over all completed samples, including incomplete required-axis samples. |
-| `constraint_adjusted_score` | Backward-compatible alias for `ranking_score`; hard caps and hard application penalties are applied. |
+| `constraint_adjusted_score` | Backward-compatible alias for `ranking_score`; continuous reliability calibration and the fixed baseline are applied. |
 | `constraint_adjusted_score_ci95` | Deterministic bootstrap 95% confidence interval for the ranking score. |
-| `ranking_score` | Only leaderboard total: `linear_ranking_score` after each auditable formal gate is applied once. Incomplete manifests are not publishable. |
+| `ranking_score` | Only leaderboard total: calibrated linear 5+1 score with fixed null baseline `b=15`. Incomplete manifests are not publishable. |
 | `ranking_score_ci95` | Bootstrap 95% confidence interval for `ranking_score`. |
 | `motion_gated_score` | Legacy diagnostic score after heuristic task-aware motion gating; not used as `overall` or `ranking_score`. |
 | `operator_risk_adjusted_score` | Legacy diagnostic score after heuristic operator-risk adjustment; not used as `overall` or `ranking_score`. |
 | `gated_score` | Legacy diagnostic alias for `operator_risk_adjusted_score`; uncalibrated. |
 | `overall` | Paper-facing model ability score, currently aligned to `ranking_score`. |
-| `score_calibration` | Records the headline formula, complete-case policy, hard-adjustment policy, and diagnostic scores excluded from headline reporting. |
+| `score_calibration` | Records the headline formula, complete-case policy, reliability calibration, and diagnostic scores excluded from headline reporting. |
 | `axis_scores` | Mean raw full-name axis scores used by headline reporting. |
 | `floored_axis_scores` | Diagnostic compatibility view of axis means after applying historical score floors. The headline and ranking scores use raw valid axis scores. |
 | `axis_score_ci95` | Per-axis deterministic bootstrap 95% confidence intervals. |
@@ -397,7 +402,7 @@ Important aggregate fields:
 | `scoring_validity` | Counts missing required axes, invalid judge parses, and whether score floors were applied. |
 | `application_coverage_summary` | Counts application types, scene coverage per application, and required-event coverage. |
 | `dataset_coverage_report` | Report-level coverage summary for application types, scenes, referenced images, scene image-count shortfalls, event coverage, and coverage matrices for domain/task/motion/risk by application type. |
-| `ranking_sensitivity_report` | Diagnostic comparison against removed multiplicative penalty variants; not used for headline ranking. |
+| `ranking_sensitivity_report` | Diagnostic comparison at null baselines 10 and 20; not used for headline ranking. |
 | `run_metadata` | Reproducibility metadata: sample hash, eval/scoring code hashes, judge provider/model, config hash, Python/OpenCV/NumPy versions. |
 | `domain_breakdown` | Scores and low-fidelity flags by the five scenario domains. |
 | `task_breakdown` | Scores and low-fidelity flags by abstract task category. |
@@ -425,7 +430,7 @@ python scripts/summarize_low_score_reasons.py results/my_model
 This reads `per_sample.json`, `aggregate.json`, and `report.json`, then writes a
 human-readable Markdown summary and a machine-readable JSON file under
 `reports/low_score_summaries/`. The summary ranks the most common low-score
-causes, weakest axes, affected domains/tasks, hard cap or application-failure
+causes, weakest axes, affected domains/tasks, reliability gates or application-failure
 reasons, and representative worst samples.
 
 ## Validation

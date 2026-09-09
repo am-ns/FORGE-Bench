@@ -11,15 +11,16 @@ Let $w_{i,a}$ denote the normalized axis weight determined by the task category.
 \begin{equation}
 T_i = \sum_{a=1}^{5} w_{i,a}s_{i,a}, \qquad \sum_{a=1}^{5}w_{i,a}=1.
 \end{equation}
-The transparent pre-gate score is
+Let $c_i\in[0,1]$ be required-event coverage and $m_i\in[0,1]$ the validated required-motion score when applicable. We use continuous reliability functions
 \begin{equation}
-L_i = 0.8T_i + 0.2u_i.
+g_e(c_i)=0.05+0.95c_i^{1.7},\qquad g_m(m_i)=0.25+0.75m_i^{1.2}.
 \end{equation}
-The headline sample score $R_i$ applies each predefined formal gate at most once:
+Event reliability calibrates only industrial logic/fact alignment, reference-and-motion fidelity, and application usefulness; motion reliability calibrates only reference-and-motion fidelity. A verified severe safety failure applies a reliability of 0.5 to industrial logic/fact alignment and application usefulness. After recomputing the weighted technical score $\widetilde T_i$ and calibrated application score $\widetilde u_i$, the single linear five-plus-one score is
 \begin{equation}
-R_i = G(L_i;\,\mathcal{E}_i,\mathcal{O}_i),
+P_i=0.8\widetilde T_i+0.2\widetilde u_i,\qquad
+R_i=\mathrm{clip}_{[0,100]}\!\left(100\frac{P_i-b}{100-b}\right),\quad b=15.
 \end{equation}
-where $\mathcal{E}_i$ denotes event and application checks and $\mathcal{O}_i$ denotes validated operator evidence. Aggregate ranking is the mean over samples with all required axes; bootstrap confidence intervals and an all-sample linear diagnostic are reported alongside it.
+The fixed $b=15$ represents a preregistered degenerate-generation baseline; the affine transform preserves ordering above the floor and maps a perfect score to 100. There are no post-total 0/30/40 caps. Each semantic multiplier is applied once and recorded in a per-sample ledger. Aggregate ranking is the mean over samples with all required axes, with cluster-bootstrap confidence intervals. No alternative total is used for leaderboard ranking.
 
 \subsection{Temporal evidence and multimodal judging}
 
@@ -35,7 +36,7 @@ Five operator families complement the judge:
     \item \textbf{Safety-response motion} provides weak evidence for stopping or slowing in compliance tasks.
     \item \textbf{Viewpoint motion fidelity} measures orbit, pan, dolly, and static-camera execution.
 \end{itemize}
-Operators produce evidence and risk flags. A measurement can cap a corresponding axis only when its applicability, validity, and confidence conditions are met. This avoids both double-counting and using a fragile proxy as an unconditional score.
+Operators produce evidence and risk flags. A measurement can calibrate its corresponding axis only when its applicability, validity, and confidence conditions are met. This avoids both double-counting and using a fragile proxy as an unconditional score.
 
 \subsection{Application and reasoning checks}
 

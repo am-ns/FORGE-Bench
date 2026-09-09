@@ -1,5 +1,5 @@
 {
-  "version": "forge-video-5plus1-task-weighted-v2.2",
+  "version": "forge-video-5plus1-constraint-calibrated-v3.0",
   "technical_axes": [
     "industrial_logic_and_fact_alignment",
     "geometric_integrity",
@@ -20,12 +20,25 @@
   "application_weight": 0.2,
   "strict_axis_threshold": 60.0,
   "task_success_thresholds": [55.0, 60.0, 65.0],
-  "event_coverage_gate": "tiered_caps",
-  "event_coverage_caps": {
-    "zero": 0.0,
-    "below_strict": 30.0,
-    "incomplete": 40.0
+  "event_coverage_gate": "continuous_axis_calibration",
+  "event_coverage_calibration": {
+    "floor": 0.05,
+    "scale": 0.95,
+    "exponent": 1.7,
+    "affected_axes": [
+      "industrial_logic_and_fact_alignment",
+      "reference_and_motion_fidelity",
+      "application_usefulness"
+    ]
   },
+  "motion_calibration": {
+    "floor": 0.25,
+    "scale": 0.75,
+    "exponent": 1.2,
+    "affected_axis": "reference_and_motion_fidelity"
+  },
+  "null_baseline": 15.0,
+  "null_baseline_policy": "fixed_degenerate_generation_baseline_affine_rescaling",
   "severe_motion_threshold": 20.0,
   "severe_motion_cap": 55.0,
   "hard_application_failure_penalty": 0.5,

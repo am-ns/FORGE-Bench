@@ -46,21 +46,39 @@ def test_policy_rejects_invalid_weights(tmp_path):
         load_policy(path)
 
 
-def test_5plus1_base_formula_and_event_gate_are_separate():
+def test_policy_rejects_unknown_motion_calibration_axis(tmp_path):
+    config = dict(CONFIG)
+    config.pop("config_sha256", None)
+    config["motion_calibration"] = {
+        **CONFIG["motion_calibration"],
+        "affected_axis": "unknown_axis",
+    }
+    path = tmp_path / "policy.json"
+    path.write_text(json.dumps(config), encoding="utf-8")
+    with pytest.raises(ValueError, match="unknown axis"):
+        load_policy(path)
+
+
+def test_5plus1_event_gate_continuously_calibrates_related_axes():
     scored = score_sample({**TECHNICAL_80, APPLICATION_USEFULNESS: 100.0}, observable_event_coverage=0.0)
     result = _result(scored)
     assert scored["application_score"] == 100.0
-    assert compute_sample_ranking_score(result) == 0.0
+    assert compute_sample_ranking_score(result) == pytest.approx(26.63529411764706)
     aggregate = aggregate_sample_results([result])
     assert aggregate["linear_ranking_score"] == pytest.approx(84.0)
-    assert aggregate["ranking_score"] == pytest.approx(0.0)
+    assert aggregate["ranking_score"] == pytest.approx(26.63529411764706)
     ledger = aggregate["constraint_adjustment_summary"]["per_sample_gate_ledger"][0]["gates"]
     event = next(row for row in ledger if row["gate"] == "observable_event_coverage")
     assert event == {
         "gate": "observable_event_coverage",
-        "action": "cap",
-        "value": 0.0,
-        "reasons": ["zero_observable_event_coverage"],
+        "action": "axis_multiplier",
+        "value": 0.05,
+        "affected_axes": [
+            INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
+            REFERENCE_AND_MOTION_FIDELITY,
+            APPLICATION_USEFULNESS,
+        ],
+        "reasons": ["continuous_event_axis_calibration"],
         "applied": True,
     }
 
@@ -85,10 +103,10 @@ def test_operator_gate_changes_axes_but_is_not_applied_twice():
     aggregate = aggregate_sample_results([result])
     # Frozen task-category weights produce a 74.4 linear 5+1 score. No second cap.
     assert aggregate["linear_ranking_score"] == pytest.approx(74.4)
-    assert aggregate["ranking_score"] == pytest.approx(74.4)
+    assert aggregate["ranking_score"] == pytest.approx((74.4 - 15.0) * 100.0 / 85.0)
     assert aggregate["constraint_adjustment_summary"]["samples_with_cap"] == 0
     reasons = aggregate["constraint_adjustment_summary"]["cap_reason_counts"]
-    assert reasons["operator_gate_already_applied_to_axis"] == 1
+    assert "operator_gate_already_applied_to_axis" not in reasons
 
 
 def test_task_realization_is_diagnostic_not_an_alternative_total():
@@ -99,8 +117,7 @@ def test_task_realization_is_diagnostic_not_an_alternative_total():
     assert task["task_realization_mean"] == pytest.approx((60 + 80 + 80) / 3)
     assert task["conditional_quality_success_only"] == pytest.approx(80.0)
     assert aggregate["linear_ranking_score"] == pytest.approx(84.0)
-    # Coverage 60 is incomplete (<100), so the canonical event gate caps at 40.
-    assert aggregate["ranking_score"] == pytest.approx(40.0)
+    assert aggregate["ranking_score"] == pytest.approx(49.52191245243267)
 
 
 def test_incomplete_manifest_is_not_publishable():

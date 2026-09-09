@@ -1,0 +1,405 @@
+{
+  "count": 50,
+  "tasks": [
+    {
+      "task_id": "emerg_198",
+      "scene_id": "emerg_cooling_tower_plume_failure",
+      "image": "images/emerg_198.jpg",
+      "motion_type": "static",
+      "prompt_en": "Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of cooling tower steam plume: Cooling plume changes due to fan or flow failure. Camera: locked static camera. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：冷却塔羽流异常变化。相机保持完全固定。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "emerg_221",
+      "scene_id": "emerg_crane_load_drop_evacuation",
+      "image": "images/emerg_221.jpg",
+      "motion_type": "static",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The existing wrapped load is lifted a short distance from the ground, then begins a dangerous controlled downward drop while every sling remains attached. Camera: locked static camera. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：吊装设备离地后开始危险下落。相机保持完全固定。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "emerg_294",
+      "scene_id": "emerg_smoke_evacuation_route_visibility",
+      "image": "images/emerg_294.jpg",
+      "motion_type": "pan",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. A thin smoke layer develops at the far end of the enclosed tunnel while the camera pans right, keeping the centerline and exit direction visible. Camera: smooth left-to-right inspection pan, not an orbit. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：烟雾降低通道路线可见度。相机从左向右平滑巡检平移，不环绕主体。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "emerg_305",
+      "scene_id": "emerg_hot_work_spark_combustible_fire",
+      "image": "images/emerg_305.jpg",
+      "motion_type": "static",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. A small localized dust plume emerges from the lower seam of the existing dust collector and the nearby fan visibly stops; all ducts remain fixed. Camera: locked static camera. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：除尘器接缝局部扬尘。相机保持完全固定。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "emerg_306",
+      "scene_id": "emerg_hot_work_spark_combustible_fire",
+      "image": "images/emerg_306.jpg",
+      "motion_type": "static",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. A small wisp of smoke appears at one existing terminal inside the open control cabinet and the adjacent drive indicators turn off; cabinet geometry remains unchanged. Camera: locked static camera. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：控制柜端子局部冒烟。相机保持完全固定。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "emerg_314",
+      "scene_id": "emerg_flange_high_pressure_leak",
+      "image": "images/emerg_314.jpg",
+      "motion_type": "static",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. A narrow high-pressure water spray starts at one visible flange seam on the center pipe and remains localized to that joint. Camera: locked static camera. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：法兰接缝发生高压泄漏。相机保持完全固定。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "erob_015",
+      "scene_id": "erob_cobot_human_handover",
+      "image": "images/erob_015.jpg",
+      "motion_type": "static",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The cobot slowly extends the cardboard box toward the nearby worker and stops before contact; the worker and box remain stable. Camera: locked static camera. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：协作机器人递送纸箱。相机保持完全固定。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "erob_027",
+      "scene_id": "erob_tracked_robot_rubble",
+      "image": "images/erob_027.jpg",
+      "motion_type": "pan",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The tracked inspection vehicle advances a short distance over the uneven dirt; both tracks maintain continuous ground contact. Camera: smooth left-to-right inspection pan, not an orbit. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：履带巡检车通过不平地面。相机从左向右平滑巡检平移，不环绕主体。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "erob_028",
+      "scene_id": "erob_tracked_robot_rubble",
+      "image": "images/erob_028.jpg",
+      "motion_type": "orbit",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The red tracked robot climbs the small existing rough patch while its tracks conform to the ground without changing the chassis geometry. Camera: constant-radius 45 degree orbit around the subject. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：履带救援机器人越过粗糙地面。相机以恒定半径绕主体平滑环绕45度。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "erob_032",
+      "scene_id": "erob_quadruped_stairs_rubble_fpv",
+      "image": "images/erob_032.jpg",
+      "motion_type": "orbit",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The quadruped robot climbs two visible stair steps with alternating foot contacts and a stable body. Camera: constant-radius 45 degree orbit around the subject. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：四足机器人攀爬室外楼梯。相机以恒定半径绕主体平滑环绕45度。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "erob_033",
+      "scene_id": "erob_quadruped_stairs_rubble_fpv",
+      "image": "images/erob_033.jpg",
+      "motion_type": "dolly",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The quadruped robot descends two visible stair steps slowly; every foot lands on a tread without crossing the railing. Camera: smooth dolly forward while keeping the subject framed. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：四足机器人下楼梯。相机保持主体入镜并平滑向前推进。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "erob_034",
+      "scene_id": "erob_quadruped_stairs_rubble_fpv",
+      "image": "images/erob_034.jpg",
+      "motion_type": "pan",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The quadruped robot takes two careful steps across the existing brick pile while its body and leg count remain unchanged. Camera: smooth left-to-right inspection pan, not an orbit. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：四足机器人穿过砖块堆。相机从左向右平滑巡检平移，不环绕主体。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "erob_035",
+      "scene_id": "erob_quadruped_stairs_rubble_fpv",
+      "image": "images/erob_035.jpg",
+      "motion_type": "orbit",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The quadruped robot walks straight forward a short distance along the existing yellow aisle line with stable foot contact. Camera: constant-radius 45 degree orbit around the subject. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：四足机器人沿车间通道行走。相机以恒定半径绕主体平滑环绕45度。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "erob_037",
+      "scene_id": "erob_quadruped_stairs_rubble_fpv",
+      "image": "images/erob_037.jpg",
+      "motion_type": "pan",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The quadruped robot steps from the curb onto the existing ballast and stabilizes beside the rail wagon. Camera: smooth left-to-right inspection pan, not an orbit. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：四足机器人踏上铁路道砟。相机从左向右平滑巡检平移，不环绕主体。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "erob_052",
+      "scene_id": "erob_light_curtain_emergency_stop",
+      "image": "images/erob_052.jpg",
+      "motion_type": "static",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. As the worker approaches the visible fenced robot cell, the robot stops its tool motion and remains stopped. Camera: locked static camera. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：人员靠近围栏时机器人停机。相机保持完全固定。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "erob_082",
+      "scene_id": "erob_gripper_failure_recovery",
+      "image": "images/erob_082.jpg",
+      "motion_type": "dolly",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The foreground robot end effector develops a small local slip at its existing fixture contact, then pauses without detaching. Camera: smooth dolly forward while keeping the subject framed. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：末端执行器在夹具接触处轻微滑移。相机保持主体入镜并平滑向前推进。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "erob_083",
+      "scene_id": "erob_gripper_failure_recovery",
+      "image": "images/erob_083.jpg",
+      "motion_type": "dolly",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The empty robot gripper makes one small controlled jaw movement, then stops; no workpiece or other object appears between the jaws. Camera: smooth dolly forward while keeping the subject framed. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：空夹爪进行小幅运动。相机保持主体入镜并平滑向前推进。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "erob_084",
+      "scene_id": "erob_gripper_failure_recovery",
+      "image": "images/erob_084.jpg",
+      "motion_type": "dolly",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. One existing gripper jaw closes slightly out of alignment, the approach pauses, and the machined part remains fixed on the table. Camera: smooth dolly forward while keeping the subject framed. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：夹爪接近时轻微错位。相机保持主体入镜并平滑向前推进。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "erob_146",
+      "scene_id": "erob_amr_charger_smoke_abort",
+      "image": "images/erob_146.jpg",
+      "motion_type": "static",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The AMR begins moving away from the visible charging unit, detects the unit still within its clearance zone, and stops after a short distance. Camera: locked static camera. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：AMR离开充电设备时停车。相机保持完全固定。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "erob_147",
+      "scene_id": "erob_amr_charger_smoke_abort",
+      "image": "images/erob_147.jpg",
+      "motion_type": "static",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The loaded AMR advances slowly along the green lane and stops before crossing the yellow boundary line. Camera: locked static camera. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：载货AMR在通道边界前停车。相机保持完全固定。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "erob_156",
+      "scene_id": "erob_amr_charger_smoke_abort",
+      "image": "images/erob_156.jpg",
+      "motion_type": "static",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The AMR moves a short distance forward with the existing rack while its wheels maintain stable contact with the factory floor. Camera: locked static camera. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：AMR承载现有金属架移动。相机保持完全固定。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "erob_193",
+      "scene_id": "erob_gripper_failure_recovery",
+      "image": "images/erob_193.jpg",
+      "motion_type": "dolly",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The existing gear shifts slightly within the gripper, then the gripper stops while continuing to hold it. Camera: smooth dolly forward while keeping the subject framed. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：齿轮在夹爪中轻微滑移。相机保持主体入镜并平滑向前推进。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "erob_222",
+      "scene_id": "erob_quadruped_stairs_rubble_fpv",
+      "image": "images/erob_222.jpg",
+      "motion_type": "pan",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The quadruped robot takes two slow steps across the wet muddy patch; each foot presses locally into the soft surface without sliding. Camera: smooth left-to-right inspection pan, not an orbit. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：四足机器人通过泥泞地面。相机从左向右平滑巡检平移，不环绕主体。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "erob_245",
+      "scene_id": "erob_cobot_human_handover",
+      "image": "images/erob_245.jpg",
+      "motion_type": "static",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The robot arm slows its existing movement as the nearby worker reaches toward the workstation, maintaining a visible clearance. Camera: locked static camera. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：协作机器人在人员附近减速。相机保持完全固定。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "erob_259",
+      "scene_id": "erob_tracked_robot_rubble",
+      "image": "images/erob_259.jpg",
+      "motion_type": "pan",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The tracked inspection robot moves a short distance along the existing paved lane while both tracks maintain stable ground contact. Camera: smooth left-to-right inspection pan, not an orbit. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：履带巡检机器人沿厂区道路移动。相机从左向右平滑巡检平移，不环绕主体。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "erob_260",
+      "scene_id": "erob_tracked_robot_rubble",
+      "image": "images/erob_260.jpg",
+      "motion_type": "pan",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The wheeled inspection robot advances a short distance over the existing rocky trail; all four wheels maintain plausible contact and the chassis stays rigid. Camera: smooth left-to-right inspection pan, not an orbit. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：轮式巡检机器人通过岩石地面。相机从左向右平滑巡检平移，不环绕主体。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "hload_023",
+      "scene_id": "hload_mining_truck_muddy_slope",
+      "image": "images/hload_023.jpg",
+      "motion_type": "orbit",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The mining haul truck rolls slowly forward along the existing uneven haul road; all tires rotate with stable ground contact and the rigid body does not slide. Camera: constant-radius 45 degree orbit around the subject. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：矿用重卡沿矿区道路行驶。相机以恒定半径绕主体平滑环绕45度。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "hload_058",
+      "scene_id": "hload_excavator_linkage_loading",
+      "image": "images/hload_058.jpg",
+      "motion_type": "pan",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The excavator lowers its existing loaded bucket slightly into the dump body; the boom, stick, and bucket remain rigidly coupled and no new material appears. Camera: smooth left-to-right inspection pan, not an orbit. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：挖掘机下放已装载铲斗。相机从左向右平滑巡检平移，不环绕主体。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "hload_069",
+      "scene_id": "hload_ground_settlement_outrigger",
+      "image": "images/hload_069.jpg",
+      "motion_type": "dolly",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The visible outrigger foot settles a few centimeters into the soft patch beneath it while the crane chassis and boom remain rigid. Camera: smooth dolly forward while keeping the subject framed. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：起重机支腿局部下沉。相机保持主体入镜并平滑向前推进。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "hload_109",
+      "scene_id": "hload_tunnel_pipe_burst_mud_surge",
+      "image": "images/hload_109.jpg",
+      "motion_type": "static",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. A local split opens on the upper surface of the existing trench pipe and muddy water flows from that point along the trench bottom. Camera: locked static camera. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：沟槽管道局部破裂并流出泥水。相机保持完全固定。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "hload_152",
+      "scene_id": "hload_formwork_collapse_local",
+      "image": "images/hload_152.jpg",
+      "motion_type": "dolly",
+      "prompt_en": "Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of construction formwork shoring scaffold: Local formwork support fails under load. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where requested operation/failure progression occurs; by the end, final risk state shows stability/escalation. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：模板/支撑架局部失稳坍塌。相机保持主体入镜并平滑向前推进。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "hload_215",
+      "scene_id": "hload_excavator_linkage_loading",
+      "image": "images/hload_215.jpg",
+      "motion_type": "orbit",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The excavator raises the existing rock-filled bucket a short distance while all boom, stick, bucket, and track geometry remains stable. Camera: constant-radius 45 degree orbit around the subject. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：挖掘机抬升装有岩石的铲斗。相机以恒定半径绕主体平滑环绕45度。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "hload_225",
+      "scene_id": "hload_excavator_linkage_loading",
+      "image": "images/hload_225.jpg",
+      "motion_type": "orbit",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The excavator rotates its bucket slightly and releases only the existing soil into the truck while the hydraulic linkage remains coherent. Camera: constant-radius 45 degree orbit around the subject. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：挖掘机向卡车卸下现有土料。相机以恒定半径绕主体平滑环绕45度。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "hload_226",
+      "scene_id": "hload_ground_settlement_outrigger",
+      "image": "images/hload_226.jpg",
+      "motion_type": "dolly",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The nearest visible outrigger foot settles slightly into the ground while the unloaded boom and crane chassis remain rigid and stationary. Camera: smooth dolly forward while keeping the subject framed. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：空载起重机支腿轻微下沉。相机保持主体入镜并平滑向前推进。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "hload_248",
+      "scene_id": "hload_sling_angle_center_of_gravity",
+      "image": "images/hload_248.jpg",
+      "motion_type": "orbit",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The existing suspended load tilts slightly as its attachment shifts off center; the hook line stays taut and connected. Camera: constant-radius 45 degree orbit around the subject. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：悬吊载荷因偏心轻微倾斜。相机以恒定半径绕主体平滑环绕45度。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "pdef_108",
+      "scene_id": "pdef_gauge_level_valve_anomaly",
+      "image": "images/pdef_108.jpg",
+      "motion_type": "pan",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The inspection view moves across the existing linear stages and reveals one carriage offset a few millimeters from the common alignment line. Camera: smooth left-to-right inspection pan, not an orbit. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：直线模组滑台轻微错位。相机从左向右平滑巡检平移，不环绕主体。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "pdef_128",
+      "scene_id": "pdef_cnc_curved_surface_cutting",
+      "image": "images/pdef_128.jpg",
+      "motion_type": "orbit",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The existing cutting tool follows one short curved path across the impeller surface while the spindle, fixture, and workpiece remain coherently coupled. Camera: constant-radius 45 degree orbit around the subject. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：五轴机床加工叶轮曲面。相机以恒定半径绕主体平滑环绕45度。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "pdef_134",
+      "scene_id": "pdef_engine_endoscope_crack",
+      "image": "images/pdef_134.jpg",
+      "motion_type": "pan",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The borescope advances slightly toward one existing dark linear mark on the inner pipe wall while preserving the cylindrical geometry. Camera: smooth left-to-right inspection pan, not an orbit. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：内窥镜接近管道内壁痕迹。相机从左向右平滑巡检平移，不环绕主体。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "pdef_136",
+      "scene_id": "pdef_engine_endoscope_crack",
+      "image": "images/pdef_136.jpg",
+      "motion_type": "pan",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The inspection camera pans slowly across the existing gear teeth and reveals one short hairline crack near a tooth root; the gear remains stationary. Camera: smooth left-to-right inspection pan, not an orbit. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：镜头揭示齿根细微裂纹。相机从左向右平滑巡检平移，不环绕主体。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "pdef_143",
+      "scene_id": "pdef_connector_pin_bent",
+      "image": "images/pdef_143.jpg",
+      "motion_type": "dolly",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. One existing pin in the foreground connector bends slightly toward its adjacent pin while all surrounding rows remain unchanged. Camera: smooth dolly forward while keeping the subject framed. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：连接器单个插针局部弯曲。相机保持主体入镜并平滑向前推进。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "pdef_153",
+      "scene_id": "pdef_flange_seal_micro_leak",
+      "image": "images/pdef_153.jpg",
+      "motion_type": "dolly",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. A tiny bead of lubricant appears at one existing seam on the central flange while the shaft, bolts, and bearing geometry remain fixed. Camera: smooth dolly forward while keeping the subject framed. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：法兰接缝出现微量油迹。相机保持主体入镜并平滑向前推进。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "pdef_181",
+      "scene_id": "pdef_flange_seal_micro_leak",
+      "image": "images/pdef_181.jpg",
+      "motion_type": "dolly",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. A tiny lubricant bead appears locally at one existing carriage seal while every rail and carriage remains fixed and aligned. Camera: smooth dolly forward while keeping the subject framed. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：直线导轨滑块密封处微漏。相机保持主体入镜并平滑向前推进。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "vsec_029",
+      "scene_id": "vsec_forklift_overspeed_pallet_shift",
+      "image": "images/vsec_029.jpeg",
+      "motion_type": "orbit",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The loaded forklift begins a slow turn; the existing carton stack shifts slightly outward under inertia but remains on the forks. Camera: constant-radius 45 degree orbit around the subject. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：叉车转弯时纸箱载荷轻微外移。相机以恒定半径绕主体平滑环绕45度。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "vsec_043",
+      "scene_id": "vsec_surveillance_blind_spot_sweep",
+      "image": "images/vsec_043.jpg",
+      "motion_type": "dolly",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The inspection view moves slowly toward the gate and reveals the existing red truck entering the monitored lane; the barrier and background remain fixed. Camera: smooth dolly forward while keeping the subject framed. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：镜头揭示卡车进入门岗通道。相机保持主体入镜并平滑向前推进。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "vsec_111",
+      "scene_id": "vsec_pedestrian_forklift_near_miss",
+      "image": "images/vsec_111.jpg",
+      "motion_type": "static",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The existing forklift starts to approach the crossing, brakes, and stops before reaching the worker; the final clearance remains visible. Camera: locked static camera. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：叉车在行人前停车。相机保持完全固定。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "vsec_116",
+      "scene_id": "vsec_forklift_overspeed_pallet_shift",
+      "image": "images/vsec_116.jpg",
+      "motion_type": "orbit",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The loaded pallet truck makes a slow turn and the existing wrapped pallet shifts slightly outward without falling. Camera: constant-radius 45 degree orbit around the subject. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：托盘车转弯时载荷轻微外移。相机以恒定半径绕主体平滑环绕45度。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "vsec_167",
+      "scene_id": "vsec_guard_removed_conveyor",
+      "image": "images/vsec_167.jpg",
+      "motion_type": "dolly",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. One existing switchgear door near the center swings open slightly, exposing the protected interior, and the adjacent status light changes to red. Camera: smooth dolly forward while keeping the subject framed. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：开关柜防护门意外开启。相机保持主体入镜并平滑向前推进。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "vsec_169",
+      "scene_id": "vsec_missing_ppe_at_height",
+      "image": "images/vsec_169.jpg",
+      "motion_type": "static",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. One existing metal frame in the stack shifts slightly, leaving the stack visibly misaligned; no new objects or people appear. Camera: locked static camera. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：堆放的金属架发生轻微错位。相机保持完全固定。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "vsec_203",
+      "scene_id": "vsec_forklift_overspeed_pallet_shift",
+      "image": "images/vsec_203.jpg",
+      "motion_type": "orbit",
+      "prompt_en": "Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. The forklift begins a slow left turn and the existing wrapped pallet shifts slightly outward while remaining supported by the forks. Camera: constant-radius 45 degree orbit around the subject. Preserve every visible subject's identity, count, geometry, material, lighting, background, and all non-event regions. Do not add people, vehicles, tools, loads, text, logos, or other objects not already visible; avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：叉车转弯时缠膜托盘轻微外移。相机以恒定半径绕主体平滑环绕45度。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    },
+    {
+      "task_id": "vsec_216",
+      "scene_id": "vsec_perimeter_fence_breach",
+      "image": "images/vsec_216.jpg",
+      "motion_type": "dolly",
+      "prompt_en": "Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of industrial perimeter fence gate: Restricted-zone fence is broken by impact. Camera: smooth dolly forward while keeping subject framed. Show a localized, causal event where alarm/stop/warning/protective response visible; by the end, final state shows hazard contained/active. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.",
+      "prompt_zh": "以参考图片作为严格首帧，生成一段5秒的写实工业视频。核心任务：工业围栏局部破损入侵。相机保持主体入镜并平滑向前推进。只执行核心任务指定的局部动作；保持已有主体的身份、数量、几何结构、材质、光照、背景和非事件区域不变。不得凭空增加人员、车辆、工具、载荷、文字或其他物体。"
+    }
+  ]
+}

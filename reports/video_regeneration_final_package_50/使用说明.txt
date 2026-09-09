@@ -1,0 +1,4 @@
+﻿FORGE 视频重新生成最终包
+
+共 50 道。每道题使用 images 文件夹中同名图片作为严格首帧，使用 prompts.jsonl 或 prompts.csv 中的 prompt_en 生成5秒视频。
+prompt_zh 是中文核对文本，不要代替英文生成提示词。输出视频建议命名为 task_id.mp4。

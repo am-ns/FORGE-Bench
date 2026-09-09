@@ -52,7 +52,7 @@ CONFIG = {
     "enable_uncalibrated_geometric_conflict_cap": False,
     "motion_cv_min_confidence": 0.70,
     "motion_vlm_weight": 0.75,
-    "headline_score_policy": "forge_5plus1_v2_task_weighted_single_pass_auditable_gates",
+    "headline_score_policy": "forge_5plus1_v3_constraint_calibrated_linear",
     "bootstrap_iterations": 1000,
     "bootstrap_seed": 1729,
     "apply_axis_floors": False,
@@ -293,7 +293,7 @@ def _task_conditioned_score(result: dict) -> float:
 
 
 def _linear_ranking_score(result: dict) -> float:
-    """Return transparent linear score before paper-facing hard adjustments."""
+    """Return the uncalibrated linear diagnostic retained for compatibility."""
     technical = _task_conditioned_score(result)
     application = _application_score_strict(result)
     if application is None:
@@ -304,20 +304,77 @@ def _linear_ranking_score(result: dict) -> float:
     )
 
 
+def _continuous_reliability(value: float, policy: dict) -> float:
+    normalized = max(0.0, min(1.0, float(value) / 100.0))
+    return float(policy["floor"]) + float(policy["scale"]) * normalized ** float(policy["exponent"])
+
+
+def _constraint_calibrated_linear_score(result: dict) -> tuple[float, dict]:
+    """Calibrate semantically related axes, then perform one linear 5+1 sum."""
+    scored = result.get("scored", {})
+    raw_scores = canonicalize_axis_dict(scored.get("axis_scores", {}))
+    scores = dict(raw_scores)
+
+    coverage = _observable_event_coverage(result)
+    event_policy = SCORING_POLICY["event_coverage_calibration"]
+    event_reliability = (
+        _continuous_reliability(coverage, event_policy)
+        if coverage is not None else 1.0
+    )
+    for axis in event_policy["affected_axes"]:
+        if axis in scores:
+            scores[axis] = float(scores[axis]) * event_reliability
+
+    safety_reliability, safety_reasons = _application_hard_failure_penalty(result)
+    if INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT in scores:
+        scores[INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT] *= safety_reliability
+
+    motion_score, _, motion_reasons = _viewpoint_motion_constraint(result)
+    motion_reliability = 1.0
+    if motion_score is not None and REFERENCE_AND_MOTION_FIDELITY in scores:
+        motion_reliability = _continuous_reliability(
+            motion_score, SCORING_POLICY["motion_calibration"]
+        )
+        scores[REFERENCE_AND_MOTION_FIDELITY] *= motion_reliability
+
+    axes = [axis for axis in TECHNICAL_AXES if axis in scores]
+    weights = axis_weights_for(result)
+    total_weight = sum(float(weights.get(axis, BASE_AXIS_WEIGHTS[axis])) for axis in axes)
+    technical = (
+        sum(float(scores[axis]) * float(weights.get(axis, BASE_AXIS_WEIGHTS[axis])) for axis in axes)
+        / total_weight
+        if total_weight > 0.0 else 0.0
+    )
+    application = _application_score_strict(result)
+    calibrated_application = None
+    if application is not None:
+        calibrated_application = float(application) * event_reliability * safety_reliability
+    pre_baseline = technical if calibrated_application is None else (
+        float(SCORING_POLICY["technical_weight"]) * technical
+        + float(SCORING_POLICY["application_weight"]) * calibrated_application
+    )
+    baseline = float(SCORING_POLICY["null_baseline"])
+    ranking = 100.0 * (pre_baseline - baseline) / (100.0 - baseline)
+    ranking = max(0.0, min(100.0, ranking))
+    return float(ranking), {
+        "raw_axis_scores": raw_scores,
+        "calibrated_axis_scores": scores,
+        "event_coverage": coverage,
+        "event_reliability": event_reliability,
+        "motion_reliability": motion_reliability,
+        "safety_reliability": safety_reliability,
+        "safety_reasons": safety_reasons,
+        "motion_reasons": motion_reasons,
+        "calibrated_technical_score": technical,
+        "calibrated_application_score": calibrated_application,
+        "pre_baseline_linear_score": pre_baseline,
+        "null_baseline": baseline,
+    }
+
+
 def _paper_adjusted_ranking_score(result: dict) -> float:
-    """Return paper-facing score with hard application/validity caps applied."""
-    score = _linear_ranking_score(result)
-    hard_application_penalty, _ = _application_hard_failure_penalty(result)
-    application_cap, _ = _application_event_coverage_cap(result)
-    geometry_cap, _ = _geometric_conflict_cap(result)
-    _, viewpoint_cap, _ = _viewpoint_motion_constraint(result)
-    _, operator_cap, _ = _operator_constraint(result)
-    score *= hard_application_penalty
-    caps = [
-        cap for cap in (application_cap, geometry_cap, viewpoint_cap, operator_cap)
-        if cap is not None
-    ]
-    return float(min(score, min(caps)) if caps else score)
+    """Return the constraint-calibrated, baseline-normalized linear 5+1 score."""
+    return _constraint_calibrated_linear_score(result)[0]
 
 
 def _ranking_score(result: dict) -> float:
@@ -448,7 +505,9 @@ def _application_hard_failure_penalty(result: dict) -> tuple[float, list[str]]:
 
 
 def _application_event_coverage_cap(result: dict) -> tuple[float | None, list[str]]:
-    """Apply monotonic task-realization caps at 0%, strict, and 100% coverage."""
+    """Backward-compatible hook; v3 uses continuous axis calibration, not caps."""
+    if SCORING_POLICY["event_coverage_gate"] == "continuous_axis_calibration":
+        return None, []
     coverage = _observable_event_coverage(result)
     if coverage is None:
         return None, []
@@ -990,7 +1049,7 @@ def _visual_quality_summary(completed: list[dict]) -> dict:
 
 
 def _sample_passes_all_critical(result: dict) -> bool:
-    """Strict paper accuracy: critical axes pass, reasoning is exact, application complete, no hard cap."""
+    """Strict paper accuracy: critical axes, reasoning, events, and application pass."""
     scored = result.get("scored", {})
     axis_scores = canonicalize_axis_dict(scored.get("axis_scores", {}))
     critical_axes = _critical_axes_for(result, axis_scores)
@@ -1051,48 +1110,19 @@ def _spearman_corr(a: list[float], b: list[float]) -> float | None:
 def _ranking_score_variant(
     result: dict,
     *,
-    application_floor: float = 0.50,
-    constraint_floor: float = 0.50,
-    hard_cap_floor: float = 0.50,
+    null_baseline: float = 15.0,
 ) -> float:
-    axis_score = _task_conditioned_score(result)
-    application_score = _application_score_strict(result)
-    if application_score is None:
-        application_score = 100.0
-    viewpoint_score, viewpoint_cap, _ = _viewpoint_motion_constraint(result)
-    operator_score, operator_cap, _ = _operator_constraint(result)
-    constraint_components = [operator_score]
-    if viewpoint_score is not None:
-        constraint_components.append(viewpoint_score)
-    constraint_score = float(np.mean(constraint_components)) if constraint_components else 100.0
-    caps = [cap for cap in (viewpoint_cap, operator_cap) if cap is not None]
-    hard_cap = min(caps) if caps else 100.0
-    hard_application_penalty, _ = _application_hard_failure_penalty(result)
-    application_cap, _ = _application_event_coverage_cap(result)
-    geometry_cap, _ = _geometric_conflict_cap(result)
-
-    def multiplier(floor: float, score: float) -> float:
-        floor = max(0.0, min(1.0, float(floor)))
-        return floor + (1.0 - floor) * (score / 100.0)
-
-    score = float(
-        axis_score
-        * multiplier(application_floor, application_score)
-        * multiplier(constraint_floor, constraint_score)
-        * multiplier(hard_cap_floor, hard_cap)
-        * hard_application_penalty
-    )
-    caps = [cap for cap in (application_cap, geometry_cap) if cap is not None]
-    return min(score, min(caps)) if caps else score
+    _, details = _constraint_calibrated_linear_score(result)
+    baseline = max(0.0, min(99.999, float(null_baseline)))
+    score = 100.0 * (float(details["pre_baseline_linear_score"]) - baseline) / (100.0 - baseline)
+    return max(0.0, min(100.0, score))
 
 
 def _ranking_sensitivity_report(completed: list[dict], baseline_scores: list[float]) -> dict:
     """Diagnostic comparison against penalty variants around the headline policy."""
     variants = {
-        "application_floor_0_40": {"application_floor": 0.40},
-        "application_floor_0_60": {"application_floor": 0.60},
-        "reliability_floor_0_40": {"constraint_floor": 0.40, "hard_cap_floor": 0.40},
-        "reliability_floor_0_60": {"constraint_floor": 0.60, "hard_cap_floor": 0.60},
+        "null_baseline_10": {"null_baseline": 10.0},
+        "null_baseline_20": {"null_baseline": 20.0},
     }
     out = {}
     for name, params in variants.items():
@@ -1103,9 +1133,9 @@ def _ranking_sensitivity_report(completed: list[dict], baseline_scores: list[flo
             "pearson_vs_baseline": _pearson_corr(baseline_scores, scores),
         }
     return {
-        "baseline_policy": "paper_adjusted_complete_case_score",
+        "baseline_policy": "constraint_calibrated_linear_5plus1_b15",
         "baseline_n": len(baseline_scores),
-        "status": "diagnostic_sensitivity_around_headline_hard_adjusted_policy",
+        "status": "diagnostic_sensitivity_around_fixed_null_baseline",
         "variants": out,
     }
 
@@ -1238,7 +1268,7 @@ def _has_required_axes(result: dict) -> bool:
 
 
 def _constraint_adjustment(result: dict) -> dict:
-    """Apply each formal gate once and return an auditable gate ledger."""
+    """Return the auditable ledger for continuous axis calibration."""
     axis_score = _task_conditioned_score(result)
     linear_ranking_score = _linear_ranking_score(result)
     application_score = _application_score_strict(result)
@@ -1270,13 +1300,20 @@ def _constraint_adjustment(result: dict) -> dict:
     score_caps = [cap for cap in (application_cap, geometry_cap) if cap is not None]
     if score_caps:
         legacy_penalty_adjusted_score = min(legacy_penalty_adjusted_score, min(score_caps))
-    ranking_score = linear_ranking_score * hard_application_penalty
-    headline_caps = [
-        cap for cap in (viewpoint_cap, operator_cap, application_cap, geometry_cap)
-        if cap is not None
-    ]
-    if headline_caps:
-        ranking_score = min(ranking_score, min(headline_caps))
+    ranking_score, calibration = _constraint_calibrated_linear_score(result)
+    event_reliability = float(calibration["event_reliability"])
+    motion_reliability = float(calibration["motion_reliability"])
+    safety_reliability = float(calibration["safety_reliability"])
+    calibration_reasons = []
+    if event_reliability < 1.0:
+        calibration_reasons.append("continuous_event_axis_calibration")
+    if motion_reliability < 1.0:
+        calibration_reasons.append("continuous_motion_axis_calibration")
+    if safety_reliability < 1.0:
+        calibration_reasons.extend(
+            f"safety_axis_calibration:{reason}"
+            for reason in calibration["safety_reasons"]
+        )
 
     return {
         "axis_score": axis_score,
@@ -1284,32 +1321,31 @@ def _constraint_adjustment(result: dict) -> dict:
         "application_score": float(application_score),
         "application_score_policy": "canonical_plus_one_application_usefulness",
         "linear_ranking_score": float(linear_ranking_score),
+        "pre_baseline_linear_score": float(calibration["pre_baseline_linear_score"]),
         "constraint_adjusted_score": float(ranking_score),
         "ranking_score": float(ranking_score),
         "legacy_penalty_adjusted_score": float(legacy_penalty_adjusted_score),
-        "hard_constraint_cap": float(hard_cap),
+        "hard_constraint_cap": 100.0,
         "constraint_multiplier": 1.0,
         "application_multiplier": 1.0,
         "hard_constraint_multiplier": 1.0,
-        "hard_application_penalty": float(hard_application_penalty),
+        "hard_application_penalty": safety_reliability,
         "legacy_constraint_multiplier": float(constraint_multiplier),
         "legacy_application_multiplier": float(application_multiplier),
         "legacy_hard_constraint_multiplier": float(hard_constraint_multiplier),
         "legacy_hard_application_penalty": float(hard_application_penalty),
-        "application_event_coverage_cap": application_cap,
-        "geometric_conflict_cap": geometry_cap,
-        "hard_application_failure_reasons": hard_application_reasons,
-        "cap_reasons": viewpoint_reasons + operator_reasons + [
-            f"hard_application_failure:{reason}" for reason in hard_application_reasons
-        ] + application_cap_reasons + geometry_cap_reasons,
+        "application_event_coverage_cap": None,
+        "geometric_conflict_cap": None,
+        "hard_application_failure_reasons": calibration["safety_reasons"],
+        "cap_reasons": calibration_reasons,
+        "axis_calibration": calibration,
         "viewpoint_motion_constraint_score": viewpoint_score,
         "operator_reliability_score": operator_score,
         "gate_ledger": [
-            {"gate": "hard_application_failure", "action": "multiplier", "value": float(hard_application_penalty), "reasons": hard_application_reasons, "applied": hard_application_penalty < 1.0},
-            {"gate": "observable_event_coverage", "action": "cap", "value": application_cap, "reasons": application_cap_reasons, "applied": application_cap is not None},
-            {"gate": "viewpoint_motion", "action": "cap", "value": viewpoint_cap, "reasons": viewpoint_reasons, "applied": viewpoint_cap is not None},
-            {"gate": "operator_evidence", "action": "axis_cap_or_legacy_ranking_cap", "value": operator_cap, "reasons": operator_reasons, "applied": operator_cap is not None or "operator_gate_already_applied_to_axis" in operator_reasons},
-            {"gate": "geometric_conflict", "action": "cap", "value": geometry_cap, "reasons": geometry_cap_reasons, "applied": geometry_cap is not None},
+            {"gate": "observable_event_coverage", "action": "axis_multiplier", "value": event_reliability, "affected_axes": SCORING_POLICY["event_coverage_calibration"]["affected_axes"], "reasons": ["continuous_event_axis_calibration"] if event_reliability < 1.0 else [], "applied": event_reliability < 1.0},
+            {"gate": "viewpoint_motion", "action": "axis_multiplier", "value": motion_reliability, "affected_axes": [REFERENCE_AND_MOTION_FIDELITY], "reasons": calibration["motion_reasons"], "applied": motion_reliability < 1.0},
+            {"gate": "safety_response", "action": "axis_multiplier", "value": safety_reliability, "affected_axes": [INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT, APPLICATION_USEFULNESS], "reasons": calibration["safety_reasons"], "applied": safety_reliability < 1.0},
+            {"gate": "null_baseline", "action": "affine_rescale", "value": calibration["null_baseline"], "reasons": [SCORING_POLICY["null_baseline_policy"]], "applied": True},
         ],
     }
 
@@ -1334,7 +1370,7 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     Produces public metrics described in the README:
     - relax_score: legacy diagnostic mean per-sample score.
     - strict_pass_rate: fraction of samples where every present axis passes.
-    - ranking_score: paper-facing hard-adjusted score over complete required-axis samples.
+    - ranking_score: constraint-calibrated linear 5+1 score over complete samples.
     - linear_ranking_score: diagnostic 0.8*technical_score + 0.2*strict application score.
     - constraint_adjusted_score: backward-compatible alias for ranking_score.
     - motion_gated_score/operator_risk_adjusted_score: uncalibrated diagnostic
@@ -1420,8 +1456,8 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
             "ranking_sensitivity_report": {},
             "score_calibration": {
                 "headline_score_policy": CONFIG["headline_score_policy"],
-                "ranking_score_policy": "paper_adjusted_complete_case_score",
-                "heuristic_gates_in_overall": True,
+                "ranking_score_policy": "constraint_calibrated_linear_5plus1",
+                "heuristic_gates_in_overall": False,
                 "status": "no_completed_samples",
             },
             "note": "no_completed_samples",
@@ -1589,7 +1625,7 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     )
     aggregate["application_score_policy"] = {
         "leaderboard": "application_usefulness",
-        "canonical": "application_score = application_usefulness; event coverage is a separate formal gate",
+        "canonical": "application_score = application_usefulness; event coverage calibrates semantically related axes",
         "available_case": "application usefulness for samples that also report event coverage",
     }
     aggregate["application_usefulness_score"] = float(np.mean(application_usefulness_scores)) if application_usefulness_scores else None
@@ -1616,20 +1652,24 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         "task_success_rate_at_65": float(np.mean([row["threshold_results"]["65.0"] for row in task_available])) if task_available else None,
         "conditional_quality_success_only": float(np.mean([row["conditional_quality"] for row in task_available if row["task_success"] and row["conditional_quality"] is not None])) if any(row["task_success"] and row["conditional_quality"] is not None for row in task_available) else None,
         "quality_all_samples": float(np.mean([row["conditional_quality"] for row in task_available if row["conditional_quality"] is not None])) if any(row["conditional_quality"] is not None for row in task_available) else None,
-        "headline_effect": "diagnostic_only_except_observable_event_coverage_gate",
+        "headline_effect": "diagnostic_only_except_continuous_observable_event_axis_calibration",
     }
     aggregate["application_pass_rate"] = _application_pass_rate(completed)
     aggregate["application_type_breakdown"] = _application_type_breakdown(completed)
     aggregate["application_macro_micro_summary"] = _application_macro_micro_summary(completed)
     aggregate["application_coverage_summary"] = _application_coverage_summary(completed)
     aggregate["constraint_adjustment_summary"] = {
-        "formula": "ranking_score = single_pass_gates(0.8*technical_score + 0.2*application_usefulness)",
+        "formula": "ranking_score = affine_b15(0.8*calibrated_technical_score + 0.2*calibrated_application_usefulness)",
         "linear_formula": "linear_ranking_score = 0.8*technical_score + 0.2*application_usefulness",
-        "policy": "5+1 is canonical; auditable event, motion, safety, geometry, and operator gates apply once",
+        "policy": "continuous semantic axis calibration precedes the single linear 5+1 aggregation",
         "per_sample_gate_ledger": [
-            {"task_id": result.get("task_id"), "linear_ranking_score": item["linear_ranking_score"], "ranking_score": item["ranking_score"], "gates": item["gate_ledger"]}
+            {"task_id": result.get("task_id"), "linear_ranking_score": item["linear_ranking_score"], "pre_baseline_linear_score": item["pre_baseline_linear_score"], "ranking_score": item["ranking_score"], "gates": item["gate_ledger"]}
             for result, item in zip(completed, constraint_adjustments)
         ],
+        "mean_pre_baseline_linear_score": float(np.mean([
+            item["pre_baseline_linear_score"] for item in constraint_adjustments
+        ])),
+        "null_baseline": float(SCORING_POLICY["null_baseline"]),
         "mean_application_score": float(np.mean([
             item["application_score"] for item in constraint_adjustments
         ])),
@@ -1662,6 +1702,14 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         ),
         "samples_with_application_event_cap": sum(
             1 for item in constraint_adjustments if item["application_event_coverage_cap"] is not None
+        ),
+        "samples_with_event_axis_calibration": sum(
+            1 for item in constraint_adjustments
+            if item["axis_calibration"]["event_reliability"] < 1.0
+        ),
+        "samples_with_motion_axis_calibration": sum(
+            1 for item in constraint_adjustments
+            if item["axis_calibration"]["motion_reliability"] < 1.0
         ),
         "samples_with_geometric_conflict_cap": sum(
             1 for item in constraint_adjustments if item["geometric_conflict_cap"] is not None
@@ -1718,24 +1766,24 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     }
     aggregate["score_calibration"] = {
         "headline_score_policy": CONFIG["headline_score_policy"],
-        "ranking_score_policy": "canonical_5plus1_with_single_pass_auditable_gates",
-        "heuristic_gates_in_overall": True,
+        "ranking_score_policy": "constraint_calibrated_linear_5plus1_b15",
+        "heuristic_gates_in_overall": False,
         "complete_case_policy": "ranking is publishable only when every requested sample is complete; no silent complete-case fallback",
         "score_floors_in_headline": False,
-        "status": "headline_uses_complete_case_strict_application_hard_adjusted_score",
+        "status": "headline_uses_complete_case_constraint_calibrated_linear_score",
         "technical_score_formula": "technical_score = task-category-weighted arithmetic mean of the five technical axes",
         "application_score_formula": "application_score = application_usefulness",
         "linear_ranking_score_formula": "linear_ranking_score = 0.8*technical_score + 0.2*application_usefulness",
-        "ranking_score_formula": "ranking_score = single_pass_gates(linear_ranking_score) over the complete frozen manifest",
-        "all_critical_pass_accuracy_formula": "critical task axes pass strict threshold, reasoning_alignment is 100 when available, observable event coverage is 100 when available, and no hard caps apply",
+        "ranking_score_formula": "ranking_score = 100*(0.8*calibrated_technical + 0.2*calibrated_application - 15)/85",
+        "all_critical_pass_accuracy_formula": "critical task axes pass strict threshold, reasoning_alignment is 100 when available, and observable event coverage and application checks are complete when available",
         "reasoning_alignment_formula": "binary question accuracy over manually specified implicit-rule checks",
         "visual_quality_policy": "diagnostic middle-frame technical quality score excluded from headline ranking_score",
         "task_conditioned_score_formula": "technical_score uses normalized task-category axis weights; no harmonic blend and no task-critical bottleneck multiplier",
         "constraint_adjusted_score_formula": "deprecated compatibility alias for ranking_score",
-        "hard_application_failure_penalty": "applied to headline ranking and retained as diagnostic evidence",
-        "application_event_cap_policy": "applied to headline ranking when required events are absent or partial",
-        "geometric_conflict_cap_policy": "applied to headline ranking when CV/operator evidence strongly contradicts VLM geometry",
-        "motion_constraint_cap_policy": "applied to headline ranking for required viewpoint/static motion failures",
+        "hard_application_failure_penalty": "continuous safety reliability applies only to industrial logic and fact alignment and application usefulness",
+        "application_event_cap_policy": "deprecated; event coverage continuously calibrates industrial logic and fact alignment, reference and motion fidelity, and application usefulness",
+        "geometric_conflict_cap_policy": "disabled in headline; retained as an uncalibrated diagnostic",
+        "motion_constraint_cap_policy": "deprecated; required viewpoint/static motion continuously calibrates reference_and_motion_fidelity",
         "scores_excluded_from_overall": [
             "motion_gated_score",
             "operator_risk_adjusted_score",

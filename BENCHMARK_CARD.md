@@ -68,15 +68,18 @@ The report exposes:
   five technical axes after operator-evidence integration.
 - `application_score`: canonical +1 application-usefulness axis.
 - `application_score_strict`: deprecated compatibility view equal to
-  application usefulness; event coverage is a separate formal gate.
+  application usefulness; event coverage separately calibrates related axes.
 - `application_score_available_case`: application usefulness where event
   coverage is also available.
 - `linear_ranking_score`: transparent `0.8 * technical_score + 0.2 *
-  application_usefulness` before gates.
-- `ranking_score`: hard-adjusted `linear_ranking_score` over complete
-  required-axis samples, with predefined caps for missing/partial required
-  events, hard application failures, strong operator/VLM geometry conflicts,
-  required motion failures, and severe operator-evidence failures.
+  application_usefulness` before reliability calibration.
+- `ranking_score`: the leaderboard total over complete required-axis samples.
+  Event coverage continuously calibrates industrial logic and fact alignment,
+  reference and motion fidelity, and application usefulness; required motion
+  calibrates reference and motion fidelity; verified severe safety failures
+  calibrate industrial logic and fact alignment and application usefulness. The
+  result is linearly combined and affine-
+  rescaled after removing the fixed null baseline `b=15`.
 
 ## Axis Weights
 

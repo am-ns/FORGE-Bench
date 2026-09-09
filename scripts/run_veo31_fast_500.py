@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import http.client
 import json
 import mimetypes
 import os
@@ -33,17 +34,18 @@ def request_json(url: str, api_key: str, *, payload: dict | None = None) -> dict
     except urllib.error.HTTPError as exc:
         detail = exc.read().decode("utf-8", errors="replace")
         raise RuntimeError(f"HTTP {exc.code}: {detail}") from exc
+    except (urllib.error.URLError, http.client.RemoteDisconnected, TimeoutError) as exc:
+        raise RuntimeError(f"NETWORK: {exc}") from exc
 
 
-def load_rows(limit: int | None, task_id: str | None = None) -> list[dict]:
-    package = ROOT / "reports" / "video_generation_500_package"
+def load_rows(package: Path, limit: int | None, task_id: str | None = None) -> list[dict]:
     rows = []
     with (package / "prompts.jsonl").open(encoding="utf-8") as handle:
         for line in handle:
             row = json.loads(line)
             if task_id and row["task_id"] != task_id:
                 continue
-            image = package / row["image_path"]
+            image = package / (row.get("image_path") or row["image"])
             if not image.is_file():
                 raise RuntimeError(f"Missing package image for {row['task_id']}: {image}")
             row["source_image"] = image
@@ -83,7 +85,9 @@ def submit(
     resolution: str,
     image_url: str | None = None,
 ) -> dict:
-    prompt = row["video_generation_prompt"].replace("5-second", f"{duration}-second", 1)
+    prompt = (row.get("video_generation_prompt") or row["prompt_en"]).replace(
+        "5-second", f"{duration}-second", 1
+    )
     return request_json(
         API_ROOT + "/videos",
         api_key,
@@ -128,11 +132,24 @@ def find_video_url(value) -> str | None:
 
 def download(url: str, destination: Path, api_key: str) -> None:
     temporary = destination.with_suffix(".part")
-    request = urllib.request.Request(url, headers={"Authorization": f"Bearer {api_key}"})
-    with urllib.request.urlopen(request, timeout=600) as response, temporary.open("wb") as handle:
-        while chunk := response.read(1024 * 1024):
-            handle.write(chunk)
-    temporary.replace(destination)
+    for attempt in range(1, 6):
+        try:
+            request = urllib.request.Request(url, headers={"Authorization": f"Bearer {api_key}"})
+            with urllib.request.urlopen(request, timeout=600) as response, temporary.open("wb") as handle:
+                while chunk := response.read(1024 * 1024):
+                    handle.write(chunk)
+            temporary.replace(destination)
+            return
+        except (
+            urllib.error.URLError,
+            http.client.RemoteDisconnected,
+            http.client.IncompleteRead,
+            TimeoutError,
+        ):
+            temporary.unlink(missing_ok=True)
+            if attempt == 5:
+                raise
+            time.sleep(5 * attempt)
 
 
 def main() -> int:
@@ -149,6 +166,17 @@ def main() -> int:
     parser.add_argument("--model", default="google/veo-3.1-fast")
     parser.add_argument("--duration", type=int, default=6)
     parser.add_argument("--resolution", default="720p")
+    parser.add_argument(
+        "--package-dir",
+        type=Path,
+        default=ROOT / "reports" / "video_generation_500_package",
+    )
+    parser.add_argument("--inline-images", action="store_true")
+    parser.add_argument(
+        "--reset-failed-attempts",
+        action="store_true",
+        help="Allow a new retry cycle for tasks previously marked failed",
+    )
     parser.add_argument("--output-dir", type=Path, default=ROOT / "dataset" / "veo3.1-fast")
     args = parser.parse_args()
     if args.image_url and not args.task_id:
@@ -157,12 +185,17 @@ def main() -> int:
     if not api_key:
         raise SystemExit("OPENROUTER_API_KEY is required")
 
-    rows = load_rows(args.limit, args.task_id)
+    rows = load_rows(args.package_dir, args.limit, args.task_id)
     if args.task_id and not rows:
         raise SystemExit(f"Unknown task ID: {args.task_id}")
     args.output_dir.mkdir(parents=True, exist_ok=True)
     state_path = args.output_dir / "tasks.json"
     state = json.loads(state_path.read_text(encoding="utf-8")) if state_path.exists() else {}
+
+    if args.reset_failed_attempts:
+        for record in state.values():
+            if record.get("status") == "failed":
+                record["attempts"] = 0
 
     def save() -> None:
         state_path.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -177,12 +210,44 @@ def main() -> int:
         for row in rows:
             task_id = row["task_id"]
             record = state.get(task_id, {})
+            if (
+                record.get("status") == "completed"
+                and not (args.output_dir / f"{task_id}.mp4").exists()
+            ):
+                video_url = find_video_url(record.get("last_response", {}))
+                if video_url:
+                    download(video_url, args.output_dir / f"{task_id}.mp4", api_key)
+                    print(f"DOWNLOADED {task_id}", flush=True)
+                    continue
             if not record or record.get("status") in TERMINAL:
                 continue
             poll_url = record["polling_url"]
             if poll_url.startswith("/"):
                 poll_url = "https://openrouter.ai" + poll_url
-            result = request_json(poll_url, api_key)
+            try:
+                result = request_json(poll_url, api_key)
+            except RuntimeError as exc:
+                # OpenRouter may evict old jobs while a local run is stopped.
+                # Treat those jobs as failed so the normal retry path can
+                # submit them again instead of aborting the entire batch.
+                if str(exc).startswith("HTTP 404:"):
+                    record.update(
+                        {
+                            "status": "failed",
+                            "error": str(exc),
+                            "updated_at": time.time(),
+                        }
+                    )
+                    print(f"EXPIRED {task_id}; will resubmit", flush=True)
+                    save()
+                    continue
+
+                # Preserve active work across transient provider/network
+                # errors and try polling it again on the next iteration.
+                active.append(task_id)
+                print(f"POLL ERROR {task_id}: {exc}", flush=True)
+                save()
+                continue
             status = str(result.get("status", "unknown")).lower()
             record.update({"status": status, "last_response": result, "updated_at": time.time()})
             if status == "completed":
@@ -216,14 +281,37 @@ def main() -> int:
                 break
             previous = state.get(candidate["task_id"], {})
             attempts = previous.get("attempts", 0) + 1
-            response = submit(
-                api_key,
-                candidate,
-                args.model,
-                args.duration,
-                args.resolution,
-                args.image_url,
-            )
+            try:
+                image_url = args.image_url
+                if args.inline_images and image_url is None:
+                    image_url = data_url(candidate["source_image"])
+                response = submit(
+                    api_key,
+                    candidate,
+                    args.model,
+                    args.duration,
+                    args.resolution,
+                    image_url,
+                )
+            except RuntimeError as exc:
+                message = str(exc)
+                permanent = message.startswith("HTTP 400:") or message.startswith("HTTP 403:")
+                state[candidate["task_id"]] = {
+                    **previous,
+                    "status": "failed",
+                    "error": message,
+                    "updated_at": time.time(),
+                    "attempts": args.max_retries if permanent else attempts,
+                }
+                save()
+                print(
+                    f"SUBMIT FAILED {candidate['task_id']}"
+                    f"{' (skipping)' if permanent else ''}: {message}",
+                    flush=True,
+                )
+                if not permanent:
+                    break
+                continue
             job_id = response.get("id")
             poll_url = response.get("polling_url") or (f"{API_ROOT}/videos/{job_id}" if job_id else None)
             if not job_id or not poll_url:
