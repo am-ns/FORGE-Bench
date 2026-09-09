@@ -1775,7 +1775,7 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         "application_score_formula": "application_score = application_usefulness",
         "linear_ranking_score_formula": "linear_ranking_score = 0.8*technical_score + 0.2*application_usefulness",
         "ranking_score_formula": "ranking_score = 100*(0.8*calibrated_technical + 0.2*calibrated_application - 15)/85",
-        "all_critical_pass_accuracy_formula": "critical task axes pass strict threshold, reasoning_alignment is 100 when available, and observable event coverage and application checks are complete when available",
+        "all_critical_pass_accuracy_formula": "strict complete-success diagnostic: critical task axes pass 60, reasoning_alignment is 100 when available, observable event coverage is 100 when available, application passes 60, and no reliability calibration is triggered; this is not an average quality score",
         "reasoning_alignment_formula": "binary question accuracy over manually specified implicit-rule checks",
         "visual_quality_policy": "diagnostic middle-frame technical quality score excluded from headline ranking_score",
         "task_conditioned_score_formula": "technical_score uses normalized task-category axis weights; no harmonic blend and no task-critical bottleneck multiplier",

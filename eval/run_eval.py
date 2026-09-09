@@ -56,7 +56,6 @@ from eval.video_protocol import (
 )
 
 logger = logging.getLogger("forge_eval")
-IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp"}
 
 
 # Frame extraction
@@ -89,12 +88,11 @@ def resolve_video_path(video_dir: str, task_id: str) -> Path | None:
 
 
 def _candidate_reference_paths(image_path: str) -> list[Path]:
-    """Return ordered fallback paths for a sample reference image.
+    """Return only identity-preserving paths for the declared reference.
 
-    Samples sometimes point at ``ref_01.jpg`` while the curated image library
-    contains ``ref_01.png`` or starts at ``ref_02`` after pruning. Evaluation
-    should use the requested file when available, then fall back within the
-    same scene directory instead of silently dropping the reference axis.
+    A formal evaluation must never substitute another image (including a
+    same-stem suffix variant): reference fidelity must depend exclusively on
+    the exact path recorded in the frozen sample manifest.
     """
     repo_root = Path(__file__).resolve().parents[1]
     requested = Path(image_path)
@@ -105,22 +103,7 @@ def _candidate_reference_paths(image_path: str) -> list[Path]:
         if path not in candidates:
             candidates.append(path)
 
-    hq_base = Path(str(abs_path).replace(str(repo_root / "dataset" / "images"), str(repo_root / "dataset" / "images_hq")))
-    add(hq_base.with_suffix(".png"))
-    add(hq_base)
     add(abs_path)
-    for suffix in IMAGE_SUFFIXES:
-        add(abs_path.with_suffix(suffix))
-        add(hq_base.with_suffix(suffix))
-
-    for parent in (abs_path.parent, hq_base.parent):
-        if parent.is_dir():
-            for path in sorted(parent.glob("ref_*")):
-                if path.is_file() and path.suffix.lower() in IMAGE_SUFFIXES:
-                    add(path)
-            for path in sorted(parent.iterdir()):
-                if path.is_file() and path.suffix.lower() in IMAGE_SUFFIXES:
-                    add(path)
     return candidates
 
 

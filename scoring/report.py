@@ -775,6 +775,15 @@ def generate_diagnostic_report(model: str, aggregate: dict, sample_results: list
             "application_pass_rate": aggregate.get("application_pass_rate"),
             "weakest_axes": weakest_axes[:5],
         },
+        "metric_definitions": {
+            "ranking_score": "canonical publishable 5+1 average-quality score; valid only when ranking_status is complete",
+            "technical_score": "task-category-weighted arithmetic mean of the five technical axes",
+            "application_score": "canonical +1 application-usefulness score",
+            "strict_pass_rate": "share of samples for which every present public axis reaches 60",
+            "functional_pass_rate": "task-conditioned usability diagnostic with 60 on critical axes and 45 on non-critical axes",
+            "all_critical_pass_accuracy": "strict complete-success diagnostic, not an average quality score; requires all critical checks and all available event/reasoning checks to pass completely",
+            "weakness_targets": "nine diagnostic failure targets nested under the 5+1 axes; never additional ranking axes",
+        },
         "axis_statistics": axis_stats,
         "breakdowns": {
             "by_domain": _group_scores(completed, "domain"),

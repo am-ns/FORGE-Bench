@@ -24,7 +24,7 @@ LEADERBOARD_AXES = [
 
 
 def _load_model_results(results_dir: str) -> list[dict]:
-    """Scan *results_dir* for MODEL_NAME/aggregate.json and load each."""
+    """Load only complete, explicitly publishable canonical aggregates."""
     models = []
     if not os.path.isdir(results_dir):
         print(f"WARNING: results_dir not found: {results_dir}", file=sys.stderr)
@@ -41,13 +41,23 @@ def _load_model_results(results_dir: str) -> list[dict]:
             print(f"WARNING: could not load {agg_path}: {exc}", file=sys.stderr)
             continue
 
+        if data.get("ranking_publishable") is not True or data.get("ranking_status") != "complete":
+            print(f"WARNING: excluding non-publishable result: {agg_path}", file=sys.stderr)
+            continue
+        ranking_score = data.get("ranking_score")
+        if ranking_score is None:
+            print(f"WARNING: excluding result without canonical ranking_score: {agg_path}", file=sys.stderr)
+            continue
+
         models.append({
             "model": entry,
             "overall": data.get("overall", 0.0),
             "overall_ci95": data.get("relax_score_ci95", {}),
-            "constraint_adjusted_score": data.get("constraint_adjusted_score", data.get("overall", 0.0)),
+            "constraint_adjusted_score": data.get("constraint_adjusted_score"),
             "constraint_adjusted_score_ci95": data.get("constraint_adjusted_score_ci95", {}),
-            "ranking_score": data.get("ranking_score", data.get("constraint_adjusted_score", data.get("overall", 0.0))),
+            "ranking_score": ranking_score,
+            "ranking_status": data["ranking_status"],
+            "ranking_publishable": True,
             "technical_score": data.get("technical_score", data.get("task_conditioned_score")),
             "application_score": data.get("application_usefulness_score", data.get("application_score")),
             "axis_scores": data.get("axis_scores", {}),

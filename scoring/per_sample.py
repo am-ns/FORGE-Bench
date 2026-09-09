@@ -183,9 +183,9 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
     if operator_can_cap("rigid_joint_tracking", rigid) and rigid.get("risk") == "rigid_drift":
         cap_axis(GEOMETRIC_INTEGRITY, SCORING_POLICY["operator_axis_caps"]["rigid_drift_geometry"], "operator_rigid_drift", "operator_evidence")
 
-    fluid = operators.get("fluid_diffusion") or {}
-    if operator_can_cap("fluid_diffusion", fluid) and fluid.get("plausible_continuity") is False:
-        cap_axis(PHYSICAL_PLAUSIBILITY, 80.0, "operator_fluid_discontinuity", "operator_evidence")
+    # Fluid diffusion remains judge evidence only.  It is deliberately absent
+    # from CAP_ELIGIBLE_OPERATORS until human calibration establishes a safe
+    # operating point; do not leave an apparently active but unreachable cap.
 
     floored_axis_scores = enforce_score_floors(dict(axis_scores))
     if CONFIG["apply_score_floors"]:
