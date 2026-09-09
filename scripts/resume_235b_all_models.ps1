@@ -11,7 +11,6 @@ foreach ($name in "OPENAI_COMPAT_API_KEY", "OPENAI_COMPAT_BASE_URL", "OPENAI_COM
 $models = @(
     @{ Name = "hunyuan1.5"; Videos = "dataset\six_model_video_dataset_3000\hunyuan1.5"; Run = "reports\formal_235b_contactsheet_20260903"; Required = 500 },
     @{ Name = "hunyuan1.5-distill"; Videos = "dataset\six_model_video_dataset_3000\hunyuan1.5-distill"; Run = "reports\formal_235b_hunyuan15_distill_20260904"; Required = 500 },
-    @{ Name = "minimax"; Videos = "dataset\six_model_video_dataset_3000\minimax"; Run = "reports\formal_235b_minimax_20260904"; Required = 500 },
     @{ Name = "forge_minimax_h3_500"; Videos = "dataset\forge_minimax_h3_500"; Run = "reports\formal_235b_forge_minimax_h3_20260904"; Required = 500 },
     @{ Name = "kling3.0-standard"; Videos = "dataset\kling3.0-standard"; Run = "reports\formal_235b_kling30_standard_20260904"; Required = 500 },
     @{ Name = "seedance2.5"; Videos = "dataset\seedance2.5"; Run = "reports\formal_235b_seedance25_20260904"; Required = 499 },

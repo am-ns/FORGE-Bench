@@ -17,7 +17,6 @@ from scoring import aggregate as aggregate_module  # noqa: E402
 RESULTS = {
     "hunyuan1.5": ROOT / "reports/formal_235b_contactsheet_20260903/combined/hunyuan1.5/per_sample.json",
     "hunyuan1.5-distill": ROOT / "reports/formal_235b_hunyuan15_distill_20260904/combined/hunyuan1.5-distill/per_sample.json",
-    "minimax-hailuo-2.3": ROOT / "reports/formal_235b_minimax_20260904/combined/minimax/per_sample.json",
 }
 
 # Ordered from the frozen v2.1 policy to increasingly strict alternatives.

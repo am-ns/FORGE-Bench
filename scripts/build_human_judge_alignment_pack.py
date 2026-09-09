@@ -24,7 +24,6 @@ MODELS = {
     "cogvideox1.5": ROOT / "dataset/six_model_video_dataset_3000/cogvideox1.5",
     "hunyuan1.5": ROOT / "dataset/six_model_video_dataset_3000/hunyuan1.5",
     "hunyuan1.5-distill": ROOT / "dataset/six_model_video_dataset_3000/hunyuan1.5-distill",
-    "minimax-hailuo-2.3": ROOT / "dataset/six_model_video_dataset_3000/minimax",
     "wan2.1": ROOT / "dataset/six_model_video_dataset_3000/wan2.1",
     "wan2.2": ROOT / "dataset/six_model_video_dataset_3000/wan2.2",
     "minimax-h3": ROOT / "dataset/forge_minimax_h3_500",
@@ -36,7 +35,6 @@ MODELS = {
 REPORTS = {
     "hunyuan1.5": ROOT / "reports/formal_235b_contactsheet_20260903/combined/hunyuan1.5/per_sample.json",
     "hunyuan1.5-distill": ROOT / "reports/formal_235b_hunyuan15_distill_20260904/combined/hunyuan1.5-distill/per_sample.json",
-    "minimax-hailuo-2.3": ROOT / "reports/formal_235b_minimax_20260904/combined/minimax/per_sample.json",
 }
 
 DOMAIN_DIRS = {"precision_defect_gen": "precision_defect_generation"}
@@ -436,7 +434,7 @@ def select_tasks(rows: list[dict], reports: dict[str, dict[str, dict]]) -> list[
 
 
 def balanced_edges(models: list[str]) -> list[tuple[str, str]]:
-    # A 4-regular circulant graph: every one of ten models appears exactly four times.
+    # A 4-regular circulant graph: every model appears exactly four times.
     edges: set[tuple[str, str]] = set()
     for i, model in enumerate(models):
         for distance in (1, 2):
@@ -491,9 +489,17 @@ def build() -> None:
     rows = load_rows(ANNOTATIONS)
     reports = report_index()
     selected = select_tasks(rows, reports)
-    selected.sort(key=lambda x: (DOMAINS.index(x["domain"]), -x["diagnostic_score"]))
     edges = balanced_edges(list(MODELS)) * 2
-    if len(edges) != len(selected):
+    selected.sort(key=lambda x: (DOMAINS.index(x["domain"]), -x["diagnostic_score"]))
+    per_domain, extra = divmod(len(edges), len(DOMAINS))
+    selected = [
+        row
+        for domain_index, domain in enumerate(DOMAINS)
+        for row in [item for item in selected if item["domain"] == domain][
+            :per_domain + (domain_index < extra)
+        ]
+    ]
+    if len(selected) != len(edges):
         raise AssertionError((len(edges), len(selected)))
 
     if OUTPUT.exists():
@@ -583,7 +589,7 @@ def build() -> None:
             writer.writerow([row["pair_id"], "", "", "", "", ""])
     (OUTPUT / "README_中文.md").write_text(
         "# FORGE 裁判模型人类对齐包\n\n候选裁判固定为 Qwen3-VL-235B-A22B-Instruct-FP8、"
-        "NVIDIA Cosmos-Reason2-32B 和 Gemini 3.1 Pro。\n\n共40组盲化A/B、80个视频，十个生成模型各出现8次，五个场景域各8组。"
+        "NVIDIA Cosmos-Reason2-32B 和 Gemini 3.1 Pro。\n\n共36组盲化对比、72个视频，九个生成模型各出现8次。"
         "先确认首帧代理与任务匹配；不匹配时不要评价并在CSV的both_reasonable列填no。其余样本在human_label列填写A、B、tie或both_invalid，"
         "并在both_reasonable列填写yes。"
         "不要根据画面华丽程度推断任务完成，必须以可见事件、物理过程和终态为准。\n",

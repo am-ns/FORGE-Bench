@@ -24,7 +24,7 @@ from urllib.request import Request, urlopen
 
 
 DEFAULT_API_BASE = "https://api.minimax.chat/v1"
-DEFAULT_MODEL = "MiniMax-Hailuo-2.3"
+DEFAULT_MODEL = ""
 DEFAULT_MAX_PROMPT_CHARS = 900
 UNSUPPORTED_LEGACY_MODELS = {"video-01", "I2V-01", "I2V-01-Director"}
 COMPACT_REPLACEMENTS = {
@@ -266,9 +266,7 @@ def provider_error(response: dict) -> str | None:
 
 def normalize_model(model: str, debug: bool = False) -> str:
     if model in UNSUPPORTED_LEGACY_MODELS:
-        if debug:
-            print(f"MINIMAX_VIDEO_MODEL: replacing unsupported legacy model {model!r} with {DEFAULT_MODEL!r}", file=sys.stderr)
-        return DEFAULT_MODEL
+        raise ValueError(f"Unsupported legacy model: {model!r}")
     return model
 
 
@@ -639,6 +637,8 @@ def main() -> None:
 
     if args.submit and not api_key:
         raise SystemExit("MINIMAX_API_KEY is not set.")
+    if args.submit and not model:
+        raise SystemExit("MINIMAX_VIDEO_MODEL must be set explicitly.")
 
     submit_url = f"{api_base}/video_generation"
     query_url = f"{api_base}/query/video_generation"

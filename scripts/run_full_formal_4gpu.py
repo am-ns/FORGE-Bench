@@ -20,7 +20,6 @@ MODELS = (
     ("cogvideox1.5", ROOT / "dataset" / "six_model_video_dataset_3000" / "cogvideox1.5"),
     ("hunyuan1.5", ROOT / "dataset" / "six_model_video_dataset_3000" / "hunyuan1.5"),
     ("hunyuan1.5-distill", ROOT / "dataset" / "six_model_video_dataset_3000" / "hunyuan1.5-distill"),
-    ("minimax", ROOT / "dataset" / "six_model_video_dataset_3000" / "minimax"),
     ("wan2.1", ROOT / "dataset" / "six_model_video_dataset_3000" / "wan2.1"),
     ("wan2.2", ROOT / "dataset" / "six_model_video_dataset_3000" / "wan2.2"),
     ("forge_minimax_h3_500", ROOT / "dataset" / "forge_minimax_h3_500"),

@@ -15,6 +15,7 @@ dataset/videos/**/*.mp4
 dataset/videos_preview/
 *.log
 logs/
+.provenance-quarantine/
 crash.txt
 logs.txt
 .pytest_cache/

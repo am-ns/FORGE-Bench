@@ -12,7 +12,6 @@ $groups = @(
     @{ Name = "cogvideox1.5"; Path = "dataset\six_model_video_dataset_3000\cogvideox1.5" },
     @{ Name = "hunyuan1.5"; Path = "dataset\six_model_video_dataset_3000\hunyuan1.5" },
     @{ Name = "hunyuan1.5-distill"; Path = "dataset\six_model_video_dataset_3000\hunyuan1.5-distill" },
-    @{ Name = "minimax"; Path = "dataset\six_model_video_dataset_3000\minimax" },
     @{ Name = "wan2.1"; Path = "dataset\six_model_video_dataset_3000\wan2.1" },
     @{ Name = "wan2.2"; Path = "dataset\six_model_video_dataset_3000\wan2.2" },
     @{ Name = "forge_minimax_h3_500"; Path = "dataset\forge_minimax_h3_500" },
