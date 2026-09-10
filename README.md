@@ -247,10 +247,8 @@ Core formula:
 ```text
 technical_score = task-category-weighted mean(five technical axes)
 application_score = application_usefulness
-event_reliability = 0.05 + 0.95 * (event_coverage / 100)^1.7
-motion_reliability = 0.25 + 0.75 * (motion_score / 100)^1.2
-prebaseline_score = 0.8 * calibrated_technical_score + 0.2 * calibrated_application_score
-ranking_score = clip(100 * (prebaseline_score - 15) / 85, 0, 100)
+gated_axis_i = min(axis_i, applicable event/operator caps)
+ranking_score = mean(five gated technical axes, gated application_score)
 overall = ranking_score
 constraint_adjusted_score = ranking_score  # compatibility alias
 ```
@@ -386,9 +384,9 @@ Important aggregate fields:
 | `visual_quality_summary` | Visual-quality CI and 1-3 level counts. |
 | `linear_ranking_score` | Transparent 5+1 score before gates: `0.8*technical_score + 0.2*application_usefulness`. |
 | `linear_all_sample_score` | Same linear formula over all completed samples, including incomplete required-axis samples. |
-| `constraint_adjusted_score` | Backward-compatible alias for `ranking_score`; continuous reliability calibration and the fixed baseline are applied. |
+| `constraint_adjusted_score` | Backward-compatible alias for `ranking_score`. |
 | `constraint_adjusted_score_ci95` | Deterministic bootstrap 95% confidence interval for the ranking score. |
-| `ranking_score` | Only leaderboard total: calibrated linear 5+1 score with fixed null baseline `b=15`. Incomplete manifests are not publishable. |
+| `ranking_score` | Only leaderboard total: arithmetic mean of the five gated technical axes and gated application-usefulness axis. Incomplete manifests are not publishable. |
 | `ranking_score_ci95` | Bootstrap 95% confidence interval for `ranking_score`. |
 | `motion_gated_score` | Legacy diagnostic score after heuristic task-aware motion gating; not used as `overall` or `ranking_score`. |
 | `operator_risk_adjusted_score` | Legacy diagnostic score after heuristic operator-risk adjustment; not used as `overall` or `ranking_score`. |

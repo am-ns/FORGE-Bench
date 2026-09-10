@@ -59,28 +59,15 @@ def test_policy_rejects_unknown_motion_calibration_axis(tmp_path):
         load_policy(path)
 
 
-def test_5plus1_event_gate_continuously_calibrates_related_axes():
+def test_event_coverage_caps_all_axes_before_simple_mean():
     scored = score_sample({**TECHNICAL_80, APPLICATION_USEFULNESS: 100.0}, observable_event_coverage=0.0)
     result = _result(scored)
-    assert scored["application_score"] == 100.0
-    assert compute_sample_ranking_score(result) == pytest.approx(26.63529411764706)
+    assert scored["application_score"] == 0.0
+    assert compute_sample_ranking_score(result) == pytest.approx(0.0)
     aggregate = aggregate_sample_results([result])
-    assert aggregate["linear_ranking_score"] == pytest.approx(84.0)
-    assert aggregate["ranking_score"] == pytest.approx(26.63529411764706)
-    ledger = aggregate["constraint_adjustment_summary"]["per_sample_gate_ledger"][0]["gates"]
-    event = next(row for row in ledger if row["gate"] == "observable_event_coverage")
-    assert event == {
-        "gate": "observable_event_coverage",
-        "action": "axis_multiplier",
-        "value": 0.05,
-        "affected_axes": [
-            INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
-            REFERENCE_AND_MOTION_FIDELITY,
-            APPLICATION_USEFULNESS,
-        ],
-        "reasons": ["continuous_event_axis_calibration"],
-        "applied": True,
-    }
+    assert aggregate["linear_ranking_score"] == pytest.approx(0.0)
+    assert aggregate["ranking_score"] == pytest.approx(0.0)
+    assert all(value == 0.0 for value in scored["axis_scores"].values())
 
 
 def test_operator_gate_changes_axes_but_is_not_applied_twice():
@@ -97,13 +84,11 @@ def test_operator_gate_changes_axes_but_is_not_applied_twice():
         }
     }
     scored = score_sample({**TECHNICAL_80, APPLICATION_USEFULNESS: 100.0}, operator_evidence=evidence)
-    assert scored["axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == 60.0
-    assert scored["axis_scores"][TEMPORAL_CONSISTENCY] == 50.0
+    assert scored["axis_scores"][REFERENCE_AND_MOTION_FIDELITY] == 35.0
+    assert scored["axis_scores"][TEMPORAL_CONSISTENCY] == 25.0
     result = _result(scored, operator_evidence=evidence)
     aggregate = aggregate_sample_results([result])
-    # Frozen task-category weights produce a 74.4 linear 5+1 score. No second cap.
-    assert aggregate["linear_ranking_score"] == pytest.approx(74.4)
-    assert aggregate["ranking_score"] == pytest.approx((74.4 - 15.0) * 100.0 / 85.0)
+    assert aggregate["ranking_score"] == pytest.approx((35 + 25 + 80 + 80 + 80 + 100) / 6)
     assert aggregate["constraint_adjustment_summary"]["samples_with_cap"] == 0
     reasons = aggregate["constraint_adjustment_summary"]["cap_reason_counts"]
     assert "operator_gate_already_applied_to_axis" not in reasons
@@ -114,10 +99,10 @@ def test_task_realization_is_diagnostic_not_an_alternative_total():
     aggregate = aggregate_sample_results([_result(scored)])
     task = aggregate["task_realization"]
     assert task["task_success_rate"] == 1.0
-    assert task["task_realization_mean"] == pytest.approx((60 + 80 + 80) / 3)
-    assert task["conditional_quality_success_only"] == pytest.approx(80.0)
-    assert aggregate["linear_ranking_score"] == pytest.approx(84.0)
-    assert aggregate["ranking_score"] == pytest.approx(49.52191245243267)
+    assert task["task_realization_mean"] == pytest.approx(60.0)
+    assert task["conditional_quality_success_only"] == pytest.approx(60.0)
+    assert aggregate["linear_ranking_score"] == pytest.approx(60.0)
+    assert aggregate["ranking_score"] == pytest.approx(60.0)
 
 
 def test_incomplete_manifest_is_not_publishable():

@@ -45,12 +45,12 @@
   "operator_min_confidence": 0.7,
   "operator_gate_min": 0.25,
   "operator_axis_caps": {
-    "global_regeneration_reference": 60.0,
-    "global_regeneration_temporal": 65.0,
-    "large_nonlocal_change_reference": 80.0,
-    "abrupt_temporal_transition": 60.0,
-    "late_abrupt_temporal_break": 50.0,
-    "rigid_drift_geometry": 80.0
+    "global_regeneration_reference": 35.0,
+    "global_regeneration_temporal": 45.0,
+    "large_nonlocal_change_reference": 50.0,
+    "abrupt_temporal_transition": 35.0,
+    "late_abrupt_temporal_break": 25.0,
+    "rigid_drift_geometry": 45.0
   },
   "legacy_operator_ranking_caps": {
     "one_severe_failure": 60.0,

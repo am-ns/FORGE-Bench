@@ -10,9 +10,9 @@ from scoring.policy import CONFIG as SCORING_POLICY
 CONFIG = {
     "default_axis_weight": 1.0,       # Default weight for axes not in AXIS_WEIGHTS
     "apply_score_floors": False,      # Floors are diagnostic only; ranking uses raw valid scores.
-    # CV motion/geometry operators are not yet calibrated against human labels.
-    # They remain diagnostics and cannot directly overwrite a VLM axis score.
-    "calibrated_cv_axis_caps": False,
+    "calibrated_cv_axis_caps": True,
+    "viewpoint_axis_caps": False,
+    "industrial_constraint_axis_caps": False,
 }
 
 MOTION_GATE_TASK_CATEGORIES = {"spatial_exploration_and_viewpoint"}
@@ -130,8 +130,17 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
                 "cap": float(cap),
             })
 
+    # A task cannot receive more credit than the fraction of required visible
+    # events it actually realizes. This is a direct cap, not a score mapping.
+    if observable_event_coverage is not None:
+        event_cap = float(observable_event_coverage)
+        for axis in list(axis_scores):
+            cap_axis(axis, event_cap, "observable_event_coverage_cap", "application_judge")
+        if application_usefulness_score is not None:
+            application_usefulness_score = min(application_usefulness_score, event_cap)
+
     if (
-        CONFIG["calibrated_cv_axis_caps"]
+        CONFIG["viewpoint_axis_caps"]
         and
         motion_gate_applied
         and viewpoint_motion_axis_score is not None
@@ -144,7 +153,7 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
             VIEWPOINT_MOTION_FIDELITY,
         )
 
-    if CONFIG["calibrated_cv_axis_caps"] and industrial_constraint_axis_score is not None:
+    if CONFIG["industrial_constraint_axis_caps"] and industrial_constraint_axis_score is not None:
         cap_axis(
             GEOMETRIC_INTEGRITY,
             industrial_constraint_axis_score,
