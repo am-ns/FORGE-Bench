@@ -192,6 +192,10 @@ def _industrial_logic_weakness_diagnostics(results: list[dict]) -> dict:
 
 def _operator_evidence_diagnostics(results: list[dict]) -> dict:
     operator_counter: Counter[str] = Counter()
+    status_counter: dict[str, Counter[str]] = defaultdict(Counter)
+    confidence_sum: Counter[str] = Counter()
+    confidence_count: Counter[str] = Counter()
+    high_confidence_counter: Counter[str] = Counter()
     risk_counter: Counter[str] = Counter()
     localized_false = 0
     fluid_discontinuous = 0
@@ -200,6 +204,14 @@ def _operator_evidence_diagnostics(results: list[dict]) -> dict:
         evidence = result.get("operator_evidence") or {}
         for name, payload in (evidence.get("operators") or {}).items():
             operator_counter[name] += 1
+            status = str(payload.get("evidence_status") or ("valid" if payload.get("validity") == "valid" else "legacy_unclassified"))
+            status_counter[name][status] += 1
+            confidence = payload.get("confidence")
+            if isinstance(confidence, (int, float)):
+                confidence_sum[name] += float(confidence)
+                confidence_count[name] += 1
+                if float(confidence) >= 0.7:
+                    high_confidence_counter[name] += 1
             if payload.get("localized_change") is False:
                 localized_false += 1
             if payload.get("plausible_continuity") is False:
@@ -209,6 +221,18 @@ def _operator_evidence_diagnostics(results: list[dict]) -> dict:
 
     return {
         "operator_counts": dict(operator_counter.most_common()),
+        "operator_status_counts": {name: dict(status_counter[name]) for name in sorted(status_counter)},
+        "operator_quality": {
+            name: {
+                "executed": operator_counter[name],
+                "valid_evidence": status_counter[name]["valid"],
+                "valid_evidence_rate": round(status_counter[name]["valid"] / max(operator_counter[name], 1), 4),
+                "high_confidence": high_confidence_counter[name],
+                "high_confidence_rate": round(high_confidence_counter[name] / max(operator_counter[name], 1), 4),
+                "mean_confidence": round(confidence_sum[name] / max(confidence_count[name], 1), 4),
+            }
+            for name in sorted(operator_counter)
+        },
         "risk_counts": dict(risk_counter.most_common()),
         "nonlocalized_change_count": localized_false,
         "fluid_discontinuity_count": fluid_discontinuous,

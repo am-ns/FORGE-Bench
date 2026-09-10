@@ -372,6 +372,8 @@ class TestOperatorEvidence:
         assert "area_growth" in evidence["operators"]["fluid_diffusion"]
         assert evidence["operators"]["fluid_diffusion"]["used_for_axis_cap"] is False
         assert evidence["operators"]["fluid_diffusion"]["validity"] == "heuristic_foreground_not_semantic_fluid_mask"
+        assert evidence["operators"]["fluid_diffusion"]["evidence_status"] == "valid"
+        assert evidence["operators"]["fluid_diffusion"]["executed"] is True
 
     def test_operator_evidence_temporal_break(self):
         frames = []
@@ -408,6 +410,26 @@ class TestOperatorEvidence:
         assert local["changed_fraction"] < local["raw_changed_fraction"]
         assert local["camera_motion_confounded"] is False
         assert local["validity"] == "valid"
+
+    def test_local_region_lock_uses_ecc_when_feature_tracks_are_sparse(self):
+        first = np.zeros((180, 240, 3), dtype=np.uint8)
+        cv2.rectangle(first, (55, 50), (175, 130), (220, 220, 220), -1)
+        transform = np.float32([[1, 0, 7], [0, 1, 4]])
+        last = cv2.warpAffine(first, transform, (240, 180))
+        evidence = evaluate_operator_evidence(
+            [first, last],
+            {
+                "task_id": "camera_sparse_001",
+                "task_category": "topology_mutation_and_failure",
+                "motion_type": "pan",
+            },
+            reference_image=first,
+        )
+        local = evidence["operators"]["local_region_lock"]
+        assert local["alignment_method"] == "ecc_euclidean"
+        assert local["alignment_valid"] is True
+        assert local["evidence_status"] == "valid"
+        assert local["changed_fraction"] < local["raw_changed_fraction"]
 
     def test_rigid_joint_tracking_reports_global_affine_quality(self):
         frames = _make_translated_textured_frames()

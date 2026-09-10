@@ -24,6 +24,7 @@ CONFIG = {
     "joint_min_tracks": 4,
     "alignment_min_inliers": 12,
     "alignment_min_inlier_ratio": 0.35,
+    "alignment_ecc_min_correlation": 0.72,
     "track_forward_backward_max_error": 2.5,
     "safety_motion_threshold": 0.8,
     "temporal_break_diff_threshold": 0.28,
@@ -173,22 +174,10 @@ def _align_last_to_first(first: np.ndarray, last: np.ndarray) -> tuple[np.ndarra
     """Warp *last* into *first* coordinates using robust global affine alignment."""
     start, end, _good = _feature_tracks(first, last, max_corners=500)
     if len(start) < CONFIG["alignment_min_inliers"]:
-        return last, {
-            "alignment_method": "none",
-            "alignment_valid": False,
-            "alignment_inliers": int(len(start)),
-            "alignment_inlier_ratio": 0.0,
-            "alignment_coverage": _track_spatial_coverage(start, first.shape),
-        }
+        return _align_ecc_fallback(first, last, tracked_points=int(len(start)))
     matrix, inliers = cv2.estimateAffinePartial2D(end, start, method=cv2.RANSAC, ransacReprojThreshold=3.0)
     if matrix is None or inliers is None:
-        return last, {
-            "alignment_method": "affine_ransac",
-            "alignment_valid": False,
-            "alignment_inliers": 0,
-            "alignment_inlier_ratio": 0.0,
-            "alignment_coverage": _track_spatial_coverage(start, first.shape),
-        }
+        return _align_ecc_fallback(first, last, tracked_points=int(len(start)))
     inlier_count = int(inliers.sum())
     inlier_ratio = float(inlier_count / max(len(start), 1))
     coverage = _track_spatial_coverage(start[inliers.ravel() == 1], first.shape)
@@ -204,7 +193,53 @@ def _align_last_to_first(first: np.ndarray, last: np.ndarray) -> tuple[np.ndarra
         "alignment_inliers": inlier_count,
         "alignment_inlier_ratio": round(inlier_ratio, 4),
         "alignment_coverage": round(float(coverage), 4),
+        "alignment_correlation": None,
     }
+
+
+def _align_ecc_fallback(first: np.ndarray, last: np.ndarray, *, tracked_points: int) -> tuple[np.ndarray, dict]:
+    """Fall back to intensity-based Euclidean alignment for sparse-texture clips.
+
+    ECC is deliberately accepted only at high correlation. This improves evidence
+    availability without turning a weak registration into a confident failure.
+    """
+    warp = np.eye(2, 3, dtype=np.float32)
+    first_f = first.astype(np.float32) / 255.0
+    last_f = last.astype(np.float32) / 255.0
+    try:
+        correlation, warp = cv2.findTransformECC(
+            first_f,
+            last_f,
+            warp,
+            cv2.MOTION_EUCLIDEAN,
+            (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 80, 1e-5),
+            None,
+            3,
+        )
+        valid = bool(np.isfinite(correlation) and correlation >= CONFIG["alignment_ecc_min_correlation"])
+        aligned = cv2.warpAffine(
+            last,
+            warp,
+            (first.shape[1], first.shape[0]),
+            flags=cv2.INTER_LINEAR | cv2.WARP_INVERSE_MAP,
+        )
+        return (aligned if valid else last), {
+            "alignment_method": "ecc_euclidean",
+            "alignment_valid": valid,
+            "alignment_inliers": tracked_points,
+            "alignment_inlier_ratio": 0.0,
+            "alignment_coverage": 0.0,
+            "alignment_correlation": round(float(correlation), 4),
+        }
+    except cv2.error:
+        return last, {
+            "alignment_method": "none",
+            "alignment_valid": False,
+            "alignment_inliers": tracked_points,
+            "alignment_inlier_ratio": 0.0,
+            "alignment_coverage": 0.0,
+            "alignment_correlation": None,
+        }
 
 
 def evaluate_local_region_lock(
@@ -497,6 +532,18 @@ def evaluate_operator_evidence(
             out["confidence"] = _operator_confidence(operator, out)
         if "validity" not in out:
             out["validity"] = _operator_validity(operator, out)
+        # Keep the detailed legacy validity reason while exposing a normalized
+        # execution/evidence state for coverage accounting.
+        validity = str(out.get("validity") or "valid")
+        if validity == "valid" or validity == "heuristic_foreground_not_semantic_fluid_mask":
+            out["evidence_status"] = "valid"
+        elif validity in {"insufficient_frames", "insufficient_flow", "insufficient_pairs", "insufficient_target_tracks"}:
+            out["evidence_status"] = "insufficient_evidence"
+        elif validity == "camera_motion_confounded":
+            out["evidence_status"] = "confounded"
+        else:
+            out["evidence_status"] = "invalid"
+        out["executed"] = True
         return out
 
     if "local_region_lock" in planned_names:
@@ -585,6 +632,9 @@ def _operator_confidence(operator: str, result: dict) -> float:
             return 0.3
         if result.get("camera_motion_confounded"):
             return 0.35
+        if result.get("alignment_method") == "ecc_euclidean":
+            correlation = float(result.get("alignment_correlation") or 0.0)
+            return round(float(max(0.45, min(0.78, 0.45 + 0.4 * max(0.0, correlation - 0.6)))), 4)
         # Pure frame-diff localization is useful for static/local-mutation tasks,
         # but still below object-mask confidence.
         return 0.72
