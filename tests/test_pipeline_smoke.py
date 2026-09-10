@@ -392,6 +392,7 @@ class TestOperatorEvidence:
         )
         temporal = evidence["operators"]["temporal_break"]
         assert temporal["abrupt_transition"] is True
+        assert temporal["confidence"] >= 0.7
         assert any("temporal_break" in risk for risk in evidence["risk_flags"])
 
     def test_local_region_lock_compensates_global_camera_translation(self):
@@ -445,6 +446,24 @@ class TestOperatorEvidence:
         assert rigid["tracked_points"] >= 4
         assert rigid["global_affine_inlier_ratio"] > 0.5
         assert rigid["risk"] == "none"
+
+    def test_rigid_joint_tracking_recovers_from_untrackable_final_frame(self):
+        base = _make_textured_image(h=240, w=320, n_circles=45, seed=11)
+        frames = [
+            cv2.warpAffine(base, np.float32([[1, 0, step * 3], [0, 1, step * 2]]), (320, 240), borderMode=cv2.BORDER_REPLICATE)
+            for step in range(5)
+        ]
+        frames[-1] = np.zeros_like(frames[-1])
+        evidence = evaluate_operator_evidence(
+            frames,
+            {"task_id": "rigid_span_001", "task_category": "rigid_body_kinematics_and_coupling"},
+            reference_image=frames[0],
+        )
+        rigid = evidence["operators"]["rigid_joint_tracking"]
+        assert rigid["validity"] == "valid"
+        assert rigid["track_probe_count"] == 3
+        assert rigid["track_temporal_span_fraction"] >= 0.5
+        assert rigid["track_end_index"] < len(frames) - 1
 
     def test_geometric_sub_operator_is_exposed_in_operator_evidence(self):
         evidence = {

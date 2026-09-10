@@ -186,6 +186,11 @@ def _align_last_to_first(first: np.ndarray, last: np.ndarray) -> tuple[np.ndarra
         and inlier_ratio >= CONFIG["alignment_min_inlier_ratio"]
         and coverage >= 0.08
     )
+    if not valid:
+        ecc_aligned, ecc = _align_ecc_fallback(first, last, tracked_points=int(len(start)))
+        if ecc.get("alignment_valid"):
+            ecc["alignment_fallback_from"] = "affine_ransac_low_support"
+            return ecc_aligned, ecc
     aligned = cv2.warpAffine(last, matrix, (first.shape[1], first.shape[0]), flags=cv2.INTER_LINEAR)
     return aligned, {
         "alignment_method": "affine_ransac",
@@ -367,7 +372,20 @@ def evaluate_rigid_joint_tracking(frames: list[np.ndarray]) -> dict:
     if len(frames) < 2:
         return {"operator": "rigid_joint_tracking", "status": "insufficient_frames"}
     grays = [_gray(f) for f in frames]
-    start, end, fb_error = _feature_tracks(grays[0], grays[-1], max_corners=160)
+    # Long first-to-last tracks frequently disappear even when intermediate
+    # evidence is strong. Probe two half-duration spans and choose the longest
+    # span with the most forward/backward-consistent tracks.
+    candidates = [(0, len(grays) - 1)]
+    if len(grays) >= 4:
+        middle = len(grays) // 2
+        candidates.extend([(0, middle), (middle, len(grays) - 1)])
+    tracked_candidates = []
+    for start_index, end_index in candidates:
+        candidate = _feature_tracks(grays[start_index], grays[end_index], max_corners=160)
+        span = (end_index - start_index) / max(len(grays) - 1, 1)
+        tracked_candidates.append((len(candidate[0]) >= CONFIG["joint_min_tracks"], len(candidate[0]), span, start_index, end_index, candidate))
+    _usable, _count, temporal_span, track_start_index, track_end_index, selected = max(tracked_candidates, key=lambda item: item[:3])
+    start, end, fb_error = selected
     if len(start) < CONFIG["joint_min_tracks"]:
         return {
             "operator": "rigid_joint_tracking",
@@ -375,6 +393,10 @@ def evaluate_rigid_joint_tracking(frames: list[np.ndarray]) -> dict:
             "rigid_length_stability": None,
             "risk": "insufficient_tracks",
             "forward_backward_error_median": round(float(np.median(fb_error)), 4) if len(fb_error) else None,
+            "track_start_index": track_start_index,
+            "track_end_index": track_end_index,
+            "track_temporal_span_fraction": round(float(temporal_span), 4),
+            "track_probe_count": len(candidates),
         }
 
     def pairwise(points: np.ndarray) -> np.ndarray:
@@ -417,6 +439,10 @@ def evaluate_rigid_joint_tracking(frames: list[np.ndarray]) -> dict:
     return {
         "operator": "rigid_joint_tracking",
         "tracked_points": int(len(start)),
+        "track_start_index": track_start_index,
+        "track_end_index": track_end_index,
+        "track_temporal_span_fraction": round(float(temporal_span), 4),
+        "track_probe_count": len(candidates),
         "forward_backward_error_median": round(float(np.median(fb_error)), 4) if len(fb_error) else None,
         "median_pairwise_drift": round(median_drift, 4),
         "global_affine_inliers": inlier_count,
@@ -534,15 +560,7 @@ def evaluate_operator_evidence(
             out["validity"] = _operator_validity(operator, out)
         # Keep the detailed legacy validity reason while exposing a normalized
         # execution/evidence state for coverage accounting.
-        validity = str(out.get("validity") or "valid")
-        if validity == "valid" or validity == "heuristic_foreground_not_semantic_fluid_mask":
-            out["evidence_status"] = "valid"
-        elif validity in {"insufficient_frames", "insufficient_flow", "insufficient_pairs", "insufficient_target_tracks"}:
-            out["evidence_status"] = "insufficient_evidence"
-        elif validity == "camera_motion_confounded":
-            out["evidence_status"] = "confounded"
-        else:
-            out["evidence_status"] = "invalid"
+        out["evidence_status"] = classify_evidence_status(out.get("validity"))
         out["executed"] = True
         return out
 
@@ -600,7 +618,8 @@ def _operator_confidence(operator: str, result: dict) -> float:
             fb_quality = max(0.0, min(1.0, 1.0 - float(fb_error) / CONFIG["track_forward_backward_max_error"]))
         track_quality = min(1.0, tracked / 18.0)
         coverage_quality = min(1.0, coverage / 0.12)
-        confidence = 0.35 * track_quality + 0.30 * inlier_ratio + 0.20 * coverage_quality + 0.15 * fb_quality
+        span_quality = max(0.65, min(1.0, float(result.get("track_temporal_span_fraction") or 1.0)))
+        confidence = (0.35 * track_quality + 0.30 * inlier_ratio + 0.20 * coverage_quality + 0.15 * fb_quality) * span_quality
         return round(float(max(0.0, min(0.95, confidence))), 4)
     if operator == "fluid_diffusion":
         area_sequence = result.get("area_sequence") or []
@@ -624,8 +643,20 @@ def _operator_confidence(operator: str, result: dict) -> float:
         seq = result.get("change_sequence") or []
         if len(seq) < 2:
             return 0.2
+        maximum = float(result.get("max_adjacent_change") or 0.0)
         ratio = float(result.get("max_to_median_ratio") or 1.0)
-        return round(float(max(0.45, min(0.95, ratio / 4.0))), 4)
+        sample_quality = min(1.0, (len(seq) + 1) / 8.0)
+        if result.get("abrupt_transition"):
+            decision_margin = max(
+                maximum / CONFIG["temporal_break_diff_threshold"],
+                ratio / CONFIG["temporal_break_ratio_threshold"],
+            )
+            separation_quality = min(1.0, decision_margin / 1.5)
+        else:
+            # Confidence describes measurement reliability, not probability of
+            # failure. A stable, well-sampled sequence is valid negative evidence.
+            separation_quality = min(1.0, abs(CONFIG["temporal_break_diff_threshold"] - maximum) / CONFIG["temporal_break_diff_threshold"] + 0.35)
+        return round(float(max(0.5, min(0.95, 0.55 + 0.25 * sample_quality + 0.15 * separation_quality))), 4)
     if operator == "local_region_lock":
         changed = result.get("changed_fraction")
         if changed is None:
@@ -634,7 +665,7 @@ def _operator_confidence(operator: str, result: dict) -> float:
             return 0.35
         if result.get("alignment_method") == "ecc_euclidean":
             correlation = float(result.get("alignment_correlation") or 0.0)
-            return round(float(max(0.45, min(0.78, 0.45 + 0.4 * max(0.0, correlation - 0.6)))), 4)
+            return round(float(max(0.45, min(0.78, 0.45 + 0.8 * max(0.0, correlation - 0.6)))), 4)
         # Pure frame-diff localization is useful for static/local-mutation tasks,
         # but still below object-mask confidence.
         return 0.72
@@ -653,3 +684,20 @@ def _operator_validity(operator: str, result: dict) -> str:
     if operator == "local_region_lock" and result.get("camera_motion_confounded"):
         return "camera_motion_confounded"
     return "valid"
+
+
+def classify_evidence_status(validity: object) -> str:
+    """Map detailed operator validity reasons to a stable reporting state."""
+    value = str(validity or "valid")
+    if value in {"valid", "heuristic_foreground_not_semantic_fluid_mask"}:
+        return "valid"
+    if value in {
+        "insufficient_frames", "insufficient_flow", "insufficient_pairs",
+        "insufficient_target_tracks", "ransac_affine_failed_insufficient_inliers",
+    }:
+        return "insufficient_evidence"
+    if value in {"camera_motion_confounded", "low_global_motion_support"}:
+        return "confounded"
+    if value == "unsupported_3d_orbit_from_2d_affine":
+        return "diagnostic_only"
+    return "invalid"

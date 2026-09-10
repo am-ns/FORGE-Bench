@@ -28,7 +28,7 @@ from eval.preflight import validate_frame_count
 from eval.temporal_coherence.eval import evaluate_temporal_consistency
 from eval.visual_fidelity.eval import evaluate_reference_and_motion_fidelity
 from eval.viewpoint_motion_fidelity.eval import compute_viewpoint_motion_fidelity
-from eval.operator_evidence import evaluate_operator_evidence
+from eval.operator_evidence import classify_evidence_status, evaluate_operator_evidence
 from eval.operator_plan import operator_plan_entry
 from eval.reasoning_alignment import build_reasoning_alignment_questions, score_reasoning_alignment
 from eval.visual_quality import evaluate_visual_quality
@@ -374,6 +374,8 @@ def _attach_geometric_operator_evidence(operator_evidence: dict, geometric_resul
         "method": method,
         "confidence": round(float(confidence), 4),
         "validity": validity,
+        "evidence_status": classify_evidence_status(validity),
+        "executed": True,
         "headline_effect": "geometric_conflict_cap_only_via_geometric_integrity_score",
     }
 
@@ -491,6 +493,8 @@ def evaluate_sample(
             "viewpoint_motion_estimation_method": viewpoint_motion_result.get("viewpoint_motion_estimation_method"),
             "confidence": viewpoint_motion_result.get("viewpoint_motion_confidence", 0.0),
             "validity": viewpoint_motion_result.get("viewpoint_motion_validity", "valid"),
+            "evidence_status": classify_evidence_status(viewpoint_motion_result.get("viewpoint_motion_validity", "valid")),
+            "executed": True,
             "detail": viewpoint_motion_result.get("viewpoint_motion_detail", {}),
         }
         operator_evidence.setdefault("operators", {})["viewpoint_motion_fidelity"] = viewpoint_operator
