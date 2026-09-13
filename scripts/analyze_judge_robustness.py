@@ -5,7 +5,13 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+from scoring.aggregate import compute_sample_ranking_score
 
 import numpy as np
 
@@ -50,12 +56,7 @@ def _corr(a: list[float], b: list[float]) -> float | None:
 
 
 def _score(result: dict) -> float | None:
-    scored = result.get("scored") or {}
-    for key in ("ranking_score", "weighted_score"):
-        value = scored.get(key)
-        if value is not None:
-            return float(value)
-    return None
+    return compute_sample_ranking_score(result)
 
 
 def _axis_scores(result: dict) -> dict[str, float]:

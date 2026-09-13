@@ -12,6 +12,7 @@ from statistics import mean
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+from scoring.aggregate import aggregate_sample_results, compute_sample_ranking_score
 
 from eval.axis_registry import (
     GEOMETRIC_INTEGRITY,
@@ -114,22 +115,7 @@ def axis_scores(sample: dict) -> dict[str, float]:
 
 
 def sample_score(sample: dict) -> float | None:
-    candidates = [
-        (sample.get("scored") or {}).get("ranking_score"),
-        (sample.get("scored") or {}).get("weighted_score"),
-        (sample.get("scored") or {}).get("technical_score"),
-        sample.get("ranking_score"),
-        sample.get("weighted_score"),
-    ]
-    for value in candidates:
-        if value is not None:
-            try:
-                return float(value)
-            except (TypeError, ValueError):
-                pass
-    scores = axis_scores(sample)
-    values = [scores[axis] for axis in TECHNICAL_AXES if axis in scores]
-    return mean(values) if values else None
+    return compute_sample_ranking_score(sample)
 
 
 def application_details(sample: dict) -> dict:
@@ -250,6 +236,7 @@ def collect_sample_reasons(sample: dict) -> list[str]:
 
 
 def summarize(per_sample: list[dict], aggregate: dict, report: dict, model: str, top_n: int) -> dict:
+    aggregate = aggregate_sample_results(per_sample)
     completed = [sample for sample in per_sample if not sample.get("skipped")]
     reason_counts: Counter[str] = Counter()
     reason_examples: dict[str, list[dict]] = defaultdict(list)
@@ -318,7 +305,7 @@ def summarize(per_sample: list[dict], aggregate: dict, report: dict, model: str,
         "num_samples_total": len(per_sample),
         "num_samples_completed": len(completed),
         "headline_scores": {
-            "ranking_score": aggregate.get("ranking_score") or aggregate.get("overall"),
+            "ranking_score": aggregate.get("ranking_score"),
             "technical_score": aggregate.get("technical_score"),
             "application_score_strict": aggregate.get("application_score_strict"),
             "strict_pass_rate": aggregate.get("strict_pass_rate"),

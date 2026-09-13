@@ -13,19 +13,18 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+from scoring.policy import publication_issue
+from scoring.aggregate import compute_sample_ranking_score
+from scripts.reaggregate_cached_results import reaggregate_result_dir
 SPECIAL = {"aggregate", "per_sample", "report", "run_metadata"}
 
 
 def invalid_task_ids(per_sample: list[dict]) -> list[str]:
     ids = []
     for item in per_sample:
-        validity = item.get("scoring_validity") or {}
-        if (
-            item.get("sample_status") != "valid"
-            or not item.get("scoring_complete")
-            or validity.get("missing_required_axes")
-            or validity.get("invalid_judge_outputs")
-        ):
+        if compute_sample_ranking_score(item) is None:
             ids.append(item["task_id"])
     return sorted(set(ids))
 
@@ -55,8 +54,11 @@ def main() -> int:
     rows = json.loads((combined / "per_sample.json").read_text(encoding="utf-8"))
     retry_ids = invalid_task_ids(rows)
     if not retry_ids:
-        print(json.dumps({"retry_samples": 0, "ranking_publishable": True}))
-        return 0
+        aggregate = reaggregate_result_dir(combined)
+        publishable = publication_issue(aggregate) is None
+        print(json.dumps({"retry_samples": 0, "ranking_publishable": publishable,
+                          "ranking_score": aggregate.get("ranking_score")}))
+        return 0 if publishable else 2
 
     frozen_path = run_root / "manifests" / "frozen_samples.json"
     payload = json.loads(frozen_path.read_text(encoding="utf-8"))

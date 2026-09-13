@@ -10,11 +10,12 @@ The schema is enforced by `dataset/schema.json`.
 `SCENE_BLUEPRINT.md` lists the 60 scene families used for domain and task
 coverage.
 
-`video_generation_500_samples.json` is the controlled primary video-generation
-split: 500 quality-aware stratified samples, 500 unique image references, 100
+`video_generation_500_samples.json` is the controlled primary public evaluation
+and video-generation split: 500 quality-aware stratified samples, 500 unique image references, 100
 per domain, selected from the full 960-sample benchmark while preserving all 60
-scene families. The copied review folder is
-`reports/video_generation_500_images/`.
+scene families. The canonical image folder is
+`reports/video_generation_500_package/images/`. Ten matched 500-video model
+collections are published at `https://huggingface.co/datasets/aaaabcd/FORGE-Bench`.
 
 ## Required Fields
 

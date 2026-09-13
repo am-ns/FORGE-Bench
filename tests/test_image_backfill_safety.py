@@ -50,6 +50,7 @@ def _backfill_args(tmp_path, *, per_scene, target_new):
         sleep_between_scenes=0.0,
         duplicate_hamming_distance=0,
         duplicate_dhash_distance=0,
+        duplicate_phash_distance=0,
     )
 
 
@@ -70,7 +71,7 @@ def test_fast_backfill_respects_accept_limits(monkeypatch, tmp_path, per_scene, 
     monkeypatch.setattr(fast_multisource_image_backfill, "_passes_quality", lambda *unused: (True, "accepted"))
 
     def fake_download(candidate, dest, timeout):
-        Image.new("RGB", (8, 8), (120, 80, 40)).save(dest)
+        Image.new("RGB", (8, 8), (120, 80, int(candidate.title.rsplit("-", 1)[-1]))).save(dest)
         return candidate.image_url
 
     def fake_hash(path):
@@ -80,6 +81,7 @@ def test_fast_backfill_respects_accept_limits(monkeypatch, tmp_path, per_scene, 
     monkeypatch.setattr(fast_multisource_image_backfill, "_download_candidate", fake_download)
     monkeypatch.setattr(fast_multisource_image_backfill, "_average_hash", fake_hash)
     monkeypatch.setattr(fast_multisource_image_backfill, "_dhash", fake_hash)
+    monkeypatch.setattr(fast_multisource_image_backfill, "_phash", fake_hash)
 
     fast_multisource_image_backfill.run(args)
 
@@ -168,11 +170,13 @@ def test_collect_candidates_prioritizes_queries_and_scales_request_budget(monkey
 
     candidates, _ = fast_multisource_image_backfill._collect_candidates("scene_one", {}, args, remaining_needed=1)
 
-    assert [candidate.query for candidate in candidates] == ["specific", "specific industrial site photo", "broad"]
+    # Query candidates retain priority; category results still pass relevance filtering.
+    assert [candidate.query for candidate in candidates] == ["specific", "specific industrial photo"]
     assert sorted(calls) == [
-        ("category", "broad", 8, 1),
-        ("query", "specific", 8, 1),
-        ("query", "specific industrial site photo", 8, 1),
+        ("category", "broad", 25, 3),
+        ("category", "unused", 25, 3),
+        ("query", "specific", 25, 3),
+        ("query", "specific industrial photo", 25, 3),
     ]
 
 

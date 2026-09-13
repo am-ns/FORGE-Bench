@@ -503,7 +503,7 @@ def _run_locked(args: argparse.Namespace, candidate_root: Path, image_root: Path
             scene_samples[str(scene)].append(sample)
             scene_domain[str(scene)] = str(domain)
 
-    hash_cache_path = Path(args.hash_cache) if args.hash_cache else None
+    hash_cache_path = Path(args.hash_cache) if getattr(args, "hash_cache", None) else None
     if hash_cache_path and not hash_cache_path.is_absolute():
         hash_cache_path = REPO_ROOT / hash_cache_path
     hash_cache = _load_hash_cache(hash_cache_path)
@@ -522,11 +522,11 @@ def _run_locked(args: argparse.Namespace, candidate_root: Path, image_root: Path
         scene: _formal_image_count(image_root, domain, scene)
         for scene, domain in scene_domain.items()
     }
-    deficit_plan = Path(args.deficit_plan) if args.deficit_plan else None
+    deficit_plan = Path(args.deficit_plan) if getattr(args, "deficit_plan", None) else None
     if deficit_plan and not deficit_plan.is_absolute():
         deficit_plan = REPO_ROOT / deficit_plan
     scene_plan = _load_scene_plan(deficit_plan)
-    scene_caps = _parse_scene_caps(args.scene_import_cap)
+    scene_caps = _parse_scene_caps(getattr(args, "scene_import_cap", []))
     task_counters: dict[str, int] = {}
     imported_samples: list[dict] = []
     accepted_hashes = {scene: list(hashes) for scene, hashes in existing_hashes.items()}
@@ -574,7 +574,7 @@ def _run_locked(args: argparse.Namespace, candidate_root: Path, image_root: Path
             remaining_scene_cap = max(0, scene_caps[scene] - already_imported_since_plan)
             scene_limit = min(scene_limit, remaining_scene_cap) if scene_limit > 0 else remaining_scene_cap
         row["scene_import_limit"] = str(scene_limit)
-        if scene_limit == 0:
+        if scene_limit == 0 and (scene_plan or scene in scene_caps):
             row["reason"] = "scene_deficit_filled"
             rows.append(row)
             continue

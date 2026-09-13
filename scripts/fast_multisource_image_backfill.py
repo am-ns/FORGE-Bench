@@ -1668,6 +1668,25 @@ def _historical_candidate_urls(root: Path) -> set[str]:
 
 
 def _process_is_alive(pid: int) -> bool:
+    if pid <= 0:
+        return False
+    if os.name == "nt":
+        # os.kill(pid, 0) is not a safe process probe on Windows.
+        import ctypes
+        from ctypes import wintypes
+        kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+        kernel32.OpenProcess.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]
+        kernel32.OpenProcess.restype = wintypes.HANDLE
+        kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
+        kernel32.GetExitCodeProcess.argtypes = [wintypes.HANDLE, ctypes.POINTER(wintypes.DWORD)]
+        handle = kernel32.OpenProcess(0x1000, False, pid)
+        if not handle:
+            return ctypes.get_last_error() != 87  # Access denied means still owned.
+        try:
+            code = wintypes.DWORD()
+            return not kernel32.GetExitCodeProcess(handle, ctypes.byref(code)) or code.value == 259
+        finally:
+            kernel32.CloseHandle(handle)
     try:
         os.kill(pid, 0)
     except ProcessLookupError:
@@ -1879,14 +1898,14 @@ def _collect_candidates(
                 tasks.append(("commons_category", query, executor.submit(_commons_category, scene, query, search_limit, search_pages, args.timeout)))
         results: dict[int, list[Candidate]] = {}
         future_meta = {future: (index, provider, query) for index, (provider, query, future) in enumerate(tasks)}
-        _progress(args.progress_log, f"search_tasks scene={scene} count={len(tasks)}")
+        _progress(getattr(args, "progress_log", ""), f"search_tasks scene={scene} count={len(tasks)}")
         for task in as_completed(future_meta):
             index, provider, query = future_meta[task]
             try:
                 found = task.result()
                 results[index] = found
                 _progress(
-                    args.progress_log,
+                    getattr(args, "progress_log", ""),
                     f"search_ok scene={scene} provider={provider} candidates={len(found)} query={query}",
                 )
                 if args.log_search_diagnostics:
@@ -1899,7 +1918,7 @@ def _collect_candidates(
                     })
             except Exception as exc:
                 _progress(
-                    args.progress_log,
+                    getattr(args, "progress_log", ""),
                     f"search_error scene={scene} provider={provider} error={exc} query={query}",
                 )
                 diagnostics.append({
@@ -2058,7 +2077,7 @@ def run(args: argparse.Namespace) -> None:
 
     HOST_RATE_LIMIT_SECONDS = max(0.0, float(args.min_host_interval))
     HOST_RATE_LIMIT_DIR = Path(args.host_lock_dir)
-    _progress(args.progress_log, f"start pid={os.getpid()} shard={args.shard_index}/{args.shards}")
+    _progress(getattr(args, "progress_log", ""), f"start pid={os.getpid()} shard={args.shard_index}/{args.shards}")
     samples = _load_samples(Path(args.samples))
     samples_by_scene = {}
     for sample in samples:
@@ -2078,7 +2097,7 @@ def run(args: argparse.Namespace) -> None:
         scenes = [scene for idx, scene in enumerate(scenes) if idx % args.shards == args.shard_index]
     if args.max_scenes > 0:
         scenes = scenes[: args.max_scenes]
-    _progress(args.progress_log, f"selected_scenes={len(scenes)}")
+    _progress(getattr(args, "progress_log", ""), f"selected_scenes={len(scenes)}")
 
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -2092,7 +2111,7 @@ def run(args: argparse.Namespace) -> None:
     existing_hashes_global = [item for hashes in existing_hashes.values() for item in hashes]
     scene_claim_dir = Path(args.scene_claim_dir)
     candidate_url_claim_dir = Path(getattr(args, "candidate_url_claim_dir", ".cache/fast_multisource_candidate_urls"))
-    historical_urls = set() if args.ignore_url_history else _historical_candidate_urls(Path(getattr(args, "history_reports_root", "reports")))
+    historical_urls = set() if getattr(args, "ignore_url_history", False) else _historical_candidate_urls(Path(getattr(args, "history_reports_root", "reports")))
     rows = []
     accepted_total = 0
     accepted_by_scene: dict[str, int] = {}
@@ -2104,21 +2123,21 @@ def run(args: argparse.Namespace) -> None:
 
     def rejection_budget_reached() -> bool:
         return (
-            args.max_rejections_without_accept > 0
-            and rejections_without_accept >= args.max_rejections_without_accept
+            getattr(args, "max_rejections_without_accept", 0) > 0
+            and rejections_without_accept >= getattr(args, "max_rejections_without_accept", 0)
         )
 
     for scene in scenes:
         if rejection_budget_reached():
             _progress(
-                args.progress_log,
+                getattr(args, "progress_log", ""),
                 f"stop reason=max_rejections_without_accept count={rejections_without_accept}",
             )
             break
-        _progress(args.progress_log, f"scene_start scene={scene}")
+        _progress(getattr(args, "progress_log", ""), f"scene_start scene={scene}")
         claim = _claim_scene(scene_claim_dir, scene, args.scene_claim_stale_seconds)
         if claim is None:
-            _progress(args.progress_log, f"scene_skipped scene={scene} reason=scene_claimed_by_another_process")
+            _progress(getattr(args, "progress_log", ""), f"scene_skipped scene={scene} reason=scene_claimed_by_another_process")
             rows.append({
                 "status": "skipped",
                 "reason": "scene_claimed_by_another_process",
@@ -2133,12 +2152,12 @@ def run(args: argparse.Namespace) -> None:
                 review_target = max(args.min_review_candidates, deficit * args.review_overfetch) if deficit > 0 else 0
                 scene_limit = review_target if args.per_scene <= 0 else min(args.per_scene, review_target)
             if scene_limit <= 0:
-                _progress(args.progress_log, f"scene_skipped scene={scene} reason=formal_target_satisfied")
+                _progress(getattr(args, "progress_log", ""), f"scene_skipped scene={scene} reason=formal_target_satisfied")
                 continue
-            _progress(args.progress_log, f"collect_start scene={scene} remaining={scene_limit}")
+            _progress(getattr(args, "progress_log", ""), f"collect_start scene={scene} remaining={scene_limit}")
             candidates, diagnostics = _collect_candidates(scene, samples_by_scene, args, scene_limit)
             _progress(
-                args.progress_log,
+                getattr(args, "progress_log", ""),
                 f"collect_done scene={scene} candidates={len(candidates)} diagnostics={len(diagnostics)}",
             )
             rows.extend(diagnostics)
@@ -2148,7 +2167,7 @@ def run(args: argparse.Namespace) -> None:
                 while not target_reached() and accepted_by_scene[scene] < scene_limit:
                     if rejection_budget_reached():
                         _progress(
-                            args.progress_log,
+                            getattr(args, "progress_log", ""),
                             f"scene_stop scene={scene} reason=max_rejections_without_accept count={rejections_without_accept}",
                         )
                         break
@@ -2286,12 +2305,12 @@ def run(args: argparse.Namespace) -> None:
                         if len(rows) % 20 == 0:
                             _write_manifest(rows, manifest)
                             _progress(
-                                args.progress_log,
+                                getattr(args, "progress_log", ""),
                                 f"manifest_update rows={len(rows)} accepted={accepted_total}",
                             )
             _write_manifest(rows, manifest)
             _progress(
-                args.progress_log,
+                getattr(args, "progress_log", ""),
                 f"scene_done scene={scene} accepted_scene={accepted_by_scene.get(scene, 0)} accepted_total={accepted_total}",
             )
         finally:
@@ -2306,7 +2325,7 @@ def run(args: argparse.Namespace) -> None:
     print(f"accepted={accepted_total}")
     print(f"output_dir={output_dir.as_posix()}")
     print(f"manifest={manifest.as_posix()}")
-    _progress(args.progress_log, f"done rows={len(rows)} accepted={accepted_total}")
+    _progress(getattr(args, "progress_log", ""), f"done rows={len(rows)} accepted={accepted_total}")
 
 
 def main() -> None:

@@ -9,7 +9,9 @@ read only from the environment and is never written to disk.
 from __future__ import annotations
 
 import argparse
+import base64
 import json
+import mimetypes
 import os
 import sys
 import time
@@ -168,35 +170,48 @@ def download_video(url: str, destination: Path) -> int:
     return size
 
 
-def build_payload(sample: dict[str, Any], model: str) -> tuple[dict[str, Any], str]:
-    image_dir = Path("reports/video_generation_500_package/images")
+def build_payload(
+    sample: dict[str, Any],
+    model: str,
+    duration: int,
+    local_image_dir: Path | None = None,
+) -> tuple[dict[str, Any], str]:
+    image_dir = local_image_dir or Path("reports/video_generation_500_package/images")
     matches = list(image_dir.glob(f"{sample['task_id']}.*"))
     if len(matches) != 1:
         raise RuntimeError(f"Expected one packaged image for {sample['task_id']}")
     image_path = matches[0].as_posix()
-    image_url = RAW_IMAGE_ROOT + "/".join(
-        urllib.parse.quote(part) for part in image_path.split("/")
-    )
+    if local_image_dir:
+        mime = mimetypes.guess_type(matches[0].name)[0] or "image/png"
+        encoded = base64.b64encode(matches[0].read_bytes()).decode("ascii")
+        image_url = f"data:{mime};base64,{encoded}"
+    else:
+        image_url = RAW_IMAGE_ROOT + "/".join(
+            urllib.parse.quote(part) for part in image_path.split("/")
+        )
     # These packaged files need a standards-compliant public representation:
     # three have a .png suffix but JPEG bytes, and one is just beyond Ark's
     # maximum accepted 2.5:1 input aspect ratio. The proxy only normalizes the
     # transport image; all other 496 samples use the original GitHub URL.
-    if sample["task_id"] in {"hload_061", "hload_092", "pdef_001"}:
+    if not local_image_dir and sample["task_id"] in {"hload_061", "hload_092", "pdef_001"}:
         image_url = (
             "https://images.weserv.nl/?url="
             + urllib.parse.quote(image_url, safe="")
             + "&output=jpg"
         )
-    elif sample["task_id"] == "pdef_210":
+    elif not local_image_dir and sample["task_id"] == "pdef_210":
         image_url = (
             "https://images.weserv.nl/?url="
             + urllib.parse.quote(image_url, safe="")
             + "&w=1900&h=760&fit=cover&output=jpg"
         )
+    prompt = sample["video_generation_prompt"]
+    if duration != 5:
+        prompt = prompt.replace("5-second", f"{duration}-second")
     payload = {
         "model": model,
         "content": [
-            {"type": "text", "text": sample["video_generation_prompt"]},
+            {"type": "text", "text": prompt},
             {
                 "type": "image_url",
                 "image_url": {"url": image_url},
@@ -206,7 +221,7 @@ def build_payload(sample: dict[str, Any], model: str) -> tuple[dict[str, Any], s
         "generate_audio": False,
         "resolution": "720p",
         "ratio": "adaptive",
-        "duration": 5,
+        "duration": duration,
         "watermark": False,
     }
     return payload, image_url
@@ -231,6 +246,12 @@ def main() -> int:
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--run-dir", type=Path, default=DEFAULT_RUN_DIR)
     parser.add_argument("--model", default="doubao-seedance-2-5-260628")
+    parser.add_argument("--duration", type=int, default=5)
+    parser.add_argument(
+        "--task-list",
+        type=Path,
+        help="JSON file containing either a tasks list or an object with a tasks list.",
+    )
     parser.add_argument("--limit", type=int)
     parser.add_argument(
         "--task-id",
@@ -243,6 +264,11 @@ def main() -> int:
     parser.add_argument("--submit-only", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--retry-failed", action="store_true")
+    parser.add_argument(
+        "--local-image-dir",
+        type=Path,
+        help="Use task-named local images as Base64 request inputs instead of public URLs.",
+    )
     args = parser.parse_args()
 
     api_key = os.environ.get("ARK_API_KEY")
@@ -250,11 +276,21 @@ def main() -> int:
         raise SystemExit("ARK_API_KEY is not set")
     if args.max_active < 1:
         raise SystemExit("--max-active must be positive")
+    if not 2 <= args.duration <= 12:
+        raise SystemExit("--duration must be between 2 and 12 seconds")
 
     manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
     all_samples = manifest["samples"]
     validate_samples(all_samples)
     samples = all_samples[: args.limit] if args.limit else all_samples
+    if args.task_list:
+        task_list_payload = json.loads(args.task_list.read_text(encoding="utf-8"))
+        task_list_rows = task_list_payload.get("tasks", task_list_payload)
+        listed_ids = {str(row["task_id"] if isinstance(row, dict) else row) for row in task_list_rows}
+        samples = [sample for sample in samples if sample["task_id"] in listed_ids]
+        if len(samples) != len(listed_ids):
+            found = {sample["task_id"] for sample in samples}
+            raise SystemExit(f"Unknown task IDs in task list: {', '.join(sorted(listed_ids - found))}")
     if args.task_ids:
         requested = set(args.task_ids)
         known = {sample["task_id"] for sample in all_samples}
@@ -269,15 +305,21 @@ def main() -> int:
 
     snapshot_rows = []
     for sample in samples:
-        payload, image_url = build_payload(sample, args.model)
+        payload, image_url = build_payload(sample, args.model, args.duration, args.local_image_dir)
+        snapshot_payload = json.loads(json.dumps(payload))
+        if image_url.startswith("data:"):
+            safe_image_url = image_url.split(",", 1)[0] + ",<omitted>"
+            snapshot_payload["content"][1]["image_url"]["url"] = safe_image_url
+        else:
+            safe_image_url = image_url
         snapshot_rows.append(
             {
                 "task_id": sample["task_id"],
                 "domain": sample["domain"],
                 "image_path": sample["image_path"],
-                "image_url": image_url,
+                "image_url": safe_image_url,
                 "video_generation_prompt": sample["video_generation_prompt"],
-                "request": payload,
+                "request": snapshot_payload,
             }
         )
     atomic_json(
@@ -288,7 +330,7 @@ def main() -> int:
             "sample_count": len(samples),
             "configuration": {
                 "model": args.model,
-                "duration": 5,
+                "duration": args.duration,
                 "resolution": "720p",
                 "ratio": "adaptive",
                 "generate_audio": False,
@@ -332,7 +374,7 @@ def main() -> int:
         while pending and len(remote) < args.max_active:
             sample = pending.pop(0)
             task_id = sample["task_id"]
-            payload, _ = build_payload(sample, args.model)
+            payload, _ = build_payload(sample, args.model, args.duration, args.local_image_dir)
             try:
                 response = client.create(payload)
                 remote_id = extract_remote_id(response)

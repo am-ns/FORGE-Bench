@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Any
 
 
-PROTOCOL_PATH = Path(__file__).with_name("forge_video_protocol_vnext.json")
+PROTOCOL_PATH = Path(__file__).with_name("forge_video_protocol.json")
 
 
 def load_protocol(path: str | Path = PROTOCOL_PATH) -> dict[str, Any]:

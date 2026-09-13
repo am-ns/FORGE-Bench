@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build auditable 5+1 artifacts from immutable per-sample evaluation JSON."""
+"""Build auditable six-axis artifacts from immutable per-sample evaluation JSON."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ import json
 from pathlib import Path
 
 from eval.axis_registry import APPLICATION_USEFULNESS, TECHNICAL_AXES
-from scoring.aggregate import aggregate_sample_results
+from scoring.aggregate import aggregate_sample_results, compute_sample_ranking_score
 
 
 CSV_FIELDS = [
@@ -24,12 +24,10 @@ CSV_FIELDS = [
 def _row(result: dict) -> dict:
     scored = result.get("scored") or {}
     axes = scored.get("axis_scores") or {}
-    status = result.get("sample_status") or ("model_output_invalid" if result.get("skipped") else "valid")
+    status = result.get("sample_status") or ("evaluator_invalid" if result.get("skipped") else "valid")
     technical = scored.get("technical_score")
     application = scored.get("application_score")
-    ranking = result.get("ranking_score")
-    if ranking is None and status == "valid" and technical is not None and application is not None:
-        ranking = 0.8 * float(technical) + 0.2 * float(application)
+    ranking = compute_sample_ranking_score(result)
     event = result.get("observable_event_coverage", scored.get("observable_event_coverage"))
     industrial = axes.get(TECHNICAL_AXES[0])
     reference = axes.get(TECHNICAL_AXES[4])

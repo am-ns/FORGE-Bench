@@ -708,7 +708,7 @@ Use the reference image as the exact first frame and create a 5-second photoreal
 - source_image: `dataset/images/extreme_emergency/emerg_smoke_evacuation_route_visibility/ref_11.jpg`
 
 ```text
-Use the reference image as the exact first frame and create a 5-second photorealistic industrial video of enclosed passage smoke evacuation visibility: Camera pans through smoke or darkness to reveal whether the passage direction, occupants, and evacuation route remain interpretable. Camera: smooth left-to-right inspection pan, not orbit. Show a localized, causal event where the hazard propagation direction and growth are visible over time; by the end, the scene preserves containment, evacuation, or escalation cues. Preserve identity, component counts, materials, lighting, background, and non-event regions; only the requested event and camera perspective may change. Avoid text/logos/watermarks, extra entities, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
+Use the reference image as the exact first frame. Create a 5-second photorealistic industrial video. A thin layer of smoke appears at the far end of the existing train carriage; all seats and poles remain fixed. Camera: locked static camera. Preserve all visible identities, object counts, geometry, materials, lighting, background, and non-event regions. Perform only the stated action. Do not introduce any unrequested people, vehicles, tools, loads, text, logos, or objects. Avoid cuts, global regeneration, flicker, warping, disappearance, penetration, floating motion, and identity swaps.
 ```
 
 ## `emerg_294`

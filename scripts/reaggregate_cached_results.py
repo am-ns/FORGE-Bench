@@ -14,6 +14,7 @@ if str(ROOT) not in sys.path:
 
 from scoring.aggregate import aggregate_sample_results  # noqa: E402
 from scoring.report import generate_diagnostic_report  # noqa: E402
+from scoring.migration import rebuild_cached_result  # noqa: E402
 
 
 def parse_args() -> argparse.Namespace:
@@ -24,6 +25,26 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def reaggregate_result_dir(result_dir: Path) -> dict:
+    """Refresh derived outputs using current policy and cached judge evidence."""
+    per_sample_path = result_dir / "per_sample.json"
+    rows = json.loads(per_sample_path.read_text(encoding="utf-8"))
+    if not isinstance(rows, list):
+        raise ValueError(f"Expected a list in {per_sample_path}")
+    rows = [rebuild_cached_result(row) for row in rows]
+    aggregate = aggregate_sample_results(rows)
+    model = str(rows[0].get("model") or result_dir.name) if rows else result_dir.name
+    report = generate_diagnostic_report(model, aggregate, rows)
+    backup = result_dir / "per_sample.before_v4_migration.json"
+    if not backup.exists():
+        backup.write_bytes(per_sample_path.read_bytes())
+    for name, payload in (("per_sample.json", rows), ("aggregate.json", aggregate), ("report.json", report)):
+        (result_dir / name).write_text(
+            json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+    return aggregate
+
+
 def main() -> None:
     args = parse_args()
     for result_dir in args.result_dirs:
@@ -31,18 +52,11 @@ def main() -> None:
         rows = json.loads(per_sample_path.read_text(encoding="utf-8"))
         if not isinstance(rows, list):
             raise ValueError(f"Expected a list in {per_sample_path}")
-        aggregate = aggregate_sample_results(rows)
+        aggregate = reaggregate_result_dir(result_dir)
         model = str(rows[0].get("model") or result_dir.name) if rows else result_dir.name
-        (result_dir / "aggregate.json").write_text(
-            json.dumps(aggregate, ensure_ascii=False, indent=2), encoding="utf-8"
-        )
-        report = generate_diagnostic_report(model, aggregate, rows)
-        (result_dir / "report.json").write_text(
-            json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8"
-        )
         print(
             f"{model}: n={aggregate.get('num_samples_complete_required_axes')} "
-            f"ranking={aggregate.get('ranking_score'):.6f} "
+            f"ranking={aggregate.get('ranking_score')} "
             f"publishable={aggregate.get('ranking_publishable')}"
         )
 

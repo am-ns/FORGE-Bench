@@ -21,7 +21,9 @@ from scoring.aggregate import CONFIG as AGGREGATE_CONFIG
 from scoring.per_sample import CONFIG as PER_SAMPLE_CONFIG
 
 
-METHODOLOGY_VERSION = "forge-video-5plus1-strict-reference-schema-v3.1"
+from scoring.policy import CONFIG as SCORING_POLICY
+
+METHODOLOGY_VERSION = SCORING_POLICY["version"]
 
 
 def file_sha256(path: str | Path) -> str | None:
@@ -77,6 +79,7 @@ def build_run_metadata(
         judge_base_url = "anthropic"
 
     config_snapshot = {
+        "scoring_policy": SCORING_POLICY,
         "scoring_per_sample": PER_SAMPLE_CONFIG,
         "scoring_aggregate": AGGREGATE_CONFIG,
         "viewpoint_motion_fidelity": VIEWPOINT_MOTION_CONFIG,

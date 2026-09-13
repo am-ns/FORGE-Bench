@@ -13,6 +13,7 @@ from eval.axis_registry import (
 )
 from scoring.compare import compare_paired
 from scoring.aggregate import aggregate_sample_results
+from scoring.policy import CONFIG
 from scripts.reproduce_paper_tables import build_tables
 from eval.llm_judge import _parse_score_0_100 as parse_anthropic_score
 from eval.llm_judge_openai import _parse_score_0_100 as parse_openai_score
@@ -86,8 +87,8 @@ def test_aggregate_headline_score_uses_complete_required_axes_only():
 
     assert result["num_samples_completed"] == 2
     assert result["num_samples_complete_required_axes"] == 1
-    # The frozen task-category weights make the complete sample's 5+1 score 86.4.
-    assert result["ranking_score"] == pytest.approx(84.0)
+    # v4 averages the five 90-point technical axes and 60-point application axis.
+    assert result["ranking_score"] == pytest.approx(85.0)
     assert result["linear_all_sample_score"] == pytest.approx(74.7)
     assert result["scoring_validity"]["missing_required_axis_counts"][TEMPORAL_CONSISTENCY] == 1
 
@@ -108,7 +109,7 @@ def test_aggregate_excludes_persisted_invalid_judge_outputs_from_headline():
     assert result["scoring_validity"]["invalid_or_unparsed_judge_outputs"] == 1
 
 
-def test_aggregate_headline_score_calibrates_zero_event_coverage():
+def test_aggregate_headline_score_caps_all_axes_at_zero_event_coverage():
     sample = _sample("vsec_001", 90.0)
     sample["observable_event_coverage"] = 0.0
     sample["scored"]["observable_event_coverage"] = 0.0
@@ -118,9 +119,9 @@ def test_aggregate_headline_score_calibrates_zero_event_coverage():
     result = aggregate_sample_results([sample])
 
     assert result["linear_ranking_score"] == pytest.approx(86.4)
-    assert result["ranking_score"] == pytest.approx(43.76470588235295)
-    assert result["constraint_adjustment_summary"]["samples_with_application_event_cap"] == 0
-    assert result["constraint_adjustment_summary"]["samples_with_event_axis_calibration"] == 1
+    assert result["ranking_score"] == pytest.approx(0.0)
+    assert result["constraint_adjustment_summary"]["samples_with_application_event_cap"] == 1
+    assert result["constraint_adjustment_summary"]["samples_with_event_axis_calibration"] == 0
 
 
 def test_judge_score_parser_does_not_recover_from_later_frame_numbers():
@@ -139,6 +140,9 @@ def test_reproduce_paper_tables_sorts_and_warns_on_incomplete_runs(tmp_path):
     (high / "aggregate.json").write_text(
         json.dumps({
             "ranking_score": 75.0,
+            "ranking_publishable": True,
+            "ranking_status": "complete",
+            "scoring_policy": {"version": CONFIG["version"], "config_sha256": CONFIG["config_sha256"]},
             "technical_score": 82.0,
             "application_score_strict": 90.0,
             "num_samples_completed": 902,
@@ -161,9 +165,8 @@ def test_reproduce_paper_tables_sorts_and_warns_on_incomplete_runs(tmp_path):
 
     payload = build_tables(results_dir, ["ranking_score", "technical_score"])
 
-    assert [row["model"] for row in payload["models"]] == ["high_model", "low_model"]
-    assert any("low_model:incomplete_run:900/902" in warning for warning in payload["warnings"])
-    assert any("low_model:skipped_samples:2" in warning for warning in payload["warnings"])
+    assert [row["model"] for row in payload["models"]] == ["high_model"]
+    assert "low_model:excluded:non_publishable" in payload["warnings"]
 
 
 def test_release_control_files_are_ascii():

@@ -4,6 +4,7 @@ from pathlib import Path
 from eval.llm_judge import _parse_judge_json
 from eval.run_eval import _candidate_reference_paths
 from scoring.leaderboard import build_leaderboard
+from scoring.policy import CONFIG
 
 
 def test_reference_candidates_never_substitute_another_scene_image(tmp_path: Path):
@@ -38,6 +39,7 @@ def test_leaderboard_excludes_incomplete_and_legacy_fallbacks(tmp_path: Path):
         "ranking_publishable": True,
         "ranking_status": "complete",
         "ranking_score": 61.0,
+        "scoring_policy": {"version": CONFIG["version"], "config_sha256": CONFIG["config_sha256"]},
         "axis_scores": {},
     }), encoding="utf-8")
     (incomplete / "aggregate.json").write_text(json.dumps({

@@ -15,7 +15,6 @@ import cv2
 import numpy as np
 import pytest
 
-from eval.calibration.floor_enforcer import enforce_score_floors
 from eval.axis_registry import (
     APPLICATION_USEFULNESS,
     GEOMETRIC_INTEGRITY,
@@ -513,15 +512,7 @@ class TestOperatorEvidence:
         assert result["visual_quality_level"] in {1, 2, 3}
         assert 0 not in result["sampled_frame_indices"]
         assert len(frames) - 1 not in result["sampled_frame_indices"]
-        assert result["score_policy"] == "diagnostic_only_not_in_headline_5_plus_1_score"
-
-
-class TestFloorEnforcer:
-    def test_floor_enforcer(self):
-        """Floor enforcer should clamp axes to their domain-specific minimums."""
-        assert enforce_score_floors({INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: 1.0})[INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT] == 5.0
-        assert enforce_score_floors({GEOMETRIC_INTEGRITY: 5.0})[GEOMETRIC_INTEGRITY] == 8.0
-        assert enforce_score_floors({"viewpoint_motion": -1.0})[VIEWPOINT_MOTION_FIDELITY] == 0.0
+        assert result["score_policy"] == "diagnostic_only_not_in_headline_six_axis_score"
 
 
 class TestScoring:
@@ -857,13 +848,13 @@ class TestScoring:
             }
         ])
         assert result["application_score_strict"] == pytest.approx(90.0)
-        assert result["constraint_adjustment_summary"]["mean_hard_application_penalty"] == pytest.approx(0.5)
+        assert result["constraint_adjustment_summary"]["mean_hard_application_penalty"] == pytest.approx(1.0)
         assert result["linear_ranking_score"] == pytest.approx(82.0)
         assert result["ranking_score"] == pytest.approx((80 * 5 + 90) / 6)
         assert result["constraint_adjustment_summary"]["mean_legacy_penalty_adjusted_score"] == pytest.approx(38.0)
 
-    def test_aggregate_continuously_calibrates_zero_event_coverage(self):
-        """Zero event coverage should down-weight only related axes."""
+    def test_aggregate_directly_caps_all_axes_at_zero_event_coverage(self):
+        """Zero event coverage directly caps every headline axis at zero."""
         result = aggregate_sample_results([
             {
                 "task_id": "missing_event",
@@ -881,9 +872,9 @@ class TestScoring:
         assert result["linear_ranking_score"] == pytest.approx(84.0)
         assert result["ranking_score"] == pytest.approx(0.0)
         assert result["overall"] == result["ranking_score"]
-        assert result["constraint_adjustment_summary"]["samples_with_application_event_cap"] == 0
-        assert result["constraint_adjustment_summary"]["samples_with_event_axis_calibration"] == 1
-        assert result["constraint_adjustment_summary"]["mean_legacy_penalty_adjusted_score"] == pytest.approx(80.0)
+        assert result["constraint_adjustment_summary"]["samples_with_application_event_cap"] == 1
+        assert result["constraint_adjustment_summary"]["samples_with_event_axis_calibration"] == 0
+        assert result["constraint_adjustment_summary"]["mean_legacy_penalty_adjusted_score"] == pytest.approx(0.0)
 
     def test_aggregate_reports_uncalibrated_geometric_conflict_without_cap(self):
         """Uncalibrated geometric disagreement must not cap headline ranking."""
@@ -952,8 +943,8 @@ class TestScoring:
         assert result["ranking_status"] == "incomplete"
         assert result["ranking_publishable"] is False
 
-    def test_aggregate_continuously_calibrates_corroborated_motion_failure(self):
-        """A corroborated motion failure continuously calibrates reference and motion fidelity."""
+    def test_non_allowlisted_motion_diagnostic_does_not_cap_headline(self):
+        """The viewpoint diagnostic is not a v4 headline-cap operator."""
         result = aggregate_sample_results([{
             "task_id": "corroborated_static_failure",
             "skipped": False,
@@ -972,7 +963,7 @@ class TestScoring:
         }])
         assert result["linear_ranking_score"] == pytest.approx(84.0)
         assert result["ranking_score"] == pytest.approx((80 * 5 + 100) / 6)
-        assert result["constraint_adjustment_summary"]["cap_reason_counts"]["continuous_motion_axis_calibration"] == 1
+        assert "continuous_motion_axis_calibration" not in result["constraint_adjustment_summary"]["cap_reason_counts"]
 
     def test_aggregate_applies_operator_risk_gate(self):
         """Operator evidence should lower fallback scores for abrupt breaks."""
@@ -1140,7 +1131,7 @@ class TestReport:
         assert "constraint_adjustment_diagnostics" in report
         assert report["application_value_report"]["application_usefulness_score"] is None
         assert "low_industrial_application_usefulness" in report["failure_taxonomy"]
-        assert report["worst_samples"][0]["task_id"] == "bad"
+        assert report["worst_samples"] == []  # Incomplete axes cannot be ranked.
 
     def test_low_score_reason_summary_cli(self, tmp_path):
         """Low-score summary CLI should write human-readable and JSON summaries."""
@@ -1194,7 +1185,7 @@ class TestReport:
         summary = json.loads(summary_path.read_text(encoding="utf-8"))
         reason_codes = {item["code"] for item in summary["top_low_score_reasons"]}
         assert "zero_observable_event_coverage" in reason_codes
-        assert summary["worst_samples"][0]["task_id"] == "bad_001"
+        assert summary["worst_samples"] == []  # Incomplete axes cannot be ranked.
 
 
 class TestDatasetValidation:

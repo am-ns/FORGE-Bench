@@ -12,6 +12,11 @@ import os
 import sys
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+from scoring.aggregate import compute_sample_ranking_score
+
 # Calibration targets: mean score per difficulty bucket must be BELOW these.
 BUCKET_TARGETS = {
     "adversarial": 25.0,
@@ -43,8 +48,10 @@ def load_model_results(results_dir: str) -> dict[str, dict]:
         try:
             with open(fpath, encoding="utf-8") as fh:
                 data = json.load(fh)
-            task_id = data.get("task_id", fpath.stem)
-            results[task_id] = data
+            rows = data if isinstance(data, list) else [data]
+            for row in rows:
+                if isinstance(row, dict) and row.get("task_id"):
+                    results[row["task_id"]] = row
         except (json.JSONDecodeError, KeyError):
             continue
     return results
@@ -77,15 +84,15 @@ def compute_bucket_scores(
         result = results[task_id]
 
         # Determine which bucket this axis falls into
-        if axis == "overall":
+        if axis in {"overall", "ranking_score"}:
             # Use the 'worst' difficulty across all axes for overall scoring
             bucket = _worst_bucket(profile)
         else:
             bucket = profile.get(axis, "medium")
 
         # Extract score
-        if axis == "overall":
-            score = result.get("weighted_score", result.get("overall"))
+        if axis in {"overall", "ranking_score"}:
+            score = compute_sample_ranking_score(result)
         else:
             axis_scores = result.get("axis_scores", result.get("per_axis_weighted", {}))
             score = axis_scores.get(axis) if isinstance(axis_scores, dict) else None

@@ -4,17 +4,26 @@
     "language": "zh-CN",
     "version": "1.0",
     "purpose": "从 GitHub 获取 FORGE-Bench，连接已部署的多模态 Judge，为与任务标注匹配的视频生成完整、可审计的 FORGE 5+1 评分。",
-    "important": "必须克隆完整仓库并加载任务标注、对应参考图和多模态 Judge。仅提供视频与 forge_5plus1_config.json 不能产生完整评分。"
+    "important": "必须克隆完整仓库并加载任务标注、对应参考图和多模态 Judge。仅提供视频与 forge_v4_config.json 不能产生完整评分。"
   },
   "source": {
     "repository": "https://github.com/am-ns/FORGE-Bench.git",
     "branch": "master",
+    "hugging_face_dataset": "https://huggingface.co/datasets/aaaabcd/FORGE-Bench",
+    "published_video_inventory": {
+      "models": 10,
+      "videos_per_model": 500,
+      "videos_total": 5000,
+      "task_id_sets_identical": true,
+      "inventory_date": "2026-09-11",
+      "score_status": "full post-refresh reevaluation required before leaderboard publication"
+    },
     "clone_command": "git clone --branch master https://github.com/am-ns/FORGE-Bench.git",
     "required_paths": [
       "requirements.txt",
       "eval/",
       "scoring/",
-      "scoring/forge_5plus1_config.json",
+      "scoring/forge_v4_config.json",
       "dataset/annotations/samples.json",
       "dataset/annotations/video_generation_500_samples.json",
       "reports/video_generation_500_package/images/",
@@ -24,7 +33,7 @@
       "docs/SCORING_METHOD.md",
       "docs/OPERATOR_EVIDENCE.md"
     ],
-    "canonical_scoring_config_url": "https://github.com/am-ns/FORGE-Bench/blob/master/scoring/forge_5plus1_config.json",
+    "canonical_scoring_config_url": "https://github.com/am-ns/FORGE-Bench/blob/master/scoring/forge_v4_config.json",
     "evaluation_entrypoint_url": "https://github.com/am-ns/FORGE-Bench/blob/master/eval/run_eval.py"
   },
   "prerequisites": {
@@ -201,9 +210,9 @@
     ],
     "application_axis": "application_usefulness",
     "technical_score": "五个技术轴按 task_category_axis_weights 归一化加权后的算术平均",
-    "linear_ranking_score": "0.8 * technical_score + 0.2 * application_usefulness",
+    "linear_ranking_score": "deprecated historical diagnostic: 0.8 * technical_score + 0.2 * application_usefulness",
     "ranking_score": "linear_ranking_score 在每项正式 gate 恰好应用一次后的最终排行榜分数",
-    "canonical_source": "scoring/forge_5plus1_config.json"
+    "canonical_source": "scoring/forge_v4_config.json"
   },
   "acceptance_checklist": [
     {
@@ -248,7 +257,7 @@
     }
   ],
   "failure_conditions": [
-    "只下载 forge_5plus1_config.json，而未下载 eval/ 与 scoring/。",
+    "只下载 forge_v4_config.json，而未下载 eval/ 与 scoring/。",
     "使用 --no_llm，或日志提示 running CV-only。",
     "Judge 是纯文本模型或不支持多图输入。",
     "参考图未加载，reference_image_status 为 missing。",

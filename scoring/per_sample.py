@@ -3,16 +3,11 @@
 
 import sys
 
-from eval.calibration.floor_enforcer import enforce_score_floors
-from scoring.policy import CONFIG as SCORING_POLICY
+from scoring.policy import CONFIG as SCORING_POLICY, operator_caps, valid_score
 
 # -- Tunable thresholds -------------------------------------------------------
 CONFIG = {
     "default_axis_weight": 1.0,       # Default weight for axes not in AXIS_WEIGHTS
-    "apply_score_floors": False,      # Floors are diagnostic only; ranking uses raw valid scores.
-    "calibrated_cv_axis_caps": True,
-    "viewpoint_axis_caps": False,
-    "industrial_constraint_axis_caps": False,
 }
 
 MOTION_GATE_TASK_CATEGORIES = {"spatial_exploration_and_viewpoint"}
@@ -92,6 +87,12 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
                 "rotation_integrity_factor": None, "rotation_integrity_factor_gated": None}
 
     axis_scores = canonicalize_axis_dict(dict(axis_scores))
+    input_errors = [f"invalid_axis_score:{axis}" for axis, value in axis_scores.items() if not valid_score(value)]
+    axis_scores = {axis: float(value) for axis, value in axis_scores.items() if valid_score(value)}
+    raw_application_usefulness_score = axis_scores.get(APPLICATION_USEFULNESS)
+    if observable_event_coverage is not None and not valid_score(observable_event_coverage):
+        input_errors.append("invalid_observable_event_coverage")
+        observable_event_coverage = None
     application_usefulness_score = axis_scores.pop(APPLICATION_USEFULNESS, None)
     if application_usefulness_score is not None:
         application_usefulness_score = max(0.0, min(100.0, float(application_usefulness_score)))
@@ -139,66 +140,9 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
         if application_usefulness_score is not None:
             application_usefulness_score = min(application_usefulness_score, event_cap)
 
-    if (
-        CONFIG["viewpoint_axis_caps"]
-        and
-        motion_gate_applied
-        and viewpoint_motion_axis_score is not None
-        and REFERENCE_AND_MOTION_FIDELITY in axis_scores
-    ):
-        cap_axis(
-            REFERENCE_AND_MOTION_FIDELITY,
-            viewpoint_motion_axis_score,
-            "viewpoint_motion_fidelity_integrated_as_reference_motion_cap",
-            VIEWPOINT_MOTION_FIDELITY,
-        )
+    for axis, cap, reason in operator_caps(operator_evidence):
+        cap_axis(axis, cap, reason, "operator_evidence")
 
-    if CONFIG["industrial_constraint_axis_caps"] and industrial_constraint_axis_score is not None:
-        cap_axis(
-            GEOMETRIC_INTEGRITY,
-            industrial_constraint_axis_score,
-            "industrial_constraint_score_integrated_as_geometric_integrity_cap",
-            INDUSTRIAL_CONSTRAINT_SCORE,
-        )
-
-    operators = (operator_evidence or {}).get("operators") or {}
-
-    def operator_can_cap(operator_name: str, payload: dict, *, min_confidence: float = float(SCORING_POLICY["operator_min_confidence"])) -> bool:
-        if operator_name not in CAP_ELIGIBLE_OPERATORS:
-            return False
-        if not payload.get("used_for_axis_cap", False):
-            return False
-        if payload.get("validity") not in {None, "valid"}:
-            return False
-        try:
-            return float(payload.get("confidence", 0.0)) >= min_confidence
-        except (TypeError, ValueError):
-            return False
-
-    local = operators.get("local_region_lock") or {}
-    if operator_can_cap("local_region_lock", local) and local.get("risk") == "global_regeneration":
-        cap_axis(REFERENCE_AND_MOTION_FIDELITY, SCORING_POLICY["operator_axis_caps"]["global_regeneration_reference"], "operator_global_regeneration", "operator_evidence")
-        cap_axis(TEMPORAL_CONSISTENCY, SCORING_POLICY["operator_axis_caps"]["global_regeneration_temporal"], "operator_global_regeneration", "operator_evidence")
-    elif operator_can_cap("local_region_lock", local) and local.get("changed_fraction") is not None and float(local.get("changed_fraction")) > 0.25:
-        cap_axis(REFERENCE_AND_MOTION_FIDELITY, SCORING_POLICY["operator_axis_caps"]["large_nonlocal_change_reference"], "operator_large_nonlocal_change", "operator_evidence")
-
-    temporal = operators.get("temporal_break") or {}
-    if operator_can_cap("temporal_break", temporal) and temporal.get("abrupt_transition") is True:
-        cap_axis(TEMPORAL_CONSISTENCY, SCORING_POLICY["operator_axis_caps"]["abrupt_temporal_transition"], "operator_abrupt_temporal_transition", "operator_evidence")
-    if operator_can_cap("temporal_break", temporal) and temporal.get("late_break") is True and temporal.get("abrupt_transition") is True:
-        cap_axis(TEMPORAL_CONSISTENCY, SCORING_POLICY["operator_axis_caps"]["late_abrupt_temporal_break"], "operator_late_abrupt_temporal_break", "operator_evidence")
-
-    rigid = operators.get("rigid_joint_tracking") or {}
-    if operator_can_cap("rigid_joint_tracking", rigid) and rigid.get("risk") == "rigid_drift":
-        cap_axis(GEOMETRIC_INTEGRITY, SCORING_POLICY["operator_axis_caps"]["rigid_drift_geometry"], "operator_rigid_drift", "operator_evidence")
-
-    # Fluid diffusion remains judge evidence only.  It is deliberately absent
-    # from CAP_ELIGIBLE_OPERATORS until human calibration establishes a safe
-    # operating point; do not leave an apparently active but unreachable cap.
-
-    floored_axis_scores = enforce_score_floors(dict(axis_scores))
-    if CONFIG["apply_score_floors"]:
-        axis_scores = {k: floored_axis_scores[k] for k in axis_scores}
     if viewpoint_motion is not None:
         viewpoint_motion = max(0.0, float(viewpoint_motion))
 
@@ -262,8 +206,10 @@ def score_sample(axis_scores: dict[str, float], viewpoint_motion: float | None =
         "weighted_score": final_score,
         "axis_scores": axis_scores,
         "raw_axis_scores": raw_axis_scores,
-        "floored_axis_scores": floored_axis_scores,
-        "score_floor_applied": CONFIG["apply_score_floors"],
+        "raw_application_usefulness_score": raw_application_usefulness_score,
+        "input_errors": input_errors,
+        "scoring_policy": {"version": SCORING_POLICY["version"], "config_sha256": SCORING_POLICY["config_sha256"]},
+        "score_floor_applied": False,
         "per_axis_weighted": per_axis_weighted,
         "axis_weights": {axis: weights.get(axis, CONFIG["default_axis_weight"])
                          for axis in axis_scores},

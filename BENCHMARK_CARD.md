@@ -1,5 +1,8 @@
 # FORGE-Bench Benchmark Card
 
+Release inventory and evaluation progress are tracked in
+[`PROJECT_STATUS.md`](PROJECT_STATUS.md).
+
 ## Purpose
 
 FORGE-Bench evaluates image-to-video generation for industrial usefulness, not
@@ -71,15 +74,11 @@ The report exposes:
   application usefulness; event coverage separately calibrates related axes.
 - `application_score_available_case`: application usefulness where event
   coverage is also available.
-- `linear_ranking_score`: transparent `0.8 * technical_score + 0.2 *
-  application_usefulness` before reliability calibration.
-- `ranking_score`: the leaderboard total over complete required-axis samples.
-  Event coverage continuously calibrates industrial logic and fact alignment,
-  reference and motion fidelity, and application usefulness; required motion
-  calibrates reference and motion fidelity; verified severe safety failures
-  calibrate industrial logic and fact alignment and application usefulness. The
-  result is linearly combined and affine-
-  rescaled after removing the fixed null baseline `b=15`.
+- `linear_ranking_score`: deprecated 0.8/0.2 historical diagnostic.
+- `ranking_score`: the only leaderboard total. Observable-event coverage caps
+  all six axes, eligible operators apply their declared axis caps, and the six
+  resulting axes are averaged with equal weight. There is no multiplier or
+  null-baseline rescaling.
 
 ## Axis Weights
 
@@ -100,11 +99,16 @@ and diagnostic comparisons against removed multiplicative penalty variants.
 
 ## Dataset Distribution
 
-Current scoring dataset: 60 scenes and 960 samples. The primary operational set
-for current video generation is
+The primary public evaluation unit is the 500-task operational split in
 `dataset/annotations/video_generation_500_samples.json`, a quality-aware
 stratified 500-sample split with 500 unique image references and 100 samples per
 domain. Its single image copy is `reports/video_generation_500_package/images/`.
+The Hugging Face release at
+`https://huggingface.co/datasets/aaaabcd/FORGE-Bench` contains ten matched model
+collections, 500 videos per model and 5,000 videos total. The ten collections
+have identical task-ID coverage. A broader 960-sample annotation pool remains
+available for research and taxonomy analysis, but it is not interchangeable
+with the frozen 500-task leaderboard manifest.
 
 **Domain sample counts**:
 
@@ -125,7 +129,7 @@ domain. Its single image copy is `reports/video_generation_500_package/images/`.
 | `medium` | 0 |
 | `easy` | 0 |
 
-These counts describe the legacy 960-sample challenge taxonomy. For the
+These counts describe the broader legacy 960-sample challenge taxonomy. For the
 operational 500-sample video-generation split used in current model runs and
 paper difficulty stratification, `difficulty_level` is assigned before model
 evaluation from content complexity with a fixed 20/30/30/20 layout: 100 easy,

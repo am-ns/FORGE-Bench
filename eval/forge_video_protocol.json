@@ -1,5 +1,5 @@
 {
-  "version": "forge-video-5plus1-gated-v1.0",
+  "version": "forge-video-6axis-capped-mean-v4.1",
   "headline": {
     "technical_axes": [
       "industrial_logic_and_fact_alignment",
@@ -9,8 +9,8 @@
       "reference_and_motion_fidelity"
     ],
     "application_axis": "application_usefulness",
-    "formula": "0.8 * mean(technical_axes) + 0.2 * application_usefulness",
-    "operator_gates": "apply_once_to_designated_axis_or_legacy_ranking_cap"
+    "formula": "mean(six axes after observable-event and eligible operator axis caps)",
+    "operator_gates": "eligible evidence applies once to designated axes; concurrent caps take the minimum"
   },
   "judge": {
     "topology": "single_model_axis_specialized_calls",

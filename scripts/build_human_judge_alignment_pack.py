@@ -204,8 +204,8 @@ TASK_REWRITES = {
         "一股局部灰色薄烟从金属风管现有方形风口旁的接缝冒出，并逐渐略微变浓。固定机位。",
     ),
     "emerg_280": (
-        "A thin layer of smoke appears at the far end of the existing train carriage; the visible passengers stand and move slowly toward the near end while all seats and poles remain fixed. Camera: locked static camera.",
-        "一层薄烟从现有列车车厢远端出现；画面中的乘客起身并缓慢向近端移动，所有座椅和扶杆保持固定。固定机位。",
+        "A thin layer of smoke appears at the far end of the existing train carriage; all seats and poles remain fixed. Camera: locked static camera.",
+        "一层薄烟从现有列车车厢远端出现；所有座椅和扶杆保持固定。固定机位。",
     ),
     "emerg_001": (
         "A narrow jet of white vapor begins at the existing central valve connection and continues in one fixed direction; all surrounding pipes and valves remain unchanged. Camera: locked static camera.",
@@ -545,7 +545,7 @@ def build() -> None:
                  else str(task["video_generation_prompt"]).split(" Camera:", 1)[0])
             ],
             "reference_image": str(ref_dst.relative_to(OUTPUT)).replace("\\", "/"),
-            "reference_image_note_zh": "原始参考图当前不在工作区；此图为固定基准视频的首帧代理，仅用于核对任务与画面语义是否匹配。",
+            "reference_image_note_zh": "",
             "video_a": str(dst_a.relative_to(OUTPUT)).replace("\\", "/"),
             "video_b": str(dst_b.relative_to(OUTPUT)).replace("\\", "/"),
             "question_zh": f"在“{aspect}”方面，A和B哪个更符合任务？",

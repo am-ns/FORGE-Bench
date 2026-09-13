@@ -18,7 +18,9 @@ your_videos/
 ```
 
 Each file must be named `{task_id}.mp4` where `task_id` matches
-`dataset/annotations/samples.json`.
+`dataset/annotations/video_generation_500_samples.json`. The public leaderboard
+uses this frozen 500-task manifest; the broader 960-sample annotation pool is
+not directly comparable.
 
 ### Video Requirements
 
@@ -36,7 +38,7 @@ Each file must be named `{task_id}.mp4` where `task_id` matches
 python eval/run_eval.py \
   --model YOUR_MODEL_NAME \
   --video_dir /path/to/your_videos \
-  --samples_json dataset/annotations/samples.json \
+  --samples_json dataset/annotations/video_generation_500_samples.json \
   --output_dir results/
 ```
 
@@ -125,7 +127,8 @@ Contains:
 - `reference_motion_decomposition` - separate reference preservation, motion control, and coupled reference-motion diagnostics
 - `constraint_adjusted_score` - backward-compatible alias for `ranking_score`; it no longer applies multiplicative penalties
 - `constraint_adjusted_score_ci95` - deterministic bootstrap 95% confidence interval for the ranking score
-- `ranking_score` - leaderboard sorting score: `0.8 * technical_score + 0.2 * application_score`
+- `ranking_score` - sole leaderboard score: unweighted mean of the six axes
+  after observable-event and eligible operator axis caps
 - `ranking_score_ci95` - bootstrap 95% confidence interval for `ranking_score`
 - `gated_score` - legacy diagnostic task-aware motion/operator-risk score
 - `overall` - paper-facing model ability score, currently aligned to `ranking_score`
@@ -164,20 +167,21 @@ breaks cap `temporal_consistency`, fluid discontinuity caps
 `physical_plausibility`, and global scene regeneration caps reference/motion
 fidelity plus temporal consistency.
 
-The headline score uses the 5+1 structure:
+The headline score uses six equal axes:
 
 ```text
-technical_score = task-category-weighted mean(five technical axes)
-application_score = application_usefulness
-linear_ranking_score = 0.8 * technical_score + 0.2 * application_score
-ranking_score = apply_each_formal_gate_once(linear_ranking_score)
+gated_axis[k] = min(raw_axis[k], observable_event_coverage)  # when coverage exists
+gated_axis[k] = min(gated_axis[k], each eligible operator cap for axis k)
+ranking_score = mean(gated industrial_logic, geometric_integrity,
+                     physical_plausibility, temporal_consistency,
+                     reference_and_motion_fidelity, application_usefulness)
 overall = ranking_score
 constraint_adjusted_score = ranking_score  # compatibility alias
 ```
 
 There is no harmonic blend or task-critical bottleneck multiplier.
-Observable-event, required-motion, safety, and allowlisted operator gates remain
-formal headline controls and are applied exactly once through the auditable gate
+Observable-event and allowlisted operator caps are formal headline controls and
+are applied exactly once through the auditable gate
 ledger. Compatibility and legacy diagnostic fields are not alternative totals.
 
 Historical score floors are retained only as diagnostic compatibility fields.
@@ -198,7 +202,8 @@ python scoring/compare.py results/MODEL_A results/MODEL_B --score-key ranking_sc
 
 ## Submitting to the Leaderboard
 
-1. Run the evaluation pipeline on all 960 samples.
+1. Run the evaluation pipeline on all 500 tasks in
+   `dataset/annotations/video_generation_500_samples.json`.
 2. Verify that `results/YOUR_MODEL_NAME/aggregate.json` exists and `num_samples_skipped` is 0.
 3. Open a pull request adding your results directory to the repository, or email the results to the benchmark maintainers.
 4. Generate the leaderboard:

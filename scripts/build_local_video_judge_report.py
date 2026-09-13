@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build an auditable 0-100 diagnostic report from local video-judge JSONL.
 
-This report is deliberately not the canonical FORGE 5+1 leaderboard. It
+This report is deliberately not the canonical FORGE six-axis leaderboard. It
 performs an exact unit conversion (0-10 to 0-100), never imputes missing axes,
 and marks incomplete inputs as non-publishable.
 """
@@ -90,7 +90,7 @@ def build(input_path: Path, output_dir: Path, expected: int | None = None) -> di
     payload = {
         "schema_version": SCHEMA_VERSION,
         "score_scale": "0-100 (exactly raw 0-10 multiplied by 10; no floor or imputation)",
-        "role": "auxiliary diagnostic; not the canonical FORGE 5+1 leaderboard score",
+        "role": "auxiliary diagnostic; not the canonical FORGE six-axis leaderboard score",
         "source": str(input_path),
         "source_sha256": hashlib.sha256(input_path.read_bytes()).hexdigest(),
         "history_rows": history_count,
@@ -116,7 +116,7 @@ def build(input_path: Path, output_dir: Path, expected: int | None = None) -> di
         f"- Valid samples: {len(valid_rows)}/{expected_count}",
         f"- Mean reported overall (0-100): {payload['overall_score_0_100']['mean']:.2f}" if overall_values else "- Mean reported overall: unavailable",
         f"- Publishable as a complete diagnostic table: {str(complete).lower()}",
-        "- This is not the canonical FORGE 5+1 leaderboard score.",
+        "- This is not the canonical FORGE six-axis leaderboard score.",
         "",
         "## Audit issues",
         "",

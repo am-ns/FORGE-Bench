@@ -8,6 +8,7 @@ import sys
 from collections import Counter, defaultdict
 
 from scoring.failure_heatmap import failure_heatmap_report as _failure_heatmap_report
+from scoring.aggregate import compute_sample_ranking_score
 from scoring.weakness_targets import summarize_results as _weakness_target_report
 
 from eval.axis_registry import (
@@ -90,14 +91,14 @@ def _group_scores(results: list[dict], key: str) -> dict:
         group = result.get(key)
         if group is None:
             continue
-        score = result.get("scored", {}).get("weighted_score")
+        score = compute_sample_ranking_score(result)
         if score is not None:
             grouped[str(group)].append(float(score))
 
     return {
         group: {
             "count": len(values),
-            "mean_weighted_score": _round_or_none(_mean(values)),
+            "mean_ranking_score": _round_or_none(_mean(values)),
             "low_score_rate": _round_or_none(
                 sum(v < CONFIG["low_axis_threshold"] for v in values) / len(values)
                 if values else None
@@ -356,7 +357,7 @@ def _application_value_report(aggregate: dict, results: list[dict]) -> dict:
 
 
 def _constraint_adjustment_diagnostics(aggregate: dict) -> dict:
-    """Expose 5+1 ranking metadata and removed-penalty diagnostics."""
+    """Expose six-axis ranking metadata and removed-penalty diagnostics."""
     return {
         "overall": aggregate.get("overall"),
         "relax_score": aggregate.get("relax_score"),
@@ -701,10 +702,10 @@ def _failure_taxonomy(results: list[dict]) -> dict:
 
 
 def _worst_samples(results: list[dict]) -> list[dict]:
-    completed = [r for r in results if not r.get("skipped") and r.get("scored")]
+    completed = [r for r in results if compute_sample_ranking_score(r) is not None]
 
     def _score(result: dict) -> float:
-        return float(result.get("scored", {}).get("weighted_score", 0.0))
+        return compute_sample_ranking_score(result)
 
     out = []
     for result in sorted(completed, key=_score)[:CONFIG["worst_sample_limit"]]:
@@ -717,6 +718,7 @@ def _worst_samples(results: list[dict]) -> list[dict]:
             "sub_topology": result.get("sub_topology"),
             "motion_type": result.get("motion_type"),
             "weighted_score": _round_or_none(result.get("scored", {}).get("weighted_score")),
+            "ranking_score": _round_or_none(_score(result)),
             "weakest_axis": weakest_axis,
             "weakest_axis_score": _round_or_none(axes.get(weakest_axis)) if weakest_axis else None,
             "viewpoint_motion": result.get("viewpoint_motion", result.get("viewpoint_motion")),
@@ -800,13 +802,13 @@ def generate_diagnostic_report(model: str, aggregate: dict, sample_results: list
             "weakest_axes": weakest_axes[:5],
         },
         "metric_definitions": {
-            "ranking_score": "canonical publishable 5+1 average-quality score; valid only when ranking_status is complete",
+            "ranking_score": "canonical publishable six-axis average-quality score; valid only when ranking_status is complete",
             "technical_score": "task-category-weighted arithmetic mean of the five technical axes",
             "application_score": "canonical +1 application-usefulness score",
             "strict_pass_rate": "share of samples for which every present public axis reaches 60",
             "functional_pass_rate": "task-conditioned usability diagnostic with 60 on critical axes and 45 on non-critical axes",
             "all_critical_pass_accuracy": "strict complete-success diagnostic, not an average quality score; requires all critical checks and all available event/reasoning checks to pass completely",
-            "weakness_targets": "nine diagnostic failure targets nested under the 5+1 axes; never additional ranking axes",
+            "weakness_targets": "nine diagnostic failure targets nested under the six-axis axes; never additional ranking axes",
         },
         "axis_statistics": axis_stats,
         "breakdowns": {

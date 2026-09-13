@@ -29,7 +29,7 @@ def _load_scores(result_dir: Path, score_key: str) -> dict[str, tuple[float, str
         rows = json.load(fh)
     scores: dict[str, tuple[float, str]] = {}
     for row in rows:
-        if row.get("skipped"):
+        if row.get("skipped") and row.get("sample_status") != "model_output_invalid":
             continue
         task_id = row.get("task_id")
         if not task_id:
@@ -52,7 +52,7 @@ def compare_paired(
     model_a_dir: Path,
     model_b_dir: Path,
     *,
-    score_key: str = "weighted_score",
+    score_key: str = "ranking_score",
     iterations: int = 10000,
     seed: int = 1729,
 ) -> dict:

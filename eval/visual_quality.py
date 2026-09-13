@@ -92,5 +92,5 @@ def evaluate_visual_quality(frames: list[np.ndarray]) -> dict:
         "mean_laplacian_variance": sharp_mean,
         "mean_edge_ratio": edge_mean,
         "exposure_ok_rate": float(exposure_ok_rate),
-        "score_policy": "diagnostic_only_not_in_headline_5_plus_1_score",
+        "score_policy": "diagnostic_only_not_in_headline_six_axis_score",
     }

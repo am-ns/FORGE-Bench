@@ -7,20 +7,13 @@
 
 For sample $i$, the judge produces five technical scores $s_{i,a}\in[0,100]$: industrial logic and fact alignment, geometric integrity, physical plausibility, temporal consistency, and reference-and-motion fidelity. Application usefulness $u_i\in[0,100]$ is evaluated separately because a technically plausible clip can still fail its intended workflow.
 
-Let $w_{i,a}$ denote the normalized axis weight determined by the task category. The technical score is
+Let $c_i\in[0,100]$ be observable required-event coverage and $x_{ik}$ one of the six raw axes. Coverage first imposes the common cap $x^{(0)}_{ik}=\min(x_{ik},c_i)$. Allowlisted valid operator evidence with confidence at least 0.70 may then impose only its preregistered axis-specific cap: global regeneration caps reference/motion at 35 and temporal consistency at 45; large non-local change caps reference/motion at 50; an abrupt temporal transition caps temporal consistency at 35 (25 for a late break); and rigid drift caps geometric integrity at 45. Concurrent caps compose by taking their minimum.
+
+If $L_i',G_i',P_i',T_i',R_i',U_i'$ are the six capped axes, the sole leaderboard score is
 \begin{equation}
-T_i = \sum_{a=1}^{5} w_{i,a}s_{i,a}, \qquad \sum_{a=1}^{5}w_{i,a}=1.
+S_i=\frac{L_i'+G_i'+P_i'+T_i'+R_i'+U_i'}{6}.
 \end{equation}
-Let $c_i\in[0,1]$ be required-event coverage and $m_i\in[0,1]$ the validated required-motion score when applicable. We use continuous reliability functions
-\begin{equation}
-g_e(c_i)=0.05+0.95c_i^{1.7},\qquad g_m(m_i)=0.25+0.75m_i^{1.2}.
-\end{equation}
-Event reliability calibrates only industrial logic/fact alignment, reference-and-motion fidelity, and application usefulness; motion reliability calibrates only reference-and-motion fidelity. A verified severe safety failure applies a reliability of 0.5 to industrial logic/fact alignment and application usefulness. After recomputing the weighted technical score $\widetilde T_i$ and calibrated application score $\widetilde u_i$, the single linear five-plus-one score is
-\begin{equation}
-P_i=0.8\widetilde T_i+0.2\widetilde u_i,\qquad
-R_i=\mathrm{clip}_{[0,100]}\!\left(100\frac{P_i-b}{100-b}\right),\quad b=15.
-\end{equation}
-The fixed $b=15$ represents a preregistered degenerate-generation baseline; the affine transform preserves ordering above the floor and maps a perfect score to 100. There are no post-total 0/30/40 caps. Each semantic multiplier is applied once and recorded in a per-sample ledger. Aggregate ranking is the mean over samples with all required axes, with cluster-bootstrap confidence intervals. No alternative total is used for leaderboard ranking.
+The model score is the arithmetic mean of $S_i$ over valid complete samples, with scene-cluster bootstrap confidence intervals. Missing videos, missing axes, or unresolved judge/parser failures make a requested run non-publishable. The retired 0.8/0.2 blend, continuous reliability multipliers, and $b=15$ affine baseline are historical diagnostics only and never affect ranking.
 
 \subsection{Temporal evidence and multimodal judging}
 

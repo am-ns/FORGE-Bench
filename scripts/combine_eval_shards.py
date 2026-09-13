@@ -54,6 +54,19 @@ def load_sample_results(shard_dirs: list[Path]) -> dict[str, dict]:
     return results
 
 
+def align_results_to_manifest(results_by_id: dict[str, dict], task_ids: list[str]) -> list[dict]:
+    """Keep missing tasks visible so a partial shard set cannot publish."""
+    if len(task_ids) != len(set(task_ids)):
+        raise ValueError("Duplicate task IDs in requested manifest")
+    return [results_by_id.get(task_id, {
+        "task_id": task_id,
+        "skipped": True,
+        "sample_status": "evaluator_invalid",
+        "scoring_complete": False,
+        "skip_reason": "missing_shard_result",
+    }) for task_id in task_ids]
+
+
 def load_shard_metadata(shard_dirs: list[Path]) -> list[dict]:
     metadata = []
     for shard_dir in shard_dirs:
@@ -91,7 +104,7 @@ def main() -> None:
     results_by_id = load_sample_results(shard_dirs)
     with open(args.samples_json, encoding="utf-8") as f:
         sample_order = [s["task_id"] for s in json.load(f)["samples"]]
-    all_results = [results_by_id[task_id] for task_id in sample_order if task_id in results_by_id]
+    all_results = align_results_to_manifest(results_by_id, sample_order)
 
     for result in all_results:
         task_id = result["task_id"]

@@ -19,6 +19,7 @@ Requires at least 2 models. Produces:
 """
 
 import math
+from scoring.aggregate import compute_sample_ranking_score
 from collections import defaultdict
 
 try:
@@ -102,14 +103,8 @@ def _spearman(a: list[float], b: list[float]) -> float | None:
 # ---------------------------------------------------------------------------
 
 def _extract_score(result: dict) -> float | None:
-    """Primary ranking score: constraint-adjusted if present, else weighted_score."""
-    scored = result.get("scored") or {}
-    # Prefer the headline constraint-adjusted score stored by aggregate
-    for key in ("constraint_adjusted_score", "ranking_score", "weighted_score"):
-        v = scored.get(key)
-        if v is not None:
-            return float(v)
-    return None
+    """Recompute the canonical score from axes and evidence."""
+    return compute_sample_ranking_score(result)
 
 
 def _extract_axis_scores(result: dict) -> dict[str, float]:
@@ -129,7 +124,7 @@ def _align_by_task(
     for model, results in results_by_model.items():
         per_model[model] = {}
         for r in results:
-            if r.get("skipped"):
+            if r.get("skipped") and r.get("sample_status") != "model_output_invalid":
                 continue
             tid = r.get("task_id")
             score = _extract_score(r)

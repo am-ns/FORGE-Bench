@@ -4,6 +4,7 @@
 import json
 import os
 import sys
+from scoring.policy import publication_issue
 
 from eval.axis_registry import (
     GEOMETRIC_INTEGRITY,
@@ -41,8 +42,9 @@ def _load_model_results(results_dir: str) -> list[dict]:
             print(f"WARNING: could not load {agg_path}: {exc}", file=sys.stderr)
             continue
 
-        if data.get("ranking_publishable") is not True or data.get("ranking_status") != "complete":
-            print(f"WARNING: excluding non-publishable result: {agg_path}", file=sys.stderr)
+        issue = publication_issue(data)
+        if issue:
+            print(f"WARNING: excluding {issue}: {agg_path}", file=sys.stderr)
             continue
         ranking_score = data.get("ranking_score")
         if ranking_score is None:
@@ -51,11 +53,12 @@ def _load_model_results(results_dir: str) -> list[dict]:
 
         models.append({
             "model": entry,
-            "overall": data.get("overall", 0.0),
-            "overall_ci95": data.get("relax_score_ci95", {}),
+            "overall": ranking_score,
+            "overall_ci95": data.get("ranking_score_ci95", {}),
             "constraint_adjusted_score": data.get("constraint_adjusted_score"),
             "constraint_adjusted_score_ci95": data.get("constraint_adjusted_score_ci95", {}),
             "ranking_score": ranking_score,
+            "ranking_score_ci95": data.get("ranking_score_ci95", {}),
             "ranking_status": data["ranking_status"],
             "ranking_publishable": True,
             "technical_score": data.get("technical_score", data.get("task_conditioned_score")),
@@ -104,7 +107,7 @@ def _generate_markdown(models: list[dict]) -> str:
     for rank, item in enumerate(models, 1):
         axis_scores = item["axis_scores"]
         rotation_integrity_factor_string = f"{float(item['rotation_integrity_factor']):.1f}" if item["rotation_integrity_factor"] is not None else "-"
-        ranking_ci = item.get("constraint_adjusted_score_ci95") or {}
+        ranking_ci = item.get("ranking_score_ci95") or {}
         ranking_ci_string = (
             f"[{float(ranking_ci['ci95_low']):.1f}, {float(ranking_ci['ci95_high']):.1f}]"
             if ranking_ci.get("ci95_low") is not None and ranking_ci.get("ci95_high") is not None else "-"

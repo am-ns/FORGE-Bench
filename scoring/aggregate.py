@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Aggregate per-axis benchmark scores with floor enforcement and motion tiering."""
+"""Aggregate the canonical six capped axes; retain separate diagnostics."""
 
 import sys
 
-from scoring.policy import CONFIG as SCORING_POLICY
+from scoring.policy import CONFIG as SCORING_POLICY, operator_caps, valid_score
 
 from eval.axis_registry import (
     APPLICATION_USEFULNESS,
@@ -34,9 +34,6 @@ except ImportError:  # pragma: no cover
 
 # -- Tunable thresholds -------------------------------------------------------
 CONFIG = {
-    "axis_floor_default": 5.0,    # Default minimum score floor for any axis
-    "axis_floor_geometric_integrity": 8.0,
-    "axis_floor_viewpoint_motion": 0.0,
     "motion_tier_none": 5,
     "motion_tier_weak": 20,
     "motion_tier_moderate": 60,
@@ -52,15 +49,13 @@ CONFIG = {
     "enable_uncalibrated_geometric_conflict_cap": False,
     "motion_cv_min_confidence": 0.70,
     "motion_vlm_weight": 0.75,
-    "headline_score_policy": "forge_5plus1_v3_constraint_calibrated_linear",
+    "headline_score_policy": SCORING_POLICY["version"],
     "bootstrap_iterations": 1000,
     "bootstrap_seed": 1729,
-    "apply_axis_floors": False,
 }
 CONFIG.update({
     "strict_axis_threshold": float(SCORING_POLICY["strict_axis_threshold"]),
     "operator_gate_min": float(SCORING_POLICY["operator_gate_min"]),
-    "hard_application_failure_penalty": float(SCORING_POLICY["hard_application_failure_penalty"]),
     "bootstrap_iterations": int(SCORING_POLICY["bootstrap_iterations"]),
     "bootstrap_seed": int(SCORING_POLICY["bootstrap_seed"]),
 })
@@ -72,17 +67,6 @@ HARD_APPLICATION_FAILURE_MODES = {
     "misleading_safety_response",
 }
 
-
-AXIS_FLOORS = {
-    INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: CONFIG["axis_floor_default"],
-    TEMPORAL_CONSISTENCY: CONFIG["axis_floor_default"],
-    PHYSICAL_PLAUSIBILITY: CONFIG["axis_floor_default"],
-    REFERENCE_AND_MOTION_FIDELITY: CONFIG["axis_floor_default"],
-    GEOMETRIC_INTEGRITY: CONFIG["axis_floor_geometric_integrity"],
-    INDUSTRIAL_CONSTRAINT_SCORE: CONFIG["axis_floor_geometric_integrity"],
-    VIEWPOINT_MOTION_FIDELITY: CONFIG["axis_floor_viewpoint_motion"],
-    APPLICATION_USEFULNESS: CONFIG["axis_floor_default"],
-}
 
 STRICT_AXIS_THRESHOLDS = {
     INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT: CONFIG["strict_axis_threshold"],
@@ -142,12 +126,6 @@ def viewpoint_motion_tier(viewpoint_motion_value: float) -> str:
 
 
 
-def enforce_floor(axis: str, score: float) -> float:
-    """Clamp *score* to the minimum floor for *axis*."""
-    floor = AXIS_FLOORS.get(canonical_axis(axis), 0.0)
-    return max(floor, score)
-
-
 def compute_cross_axis_integrity_factor(axis_scores: dict[str, float]) -> float | None:
     """Compute the cross-axis integrity factor from axis scores.
 
@@ -189,7 +167,7 @@ def aggregate_scores(axis_scores: dict[str, float], viewpoint_motion: float | No
         viewpoint_motion: Viewpoint motion value. If provided, a motion tier is included.
 
     Returns:
-        dict with per-axis scores, raw/floored diagnostic views, overall mean, optional viewpoint_motion_tier,
+        dict with per-axis scores, raw diagnostic views, overall mean, optional viewpoint_motion_tier,
         and rotation integrity factor with viewpoint motion fidelity-gating.
     """
     if not isinstance(axis_scores, dict):
@@ -198,18 +176,15 @@ def aggregate_scores(axis_scores: dict[str, float], viewpoint_motion: float | No
     axis_scores = canonicalize_axis_dict(axis_scores)
 
     raw: dict[str, float] = {}
-    floored: dict[str, float] = {}
     for axis, score in axis_scores.items():
         canonical = canonical_axis(axis)
         raw[canonical] = float(score)
-        floored[canonical] = enforce_floor(axis, score)
-    reported_scores = floored if CONFIG["apply_axis_floors"] else raw
+    reported_scores = raw
 
     result = {
         "axis_scores": reported_scores,
         "raw_axis_scores": raw,
-        "floored_axis_scores": floored,
-        "score_floor_applied": CONFIG["apply_axis_floors"],
+        "score_floor_applied": False,
         "overall": float(np.mean(list(reported_scores.values()))) if reported_scores else 0.0,
     }
 
@@ -293,88 +268,45 @@ def _task_conditioned_score(result: dict) -> float:
 
 
 def _linear_ranking_score(result: dict) -> float:
-    """Return the uncalibrated linear diagnostic retained for compatibility."""
+    """Return the deprecated 0.8/0.2 diagnostic; never use it for ranking."""
     technical = _task_conditioned_score(result)
     application = _application_score_strict(result)
     if application is None:
         return technical
+    legacy = SCORING_POLICY["deprecated_diagnostics"]
     return float(
-        float(SCORING_POLICY["technical_weight"]) * technical
-        + float(SCORING_POLICY["application_weight"]) * application
+        float(legacy["linear_technical_weight"]) * technical
+        + float(legacy["linear_application_weight"]) * application
     )
-
-
-def _continuous_reliability(value: float, policy: dict) -> float:
-    normalized = max(0.0, min(1.0, float(value) / 100.0))
-    return float(policy["floor"]) + float(policy["scale"]) * normalized ** float(policy["exponent"])
 
 
 def _constraint_calibrated_linear_score(result: dict) -> tuple[float, dict]:
-    """Calibrate semantically related axes, then perform one linear 5+1 sum."""
+    """Return retired-v3 diagnostics without affecting the v4 headline score."""
     scored = result.get("scored", {})
     raw_scores = canonicalize_axis_dict(scored.get("axis_scores", {}))
-    scores = dict(raw_scores)
-
-    coverage = _observable_event_coverage(result)
-    event_policy = SCORING_POLICY["event_coverage_calibration"]
-    event_reliability = (
-        _continuous_reliability(coverage, event_policy)
-        if coverage is not None else 1.0
-    )
-    for axis in event_policy["affected_axes"]:
-        if axis in scores:
-            scores[axis] = float(scores[axis]) * event_reliability
-
-    safety_reliability, safety_reasons = _application_hard_failure_penalty(result)
-    if INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT in scores:
-        scores[INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT] *= safety_reliability
-
-    motion_score, _, motion_reasons = _viewpoint_motion_constraint(result)
-    motion_reliability = 1.0
-    if motion_score is not None and REFERENCE_AND_MOTION_FIDELITY in scores:
-        motion_reliability = _continuous_reliability(
-            motion_score, SCORING_POLICY["motion_calibration"]
-        )
-        scores[REFERENCE_AND_MOTION_FIDELITY] *= motion_reliability
-
-    axes = [axis for axis in TECHNICAL_AXES if axis in scores]
-    weights = axis_weights_for(result)
-    total_weight = sum(float(weights.get(axis, BASE_AXIS_WEIGHTS[axis])) for axis in axes)
-    technical = (
-        sum(float(scores[axis]) * float(weights.get(axis, BASE_AXIS_WEIGHTS[axis])) for axis in axes)
-        / total_weight
-        if total_weight > 0.0 else 0.0
-    )
+    technical = _task_conditioned_score(result)
     application = _application_score_strict(result)
-    calibrated_application = None
-    if application is not None:
-        calibrated_application = float(application) * event_reliability * safety_reliability
-    pre_baseline = technical if calibrated_application is None else (
-        float(SCORING_POLICY["technical_weight"]) * technical
-        + float(SCORING_POLICY["application_weight"]) * calibrated_application
-    )
-    baseline = float(SCORING_POLICY["null_baseline"])
-    ranking = 100.0 * (pre_baseline - baseline) / (100.0 - baseline)
-    ranking = max(0.0, min(100.0, ranking))
-    return float(ranking), {
+    linear = _linear_ranking_score(result)
+    return float(linear), {
         "raw_axis_scores": raw_scores,
-        "calibrated_axis_scores": scores,
-        "event_coverage": coverage,
-        "event_reliability": event_reliability,
-        "motion_reliability": motion_reliability,
-        "safety_reliability": safety_reliability,
-        "safety_reasons": safety_reasons,
-        "motion_reasons": motion_reasons,
+        "calibrated_axis_scores": raw_scores,
+        "event_coverage": _observable_event_coverage(result),
+        "event_reliability": 1.0,
+        "motion_reliability": 1.0,
+        "safety_reliability": 1.0,
+        "safety_reasons": [],
+        "motion_reasons": [],
         "calibrated_technical_score": technical,
-        "calibrated_application_score": calibrated_application,
-        "pre_baseline_linear_score": pre_baseline,
-        "null_baseline": baseline,
+        "calibrated_application_score": application,
+        "pre_baseline_linear_score": linear,
+        "null_baseline": None,
+        "status": "deprecated_v3_diagnostic_only",
     }
 
 
 def _paper_adjusted_ranking_score(result: dict) -> float:
-    """Return the constraint-calibrated, baseline-normalized linear 5+1 score."""
-    return _constraint_calibrated_linear_score(result)[0]
+    """Compatibility wrapper aligned to the sole v4 headline score."""
+    return _ranking_score(result)
 
 
 def _ranking_score(result: dict) -> float:
@@ -388,27 +320,8 @@ def _ranking_score(result: dict) -> float:
         scores = {axis: min(float(score), float(coverage)) for axis, score in scores.items()}
         application = min(float(application), float(coverage))
 
-    operators = ((result.get("operator_evidence") or {}).get("operators") or {})
-    caps = SCORING_POLICY["operator_axis_caps"]
-    def eligible(name: str) -> bool:
-        payload = operators.get(name) or {}
-        return bool(
-            name in CAP_ELIGIBLE_OPERATORS
-            and payload.get("used_for_axis_cap")
-            and payload.get("validity") in {None, "valid"}
-            and float(payload.get("confidence") or 0.0) >= float(SCORING_POLICY["operator_min_confidence"])
-        )
-    local = operators.get("local_region_lock") or {}
-    if eligible("local_region_lock") and local.get("risk") == "global_regeneration":
-        scores[REFERENCE_AND_MOTION_FIDELITY] = min(scores[REFERENCE_AND_MOTION_FIDELITY], float(caps["global_regeneration_reference"]))
-        scores[TEMPORAL_CONSISTENCY] = min(scores[TEMPORAL_CONSISTENCY], float(caps["global_regeneration_temporal"]))
-    temporal = operators.get("temporal_break") or {}
-    if eligible("temporal_break") and temporal.get("abrupt_transition"):
-        cap = caps["late_abrupt_temporal_break"] if temporal.get("late_break") else caps["abrupt_temporal_transition"]
-        scores[TEMPORAL_CONSISTENCY] = min(scores[TEMPORAL_CONSISTENCY], float(cap))
-    rigid = operators.get("rigid_joint_tracking") or {}
-    if eligible("rigid_joint_tracking") and rigid.get("risk") == "rigid_drift":
-        scores[GEOMETRIC_INTEGRITY] = min(scores[GEOMETRIC_INTEGRITY], float(caps["rigid_drift_geometry"]))
+    for axis, cap, _reason in operator_caps(result.get("operator_evidence")):
+        scores[axis] = min(scores[axis], cap)
     values = [float(scores[axis]) for axis in TECHNICAL_AXES]
     values.append(float(application))
     return float(np.mean(values))
@@ -455,14 +368,16 @@ def _application_usefulness_score(result: dict) -> float | None:
     score = scored.get("application_usefulness_score", result.get("application_usefulness_score"))
     if score is None:
         score = (scored.get("application_axis_scores") or {}).get(APPLICATION_USEFULNESS)
-    return max(0.0, min(100.0, float(score))) if score is not None else None
+    return float(score) if valid_score(score) else None
 
 
 def _observable_event_coverage(result: dict) -> float | None:
     scored = result.get("scored", {})
-    score = scored.get("observable_event_coverage", result.get("observable_event_coverage"))
+    score = result.get("observable_event_coverage")
+    if score is None:
+        score = scored.get("observable_event_coverage")
     if score is not None:
-        return max(0.0, min(100.0, float(score)))
+        return float(score) if valid_score(score) else None
     details = result.get("application_usefulness_details") or {}
     checks = details.get("required_event_checks") or []
     if checks:
@@ -475,7 +390,7 @@ def _observable_event_coverage(result: dict) -> float | None:
 def _task_realization(result: dict) -> dict:
     """Return continuous and thresholded task-realization diagnostics.
 
-    These diagnostics explain the 5+1 result; they never multiply or replace
+    These diagnostics explain the six-axis result; they never multiply or replace
     the ranking score. Event coverage retains its separate formal cap.
     """
     scores = canonicalize_axis_dict((result.get("scored") or {}).get("axis_scores", {}))
@@ -537,20 +452,13 @@ def _application_hard_failure_penalty(result: dict) -> tuple[float, list[str]]:
 
 
 def _application_event_coverage_cap(result: dict) -> tuple[float | None, list[str]]:
-    """Backward-compatible hook; v3 uses continuous axis calibration, not caps."""
-    if SCORING_POLICY["event_coverage_gate"] == "continuous_axis_calibration":
-        return None, []
+    """Return the v4 direct cap imposed by observable-event coverage."""
     coverage = _observable_event_coverage(result)
     if coverage is None:
         return None, []
     coverage = max(0.0, min(100.0, float(coverage)))
-    caps = SCORING_POLICY["event_coverage_caps"]
-    if coverage <= 0.0:
-        return float(caps["zero"]), ["zero_observable_event_coverage"]
-    if coverage < float(CONFIG["strict_axis_threshold"]):
-        return float(caps["below_strict"]), ["below_strict_observable_event_coverage"]
     if coverage < 100.0:
-        return float(caps["incomplete"]), ["incomplete_observable_event_coverage"]
+        return coverage, ["observable_event_coverage_direct_cap"]
     return None, []
 
 
@@ -735,12 +643,12 @@ def _operator_risk_multiplier(result: dict) -> float:
     def operator_can_cap(operator_name: str, payload: dict, *, min_confidence: float = 0.70) -> bool:
         if operator_name not in CAP_ELIGIBLE_OPERATORS:
             return False
-        if not payload.get("used_for_axis_cap", False):
+        if not isinstance(payload, dict) or payload.get("used_for_axis_cap") is not True:
             return False
         if payload.get("validity") not in {None, "valid"}:
             return False
         try:
-            return float(payload.get("confidence", 0.0)) >= min_confidence
+            return valid_score(payload.get("confidence"), 1.0) and payload["confidence"] >= min_confidence
         except (TypeError, ValueError):
             return False
 
@@ -748,7 +656,7 @@ def _operator_risk_multiplier(result: dict) -> float:
     changed_fraction = local.get("changed_fraction")
     if operator_can_cap("local_region_lock", local) and local.get("risk") == "global_regeneration":
         multiplier *= 0.70
-    elif operator_can_cap("local_region_lock", local) and changed_fraction is not None and float(changed_fraction) > 0.25:
+    elif operator_can_cap("local_region_lock", local) and valid_score(changed_fraction, 1.0) and changed_fraction > 0.25:
         multiplier *= 0.88
 
     temporal = operators.get("temporal_break") or {}
@@ -834,12 +742,12 @@ def _operator_constraint(result: dict) -> tuple[float, float | None, list[str]]:
     def operator_can_cap(operator_name: str, payload: dict, *, min_confidence: float = 0.70) -> bool:
         if operator_name not in CAP_ELIGIBLE_OPERATORS:
             return False
-        if not payload.get("used_for_axis_cap", False):
+        if not isinstance(payload, dict) or payload.get("used_for_axis_cap") is not True:
             return False
         if payload.get("validity") not in {None, "valid"}:
             return False
         try:
-            return float(payload.get("confidence", 0.0)) >= min_confidence
+            return valid_score(payload.get("confidence"), 1.0) and payload["confidence"] >= min_confidence
         except (TypeError, ValueError):
             return False
 
@@ -1076,7 +984,7 @@ def _visual_quality_summary(completed: list[dict]) -> dict:
             str(level): levels.count(level)
             for level in sorted(set(levels))
         },
-        "policy": "diagnostic_only_not_in_headline_5_plus_1_score",
+        "policy": "diagnostic_only_not_in_headline_six_axis_score",
     }
 
 
@@ -1139,36 +1047,13 @@ def _spearman_corr(a: list[float], b: list[float]) -> float | None:
     return _pearson_corr(_rankdata(a), _rankdata(b))
 
 
-def _ranking_score_variant(
-    result: dict,
-    *,
-    null_baseline: float = 15.0,
-) -> float:
-    _, details = _constraint_calibrated_linear_score(result)
-    baseline = max(0.0, min(99.999, float(null_baseline)))
-    score = 100.0 * (float(details["pre_baseline_linear_score"]) - baseline) / (100.0 - baseline)
-    return max(0.0, min(100.0, score))
-
-
 def _ranking_sensitivity_report(completed: list[dict], baseline_scores: list[float]) -> dict:
-    """Diagnostic comparison against penalty variants around the headline policy."""
-    variants = {
-        "null_baseline_10": {"null_baseline": 10.0},
-        "null_baseline_20": {"null_baseline": 20.0},
-    }
-    out = {}
-    for name, params in variants.items():
-        scores = [_ranking_score_variant(result, **params) for result in completed]
-        out[name] = {
-            "mean": float(np.mean(scores)) if scores else None,
-            "spearman_vs_baseline": _spearman_corr(baseline_scores, scores),
-            "pearson_vs_baseline": _pearson_corr(baseline_scores, scores),
-        }
+    """Record that retired baseline variants are excluded from v4 ranking."""
     return {
-        "baseline_policy": "constraint_calibrated_linear_5plus1_b15",
+        "baseline_policy": "six_axis_direct_cap_arithmetic_mean",
         "baseline_n": len(baseline_scores),
-        "status": "diagnostic_sensitivity_around_fixed_null_baseline",
-        "variants": out,
+        "status": "retired_v3_null_baseline_variants_not_computed",
+        "variants": {},
     }
 
 
@@ -1282,6 +1167,27 @@ def _scoring_validity_summary(completed: list[dict], axis_keys: set[str]) -> dic
     }
 
 
+def _invalid_score_inputs(result: dict) -> bool:
+    scored = result.get("scored") or {}
+    if scored.get("input_errors") or result.get("scoring_migration_error"):
+        return True
+    policy = scored.get("scoring_policy") or result.get("scoring_policy")
+    if policy and (policy.get("version") != SCORING_POLICY["version"]
+                   or policy.get("config_sha256") != SCORING_POLICY["config_sha256"]):
+        return True
+    if scored.get("score_floor_applied") or scored.get("floored_axis_scores"):
+        return True
+    if "raw_axis_scores" in scored and not policy:
+        return True
+    scores = scored.get("axis_scores") or {}
+    if not isinstance(scores, dict) or any(not valid_score(v) for v in scores.values()):
+        return True
+    values = [result.get("observable_event_coverage"), scored.get("observable_event_coverage"),
+              result.get("application_usefulness_score"), scored.get("application_usefulness_score")]
+    values.extend((scored.get("application_axis_scores") or {}).values())
+    return any(v is not None and not valid_score(v) for v in values)
+
+
 def _has_required_axes(result: dict) -> bool:
     required_axes = {
         INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT,
@@ -1296,11 +1202,12 @@ def _has_required_axes(result: dict) -> bool:
     if _application_score(result) is not None:
         present.add(APPLICATION_USEFULNESS)
     invalid_judges = (result.get("scoring_validity") or {}).get("invalid_judge_outputs") or []
-    return required_axes <= present and not invalid_judges
+    return (required_axes <= present and not invalid_judges
+            and not _invalid_score_inputs(result))
 
 
 def _constraint_adjustment(result: dict) -> dict:
-    """Return the auditable ledger for continuous axis calibration."""
+    """Return the auditable v4 cap ledger plus explicitly deprecated diagnostics."""
     axis_score = _task_conditioned_score(result)
     linear_ranking_score = _linear_ranking_score(result)
     application_score = _application_score_strict(result)
@@ -1337,17 +1244,6 @@ def _constraint_adjustment(result: dict) -> dict:
     event_reliability = float(calibration["event_reliability"])
     motion_reliability = float(calibration["motion_reliability"])
     safety_reliability = float(calibration["safety_reliability"])
-    calibration_reasons = []
-    if event_reliability < 1.0:
-        calibration_reasons.append("continuous_event_axis_calibration")
-    if motion_reliability < 1.0:
-        calibration_reasons.append("continuous_motion_axis_calibration")
-    if safety_reliability < 1.0:
-        calibration_reasons.extend(
-            f"safety_axis_calibration:{reason}"
-            for reason in calibration["safety_reasons"]
-        )
-
     return {
         "axis_score": axis_score,
         "constraint_score": constraint_score,
@@ -1367,17 +1263,15 @@ def _constraint_adjustment(result: dict) -> dict:
         "legacy_application_multiplier": float(application_multiplier),
         "legacy_hard_constraint_multiplier": float(hard_constraint_multiplier),
         "legacy_hard_application_penalty": float(hard_application_penalty),
-        "application_event_coverage_cap": None,
+        "application_event_coverage_cap": application_cap,
         "geometric_conflict_cap": None,
         "hard_application_failure_reasons": calibration["safety_reasons"],
-        "cap_reasons": calibration_reasons,
+        "cap_reasons": application_cap_reasons,
         "axis_calibration": calibration,
         "viewpoint_motion_constraint_score": viewpoint_score,
         "operator_reliability_score": operator_score,
         "gate_ledger": [
-            {"gate": "observable_event_coverage", "action": "axis_multiplier", "value": event_reliability, "affected_axes": SCORING_POLICY["event_coverage_calibration"]["affected_axes"], "reasons": ["continuous_event_axis_calibration"] if event_reliability < 1.0 else [], "applied": event_reliability < 1.0},
-            {"gate": "viewpoint_motion", "action": "axis_multiplier", "value": motion_reliability, "affected_axes": [REFERENCE_AND_MOTION_FIDELITY], "reasons": calibration["motion_reasons"], "applied": motion_reliability < 1.0},
-            {"gate": "safety_response", "action": "axis_multiplier", "value": safety_reliability, "affected_axes": [INDUSTRIAL_LOGIC_AND_FACT_ALIGNMENT, APPLICATION_USEFULNESS], "reasons": calibration["safety_reasons"], "applied": safety_reliability < 1.0},
+            {"gate": "observable_event_coverage", "action": "direct_axis_cap", "value": _observable_event_coverage(result), "affected_axes": SCORING_POLICY["event_coverage_cap_axes"], "reasons": ["observable_event_coverage_cap"] if _observable_event_coverage(result) is not None else [], "applied": _observable_event_coverage(result) is not None},
             {"gate": "final_aggregation", "action": "arithmetic_mean", "value": None, "reasons": ["mean_of_six_gated_axes"], "applied": True},
         ],
     }
@@ -1392,8 +1286,17 @@ def compute_sample_technical_score(result: dict) -> float:
     return _task_conditioned_score(result)
 
 
-def compute_sample_ranking_score(result: dict) -> float:
-    """Return the per-sample ranking score used by aggregate leaderboard means."""
+def compute_sample_ranking_score(result: dict) -> float | None:
+    """Recompute the current score; never trust a cached total or fill missing axes."""
+    if result.get("sample_status") == "model_output_invalid":
+        return 0.0
+    if result.get("skipped") or result.get("sample_status") == "evaluator_invalid":
+        return None
+    if not _has_required_axes(result):
+        return None
+    validity = _scoring_validity_summary([result], set())
+    if validity["invalid_or_unparsed_judge_outputs"]:
+        return None
     return _ranking_score(result)
 
 
@@ -1409,7 +1312,8 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     - motion_gated_score/operator_risk_adjusted_score: uncalibrated diagnostic
       scores after applying heuristic gates. They are not the headline score.
     """
-    completed = [r for r in sample_results if not r.get("skipped") and r.get("scored")]
+    completed = [r for r in sample_results if not r.get("skipped") and r.get("scored")
+                 and not _invalid_score_inputs(r)]
     if not completed:
         return {
             "axis_scores": {},
@@ -1534,7 +1438,11 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     event_coverage_scores = [score for score in (_observable_event_coverage(r) for r in completed) if score is not None]
     task_diagnostics = [_task_realization(r) for r in completed]
     task_available = [row for row in task_diagnostics if row["available"]]
-    complete_case_results = [r for r in completed if _has_required_axes(r)]
+    complete_case_results = [
+        r for r in completed
+        if _has_required_axes(r) and compute_sample_ranking_score(r) is not None
+        and r.get("sample_status") != "model_output_invalid"
+    ]
     complete_case_weighted_scores = [
         float(r["scored"].get("weighted_score", 0.0))
         for r in complete_case_results
@@ -1658,7 +1566,7 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     )
     aggregate["application_score_policy"] = {
         "leaderboard": "application_usefulness",
-        "canonical": "application_score = application_usefulness; event coverage calibrates semantically related axes",
+        "canonical": "application_score = application_usefulness; event coverage directly caps all six headline axes",
         "available_case": "application usefulness for samples that also report event coverage",
     }
     aggregate["application_usefulness_score"] = float(np.mean(application_usefulness_scores)) if application_usefulness_scores else None
@@ -1685,7 +1593,7 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         "task_success_rate_at_65": float(np.mean([row["threshold_results"]["65.0"] for row in task_available])) if task_available else None,
         "conditional_quality_success_only": float(np.mean([row["conditional_quality"] for row in task_available if row["task_success"] and row["conditional_quality"] is not None])) if any(row["task_success"] and row["conditional_quality"] is not None for row in task_available) else None,
         "quality_all_samples": float(np.mean([row["conditional_quality"] for row in task_available if row["conditional_quality"] is not None])) if any(row["conditional_quality"] is not None for row in task_available) else None,
-        "headline_effect": "diagnostic_only_except_continuous_observable_event_axis_calibration",
+        "headline_effect": "diagnostic_only; observable_event_coverage separately caps all six headline axes",
     }
     aggregate["application_pass_rate"] = _application_pass_rate(completed)
     aggregate["application_type_breakdown"] = _application_type_breakdown(completed)
@@ -1693,8 +1601,8 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
     aggregate["application_coverage_summary"] = _application_coverage_summary(completed)
     aggregate["constraint_adjustment_summary"] = {
         "formula": "ranking_score = mean(five gated technical axes, gated application usefulness)",
-        "linear_formula": "linear_ranking_score = 0.8*technical_score + 0.2*application_usefulness",
-        "policy": "continuous semantic axis calibration precedes the single linear 5+1 aggregation",
+        "linear_formula": "deprecated diagnostic only: 0.8*technical_score + 0.2*application_usefulness",
+        "policy": "direct event/operator axis caps followed by the unweighted mean of six axes",
         "per_sample_gate_ledger": [
             {"task_id": result.get("task_id"), "linear_ranking_score": item["linear_ranking_score"], "pre_baseline_linear_score": item["pre_baseline_linear_score"], "ranking_score": item["ranking_score"], "gates": item["gate_ledger"]}
             for result, item in zip(completed, constraint_adjustments)
@@ -1702,7 +1610,7 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         "mean_pre_baseline_linear_score": float(np.mean([
             item["pre_baseline_linear_score"] for item in constraint_adjustments
         ])),
-        "null_baseline": float(SCORING_POLICY["null_baseline"]),
+        "null_baseline": None,
         "mean_application_score": float(np.mean([
             item["application_score"] for item in constraint_adjustments
         ])),
@@ -1788,15 +1696,7 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         "primary_topology": _group_confidence_intervals(completed, "primary_topology"),
         "sub_topology": _group_confidence_intervals(completed, "sub_topology"),
     }
-    aggregate["floored_axis_scores"] = {
-        axis: float(np.mean([
-            result["scored"].get("floored_axis_scores", {}).get(axis)
-            for result in completed
-            if result["scored"].get("floored_axis_scores", {}).get(axis) is not None
-        ]))
-        for axis in sorted(axis_keys)
-        if any(result["scored"].get("floored_axis_scores", {}).get(axis) is not None for result in completed)
-    }
+    aggregate["scoring_policy"] = {"version": SCORING_POLICY["version"], "config_sha256": SCORING_POLICY["config_sha256"]}
     aggregate["score_calibration"] = {
         "headline_score_policy": CONFIG["headline_score_policy"],
         "ranking_score_policy": "six_axis_arithmetic_mean_after_caps",
@@ -1806,9 +1706,9 @@ def aggregate_sample_results(sample_results: list[dict]) -> dict:
         "status": "headline_uses_complete_case_six_axis_arithmetic_mean",
         "technical_score_formula": "technical_score = task-category-weighted arithmetic mean of the five technical axes",
         "application_score_formula": "application_score = application_usefulness",
-        "linear_ranking_score_formula": "linear_ranking_score = 0.8*technical_score + 0.2*application_usefulness",
+        "linear_ranking_score_formula": "deprecated diagnostic only: 0.8*technical_score + 0.2*application_usefulness",
         "ranking_score_formula": "ranking_score = arithmetic mean of the six gated axes",
-        "all_critical_pass_accuracy_formula": "strict complete-success diagnostic: critical task axes pass 60, reasoning_alignment is 100 when available, observable event coverage is 100 when available, application passes 60, and no reliability calibration is triggered; this is not an average quality score",
+        "all_critical_pass_accuracy_formula": "strict complete-success diagnostic: critical task axes pass 60, reasoning_alignment is 100 when available, observable event coverage is 100 when available, application passes 60, and no headline cap is triggered; this is not an average quality score",
         "reasoning_alignment_formula": "binary question accuracy over manually specified implicit-rule checks",
         "visual_quality_policy": "diagnostic middle-frame technical quality score excluded from headline ranking_score",
         "task_conditioned_score_formula": "technical_score uses normalized task-category axis weights; no harmonic blend and no task-critical bottleneck multiplier",

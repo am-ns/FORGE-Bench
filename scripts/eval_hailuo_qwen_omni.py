@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fast resumable 5+1 VLM evaluation for the 100-video Hailuo batch."""
+"""Fast resumable six-axis VLM evaluation for the 100-video Hailuo batch."""
 
 from __future__ import annotations
 
@@ -25,6 +25,8 @@ import cv2
 from openai import OpenAI
 
 from eval.video_protocol import PROTOCOL, sampling_manifest
+from scoring.aggregate import aggregate_sample_results, compute_sample_ranking_score
+from scoring.per_sample import score_sample
 
 
 AXES = (
@@ -570,14 +572,24 @@ sample. It never means that the requested task succeeded.
 
 def write_outputs(results: list[dict], output_dir: Path) -> None:
     results = sorted(results, key=lambda r: r["task_id"])
+    canonical = []
+    for result in results:
+        row = dict(result)
+        row["sample_status"] = "valid" if result.get("status") == "ok" else "evaluator_invalid"
+        row["scored"] = score_sample(
+            result.get("scores") or {},
+            observable_event_coverage=result.get("observable_event_coverage"),
+            task_category=result.get("task_category"),
+        )
+        result["ranking_score"] = compute_sample_ranking_score(row)
+        row["ranking_score"] = result["ranking_score"]
+        canonical.append(row)
     ok = [r for r in results if r.get("status") == "ok"]
     errors = [r for r in results if r.get("status") != "ok"]
     axis_means = {a: statistics.fmean(r["scores"][a] for r in ok) for a in AXES} if ok else {}
     technical_values = [r["technical_score"] for r in ok]
     application_values = [r["application_score"] for r in ok]
-    ranking_values = [
-        0.8 * r["technical_score"] + 0.2 * r["application_score"] for r in ok
-    ]
+    ranking_values = [r["ranking_score"] for r in ok if r["ranking_score"] is not None]
     contextual_rows = [
         r for r in ok
         if (r.get("application_scoring") or {}).get("contextual_utility_eligible") is True
@@ -589,9 +601,8 @@ def write_outputs(results: list[dict], output_dir: Path) -> None:
             "n": len(rows),
             "technical_score": statistics.fmean(r["technical_score"] for r in rows),
             "application_score": statistics.fmean(r["application_score"] for r in rows),
-            "linear_ranking_score": statistics.fmean(
-                0.8 * r["technical_score"] + 0.2 * r["application_score"] for r in rows
-            ),
+            "ranking_score": statistics.fmean(r["ranking_score"] for r in rows)
+            if all(r["ranking_score"] is not None for r in rows) else None,
         }
     aggregate = {
         "num_requested": len(results),
@@ -602,10 +613,10 @@ def write_outputs(results: list[dict], output_dir: Path) -> None:
         "axis_means": axis_means,
         "technical_score": statistics.fmean(technical_values) if ok else None,
         "application_score": statistics.fmean(application_values) if ok else None,
-        "linear_ranking_score": statistics.fmean(ranking_values) if ok else None,
+        "ranking_score": statistics.fmean(ranking_values) if ranking_values else None,
         "technical_score_ci95": bootstrap_mean_ci(technical_values),
         "application_score_ci95": bootstrap_mean_ci(application_values),
-        "linear_ranking_score_ci95": bootstrap_mean_ci(ranking_values),
+        "ranking_score_ci95": bootstrap_mean_ci(ranking_values),
         "application_pass_rate_at_60": (
             sum(value >= 60.0 for value in application_values) / len(application_values)
             if application_values else None
@@ -628,9 +639,10 @@ def write_outputs(results: list[dict], output_dir: Path) -> None:
         "by_domain": by_domain,
         "macro_domain_scores": {
             metric: statistics.fmean(row[metric] for row in by_domain.values())
-            for metric in ("technical_score", "application_score", "linear_ranking_score")
+            if all(row[metric] is not None for row in by_domain.values()) else None
+            for metric in ("technical_score", "application_score", "ranking_score")
         } if by_domain else {},
-        "scoring_formula": "0.8 * technical_score + 0.2 * application_score (unchanged)",
+        "scoring_formula": "arithmetic mean of six axes after event and eligible operator caps",
         "sampling_protocol": PROTOCOL["version"],
         "sampling_protocol_sha256": PROTOCOL["protocol_sha256"],
         "error_task_ids": [r["task_id"] for r in errors],
@@ -643,11 +655,12 @@ def write_outputs(results: list[dict], output_dir: Path) -> None:
             "single_axis_reviewed": sum(bool((r.get("degenerate_review") or {}).get("single_axis_review")) for r in ok),
         },
     }
-    (output_dir / "per_sample.json").write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
+    aggregate.update(aggregate_sample_results(canonical))
+    (output_dir / "per_sample.json").write_text(json.dumps(canonical, ensure_ascii=False, indent=2), encoding="utf-8")
     (output_dir / "aggregate.json").write_text(json.dumps(aggregate, ensure_ascii=False, indent=2), encoding="utf-8")
     with (output_dir / "scores.csv").open("w", newline="", encoding="utf-8-sig") as f:
         fields = ["task_id", "domain", "task_category", "motion_type", *AXES,
-                  "technical_score", "application_score", "confidence", "reasoning", "failure_modes", "status", "error"]
+                  "technical_score", "application_score", "ranking_score", "confidence", "reasoning", "failure_modes", "status", "error"]
         writer = csv.DictWriter(f, fieldnames=fields)
         writer.writeheader()
         for r in results:

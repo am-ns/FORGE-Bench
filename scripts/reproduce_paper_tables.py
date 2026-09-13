@@ -12,13 +12,18 @@ import argparse
 import csv
 import json
 import subprocess
+import sys
 from pathlib import Path
 from typing import Any
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+from scoring.policy import publication_issue
 
 
 DEFAULT_METRICS = [
     "ranking_score",
-    "linear_ranking_score",
     "technical_score",
     "application_score_strict",
     "reasoning_alignment_score",
@@ -87,13 +92,20 @@ def _row_from_aggregate(model_dir: Path, aggregate: dict[str, Any], metrics: lis
 
 def build_tables(results_dir: Path, metrics: list[str]) -> dict[str, Any]:
     aggregates = _discover_aggregates(results_dir)
-    rows = [_row_from_aggregate(path.parent, _load_json(path), metrics) for path in aggregates]
+    rows = []
+    warnings = []
+    for path in aggregates:
+        aggregate = _load_json(path)
+        issue = publication_issue(aggregate)
+        if issue:
+            warnings.append(f"{path.parent.name}:excluded:{issue}")
+            continue
+        rows.append(_row_from_aggregate(path.parent, aggregate, metrics))
     rows.sort(key=lambda item: float(item.get("ranking_score") or 0.0), reverse=True)
     for rank, row in enumerate(rows, 1):
         row["rank"] = rank
 
     totals = sorted({row.get("num_samples_total") for row in rows if row.get("num_samples_total") is not None})
-    warnings = []
     if len(totals) > 1:
         warnings.append(f"inconsistent_num_samples_total:{totals}")
     for row in rows:

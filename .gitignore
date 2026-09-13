@@ -61,3 +61,21 @@ reports/screened_image_candidate_import_202606*.csv
 reports/strict_review_*/
 
 logs/
+
+# Local evaluation, upload staging, generated media and release artifacts.
+/.hf-upload-*/
+/.pytest-*/
+/.test-temp*/
+/.test-tmp*/
+/.tmp-*
+/packages/
+/VisionXLab_LaTeX_Template*
+/dataset/*/
+!/dataset/annotations/
+/reports/*
+!/reports/video_generation_500_package/
+/paper/**/*.aux
+/paper/**/*.bbl
+/paper/**/*.blg
+/paper/**/*.out
+/paper/**/*.pdf

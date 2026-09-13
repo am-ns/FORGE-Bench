@@ -1,11 +1,13 @@
 from pathlib import Path
 
 from scripts.retry_formal_incomplete import invalid_task_ids, prior_retry_result_dirs
+from scoring.per_sample import score_sample
+from scoring.policy import CONFIG
 
 
 def test_invalid_task_ids_selects_only_incomplete_or_invalid_samples():
     rows = [
-        {"task_id": "ok", "sample_status": "valid", "scoring_complete": True, "scoring_validity": {}},
+        {"task_id": "ok", "sample_status": "valid", "scored": score_sample({axis: 80 for axis in CONFIG["headline_axes"]})},
         {"task_id": "missing", "sample_status": "evaluator_invalid", "scoring_complete": False,
          "scoring_validity": {"missing_required_axes": ["geometric_integrity"]}},
         {"task_id": "parse", "sample_status": "valid", "scoring_complete": True,

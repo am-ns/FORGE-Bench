@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run fresh canonical FORGE 5+1 evaluation in four deterministic shards."""
+"""Run fresh canonical FORGE six-axis evaluation in four deterministic shards."""
 
 from __future__ import annotations
 
@@ -13,6 +13,10 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+from scoring.policy import publication_issue
+from scripts.reaggregate_cached_results import reaggregate_result_dir
 DEFAULT_SAMPLES = ROOT / "dataset" / "annotations" / "video_generation_500_samples.json"
 DEFAULT_OUTPUT = ROOT / "reports" / "formal_full_20260902"
 PACKAGE_IMAGES = ROOT / "reports" / "video_generation_500_package" / "images"
@@ -107,9 +111,9 @@ def main() -> int:
         if rejected:
             status["models"][model]["rejected_outputs"] = rejected
         existing_aggregate = output / "combined" / model / "aggregate.json"
-        if existing_aggregate.is_file():
-            existing = json.loads(existing_aggregate.read_text(encoding="utf-8"))
-            if existing.get("ranking_publishable") and existing.get("num_samples_complete_required_axes") == 500:
+        if (existing_aggregate.parent / "per_sample.json").is_file():
+            existing = reaggregate_result_dir(existing_aggregate.parent)
+            if publication_issue(existing) is None and existing.get("num_samples_complete_required_axes") == 500:
                 status["models"][model].update({
                     "state": "complete",
                     "resumed_from_existing": True,

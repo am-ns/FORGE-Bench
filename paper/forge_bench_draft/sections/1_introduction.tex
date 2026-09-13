@@ -7,12 +7,12 @@ In an industrial scene, a clip may be sharp and temporally smooth while being fu
 
 We introduce \FORGE---\textbf{F}actory-\textbf{O}riented \textbf{R}easoning and \textbf{G}eneration \textbf{E}valuation---to address this gap. The benchmark is designed around two orthogonal views. The first is the scenario domain: visual security, embodied robotics, heavy-load construction, precision-defect generation, and extreme emergency. The second is the abstract capability under test: rigid-body kinematics and coupling, topology mutation and failure, fluid dynamics and thermodynamics, spatial exploration and viewpoint, and industrial logic and compliance. This domain--task matrix separates failures caused by visual context from failures caused by the underlying generative capability.
 
-Each task begins with a reference image and an executable image-to-video prompt. Annotations specify the requested event, camera behavior, terminal state, preserved regions, hard constraints, application objective, and known misleading failure modes. Evaluation uses a five-plus-one structure: five technical axes are aggregated into a task-conditioned technical score, while application usefulness is reported and incorporated as a distinct layer. Task-aware visual operators provide evidence to a multimodal judge rather than silently replacing it, and every continuous reliability calibration is exposed in the output.
+Each task begins with a reference image and an executable image-to-video prompt. Annotations specify the requested event, camera behavior, terminal state, preserved regions, hard constraints, application objective, and known misleading failure modes. Evaluation reports five technical axes plus application usefulness as six equal headline axes. Task-aware visual operators provide auditable evidence and may apply only preregistered axis caps when validity and confidence requirements are met.
 
 The contributions of this work are fourfold:
 \begin{itemize}[leftmargin=*]
     \item We formulate industrial video evaluation as an orthogonal matrix of five scenario domains and five abstract task categories, covering 500 annotated tasks across 60 scene families.
     \item We release a balanced 500-task benchmark with one reference image per task, a frozen prompt contract, four difficulty tiers, and explicit application objectives.
     \item We propose an auditable five-plus-one protocol that combines structured multimodal judging, deterministic temporal evidence, task-aware computer-vision operators, observable-event checks, and non-duplicative hard gates.
-    \item We benchmark nine representative generators and report rankings, confidence intervals, domain--task breakdowns, difficulty trends, and failure analyses.
+    \item We release ten matched 500-video generator collections (5,000 clips total) with deterministic Hugging Face paths and checksums; refreshed collections are re-evaluated before any ranking is published.
 \end{itemize}

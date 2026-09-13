@@ -1,8 +1,11 @@
 # FORGE-Bench Dataset Notes
 
-The annotation file `samples.json` is the authoritative task list for the
-benchmark. It currently contains 960 samples from 60 scenes. Those samples
-currently reference 884 curated images under `dataset/images/`, with deliberate
+The annotation file `samples.json` is the authoritative broader annotation pool
+and contains 960 samples from 60 scenes. The frozen public evaluation manifest
+is `video_generation_500_samples.json`; it contains 500 tasks with one canonical
+reference image per task and is the required manifest for comparisons against
+the ten published 500-video model collections. The broader samples currently
+reference 884 curated images under `dataset/images/`, with deliberate
 reuse where multiple tasks share the strongest image anchor for a scene. This
 884-image pool is broader backup/reference coverage. The default operational
 set for current video generation is the 500-image split described below. The

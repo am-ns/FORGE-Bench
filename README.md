@@ -2,6 +2,8 @@
 
 Factory-Oriented Reasoning and Generation Evaluation for Industrial Video Generation.
 
+Current project progress is tracked in [`PROJECT_STATUS.md`](PROJECT_STATUS.md).
+
 FORGE-Bench evaluates image-to-video models on industrial videos where a clip can
 look plausible but still be unsafe, physically wrong, or useless for inspection.
 The benchmark is now organized around five scenario domains, five abstract task
@@ -37,13 +39,41 @@ Each sample also carries `implicit_rule_type` and
 support a RISE-style reasoning alignment diagnostic without replacing the
 industrial domain x task matrix.
 
-The executable full benchmark remains `dataset/annotations/samples.json` with
-960 samples. The operational generation set is
+The broader research annotation pool remains `dataset/annotations/samples.json`
+with 960 samples. The frozen public evaluation and generation set is
 `dataset/annotations/video_generation_500_samples.json`: 500 samples, 500
 unique image references, 100 samples per domain, and coverage across all 60
 scene families. The corresponding self-contained prompt and image package is
 `reports/video_generation_500_package/`. This is the single canonical copy of
 the 500-image split.
+
+### Published generated videos
+
+The public Hugging Face release is
+[`aaaabcd/FORGE-Bench`](https://huggingface.co/datasets/aaaabcd/FORGE-Bench).
+It contains 5,000 generated MP4 files: 500 matched task outputs for each of ten
+models. All ten collections use exactly the same 500 task identifiers.
+
+| Published collection | Videos |
+|---|---:|
+| CogVideoX 1.5 | 500 |
+| HunyuanVideo 1.5 | 500 |
+| HunyuanVideo 1.5 Distill | 500 |
+| MiniMax H3 | 500 |
+| Kling 3.0 Standard | 500 |
+| Seedance 2.5 | 500 |
+| Veo 3.1 Fast | 500 |
+| Wan 2.1 | 500 |
+| Wan 2.2 | 500 |
+| Wan 3.0 | 500 |
+
+The exact repository-relative path, direct download URL, byte size, and
+SHA-256 for every video are recorded in
+`reports/FORGE_HF_VIDEO_PATHS_AND_SCORING_20260911/hf_video_paths_5000.csv`.
+The same folder includes the 500 reference images and the complete current
+evaluation/scoring source snapshot. On 2026-09-11, 451 videos across nine
+collections were refreshed; all previously cached scores for affected model
+collections must therefore be recomputed before publication.
 
 ## Task Categories
 
@@ -258,19 +288,13 @@ correct only when task-critical axes pass, binary reasoning checks are all
 correct when available, and observable event coverage and application checks
 are complete when available.
 
-`technical_score` / `task_conditioned_score` is the normalized task-category-
-weighted arithmetic mean of the five technical axes. There is no harmonic blend
-and no task-critical bottleneck multiplier in the technical score. `linear_ranking_score`
-is an uncalibrated diagnostic. The only leaderboard total is `ranking_score`: a
-linear 5+1 score after continuous, semantically matched reliability calibration.
-Event coverage calibrates industrial logic and fact alignment, reference and
-motion fidelity, and application usefulness; required motion calibrates
-reference and motion fidelity; verified severe safety failures calibrate
-industrial logic and fact alignment and application usefulness. The fixed null
-baseline $b=15$ is then removed by affine rescaling.
-The headline uses samples with all required axes; `linear_all_sample_score`
-remains an all-completed-sample diagnostic. Reports expose every multiplier in a
-per-sample ledger and include a $b\in\{10,20\}$ sensitivity report.
+`technical_score` / `task_conditioned_score` is a task-weighted diagnostic over
+the five technical axes. The only leaderboard total is `ranking_score`: first
+cap all six axes by observable-event coverage when available, then apply only
+eligible operator-specific axis caps, then take the unweighted arithmetic mean
+of the six capped axes. There is no reliability multiplier or null-baseline
+rescaling. `linear_ranking_score` and `linear_all_sample_score` retain the old
+0.8/0.2 calculation strictly for historical comparison.
 
 ### Operator Evidence
 
@@ -382,7 +406,7 @@ Important aggregate fields:
 | `reference_motion_decomposition` | Separates reference preservation, motion control, and coupled reference-motion fidelity diagnostics. |
 | `visual_quality_score` | Diagnostic technical quality score from middle-frame clarity/exposure checks; excluded from headline ranking. |
 | `visual_quality_summary` | Visual-quality CI and 1-3 level counts. |
-| `linear_ranking_score` | Transparent 5+1 score before gates: `0.8*technical_score + 0.2*application_usefulness`. |
+| `linear_ranking_score` | Deprecated historical 0.8/0.2 diagnostic; never used for ranking. |
 | `linear_all_sample_score` | Same linear formula over all completed samples, including incomplete required-axis samples. |
 | `constraint_adjusted_score` | Backward-compatible alias for `ranking_score`. |
 | `constraint_adjusted_score_ci95` | Deterministic bootstrap 95% confidence interval for the ranking score. |
@@ -392,7 +416,7 @@ Important aggregate fields:
 | `operator_risk_adjusted_score` | Legacy diagnostic score after heuristic operator-risk adjustment; not used as `overall` or `ranking_score`. |
 | `gated_score` | Legacy diagnostic alias for `operator_risk_adjusted_score`; uncalibrated. |
 | `overall` | Paper-facing model ability score, currently aligned to `ranking_score`. |
-| `score_calibration` | Records the headline formula, complete-case policy, reliability calibration, and diagnostic scores excluded from headline reporting. |
+| `score_calibration` | Records the v4 capped-six-axis formula, complete-run policy, and excluded diagnostics. |
 | `axis_scores` | Mean raw full-name axis scores used by headline reporting. |
 | `floored_axis_scores` | Diagnostic compatibility view of axis means after applying historical score floors. The headline and ranking scores use raw valid axis scores. |
 | `axis_score_ci95` | Per-axis deterministic bootstrap 95% confidence intervals. |

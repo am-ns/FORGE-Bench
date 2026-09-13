@@ -12,7 +12,26 @@ from eval.axis_registry import (
 )
 from scoring.aggregate import aggregate_sample_results, compute_sample_ranking_score
 from scoring.per_sample import score_sample
-from scoring.policy import CONFIG, load_policy
+from scoring.policy import CONFIG, load_policy, publication_issue
+
+
+@pytest.mark.parametrize("mutation,expected", [
+    ({"version": "forge-video-v3.1"}, "obsolete_or_missing_scoring_version"),
+    ({"config_sha256": "outdated"}, "scoring_config_mismatch"),
+])
+def test_publication_rejects_old_policy_despite_complete_flag(mutation, expected):
+    aggregate = aggregate_sample_results([_result(score_sample({**TECHNICAL_80, APPLICATION_USEFULNESS: 80.0}))])
+    assert publication_issue(aggregate) is None
+    aggregate["scoring_policy"].update(mutation)
+    assert publication_issue(aggregate) == expected
+
+
+def test_zero_scores_are_never_raised_by_retired_floors():
+    scored = score_sample({axis: 0.0 for axis in CONFIG["headline_axes"]})
+    aggregate = aggregate_sample_results([_result(scored)])
+    assert aggregate["ranking_score"] == 0.0
+    assert "floored_axis_scores" not in scored
+    assert "floored_axis_scores" not in aggregate
 
 
 TECHNICAL_80 = {
@@ -28,34 +47,32 @@ def _result(scored, **extra):
     return {"task_id": "sample", "skipped": False, "scored": scored, **extra}
 
 
-def test_frozen_policy_is_exact_5plus1():
+def test_frozen_policy_is_exact_six_axis_capped_mean():
     assert len(CONFIG["technical_axes"]) == 5
-    assert CONFIG["technical_weight"] == pytest.approx(0.8)
-    assert CONFIG["application_weight"] == pytest.approx(0.2)
     assert CONFIG["application_axis"] == APPLICATION_USEFULNESS
+    assert len(CONFIG["headline_axes"]) == 6
+    assert CONFIG["headline_aggregation"] == "unweighted_arithmetic_mean_after_caps"
+    assert CONFIG["event_coverage_cap_axes"] == CONFIG["headline_axes"]
     assert len(CONFIG["config_sha256"]) == 64
 
 
-def test_policy_rejects_invalid_weights(tmp_path):
+def test_policy_rejects_incomplete_headline_axes(tmp_path):
     broken = dict(CONFIG)
     broken.pop("config_sha256", None)
-    broken["technical_weight"] = 0.9
+    broken["headline_axes"] = broken["headline_axes"][:-1]
     path = tmp_path / "broken.json"
     path.write_text(json.dumps(broken), encoding="utf-8")
-    with pytest.raises(ValueError, match="must sum to 1"):
+    with pytest.raises(ValueError, match="headline_axes"):
         load_policy(path)
 
 
-def test_policy_rejects_unknown_motion_calibration_axis(tmp_path):
+def test_policy_rejects_partial_event_cap_axes(tmp_path):
     config = dict(CONFIG)
     config.pop("config_sha256", None)
-    config["motion_calibration"] = {
-        **CONFIG["motion_calibration"],
-        "affected_axis": "unknown_axis",
-    }
+    config["event_coverage_cap_axes"] = config["event_coverage_cap_axes"][:-1]
     path = tmp_path / "policy.json"
     path.write_text(json.dumps(config), encoding="utf-8")
-    with pytest.raises(ValueError, match="unknown axis"):
+    with pytest.raises(ValueError, match="event_coverage_cap_axes"):
         load_policy(path)
 
 
